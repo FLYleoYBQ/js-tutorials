@@ -1,0 +1,1035 @@
+1
+00:00:01,110 --> 00:00:02,850
+To finish this section,
+
+2
+00:00:02,850 --> 00:00:05,430
+we're gonna do one more deep dive
+
+3
+00:00:05,430 --> 00:00:07,770
+into yet another fundamental aspect
+
+4
+00:00:07,770 --> 00:00:10,800
+of how JavaScript works behind the scenes,
+
+5
+00:00:10,800 --> 00:00:13,320
+and that's memory management.
+
+6
+00:00:13,320 --> 00:00:16,860
+In this first of two parts of memory management,
+
+7
+00:00:16,860 --> 00:00:20,130
+we're gonna learn all about primitives, objects,
+
+8
+00:00:20,130 --> 00:00:23,133
+and more importantly, object references.
+
+9
+00:00:24,720 --> 00:00:26,070
+Now, first of all,
+
+10
+00:00:26,070 --> 00:00:29,760
+what does memory management actually mean?
+
+11
+00:00:29,760 --> 00:00:33,930
+Well, memory management in the context of JavaScript
+
+12
+00:00:33,930 --> 00:00:37,890
+is how the JavaScript engine allocates space in memory
+
+13
+00:00:37,890 --> 00:00:42,660
+for creating variables and later frees up that memory space,
+
+14
+00:00:42,660 --> 00:00:46,050
+which was taken up by variables that are no longer needed
+
+15
+00:00:46,050 --> 00:00:48,570
+so that our applications run smoothly
+
+16
+00:00:48,570 --> 00:00:52,470
+and efficiently without running out of memory.
+
+17
+00:00:52,470 --> 00:00:56,400
+So basically, this lecture tries to answer the question,
+
+18
+00:00:56,400 --> 00:01:00,870
+how and where are variables created in JavaScript?
+
+19
+00:01:00,870 --> 00:01:03,630
+Now, unlike lower level programming languages
+
+20
+00:01:03,630 --> 00:01:07,800
+like C or C++ where developers actually have
+
+21
+00:01:07,800 --> 00:01:12,330
+to manually reserve pieces of memory for their variables,
+
+22
+00:01:12,330 --> 00:01:15,210
+JavaScript automatically manages the memory
+
+23
+00:01:15,210 --> 00:01:17,700
+behind the scenes for us.
+
+24
+00:01:17,700 --> 00:01:20,940
+This makes writing code a lot easier and faster,
+
+25
+00:01:20,940 --> 00:01:24,030
+and it reduces the risk of introducing bugs
+
+26
+00:01:24,030 --> 00:01:26,040
+like memory leaks.
+
+27
+00:01:26,040 --> 00:01:29,970
+So this sounds great, but how does it all work?
+
+28
+00:01:29,970 --> 00:01:33,600
+Well, to give you a broad overview, every single value
+
+29
+00:01:33,600 --> 00:01:37,140
+that we create in our applications goes through something
+
+30
+00:01:37,140 --> 00:01:40,380
+that we call a memory lifecycle.
+
+31
+00:01:40,380 --> 00:01:44,970
+So in this lifecycle, first, a piece of memory is allocated
+
+32
+00:01:44,970 --> 00:01:47,460
+whenever we create a new value.
+
+33
+00:01:47,460 --> 00:01:49,620
+For example, to assign that value
+
+34
+00:01:49,620 --> 00:01:52,440
+to a new variable in our code.
+
+35
+00:01:52,440 --> 00:01:56,070
+So essentially, each time we declare a variable
+
+36
+00:01:56,070 --> 00:01:59,370
+with a new value, no matter if it's a single value
+
+37
+00:01:59,370 --> 00:02:02,220
+or a huge object, the JavaScript engine
+
+38
+00:02:02,220 --> 00:02:05,580
+will automatically reserve a piece of memory
+
+39
+00:02:05,580 --> 00:02:07,110
+to store that value.
+
+40
+00:02:07,110 --> 00:02:10,260
+So the value that is being held by the variable
+
+41
+00:02:10,260 --> 00:02:11,760
+that we just created.
+
+42
+00:02:11,760 --> 00:02:15,240
+In this example, it's to store 23.7.
+
+43
+00:02:15,240 --> 00:02:18,060
+But again, it could be an object or a function
+
+44
+00:02:18,060 --> 00:02:20,370
+or whatever we want.
+
+45
+00:02:20,370 --> 00:02:23,430
+Then as the app runs in the user's browser,
+
+46
+00:02:23,430 --> 00:02:26,100
+the allocated piece of memory is used
+
+47
+00:02:26,100 --> 00:02:29,250
+whenever the stored value is being accessed,
+
+48
+00:02:29,250 --> 00:02:33,210
+for example, to write, read, or update the value.
+
+49
+00:02:33,210 --> 00:02:35,340
+So this part is pretty obvious,
+
+50
+00:02:35,340 --> 00:02:37,440
+but it's important to mention that
+
+51
+00:02:37,440 --> 00:02:41,250
+this is also part of the memory lifecycle.
+
+52
+00:02:41,250 --> 00:02:43,890
+And finally, what happens when the value
+
+53
+00:02:43,890 --> 00:02:45,960
+is no longer needed?
+
+54
+00:02:45,960 --> 00:02:49,980
+Well, in that case, at the end of a value's lifecycle,
+
+55
+00:02:49,980 --> 00:02:53,220
+the memory it occupies gets released.
+
+56
+00:02:53,220 --> 00:02:57,510
+Or in other words, when the value is not necessary anymore,
+
+57
+00:02:57,510 --> 00:03:01,080
+it's deleted from memory, and the freed up memory
+
+58
+00:03:01,080 --> 00:03:04,230
+can then be used for new future values.
+
+59
+00:03:04,230 --> 00:03:06,420
+And we're gonna learn later how exactly
+
+60
+00:03:06,420 --> 00:03:08,610
+that happens behind the scenes.
+
+61
+00:03:08,610 --> 00:03:10,800
+But for now, in this lecture,
+
+62
+00:03:10,800 --> 00:03:14,070
+let's start to look at the first step in more detail,
+
+63
+00:03:14,070 --> 00:03:16,443
+which is memory allocation.
+
+64
+00:03:17,340 --> 00:03:20,850
+Now, the main thing to understand about memory allocation
+
+65
+00:03:20,850 --> 00:03:23,190
+in JavaScript is the fact that
+
+66
+00:03:23,190 --> 00:03:25,290
+for different types of values,
+
+67
+00:03:25,290 --> 00:03:29,130
+memory is actually allocated in different places
+
+68
+00:03:29,130 --> 00:03:31,200
+in the JavaScript engine.
+
+69
+00:03:31,200 --> 00:03:34,890
+But what are those different types of values?
+
+70
+00:03:34,890 --> 00:03:37,530
+Well, remember from earlier in the course
+
+71
+00:03:37,530 --> 00:03:40,020
+that in JavaScript, values are either
+
+72
+00:03:40,020 --> 00:03:43,560
+a primitive value or an object.
+
+73
+00:03:43,560 --> 00:03:47,820
+So primitive data types are numbers, strings, Booleans,
+
+74
+00:03:47,820 --> 00:03:51,750
+undefined, null symbols, and BigInts.
+
+75
+00:03:51,750 --> 00:03:55,020
+Then everything else is objects.
+
+76
+00:03:55,020 --> 00:03:58,530
+So that includes objects created with the object literal,
+
+77
+00:03:58,530 --> 00:04:01,080
+arrays, and even functions.
+
+78
+00:04:01,080 --> 00:04:04,560
+So all those are in fact objects.
+
+79
+00:04:04,560 --> 00:04:07,020
+So those are the two types of values
+
+80
+00:04:07,020 --> 00:04:09,480
+that exist in JavaScript.
+
+81
+00:04:09,480 --> 00:04:11,460
+Next, we need to remember about
+
+82
+00:04:11,460 --> 00:04:14,190
+the JavaScript engine itself.
+
+83
+00:04:14,190 --> 00:04:17,070
+So the engine has two main components,
+
+84
+00:04:17,070 --> 00:04:19,860
+the call stack, where functions are executed,
+
+85
+00:04:19,860 --> 00:04:23,700
+and the heap where objects are stored in memory.
+
+86
+00:04:23,700 --> 00:04:26,610
+And from this, we can already start to understand
+
+87
+00:04:26,610 --> 00:04:30,330
+how memory is allocated for different data types.
+
+88
+00:04:30,330 --> 00:04:32,880
+So again, as I just mentioned,
+
+89
+00:04:32,880 --> 00:04:37,410
+all our objects will get stored right in the memory heap,
+
+90
+00:04:37,410 --> 00:04:40,020
+or in other words, it's the memory heap
+
+91
+00:04:40,020 --> 00:04:43,770
+where memory is allocated for objects.
+
+92
+00:04:43,770 --> 00:04:47,610
+On the other hand, all primitive values are gonna be stored
+
+93
+00:04:47,610 --> 00:04:50,970
+in the call stack where our functions run.
+
+94
+00:04:50,970 --> 00:04:54,150
+And in detail, primitive values are actually stored
+
+95
+00:04:54,150 --> 00:04:58,320
+in the execution context in which they are created.
+
+96
+00:04:58,320 --> 00:05:01,530
+Now, there might be some exceptions to those rules
+
+97
+00:05:01,530 --> 00:05:05,100
+because modern JavaScript engines are highly sophisticated
+
+98
+00:05:05,100 --> 00:05:07,680
+and dynamic so that for example,
+
+99
+00:05:07,680 --> 00:05:10,560
+they might store an extremely long string,
+
+100
+00:05:10,560 --> 00:05:13,710
+which is actually a primitive in the heap
+
+101
+00:05:13,710 --> 00:05:17,520
+so that the call stack where strings are usually placed
+
+102
+00:05:17,520 --> 00:05:19,200
+can be optimized.
+
+103
+00:05:19,200 --> 00:05:21,840
+But in general, as a mental model,
+
+104
+00:05:21,840 --> 00:05:23,910
+this is how memory allocation works,
+
+105
+00:05:23,910 --> 00:05:26,880
+and it's really all you need to know.
+
+106
+00:05:26,880 --> 00:05:31,110
+So in summary, memory for objects is allocated in the heap
+
+107
+00:05:31,110 --> 00:05:33,750
+and for primitives in the call stack,
+
+108
+00:05:33,750 --> 00:05:36,360
+but that's actually not all.
+
+109
+00:05:36,360 --> 00:05:39,330
+So besides primitives and objects,
+
+110
+00:05:39,330 --> 00:05:43,170
+there are also something that we call references to objects,
+
+111
+00:05:43,170 --> 00:05:47,190
+and these are also stored in the call stack.
+
+112
+00:05:47,190 --> 00:05:50,730
+Now what do I mean by object references?
+
+113
+00:05:50,730 --> 00:05:54,420
+Well, let's find out because references to objects
+
+114
+00:05:54,420 --> 00:05:56,610
+are one of the most important things
+
+115
+00:05:56,610 --> 00:05:59,070
+that you need to understand from this video.
+
+116
+00:05:59,070 --> 00:06:01,953
+And I would actually say the most important thing.
+
+117
+00:06:03,810 --> 00:06:06,150
+So here we have a piece of code that
+
+118
+00:06:06,150 --> 00:06:08,520
+we'll go through together and analyze
+
+119
+00:06:08,520 --> 00:06:11,850
+exactly what's gonna happen in both the call stack
+
+120
+00:06:11,850 --> 00:06:15,000
+and the heap as the code runs.
+
+121
+00:06:15,000 --> 00:06:18,690
+So when the code starts executing in the first line,
+
+122
+00:06:18,690 --> 00:06:22,710
+the global execution context is placed on the call stack
+
+123
+00:06:22,710 --> 00:06:26,670
+and the value of the variable name is set to Jonas
+
+124
+00:06:26,670 --> 00:06:30,930
+right in the variable environment of this execution context.
+
+125
+00:06:30,930 --> 00:06:35,130
+That's because Jonas is just a string, which is a primitive,
+
+126
+00:06:35,130 --> 00:06:38,250
+and so therefore this value is stored
+
+127
+00:06:38,250 --> 00:06:40,590
+right here in the call stack.
+
+128
+00:06:40,590 --> 00:06:43,590
+Now technically, these primitive values are stored
+
+129
+00:06:43,590 --> 00:06:47,220
+in the variable environments of execution contexts,
+
+130
+00:06:47,220 --> 00:06:50,580
+but since these actually live in the call stack,
+
+131
+00:06:50,580 --> 00:06:55,140
+we just say that primitive values are stored in the stack.
+
+132
+00:06:55,140 --> 00:06:59,340
+Next up, the age is calculated by calling calcAge,
+
+133
+00:06:59,340 --> 00:07:03,360
+which is gonna create and place a new execution context
+
+134
+00:07:03,360 --> 00:07:06,600
+on the top of the stack as always.
+
+135
+00:07:06,600 --> 00:07:09,870
+And so now the values created in this function
+
+136
+00:07:09,870 --> 00:07:13,560
+will be stored in their corresponding execution context.
+
+137
+00:07:13,560 --> 00:07:16,860
+So again, in the call stack, because the variables
+
+138
+00:07:16,860 --> 00:07:20,010
+now and x both contain numbers,
+
+139
+00:07:20,010 --> 00:07:22,410
+and therefore primitive values.
+
+140
+00:07:22,410 --> 00:07:26,850
+And primitive values belong in the stack as we already know.
+
+141
+00:07:26,850 --> 00:07:30,330
+Then the function returns and its execution context
+
+142
+00:07:30,330 --> 00:07:32,130
+pops off the stack.
+
+143
+00:07:32,130 --> 00:07:34,740
+And with it, the values that it was holding
+
+144
+00:07:34,740 --> 00:07:37,830
+in its variable environment are also gone.
+
+145
+00:07:37,830 --> 00:07:42,540
+The return value of 46 is stored as the age variable
+
+146
+00:07:42,540 --> 00:07:45,930
+in the global execution context as well.
+
+147
+00:07:45,930 --> 00:07:48,630
+Next, we declare yet another variable,
+
+148
+00:07:48,630 --> 00:07:51,630
+this one called newAge, which is simply set
+
+149
+00:07:51,630 --> 00:07:54,360
+to the same value as age.
+
+150
+00:07:54,360 --> 00:07:58,020
+So the value of 46 will also get stored
+
+151
+00:07:58,020 --> 00:08:01,380
+in the stack as newAge here.
+
+152
+00:08:01,380 --> 00:08:05,310
+Then in the next line, we increase the value of newAge
+
+153
+00:08:05,310 --> 00:08:08,043
+by one, making it 47.
+
+154
+00:08:08,880 --> 00:08:13,320
+Now as we update newAge from 46 to 47,
+
+155
+00:08:13,320 --> 00:08:18,320
+the primitive value stored in age stays of course at 46.
+
+156
+00:08:18,780 --> 00:08:21,120
+So again, age, which is where
+
+157
+00:08:21,120 --> 00:08:24,780
+the original value came from, remains unchanged.
+
+158
+00:08:24,780 --> 00:08:27,650
+So each of the variables holds its own copy
+
+159
+00:08:27,650 --> 00:08:30,120
+of the value at all times.
+
+160
+00:08:30,120 --> 00:08:31,830
+Now, this is pretty intuitive,
+
+161
+00:08:31,830 --> 00:08:34,770
+but it's very different from how objects work
+
+162
+00:08:34,770 --> 00:08:36,900
+as we'll see in a minute.
+
+163
+00:08:36,900 --> 00:08:39,480
+And so speaking of objects,
+
+164
+00:08:39,480 --> 00:08:41,490
+we create an object right here
+
+165
+00:08:41,490 --> 00:08:44,520
+in the next line called location.
+
+166
+00:08:44,520 --> 00:08:47,820
+And where are objects stored in the engine?
+
+167
+00:08:47,820 --> 00:08:51,360
+That's right, this object will live in the heap.
+
+168
+00:08:51,360 --> 00:08:54,840
+So that's where the engine stores objects.
+
+169
+00:08:54,840 --> 00:08:56,940
+But now if we think about this,
+
+170
+00:08:56,940 --> 00:08:59,160
+how will our code actually know
+
+171
+00:08:59,160 --> 00:09:02,640
+that this object is supposed to be called location?
+
+172
+00:09:02,640 --> 00:09:05,280
+Or in other words, how will we be able
+
+173
+00:09:05,280 --> 00:09:08,760
+to use this object in the rest of our code?
+
+174
+00:09:08,760 --> 00:09:13,290
+Well, that's where the concept of reference comes into play.
+
+175
+00:09:13,290 --> 00:09:17,280
+So the way this works is that in the execution context,
+
+176
+00:09:17,280 --> 00:09:20,040
+the variable location will actually hold
+
+177
+00:09:20,040 --> 00:09:22,830
+a reference to the object.
+
+178
+00:09:22,830 --> 00:09:27,210
+So again, location will not be the object itself,
+
+179
+00:09:27,210 --> 00:09:31,290
+but just a reference to the object in the heap.
+
+180
+00:09:31,290 --> 00:09:34,803
+In technical terms, it's the memory address of the object
+
+181
+00:09:34,803 --> 00:09:38,340
+that will be stored as the value of location.
+
+182
+00:09:38,340 --> 00:09:41,100
+But that's not really that important.
+
+183
+00:09:41,100 --> 00:09:43,590
+What you need to understand is that variables
+
+184
+00:09:43,590 --> 00:09:47,280
+in a call stack do not hold objects themselves,
+
+185
+00:09:47,280 --> 00:09:51,300
+but references pointing to these objects.
+
+186
+00:09:51,300 --> 00:09:55,680
+Now, to us developers, this mechanism is completely hidden.
+
+187
+00:09:55,680 --> 00:09:59,460
+So on the surface, it does look as if a variable
+
+188
+00:09:59,460 --> 00:10:02,190
+is actually holding the object itself,
+
+189
+00:10:02,190 --> 00:10:05,520
+when in fact it's only storing the reference
+
+190
+00:10:05,520 --> 00:10:07,980
+to the object behind the scenes.
+
+191
+00:10:07,980 --> 00:10:12,210
+And that's actually a huge difference as we're about to see,
+
+192
+00:10:12,210 --> 00:10:15,690
+because as we move on to the next line, here,
+
+193
+00:10:15,690 --> 00:10:20,460
+we create a copy of the location object called newLocation.
+
+194
+00:10:20,460 --> 00:10:24,000
+And so here is where it gets really interesting.
+
+195
+00:10:24,000 --> 00:10:28,290
+So if a variable like location simply contains a reference
+
+196
+00:10:28,290 --> 00:10:31,710
+to the object, then as we copy the variable,
+
+197
+00:10:31,710 --> 00:10:35,160
+what we're actually copying is only the reference
+
+198
+00:10:35,160 --> 00:10:38,940
+to the object, but not the object itself.
+
+199
+00:10:38,940 --> 00:10:42,240
+Or in other words, when we set newLocation
+
+200
+00:10:42,240 --> 00:10:44,460
+to the same value as location,
+
+201
+00:10:44,460 --> 00:10:46,770
+then we're simply copying the reference
+
+202
+00:10:46,770 --> 00:10:48,270
+because it's the reference
+
+203
+00:10:48,270 --> 00:10:51,720
+that is stored in the variables in the stack.
+
+204
+00:10:51,720 --> 00:10:56,250
+So in this case, this means that newLocation and location
+
+205
+00:10:56,250 --> 00:11:00,240
+are pointing to the exact same object in the heap.
+
+206
+00:11:00,240 --> 00:11:03,840
+And this is very different from how primitives work,
+
+207
+00:11:03,840 --> 00:11:07,250
+where each variable actually holds its own copy
+
+208
+00:11:07,250 --> 00:11:08,730
+of the primitive value
+
+209
+00:11:08,730 --> 00:11:11,790
+because there are no references involved at all.
+
+210
+00:11:11,790 --> 00:11:16,790
+And this idea of object references has huge implications.
+
+211
+00:11:16,860 --> 00:11:18,210
+So check this out.
+
+212
+00:11:18,210 --> 00:11:19,920
+In the next line of code,
+
+213
+00:11:19,920 --> 00:11:22,740
+we're mutating the new location object
+
+214
+00:11:22,740 --> 00:11:26,220
+by setting its city property to Lisbon.
+
+215
+00:11:26,220 --> 00:11:29,520
+So this is what that looks like in the heap.
+
+216
+00:11:29,520 --> 00:11:32,010
+So far, so good, right?
+
+217
+00:11:32,010 --> 00:11:35,940
+Well, not so fast because what happens if we try
+
+218
+00:11:35,940 --> 00:11:39,600
+to check out the original location object?
+
+219
+00:11:39,600 --> 00:11:42,960
+And I think you can already start to see the result here
+
+220
+00:11:42,960 --> 00:11:46,890
+just by looking at the heap and the references.
+
+221
+00:11:46,890 --> 00:11:50,640
+So as we log the original location to the console,
+
+222
+00:11:50,640 --> 00:11:53,490
+we now get the mutated object here
+
+223
+00:11:53,490 --> 00:11:57,900
+where the city property is also set to Lisbon.
+
+224
+00:11:57,900 --> 00:12:00,840
+And this actually makes sense, right?
+
+225
+00:12:00,840 --> 00:12:04,320
+If both location and newLocation contain
+
+226
+00:12:04,320 --> 00:12:06,870
+the exact same reference that points to
+
+227
+00:12:06,870 --> 00:12:08,790
+the same object in the heap,
+
+228
+00:12:08,790 --> 00:12:12,000
+then it makes perfect sense that changing the object
+
+229
+00:12:12,000 --> 00:12:14,550
+through one of the variables will also get
+
+230
+00:12:14,550 --> 00:12:16,710
+reflected in the other one.
+
+231
+00:12:16,710 --> 00:12:19,800
+Again, because location and newLocation
+
+232
+00:12:19,800 --> 00:12:22,740
+are in fact the same object.
+
+233
+00:12:22,740 --> 00:12:26,700
+In our case here, it means that mutating newLocation
+
+234
+00:12:26,700 --> 00:12:30,210
+will destroy the value of the city property
+
+235
+00:12:30,210 --> 00:12:33,270
+in the original location object.
+
+236
+00:12:33,270 --> 00:12:35,460
+And I hope that you are still able
+
+237
+00:12:35,460 --> 00:12:37,530
+to follow me at this point,
+
+238
+00:12:37,530 --> 00:12:41,070
+but if this is super confusing, then don't worry.
+
+239
+00:12:41,070 --> 00:12:44,880
+We'll actually explore this exact concept in practice
+
+240
+00:12:44,880 --> 00:12:48,420
+by writing some code in the next lecture.
+
+241
+00:12:48,420 --> 00:12:51,630
+But now just for the sake of completeness,
+
+242
+00:12:51,630 --> 00:12:55,890
+the calcAge function is actually behind the scenes
+
+243
+00:12:55,890 --> 00:12:59,850
+also just an object, which means that this function
+
+244
+00:12:59,850 --> 00:13:02,400
+also gets stored in the heap.
+
+245
+00:13:02,400 --> 00:13:05,040
+And so then the variable calcAge
+
+246
+00:13:05,040 --> 00:13:09,510
+will simply hold a reference to this object as well.
+
+247
+00:13:09,510 --> 00:13:11,880
+So basically exactly the same thing
+
+248
+00:13:11,880 --> 00:13:15,000
+that we just discussed a moment ago.
+
+249
+00:13:15,000 --> 00:13:18,750
+Now, this function had actually already been hoisted,
+
+250
+00:13:18,750 --> 00:13:22,380
+so it actually was already in the heap all this time.
+
+251
+00:13:22,380 --> 00:13:24,660
+Otherwise we couldn't have used this function
+
+252
+00:13:24,660 --> 00:13:26,520
+right in line two.
+
+253
+00:13:26,520 --> 00:13:28,920
+But we're just putting it down here at the end
+
+254
+00:13:28,920 --> 00:13:31,470
+for educational purposes.
+
+255
+00:13:31,470 --> 00:13:35,280
+Now, right, now to make sure that you really understood
+
+256
+00:13:35,280 --> 00:13:38,610
+this super important part, as I just mentioned,
+
+257
+00:13:38,610 --> 00:13:41,040
+let's jump back to our code editor
+
+258
+00:13:41,040 --> 00:13:44,880
+and play around with this idea of object references
+
+259
+00:13:44,880 --> 00:13:48,843
+and also learn about shallow and deep object copies.

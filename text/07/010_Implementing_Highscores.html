@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implementing Highscores</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --warning-color: #f1fa8c;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
+        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        td a { color: var(--info-color); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-logic" class="nav-item">1. Highscore 的业务逻辑</a>
+            <a href="#section-implementation" class="nav-item">2. 代码实现：状态驻留与判断</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Implementing Highscores</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：010 Implementing Highscores.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>上节课我们通过 "Play Again" 按钮完美实现了游戏的本轮重置，而没有刷新整个浏览器页面。这为我们引入 <strong>highscore (最高分)</strong> 系统打下了基础，因为如果我们刷新了网页，所有 JavaScript 内存中的数据都会瞬间被抹除。现在我们要让程序“记住”你跨局达成的最高分！</p>
+
+        <h2 id="section-logic">1. Highscore 的业务逻辑</h2>
+        <p>在动手写代码前，我们必须先理清业务逻辑，弄明白**“在什么时候去检查并更新最高分？”**</p>
+        <p>显然，玩家还在苦苦挣扎猜数字的时候（数字太大/太小），最高分是毫无意义的。只有在一个时刻我们需要去检验成绩：<strong>那就是当玩家猜中数字（获胜）的那一瞬间。</strong></p>
+
+        <p>在那一刻，如果玩家当前这局的得分 (<code>score</code>) 击败了历史保留的最高分 (<code>highscore</code>)，那就产生了一个新纪录！</p>
+
+        <h2 id="section-implementation">2. 代码实现：状态驻留与判断</h2>
+        <p>首先，我们需要一个新的全局“应用状态”变量来记录最高分：</p>
+        <pre><code class="language-javascript">
+// 全局状态定在最上方
+let secretNumber = Math.trunc(Math.random() * 20) + 1;
+let score = 20;
+
+// 新增：高分状态，打底为 0。这样玩家第一次赢必定能破纪录。
+let highscore = 0; 
+        </code></pre>
+
+        <p>接着，我们去寻找代码中处理“玩家获胜” (<code>guess === secretNumber</code>) 的那个 <code>if</code> 分支块。在改变背景颜色和显示正确数字的背后，悄然加上比较分数的霸气逻辑：</p>
+
+        <pre><code class="language-javascript">
+} else if (guess === secretNumber) {
+    document.querySelector('.message').textContent = '🎉 Correct Number!';
+    document.querySelector('.number').textContent = secretNumber;
+
+    document.querySelector('body').style.backgroundColor = '#60b347';
+    document.querySelector('.number').style.width = '30rem';
+
+    // 👇 处理最高分逻辑 👇
+    if (score > highscore) {
+        highscore = score; // 玩家破纪录，把当前分数赋给最高分变量
+        
+        // 别忘了通过 DOM 将破纪录的喜悦显示在屏幕上！
+        document.querySelector('.highscore').textContent = highscore;
+    }
+}
+        </code></pre>
+
+        <div class="callout success">
+            <p>💡 <strong>大功告成！</strong> 由于我们在上节课 "Play Again" 的重置功能中，<strong>刻意没有重置 <code>highscore</code> 变量</strong>，所以当你点击重玩时，即使 <code>score</code> 变回了 20，你的 <code>highscore</code> 依然骄傲地留在内存和网页上。</p>
+        </div>
+
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 为什么我们必须借助 "Play Again" 按钮来重置游戏，而不是简单地叫玩家按浏览器的 F5 刷新？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 浏览器刷新会导致 DOM 加载变慢。</div>
+                <div class="quiz-option" data-value="B">B) 一旦刷新网页，JavaScript 引擎的内存空间会被彻底清空，所有的全局变量（包括 `highscore`）会被销毁并重新初始化为 0。所以必须通过代码软重置状态。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。Web 页面的本质是“无状态的”。每次完整的刷新都会重新读取并执行一遍 JS 文件，这意味着所有的变量声明 `let highscore = 0;` 会重新运行，你幸苦保留的分数就彻底凉凉了。（注：后续课程会有 LocalStorage 存到硬盘里的持久化方法）。
+            </div>
+        </div>
+
+        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>术语</th>
+                    <th>说明</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Highscore / 状态驻留</strong></td>
+                    <td>只要网页不发生 Hard Reload，声明在全局作用域且不参与“重置函数”的变量将一直存活并驻留在内存中。</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const opts = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.style.background = 'transparent');
+                if (opt.getAttribute('data-value') === correctVal) {
+                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--success-color)';
+                } else {
+                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--error-color)';
+                }
+                exp.style.display = 'block';
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,68 @@
+1
+00:00:00,160 --> 00:00:03,410
+(calm upbeat music)
+Welcome to our next project
+
+2
+00:00:03,410 --> 00:00:05,710
+and this one is gonna be the coolest
+
+3
+00:00:05,710 --> 00:00:09,160
+and most real world project so far.
+
+4
+00:00:09,160 --> 00:00:12,720
+So we're gonna apply everything that we learned so far,
+
+5
+00:00:12,720 --> 00:00:16,060
+including advanced stuff, like functions,
+
+6
+00:00:16,060 --> 00:00:19,173
+arrays and object oriented programming.
+
+7
+00:00:20,141 --> 00:00:22,380
+We will also learn some new stuff,
+
+8
+00:00:22,380 --> 00:00:24,830
+like how to use geolocation
+
+9
+00:00:24,830 --> 00:00:29,150
+and how to use third party libraries in our project.
+
+10
+00:00:29,150 --> 00:00:32,490
+But even more importantly, you will also learn
+
+11
+00:00:32,490 --> 00:00:37,350
+how to actually plan a project because building a project
+
+12
+00:00:37,350 --> 00:00:41,530
+is not just writing some code, it's also about thinking
+
+13
+00:00:41,530 --> 00:00:45,500
+and taking decisions and solving problems.
+
+14
+00:00:45,500 --> 00:00:48,840
+And so that's something I really want to teach you,
+
+15
+00:00:48,840 --> 00:00:51,130
+so that eventually, you will be able
+
+16
+00:00:51,130 --> 00:00:53,490
+to build applications on your own.
+
+17
+00:00:53,490 --> 00:00:56,573
+(calm upbeat music)

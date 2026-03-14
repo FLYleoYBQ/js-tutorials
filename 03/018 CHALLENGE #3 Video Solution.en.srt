@@ -1,0 +1,923 @@
+1
+00:00:00,720 --> 00:00:04,290
+Okay, so let's get to work.
+
+2
+00:00:04,290 --> 00:00:07,256
+So number one is creating
+
+3
+00:00:07,256 --> 00:00:08,340
+an object
+
+4
+00:00:08,340 --> 00:00:10,260
+for each of them.
+
+5
+00:00:10,260 --> 00:00:11,670
+So object
+
+6
+00:00:11,670 --> 00:00:12,503
+mark.
+
+7
+00:00:15,840 --> 00:00:20,433
+So full name property, Mark Miller.
+
+8
+00:00:21,750 --> 00:00:26,493
+Then the mass, which is 78 kilograms.
+
+9
+00:00:27,480 --> 00:00:30,180
+And then the height,
+
+10
+00:00:30,180 --> 00:00:34,050
+which is 1.69 meters.
+
+11
+00:00:34,050 --> 00:00:36,360
+So that's it for now.
+
+12
+00:00:36,360 --> 00:00:37,460
+And now I'm just gonna
+
+13
+00:00:38,550 --> 00:00:39,383
+copy this.
+
+14
+00:00:40,590 --> 00:00:42,390
+As always, I'm a bit lazy
+
+15
+00:00:42,390 --> 00:00:45,273
+and that's just how programmers are, I guess.
+
+16
+00:00:46,530 --> 00:00:48,670
+So John Smith
+
+17
+00:00:50,550 --> 00:00:54,360
+and he is 92 kilos
+
+18
+00:00:54,360 --> 00:00:57,903
+and 1.95 meters tall.
+
+19
+00:00:59,100 --> 00:01:02,640
+Okay, so that is point number one.
+
+20
+00:01:02,640 --> 00:01:06,250
+And now we will create the calcBMI method
+
+21
+00:01:11,220 --> 00:01:12,840
+And then a function
+
+22
+00:01:12,840 --> 00:01:14,550
+without any parameters
+
+23
+00:01:14,550 --> 00:01:16,230
+because we will take the data
+
+24
+00:01:16,230 --> 00:01:18,180
+directly from the object
+
+25
+00:01:18,180 --> 00:01:22,350
+just like we did it with the calcH method previously.
+
+26
+00:01:22,350 --> 00:01:24,123
+And remember that it says here
+
+27
+00:01:24,123 --> 00:01:26,502
+that we should store the BMI value
+
+28
+00:01:26,502 --> 00:01:27,904
+to a property
+
+29
+00:01:27,904 --> 00:01:30,889
+and also return it from the method.
+
+30
+00:01:30,889 --> 00:01:34,000
+So this means that we will do
+
+31
+00:01:35,231 --> 00:01:37,260
+this.BMI
+
+32
+00:01:37,260 --> 00:01:39,960
+and then do the calculation here.
+
+33
+00:01:39,960 --> 00:01:43,380
+And remember from the formula the BMI is calculated
+
+34
+00:01:43,380 --> 00:01:45,248
+by this.mass
+
+35
+00:01:45,248 --> 00:01:46,890
+divided by
+
+36
+00:01:46,890 --> 00:01:49,770
+this.height
+
+37
+00:01:49,770 --> 00:01:50,613
+squared.
+
+38
+00:01:51,690 --> 00:01:53,965
+So exponentiation operator
+
+39
+00:01:53,965 --> 00:01:55,090
+with two
+
+40
+00:01:56,190 --> 00:01:58,650
+and then also return it.
+
+41
+00:01:58,650 --> 00:02:00,160
+So this.bmi
+
+42
+00:02:02,337 --> 00:02:05,742
+and just to see if this actually works
+
+43
+00:02:05,742 --> 00:02:08,433
+let's actually call this method.
+
+44
+00:02:10,175 --> 00:02:12,780
+So mark.calc.BMI.
+
+45
+00:02:12,780 --> 00:02:15,990
+And now I will quickly lock to the console
+
+46
+00:02:15,990 --> 00:02:18,330
+the property that we just created.
+
+47
+00:02:18,330 --> 00:02:20,610
+So I could have locked
+
+48
+00:02:20,610 --> 00:02:22,410
+this to the console directly
+
+49
+00:02:22,410 --> 00:02:24,513
+but I want to do it this way now
+
+50
+00:02:24,513 --> 00:02:26,790
+and it doesn't really matter.
+
+51
+00:02:26,790 --> 00:02:29,290
+So with this, remember we created
+
+52
+00:02:30,270 --> 00:02:32,310
+a property called BMI
+
+53
+00:02:32,310 --> 00:02:35,010
+and so that is now of course accessible here.
+
+54
+00:02:35,010 --> 00:02:37,170
+So mark.bmi
+
+55
+00:02:37,170 --> 00:02:39,360
+because remember
+
+56
+00:02:39,360 --> 00:02:40,481
+that here in this method
+
+57
+00:02:40,481 --> 00:02:42,579
+this now points to mark
+
+58
+00:02:42,579 --> 00:02:45,228
+because that is the object
+
+59
+00:02:45,228 --> 00:02:47,490
+that is calling the method
+
+60
+00:02:47,490 --> 00:02:51,930
+and therefore this.bmi will be on mark.
+
+61
+00:02:51,930 --> 00:02:55,060
+So mark.bmi equals mark.mass
+
+62
+00:02:56,610 --> 00:02:58,920
+divided by mark.height.
+
+63
+00:02:58,920 --> 00:03:01,440
+And so that's how we get this data
+
+64
+00:03:01,440 --> 00:03:02,733
+into this method.
+
+65
+00:03:05,010 --> 00:03:05,843
+Alright,
+
+66
+00:03:05,843 --> 00:03:07,290
+so that's essentially what we learned
+
+67
+00:03:07,290 --> 00:03:08,730
+in the last lecture.
+
+68
+00:03:08,730 --> 00:03:10,200
+And so here I'm doing the same.
+
+69
+00:03:10,200 --> 00:03:12,330
+I'm first calculating this value
+
+70
+00:03:12,330 --> 00:03:14,910
+and then I'm doing mark.bmi
+
+71
+00:03:14,910 --> 00:03:18,027
+which was added here in this method call.
+
+72
+00:03:18,027 --> 00:03:20,880
+Of course, without this method call
+
+73
+00:03:20,880 --> 00:03:23,640
+mark.bmi would not be available
+
+74
+00:03:23,640 --> 00:03:24,900
+because this method here
+
+75
+00:03:24,900 --> 00:03:26,250
+doesn't call itself.
+
+76
+00:03:26,250 --> 00:03:28,173
+We need to explicitly call it.
+
+77
+00:03:29,913 --> 00:03:31,830
+Now console
+
+78
+00:03:31,830 --> 00:03:33,743
+ah, missing the .log.
+
+79
+00:03:33,743 --> 00:03:37,630
+How can that still happen after all these years?
+
+80
+00:03:37,630 --> 00:03:41,304
+Okay, so here we get the BMI of 27
+
+81
+00:03:41,304 --> 00:03:44,400
+which seems about right.
+
+82
+00:03:44,400 --> 00:03:47,400
+And now as I said, we will simply go ahead
+
+83
+00:03:47,400 --> 00:03:49,050
+and copy this method
+
+84
+00:03:49,050 --> 00:03:50,440
+exactly the same
+
+85
+00:03:51,390 --> 00:03:54,360
+to this John object
+
+86
+00:03:54,360 --> 00:03:55,440
+and it will work
+
+87
+00:03:55,440 --> 00:03:57,646
+just the same, believe me.
+
+88
+00:03:57,646 --> 00:03:59,823
+So let me show that to you.
+
+89
+00:04:01,260 --> 00:04:02,516
+So now
+
+90
+00:04:02,516 --> 00:04:04,200
+we call
+
+91
+00:04:04,200 --> 00:04:06,630
+john.calcBMI.
+
+92
+00:04:06,630 --> 00:04:11,010
+And so now the object calling calcBMI is John.
+
+93
+00:04:11,010 --> 00:04:13,080
+And so now in this method here
+
+94
+00:04:13,080 --> 00:04:16,410
+this will point to the John object.
+
+95
+00:04:16,410 --> 00:04:19,290
+And so this time John.bmi will be
+
+96
+00:04:19,290 --> 00:04:23,313
+calculated using John's data of mass and height.
+
+97
+00:04:24,480 --> 00:04:25,440
+Okay,
+
+98
+00:04:25,440 --> 00:04:27,720
+are you still following that?
+
+99
+00:04:27,720 --> 00:04:29,771
+As always, you can pause the video
+
+100
+00:04:29,771 --> 00:04:31,957
+analyze the code on your own
+
+101
+00:04:31,957 --> 00:04:34,056
+or you can always rewind
+
+102
+00:04:34,056 --> 00:04:36,870
+to hear the explanation again.
+
+103
+00:04:36,870 --> 00:04:38,580
+I actually like to do that myself
+
+104
+00:04:38,580 --> 00:04:41,569
+when I watch other online video courses.
+
+105
+00:04:41,569 --> 00:04:44,827
+So I think that's a good tip maybe.
+
+106
+00:04:44,827 --> 00:04:47,700
+Anyway, so we just calculated
+
+107
+00:04:47,700 --> 00:04:50,269
+the BMI of John here as well.
+
+108
+00:04:50,269 --> 00:04:51,697
+And so now I'm logging
+
+109
+00:04:51,697 --> 00:04:53,160
+both to the console.
+
+110
+00:04:53,160 --> 00:04:54,928
+And so yeah,
+
+111
+00:04:54,928 --> 00:04:57,218
+this one also looks correct.
+
+112
+00:04:57,218 --> 00:05:01,145
+And so this means that simply copying this method
+
+113
+00:05:01,145 --> 00:05:02,790
+from one place to the other
+
+114
+00:05:02,790 --> 00:05:04,323
+actually makes it work
+
+115
+00:05:04,323 --> 00:05:08,067
+and adapt to the data of each object.
+
+116
+00:05:08,067 --> 00:05:10,383
+Now having the exact same code
+
+117
+00:05:10,383 --> 00:05:12,159
+in both of these objects
+
+118
+00:05:12,159 --> 00:05:15,947
+kind of violates the don't repeat yourself principle,
+
+119
+00:05:15,947 --> 00:05:16,780
+right?
+
+120
+00:05:16,780 --> 00:05:18,924
+And actually there is a way
+
+121
+00:05:18,924 --> 00:05:21,060
+in which we can avoid this.
+
+122
+00:05:21,060 --> 00:05:22,818
+And of course we will learn how
+
+123
+00:05:22,818 --> 00:05:24,968
+at a later point in the course
+
+124
+00:05:24,968 --> 00:05:26,446
+using something called
+
+125
+00:05:26,446 --> 00:05:28,980
+object-oriented programming.
+
+126
+00:05:28,980 --> 00:05:30,881
+But for now we are still learning the basics
+
+127
+00:05:30,881 --> 00:05:33,380
+and just want to make things work
+
+128
+00:05:33,380 --> 00:05:36,915
+and of course have some fun along the way.
+
+129
+00:05:36,915 --> 00:05:39,351
+So this was the hardest part
+
+130
+00:05:39,351 --> 00:05:41,164
+I believe at least.
+
+131
+00:05:41,164 --> 00:05:42,523
+Now all we have to do
+
+132
+00:05:42,523 --> 00:05:46,145
+is to write this string here.
+
+133
+00:05:46,145 --> 00:05:48,450
+Let me actually copy the example
+
+134
+00:05:48,450 --> 00:05:49,650
+so we have it
+
+135
+00:05:49,650 --> 00:05:51,027
+as a reference down here.
+
+136
+00:05:51,027 --> 00:05:54,543
+Otherwise I'm gonna get a bit lost.
+
+137
+00:05:57,030 --> 00:06:00,591
+So if mark.bmi
+
+138
+00:06:00,591 --> 00:06:04,600
+is larger than john.bmi
+
+139
+00:06:05,891 --> 00:06:09,303
+then console.log.
+
+140
+00:06:10,987 --> 00:06:15,987
+So let's get the full name now from the object.
+
+141
+00:06:16,590 --> 00:06:17,590
+So mark.fullNameBMI.
+
+142
+00:06:21,120 --> 00:06:22,890
+And now we also
+
+143
+00:06:22,890 --> 00:06:25,350
+need it here in these parenthesis.
+
+144
+00:06:25,350 --> 00:06:26,910
+So let's put it there.
+
+145
+00:06:26,910 --> 00:06:28,690
+mark.bmi
+
+146
+00:06:30,150 --> 00:06:30,983
+is
+
+147
+00:06:32,130 --> 00:06:33,610
+higher than
+
+148
+00:06:34,500 --> 00:06:36,783
+and now let me just copy it here.
+
+149
+00:06:40,260 --> 00:06:41,580
+So
+
+150
+00:06:41,580 --> 00:06:43,290
+and again I'm using command D
+
+151
+00:06:43,290 --> 00:06:45,480
+to select the next occurrence.
+
+152
+00:06:45,480 --> 00:06:48,990
+And then let's just replace it with John.
+
+153
+00:06:48,990 --> 00:06:52,743
+So Mark's BMI is higher than John's bmi.
+
+154
+00:06:54,570 --> 00:06:56,553
+And now let's grab this again.
+
+155
+00:06:57,450 --> 00:06:59,350
+Else if
+
+156
+00:07:01,110 --> 00:07:02,710
+john.bmi
+
+157
+00:07:03,984 --> 00:07:04,817
+is larger than
+
+158
+00:07:06,499 --> 00:07:07,600
+mark.bmi
+
+159
+00:07:08,640 --> 00:07:11,163
+then essentially say the opposite.
+
+160
+00:07:12,030 --> 00:07:13,953
+So here it's gonna be John,
+
+161
+00:07:16,170 --> 00:07:17,003
+and again
+
+162
+00:07:17,003 --> 00:07:17,836
+command D
+
+163
+00:07:18,870 --> 00:07:21,840
+and here, it's gonna be Mark.
+
+164
+00:07:21,840 --> 00:07:22,863
+Okay,
+
+165
+00:07:25,410 --> 00:07:28,230
+so 27 is higher than 24
+
+166
+00:07:28,230 --> 00:07:31,860
+and that 27 belongs to Mark.
+
+167
+00:07:31,860 --> 00:07:35,940
+And so this seems to be about right
+
+168
+00:07:35,940 --> 00:07:37,830
+but it's not completely right.
+
+169
+00:07:37,830 --> 00:07:39,150
+So ah,
+
+170
+00:07:39,150 --> 00:07:42,120
+of course here it should be lowercase.
+
+171
+00:07:42,120 --> 00:07:43,830
+So bmi.
+
+172
+00:07:43,830 --> 00:07:46,500
+And now I cannot use the command D
+
+173
+00:07:46,500 --> 00:07:49,530
+because then it will select this one as well.
+
+174
+00:07:49,530 --> 00:07:51,690
+So I'm double clicking on this one
+
+175
+00:07:51,690 --> 00:07:54,510
+and I hope that you're finding these vs code tips
+
+176
+00:07:54,510 --> 00:07:56,610
+useful as well.
+
+177
+00:07:56,610 --> 00:07:57,780
+So I'm clicking
+
+178
+00:07:57,780 --> 00:08:00,690
+or actually I'm double clicking on this one
+
+179
+00:08:00,690 --> 00:08:03,330
+then I hold down the command key,
+
+180
+00:08:03,330 --> 00:08:04,920
+which in your case might be
+
+181
+00:08:04,920 --> 00:08:07,770
+the control key or maybe the option key.
+
+182
+00:08:07,770 --> 00:08:09,570
+So I know there are different configurations
+
+183
+00:08:09,570 --> 00:08:10,680
+for this
+
+184
+00:08:10,680 --> 00:08:12,570
+and it might not even work for you
+
+185
+00:08:12,570 --> 00:08:14,910
+so please don't ask
+
+186
+00:08:14,910 --> 00:08:16,740
+any question in that case.
+
+187
+00:08:16,740 --> 00:08:17,573
+But for me
+
+188
+00:08:17,573 --> 00:08:19,200
+I just have to hit command
+
+189
+00:08:19,200 --> 00:08:20,490
+and then I can double click
+
+190
+00:08:20,490 --> 00:08:24,660
+on multiple words and then all of them get selected.
+
+191
+00:08:24,660 --> 00:08:27,030
+So now I have these four multiple cursors here
+
+192
+00:08:27,030 --> 00:08:27,960
+again
+
+193
+00:08:27,960 --> 00:08:29,874
+and I can simply delete all of them
+
+194
+00:08:29,874 --> 00:08:31,327
+and write
+
+195
+00:08:31,327 --> 00:08:34,010
+the one that I'm interested in.
+
+196
+00:08:34,010 --> 00:08:36,715
+So that's the lowercase bmi
+
+197
+00:08:36,715 --> 00:08:39,832
+and now we get the correct values
+
+198
+00:08:39,832 --> 00:08:41,586
+and also this
+
+199
+00:08:41,586 --> 00:08:43,162
+conditional logic
+
+200
+00:08:43,162 --> 00:08:45,487
+is correct as well.
+
+201
+00:08:45,487 --> 00:08:46,620
+And so with this,
+
+202
+00:08:46,620 --> 00:08:49,205
+we did actually solve the challenge.
+
+203
+00:08:49,205 --> 00:08:51,903
+And with this we also finished this introduction
+
+204
+00:08:51,903 --> 00:08:54,630
+to JavaScript objects.
+
+205
+00:08:54,630 --> 00:08:55,620
+And once again,
+
+206
+00:08:55,620 --> 00:08:57,870
+I really want to congratulate you
+
+207
+00:08:57,870 --> 00:09:00,281
+for the progress that you are making here.
+
+208
+00:09:00,281 --> 00:09:03,330
+Great job and really well done.
+
+209
+00:09:03,330 --> 00:09:04,470
+And I really mean it
+
+210
+00:09:04,470 --> 00:09:06,600
+because I know how hard it is
+
+211
+00:09:06,600 --> 00:09:08,040
+to stick to a course
+
+212
+00:09:08,040 --> 00:09:10,164
+like this and to learn a completely
+
+213
+00:09:10,164 --> 00:09:13,081
+new thing that is probably a bit confusing
+
+214
+00:09:13,081 --> 00:09:15,168
+for you at this point still.
+
+215
+00:09:15,168 --> 00:09:16,503
+Just keep in mind
+
+216
+00:09:16,503 --> 00:09:19,929
+that that is absolutely no problem at all.
+
+217
+00:09:19,929 --> 00:09:22,830
+And actually in the next section
+
+218
+00:09:22,830 --> 00:09:24,420
+I believe I have a video
+
+219
+00:09:24,420 --> 00:09:25,637
+about how to learn,
+
+220
+00:09:25,637 --> 00:09:27,701
+how to learn basically.
+
+221
+00:09:27,701 --> 00:09:29,677
+So about learning how to code
+
+222
+00:09:29,677 --> 00:09:31,201
+and there's a lot of great tips
+
+223
+00:09:31,201 --> 00:09:32,568
+that I'm sharing there.
+
+224
+00:09:32,568 --> 00:09:33,906
+So once you reach that,
+
+225
+00:09:33,906 --> 00:09:36,112
+make sure to watch it carefully.
+
+226
+00:09:36,112 --> 00:09:37,563
+But now anyway,
+
+227
+00:09:37,563 --> 00:09:39,926
+I will leave you to review this lecture
+
+228
+00:09:39,926 --> 00:09:40,759
+if you want
+
+229
+00:09:40,759 --> 00:09:42,591
+or to move on together with me
+
+230
+00:09:42,591 --> 00:09:45,510
+to the next video where we are now
+
+231
+00:09:45,510 --> 00:09:48,063
+gonna start talking about loops.

@@ -1,0 +1,1119 @@
+1
+00:00:01,090 --> 00:00:03,920
+Let's keep building or Pig Game.
+
+2
+00:00:03,920 --> 00:00:04,860
+And in this video,
+
+3
+00:00:04,860 --> 00:00:07,670
+we're gonna be concerned with switching
+
+4
+00:00:07,670 --> 00:00:10,423
+from one active player to another one.
+
+5
+00:00:11,970 --> 00:00:16,113
+So as we already know, whenever the player rules are one,
+
+6
+00:00:17,000 --> 00:00:20,820
+we will enter this else block, right?
+
+7
+00:00:20,820 --> 00:00:23,061
+So when the dice is not a 1,
+
+8
+00:00:23,061 --> 00:00:26,460
+then the current dice gets added to the current score.
+
+9
+00:00:26,460 --> 00:00:28,820
+But if we happen to roll a 1,
+
+10
+00:00:28,820 --> 00:00:30,840
+then we lose all our score
+
+11
+00:00:30,840 --> 00:00:34,920
+and it is the next players round, all right?
+
+12
+00:00:34,920 --> 00:00:36,490
+So in the previous lecture,
+
+13
+00:00:36,490 --> 00:00:40,790
+we implemented this functionality of adding the dice
+
+14
+00:00:40,790 --> 00:00:42,670
+to the current score only
+
+15
+00:00:42,670 --> 00:00:46,200
+as the player number 0, okay?
+
+16
+00:00:46,200 --> 00:00:48,370
+But now we need to make this work
+
+17
+00:00:48,370 --> 00:00:51,770
+for both player number 0 and number 1.
+
+18
+00:00:51,770 --> 00:00:52,690
+And so for that,
+
+19
+00:00:52,690 --> 00:00:55,210
+we need to keep track of which player
+
+20
+00:00:55,210 --> 00:00:57,690
+is actually the current player.
+
+21
+00:00:57,690 --> 00:00:58,850
+And in order to do that,
+
+22
+00:00:58,850 --> 00:01:01,940
+we actually need to keep track of which player
+
+23
+00:01:01,940 --> 00:01:05,280
+is actually the active player in a moment
+
+24
+00:01:05,280 --> 00:01:07,270
+that the dice was rolled.
+
+25
+00:01:07,270 --> 00:01:09,690
+So basically we need to know which player
+
+26
+00:01:09,690 --> 00:01:11,990
+is right now playing.
+
+27
+00:01:11,990 --> 00:01:13,770
+And with right now I mean,
+
+28
+00:01:13,770 --> 00:01:17,350
+whenever the button is clicked, all right?
+
+29
+00:01:17,350 --> 00:01:19,420
+So we will create another variable,
+
+30
+00:01:19,420 --> 00:01:21,560
+which will hold exactly that.
+
+31
+00:01:21,560 --> 00:01:22,970
+So it will hold 0,
+
+32
+00:01:22,970 --> 00:01:25,900
+if the current player is player 0
+
+33
+00:01:25,900 --> 00:01:27,360
+and it will hold 1,
+
+34
+00:01:27,360 --> 00:01:31,093
+if the active player is player number 1.
+
+35
+00:01:33,490 --> 00:01:38,490
+So let active player.
+
+36
+00:01:38,870 --> 00:01:41,820
+And since we start with the first player,
+
+37
+00:01:41,820 --> 00:01:43,750
+we set it to 0,
+
+38
+00:01:43,750 --> 00:01:47,230
+because remember that player number 1 is player 0
+
+39
+00:01:47,230 --> 00:01:51,860
+and player 2 is here in our code player number 1.
+
+40
+00:01:51,860 --> 00:01:55,600
+And in fact, let me explain you right away, why that is.
+
+41
+00:01:55,600 --> 00:01:58,400
+So the reason is that we will store the scores
+
+42
+00:01:58,400 --> 00:02:01,560
+of both players in an array.
+
+43
+00:02:01,560 --> 00:02:02,773
+So let me do that here.
+
+44
+00:02:03,990 --> 00:02:08,780
+So let or actually const, because it's an array.
+
+45
+00:02:08,780 --> 00:02:12,530
+So const scores equals an array,
+
+46
+00:02:12,530 --> 00:02:16,713
+which will start with 0 points for both sides.
+
+47
+00:02:17,560 --> 00:02:21,180
+And so these scores are actually the final scores.
+
+48
+00:02:21,180 --> 00:02:24,100
+So the big scores, which accumulate,
+
+49
+00:02:24,100 --> 00:02:25,983
+let me show that to you in the demo.
+
+50
+00:02:26,960 --> 00:02:30,390
+So that's these big scores here.
+
+51
+00:02:30,390 --> 00:02:32,010
+So these are the current scores,
+
+52
+00:02:32,010 --> 00:02:34,310
+and these are, let's say the total scores
+
+53
+00:02:34,310 --> 00:02:36,470
+that keep accumulating, right?
+
+54
+00:02:36,470 --> 00:02:41,270
+And so we are storing these two scores here in an array.
+
+55
+00:02:41,270 --> 00:02:43,660
+And remember that the array is zero-based
+
+56
+00:02:43,660 --> 00:02:45,610
+and so the score of player number 1
+
+57
+00:02:45,610 --> 00:02:47,590
+will be here at position 0,
+
+58
+00:02:47,590 --> 00:02:51,110
+and the score of player two will be at position 1.
+
+59
+00:02:51,110 --> 00:02:53,150
+And so that's why it will be handy
+
+60
+00:02:53,150 --> 00:02:55,660
+to have the activePlayer variable here,
+
+61
+00:02:55,660 --> 00:02:59,260
+also set to 0 and 1, okay?
+
+62
+00:02:59,260 --> 00:03:01,900
+And we will see that in action actually,
+
+63
+00:03:01,900 --> 00:03:06,610
+in the next lecture, where we will hold the scores,
+
+64
+00:03:06,610 --> 00:03:10,040
+but for now knowing which is the active player
+
+65
+00:03:10,040 --> 00:03:11,870
+is going to be important
+
+66
+00:03:11,870 --> 00:03:15,180
+to actually display the current score here
+
+67
+00:03:15,180 --> 00:03:16,890
+for the current player
+
+68
+00:03:16,890 --> 00:03:20,610
+and not just always for player number 0.
+
+69
+00:03:20,610 --> 00:03:24,200
+So instead of manipulating the element of player 0,
+
+70
+00:03:24,200 --> 00:03:26,660
+so the current score of player 0,
+
+71
+00:03:26,660 --> 00:03:31,230
+let's actually select the element dynamically, okay?
+
+72
+00:03:31,230 --> 00:03:32,580
+So let me show that to you.
+
+73
+00:03:33,840 --> 00:03:37,210
+So we will actually now do the selection right here,
+
+74
+00:03:37,210 --> 00:03:41,213
+document. and actually let's use getElementById.
+
+75
+00:03:42,922 --> 00:03:45,270
+And then here we need the class name.
+
+76
+00:03:45,270 --> 00:03:49,240
+So the class name is gonna be either current O,
+
+77
+00:03:49,240 --> 00:03:54,210
+for player 0, or current 1 for player 1.
+
+78
+00:03:54,210 --> 00:03:57,530
+And so maybe now you start to see once more
+
+79
+00:03:57,530 --> 00:04:00,940
+why we use the active player as 0 or 1,
+
+80
+00:04:00,940 --> 00:04:03,740
+because now we can use that variable
+
+81
+00:04:03,740 --> 00:04:07,763
+to basically build these collapse names, okay?
+
+82
+00:04:08,760 --> 00:04:10,520
+So when it's player 0,
+
+83
+00:04:10,520 --> 00:04:15,520
+we will then end up with current--0
+
+84
+00:04:15,760 --> 00:04:16,770
+and if it's 1,
+
+85
+00:04:16,770 --> 00:04:19,440
+we will end up with current--1
+
+86
+00:04:19,440 --> 00:04:21,540
+because that's gonna be the active player.
+
+87
+00:04:23,510 --> 00:04:27,430
+So what I just said is to do this.
+
+88
+00:04:27,430 --> 00:04:28,387
+So current--
+
+89
+00:04:31,180 --> 00:04:36,180
+and then the number of the active player, okay?
+
+90
+00:04:38,550 --> 00:04:40,090
+And so now on this,
+
+91
+00:04:40,090 --> 00:04:42,740
+we will get the text content
+
+92
+00:04:42,740 --> 00:04:46,243
+and set it to the current score, okay?
+
+93
+00:04:50,280 --> 00:04:54,050
+So again, this 1 here will always set the text content
+
+94
+00:04:54,050 --> 00:04:56,410
+on player number 0,
+
+95
+00:04:56,410 --> 00:04:58,860
+but here we do instead select
+
+96
+00:04:58,860 --> 00:05:02,840
+the score element dynamically based on which
+
+97
+00:05:02,840 --> 00:05:05,163
+is the active player right now, okay?
+
+98
+00:05:08,450 --> 00:05:10,450
+So this is a very handy trick
+
+99
+00:05:10,450 --> 00:05:14,523
+of building the ID name like this dynamically.
+
+100
+00:05:16,580 --> 00:05:19,530
+Now here, when we switch the player,
+
+101
+00:05:19,530 --> 00:05:22,820
+we of course will then need to change that value
+
+102
+00:05:22,820 --> 00:05:25,713
+from zero to one or from one to zero.
+
+103
+00:05:26,720 --> 00:05:28,560
+So let's do that here.
+
+104
+00:05:28,560 --> 00:05:33,560
+So essentially switching the next player,
+
+105
+00:05:33,870 --> 00:05:36,240
+that means to change that value.
+
+106
+00:05:36,240 --> 00:05:38,320
+So activePlayer,
+
+107
+00:05:38,320 --> 00:05:42,050
+and now here, let's not use again, the turnery operator.
+
+108
+00:05:42,050 --> 00:05:46,320
+So we can say if the activePlayer is 0,
+
+109
+00:05:48,700 --> 00:05:51,370
+then we want the new activePlayer to be 1
+
+110
+00:05:52,320 --> 00:05:54,980
+and else it should be 0.
+
+111
+00:05:54,980 --> 00:05:58,180
+All right, does that make sense?
+
+112
+00:05:58,180 --> 00:06:02,490
+So essentially we are reassigning the active player here
+
+113
+00:06:02,490 --> 00:06:06,320
+and we're checking whether right now it is player 0.
+
+114
+00:06:06,320 --> 00:06:10,910
+So if it is then here the result of this whole operator,
+
+115
+00:06:10,910 --> 00:06:13,210
+so which again is all of this,
+
+116
+00:06:13,210 --> 00:06:15,000
+then the result will be 1.
+
+117
+00:06:15,000 --> 00:06:19,000
+And so then activePlayer will be equal to 1,
+
+118
+00:06:19,000 --> 00:06:22,100
+but if this is false here,
+
+119
+00:06:22,100 --> 00:06:24,480
+so if the player is actually 1,
+
+120
+00:06:24,480 --> 00:06:27,830
+well then the active player will become 0.
+
+121
+00:06:27,830 --> 00:06:30,160
+And so essentially this allows us to switch
+
+122
+00:06:30,160 --> 00:06:32,200
+from zero to 1.
+
+123
+00:06:32,200 --> 00:06:37,200
+All right, so I think this would actually work already.
+
+124
+00:06:38,430 --> 00:06:39,263
+So this is the demo,
+
+125
+00:06:39,263 --> 00:06:41,070
+this is the real game.
+
+126
+00:06:41,070 --> 00:06:44,260
+Let's just make sure that it works and reload it.
+
+127
+00:06:44,260 --> 00:06:45,870
+And now as we roll the dice,
+
+128
+00:06:45,870 --> 00:06:48,650
+remember that we are player number 0 right now.
+
+129
+00:06:48,650 --> 00:06:49,483
+So this one.
+
+130
+00:06:50,790 --> 00:06:55,750
+So 3 gets added to 0 is 3 and 7,
+
+131
+00:06:55,750 --> 00:06:57,670
+so this works right now.
+
+132
+00:06:57,670 --> 00:07:01,840
+Three, let's wait for a one so that we can switch the player
+
+133
+00:07:01,840 --> 00:07:03,343
+and see what happens then.
+
+134
+00:07:07,600 --> 00:07:08,760
+Okay.
+
+135
+00:07:08,760 --> 00:07:10,250
+So now we're all the one.
+
+136
+00:07:10,250 --> 00:07:13,040
+And so now we should be player number 1.
+
+137
+00:07:13,040 --> 00:07:15,860
+So and essentially player 2.
+
+138
+00:07:15,860 --> 00:07:18,040
+And so now when we roll the dice again,
+
+139
+00:07:18,040 --> 00:07:21,810
+the new score should appear down here, right?
+
+140
+00:07:21,810 --> 00:07:24,380
+Because this here is current 1.
+
+141
+00:07:24,380 --> 00:07:26,660
+So this element here is the current 1
+
+142
+00:07:26,660 --> 00:07:29,510
+that we just defined previously
+
+143
+00:07:30,900 --> 00:07:34,520
+and indeed it works.
+
+144
+00:07:34,520 --> 00:07:36,410
+So something happened here,
+
+145
+00:07:36,410 --> 00:07:39,440
+but of course we need to reset the current score.
+
+146
+00:07:39,440 --> 00:07:42,240
+So the current score was just for this player,
+
+147
+00:07:42,240 --> 00:07:44,080
+but now we edit that for
+
+148
+00:07:44,080 --> 00:07:47,130
+to the current score of the previous round.
+
+149
+00:07:47,130 --> 00:07:48,720
+So as we switch the player,
+
+150
+00:07:48,720 --> 00:07:53,170
+we also need to reset the current score, okay?
+
+151
+00:07:53,170 --> 00:07:56,620
+So the logic of the active player is already working,
+
+152
+00:07:56,620 --> 00:08:00,140
+but we still need to reset the current score.
+
+153
+00:08:00,140 --> 00:08:03,620
+Also, you see that visually nothing changed yet.
+
+154
+00:08:03,620 --> 00:08:07,290
+So in the real game, when the player is switched,
+
+155
+00:08:07,290 --> 00:08:09,250
+this side here becomes white
+
+156
+00:08:09,250 --> 00:08:12,260
+and so the background kind of changes there.
+
+157
+00:08:12,260 --> 00:08:15,200
+Oh, and another thing is that this current score here
+
+158
+00:08:15,200 --> 00:08:19,800
+should also then be set back to 0 again, okay?
+
+159
+00:08:19,800 --> 00:08:21,730
+So basically the previous player
+
+160
+00:08:21,730 --> 00:08:26,030
+should have its current score here visibly set to 0.
+
+161
+00:08:27,110 --> 00:08:29,210
+So let me just tell you what happens here.
+
+162
+00:08:30,920 --> 00:08:32,743
+When we switch to another player,
+
+163
+00:08:33,607 --> 00:08:35,007
+so you see the current score
+
+164
+00:08:37,070 --> 00:08:38,110
+and now there's a 1
+
+165
+00:08:38,110 --> 00:08:40,820
+and so now this side here became white
+
+166
+00:08:40,820 --> 00:08:42,030
+and then of course the current
+
+167
+00:08:42,030 --> 00:08:44,720
+of the other player became 0.
+
+168
+00:08:44,720 --> 00:08:47,480
+So let's first take care of that logic
+
+169
+00:08:47,480 --> 00:08:49,140
+of changing the values
+
+170
+00:08:49,140 --> 00:08:52,363
+and then I will show you how we change the background here.
+
+171
+00:08:54,240 --> 00:08:55,560
+So let's go back.
+
+172
+00:08:55,560 --> 00:08:57,530
+And the first thing that we need to do
+
+173
+00:08:57,530 --> 00:09:00,000
+is to set the current score back to 0.
+
+174
+00:09:01,610 --> 00:09:05,770
+So current score back to 0,
+
+175
+00:09:06,765 --> 00:09:11,470
+and then we need to set the text content back to 0, okay?
+
+176
+00:09:11,470 --> 00:09:16,470
+So basically of the active player before we switch it.
+
+177
+00:09:16,750 --> 00:09:20,200
+So for example, player 0 was playing
+
+178
+00:09:20,200 --> 00:09:22,130
+and then we switched to player 1,
+
+179
+00:09:22,130 --> 00:09:23,640
+but before we do that switch,
+
+180
+00:09:23,640 --> 00:09:25,720
+we need to change the current score
+
+181
+00:09:25,720 --> 00:09:28,700
+of player 0 back to 0.
+
+182
+00:09:28,700 --> 00:09:33,700
+So we need to do that here before we do the switch, okay?
+
+183
+00:09:33,980 --> 00:09:36,993
+So basically what we do is the same as this,
+
+184
+00:09:39,290 --> 00:09:43,183
+but we simply set it to 0, okay.
+
+185
+00:09:45,020 --> 00:09:46,840
+So we're selecting the current player,
+
+186
+00:09:46,840 --> 00:09:49,360
+which at this point is still 0
+
+187
+00:09:49,360 --> 00:09:52,530
+and then we set his textContent to 0
+
+188
+00:09:52,530 --> 00:09:56,420
+and then we switch from zero to one, okay?
+
+189
+00:09:56,420 --> 00:09:59,930
+And actually we can also set the current score to 0 here,
+
+190
+00:09:59,930 --> 00:10:01,430
+but that doesn't really matter
+
+191
+00:10:01,430 --> 00:10:04,793
+because the current score is not bound to any player.
+
+192
+00:10:05,880 --> 00:10:09,223
+So saving it, now let's try again.
+
+193
+00:10:11,310 --> 00:10:13,640
+So all of this is still working,
+
+194
+00:10:13,640 --> 00:10:16,023
+but let's wait what happens on the one?
+
+195
+00:10:20,050 --> 00:10:23,190
+So that's a lot of points here, okay.
+
+196
+00:10:23,190 --> 00:10:27,050
+So the current score is back to 0 here
+
+197
+00:10:27,050 --> 00:10:28,400
+and now watch what happens
+
+198
+00:10:29,330 --> 00:10:32,970
+and yeah, nice, that's working now.
+
+199
+00:10:32,970 --> 00:10:36,120
+So now the actual current score variable
+
+200
+00:10:36,120 --> 00:10:38,080
+was also set back to 0
+
+201
+00:10:38,080 --> 00:10:43,080
+and so 6 plus 0 now on player number 1 is 6.
+
+202
+00:10:43,910 --> 00:10:47,240
+So as we keep doing that, it keeps adding here
+
+203
+00:10:47,240 --> 00:10:50,513
+and now we're back to player number 0, so this one.
+
+204
+00:10:53,270 --> 00:10:55,010
+Then I wrote another one right away
+
+205
+00:10:55,010 --> 00:10:58,593
+and so we switched to this player back again immediately.
+
+206
+00:10:59,700 --> 00:11:03,270
+But you see that the logic here is already working.
+
+207
+00:11:03,270 --> 00:11:07,130
+Now, the only thing that's left to do is that visual change.
+
+208
+00:11:07,130 --> 00:11:12,130
+So putting that white background here on this other player.
+
+209
+00:11:12,900 --> 00:11:16,223
+So let me show you in the HTML, how that works.
+
+210
+00:11:18,090 --> 00:11:22,620
+And so basically the player that is active
+
+211
+00:11:22,620 --> 00:11:24,900
+has this whole section here
+
+212
+00:11:24,900 --> 00:11:28,940
+with the player--active class.
+
+213
+00:11:28,940 --> 00:11:31,380
+So you see that this first section,
+
+214
+00:11:31,380 --> 00:11:34,360
+which is for player 0 right now has this class
+
+215
+00:11:34,360 --> 00:11:37,810
+because player 0 is always the first player.
+
+216
+00:11:37,810 --> 00:11:40,370
+But then as we switch to the other player,
+
+217
+00:11:40,370 --> 00:11:44,160
+we want to remove that class from here
+
+218
+00:11:44,160 --> 00:11:47,720
+and basically put it here on the other player.
+
+219
+00:11:47,720 --> 00:11:50,250
+Okay, so let's do that.
+
+220
+00:11:50,250 --> 00:11:51,083
+And as always,
+
+221
+00:11:51,083 --> 00:11:54,137
+we will start by selecting these two players.
+
+222
+00:11:54,137 --> 00:11:56,930
+And this time is actually a class.
+
+223
+00:11:56,930 --> 00:12:00,523
+So player 0 class and player 1 class.
+
+224
+00:12:01,740 --> 00:12:06,453
+So let's do that here and do that as the first.
+
+225
+00:12:07,340 --> 00:12:11,793
+So const player 0 element,
+
+226
+00:12:13,450 --> 00:12:16,243
+document.querySelector.
+
+227
+00:12:17,090 --> 00:12:20,093
+And now we need the dot for the class name,
+
+228
+00:12:21,350 --> 00:12:23,223
+so that's player--1.
+
+229
+00:12:24,170 --> 00:12:25,390
+And I'm just copying it here,
+
+230
+00:12:25,390 --> 00:12:26,393
+I'm too lazy.
+
+231
+00:12:29,050 --> 00:12:31,850
+And this 1 here is actually player 0,
+
+232
+00:12:31,850 --> 00:12:35,540
+so 0 and 1 right here.
+
+233
+00:12:35,540 --> 00:12:39,300
+And now let's actually change their class names.
+
+234
+00:12:39,300 --> 00:12:44,300
+So the player active class, so down here.
+
+235
+00:12:44,360 --> 00:12:45,193
+And for that,
+
+236
+00:12:45,193 --> 00:12:47,630
+I will now show you yet another method
+
+237
+00:12:47,630 --> 00:12:50,573
+that's available on the class list property.
+
+238
+00:12:52,896 --> 00:12:55,290
+Well actually let's start typing first.
+
+239
+00:12:55,290 --> 00:12:58,027
+So player0Element.Classlist,
+
+240
+00:13:01,030 --> 00:13:04,990
+and we already saw the remove method,
+
+241
+00:13:04,990 --> 00:13:06,590
+we saw the add method,
+
+242
+00:13:06,590 --> 00:13:09,290
+but now I will show you the toggle method.
+
+243
+00:13:09,290 --> 00:13:11,250
+So we will use toggle now.
+
+244
+00:13:11,250 --> 00:13:13,080
+And what toggle will do is that
+
+245
+00:13:13,080 --> 00:13:16,270
+it will add the class if it is not there
+
+246
+00:13:16,270 --> 00:13:19,870
+and if it is there, it will remove it, okay.
+
+247
+00:13:19,870 --> 00:13:21,730
+So we could do that manually also
+
+248
+00:13:21,730 --> 00:13:24,110
+by checking if the class is there
+
+249
+00:13:24,110 --> 00:13:26,500
+and only removing it if it is,
+
+250
+00:13:26,500 --> 00:13:30,290
+but using toggle takes that work away from us.
+
+251
+00:13:30,290 --> 00:13:32,990
+So actually we could have used this toggle method
+
+252
+00:13:32,990 --> 00:13:35,850
+in the previous project of the popup,
+
+253
+00:13:35,850 --> 00:13:36,683
+but back then,
+
+254
+00:13:36,683 --> 00:13:39,920
+I actually wanted to show you the contains method.
+
+255
+00:13:39,920 --> 00:13:41,570
+Remember that?
+
+256
+00:13:41,570 --> 00:13:45,203
+But now again, we will use toggle here because it is easier.
+
+257
+00:13:46,520 --> 00:13:51,520
+And so now we simply have to add this player active class
+
+258
+00:13:51,790 --> 00:13:55,070
+or actually to toggle it.
+
+259
+00:13:55,070 --> 00:13:58,130
+So if we do that on both then it will work
+
+260
+00:14:02,400 --> 00:14:07,400
+because on player 0 it will remove the class if it's there
+
+261
+00:14:08,200 --> 00:14:10,140
+and if it's not it will add it.
+
+262
+00:14:10,140 --> 00:14:12,820
+And the same thing on the other player.
+
+263
+00:14:12,820 --> 00:14:15,890
+And since we start with the player active class
+
+264
+00:14:15,890 --> 00:14:17,523
+on only one element,
+
+265
+00:14:18,530 --> 00:14:20,820
+so only on player 0 here,
+
+266
+00:14:20,820 --> 00:14:23,030
+then toggling both at the same time
+
+267
+00:14:23,030 --> 00:14:25,180
+will ensure that it's only ever
+
+268
+00:14:25,180 --> 00:14:28,130
+on one of the elements at once.
+
+269
+00:14:28,130 --> 00:14:31,690
+So let's now check that out
+
+270
+00:14:32,600 --> 00:14:34,400
+just to make sure we load it here
+
+271
+00:14:35,640 --> 00:14:36,823
+and let's wait for it.
+
+272
+00:14:42,240 --> 00:14:45,480
+It's taking a lot of time and yes,
+
+273
+00:14:45,480 --> 00:14:47,360
+so we switched the active player
+
+274
+00:14:47,360 --> 00:14:49,623
+and now it's also nicely visible.
+
+275
+00:14:51,840 --> 00:14:55,100
+And yes, we changed it back as well
+
+276
+00:14:55,100 --> 00:14:59,640
+and so that works beautifully great job.
+
+277
+00:14:59,640 --> 00:15:02,600
+And now basically the only thing that's missing
+
+278
+00:15:02,600 --> 00:15:04,930
+to actually make this game work
+
+279
+00:15:04,930 --> 00:15:07,300
+is to hold the current score.
+
+280
+00:15:07,300 --> 00:15:10,813
+And so that is gonna be the topic of the next video.

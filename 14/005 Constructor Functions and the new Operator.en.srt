@@ -1,0 +1,1059 @@
+1
+00:00:01,210 --> 00:00:03,050
+Let's finally implement
+
+2
+00:00:03,050 --> 00:00:05,420
+object oriented programming now.
+
+3
+00:00:05,420 --> 00:00:08,393
+And starting with constructor functions.
+
+4
+00:00:10,390 --> 00:00:14,170
+And as always, I already have to start our files open here
+
+5
+00:00:14,170 --> 00:00:16,140
+in my VS code editor.
+
+6
+00:00:16,140 --> 00:00:19,280
+So please go ahead and do the same now.
+
+7
+00:00:19,280 --> 00:00:23,040
+And we can actually already also open up a new terminal
+
+8
+00:00:24,880 --> 00:00:26,913
+and start our live server.
+
+9
+00:00:28,740 --> 00:00:31,973
+So we can close that, open up the console here,
+
+10
+00:00:32,810 --> 00:00:34,870
+and increase it a little bit,
+
+11
+00:00:34,870 --> 00:00:38,470
+and now we're all set up and ready to go.
+
+12
+00:00:38,470 --> 00:00:40,980
+So, we actually kind of used
+
+13
+00:00:40,980 --> 00:00:43,220
+object oriented programming before
+
+14
+00:00:43,220 --> 00:00:45,320
+but in a very limited way.
+
+15
+00:00:45,320 --> 00:00:49,970
+Because we had no way of programmatically creating objects.
+
+16
+00:00:49,970 --> 00:00:54,790
+And so all we did was to use some simple object literals
+
+17
+00:00:54,790 --> 00:00:58,210
+for example, in the bankist app, right?
+
+18
+00:00:58,210 --> 00:01:02,380
+But now that all changes with constructor functions.
+
+19
+00:01:02,380 --> 00:01:05,010
+So, we can use constructor functions,
+
+20
+00:01:05,010 --> 00:01:08,350
+to build an object using a function.
+
+21
+00:01:08,350 --> 00:01:11,600
+Now, a constructor function is actually
+
+22
+00:01:11,600 --> 00:01:14,290
+a completely normal function.
+
+23
+00:01:14,290 --> 00:01:17,240
+The only difference between a regular function,
+
+24
+00:01:17,240 --> 00:01:20,400
+and a function that we call constructor function,
+
+25
+00:01:20,400 --> 00:01:22,980
+is that we call a constructor function
+
+26
+00:01:22,980 --> 00:01:25,570
+with the new operator.
+
+27
+00:01:25,570 --> 00:01:26,710
+But enough talk,
+
+28
+00:01:26,710 --> 00:01:29,890
+let's now actually create a constructor function
+
+29
+00:01:29,890 --> 00:01:31,313
+for a person.
+
+30
+00:01:32,720 --> 00:01:37,720
+So that person and in OOP there is this convention
+
+31
+00:01:38,633 --> 00:01:41,310
+that constructor functions always start
+
+32
+00:01:41,310 --> 00:01:43,060
+with a capital letter.
+
+33
+00:01:43,060 --> 00:01:46,350
+And so we should always follow that convention too.
+
+34
+00:01:46,350 --> 00:01:49,000
+And in fact, other a built in constructors
+
+35
+00:01:49,000 --> 00:01:52,523
+like array or map, follow that convention as well.
+
+36
+00:01:55,340 --> 00:01:57,860
+Now here I'm using a function expression
+
+37
+00:01:57,860 --> 00:02:01,830
+but of course a function declaration will also work.
+
+38
+00:02:01,830 --> 00:02:05,100
+Now an arrow function will actually not work
+
+39
+00:02:05,100 --> 00:02:07,060
+as a function constructor.
+
+40
+00:02:07,060 --> 00:02:10,710
+And that's because it doesn't have its own this keyword
+
+41
+00:02:10,710 --> 00:02:13,070
+and we need that, okay.
+
+42
+00:02:13,070 --> 00:02:17,000
+So only function declarations and function expressions.
+
+43
+00:02:17,000 --> 00:02:18,770
+Now remember that this function
+
+44
+00:02:18,770 --> 00:02:21,390
+is basically gonna produce an object
+
+45
+00:02:21,390 --> 00:02:23,393
+and in this case for a person.
+
+46
+00:02:24,350 --> 00:02:27,280
+So we want a person to have a name
+
+47
+00:02:27,280 --> 00:02:31,363
+or let's say a first name and a birth here.
+
+48
+00:02:32,770 --> 00:02:35,390
+And so we specified these two parameters
+
+49
+00:02:35,390 --> 00:02:38,160
+for that here in our constructor function
+
+50
+00:02:38,160 --> 00:02:42,250
+so that we can then pass in the name and the birth year.
+
+51
+00:02:42,250 --> 00:02:44,493
+And now let's actually call this function.
+
+52
+00:02:46,380 --> 00:02:48,710
+And so, as I said, previously,
+
+53
+00:02:48,710 --> 00:02:51,510
+the only difference between a regular function,
+
+54
+00:02:51,510 --> 00:02:55,530
+and a constructor function is that we call the constructor
+
+55
+00:02:55,530 --> 00:02:58,300
+using the new keyword.
+
+56
+00:02:58,300 --> 00:03:03,300
+So we write new, then person and then let's pass in Jonas
+
+57
+00:03:05,630 --> 00:03:08,133
+and 1991, let's say.
+
+58
+00:03:08,970 --> 00:03:11,330
+So this new operator here,
+
+59
+00:03:11,330 --> 00:03:14,160
+is actually a very special operator
+
+60
+00:03:14,160 --> 00:03:17,540
+because what it does is to call this function here.
+
+61
+00:03:17,540 --> 00:03:19,250
+So this person function,
+
+62
+00:03:19,250 --> 00:03:22,770
+but it does a whole lot more than just that.
+
+63
+00:03:22,770 --> 00:03:26,380
+So let's see what exactly happens when we call a function
+
+64
+00:03:26,380 --> 00:03:28,913
+with the new operator like this.
+
+65
+00:03:29,880 --> 00:03:32,863
+So behind the scenes, there have been four steps.
+
+66
+00:03:34,240 --> 00:03:35,830
+And let me actually write them here
+
+67
+00:03:35,830 --> 00:03:38,170
+because this is very important.
+
+68
+00:03:38,170 --> 00:03:42,400
+So first, a new empty object is created.
+
+69
+00:03:42,400 --> 00:03:45,313
+So an empty object is created,
+
+70
+00:03:46,310 --> 00:03:50,800
+then afterwards the function is called
+
+71
+00:03:50,800 --> 00:03:54,600
+and in this function call the this keyword will be set
+
+72
+00:03:54,600 --> 00:03:56,653
+to this newly created object.
+
+73
+00:03:58,090 --> 00:04:01,030
+All right? So let's write that here.
+
+74
+00:04:01,030 --> 00:04:04,930
+So the this keyword is this new empty object.
+
+75
+00:04:04,930 --> 00:04:08,000
+So, basically in the execution context
+
+76
+00:04:08,000 --> 00:04:09,780
+of the person function,
+
+77
+00:04:09,780 --> 00:04:13,240
+the this keyword will point to this new object here
+
+78
+00:04:13,240 --> 00:04:16,123
+that was created in step number one.
+
+79
+00:04:18,230 --> 00:04:20,440
+And remember all of this happens
+
+80
+00:04:20,440 --> 00:04:22,870
+only because we are calling the function
+
+81
+00:04:22,870 --> 00:04:25,053
+using the new operator here.
+
+82
+00:04:27,180 --> 00:04:31,060
+So step number three is that this newly created object
+
+83
+00:04:31,060 --> 00:04:33,223
+is linked to a prototype.
+
+84
+00:04:35,400 --> 00:04:40,400
+So linked to prototype but more about this
+
+85
+00:04:40,830 --> 00:04:42,290
+in the next video.
+
+86
+00:04:42,290 --> 00:04:46,343
+For now, we just care about creating the object itself.
+
+87
+00:04:47,190 --> 00:04:48,910
+Finally, the last step,
+
+88
+00:04:48,910 --> 00:04:52,080
+is that the object that was created in the beginning
+
+89
+00:04:52,080 --> 00:04:54,130
+is then automatically returned
+
+90
+00:04:54,130 --> 00:04:55,943
+from the constructor function.
+
+91
+00:04:56,820 --> 00:05:01,820
+So the function automatically returns
+
+92
+00:05:02,120 --> 00:05:05,280
+that empty object from the beginning.
+
+93
+00:05:05,280 --> 00:05:07,220
+But actually at this point,
+
+94
+00:05:07,220 --> 00:05:10,160
+the object no longer needs to be empty.
+
+95
+00:05:10,160 --> 00:05:12,280
+And this is actually the trick
+
+96
+00:05:12,280 --> 00:05:14,633
+of making the constructor function work.
+
+97
+00:05:15,610 --> 00:05:17,360
+So let's go here now
+
+98
+00:05:17,360 --> 00:05:21,520
+and the lock to the console, the this keyword.
+
+99
+00:05:21,520 --> 00:05:23,880
+And so we already know that it should be
+
+100
+00:05:23,880 --> 00:05:26,690
+this empty object that was just created here
+
+101
+00:05:26,690 --> 00:05:29,030
+in step number one, right?
+
+102
+00:05:29,030 --> 00:05:30,250
+Because the this keyword
+
+103
+00:05:30,250 --> 00:05:35,250
+inside this function will be exactly that empty object.
+
+104
+00:05:35,480 --> 00:05:38,110
+And again, that's because we are calling it
+
+105
+00:05:38,110 --> 00:05:40,790
+with the new keyword.
+
+106
+00:05:40,790 --> 00:05:42,290
+So let's see.
+
+107
+00:05:42,290 --> 00:05:45,090
+And indeed we get to this empty object.
+
+108
+00:05:45,090 --> 00:05:48,650
+And the browser console is actually already telling us
+
+109
+00:05:48,650 --> 00:05:53,000
+that it's basically here of the type of person, all right?
+
+110
+00:05:53,000 --> 00:05:57,280
+And so this is just the name of the constructor function.
+
+111
+00:05:57,280 --> 00:05:58,340
+All right.
+
+112
+00:05:58,340 --> 00:06:01,680
+And now let's use this knowledge to our advantage.
+
+113
+00:06:01,680 --> 00:06:05,420
+Because we already know that in the end of this function,
+
+114
+00:06:05,420 --> 00:06:08,660
+the this keyword will basically be returned.
+
+115
+00:06:08,660 --> 00:06:12,340
+And so whatever we add to that empty object,
+
+116
+00:06:12,340 --> 00:06:14,770
+will then be returned from the function.
+
+117
+00:06:14,770 --> 00:06:17,963
+And that returned object, is gonna be the object,
+
+118
+00:06:17,963 --> 00:06:20,573
+that we are trying to build here, actually.
+
+119
+00:06:22,000 --> 00:06:24,600
+So, all we need to do is to now take
+
+120
+00:06:24,600 --> 00:06:26,550
+that first name parameter,
+
+121
+00:06:26,550 --> 00:06:28,530
+so the value that we receive,
+
+122
+00:06:28,530 --> 00:06:31,880
+and then create a property on the this keyword
+
+123
+00:06:31,880 --> 00:06:35,113
+with the same name and then set it to that value.
+
+124
+00:06:37,150 --> 00:06:42,150
+And then the same with the birth year, equal to birth year.
+
+125
+00:06:44,360 --> 00:06:47,940
+And so now let's store the result here
+
+126
+00:06:47,940 --> 00:06:51,323
+in some variable and that's actually it.
+
+127
+00:06:52,200 --> 00:06:54,713
+So let's see what Jonas is gonna look like,
+
+128
+00:06:56,950 --> 00:06:59,970
+now and we have to log it to the console here.
+
+129
+00:06:59,970 --> 00:07:02,170
+If we want to take a look at it.
+
+130
+00:07:02,170 --> 00:07:05,960
+And indeed here it is, here is the person object
+
+131
+00:07:05,960 --> 00:07:09,020
+with the first name Jonas and the birth year,
+
+132
+00:07:09,020 --> 00:07:12,960
+that we passed here into the constructor function.
+
+133
+00:07:12,960 --> 00:07:16,460
+So, let's quickly recap what just happened here.
+
+134
+00:07:16,460 --> 00:07:20,090
+So again, we're calling this constructor function
+
+135
+00:07:20,090 --> 00:07:23,290
+with the new keyword or the new operator.
+
+136
+00:07:23,290 --> 00:07:27,460
+And so therefore a new empty object is created right away.
+
+137
+00:07:27,460 --> 00:07:29,460
+Then the function is called
+
+138
+00:07:29,460 --> 00:07:33,640
+and then here the this keyword, is that empty object.
+
+139
+00:07:33,640 --> 00:07:36,710
+And then in the function, we start to set properties
+
+140
+00:07:36,710 --> 00:07:38,380
+to that object.
+
+141
+00:07:38,380 --> 00:07:40,730
+And we give them the exact same name
+
+142
+00:07:40,730 --> 00:07:44,080
+as the parameters that we're passing in here.
+
+143
+00:07:44,080 --> 00:07:46,470
+And of course they could have any other name,
+
+144
+00:07:46,470 --> 00:07:50,330
+so it doesn't have to be the same name as our arguments.
+
+145
+00:07:50,330 --> 00:07:53,950
+So it doesn't have to be the same name as our parameters,
+
+146
+00:07:53,950 --> 00:07:56,410
+but this is kind of a convention.
+
+147
+00:07:56,410 --> 00:07:58,650
+So if we pass in first name
+
+148
+00:07:58,650 --> 00:08:01,983
+then we should also create a property called first name.
+
+149
+00:08:03,350 --> 00:08:05,660
+So then here by the end of the function
+
+150
+00:08:05,660 --> 00:08:10,150
+or this keyword now has these two new properties.
+
+151
+00:08:10,150 --> 00:08:12,220
+And then here in step number four,
+
+152
+00:08:12,220 --> 00:08:14,900
+that object that was created in the beginning,
+
+153
+00:08:14,900 --> 00:08:18,130
+is then automatically returned from the function.
+
+154
+00:08:18,130 --> 00:08:19,303
+And so at this point,
+
+155
+00:08:19,303 --> 00:08:22,990
+that is the object with these two properties.
+
+156
+00:08:22,990 --> 00:08:26,726
+And so that's gonna be the result of this function call,
+
+157
+00:08:26,726 --> 00:08:29,930
+and so it will then be stored in Jonas
+
+158
+00:08:29,930 --> 00:08:32,320
+and then that's what we get here.
+
+159
+00:08:32,320 --> 00:08:33,670
+Great.
+
+160
+00:08:33,670 --> 00:08:35,630
+So I hope that made sense.
+
+161
+00:08:35,630 --> 00:08:39,180
+And so now of course we can use this constructor function
+
+162
+00:08:39,180 --> 00:08:42,613
+to create as many different objects as we want.
+
+163
+00:08:46,360 --> 00:08:51,223
+So let's say we want to create Matilda new person,
+
+164
+00:08:52,980 --> 00:08:56,053
+Matilda and then let's say 2017,
+
+165
+00:08:57,800 --> 00:09:00,660
+and let's just do another one, why not?
+
+166
+00:09:00,660 --> 00:09:03,570
+Let's call it Jack new person,
+
+167
+00:09:03,570 --> 00:09:05,690
+just so you see that we can create
+
+168
+00:09:05,690 --> 00:09:09,343
+as many objects now based on this constructor function.
+
+169
+00:09:12,040 --> 00:09:15,470
+And so this is a bit like the analogy from before,
+
+170
+00:09:15,470 --> 00:09:17,250
+where this constructor function,
+
+171
+00:09:17,250 --> 00:09:19,560
+is now the blueprint for a house,
+
+172
+00:09:19,560 --> 00:09:22,410
+and then each of these objects that we create
+
+173
+00:09:22,410 --> 00:09:23,930
+through that function.
+
+174
+00:09:23,930 --> 00:09:27,530
+So through that blueprint will be the actual house
+
+175
+00:09:27,530 --> 00:09:28,763
+in the real world.
+
+176
+00:09:29,820 --> 00:09:32,310
+So in this case, the actual objects
+
+177
+00:09:32,310 --> 00:09:34,223
+with actual data in them.
+
+178
+00:09:35,820 --> 00:09:39,690
+So Matilda and Jack, and so of course,
+
+179
+00:09:39,690 --> 00:09:42,950
+now each of them is its own new object
+
+180
+00:09:42,950 --> 00:09:44,950
+that we created programmatically,
+
+181
+00:09:44,950 --> 00:09:46,683
+using a function constructor.
+
+182
+00:09:47,570 --> 00:09:50,690
+Now remember from one of the previous lectures,
+
+183
+00:09:50,690 --> 00:09:53,760
+that in classical object oriented programming,
+
+184
+00:09:53,760 --> 00:09:57,810
+an object created from a class is called an instance,
+
+185
+00:09:57,810 --> 00:10:01,860
+right? Now we didn't technically create a class here
+
+186
+00:10:01,860 --> 00:10:04,070
+because as we discussed before,
+
+187
+00:10:04,070 --> 00:10:06,550
+JavaScript doesn't really have classes
+
+188
+00:10:06,550 --> 00:10:09,360
+in the sense of traditional OOP.
+
+189
+00:10:09,360 --> 00:10:11,890
+However, we did create an object
+
+190
+00:10:11,890 --> 00:10:14,270
+from a constructor function.
+
+191
+00:10:14,270 --> 00:10:17,590
+And actually three objects, right?
+
+192
+00:10:17,590 --> 00:10:20,150
+And constructor functions have been used
+
+193
+00:10:20,150 --> 00:10:22,170
+since the beginning of JavaScript
+
+194
+00:10:22,170 --> 00:10:24,750
+to kind of simulate classes.
+
+195
+00:10:24,750 --> 00:10:27,270
+And so therefore we can still say
+
+196
+00:10:27,270 --> 00:10:31,580
+that Jonas here is an instance of person
+
+197
+00:10:31,580 --> 00:10:35,460
+and the same goes for Matilda and for Jack here.
+
+198
+00:10:35,460 --> 00:10:38,370
+And in fact there is even an operator
+
+199
+00:10:38,370 --> 00:10:40,853
+that we can use to test for that.
+
+200
+00:10:42,400 --> 00:10:44,710
+So that works like this.
+
+201
+00:10:44,710 --> 00:10:49,603
+So Jonas is an instance of, and then person.
+
+202
+00:10:50,610 --> 00:10:53,573
+And so this will then return either true or false.
+
+203
+00:10:54,550 --> 00:10:56,793
+Now, if we created something else here,
+
+204
+00:10:57,820 --> 00:11:02,820
+let's say J, just like this, then if we do this,
+
+205
+00:11:05,940 --> 00:11:08,990
+this would of course be false, right?
+
+206
+00:11:08,990 --> 00:11:12,610
+Because of course we didn't create this variable here,
+
+207
+00:11:12,610 --> 00:11:17,000
+so this object using any constructor function, all right?
+
+208
+00:11:20,340 --> 00:11:23,283
+And since we're talking about instances here,
+
+209
+00:11:24,260 --> 00:11:27,150
+we can also say that these properties here
+
+210
+00:11:27,150 --> 00:11:29,223
+will be the instance properties.
+
+211
+00:11:30,580 --> 00:11:31,853
+Let's write that here.
+
+212
+00:11:32,810 --> 00:11:35,810
+And that's because the properties' first name
+
+213
+00:11:35,810 --> 00:11:38,210
+and birth year will be available
+
+214
+00:11:38,210 --> 00:11:41,040
+on all the instances that are created
+
+215
+00:11:41,040 --> 00:11:43,113
+through this constructor function.
+
+216
+00:11:44,220 --> 00:11:48,920
+So that's for properties, but now what about methods,
+
+217
+00:11:48,920 --> 00:11:53,290
+So what if we wanted to add a method to our objects?
+
+218
+00:11:53,290 --> 00:11:56,290
+Well, just like we added properties,
+
+219
+00:11:56,290 --> 00:11:58,513
+we can of course also add methods.
+
+220
+00:12:00,900 --> 00:12:04,483
+So let's again, use our old friend calcage here.
+
+221
+00:12:05,410 --> 00:12:09,010
+And so here we are going to create a function
+
+222
+00:12:09,010 --> 00:12:11,720
+and assign it to this property.
+
+223
+00:12:11,720 --> 00:12:15,143
+And so this will then basically become a method, right?
+
+224
+00:12:16,040 --> 00:12:20,640
+And this year showed simply log to the console 2037,
+
+225
+00:12:20,640 --> 00:12:23,130
+which is the year we've always been using,
+
+226
+00:12:23,130 --> 00:12:27,400
+and then minus this.birth here.
+
+227
+00:12:27,400 --> 00:12:29,600
+And so this method is exactly the same
+
+228
+00:12:29,600 --> 00:12:33,330
+that we've been using all the time, right?
+
+229
+00:12:33,330 --> 00:12:36,840
+So, this would work just fine here
+
+230
+00:12:36,840 --> 00:12:40,750
+but this is actually a really bad practice.
+
+231
+00:12:40,750 --> 00:12:43,093
+So you should never do this.
+
+232
+00:12:44,250 --> 00:12:46,580
+You should never create a method
+
+233
+00:12:46,580 --> 00:12:49,520
+inside of a constructor function.
+
+234
+00:12:49,520 --> 00:12:52,770
+That's because imagine we were gonna create a hundred
+
+235
+00:12:52,770 --> 00:12:55,810
+or thousands or even tens of thousands
+
+236
+00:12:55,810 --> 00:12:59,860
+of person objects using this constructor function.
+
+237
+00:12:59,860 --> 00:13:01,550
+Then what would happen,
+
+238
+00:13:01,550 --> 00:13:03,410
+is that each of these objects
+
+239
+00:13:03,410 --> 00:13:06,113
+would carry around this function here.
+
+240
+00:13:07,290 --> 00:13:09,460
+So if we had a thousand objects,
+
+241
+00:13:09,460 --> 00:13:12,660
+we would essentially create a thousand copies
+
+242
+00:13:12,660 --> 00:13:14,170
+of this function.
+
+243
+00:13:14,170 --> 00:13:15,730
+And so that would be terrible
+
+244
+00:13:15,730 --> 00:13:18,630
+for the performance of our code.
+
+245
+00:13:18,630 --> 00:13:20,880
+Again, don't do this.
+
+246
+00:13:20,880 --> 00:13:23,230
+But instead to solve this problem,
+
+247
+00:13:23,230 --> 00:13:26,920
+we are gonna use prototypes and prototype inheritance
+
+248
+00:13:26,920 --> 00:13:30,020
+just like we discussed in the last video.
+
+249
+00:13:30,020 --> 00:13:32,140
+All right, great.
+
+250
+00:13:32,140 --> 00:13:36,340
+So this is the basics of constructor functions.
+
+251
+00:13:36,340 --> 00:13:39,020
+Just note that function constructors
+
+252
+00:13:39,020 --> 00:13:43,070
+are not really a feature of the JavaScript language.
+
+253
+00:13:43,070 --> 00:13:47,180
+Instead, they are simply a pattern that has been developed
+
+254
+00:13:47,180 --> 00:13:48,890
+by other developers.
+
+255
+00:13:48,890 --> 00:13:51,610
+And now everyone simply uses this.
+
+256
+00:13:51,610 --> 00:13:55,490
+And this now includes you as a new developer.
+
+257
+00:13:55,490 --> 00:14:00,260
+So the real magic really here is this new operator.
+
+258
+00:14:00,260 --> 00:14:01,850
+And so the most important thing
+
+259
+00:14:01,850 --> 00:14:03,650
+to understand from this video,
+
+260
+00:14:03,650 --> 00:14:05,513
+is really these four steps.
+
+261
+00:14:06,350 --> 00:14:08,660
+So make sure that you understand them,
+
+262
+00:14:08,660 --> 00:14:10,150
+and then in the next video
+
+263
+00:14:10,150 --> 00:14:12,220
+we will work with prototypes
+
+264
+00:14:12,220 --> 00:14:14,430
+and finally see the magic
+
+265
+00:14:14,430 --> 00:14:17,163
+of prototypal inheritance in action.

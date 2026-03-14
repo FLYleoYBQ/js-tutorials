@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Implementing the Game Logic</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; display: flex; align-items: center; }
+        .editor-textarea { width: 100%; min-height: 250px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .preview-output { background: #111; padding: 20px; border-top: 1px solid var(--surface-border); width: 100%; min-height: 100px; display: none; }
+        .preview-output.visible { display: block; }
+        
+        .demo-ui { display: flex; gap: 10px; margin-bottom: 20px; align-items: center; }
+        .demo-input { padding: 8px 12px; border-radius: 4px; border: 1px solid var(--surface-border); background: #000; color: #fff; font-size: 16px; width: 100px; }
+        .demo-btn { padding: 8px 16px; border-radius: 4px; border: none; background: #fff; color: #000; font-weight: bold; cursor: pointer; }
+        .demo-stats { display: flex; flex-direction: column; gap: 5px; margin-left: auto; text-align: right; }
+        .demo-msg { font-size: 18px; color: var(--accent-color); font-weight: bold; }
+
+        .quiz-card { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); padding: 24px; margin: 24px 0; }
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+        .quiz-option { background: var(--bg-color); border: 1px solid var(--surface-border); padding: 14px 20px; margin-bottom: 10px; border-radius: var(--radius-md); cursor: pointer; }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+        .quiz-explanation { margin-top: 20px; padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md); display: none; border-left: 3px solid var(--info-color); font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-state" class="nav-item active">1. 状态变量 (State Variable)</a>
+            <a href="#section-logic" class="nav-item">2. 分数扣减与胜负判定</a>
+            <a href="#section-interactive" class="nav-item">3. 互动实战演练</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Implementing the Game Logic (编写核心游戏逻辑)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：007 Implementing the Game Logic.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <p>我们已经知道如何捕获按钮点击了。现在，我们要把真正的“血肉”填充进去：如果猜大了怎么提示？猜小了怎么扣分？一直扣到 0 分以后游戏该如何判定结束？</p>
+
+        <h2 id="section-state">1. 非常重要的概念：状态变量 (State Variable)</h2>
+        <p>在游戏中，玩家起步有 20 分 (Score = 20)。每次猜错扣 1 分。我们该如何实现呢？</p>
+
+        <p><strong>❌ 糟糕的做法：从 DOM 读取再写回</strong></p>
+        <p>有些人会想：“我们先用 <code>document.querySelector('.score').textContent</code> 把网页上的 '20' 读出来存成变量，减去 1 得到 19，然后再写回到网页 DOM 里去更新。”</p>
+        
+        <p><strong>✅ 专业的做法：维护应用状态 (Application State)</strong></p>
+        <p>我们千万不能依赖 DOM 来保存数据。DOM 只是用来<strong>被动显示</strong>的界面！正确的做法是：在 JavaScript 代码顶端，创建一个变量来存储当前分数。这个变量就是所谓的 <strong>State (状态)</strong>：它握有应用程序当下的全部关键数据。</p>
+
+        <pre><code class="language-javascript">let score = 20; // 这是一个 State Variable (状态变量)。
+// 注意：必须用 let 而非 const，因为它的值会在游戏中不断随扣分而改变。</code></pre>
+        <p>当判定发生错误时，我们直接在代码里 <code>score = score - 1;</code> 甚至简写为 <code>score--;</code>。计算完毕后，我们再单向地把最新的 <code>score</code> "印"到页面上去。这一原则在未来的 React 框架等现代开发中是重中之重。</p>
+
+        <h2 id="section-logic">2. 分数扣减与胜负判定</h2>
+        <p>如果玩家一直猜错，分数会变成多少？如果不管它，分数甚至会扣成负数，游戏永远不会结束。因此我们需要在扣分前加上一个守卫条件 (Guard condition)：</p>
+
+        <pre><code class="language-javascript">// 当用户猜测错 (太大或太小时)...
+if (score > 1) {
+  // 还有命，可以继续扣
+  score--;
+  document.querySelector('.message').textContent = '📈 Too high!';
+  document.querySelector('.score').textContent = score;
+} else {
+  // 分数扣到了 0 (原来是1扣完了) 或者更低
+  document.querySelector('.message').textContent = '💥 You lost the game!';
+  document.querySelector('.score').textContent = 0;
+}</code></pre>
+
+        <div class="callout info">
+            <p>💡 为什么判断是 <code>score > 1</code> 而不是 <code>score > 0</code>？<br>
+            因为如果当前已经是最后 1 分了，玩家这把又猜错，此时就应该触发结束分支打印 "You lost"，且将分数定格在 0。如果设为 `> 0`，最后 1 分猜错时程序会把分数扣成 0 然后仍然打印 "Too high!"，直到下一把再点才宣判死亡，体验就不对了。</p>
+        </div>
+
+        <h2 id="section-interactive">3. 互动实战演练</h2>
+        <p>让我们在这个微型沙盒里亲手体验下以上逻辑的运转：(预设的秘密数字是 <strong>13</strong>)</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">微型猜数字引擎</span>
+                <button class="btn-run" onclick="initMiniGame()">▶ 挂载游戏系统</button>
+            </div>
+            
+            <div id="previewGame" class="preview-output" style="display:block;">
+                <div class="demo-ui">
+                    <input type="number" id="demoGuess" class="demo-input" placeholder="输入1-20">
+                    <button id="demoCheck" class="demo-btn">Check!</button>
+                    <span id="demoMessage" class="demo-msg" style="margin-left: 15px;">Start guessing...</span>
+                    
+                    <div class="demo-stats">
+                        <div style="color:var(--text-secondary)">💯 Score: <span id="demoScore" style="color:#fff;font-weight:bold;">20</span></div>
+                    </div>
+                </div>
+                <div id="sysLog" style="color:var(--text-secondary); font-family:var(--font-mono); font-size:12px; margin-top:10px;">[System Log 待命中]</div>
+            </div>
+
+            <div class="editor-container">
+                <textarea id="codeGame" class="editor-textarea" spellcheck="false" readonly>
+let score = 20;
+const secretNumber = 13; // 假装这是随机生成的13
+
+document.querySelector('#demoCheck').addEventListener('click', function() {
+    const guess = Number(document.querySelector('#demoGuess').value);
+    
+    if (!guess) {
+        document.querySelector('#demoMessage').textContent = '⛔ No number!';
+    } else if (guess === secretNumber) {
+        document.querySelector('#demoMessage').textContent = '🎉 Correct Number!';
+        document.querySelector('#demoMessage').style.color = '#50fa7b';
+    } else if (guess > secretNumber) {
+        if (score > 1) {
+            document.querySelector('#demoMessage').textContent = '📈 Too high!';
+            score--;
+            document.querySelector('#demoScore').textContent = score;
+        } else {
+            document.querySelector('#demoMessage').textContent = '💥 You lost the game!';
+            document.querySelector('#demoScore').textContent = 0;
+        }
+    } 
+    // too low 逻辑类似，不再赘述以保持版面整洁
+});</textarea>
+            </div>
+        </div>
+        <p style="margin-top:10px; font-size:14px; color:var(--text-secondary)">* 测试：尝试先无脑点 Check 看扣分，狂按十几次直到 Game Over 体验一下拦截边界。</p>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+        
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">1. 为什么极力推荐将 `score` 作为 JavaScript 文件顶端的一个变量（State），而不是每次通过 `document.querySelector('.score').textContent` 提取后再减去 1？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为应用的数据状态应当由代码掌控（Application State），DOM 仅仅只是用来展现结果的画板。依赖 DOM 保存数据会导致程序难以追踪状态。</div>
+                <div class="quiz-option" data-value="B">B) 因为 `textContent` 提取出来的东西无法被转成数字进行减法操作。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>👍 正确！</strong> 解析：这是一个极其关键的思想！数据驱动视图。我们的代码作为“大脑”，必须将所有重要数据记录在案（变量中），当数据计算完毕，再发号施令让 DOM（界面）去改变显示。切忌让界面沦为你代码的数据库。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    let miniGameActive = false;
+    let score = 20;
+    const secretNumber = 13;
+
+    function initMiniGame() {
+        if(miniGameActive) return;
+        miniGameActive = true;
+        
+        const btn = document.querySelector('#demoCheck');
+        btn.style.background = "var(--success-color)";
+        btn.innerText = "System Online";
+        setTimeout(()=> { btn.style.background = "#fff"; btn.innerText = "Check!"; }, 800);
+
+        document.getElementById('sysLog').innerText = "[System Log] 监听器搭载完毕，开始拦截数据。";
+
+        btn.addEventListener('click', function() {
+            const guess = Number(document.querySelector('#demoGuess').value);
+            const msgEl = document.querySelector('#demoMessage');
+            const scoreEl = document.querySelector('#demoScore');
+            const logEl = document.getElementById('sysLog');
+            
+            if (!guess) {
+                msgEl.textContent = '⛔ No number!';
+                logEl.innerText = "> 处理分支: 缺少输入";
+            } else if (guess === secretNumber) {
+                msgEl.textContent = '🎉 Correct Number!';
+                msgEl.style.color = 'var(--success-color)';
+                logEl.innerText = "> 处理分支: 匹配成功 (Win)";
+            } else if (guess > secretNumber) {
+                if (score > 1) {
+                    msgEl.textContent = '📈 Too high!';
+                    score--;
+                    scoreEl.textContent = score;
+                    logEl.innerText = `> 处理分支: 太大 | 扣分: -1 | 剩余生命: ${score}`;
+                } else {
+                    msgEl.textContent = '💥 You lost the game!';
+                    scoreEl.textContent = 0;
+                    msgEl.style.color = 'var(--error-color)';
+                    logEl.innerText = "> 处理分支: 没命了 (Lose)";
+                }
+            } else if (guess < secretNumber) {
+                if (score > 1) {
+                    msgEl.textContent = '📉 Too low!';
+                    score--;
+                    scoreEl.textContent = score;
+                    logEl.innerText = `> 处理分支: 太小 | 扣分: -1 | 剩余生命: ${score}`;
+                } else {
+                    msgEl.textContent = '💥 You lost the game!';
+                    scoreEl.textContent = 0;
+                    msgEl.style.color = 'var(--error-color)';
+                    logEl.innerText = "> 处理分支: 没命了 (Lose)";
+                }
+            }
+        });
+    }
+
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+
+            card.querySelectorAll('.quiz-option').forEach(opt => { opt.classList.remove('selected', 'correct', 'incorrect'); });
+            this.classList.add('selected');
+
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+        });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+</script>
+</body>
+</html>

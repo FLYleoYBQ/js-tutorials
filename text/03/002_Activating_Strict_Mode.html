@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activating Strict Mode</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
+        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
+        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
+        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
+        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; }
+        .btn-run:active { transform: scale(0.95); }
+        .editor-textarea { width: 100%; height: 120px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
+        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: rgba(255,255,255,0.05); }
+        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
+        .quiz-card { background: var(--surface-color); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 16px; }
+        .quiz-question { font-weight: 600; margin-bottom: 12px; }
+        .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+        .quiz-option { padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+        .quiz-option:hover { background: rgba(255,255,255,0.05); }
+        .quiz-option.selected.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--success-color); }
+        .quiz-option.selected.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--danger-color); }
+        .quiz-explanation { display: none; margin-top: 12px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 6px; font-size: 14px; }
+        .error-lab { background-color: rgba(239, 68, 68, 0.1); border-left: 4px solid var(--danger-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 什么是严格模式？</a>
+            <a href="#section-2" class="nav-item">2. 拼写错误导致的隐式故障</a>
+            <a href="#section-3" class="nav-item">3. 面向未来的保留字</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Activating Strict Mode</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：002 Activating Strict Mode.en.srt</span>
+            <span>📂 章节：第 03 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：基本的变量声明（let/const）、`if/else` 控制流。</li>
+                <li><strong>后续扩展</strong>：严格模式将贯穿后续所有的函数（Functions）、对象（Objects）等高级特性的学习，为你提供安全的编码环境。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>在继续深入学习 JavaScript 之前，我们必须先激活一个特殊模式——<strong>严格模式（Strict Mode）</strong>。严格模式能让我们写出更安全、漏洞更少的代码。这节课将向你揭示严格模式如何阻断无声故障，以及如何规范我们的变量命名。</p>
+
+        <h2 id="section-1">1. 什么是严格模式？</h2>
+        
+        <p>严格模式是 JavaScript 中的一种限制性运行状态。要唤醒它，只需在脚本的最顶部输入一个简短的特殊字符串指令：</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">strict-demo.js</span>
+            </div>
+            <div class="editor-container">
+                <textarea class="editor-textarea" readonly>'use strict'; // 必须是脚本的第一行代码！
+
+// 下方是正常的 JavaScript 代码...
+let hasDriversLicense = false;
+</textarea>
+            </div>
+        </div>
+
+        <p>严格模式帮助我们避开隐蔽的 Bug（Bug 是指代码中的错误）。主要通过两大机制：</p>
+        <ul>
+            <li>🚫 <strong>禁止某些不良操作</strong>：不允许执行某些容易出隐患的操作。</li>
+            <li>🚨 <strong>将“无声失败”变为可见错误</strong>：在普通模式下，部分写法错误，引擎只会默默失败；而在严格模式下，它会抛出明确的控制台错误。</li>
+        </ul>
+
+<div class="mermaid">
+flowchart TD
+    A[JavaScript 引擎解析变量名错误] --> B{是否开启 use strict?}
+    B -- No --> C[⚠️ 无声失败 (隐蔽的 Bug!)]
+    B -- Yes --> D[🚨 抛出 ReferenceError 报错!]
+    C:::warning
+    D:::danger
+    classDef warning fill:#f59e0b,stroke:#b45309,color:#fff;
+    classDef danger fill:#ef4444,stroke:#b91c1c,color:#fff;
+</div>
+
+        <h2 id="section-2">2. 拼写错误导致的隐式故障</h2>
+        
+        <p>通常情况下，我们在打字时难免会漏掉一个字母，比如把 <code>hasDriversLicense</code>（注意中间带有 s）写成了 <code>hasDriverLicense</code>（漏掉了 s）。下面来看看普通模式和严格模式的区别。</p>
+
+        <div class="error-lab">
+            <strong>🐛 报错实验室：找 Bug 游戏</strong>
+            <p>观察下方代码：变量 <code>passedTest</code> 是 <code>true</code>，我们的目标是通过 <code>if</code> 语句把 <code>hasDriversLicense</code> 设置为 <code>true</code> 并打印出驾车提示。</p>
+        </div>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+let hasDriversLicense = false;
+const passedTest = true;
+
+if (passedTest) {
+    // ⚠️ 故意引入拼写错误：少写了一个 s！
+    hasDriverLicense = true; 
+}
+
+if (hasDriversLicense) {
+    console.log('I can drive :D');
+}
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+        
+        <p><strong>🔍 执行追踪：</strong></p>
+        <ol>
+            <li>如果不加 <code>'use strict'</code>：即使我们把中间的 's' 拼漏了，JavaScript 居然也不会报错！它会在系统底层自动帮我们偷偷创建一个新变量叫 <code>hasDriverLicense</code>，但这并不会改变原来的变量，导致我们永远看不到 "I can drive :D"。这就叫**无声失败**，极难排查！</li>
+            <li>加上 <code>'use strict'</code>：运行上面的代码，控制台立刻红字警告：<br><code>Uncaught ReferenceError: hasDriverLicense is not defined at line X</code>。<br>它一针见血地指出了问题——这个拼错的变量是不存在的！</li>
+        </ol>
+
+        <h2 id="section-3">3. 面向未来的保留字</h2>
+        
+        <p>严格模式还会帮语言的未来“占座”。它会预先封锁一些特定的名字，不让你用来做变量名。比如 <code>interface</code>、<code>private</code> 等等。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">'use strict';
+
+// 尝试使用保留字作为变量名
+// const interface = 'Audio';
+// const private = 534;
+
+console.log("尝试取消上方代码的注释，看看会报什么错。");
+</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+
+        <p>如果你使用了这些词汇，在严格模式的约束下，会报 <code>Unexpected strict mode reserved word</code> 错误。这是为了防止未来 JavaScript 引入这些关键字时引发系统冲突。</p>
+
+        <hr>
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>严格模式</td>
+                    <td>Strict Mode</td>
+                    <td>使 JS 进入一种更安全、受限的执行模式，主动暴雪错误。</td>
+                    <td><code>'use strict';</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode" target="_blank" style="color:var(--accent-color);">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>保留字</td>
+                    <td>Reserved Word</td>
+                    <td>编程语言中已被占用，禁止开发者用作变量名或函数名的单词。</td>
+                    <td><code>interface</code>, <code>private</code> 等</td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Lexical_grammar#%E4%BF%9D%E7%95%99%E5%AD%97" target="_blank" style="color:var(--accent-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        
+        <div class="quiz-card" data-correct="C">
+            <div class="quiz-question">1. 要想让整个脚本都生效严格模式，`'use strict';` 应该放在哪里？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 放在最后一行</div>
+                <div class="quiz-option" data-value="B">B) 任何地方都可以，只要带有单引号</div>
+                <div class="quiz-option" data-value="C">C) 必须放在脚本最开头的代码行（注释语句除外）</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>解析：</strong> C 是正确的。解析引擎要求严格模式的声明必须是脚本中的第一条语句，否则它将不被识别为对整个作用域开启严格模式。
+            </div>
+        </div>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">2. 严格模式对付 "拼写错误的变量" 时，有什么直接表现？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 自动纠正拼写</div>
+                <div class="quiz-option" data-value="B">B) 抛出 ReferenceError 未定义错误，阻止静默失败</div>
+                <div class="quiz-option" data-value="C">C) 无休止的弹窗警告</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>解析：</strong> B 是正确的。普通模式下它会在全局悄悄生成一个新变量（静默失败），而严格模式会直接拦截并抛出 ReferenceError，帮你揪出 Bug。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+<script>
+    // 简易评测机互动逻辑
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const out = document.getElementById(consoleId);
+        out.innerHTML = '';
+        
+        const originalLog = console.log;
+        const originalError = console.error;
+        let logs = [];
+        
+        console.log = function(...args) {
+            logs.push('> ' + args.join(' '));
+            originalLog.apply(console, args);
+        };
+        console.error = function(...args) {
+            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
+            originalError.apply(console, args);
+        };
+
+        try {
+            new Function(code)();
+            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+        } catch (e) {
+            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+        }
+
+        console.log = originalLog;
+        console.error = originalError;
+        out.innerHTML = logs.join('<br>');
+    }
+
+    // Quiz 交互逻辑
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            if (card.querySelector('.selected')) return; // 已答过
+            
+            const correctVal = card.getAttribute('data-correct');
+            const selectedVal = this.getAttribute('data-value');
+            
+            this.classList.add('selected');
+            if (correctVal === selectedVal) {
+                this.classList.add('correct');
+            } else {
+                this.classList.add('wrong');
+                card.querySelector(`[data-value="${correctVal}"]`).classList.add('correct', 'selected');
+            }
+            card.querySelector('.quiz-explanation').style.display = 'block';
+        });
+    });
+</script>
+</body>
+</html>

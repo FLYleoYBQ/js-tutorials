@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functions Accepting Callback Functions</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --border-color: #2b3040;
+            --text-primary: #e0e6f8;
+            --text-secondary: #8b94b0;
+            --accent-color: #00ff9d;
+            --accent-hover: #00e68d;
+            --danger-color: #ff4d4d;
+            --info-color: #4da6ff;
+            --warning-color: #ffaa00;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 16px; color: var(--text-primary); }
+        .progress-container { width: 100%; height: 6px; background-color: var(--border-color); border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: var(--accent-color); width: 0%; transition: width 0.3s ease; }
+        .nav-item { display: block; padding: 10px 16px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: var(--border-color); color: var(--text-primary); }
+        .main-content { margin-left: 280px; padding: 64px 80px; max-width: 1000px; width: 100%; }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; color: #fff; letter-spacing: -0.02em; }
+        h2 { font-size: 1.8rem; font-weight: 600; margin: 48px 0 24px; color: #fff; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        h3 { font-size: 1.4rem; font-weight: 600; margin: 32px 0 16px; color: #e0e6f8; }
+        p { margin-bottom: 24px; font-size: 1.1rem; color: #a4adc5; }
+        .meta-info { display: flex; gap: 24px; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 40px; }
+        .callout { background-color: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--info-color); padding: 24px; border-radius: 0 8px 8px 0; margin: 32px 0; }
+        .mermaid-container { background-color: var(--surface-color); padding: 24px; border-radius: 8px; margin: 32px 0; border: 1px solid var(--border-color); text-align: center; }
+        .runnable-editor { background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); margin: 32px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+        .btn-run { background-color: var(--accent-color); color: #000; border: none; padding: 6px 16px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-run:hover { opacity: 0.9; }
+        .editor-textarea { width: 100%; height: 350px; background: transparent; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 16px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background-color: #000; color: #00ff9d; font-family: 'JetBrains Mono', monospace; padding: 16px; font-size: 14px; min-height: 50px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        .quiz-card { background-color: var(--surface-color); border-radius: 8px; padding: 24px; border: 1px solid var(--border-color); margin-bottom: 24px; }
+        .quiz-question { font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; color: #fff; }
+        .quiz-option { padding: 12px 16px; background-color: rgba(255,255,255,0.05); border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; }
+        .quiz-option:hover { background-color: rgba(255,255,255,0.1); }
+        .quiz-explanation { margin-top: 16px; padding: 16px; background-color: rgba(77, 166, 255, 0.1); border-radius: 4px; display: none; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 32px 0; background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
+        th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        code { font-family: 'JetBrains Mono', monospace; background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 10 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 自定义接收回调的高阶函数</a>
+            <a href="#section-2" class="nav-item">2. 抽象 (Abstraction) 的力量</a>
+            <a href="#section-3" class="nav-item">3. 随处可见的回调函数</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>接收回调函数的高阶函数 (Accepting Callback Functions)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：006 Functions Accepting Callback Functions.en.srt</span>
+            <span>📂 章节：第 10 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：头等函数概念、函数的传参机制</li>
+                <li><strong>后续扩展</strong>：返回函数的高阶函数、闭包、数组高阶方法（forEach, map 等）</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>上节课我们理清了什么是“高阶函数”和“回调函数”。这节课，我们将亲自动手编写一个我们自己的高阶函数，并在实战中理解为什么 JavaScript 如此依赖于回调函数：它是实现 <strong>抽象（Abstraction）</strong> 的终极武器！</p>
+
+        <h2 id="section-1">1. 编写自定义的高阶函数</h2>
+        
+        <p>假设我们有一些用于操作字符串底层底层逻辑的小函数（比如全部小写去空格、首字母大写）。现在我们要写一个 <code>transformer</code>（转换器）高阶函数，将具体的字符串操作“委托”给传入的回调函数去处理。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 1. 两个低级 (low-level) 字符串操作函数
+const oneWord = function (str) {
+  return str.replace(/ /g, '').toLowerCase();
+};
+
+const upperFirstWord = function (str) {
+  const [first, ...others] = str.split(' ');
+  return [first.toUpperCase(), ...others].join(' ');
+};
+
+// 2. 高阶函数 (Higher-Order Function)
+const transformer = function (str, fn) {
+  console.log(`原字符串: ${str}`);
+  console.log(`转换后: ${fn(str)}`);
+  
+  // 💡 知识点：函数也是对象，带有自带属性！
+  // 通过 .name 属性可以获取到传入的函数的原始名字
+  console.log(`是被哪个函数转换的？ ${fn.name}`);
+};
+
+// 3. 将回调函数传入高阶函数
+// 注意：传入的是 upperFirstWord 本身，而不是调用它！不要加 () 
+transformer('JavaScript is the best!', upperFirstWord);
+console.log('---');
+transformer('JavaScript is the best!', oneWord);
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <p><strong>🔍 执行追踪：</strong>当我们调用 <code>transformer(..., upperFirstWord)</code> 时，我们仅仅是把 <code>upperFirstWord</code> 作为一个值传递进去了。真正执行它的（调用 <code>fn(str)</code>），是 <code>transformer</code> 函数的内部逻辑。这意味着 <code>transformer</code> 决定了<strong>何时</strong>调用它。</p>
+
+        <h2 id="section-2">2. 抽象 (Abstraction) 的力量</h2>
+        
+        <p>在上面的例子中，我们为什么要费这么大劲将逻辑拆开呢？其实这就是编程中最重要的思想之一：<strong>抽象（Abstraction）</strong>。</p>
+
+        <p>抽象意味着我们<strong>隐藏了代码的具体实现细节</strong>，因为在更高的层级，我们其实不关心这些细节。这样可以让我们在更高的层级去思考问题。</p>
+        
+        <div class="callout" style="border-color: var(--warning-color);">
+            > 🧩 **现实类比**：就像你去餐厅吃饭。你是“高阶函数”，厨师是“回调函数”。你只需要告诉厨师（调用回调）：“我想要牛排（输入）”。至于牛排要怎么解冻、煎多久、放多少胡椒（低层实现细节），你根本不需要管。<br><br>
+            在这个代码中：<code>transformer</code> 函数（高级层）根本不在乎字符串到底是变成了一个词，还是首字母大写。它把粗重累赘的底层数据处理工作<strong>委托（Delegate）</strong>给了 <code>oneWord</code> 和 <code>upperFirstWord</code> 这些底层函数。
+        </div>
+
+        <h2 id="section-3">3. 随处可见的回调函数</h2>
+        
+        <p>实际上，这种高阶设计在 JavaScript 引擎内置 API 中极其普遍：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+            </div>
+            <div class="editor-container">
+                <textarea class="editor-textarea" spellcheck="false" readonly>const highFive = function () {
+  console.log('👋');
+};
+
+// 场景 1: DOM 事件监听（高阶函数是 addEventListener，具体干嘛由回调说了算）
+document.body.addEventListener('click', highFive);
+
+// 场景 2: 数组遍历（高阶函数是 forEach，具体干嘛由回调说了算）
+['Jonas', 'Martha', 'Adam'].forEach(highFive);
+
+// 如果把这些原生方法的封装拆开，要是没有回调函数，我们就得自己写复杂的 for 循环，这就是回调带来的"抽象"红利。
+</textarea>
+            </div>
+        </div>
+
+        <br>
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 当我们写 `document.body.addEventListener('click', highFive())` 时，代码能正常作为回调工作吗？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 可以，这就是标准写法。</div>
+                <div class="quiz-option" data-value="B">B) 错误。加了 `()` 就代表立即执行了 `highFive` 并将其返回值传给了监听器，而不是把函数本身当作回调传过去。应该写成 `highFive`。</div>
+                <div class="quiz-option" data-value="C">C) 错误。DOM API 不支持高阶函数。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案: B。</strong>这是新手极易犯的错。如果你加上了 `()`，JavaScript 引擎在读取这行代码时就会立刻运行该函数。传入高阶函数时，千万要忍住不打括号，要把函数名字当做一个“包裹”扔过去。
+            </div>
+        </div>
+
+        <div class="quiz-card" data-correct="C">
+            <div class="quiz-question">2. 为什么我们如此执着地在 JavaScript 中使用回调抽象？（多视角）</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为没有回调的话，JavaScript 无法操作外部变量。</div>
+                <div class="quiz-option" data-value="B">B) 仅为了炫技。</div>
+                <div class="quiz-option" data-value="C">C) 它不仅让代码拆分开来便于复用，更是分离了逻辑关注点，用高层控制器调用基层干活工人，实现了【抽象】。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案: C。</strong>正如 Jonas 强调的，这是最核心的设计模式！你把实现不同目标的具体步骤隔离出来，高层函数只管发号施令。
+            </div>
+        </div>
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>抽象</td>
+                    <td>Abstraction</td>
+                    <td>隐藏底层的复杂实现细节，让调用者只需要在较高层级关注它的用途（"它能做什么"而非"它怎么做"）。</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>函数名称属性</td>
+                    <td><code>Function.name</code></td>
+                    <td>返回该函数的原始命名。</td>
+                    <td><code>fn.name</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/name" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    // 执行代码功能
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const consoleOut = document.getElementById(consoleId);
+        consoleOut.innerHTML = ''; 
+
+        const proxyLog = console.log;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            proxyLog.apply(console, args);
+        };
+
+        try {
+            const executable = new Function(code);
+            executable();
+            consoleOut.innerHTML = logs.join('\n') || '代码执行成功，无输出。';
+        } catch (err) {
+            consoleOut.innerHTML = `<span style="color:var(--danger-color)">Error: ${err.message}</span>`;
+        } finally {
+            console.log = proxyLog;
+        }
+    }
+
+    // Quiz 验证脚本
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.dataset.correct;
+            const selectedAnswer = this.dataset.value;
+            const explanation = card.querySelector('.quiz-explanation');
+
+            card.querySelectorAll('.quiz-option').forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (selectedAnswer === correctAnswer) {
+                this.style.backgroundColor = 'rgba(0, 255, 157, 0.2)';
+                this.style.border = '1px solid var(--accent-color)';
+            } else {
+                this.style.backgroundColor = 'rgba(255, 77, 77, 0.2)';
+                this.style.border = '1px solid var(--danger-color)';
+                card.querySelector(`.quiz-option[data-value="${correctAnswer}"]`).style.backgroundColor = 'rgba(0, 255, 157, 0.2)';
+            }
+            
+            explanation.style.display = 'block';
+        });
+    });
+
+    // 目录高亮联动
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('h2, h3');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        let currentSectionId = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${currentSectionId}`) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>

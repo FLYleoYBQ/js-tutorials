@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enhanced Object Literals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">强化招式 1: 属性名简写</a>
+            <a href="#section-2" class="nav-item">强化招式 2: 方法申明简写</a>
+            <a href="#section-3" class="nav-item">强化招式 3: 计算属性名 (动态算名)</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Enhanced Object Literals</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：013 Enhanced Object Literals.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述 (Object Literal 终极净化)</h2>
+        <p>其实这节课非常简单，仅仅是关于<strong>帮你少按几次键盘按键语法糖</strong>的教学。所谓的“对象字面量（Object Literals）”正是我们手敲花括号 <code>{}</code> 像流水账一样定义出来的结构体。</p>
+        <p>ES6 引入了三大重磅改进招式，它通过自动识别同名以及自动省略多余修饰符号，大幅度降低了编写对象的代码行数和精神污染风险。</p>
+
+        <h2 id="section-1">强化招式 1：对象内嵌套变量的属性名同名简写</h2>
+        <p>过去，如果你在外部定义了一个 <code>const openingHours_data = {...}</code> 并想组装进餐厅的总核心体，你需要反复抄写它当作 Key。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行对比</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const openingHours = {
+    thu: { open: 12, close: 22 }
+};
+
+const restaurantOld = {
+    name: 'Classico',
+    // 过去的老派笨拙复读：
+    openingHours: openingHours 
+};
+
+// 🌟 ES6 的对象语法增强：
+const restaurantNew = {
+    name: 'Moderno',
+    // 引擎发现你扔入的是一个变量，名字和属性一致，自动生成同名 Key：
+    openingHours 
+};
+
+console.log('新写法结构：', Object.keys(restaurantNew));</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-2">强化招式 2：对象方法的函数申明简写脱衣法</h2>
+        <p>在你的主对象里面定义成员挂载的功能函数时，在古代你不得不用 <code>: function()</code> 的胶布结构把它缝死在字典里。在现代，你可以拔掉胶布，让它长得跟外部普通函数结构或者类方法一致了。</p>
+
+        <div class="code-comparison">
+            <div class="code-column">
+                <div class="code-header">💣 古典函数包袱</div>
+<pre><code class="language-javascript">const restaurant = {
+    // 你必须用 key: function() 给它穿衣
+    orderPizza: function(main, ...other) {
+        console.log(main);
+    }
+};</code></pre>
+            </div>
+            <div class="code-column">
+                <div class="code-header">🛡️ 现代版脱去 function</div>
+<pre><code class="language-javascript">const restaurant = {
+    // 干净且直接！丢弃了 : 和 function 关键词
+    orderPizza(main, ...other) {
+        console.log(main);
+    }
+};</code></pre>
+            </div>
+        </div>
+
+        <h2 id="section-3">强化招式 3：计算属性名 (Computed Property Names) 动态拼装</h2>
+        <p>以前我们无法在包裹花括号的对象体内部去进行运算并凭空生成出 Key 字符串。你只能写好壳子后再通过 <code>obj['day-' + index] = ...</code> 在体外逐个注射补充。如今，你可以使用 <code>[]</code> 中括号在体内直接开展动态魔法了！</p>
+
+        <pre><code class="language-javascript">const weekdays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+
+const openingHours = {
+    // 直接在声明结构体里内嵌方括号 [] 运算逻辑。这里指向 'thu'
+    [weekdays[3]]: {
+        open: 12,
+        close: 22
+    },
+    // 支持极其反人类的模板拼接加算数推导命名。最终名字变成了 'day-6'。
+    [`day-${2 + 4}`]: { 
+        open: 0,
+        close: 24
+    }
+};
+
+console.log(openingHours); 
+// 最终渲染出的属性真实名为 { thu: {...}, "day-6": {...} }</code></pre>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="C">
+            <div class="quiz-question">1. 关于 对象内数组的计算属性名（Computed Property Names），它打破了什么边界？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 它允许在对象里写入无法命名的属性。</div>
+                <div class="quiz-option" data-value="B">B) 它只允许将内部数字相加为键名。</div>
+                <div class="quiz-option" data-value="C">C) 它让我们不必逃脱出 `{}` 花括号闭合区域，在声明配置项定义的最开始，就可以依据数组或计算公式动态推导编排属性的硬名（Key）。极大增强了代码凝聚与生成力。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>C 是正确的选项</strong>。这改变了在定义常量结构体数据地图时的死板手感，我们可以在声明它的一瞬间引用函数，模板字符串拼接和数组下标来灵活组装它身上的字典条目了。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

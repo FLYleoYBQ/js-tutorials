@@ -1,0 +1,727 @@
+1
+00:00:01,300 --> 00:00:03,640
+So before we start this basic HTML
+
+2
+00:00:03,640 --> 00:00:05,460
+and CSS Crash Course,
+
+3
+00:00:05,460 --> 00:00:08,250
+let me tell you again that you should only take this
+
+4
+00:00:08,250 --> 00:00:12,540
+if you have no knowledge about HTML and CSS at all.
+
+5
+00:00:12,540 --> 00:00:15,810
+So if you do, then just move on to the next section.
+
+6
+00:00:15,810 --> 00:00:18,450
+But for the rest of us let's now get started
+
+7
+00:00:18,450 --> 00:00:23,105
+and learn a little bit about HTML structure and elements
+
+8
+00:00:23,105 --> 00:00:26,560
+And let's start by creating a new product folder here
+
+9
+00:00:26,560 --> 00:00:30,117
+on the desktop, which I'm just gonna call HTML CSS.
+
+10
+00:00:32,760 --> 00:00:33,670
+And in this section,
+
+11
+00:00:33,670 --> 00:00:36,680
+we're actually not even gonna have any starter files.
+
+12
+00:00:36,680 --> 00:00:40,163
+So we're just gonna create everything from scratch. Okay?
+
+13
+00:00:41,070 --> 00:00:43,910
+So let's go back to VS code
+
+14
+00:00:43,910 --> 00:00:46,113
+and open this newly created folder.
+
+15
+00:00:48,840 --> 00:00:50,193
+And here we go.
+
+16
+00:00:51,900 --> 00:00:54,330
+So let's open up
+
+17
+00:00:54,330 --> 00:00:58,580
+or actually let's create an index.HTML file.
+
+18
+00:00:58,580 --> 00:01:02,720
+An index.HTML is always the name of the main file
+
+19
+00:01:02,720 --> 00:01:06,010
+in any project. Okay?
+
+20
+00:01:06,010 --> 00:01:09,140
+Let's hide this sidebar here
+
+21
+00:01:09,140 --> 00:01:11,020
+and I'm gonna use command + B for that,
+
+22
+00:01:11,020 --> 00:01:14,960
+or control + B on windows. Alright?
+
+23
+00:01:14,960 --> 00:01:19,540
+So HTML stands for hypertext markup language
+
+24
+00:01:19,540 --> 00:01:21,690
+and we use it to describe the content
+
+25
+00:01:21,690 --> 00:01:23,531
+of web pages basically.
+
+26
+00:01:23,531 --> 00:01:27,160
+And an HTML document is made out of elements
+
+27
+00:01:27,160 --> 00:01:29,370
+and we write elements using an opening
+
+28
+00:01:29,370 --> 00:01:31,180
+and closing tag.
+
+29
+00:01:31,180 --> 00:01:33,136
+The main element in all HTML documents
+
+30
+00:01:33,136 --> 00:01:36,190
+is always the HTML element.
+
+31
+00:01:36,190 --> 00:01:41,020
+So we write HTML and then VS code automatically gives
+
+32
+00:01:41,020 --> 00:01:42,710
+us the closing tag.
+
+33
+00:01:42,710 --> 00:01:44,520
+So you'll see the closing tag has just
+
+34
+00:01:44,520 --> 00:01:46,370
+the same name as the opening tag,
+
+35
+00:01:46,370 --> 00:01:50,150
+but then it has this slash here to close it. Okay?
+
+36
+00:01:50,150 --> 00:01:53,380
+So every HTML document always has to start with
+
+37
+00:01:53,380 --> 00:01:56,470
+the HTML opening tag and then close with
+
+38
+00:01:56,470 --> 00:01:58,480
+the HTML closing tag.
+
+39
+00:01:58,480 --> 00:02:00,370
+Then inside the HTML element
+
+40
+00:02:00,370 --> 00:02:03,280
+we always have to head and the body.
+
+41
+00:02:03,280 --> 00:02:07,323
+So let's write that head and body.
+
+42
+00:02:14,150 --> 00:02:17,920
+So this is always the structure that we use in HTML.
+
+43
+00:02:17,920 --> 00:02:20,460
+Now, whatever we put into this head here
+
+44
+00:02:20,460 --> 00:02:23,260
+is basically like the settings of the page.
+
+45
+00:02:23,260 --> 00:02:25,000
+So it's like describing the page.
+
+46
+00:02:25,000 --> 00:02:27,700
+For example, with the title.
+
+47
+00:02:27,700 --> 00:02:30,440
+So for that, we use the title element
+
+48
+00:02:30,440 --> 00:02:35,440
+and let's call this one learning HTML and CSS.
+
+49
+00:02:38,380 --> 00:02:41,310
+And then once again VS code automatically gives us
+
+50
+00:02:41,310 --> 00:02:43,240
+the closing tag here.
+
+51
+00:02:43,240 --> 00:02:45,770
+So this title here is what's gonna be visible
+
+52
+00:02:45,770 --> 00:02:47,470
+in Google Chrome.
+
+53
+00:02:47,470 --> 00:02:51,640
+So basically this title of the page right here. Okay?
+
+54
+00:02:51,640 --> 00:02:53,870
+And you will see that in a second.
+
+55
+00:02:53,870 --> 00:02:56,188
+Other things that we put here in this head
+
+56
+00:02:56,188 --> 00:02:59,030
+which is again like the settings of the page
+
+57
+00:02:59,030 --> 00:03:02,020
+is CSS styles or FATF icons.
+
+58
+00:03:02,020 --> 00:03:05,540
+So that little icon that appears here in browser tabs
+
+59
+00:03:05,540 --> 00:03:07,490
+and stuff like that.
+
+60
+00:03:07,490 --> 00:03:09,430
+Then whatever we put into the body
+
+61
+00:03:09,430 --> 00:03:11,830
+is what's actually gonna be visible on the page.
+
+62
+00:03:15,520 --> 00:03:18,310
+And let's start by adding a heading here. And for that,
+
+63
+00:03:18,310 --> 00:03:21,010
+we use the H1 element.
+
+64
+00:03:21,010 --> 00:03:24,080
+And this is a level one heading. Okay?
+
+65
+00:03:24,080 --> 00:03:27,720
+so you have H1, H2 all the way to H6.
+
+66
+00:03:27,720 --> 00:03:30,310
+And they will have different styles automatically applied
+
+67
+00:03:30,310 --> 00:03:34,150
+by the browser. Anyway, let's now give it to your title.
+
+68
+00:03:34,150 --> 00:03:37,983
+And let's say, "JavaScript is fun,
+
+69
+00:03:39,220 --> 00:03:43,420
+but so is HTML and CSS."
+
+70
+00:03:43,420 --> 00:03:46,810
+So just like before, we put the extra content here
+
+71
+00:03:46,810 --> 00:03:49,340
+between two tags. So the opening tag,
+
+72
+00:03:49,340 --> 00:03:51,980
+which is H1 and then the closing tag
+
+73
+00:03:51,980 --> 00:03:55,700
+which is this /H1 to close the element.
+
+74
+00:03:55,700 --> 00:03:58,690
+And different types of elements have different purposes.
+
+75
+00:03:58,690 --> 00:04:01,540
+For example, H1 is to describe a heading.
+
+76
+00:04:01,540 --> 00:04:02,680
+But we have other ones.
+
+77
+00:04:02,680 --> 00:04:06,493
+For example, we have the P element to describe a paragraph.
+
+78
+00:04:07,400 --> 00:04:09,493
+So let me show that as well.
+
+79
+00:04:14,290 --> 00:04:17,900
+So that's right. And a little bit longer text here.
+
+80
+00:04:17,900 --> 00:04:22,900
+So you can learn JavaScript without HTML and CSS,
+
+81
+00:04:28,450 --> 00:04:32,870
+but for dumb manipulation
+
+82
+00:04:34,810 --> 00:04:39,810
+it's useful to have some basic ideas of HTML and CSS.
+
+83
+00:04:44,150 --> 00:04:46,730
+And of course the texture doesn't really matter,
+
+84
+00:04:46,730 --> 00:04:50,470
+It's just that we have some content on the actual page.
+
+85
+00:04:50,470 --> 00:04:51,690
+And speaking of the page,
+
+86
+00:04:51,690 --> 00:04:55,750
+let's now actually preview it here in Google Chrome.
+
+87
+00:04:55,750 --> 00:04:58,070
+And for that let's use the live-server tool
+
+88
+00:04:58,070 --> 00:05:01,140
+that we installed in the previous section. So for that,
+
+89
+00:05:01,140 --> 00:05:03,030
+I'm gonna use the integrate a terminal
+
+90
+00:05:03,030 --> 00:05:05,360
+by hitting control + /.
+
+91
+00:05:05,360 --> 00:05:06,500
+Okay. So again,
+
+92
+00:05:06,500 --> 00:05:08,880
+this very weird shortcut
+
+93
+00:05:08,880 --> 00:05:10,883
+or I can also do it from the menu.
+
+94
+00:05:12,270 --> 00:05:16,980
+So that's gonna be new terminal down here. Okay?
+
+95
+00:05:16,980 --> 00:05:18,920
+Then I can clear the terminal from all
+
+96
+00:05:18,920 --> 00:05:21,883
+this weird stuff with command or control + K.
+
+97
+00:05:22,760 --> 00:05:24,950
+And so now it's a bit cleaner.
+
+98
+00:05:24,950 --> 00:05:26,470
+Again, it's not important at this point
+
+99
+00:05:26,470 --> 00:05:29,730
+that you really understand everything about the terminal.
+
+100
+00:05:29,730 --> 00:05:33,410
+We will learn really a lot about it kind of by the end of
+
+101
+00:05:33,410 --> 00:05:35,450
+the course. For now, all we want to do
+
+102
+00:05:35,450 --> 00:05:38,290
+is to use the live server, just like we did
+
+103
+00:05:38,290 --> 00:05:39,600
+in the previous section.
+
+104
+00:05:39,600 --> 00:05:40,607
+So when we hit enter on this,
+
+105
+00:05:40,607 --> 00:05:42,980
+this will now open up the page
+
+106
+00:05:42,980 --> 00:05:44,343
+in this Chrome window here,
+
+107
+00:05:45,180 --> 00:05:47,820
+and indeed here we go.
+
+108
+00:05:47,820 --> 00:05:49,360
+And you can already see that
+
+109
+00:05:49,360 --> 00:05:52,570
+the browser applied some basic formatting based on
+
+110
+00:05:52,570 --> 00:05:53,910
+the type of element.
+
+111
+00:05:53,910 --> 00:05:57,651
+So this H1 here is way bigger and bolder than
+
+112
+00:05:57,651 --> 00:06:01,313
+the main text down here, which is this paragraph, right?
+
+113
+00:06:01,313 --> 00:06:03,400
+And let's add another paragraph here
+
+114
+00:06:03,400 --> 00:06:06,113
+so we can see it appear on the page as well.
+
+115
+00:06:08,200 --> 00:06:13,197
+So P again, just another paragraph.
+
+116
+00:06:15,340 --> 00:06:16,800
+So when I saved us now,
+
+117
+00:06:16,800 --> 00:06:18,580
+the results should automatically appear here
+
+118
+00:06:18,580 --> 00:06:19,513
+on the right side.
+
+119
+00:06:20,620 --> 00:06:22,240
+And here we go.
+
+120
+00:06:22,240 --> 00:06:25,000
+And again, as I told you in the previous section,
+
+121
+00:06:25,000 --> 00:06:27,410
+if this life server is not working for you,
+
+122
+00:06:27,410 --> 00:06:29,100
+then that's no problem at all.
+
+123
+00:06:29,100 --> 00:06:32,253
+You can always just open the HTML document itself.
+
+124
+00:06:33,290 --> 00:06:36,500
+Anyway, let's take a look at another heading here.
+
+125
+00:06:36,500 --> 00:06:39,580
+So as I was saying, there is not just H1,
+
+126
+00:06:39,580 --> 00:06:41,560
+but also other type of headings.
+
+127
+00:06:41,560 --> 00:06:43,093
+So let's simply put one here.
+
+128
+00:06:44,180 --> 00:06:49,180
+So let's say an H2 another heading.
+
+129
+00:06:50,990 --> 00:06:54,140
+And so as you see this one here is a bit smaller
+
+130
+00:06:54,140 --> 00:06:55,360
+than this one.
+
+131
+00:06:55,360 --> 00:06:57,370
+And if I would change it to an H6
+
+132
+00:06:59,400 --> 00:07:02,170
+and you'll see automatically it changed the six here.
+
+133
+00:07:02,170 --> 00:07:04,740
+And that's because of an extension that I have.
+
+134
+00:07:04,740 --> 00:07:08,100
+I'm not sure if I showed it to you in the last section.
+
+135
+00:07:08,100 --> 00:07:13,100
+So that extension is called the auto renamed tag.
+
+136
+00:07:13,388 --> 00:07:16,320
+And the one that automatically closes a tag that it opened
+
+137
+00:07:16,320 --> 00:07:18,850
+is this auto close tag extension up here.
+
+138
+00:07:18,850 --> 00:07:21,150
+So these two extensions that I have here,
+
+139
+00:07:21,150 --> 00:07:23,533
+they are very useful for writing HTML.
+
+140
+00:07:25,250 --> 00:07:26,900
+Okay.
+
+141
+00:07:26,900 --> 00:07:30,400
+And here you already saw this reloading.
+
+142
+00:07:30,400 --> 00:07:33,550
+And so you see that H6 is actually even smaller
+
+143
+00:07:33,550 --> 00:07:37,041
+than the paragraph text. Okay?
+
+144
+00:07:37,041 --> 00:07:39,630
+So you see that these elements
+
+145
+00:07:39,630 --> 00:07:42,440
+which are composed of an opening and the closing tag
+
+146
+00:07:42,440 --> 00:07:46,000
+are really used to describe content in this way.
+
+147
+00:07:46,000 --> 00:07:47,970
+Now, of course we can do a lot more
+
+148
+00:07:47,970 --> 00:07:50,410
+than just headings and paragraphs.
+
+149
+00:07:50,410 --> 00:07:52,227
+For example, links or images.
+
+150
+00:07:52,227 --> 00:07:55,130
+But for that, we need to learn about attributes.
+
+151
+00:07:55,130 --> 00:07:57,280
+And we're gonna do that in the next video.
+
+152
+00:07:57,280 --> 00:07:59,270
+Now, just to finish this lecture,
+
+153
+00:07:59,270 --> 00:08:01,810
+I wanted to show you that we can actually create
+
+154
+00:08:01,810 --> 00:08:04,710
+this bare bones structure of HTML
+
+155
+00:08:04,710 --> 00:08:07,390
+in a very easy way in VS code.
+
+156
+00:08:07,390 --> 00:08:10,743
+All we have to do is basically type ! + tab
+
+157
+00:08:13,590 --> 00:08:17,220
+and like magic, all of appears.
+
+158
+00:08:17,220 --> 00:08:19,830
+So we still have the HTML tag and in there
+
+159
+00:08:19,830 --> 00:08:23,470
+we have to head and body just like we had before.
+
+160
+00:08:23,470 --> 00:08:26,559
+The difference is that we also got this doc type here,
+
+161
+00:08:26,559 --> 00:08:28,460
+which essentially identifies
+
+162
+00:08:28,460 --> 00:08:30,787
+this document as being HTML five.
+
+163
+00:08:30,787 --> 00:08:35,440
+And we also get this language here on HTML.
+
+164
+00:08:35,440 --> 00:08:36,273
+So in this case,
+
+165
+00:08:36,273 --> 00:08:37,160
+it's telling the browser that
+
+166
+00:08:37,160 --> 00:08:39,100
+we're using the English language.
+
+167
+00:08:39,100 --> 00:08:41,840
+Here is some other stuff that's also important
+
+168
+00:08:41,840 --> 00:08:44,093
+but I'm not gonna go into now.
+
+169
+00:08:45,750 --> 00:08:49,260
+And then here is the title that we just specified also in
+
+170
+00:08:49,260 --> 00:08:51,000
+our document up here.
+
+171
+00:08:51,000 --> 00:08:52,280
+So now I will just go ahead
+
+172
+00:08:52,280 --> 00:08:54,760
+and take this content and put it here in
+
+173
+00:08:54,760 --> 00:08:58,363
+this structure because it's actually a more complete.
+
+174
+00:09:00,180 --> 00:09:02,563
+So just take this and cut it,
+
+175
+00:09:04,600 --> 00:09:05,713
+put that here,
+
+176
+00:09:07,960 --> 00:09:10,030
+delete all of this, give it a save
+
+177
+00:09:11,320 --> 00:09:14,200
+and let's put this one here back to H2
+
+178
+00:09:17,460 --> 00:09:18,293
+and here we go.
+
+179
+00:09:20,220 --> 00:09:23,890
+Actually, we can close this one and alright.
+
+180
+00:09:23,890 --> 00:09:25,350
+So see you in the next lecture
+
+181
+00:09:25,350 --> 00:09:28,010
+were We're gonna talk a little bit about attributes
+
+182
+00:09:28,010 --> 00:09:29,843
+and classes and IDs.

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #2: 闭包实战挑战</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --border-color: #2b3040;
+            --text-primary: #e0e6f8;
+            --text-secondary: #8b94b0;
+            --accent-color: #00ff9d;
+            --accent-hover: #00e68d;
+            --danger-color: #ff4d4d;
+            --info-color: #4da6ff;
+            --warning-color: #ffaa00;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 16px; color: var(--text-primary); }
+        .progress-container { width: 100%; height: 6px; background-color: var(--border-color); border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: var(--accent-color); width: 0%; transition: width 0.3s ease; }
+        .nav-item { display: block; padding: 10px 16px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: var(--border-color); color: var(--text-primary); }
+        .main-content { margin-left: 280px; padding: 64px 80px; max-width: 1000px; width: 100%; }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; color: #fff; letter-spacing: -0.02em; }
+        h2 { font-size: 1.8rem; font-weight: 600; margin: 48px 0 24px; color: #fff; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        h3 { font-size: 1.4rem; font-weight: 600; margin: 32px 0 16px; color: #e0e6f8; }
+        p { margin-bottom: 24px; font-size: 1.1rem; color: #a4adc5; }
+        .meta-info { display: flex; gap: 24px; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 40px; }
+        .callout { background-color: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--info-color); padding: 24px; border-radius: 0 8px 8px 0; margin: 32px 0; }
+        .challenge-box { background-color: rgba(255, 170, 0, 0.1); border: 1px solid var(--warning-color); padding: 24px; border-radius: 8px; margin: 32px 0; }
+        .challenge-box h3 { color: var(--warning-color); margin-top: 0; }
+        .runnable-editor { background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); margin: 32px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+        .btn-run { background-color: var(--accent-color); color: #000; border: none; padding: 6px 16px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-run:hover { opacity: 0.9; }
+        .editor-textarea { width: 100%; height: 350px; background: transparent; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 16px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background-color: #000; color: #00ff9d; font-family: 'JetBrains Mono', monospace; padding: 16px; font-size: 14px; min-height: 50px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        .solution-toggle { background-color: transparent; color: var(--accent-color); border: 1px solid var(--accent-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-bottom: 16px; }
+        .solution-toggle:hover { background-color: rgba(0, 255, 157, 0.1); }
+        .solution-content { display: none; padding-top: 16px; border-top: 1px dashed var(--border-color); }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 10 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" style="width: 100%;"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">100%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-challenge" class="nav-item active">🏆 挑战任务</a>
+            <a href="#section-solution" class="nav-item">💡 解析与答案</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Coding Challenge #2 (终极闭包考验)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：014 CHALLENGE #2.en.srt</span>
+            <span>📂 章节：第 10 章</span>
+        </div>
+
+        <div class="callout">
+            <p><strong>前言：</strong>这是关于函数的最后一个编程挑战。这个挑战的代码实现非常简单，但它是一道**思维题**。目的在于完全确认你是否真的从底层理解了闭包的运作机制。</p>
+        </div>
+
+        <h2 id="section-challenge">🏆 挑战任务</h2>
+        
+        <div class="challenge-box">
+            <h3>📝 需求描述</h3>
+            <p>我们有一个如下的立即执行的函数表达式（IIFE）。</p>
+            <p>1. 你的任务是：在这个函数的末尾，附加一个事件监听器，当网页上的 `body` 元素被点击时，将提取到的 `header` H1标签的颜色更改为蓝色(blue)。</p>
+            <p>2. <strong>重要限制：你绝不能在回调函数中重新使用 `document.querySelector('h1')` 去查找元素！</strong>你只允许使用外层现成的 `header` 变量。</p>
+            <p>3. <strong>真正的考验：</strong>完成代码后，用自己的话向自己（或周围的人/小狗/橡皮鸭）解释，<strong style="color:var(--danger-color)">为什么</strong>这个事件监听器能够奏效。</p>
+        </div>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.html / index.js</span>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false"><!-- DOM 模拟器 -->
+<h1 id="myHeader" style="color: red;">A Closer Look at Functions</h1>
+
+<script>
+// 你的任务是补全以下代码
+(function() {
+  const header = document.querySelector('#myHeader');
+  header.style.color = 'red';
+
+  // 👇 在下方编写你的事件监听代码
+
+  
+})();
+</script>
+</textarea>
+            </div>
+            <!-- 使用按钮直接触发模拟点击，因为这里不好接真 body 事件 -->
+            <button class="btn-run" style="margin: 16px; background-color: #4da6ff;" onclick="simulateClick()">👆 模拟点击 Body</button>
+            <div id="console1" class="console-output">控制台日志显示区...</div>
+        </div>
+
+
+        <h2 id="section-solution">💡 解析与答案</h2>
+        
+        <button class="solution-toggle" onclick="toggleSolution()">查看参考答案及底层原理剖析</button>
+        
+        <div id="solutionContent" class="solution-content">
+            <p>我们需要给 <code>body</code> 绑定点击事件，并在事件回调里修改变量：</p>
+            <pre><code class="language-javascript">(function() {
+  const header = document.querySelector('#myHeader');
+  header.style.color = 'red';
+
+  // 答案代码：
+  document.querySelector('body').addEventListener('click', function() {
+    header.style.color = 'blue';
+  });
+})();</code></pre>
+
+            <h3 style="color: var(--accent-color);">为什么这段代码能奏效？(原理剖析)</h3>
+            
+            <p>能写出这段代码非常简单，但这道题的精髓在于你能否说出它的<strong>前因后果</strong>：</p>
+
+            <ul style="color: #a4adc5;">
+                <li style="margin-bottom: 12px;">这是一个 IIFE 函数。一旦该文件/脚本加载完成，这个匿名函数立即执行，<code>header</code> 变量立马被创建分配。</li>
+                <li style="margin-bottom: 12px;"><strong>毁灭降临</strong>：执行到最后一行注册完监听器后，这个 IIFE 瞬间消亡了。它的执行堆栈被弹出销毁，包裹它的作用域理应随之彻底消失。</li>
+                <li style="margin-bottom: 12px;"><strong>闭包显威</strong>：尽管 IIFE 死去了，但注册的<strong>回调函数</strong>却被挂载到了 DOM 节点上存活了下来。而且在它诞生的瞬间，它背起了沉甸甸的<strong>背包（闭包）</strong>，将 <code>header</code> 这个节点内存指引悄悄塞了进去随身携带。</li>
+                <li style="margin-bottom: 12px;"><strong>点击时刻</strong>：可能是在 1 秒后，也可能是在 1 小时后。用户点击了页面 <code>body</code>。这个在闭包保护下存活的回调函数被拉回主线程引发执行。虽然此时周遭全是荒凉的全局环境，当它被指派执行 <code>header.style.color = 'blue'</code> 时，它不仅没有报 <code>ReferenceError</code>，反而不慌不忙地打开了身上的背包囊，取出了那个保存完好的 <code>header</code> 引用并修改了它的样式。</li>
+            </ul>
+
+            <div class="callout" style="border-color: var(--accent-color); background-color: rgba(0, 255, 157, 0.05);">
+                <p>恭喜你！如果你能顺口溜出上述的底层理论，这意味着你已经真正驯服了 JavaScript 最深奥的一匹野马：<strong>闭包</strong>。</p>
+                <p>整个函数深度剖析章节到此圆满结束！</p>
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    function toggleSolution() {
+        const content = document.getElementById('solutionContent');
+        if (content.style.display === 'block') {
+            content.style.display = 'none';
+        } else {
+            content.style.display = 'block';
+        }
+    }
+
+    function simulateClick() {
+        const code = document.getElementById('codeEditor1').value;
+        const consoleOut = document.getElementById('console1');
+        
+        // 我们用一种黑客方式来在这个在线编辑器里模拟闭包执行环境
+        // 抓取付加监听器的字符串
+        let executionSuccess = false;
+        
+        try {
+            // 用假 DOM 让用户的代码认为它是真实的
+            const mockHeader = { 
+                style: { color: 'red' } 
+            };
+            let clickCallback = null;
+            
+            const mockDocument = {
+                querySelector: function(selector) {
+                    if (selector === '#myHeader') return mockHeader;
+                    if (selector === 'body') return {
+                        addEventListener: function(event, cb) {
+                            if (event === 'click') clickCallback = cb;
+                        }
+                    };
+                }
+            };
+
+            // 提取出我们要测试的用户逻辑，去掉头尾的 IIFE 和 <script> 标签
+            let rawJS = code.replace(/<.*?>/g, '').replace(/<!--.*?-->/g, '');
+            // 将用户的 document 替换成我们的 mock
+            const executionWrapper = new Function('document', rawJS);
+            
+            executionWrapper(mockDocument);
+
+            if (clickCallback) {
+                 clickCallback(); // Simulate the click!
+                 if (mockHeader.style.color === 'blue') {
+                    consoleOut.innerHTML = '<span style="color:var(--accent-color)">✅ 成功！由于闭包，背景点击回调正确获取到 header 并将颜色改为了 blue！</span>';
+                 } else {
+                    consoleOut.innerHTML = '<span style="color:var(--warning-color)">⚠️ 事件被触发了，但似乎没有正确改变为 blue。</span>';
+                 }
+            } else {
+                 consoleOut.innerHTML = '<span style="color:var(--danger-color)">❌ 找不到 Body 的事件监听器，请确保你在内部写了 `document.querySelector(\'body\').addEventListener(...)`</span>';
+            }
+            
+        } catch(e) {
+            consoleOut.innerHTML = `<span style="color:var(--danger-color)">解析错误: ${e.message}</span>`;
+        }
+    }
+
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+1
+00:00:01,590 --> 00:00:05,730
+So now that you're familiar with the basics of JavaScript,
+
+2
+00:00:05,730 --> 00:00:09,240
+it's time to take a small break and take a look
+
+3
+00:00:09,240 --> 00:00:12,760
+at some other skills that you also need to develop
+
+4
+00:00:12,760 --> 00:00:16,253
+in order to become a great JavaScript programmer.
+
+5
+00:00:17,120 --> 00:00:19,640
+So in this section you will learn
+
+6
+00:00:19,640 --> 00:00:24,540
+how to actually learn to code, how to think as a developer,
+
+7
+00:00:24,540 --> 00:00:28,250
+how to debug your code in case you run into problems
+
+8
+00:00:28,250 --> 00:00:30,240
+and also how to set up
+
+9
+00:00:30,240 --> 00:00:34,168
+a professional development environment on your own computer.
+
+10
+00:00:34,168 --> 00:00:36,751
+(upbeat music)

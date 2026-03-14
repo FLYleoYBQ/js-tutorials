@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rolling the Dice</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --warning-color: #f1fa8c;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
+        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        td a { color: var(--info-color); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-roll-dice" class="nav-item">1. 第一步：生成随机数与显示骰子</a>
+            <a href="#section-state" class="nav-item">2. 第二步：状态变量保管分数</a>
+            <a href="#section-logic" class="nav-item">3. 第三步：处理非 1 点的情况</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Rolling the Dice</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：016 Rolling the Dice.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>游戏初始化完成后，现在我们来实现核心交互：<strong>抛骰子 (Rolling the Dice)</strong>。</p>
+        <p>抛骰子的逻辑包含三大步骤：生成 1 到 6 的随机数、在页面上显示对应的骰子图片、检查是否掷出了 1（如果是 1 就惩罚并换人，否则把分数加到当前积分里）。本节主要实现“非 1”状态下的分数累加和图片切换。</p>
+
+
+        <h2 id="section-roll-dice">1. 第一步：生成随机数与动态切换图片</h2>
+        <p>我们依然使用老朋友 <code>Math.trunc(Math.random() * 6) + 1</code> 来生成随机数。最酷的是我们如何把这个数字和网页上的图片对应起来：</p>
+        <p>在 HTML 中，展示图片的标签是 <code>&lt;img src="dice-5.png"&gt;</code>。我们可以通过 JavaScript 动态抢走它的 <code>src</code> 属性，把它偷换成我们甩出来的点数对应的图片！</p>
+
+        <pre><code class="language-javascript">
+// 当用户点击 "Roll dice" 按钮
+btnRoll.addEventListener('click', function () {
+    // 1. 生成 1 到 6 的随机数
+    const dice = Math.trunc(Math.random() * 6) + 1;
+
+    // 2. 移除 hidden 类，让被隐藏的骰子重新显示出来
+    diceEl.classList.remove('hidden');
+
+    // 3. ⭐️ 动态切换图片 
+    // 图片文件名恰好叫做 dice-1.png, dice-2.png 等，我们利用模板字符串拼接！
+    diceEl.src = `dice-${dice}.png`; 
+});
+        </code></pre>
+
+
+        <h2 id="section-state">2. 第二步：用状态变量 (State Variable) 记住当前得分</h2>
+        <p>当玩家掷出点数后，我们需要将其累加。这里最大的陷阱是：<strong>你应该在哪里声明 <code>currentScore</code>（当前得分）变量？</strong></p>
+
+        <div class="callout error">
+            <p>🚨 <strong>错误示范：写在事件流内部</strong> <br>
+            如果你在 <code>btnRoll.addEventListener</code> 内部写 <code>let currentScore = 0;</code>，每次点击按钮时，它都会把 0 重新赋值一次，你的分数永远只能记录最后一次抛掷的结果！</p>
+        </div>
+
+        <p>为了让分数能在多次点击中<strong>持久存活 (persist)</strong>，这个变量必须存放在大环境（外部），这就是游戏的基础<strong>状态 (State)</strong>：</p>
+
+        <pre><code class="language-javascript">
+// 必须写在按钮点击事件的最外面！
+let currentScore = 0; // 这就是我们的 State
+
+btnRoll.addEventListener('click', function () {
+    // ...前面生成随机数的代码...
+    
+    // 我们在这个函数内部可以安全地更新外部的 currentScore
+    // currentScore = currentScore + dice;
+});
+        </code></pre>
+
+
+        <h2 id="section-logic">3. 第三步：处理非 1 点的情况</h2>
+        <p>最后，我们增加条件判断。如果掷出的不是 1：我们加分，并利用之前学过的 <code>getElementById</code> 把新分数呈现在页面上（目前为了简单，我们先固定给玩家 1 加分）。</p>
+
+        <pre><code class="language-javascript">
+    // ... 接着上面的代码
+    if (dice !== 1) {
+        // 掷出的不是 1，把点数加到当前分数上
+        currentScore += dice; // 等价于 currentScore = currentScore + dice;
+        
+        // （暂时写死玩家 1 取代未来真正的“当前活跃玩家”）
+        document.getElementById('current--0').textContent = currentScore;
+    } else {
+        // 如果掷出 1，我们要换另一个玩家 (将在下一节学习)
+        // Switch to next player...
+    }
+        </code></pre>
+
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 我们需要用 JavaScript 替换 <code>&lt;img&gt;</code> 标签显示的图片，应该修改其哪个属性？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) `element.image = '...'`</div>
+                <div class="quiz-option" data-value="B">B) `element.src = '...'`</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。DOM 对象的属性与你在 HTML 中写标签时的属性高度映射。在 HTML 中我们写 <code>&lt;img src=""&gt;</code>，因此在 JS 里改变图片路径用的就是 <code>.src</code>。
+            </div>
+        </div>
+
+        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>代码</th>
+                    <th>简明释义</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>动态修改图片</td>
+                    <td><code>imgElement.src = 'xxx.png'</code></td>
+                    <td>修改 <code>img</code> 元素的 <code>src</code> 属性，实现页面上实时更换图片</td>
+                </tr>
+                <tr>
+                    <td>增强型赋值运算符</td>
+                    <td><code>x += y</code></td>
+                    <td>相当于 <code>x = x + y</code>，一种能让代码更少报错也不易打错字的快捷写法</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const opts = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.style.background = 'transparent');
+                if (opt.getAttribute('data-value') === correctVal) {
+                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--success-color)';
+                } else {
+                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--error-color)';
+                }
+                exp.style.display = 'block';
+            });
+        });
+    });
+</script>
+</body>
+</html>

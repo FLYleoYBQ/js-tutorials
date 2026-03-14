@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>运算符优先级 (Operator Precedence)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 谁的权利大？(揭秘执行顺序)</a>
+            <a href="#section-2" class="nav-item">2. 右到左运算 (Right-to-Left)</a>
+            <a href="#section-3" class="nav-item">3. 最高独裁者：括号 ()</a>
+            <a href="#section-docs" class="nav-item">📚 MDN 圣典揭露</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>运算符优先级 (Operator Precedence)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：010 Operator Precedence.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <p>上节课提出一个问题：<code>2037 - 1991 &gt; 2037 - 2018</code> 这段长代码如果纯粹按照左到右的顺序读，将会变成一个灾难（46 大于 2037 吗？这怎么比！）。但事实上运行完美没出错，这就是因为<strong>优先级 (Precedence)</strong> 机制。</p>
+
+        <h2 id="section-1">1. 谁的权利大？</h2>
+        <p>在 JavaScript 的核心中设计了一张宏伟而庞大的“权利等阶图表”（Precedence Matrix）。</p>
+        <p>数学运算符的内部权重（减法为14）是<strong>高于</strong>比较运算符的内部权重（大于号为12）的！所以系统会自觉锁定计算优先法则，最终比对得出正确布尔值。</p>
+
+        <h2 id="section-2">2. 左到右 vs 右到左</h2>
+        <p>普通的加减法都是从左往右执行，例如：<code>console.log(25 - 10 - 5);</code> 会忠实地输出 <code>10</code>。</p>
+        <p><strong>赋值运算符 <code>=</code> 是个反骨分子，它采取从右向左的战术（Right-to-Left execution）。</strong></p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">rtl-assign.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+let x, y; // 一次性宣告两个未定义的变数
+
+x = y = 25 - 10 - 5; 
+
+// 代码推演路径：
+// 1. 最高权力，减法被先处理: x = y = 10;
+// 2. 右到左运行，等于号由右至左: y = 10; 于是变成了 x = 10;
+// 3. 最终 x 和 y 都是 10！
+
+console.log(x, y);</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-3">3. 最高独裁者：括号 ()</h2>
+        <p>正如基础数学一样，如果想要打破常伦法则，就加个圆括号作为最高优先权力阶级去阻断计算顺序（它的神圣数字权限高达 21 层级）。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">parens.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
+const ageJonas = 46;
+const ageSarah = 19;
+
+// ❌ 错误做法：除法权重比加法高，所以 JS 会先算 Sarah/2
+const wrongAverage = ageJonas + ageSarah / 2;
+console.log("错误结果: " + wrongAverage); // 得出惊人的 55.5?!
+
+// ✅ 正确做法：利用括号 (最高权限) 强制圈管
+const rightAverage = (ageJonas + ageSarah) / 2;
+console.log("真实平均值: " + rightAverage); // 32.5</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+
+        <h2 id="section-docs">📚 MDN 圣典揭露</h2>
+        <p>作为 JavaScript 工程师，不需要死记硬背每个权重的具体数字。<br>但你必须知道权威法宝的存放处：<strong>MDN 运算符优先级表</strong><br>
+        <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence" target="_blank" style="color:var(--info-color)">→ 点击前往查阅 Operator Precedence 权威手册</a></p>
+
+    </main>
+</div>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n');
+        } catch (e) {
+            outConsole.innerHTML = `<span style="color:var(--error-color)">⚠️ ${e.name} : ${e.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+</script>
+</body>
+</html>

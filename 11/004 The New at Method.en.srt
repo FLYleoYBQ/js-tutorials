@@ -1,0 +1,471 @@
+1
+00:00:01,790 --> 00:00:02,623
+There's a new,
+
+2
+00:00:02,623 --> 00:00:06,430
+very simple array method in ES2022,
+
+3
+00:00:06,430 --> 00:00:08,550
+which is the At Method.
+
+4
+00:00:08,550 --> 00:00:10,513
+And so let's take a look at it.
+
+5
+00:00:12,400 --> 00:00:16,063
+And let's start by creating some dummy array.
+
+6
+00:00:17,240 --> 00:00:22,240
+So, 23, 11, 64.
+
+7
+00:00:22,670 --> 00:00:25,260
+So just three random values here.
+
+8
+00:00:25,260 --> 00:00:28,400
+And then, if we wanted to take one of the values
+
+9
+00:00:28,400 --> 00:00:29,850
+out of the array,
+
+10
+00:00:29,850 --> 00:00:31,483
+let's say the first one,
+
+11
+00:00:32,870 --> 00:00:37,410
+then we would traditionally do this, right?
+
+12
+00:00:37,410 --> 00:00:40,630
+So array at position zero.
+
+13
+00:00:40,630 --> 00:00:42,810
+So that's basically what this means.
+
+14
+00:00:42,810 --> 00:00:45,290
+But now with the new At Method,
+
+15
+00:00:45,290 --> 00:00:49,300
+we can do the exact same thing using a method.
+
+16
+00:00:49,300 --> 00:00:52,623
+And, as you can guess, that is the At Method.
+
+17
+00:00:54,220 --> 00:00:57,510
+Then we specify the exact same index here,
+
+18
+00:00:57,510 --> 00:00:59,633
+and then we get the exact same value.
+
+19
+00:01:00,750 --> 00:01:04,590
+So basically now we do what we say here.
+
+20
+00:01:04,590 --> 00:01:07,950
+So here we say, array at position zero.
+
+21
+00:01:07,950 --> 00:01:10,360
+And so that's why this new method is called
+
+22
+00:01:10,360 --> 00:01:13,950
+array dot at position zero.
+
+23
+00:01:13,950 --> 00:01:17,020
+So very, very simple, right?
+
+24
+00:01:17,020 --> 00:01:19,020
+So basically we can now replace
+
+25
+00:01:19,020 --> 00:01:21,040
+the traditional bracket notation
+
+26
+00:01:21,040 --> 00:01:24,040
+with the more modern looking At Method,
+
+27
+00:01:24,040 --> 00:01:27,363
+if we prefer to use array methods like this.
+
+28
+00:01:28,220 --> 00:01:31,280
+Now, maybe this doesn't look all too useful.
+
+29
+00:01:31,280 --> 00:01:33,950
+So, what's the big deal here?
+
+30
+00:01:33,950 --> 00:01:38,750
+Well, actually there is one particularity of the At Method,
+
+31
+00:01:38,750 --> 00:01:41,330
+which makes it quite useful to use
+
+32
+00:01:41,330 --> 00:01:43,703
+instead of the brackets notation.
+
+33
+00:01:44,750 --> 00:01:47,650
+So, let's now say that we wanted to get
+
+34
+00:01:47,650 --> 00:01:50,620
+the last element of the array.
+
+35
+00:01:50,620 --> 00:01:55,003
+Now, supposing that we do not know the length of the array,
+
+36
+00:01:56,370 --> 00:01:58,343
+we would write something like this.
+
+37
+00:01:59,900 --> 00:02:02,570
+So, array at the position of
+
+38
+00:02:02,570 --> 00:02:06,823
+array dot length minus one.
+
+39
+00:02:07,880 --> 00:02:10,053
+And that will then give us 64.
+
+40
+00:02:11,640 --> 00:02:14,840
+So, array dot length is the length of the array,
+
+41
+00:02:14,840 --> 00:02:16,160
+which a three,
+
+42
+00:02:16,160 --> 00:02:19,670
+but the last position here is position number two
+
+43
+00:02:19,670 --> 00:02:22,190
+because the array is zero-based.
+
+44
+00:02:22,190 --> 00:02:24,230
+So the indexes are zero-based.
+
+45
+00:02:24,230 --> 00:02:26,580
+So zero, one, two.
+
+46
+00:02:26,580 --> 00:02:27,530
+And so therefore,
+
+47
+00:02:27,530 --> 00:02:30,740
+whenever we want to get the last element of an array,
+
+48
+00:02:30,740 --> 00:02:34,370
+we always subtract one from the length.
+
+49
+00:02:34,370 --> 00:02:37,710
+So this is quite a common scenario in JavaScript.
+
+50
+00:02:37,710 --> 00:02:40,293
+And that's why there's also another solution.
+
+51
+00:02:42,810 --> 00:02:46,303
+So another way is to use the slice method
+
+52
+00:02:46,303 --> 00:02:48,083
+that we just learned before.
+
+53
+00:02:49,520 --> 00:02:51,300
+So arr dot slice.
+
+54
+00:02:51,300 --> 00:02:52,133
+And with this,
+
+55
+00:02:52,133 --> 00:02:55,000
+we can then get a copy of the original array.
+
+56
+00:02:55,000 --> 00:02:57,850
+And here we can use minus one to get
+
+57
+00:02:57,850 --> 00:03:01,380
+the last element of the array, right?
+
+58
+00:03:01,380 --> 00:03:03,780
+So just like we learned in the previous lecture.
+
+59
+00:03:05,720 --> 00:03:08,400
+So, here we get that copy of the array
+
+60
+00:03:08,400 --> 00:03:10,900
+only with the last element.
+
+61
+00:03:10,900 --> 00:03:12,600
+So of course we want the value,
+
+62
+00:03:12,600 --> 00:03:15,658
+and so then we need to take out that first value
+
+63
+00:03:15,658 --> 00:03:18,733
+by doing square brackets zero.
+
+64
+00:03:20,240 --> 00:03:21,300
+Now, right.
+
+65
+00:03:21,300 --> 00:03:24,370
+So these are the two more traditional ways of solving
+
+66
+00:03:24,370 --> 00:03:27,503
+the problem of getting the last element.
+
+67
+00:03:31,370 --> 00:03:34,140
+However, as you can probably guess,
+
+68
+00:03:34,140 --> 00:03:38,080
+the new At Method makes this process even easier.
+
+69
+00:03:38,080 --> 00:03:43,010
+So now all we have to do is to write arr dot at,
+
+70
+00:03:43,010 --> 00:03:47,050
+and now here we can write the exact same negative in nexus,
+
+71
+00:03:47,050 --> 00:03:51,030
+then we can write in the slice method.
+
+72
+00:03:51,030 --> 00:03:52,860
+And so if we lock this now,
+
+73
+00:03:52,860 --> 00:03:55,293
+then here again we have 64.
+
+74
+00:03:56,210 --> 00:03:59,390
+So the negative index, just like in slice,
+
+75
+00:03:59,390 --> 00:04:03,140
+basically starts counting from the right side here.
+
+76
+00:04:03,140 --> 00:04:05,340
+So from the end of the array.
+
+77
+00:04:05,340 --> 00:04:08,580
+And so we could also write, minus two.
+
+78
+00:04:08,580 --> 00:04:12,050
+So, minus one and minus two.
+
+79
+00:04:12,050 --> 00:04:14,240
+So this should give us 11.
+
+80
+00:04:14,240 --> 00:04:17,050
+And indeed here is that 11.
+
+81
+00:04:17,050 --> 00:04:18,410
+But most of the time,
+
+82
+00:04:18,410 --> 00:04:20,880
+the thing that we're most interested in here
+
+83
+00:04:20,880 --> 00:04:25,620
+is this minus one, to get the last element of the array.
+
+84
+00:04:25,620 --> 00:04:27,540
+And that's actually it.
+
+85
+00:04:27,540 --> 00:04:29,140
+Now the only question is,
+
+86
+00:04:29,140 --> 00:04:31,680
+should you use this new At Method
+
+87
+00:04:31,680 --> 00:04:34,818
+or should you keep using the bracket notation?
+
+88
+00:04:34,818 --> 00:04:38,300
+Well, as always, it depends.
+
+89
+00:04:38,300 --> 00:04:41,610
+So, if you want to get to the last element of an array,
+
+90
+00:04:41,610 --> 00:04:45,480
+or basically start counting from the end of an array,
+
+91
+00:04:45,480 --> 00:04:49,100
+then you should probably start using the At Method.
+
+92
+00:04:49,100 --> 00:04:52,830
+Also, if you want to do something called "method chaining",
+
+93
+00:04:52,830 --> 00:04:55,690
+which we will talk about later in this section,
+
+94
+00:04:55,690 --> 00:04:59,120
+then the At Method is also perfect for that.
+
+95
+00:04:59,120 --> 00:05:01,610
+So basically combining multiple methods
+
+96
+00:05:01,610 --> 00:05:03,200
+all at the same time.
+
+97
+00:05:03,200 --> 00:05:05,890
+And then, it's quite helpful to use
+
+98
+00:05:05,890 --> 00:05:09,330
+the At Method instead of the brackets notation.
+
+99
+00:05:09,330 --> 00:05:10,630
+Now, on the other hand,
+
+100
+00:05:10,630 --> 00:05:14,250
+if you just want to quickly get a value from an array,
+
+101
+00:05:14,250 --> 00:05:16,670
+so just like the first element,
+
+102
+00:05:16,670 --> 00:05:19,770
+then of course you can keep using the brackets notation.
+
+103
+00:05:19,770 --> 00:05:22,860
+And personally, I also do that all the time.
+
+104
+00:05:22,860 --> 00:05:26,010
+So basically if all you want to do is something like this,
+
+105
+00:05:26,010 --> 00:05:29,343
+then you can simply keep using the square brackets.
+
+106
+00:05:30,320 --> 00:05:31,700
+Okay.
+
+107
+00:05:31,700 --> 00:05:33,620
+Oh, and by the way,
+
+108
+00:05:33,620 --> 00:05:37,170
+I actually also wanted to let you know that the At Method
+
+109
+00:05:37,170 --> 00:05:39,013
+also works on strings.
+
+110
+00:05:40,690 --> 00:05:43,080
+So, let's look to the console.
+
+111
+00:05:43,080 --> 00:05:43,923
+A string,
+
+112
+00:05:45,010 --> 00:05:47,790
+let's say jonas and then here we can also use
+
+113
+00:05:47,790 --> 00:05:48,823
+the At Method.
+
+114
+00:05:49,690 --> 00:05:51,640
+For example, let's say, at zero.
+
+115
+00:05:51,640 --> 00:05:54,233
+And so that will give us J,
+
+116
+00:05:55,720 --> 00:05:57,610
+and then of course we can also
+
+117
+00:05:57,610 --> 00:05:59,900
+get the last character off the string
+
+118
+00:05:59,900 --> 00:06:01,633
+by using at minus one.

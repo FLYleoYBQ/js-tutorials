@@ -1,0 +1,1123 @@
+1
+00:00:01,350 --> 00:00:02,960
+Welcome back.
+
+2
+00:00:02,960 --> 00:00:06,570
+Let's begin this section with a couple of very simple
+
+3
+00:00:06,570 --> 00:00:09,970
+and very easy to understand array methods,
+
+4
+00:00:09,970 --> 00:00:13,623
+just to expand our array toolkit a little bit more.
+
+5
+00:00:15,610 --> 00:00:18,860
+And as always, at the beginning of a new section,
+
+6
+00:00:18,860 --> 00:00:21,210
+make sure to grab your starter files
+
+7
+00:00:21,210 --> 00:00:24,290
+and open them up in VS Code.
+
+8
+00:00:24,290 --> 00:00:27,293
+So that's the folder called arrays banquest.
+
+9
+00:00:28,170 --> 00:00:31,960
+And then open up script.js, which is gonna contain
+
+10
+00:00:31,960 --> 00:00:34,070
+a lot of stuff here.
+
+11
+00:00:34,070 --> 00:00:37,340
+But for now, don't worry about any of that,
+
+12
+00:00:37,340 --> 00:00:39,970
+I will explain what all of this is,
+
+13
+00:00:39,970 --> 00:00:42,467
+and also what else we have in our starter files
+
+14
+00:00:42,467 --> 00:00:44,563
+in a couple of videos from here.
+
+15
+00:00:45,790 --> 00:00:49,670
+All right, so up there, we have the application part
+
+16
+00:00:49,670 --> 00:00:52,053
+for the app we're gonna build in this section.
+
+17
+00:00:52,920 --> 00:00:55,830
+And then here we have the lectures part,
+
+18
+00:00:55,830 --> 00:00:59,253
+which is a bit more for the concepts themselves.
+
+19
+00:01:00,590 --> 00:01:03,325
+And by the way, this yellow part here comes
+
+20
+00:01:03,325 --> 00:01:06,580
+from a VS Code extension that I use.
+
+21
+00:01:06,580 --> 00:01:09,280
+And I think I showed it to you in the beginning.
+
+22
+00:01:09,280 --> 00:01:13,030
+But anyway, let's now talk about array methods.
+
+23
+00:01:13,030 --> 00:01:17,250
+Now before we start, let's quickly talk about why arrays
+
+24
+00:01:17,250 --> 00:01:19,720
+do actually have methods.
+
+25
+00:01:19,720 --> 00:01:23,110
+Well, remember that methods are simply functions
+
+26
+00:01:23,110 --> 00:01:25,560
+that we can call on objects.
+
+27
+00:01:25,560 --> 00:01:29,910
+So basically, they are functions attached to objects.
+
+28
+00:01:29,910 --> 00:01:33,160
+So if we have array methods, that means that
+
+29
+00:01:33,160 --> 00:01:36,750
+arrays themselves are also objects.
+
+30
+00:01:36,750 --> 00:01:40,110
+And so these array methods are simply functions
+
+31
+00:01:40,110 --> 00:01:42,403
+that are attached to all arrays
+
+32
+00:01:42,403 --> 00:01:44,980
+that we create in JavaScript.
+
+33
+00:01:44,980 --> 00:01:48,020
+Now, we will learn why all arrays have access
+
+34
+00:01:48,020 --> 00:01:50,530
+to this methods in a later section
+
+35
+00:01:50,530 --> 00:01:53,670
+when we talk about prototypal inheritance.
+
+36
+00:01:53,670 --> 00:01:57,120
+But for now, I just want you to understand that arrays
+
+37
+00:01:57,120 --> 00:02:00,455
+are objects, and that they get access to special
+
+38
+00:02:00,455 --> 00:02:03,184
+built in methods that we can essentially
+
+39
+00:02:03,184 --> 00:02:06,590
+see as tools for arrays.
+
+40
+00:02:06,590 --> 00:02:09,230
+And so as I mentioned, in this lecture, we're gonna start
+
+41
+00:02:09,230 --> 00:02:11,970
+by learning some very simple tools
+
+42
+00:02:11,970 --> 00:02:14,430
+that we can use on arrays.
+
+43
+00:02:14,430 --> 00:02:19,430
+So let's start by defining a simple test array
+
+44
+00:02:19,914 --> 00:02:22,240
+that we can work with.
+
+45
+00:02:22,240 --> 00:02:24,649
+And I'll make it as simple as possible
+
+46
+00:02:24,649 --> 00:02:28,300
+just with these letters, because that will help us
+
+47
+00:02:28,300 --> 00:02:31,343
+understand some of the things we're gonna do here.
+
+48
+00:02:34,050 --> 00:02:36,947
+Alright, the first method we're gonna talk about
+
+49
+00:02:36,947 --> 00:02:38,777
+is the slice method.
+
+50
+00:02:38,777 --> 00:02:42,030
+And this one is very similar to the slice method
+
+51
+00:02:42,030 --> 00:02:45,380
+that's available on strings, remember?
+
+52
+00:02:45,380 --> 00:02:50,100
+So with the slice method, we can extract part of any array,
+
+53
+00:02:50,100 --> 00:02:52,820
+but without changing the original array.
+
+54
+00:02:52,820 --> 00:02:56,230
+So essentially, we can take a slice of an array.
+
+55
+00:02:56,230 --> 00:02:58,933
+And so that's why it's called slice.
+
+56
+00:03:00,450 --> 00:03:04,730
+So array.slice, and now just like in strings,
+
+57
+00:03:04,730 --> 00:03:06,770
+we have the begin parameter.
+
+58
+00:03:06,770 --> 00:03:11,320
+And so this is the index at which we will start extracting.
+
+59
+00:03:11,320 --> 00:03:14,510
+So when we say two here, we should start extracting
+
+60
+00:03:14,510 --> 00:03:17,993
+here at C, and then all the way to the end, okay?
+
+61
+00:03:19,764 --> 00:03:24,764
+And then this slice method will return a new array.
+
+62
+00:03:24,890 --> 00:03:27,440
+And so we need to log that to the console
+
+63
+00:03:27,440 --> 00:03:31,370
+in order to actually see it, okay.
+
+64
+00:03:31,370 --> 00:03:36,150
+So as I said, this does not mutate the original arr, array.
+
+65
+00:03:37,570 --> 00:03:39,760
+Instead it returns a new array.
+
+66
+00:03:39,760 --> 00:03:43,553
+So a copy of the array, but only with the extracted parts.
+
+67
+00:03:45,180 --> 00:03:50,173
+So let's open up a terminal here again, and live server.
+
+68
+00:03:51,620 --> 00:03:52,823
+And here we go.
+
+69
+00:03:53,690 --> 00:03:57,140
+So this is already on banker's page,
+
+70
+00:03:57,140 --> 00:03:59,510
+but nothing is gonna work here yet.
+
+71
+00:03:59,510 --> 00:04:02,146
+So for now, let's just open up the console
+
+72
+00:04:02,146 --> 00:04:06,523
+because that's really all we are interested in for now.
+
+73
+00:04:07,430 --> 00:04:09,560
+Let's reload here again.
+
+74
+00:04:09,560 --> 00:04:13,640
+And so now we indeed get this array, which is a slice
+
+75
+00:04:13,640 --> 00:04:17,740
+of the original array starting at position number two.
+
+76
+00:04:17,740 --> 00:04:20,803
+So zero, one and two, right.
+
+77
+00:04:21,670 --> 00:04:25,123
+Now, of course, we can also define the end parameter.
+
+78
+00:04:27,913 --> 00:04:31,620
+So when we write two and four
+
+79
+00:04:31,620 --> 00:04:33,223
+then let's see the result here.
+
+80
+00:04:34,240 --> 00:04:38,020
+And so what this means is that just like in strings,
+
+81
+00:04:38,020 --> 00:04:42,300
+the end parameter here is not included in the output.
+
+82
+00:04:42,300 --> 00:04:45,850
+So index four is this one here.
+
+83
+00:04:45,850 --> 00:04:50,220
+And so yeah, as I just mentioned, this one is not
+
+84
+00:04:50,220 --> 00:04:52,780
+gonna be included in the output.
+
+85
+00:04:52,780 --> 00:04:57,780
+So two to four is really just two and three, okay?
+
+86
+00:04:57,970 --> 00:05:01,000
+And so the length of the output array right here
+
+87
+00:05:01,000 --> 00:05:04,607
+will be the end parameter minus the beginning one.
+
+88
+00:05:04,607 --> 00:05:07,663
+And so that's exactly the length we get here.
+
+89
+00:05:12,080 --> 00:05:16,170
+Then next, again, just like in strings,
+
+90
+00:05:16,170 --> 00:05:19,890
+we can define a negative begin parameter,
+
+91
+00:05:19,890 --> 00:05:24,240
+and then it will start to copy from the end of the array.
+
+92
+00:05:24,240 --> 00:05:28,340
+So minus one will basically take the last two elements
+
+93
+00:05:28,340 --> 00:05:31,313
+of the array, so D and E.
+
+94
+00:05:32,880 --> 00:05:35,770
+And so with this, it's pretty easy to simply get
+
+95
+00:05:35,770 --> 00:05:38,910
+the last element of any array.
+
+96
+00:05:38,910 --> 00:05:42,391
+So if we just duplicate this, so minus one is always
+
+97
+00:05:42,391 --> 00:05:45,970
+just the last element of any array.
+
+98
+00:05:45,970 --> 00:05:49,950
+So this is a very nice trick that sometimes useful.
+
+99
+00:05:49,950 --> 00:05:52,250
+And now to make this complete,
+
+100
+00:05:52,250 --> 00:05:56,943
+we can also use a negative index as the end parameter.
+
+101
+00:05:58,150 --> 00:06:01,510
+So let's start extracting at position number one,
+
+102
+00:06:01,510 --> 00:06:04,603
+until minus one, basically.
+
+103
+00:06:05,700 --> 00:06:08,830
+So let's see if that returns B and C.
+
+104
+00:06:08,830 --> 00:06:13,120
+And that's because it now starts extracting at position one,
+
+105
+00:06:13,120 --> 00:06:15,830
+which is here, and it extracts everything
+
+106
+00:06:15,830 --> 00:06:18,550
+except the last two here.
+
+107
+00:06:18,550 --> 00:06:21,840
+So that's what the minus two here means.
+
+108
+00:06:21,840 --> 00:06:24,850
+Alright, and if you find this a bit confusing,
+
+109
+00:06:24,850 --> 00:06:28,200
+then just experiment a little bit more with this.
+
+110
+00:06:28,200 --> 00:06:30,780
+Now finally, we can use the slice method
+
+111
+00:06:30,780 --> 00:06:34,163
+to simply create a shallow copy of any array.
+
+112
+00:06:36,620 --> 00:06:38,670
+So to do that, we simply call it
+
+113
+00:06:38,670 --> 00:06:41,250
+without any arguments at all.
+
+114
+00:06:41,250 --> 00:06:44,283
+And then indeed, we get here the exact same array.
+
+115
+00:06:45,130 --> 00:06:48,030
+And if you remember it correctly, we already did
+
+116
+00:06:48,030 --> 00:06:51,150
+something similar in one of the previous sections,
+
+117
+00:06:51,150 --> 00:06:54,200
+but using the spread operator, remember?
+
+118
+00:06:54,200 --> 00:06:57,060
+So back then we did this.
+
+119
+00:06:57,060 --> 00:06:59,283
+So creating a new array, and then expanding
+
+120
+00:06:59,283 --> 00:07:02,380
+the original array into that.
+
+121
+00:07:02,380 --> 00:07:05,760
+And so that gives us the exact same result.
+
+122
+00:07:05,760 --> 00:07:09,130
+So the question is, should you use the spread operator
+
+123
+00:07:09,130 --> 00:07:13,640
+or the slice method, in order to create a shallow copy?
+
+124
+00:07:13,640 --> 00:07:16,910
+Well, that's actually entirely up to you.
+
+125
+00:07:16,910 --> 00:07:20,600
+So it's just a matter of personal preference.
+
+126
+00:07:20,600 --> 00:07:24,640
+The only time you really need to use the slice method here
+
+127
+00:07:24,640 --> 00:07:28,190
+is when you want to chain multiple methods together,
+
+128
+00:07:28,190 --> 00:07:30,740
+so calling one after the other.
+
+129
+00:07:30,740 --> 00:07:34,023
+And we will do that, of course, later in this section.
+
+130
+00:07:35,180 --> 00:07:36,060
+All right.
+
+131
+00:07:36,060 --> 00:07:40,339
+So that is the slice method.
+
+132
+00:07:40,339 --> 00:07:44,094
+Next up is a method with a very similar name,
+
+133
+00:07:44,094 --> 00:07:47,420
+which is called splice.
+
+134
+00:07:47,420 --> 00:07:51,560
+And a splice method works in almost the same way as slice.
+
+135
+00:07:51,560 --> 00:07:53,700
+But the fundamental difference is that
+
+136
+00:07:53,700 --> 00:07:57,030
+it does actually change the original array.
+
+137
+00:07:57,030 --> 00:07:59,073
+So it mutates that array.
+
+138
+00:08:00,430 --> 00:08:04,570
+So let's again, log the result to the console anyway.
+
+139
+00:08:04,570 --> 00:08:06,674
+But now, we use splice.
+
+140
+00:08:06,674 --> 00:08:11,383
+And then with the same argument, as we use before here,
+
+141
+00:08:13,020 --> 00:08:16,952
+and so the result here, looks exactly the same.
+
+142
+00:08:16,952 --> 00:08:21,030
+So this one here is the same as this first one.
+
+143
+00:08:21,030 --> 00:08:23,530
+Let's give it even more space here.
+
+144
+00:08:23,530 --> 00:08:27,783
+But now, watch what happened to our original array,
+
+145
+00:08:28,740 --> 00:08:33,220
+and we see that all that remains here in our original array
+
+146
+00:08:33,220 --> 00:08:35,320
+is the first two elements.
+
+147
+00:08:35,320 --> 00:08:38,682
+And so now the extracted elements are actually gone
+
+148
+00:08:38,682 --> 00:08:40,690
+from the original array.
+
+149
+00:08:40,690 --> 00:08:43,040
+So splice deleted them.
+
+150
+00:08:43,040 --> 00:08:46,618
+And so what we can see is that splice actually does mutate
+
+151
+00:08:46,618 --> 00:08:51,350
+the original array, so it takes part of the array
+
+152
+00:08:51,350 --> 00:08:56,100
+and returns it and then the original array itself
+
+153
+00:08:56,100 --> 00:08:59,163
+loses this part that was extracted.
+
+154
+00:09:01,032 --> 00:09:04,667
+Now in practice, most of the time the value that
+
+155
+00:09:04,667 --> 00:09:08,500
+the splice method returns, doesn't even interest us.
+
+156
+00:09:08,500 --> 00:09:11,430
+All we are usually interested in is to just delete
+
+157
+00:09:11,430 --> 00:09:15,740
+one or more elements from an array using splice.
+
+158
+00:09:15,740 --> 00:09:18,860
+And one pretty common use case is to simply remove
+
+159
+00:09:18,860 --> 00:09:22,090
+the last element of an array.
+
+160
+00:09:22,090 --> 00:09:24,000
+So let's actually do that here.
+
+161
+00:09:24,000 --> 00:09:29,000
+So let's say arr.splice, and then minus one.
+
+162
+00:09:29,570 --> 00:09:32,990
+So just like in the slice method, minus one here
+
+163
+00:09:32,990 --> 00:09:35,110
+is the last element.
+
+164
+00:09:35,110 --> 00:09:39,960
+So the begin and end parameters, works exactly the same
+
+165
+00:09:39,960 --> 00:09:41,463
+as in the slice method.
+
+166
+00:09:42,810 --> 00:09:45,130
+Let's just get rid of this one here,
+
+167
+00:09:45,130 --> 00:09:47,083
+so that we see our original array.
+
+168
+00:09:48,740 --> 00:09:52,660
+And so indeed, as we log here arr to the console.
+
+169
+00:09:52,660 --> 00:09:57,270
+It is the original array, except for the last element,
+
+170
+00:09:57,270 --> 00:09:58,870
+which was e.
+
+171
+00:09:58,870 --> 00:10:01,013
+So that's exactly what we did here.
+
+172
+00:10:01,850 --> 00:10:02,790
+Alright.
+
+173
+00:10:02,790 --> 00:10:05,330
+And as always, in case you want to learn more
+
+174
+00:10:05,330 --> 00:10:08,323
+about any particular method, for example,
+
+175
+00:10:09,490 --> 00:10:13,630
+you can always use the MDN documentation.
+
+176
+00:10:13,630 --> 00:10:17,263
+So let's say MDN array splice.
+
+177
+00:10:18,810 --> 00:10:19,773
+So this one.
+
+178
+00:10:20,756 --> 00:10:24,573
+And so now here are some more examples on how to use this.
+
+179
+00:10:25,730 --> 00:10:28,360
+And so you have the name of the parameters.
+
+180
+00:10:28,360 --> 00:10:32,980
+And actually, the second parameter is called delete count.
+
+181
+00:10:32,980 --> 00:10:35,750
+So it's actually not the begin parameter.
+
+182
+00:10:35,750 --> 00:10:40,470
+So it works a little bit different than in the slice method.
+
+183
+00:10:40,470 --> 00:10:42,870
+So let me just show that to you.
+
+184
+00:10:42,870 --> 00:10:44,233
+So going back here.
+
+185
+00:10:45,690 --> 00:10:50,690
+So if we do dot splice, let's say at position number one,
+
+186
+00:10:51,984 --> 00:10:55,220
+and then we want to take exactly two elements,
+
+187
+00:10:55,220 --> 00:10:58,210
+and so then we write two, okay,
+
+188
+00:10:58,210 --> 00:11:01,970
+and so the result now of the resulting array
+
+189
+00:11:01,970 --> 00:11:04,333
+should be that a and c are deleted.
+
+190
+00:11:05,943 --> 00:11:09,993
+And so indeed, only a and d now remain.
+
+191
+00:11:11,150 --> 00:11:14,370
+Let's log arr to the console here to see the process
+
+192
+00:11:14,370 --> 00:11:16,040
+a little bit better.
+
+193
+00:11:16,040 --> 00:11:18,045
+So here, we removed the first one.
+
+194
+00:11:18,045 --> 00:11:20,670
+And then here, we went to position one,
+
+195
+00:11:20,670 --> 00:11:24,430
+and extracted or deleted two elements.
+
+196
+00:11:24,430 --> 00:11:27,823
+And so position one and then two elements.
+
+197
+00:11:29,697 --> 00:11:33,960
+So this first parameter here works the same
+
+198
+00:11:33,960 --> 00:11:36,332
+as in the slice method but the second one
+
+199
+00:11:36,332 --> 00:11:40,323
+is really the number of elements that we want to delete.
+
+200
+00:11:41,700 --> 00:11:45,023
+All right, so that is splice.
+
+201
+00:11:46,280 --> 00:11:49,540
+Next up, we're gonna talk about reverse.
+
+202
+00:11:49,540 --> 00:11:51,510
+So that's a very simple one.
+
+203
+00:11:51,510 --> 00:11:54,910
+Let's just restore our array here at this part
+
+204
+00:11:56,106 --> 00:11:59,663
+so that we can work with the original one here.
+
+205
+00:12:00,610 --> 00:12:04,450
+Or actually, let's also create a new array here.
+
+206
+00:12:04,450 --> 00:12:07,110
+Let's call this one, arr two.
+
+207
+00:12:07,110 --> 00:12:10,970
+And here, we will have five more letters of the alphabet
+
+208
+00:12:10,970 --> 00:12:13,833
+but this time, in a wrong order.
+
+209
+00:12:15,310 --> 00:12:16,800
+So let's say for some reason,
+
+210
+00:12:16,800 --> 00:12:21,800
+we are working with this array and we need to reverse it.
+
+211
+00:12:22,490 --> 00:12:27,030
+And so that's exactly what we use reverse for.
+
+212
+00:12:27,030 --> 00:12:31,523
+So arr2.reverse.
+
+213
+00:12:32,670 --> 00:12:36,353
+And indeed, it now returns the reverse array.
+
+214
+00:12:37,280 --> 00:12:38,933
+Here I actually want F.
+
+215
+00:12:40,030 --> 00:12:42,160
+And so now it is correct.
+
+216
+00:12:42,160 --> 00:12:44,980
+So f, g, h, i, j.
+
+217
+00:12:44,980 --> 00:12:48,860
+But now what's important to note here is the fact
+
+218
+00:12:48,860 --> 00:12:52,200
+that the reverse method does actually mutate
+
+219
+00:12:52,200 --> 00:12:53,423
+the original array.
+
+220
+00:12:55,391 --> 00:12:58,540
+So you see, as we log in the original,
+
+221
+00:12:58,540 --> 00:13:03,080
+it is now reversed two, okay.
+
+222
+00:13:03,080 --> 00:13:06,010
+So this one here does mutate the array.
+
+223
+00:13:06,010 --> 00:13:08,400
+So that's important to keep in mind.
+
+224
+00:13:08,400 --> 00:13:11,060
+So maybe you're noticing that in each of the methods,
+
+225
+00:13:11,060 --> 00:13:13,670
+I always mentioned which one mutates,
+
+226
+00:13:13,670 --> 00:13:16,960
+and which one does not mutate the original array.
+
+227
+00:13:16,960 --> 00:13:19,874
+And that's because this is a very important characteristic
+
+228
+00:13:19,874 --> 00:13:22,530
+of each of these methods.
+
+229
+00:13:22,530 --> 00:13:24,500
+That's because in a certain situation,
+
+230
+00:13:24,500 --> 00:13:27,710
+we might not want to mutate the original array,
+
+231
+00:13:27,710 --> 00:13:30,603
+and then we cannot use any of these methods.
+
+232
+00:13:31,740 --> 00:13:33,240
+Now, okay.
+
+233
+00:13:33,240 --> 00:13:35,770
+Next up, is the concat method.
+
+234
+00:13:35,770 --> 00:13:39,373
+And so this one is used to concatenate two arrays.
+
+235
+00:13:40,460 --> 00:13:44,250
+So let's create a variable called letters.
+
+236
+00:13:44,250 --> 00:13:46,900
+And letters will be the result of calling
+
+237
+00:13:46,900 --> 00:13:49,423
+the concat method on array.
+
+238
+00:13:52,020 --> 00:13:55,713
+And here, we have to specify the second array.
+
+239
+00:13:59,310 --> 00:14:00,910
+So let's take a look.
+
+240
+00:14:00,910 --> 00:14:04,960
+And now we have the 10 first letters of the alphabet here.
+
+241
+00:14:04,960 --> 00:14:07,112
+So the first array will be the one
+
+242
+00:14:07,112 --> 00:14:09,410
+on which the method is called.
+
+243
+00:14:09,410 --> 00:14:12,290
+And the second one is the one that we pass
+
+244
+00:14:12,290 --> 00:14:14,590
+into the concat method.
+
+245
+00:14:14,590 --> 00:14:17,580
+And once again, we already did this before,
+
+246
+00:14:17,580 --> 00:14:19,363
+in another way, remember?
+
+247
+00:14:21,640 --> 00:14:26,640
+So we could simply also do this, right,
+
+248
+00:14:26,880 --> 00:14:30,113
+arr and then arr two.
+
+249
+00:14:31,520 --> 00:14:34,120
+This gives us the exact same result
+
+250
+00:14:34,120 --> 00:14:38,660
+and it also does not mutate any of the involved arrays.
+
+251
+00:14:38,660 --> 00:14:42,259
+So just like concat, which also doesn't mutate
+
+252
+00:14:42,259 --> 00:14:45,653
+the original array here, alright.
+
+253
+00:14:50,330 --> 00:14:52,450
+And finally, just the join method
+
+254
+00:14:52,450 --> 00:14:54,460
+that we already talked about before,
+
+255
+00:14:54,460 --> 00:14:58,053
+but just for the sake of completion here, right.
+
+256
+00:14:58,950 --> 00:15:03,500
+And by the way, here in this concat method,
+
+257
+00:15:03,500 --> 00:15:07,980
+so if you prefer to do this one is of course perfectly fine.
+
+258
+00:15:07,980 --> 00:15:11,350
+And once again, it is just a matter of personal preference,
+
+259
+00:15:11,350 --> 00:15:14,069
+whether you prefer to use the spread operator,
+
+260
+00:15:14,069 --> 00:15:15,753
+or the concat method.
+
+261
+00:15:17,380 --> 00:15:18,213
+All right.
+
+262
+00:15:19,690 --> 00:15:23,100
+And now here, let's just join all the letters
+
+263
+00:15:23,100 --> 00:15:27,170
+of the alphabet together that we have here in our array
+
+264
+00:15:28,890 --> 00:15:31,383
+by using this separator here.
+
+265
+00:15:33,210 --> 00:15:36,010
+Okay, and so as you already know, the result here
+
+266
+00:15:36,010 --> 00:15:41,010
+is a string with the separator that we specified.
+
+267
+00:15:41,460 --> 00:15:42,420
+Great.
+
+268
+00:15:42,420 --> 00:15:46,600
+So your array tool set is rapidly growing here.
+
+269
+00:15:46,600 --> 00:15:50,040
+And remember that you already know push on shift,
+
+270
+00:15:50,040 --> 00:15:55,040
+pop shift, index of n includes from the intersection.
+
+271
+00:15:56,020 --> 00:15:59,320
+Now if you ever lose track of all these different methods,
+
+272
+00:15:59,320 --> 00:16:03,620
+and how they work, you can always come back to these videos.
+
+273
+00:16:03,620 --> 00:16:06,852
+Or of course, check the documentation on MDN,
+
+274
+00:16:06,852 --> 00:16:09,380
+just like we did here.
+
+275
+00:16:09,380 --> 00:16:13,370
+So no developer in the world knows all of this by heart.
+
+276
+00:16:13,370 --> 00:16:17,047
+So sometimes I even have to look up how the splice
+
+277
+00:16:17,047 --> 00:16:19,180
+or the slice method works,
+
+278
+00:16:19,180 --> 00:16:23,240
+because it's just too many methods to keep track of.
+
+279
+00:16:23,240 --> 00:16:27,670
+And, yeah, it's very hard to know everything by heart.
+
+280
+00:16:27,670 --> 00:16:30,850
+But anyway, let's now move on to the next lecture,
+
+281
+00:16:30,850 --> 00:16:34,603
+where we will take array methods to a whole new level.

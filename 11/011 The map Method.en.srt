@@ -1,0 +1,1079 @@
+1
+00:00:01,290 --> 00:00:02,790
+Let's now start seeing
+
+2
+00:00:02,790 --> 00:00:06,450
+the three data transformation methods in practice,
+
+3
+00:00:06,450 --> 00:00:09,633
+starting with the map method in this video.
+
+4
+00:00:11,440 --> 00:00:14,440
+And as we just learned, the map method
+
+5
+00:00:14,440 --> 00:00:18,690
+is yet another way that we can use to loop over a race.
+
+6
+00:00:18,690 --> 00:00:22,020
+But unlike for each, the map method will give us
+
+7
+00:00:22,020 --> 00:00:24,160
+a brand new array
+
+8
+00:00:24,160 --> 00:00:27,216
+and this new array will contain in each position
+
+9
+00:00:27,216 --> 00:00:30,430
+the results of applying a callback function
+
+10
+00:00:30,430 --> 00:00:33,540
+to the original array elements.
+
+11
+00:00:33,540 --> 00:00:36,310
+So let's see how that works.
+
+12
+00:00:36,310 --> 00:00:40,863
+And let's start by bringing back our movements array here,
+
+13
+00:00:42,400 --> 00:00:47,400
+so this one, so we will once more work with these movements.
+
+14
+00:00:47,410 --> 00:00:52,290
+And in this one, we will try to convert them to US dollars.
+
+15
+00:00:52,290 --> 00:00:55,280
+So let's suppose these movements are in euros
+
+16
+00:00:55,280 --> 00:00:58,830
+and we now want to convert them to US dollars.
+
+17
+00:00:58,830 --> 00:01:02,330
+And let's suppose that one Euro is worth $1.1,
+
+18
+00:01:04,924 --> 00:01:07,400
+so let's just store that conversion rate here first
+
+19
+00:01:07,400 --> 00:01:08,963
+to a separate variable.
+
+20
+00:01:09,990 --> 00:01:14,990
+So Euro to USD is 1.1 and so now what we want to do
+
+21
+00:01:15,550 --> 00:01:18,110
+is to basically multiply each element
+
+22
+00:01:18,110 --> 00:01:21,363
+of the movements array by this 1.1.
+
+23
+00:01:22,320 --> 00:01:27,320
+So let's say movements.map, and then just like
+
+24
+00:01:28,740 --> 00:01:32,620
+in a, for each method, we need a callback function.
+
+25
+00:01:32,620 --> 00:01:36,000
+And this callback function also gets as an argument,
+
+26
+00:01:36,000 --> 00:01:37,850
+the current array element.
+
+27
+00:01:37,850 --> 00:01:40,360
+So again just like in a, for each method
+
+28
+00:01:40,360 --> 00:01:42,000
+that we studied before
+
+29
+00:01:42,000 --> 00:01:43,850
+and that's why I said back then
+
+30
+00:01:43,850 --> 00:01:46,810
+that once you understood the for each method,
+
+31
+00:01:46,810 --> 00:01:48,880
+all the other methods will then become
+
+32
+00:01:48,880 --> 00:01:50,763
+a lot easier to understand.
+
+33
+00:01:51,690 --> 00:01:54,593
+So let's call this one here, a Mov one more time.
+
+34
+00:01:55,550 --> 00:01:57,810
+And then here in the callback function
+
+35
+00:01:57,810 --> 00:02:01,510
+we need to return the value that we want the new array
+
+36
+00:02:01,510 --> 00:02:04,380
+to have in the current position.
+
+37
+00:02:04,380 --> 00:02:09,380
+And so in this case, we want the original array
+
+38
+00:02:10,320 --> 00:02:13,973
+times the euro to USD conversion rate.
+
+39
+00:02:14,980 --> 00:02:18,820
+And this will make sense when we now see this result.
+
+40
+00:02:18,820 --> 00:02:21,830
+And so let's actually store it to a variable.
+
+41
+00:02:21,830 --> 00:02:25,450
+So we already know that the map method will return
+
+42
+00:02:25,450 --> 00:02:26,743
+a brand new array.
+
+43
+00:02:28,110 --> 00:02:30,173
+And so we need to store that somewhere.
+
+44
+00:02:31,030 --> 00:02:35,453
+So let's call it movements USD, and then let's log both
+
+45
+00:02:37,040 --> 00:02:41,893
+to the console movements and movements USD,
+
+46
+00:02:45,200 --> 00:02:47,150
+give it a safe and sometimes we need
+
+47
+00:02:47,150 --> 00:02:48,793
+to reload the page as well.
+
+48
+00:02:50,830 --> 00:02:53,850
+But anyway, here is the result.
+
+49
+00:02:53,850 --> 00:02:56,960
+Now, nevermind these multiplication errors here.
+
+50
+00:02:56,960 --> 00:03:00,200
+I'll explain you a little bit later where they come from,
+
+51
+00:03:00,200 --> 00:03:04,220
+but essentially this new value here is now 220
+
+52
+00:03:04,220 --> 00:03:07,800
+which is exactly 200 times 1.1.
+
+53
+00:03:07,800 --> 00:03:10,920
+And so indeed we ended up with a new array
+
+54
+00:03:10,920 --> 00:03:12,960
+containing all the movements
+
+55
+00:03:12,960 --> 00:03:16,550
+but convert it from euros to US dollars.
+
+56
+00:03:16,550 --> 00:03:19,510
+And again that's because that is exactly
+
+57
+00:03:19,510 --> 00:03:23,060
+what we returned here from this callback function
+
+58
+00:03:23,060 --> 00:03:26,653
+we could of course have returned simply something else.
+
+59
+00:03:27,830 --> 00:03:31,510
+So we could have returned simply 23.
+
+60
+00:03:31,510 --> 00:03:34,763
+And so what do you think we will end up in this situation?
+
+61
+00:03:36,340 --> 00:03:40,070
+Well, we now simply have an array of the same length
+
+62
+00:03:40,070 --> 00:03:43,170
+which in each of the position contains 23
+
+63
+00:03:43,170 --> 00:03:46,800
+because that's what we returned from the callback function.
+
+64
+00:03:46,800 --> 00:03:50,430
+And so in each iteration of the original movements array
+
+65
+00:03:50,430 --> 00:03:55,430
+it simply put 23 into the new array at the same position.
+
+66
+00:03:55,520 --> 00:03:58,090
+But of course that's a little bit useless.
+
+67
+00:03:58,090 --> 00:04:02,770
+And so let's go back to the example that we're working with.
+
+68
+00:04:02,770 --> 00:04:06,103
+Great, and of course you can also see
+
+69
+00:04:06,103 --> 00:04:08,320
+that the original movements array
+
+70
+00:04:08,320 --> 00:04:11,510
+was not mutated at all right?
+
+71
+00:04:11,510 --> 00:04:15,080
+And so indeed the map method really only returns
+
+72
+00:04:15,080 --> 00:04:18,290
+in new array with the new elements.
+
+73
+00:04:18,290 --> 00:04:20,450
+And this really is the fundamentals
+
+74
+00:04:20,450 --> 00:04:22,810
+of how the map method works.
+
+75
+00:04:22,810 --> 00:04:24,070
+So we can use this
+
+76
+00:04:24,070 --> 00:04:28,240
+and we will use it in all kinds of different situations.
+
+77
+00:04:28,240 --> 00:04:31,170
+Now, just for fun let's write the same thing here
+
+78
+00:04:31,170 --> 00:04:36,170
+using a for off loop, so we can create another Muff.
+
+79
+00:04:38,070 --> 00:04:41,500
+And then we are looping the movements, of course.
+
+80
+00:04:41,500 --> 00:04:44,590
+And so in this loop, we want to create a new array.
+
+81
+00:04:44,590 --> 00:04:46,060
+And so in this case
+
+82
+00:04:46,060 --> 00:04:49,183
+actually, we first need to create that new array.
+
+83
+00:04:50,940 --> 00:04:53,333
+So let's call it again, movements USD,
+
+84
+00:04:54,570 --> 00:04:59,570
+but then for, so here we first need to define that MTRA
+
+85
+00:05:01,160 --> 00:05:03,560
+and then as we loop over movements
+
+86
+00:05:03,560 --> 00:05:08,560
+we keep pushing a value to the new movements USD for array.
+
+87
+00:05:12,020 --> 00:05:17,020
+So push mov current element times euros to USD,
+
+88
+00:05:22,680 --> 00:05:24,300
+Let's log that as well,
+
+89
+00:05:24,300 --> 00:05:27,090
+and it should look exactly the same,
+
+90
+00:05:27,090 --> 00:05:29,660
+and in fact it does.
+
+91
+00:05:29,660 --> 00:05:32,470
+And so, yeah, we could have written this here
+
+92
+00:05:32,470 --> 00:05:35,280
+and it doesn't look too bad either
+
+93
+00:05:35,280 --> 00:05:38,300
+but it's a completely different philosophy.
+
+94
+00:05:38,300 --> 00:05:42,510
+So here in the map method, we use a function
+
+95
+00:05:42,510 --> 00:05:46,210
+to solve this problem of creating a new array.
+
+96
+00:05:46,210 --> 00:05:49,710
+While here we simply loop over one array
+
+97
+00:05:49,710 --> 00:05:52,190
+and then manually create a new one.
+
+98
+00:05:52,190 --> 00:05:54,810
+So these are completely different philosophies
+
+99
+00:05:54,810 --> 00:05:57,090
+or we can also say paradigms.
+
+100
+00:05:57,090 --> 00:06:00,780
+So this here is more in line with functional programming
+
+101
+00:06:00,780 --> 00:06:02,700
+which is something that I have mentioned
+
+102
+00:06:02,700 --> 00:06:04,850
+a couple of times in this course.
+
+103
+00:06:04,850 --> 00:06:08,570
+And we will talk about it later in greater detail
+
+104
+00:06:08,570 --> 00:06:11,190
+and in modern JavaScript, there is definitely
+
+105
+00:06:11,190 --> 00:06:15,270
+a push going on in the direction of functional programming.
+
+106
+00:06:15,270 --> 00:06:17,350
+So over a more functional language.
+
+107
+00:06:17,350 --> 00:06:20,070
+And therefore in modern JavaScript this here
+
+108
+00:06:20,070 --> 00:06:21,610
+is the way to go.
+
+109
+00:06:21,610 --> 00:06:24,110
+So using methods together with callback functions
+
+110
+00:06:24,110 --> 00:06:28,023
+like this, is the new and modern way of doing stuff.
+
+111
+00:06:29,690 --> 00:06:32,960
+All right, but now let's actually make
+
+112
+00:06:32,960 --> 00:06:36,600
+our callback function here, look a little bit cleaner.
+
+113
+00:06:36,600 --> 00:06:40,630
+So this callback function we can simplify it greatly.
+
+114
+00:06:40,630 --> 00:06:43,270
+So do you remember arrow functions.
+
+115
+00:06:43,270 --> 00:06:45,920
+We could perfectly use an arrow function here
+
+116
+00:06:45,920 --> 00:06:49,830
+and simplified as here into just one line of code.
+
+117
+00:06:49,830 --> 00:06:51,950
+So here is my challenge for you.
+
+118
+00:06:51,950 --> 00:06:54,420
+Do you think that you can do that yourself?
+
+119
+00:06:54,420 --> 00:06:58,570
+So basically replacing this callback with an arrow function
+
+120
+00:06:58,570 --> 00:07:01,520
+take a minute and see if you can do that for yourself.
+
+121
+00:07:01,520 --> 00:07:03,473
+And I'll see you back here in a second.
+
+122
+00:07:05,690 --> 00:07:10,690
+So let's just copy this and then replace this by parts.
+
+123
+00:07:13,850 --> 00:07:16,820
+So first we can remove the function keywords
+
+124
+00:07:17,970 --> 00:07:21,730
+and then replace it with an arrow.
+
+125
+00:07:21,730 --> 00:07:24,570
+Then we can also remove these parenthesis here
+
+126
+00:07:24,570 --> 00:07:27,400
+because there's only one argument.
+
+127
+00:07:27,400 --> 00:07:31,120
+And finally, since we only have one line of code,
+
+128
+00:07:31,120 --> 00:07:33,800
+we can remove the curly braces
+
+129
+00:07:33,800 --> 00:07:37,650
+and we can even remove the return statement.
+
+130
+00:07:37,650 --> 00:07:39,750
+And so this code that we have here now
+
+131
+00:07:39,750 --> 00:07:42,570
+is exactly the same as before.
+
+132
+00:07:42,570 --> 00:07:44,693
+So we can comment out this one here.
+
+133
+00:07:45,870 --> 00:07:48,360
+And of course I'm leaving it here for reference,
+
+134
+00:07:48,360 --> 00:07:51,370
+but as I save it now you see that the result
+
+135
+00:07:51,370 --> 00:07:52,920
+is exactly the same.
+
+136
+00:07:52,920 --> 00:07:55,710
+And so here we now have a nice and clean
+
+137
+00:07:55,710 --> 00:07:59,350
+one liner callback function, just like this.
+
+138
+00:07:59,350 --> 00:08:03,830
+However many people don't like the way that this looks.
+
+139
+00:08:03,830 --> 00:08:06,850
+So they argued that this lacks the function
+
+140
+00:08:06,850 --> 00:08:09,350
+and the return keyword which they say
+
+141
+00:08:09,350 --> 00:08:11,300
+it leads to bad readability.
+
+142
+00:08:11,300 --> 00:08:13,470
+And that it makes this whole thing
+
+143
+00:08:13,470 --> 00:08:16,130
+more difficult to understand.
+
+144
+00:08:16,130 --> 00:08:19,400
+And while I can see that, that might be true.
+
+145
+00:08:19,400 --> 00:08:22,870
+I actually do prefer the fact how much smaller
+
+146
+00:08:22,870 --> 00:08:25,160
+and cleaner this code is.
+
+147
+00:08:25,160 --> 00:08:27,890
+So in my opinion if you understand well enough
+
+148
+00:08:27,890 --> 00:08:29,990
+how the arrow function actually works
+
+149
+00:08:29,990 --> 00:08:33,500
+then you will become familiar with this pretty quickly.
+
+150
+00:08:33,500 --> 00:08:37,565
+And so then there is no problem in writing code like this.
+
+151
+00:08:37,565 --> 00:08:40,430
+Okay, the main thing that you need to keep in mind
+
+152
+00:08:40,430 --> 00:08:44,860
+is that here we are actually returning this value.
+
+153
+00:08:44,860 --> 00:08:46,570
+So you need to remember
+
+154
+00:08:46,570 --> 00:08:49,363
+that this is like writing return here.
+
+155
+00:08:51,740 --> 00:08:55,560
+And so if you understand that, then you're good to go.
+
+156
+00:08:55,560 --> 00:08:59,700
+So I will actually use arrow functions in this situations
+
+157
+00:08:59,700 --> 00:09:02,380
+in the rest of the course, because I believe
+
+158
+00:09:02,380 --> 00:09:06,170
+that they are perfect for these small callback functions.
+
+159
+00:09:06,170 --> 00:09:08,490
+In my opinion they were really developed
+
+160
+00:09:08,490 --> 00:09:11,000
+for this kind of application.
+
+161
+00:09:11,000 --> 00:09:13,930
+But as always, if you do prefer the irregular
+
+162
+00:09:13,930 --> 00:09:17,890
+function syntax then please feel 100% free
+
+163
+00:09:17,890 --> 00:09:20,450
+to keep using them instead.
+
+164
+00:09:20,450 --> 00:09:23,420
+And with that being said, let's now experiment
+
+165
+00:09:23,420 --> 00:09:26,983
+a little bit more and explore the map method some more.
+
+166
+00:09:28,470 --> 00:09:30,800
+So just like to for each method,
+
+167
+00:09:30,800 --> 00:09:33,470
+the math method also has access
+
+168
+00:09:33,470 --> 00:09:36,320
+to the exact same three parameters.
+
+169
+00:09:36,320 --> 00:09:38,670
+So besides the current array element
+
+170
+00:09:38,670 --> 00:09:41,360
+which is this one here, we also get access
+
+171
+00:09:41,360 --> 00:09:45,240
+to the current index as well as the whole array.
+
+172
+00:09:45,240 --> 00:09:49,460
+So let's now use the map method to loop again
+
+173
+00:09:49,460 --> 00:09:51,170
+over the movements array.
+
+174
+00:09:51,170 --> 00:09:54,600
+But this time we're gonna create a string similar
+
+175
+00:09:54,600 --> 00:09:56,210
+to the one step we printed
+
+176
+00:09:56,210 --> 00:09:59,330
+to the console earlier using for each.
+
+177
+00:09:59,330 --> 00:10:01,363
+So let me actually get that logic.
+
+178
+00:10:02,660 --> 00:10:04,573
+And so it's this one here.
+
+179
+00:10:11,050 --> 00:10:13,800
+So let's specify a callback function
+
+180
+00:10:13,800 --> 00:10:18,180
+and indeed now I will actually use an arrow function.
+
+181
+00:10:18,180 --> 00:10:22,520
+And so, as I said, we get access to the current element
+
+182
+00:10:22,520 --> 00:10:25,950
+but also to the index and to the entire array
+
+183
+00:10:28,520 --> 00:10:31,770
+this time we do need a block, at least for now.
+
+184
+00:10:31,770 --> 00:10:35,100
+And then here we have our logic.
+
+185
+00:10:35,100 --> 00:10:38,890
+Now in this case, we will not lock something to the console.
+
+186
+00:10:38,890 --> 00:10:41,670
+So instead we want to return the string
+
+187
+00:10:41,670 --> 00:10:44,960
+so that it then gets put into the new array,
+
+188
+00:10:44,960 --> 00:10:47,523
+that results from the map method.
+
+189
+00:10:48,860 --> 00:10:51,793
+So let's say here movementsDiscriptions
+
+190
+00:10:55,640 --> 00:11:00,640
+so that's a long name, but anyway
+
+191
+00:11:00,930 --> 00:11:04,473
+again, here we do not want to lock something to the console.
+
+192
+00:11:05,990 --> 00:11:10,190
+So we don't want to simply do something with this value.
+
+193
+00:11:10,190 --> 00:11:13,400
+Like we do when we console.log instead
+
+194
+00:11:13,400 --> 00:11:15,880
+we really want to return it.
+
+195
+00:11:15,880 --> 00:11:20,223
+And so that will then place this value into the new array.
+
+196
+00:11:21,160 --> 00:11:23,006
+So let's save that.
+
+197
+00:11:23,006 --> 00:11:25,000
+Let's then also log this
+
+198
+00:11:25,000 --> 00:11:28,263
+to the console movementDescriptions.
+
+199
+00:11:30,190 --> 00:11:32,550
+And so indeed we get to this array
+
+200
+00:11:32,550 --> 00:11:36,980
+with these strings that we previously logged to the console.
+
+201
+00:11:36,980 --> 00:11:39,880
+And by the way it's completely acceptable
+
+202
+00:11:39,880 --> 00:11:41,860
+to have to return statements
+
+203
+00:11:41,860 --> 00:11:44,280
+or even more in the same function
+
+204
+00:11:44,280 --> 00:11:48,670
+as long as only one of them is executed, right?
+
+205
+00:11:48,670 --> 00:11:51,610
+So in this case either this one here is executed
+
+206
+00:11:51,610 --> 00:11:54,650
+or this one, it's impossible for both of them
+
+207
+00:11:54,650 --> 00:11:57,700
+to return at the same time, right?
+
+208
+00:11:57,700 --> 00:12:01,470
+And actually we can even simplify this whole thing here
+
+209
+00:12:01,470 --> 00:12:04,000
+because these two strings are essentially
+
+210
+00:12:04,000 --> 00:12:08,380
+the exact same thing, except for this word here.
+
+211
+00:12:08,380 --> 00:12:11,687
+And so let's do something else here, right.
+
+212
+00:12:14,310 --> 00:12:17,970
+Now you also have this math.absolute value
+
+213
+00:12:17,970 --> 00:12:21,710
+but if the value is already positive as it is here,
+
+214
+00:12:21,710 --> 00:12:24,660
+then that simply makes no difference.
+
+215
+00:12:24,660 --> 00:12:29,240
+And so let's use a ternary operator here,
+
+216
+00:12:29,240 --> 00:12:33,253
+to put either withdrew or deposited right here.
+
+217
+00:12:34,800 --> 00:12:37,420
+And so this has nothing to do with the map method,
+
+218
+00:12:37,420 --> 00:12:41,270
+but yeah, it's a good way to also keep practicing
+
+219
+00:12:41,270 --> 00:12:44,390
+the other skills that we have been learning.
+
+220
+00:12:44,390 --> 00:12:48,200
+So we can check if the movement is greater than zero.
+
+221
+00:12:48,200 --> 00:12:50,130
+So the same condition as here.
+
+222
+00:12:50,130 --> 00:12:54,210
+And if it is then at this part of the string,
+
+223
+00:12:54,210 --> 00:12:56,300
+it should say deposited.
+
+224
+00:12:56,300 --> 00:13:00,203
+And if not, well, then it should say withdrew.
+
+225
+00:13:02,220 --> 00:13:06,000
+And so like this, we built this string all in one go.
+
+226
+00:13:06,000 --> 00:13:07,960
+And so we can get rid of this.
+
+227
+00:13:07,960 --> 00:13:10,180
+We can get rid of this.
+
+228
+00:13:10,180 --> 00:13:14,680
+And so therefore we don't need the return keyword anymore.
+
+229
+00:13:14,680 --> 00:13:16,423
+And so it works just the same.
+
+230
+00:13:17,670 --> 00:13:21,890
+Okay, now, in this case, we don't need this array here.
+
+231
+00:13:21,890 --> 00:13:23,790
+So that's actually also get rid of it.
+
+232
+00:13:26,090 --> 00:13:29,910
+And it's a good idea to keep in mind why we actually
+
+233
+00:13:29,910 --> 00:13:33,910
+get access to these two parameters here.
+
+234
+00:13:33,910 --> 00:13:37,430
+So one more time, all we do here is to pass
+
+235
+00:13:37,430 --> 00:13:41,930
+this callback function into the map method, right?
+
+236
+00:13:41,930 --> 00:13:44,705
+But we do not call this function by ourselves.
+
+237
+00:13:44,705 --> 00:13:48,230
+It is the map method who we'll call this function
+
+238
+00:13:48,230 --> 00:13:53,230
+for each of the array elements in the movement array.
+
+239
+00:13:53,230 --> 00:13:58,230
+Okay, now each time that the map method calls or callback
+
+240
+00:13:58,300 --> 00:14:01,780
+it will simply pass in the current array element as well
+
+241
+00:14:01,780 --> 00:14:04,690
+as the current index and the whole array.
+
+242
+00:14:04,690 --> 00:14:08,910
+And off these three, here we are only using the first two,
+
+243
+00:14:08,910 --> 00:14:13,370
+just the current element and the current index, all right?
+
+244
+00:14:13,370 --> 00:14:15,500
+And with this, I hope that by now
+
+245
+00:14:15,500 --> 00:14:19,700
+it is really crystal clear how this all works.
+
+246
+00:14:19,700 --> 00:14:23,110
+Now you could say, that what we did here
+
+247
+00:14:23,110 --> 00:14:26,100
+with this map method is essentially the same
+
+248
+00:14:26,100 --> 00:14:28,810
+as what we did with the, for each method.
+
+249
+00:14:28,810 --> 00:14:31,510
+But in fact, there is a big, big difference
+
+250
+00:14:31,510 --> 00:14:33,820
+between these two approaches.
+
+251
+00:14:33,820 --> 00:14:36,860
+So before we printed each line individually
+
+252
+00:14:36,860 --> 00:14:40,330
+to the console, as we were looping over the array.
+
+253
+00:14:40,330 --> 00:14:43,770
+So in each of the iterations, we performed some action
+
+254
+00:14:43,770 --> 00:14:46,160
+that was then visible in the console
+
+255
+00:14:46,160 --> 00:14:48,910
+and we can call this a side effect.
+
+256
+00:14:48,910 --> 00:14:52,480
+So the, for each method creates side effects.
+
+257
+00:14:52,480 --> 00:14:54,940
+But now here with this map method,
+
+258
+00:14:54,940 --> 00:14:56,800
+all we did was to return each
+
+259
+00:14:56,800 --> 00:14:59,550
+of the strings from the callback.
+
+260
+00:14:59,550 --> 00:15:03,200
+And so basically they got added into a new array.
+
+261
+00:15:03,200 --> 00:15:06,430
+And then finally we logged that entire array
+
+262
+00:15:06,430 --> 00:15:09,880
+to the console and not the elements one by one.
+
+263
+00:15:09,880 --> 00:15:12,510
+And so here in this map method
+
+264
+00:15:12,510 --> 00:15:16,270
+we did not create a side effect in each of the iteration.
+
+265
+00:15:16,270 --> 00:15:19,890
+All we did was to build a brand new array
+
+266
+00:15:19,890 --> 00:15:23,780
+and this idea of side effects will become important again,
+
+267
+00:15:23,780 --> 00:15:26,940
+as we talk more about functional programming.
+
+268
+00:15:26,940 --> 00:15:30,340
+Great, and this is how the map method works,
+
+269
+00:15:30,340 --> 00:15:34,030
+in the next video, we will see a more practical application
+
+270
+00:15:34,030 --> 00:15:37,923
+of it in the context of our Bankist application.

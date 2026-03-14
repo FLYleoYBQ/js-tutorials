@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Setting up Prettier and VS Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 配置 Prettier 格式化工具</a>
+            <a href="#section-2" class="nav-item">2. 定制 Prettier 规则</a>
+            <a href="#section-3" class="nav-item">3. 配置 VS Code 自定义代码片段</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Setting up Prettier and VS Code</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：003 Setting up Prettier and VS Code.en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：VS Code 基础使用</li>
+                <li><strong>后续扩展</strong>：写出高规范性、团队级标准的代码</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>让编辑器更好地为我们服务，是提升编码效率的关键。本节课我们将安装并配置 Prettier —— 一款行业标准的强制代码格式化工具，同时学习如何使用 VS Code 代码片段（Snippets）极大减轻输入 <code>console.log</code> 的体力劳动。</p>
+
+        <h2 id="section-1">1. 配置 Prettier 格式化工具</h2>
+        <p>Prettier 是一款极具“主见”（Opinionated）的代码格式化插件。它会对一段代码应该长什么样做出强硬假设，并在保存时自动调整空格、空行及引号等，从而一举终结开发团队关于“代码风格”的争论。</p>
+        
+        <p><strong>第一步：安装</strong>。在 VS Code 扩展面板搜索 "Prettier"，安装排名第一的扩展并点击启用。</p>
+        <p><strong>第二步：设置为默认格式化程序</strong>。进入 VS Code 的【首选项】 > 【设置】，搜索 <code>Default Formatter</code>，在茫茫列表中选中 <code>esbenp.prettier-vscode</code>。同时，确保勾选了 <code>Format On Save</code>（保存时自动格式化）。</p>
+        
+        <p>配置完成后，当你随便写一些未对齐的丑陋代码，只要按下 <code>Ctrl+S / Cmd+S</code>，Prettier 便会自动帮你清理空格、转换双引号等。代码瞬间变身行业标准级外观！</p>
+
+        <h2 id="section-2">2. 定制 Prettier 规则</h2>
+        <p>虽然 Prettier 很强硬，但它也开放了部分规则让我们微调。比如我个人更青睐<strong>单引号</strong>，而不喜欢它默认强加的双引号；又或者我不喜欢只有一个参数的箭头函数外边套着圆括号。</p>
+        
+        <p>实现这一点最简单的方法是：在项目根目录下创建一个名为 <code>.prettierrc</code> 的配置文件。</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header"><span class="editor-title">.prettierrc</span></div>
+            <div class="editor-container">
+                <textarea class="editor-textarea" spellcheck="false" readonly>{
+  "singleQuote": true,
+  "arrowParens": "avoid"
+}</textarea>
+            </div>
+        </div>
+
+        <p>加入这个配置后，Prettier 就会遵守这几条特例：将字符串保留为单引号（<code>singleQuote: true</code>），并对单参数的箭头函数省略圆括号（<code>arrowParens: "avoid"</code>）。</p>
+
+        <h2 id="section-3">3. 配置 VS Code 自定义代码片段 (Snippets)</h2>
+        <p>你有没有觉得，一整天疯狂敲打 <code>console.log()</code> 的工作枯燥无比？VS Code 内建了“用户代码片段”（User Snippets）功能，可以让我们定义简写指令，自动展开为长代码。</p>
+        
+        <p>步骤如下：前往【首选项】 > 【用户代码片段】 > 【新建全局代码片段文件】（例如随意命名为 <code>jonas</code>），录入以下代码：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header"><span class="editor-title">jonas.code-snippets</span></div>
+            <div class="editor-container">
+                <textarea class="editor-textarea" spellcheck="false" readonly>"Print to console": {
+    "scope": "javascript,typescript",
+    "prefix": "cl",
+    "body": [
+        "console.log($1);"
+    ],
+    "description": "Log output to console"
+}</textarea>
+            </div>
+        </div>
+        
+        <p>现在，只要你在 JavaScript 文件中输入 <code>cl</code> 并回车，VS Code 就会“嗖”地一下展开成完整的 <code>console.log();</code> 并且光标会自动放置在括号内（由 <code>$1</code> 占位符控制）。这看似微小的一步，每年却能为你省下成百上千次敲打按键的时间！</p>
+        
+        > 💡 **专家提示 (TODO Highlight)**：我强烈推荐你安装名为 `TODO Highlight` 的扩展。当你用 `// BUG` 或 `// FIXME` 书写注释时，它能以醒目的高亮红色或黄色提醒你，非常好用。
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">1. Prettier 被称为“Opinionated（有主见）”的工具，这意味着什么？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 它强制接管格式化决策，不论你喜不喜欢，它都会按既定标准重写样式（空格、换行）。</div>
+                <div class="quiz-option" data-value="B">B) 它会自动帮你修复 JavaScript 逻辑错误。</div>
+                <div class="quiz-option" data-value="C">C) 它可以随时被其他插件取代，没有任何独占性。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>A 是正确的</strong>。Prettier 的哲学是不给开发者太多选项（尽管有几个可配），强制统一风格团队标准，消灭关于排版好坏的主观争论。
+            </div>
+        </div>
+        
+        <br>
+        
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>代码格式化</td>
+                    <td>Formatter</td>
+                    <td>调整代码间距、换行、引号等使之规范对齐的工具</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>代码片段</td>
+                    <td>Snippets</td>
+                    <td>使用简写词语（Prefix）快速展开生成一整块既定代码的功能</td>
+                    <td>{ "prefix": "cl", "body": "console.log($1);" }</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+</body>
+</html>

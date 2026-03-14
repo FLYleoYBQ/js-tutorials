@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Looping Arrays: The for-of Loop</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. for-of 取代繁琐的老式 for 循环</a>
+            <a href="#section-2" class="nav-item">2. 痛点：如何通过 for-of 获取索引？</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Looping Arrays: The for-of Loop</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：012 Looping Arrays The for-of Loop.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置基础</strong>：老派的传统 <code>for (let i = 0; i < arr.length; i++)</code> 循环。</li>
+                <li><strong>进化变革</strong>：ES6 引入的 <code>for-of</code> 循环结构。极大幅度剥离底层的计数器管理。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>在古典 JavaScript 时代，遍历数组意味着我们需要手写三段长长的初始化、边界判定、自增仪式。而全新的 ES6 <code>for-of</code> 让数组遍历变得极速优雅，宛如阅读一篇人类能够直观理解的英文小说。</p>
+
+        <h2 id="section-1">1. for-of 取代繁琐的老式 for 循环</h2>
+        <p>让我们看看它在实际业务流里有多直白。相比别的现代循环方式，<code>for-of</code> 有一个碾压级的巨大优势：它<strong>允许被 <code>continue</code> 或 <code>break</code> 强行打断</strong>！</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行测试</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const menu = ['Pizza', 'Pasta', 'Risotto', 'Salad', 'Bread'];
+
+// ✅ ES6 时代的无脑优雅法：
+for (const item of menu) {
+    console.log(item);
+    
+    // 它支持中途跳车或忽略：
+    if (item === 'Risotto') {
+        console.log('（找到了烩饭，停止扫描！）');
+        break;
+    }
+}</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-2">2. 痛点：如何通过 for-of 获取索引？</h2>
+        <p><code>for-of</code> 最初被设计时纯粹是为了丢给你“具体的元素内容” (Element) 而非数字索引 (Index)。但如果你同时恰恰需要索引号（例如展示菜单：1. 披萨，2. 意面），你需要一个内置工具：<code>.entries()</code> 迭代器。</p>
+
+        <div class="code-comparison">
+            <div class="code-column">
+                <div class="code-header">💣 第一步：带泥沙的原生捞出法</div>
+<pre><code class="language-javascript">for (const item of menu.entries()) {
+    // 此时 item 变成了一个包含了 [索引, 值] 的小数组包裹
+    console.log(`${item[0] + 1}: ${item[1]}`);
+}</code></pre>
+            </div>
+            <div class="code-column">
+                <div class="code-header">🛡️ 第二步：结合解构大法的终极版</div>
+<pre><code class="language-javascript">// 我们根本不再需要忍受 item[0] 和 item[1]
+// 直接在接待形参的部位使用解构 [i, el] 把包裹撕开
+for (const [i, el] of menu.entries()) {
+    // i 就是 index, el 就是 item 值
+    console.log(`${i + 1}: ${el}`);
+}</code></pre>
+            </div>
+        </div>
+
+        <p>通过使用 <code>menu.entries()</code>，你把原本的一维 <code>['Pizza', 'Pasta']</code> 变成了二维小方块阵型装车发送给了遍历机：<code>[ [0, 'Pizza'], [1, 'Pasta'] ]</code>。再配合最时髦的解构签收，完美无痛获取了 index 和 element。</p>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 关于 ES6 的 `for-of` 语法，下述说法哪项正确？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 它只能用来获取值，如果想在循环里既获取索引又获取值，只能乖乖换回老的 let i = 0... 循环。</div>
+                <div class="quiz-option" data-value="B">B) `for-of` 支持中途使用 break 截断停止，或者使用 continue 跳过单次。这和传统的 for 一样刚健，比后来学到的 forEach 更加自由。</div>
+                <div class="quiz-option" data-value="C">C) 它完全废弃了老版循环，我们不再需要写 const [index, it] of...</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的选项</strong>。这也是它的立足之本。在后面我们要学的数组高阶函数 <code>forEach</code> 里面，是完全不理会并且不吃你 <code>break / continue</code> 这一套强行终止操作的。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section Intro</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--accent-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-welcome" class="nav-item active">欢迎来到 DOM 操控的世界</a>
+            <a href="#section-preview" class="nav-item">本章预告：三大实战项目</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Section Intro (章节导语)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：001 Section Intro.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <h2 id="section-welcome">🚀 欢迎来到 DOM 操控的世界</h2>
+        
+        <p>欢迎回来！是时候来搭建我们第一个拥有<strong>可视化用户界面 (Visual User Interface)</strong> 的项目了。</p>
+        <p>一直到现在的课程为止，我们都在幕后学习 JavaScript “语言本身”的核心逻辑与基本功。但是在这绝赞的一章中，我们要把开发水平拉升到一个全新的层次——学会如何让 JavaScript 与真实的网页产生动态交互，这在业界被称为 <strong>DOM Manipulation (DOM 操控)</strong>。</p>
+        <p>当你看着代码第一次在浏览器里“活过来”的那种兴奋感是无与伦比的。</p>
+
+        <h2 id="section-preview">🛠 本章预告：三大实战项目</h2>
+
+        <p>在这一个章节里，为了让你把基础的 DOM 操作彻底肌肉记忆化，我们不仅仅只做一个项目，而是会连续制作<strong>三个漂亮且功能各异的小项目</strong>！</p>
+
+        <div class="mermaid">
+        flowchart LR
+            A["🧠 JavaScript 逻辑"] -->|通过 DOM 操作| B["🌐 网页交互界面\n(HTML + CSS)"]
+            
+            subgraph Projects[即将征服的三座高峰]
+                P1["✅ 项目 1\n猜数字游戏"]
+                P2["✅ 项目 2\n模态弹窗 (Modal)"]
+                P3["✅ 项目 3\n投骰子双打游戏"]
+            end
+            
+            B -.-> P1
+            B -.-> P2
+            B -.-> P3
+            
+            style A fill:#2a4365,stroke:#63b3ed,color:#fff
+            style B fill:#22543d,stroke:#68d391,color:#fff
+            style P1 fill:#742a2a,stroke:#fc8181,color:#fff
+            style P2 fill:#742a2a,stroke:#fc8181,color:#fff
+            style P3 fill:#742a2a,stroke:#fc8181,color:#fff
+        </div>
+
+        <div class="callout">
+            <p>💡 准备好了吗？我们将结合前面几章学的变量、函数、逻辑判断，把它们直接装载到真实的点击事件和屏幕数字跳动中。让乐趣立刻开始吧！</p>
+        </div>
+
+    </main>
+</div>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+</script>
+</body>
+</html>

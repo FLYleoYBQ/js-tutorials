@@ -1,0 +1,1435 @@
+1
+00:00:01,180 --> 00:00:03,010
+The fundamental building block
+
+2
+00:00:03,010 --> 00:00:07,160
+of real world JavaScript applications are functions.
+
+3
+00:00:07,160 --> 00:00:10,494
+They are one of the most essential concepts in the language
+
+4
+00:00:10,494 --> 00:00:14,323
+and so let's study functions over the next couple of videos.
+
+5
+00:00:15,830 --> 00:00:19,140
+So what actually are functions?
+
+6
+00:00:19,140 --> 00:00:22,570
+Well in the most simple form a function
+
+7
+00:00:22,570 --> 00:00:25,890
+is simply a piece of code that we can reuse
+
+8
+00:00:25,890 --> 00:00:28,690
+over and over again in our code.
+
+9
+00:00:28,690 --> 00:00:31,490
+So it's a little bit like a variable
+
+10
+00:00:31,490 --> 00:00:34,050
+but for whole chunks of code.
+
+11
+00:00:34,050 --> 00:00:37,400
+So remember a variable holds value
+
+12
+00:00:37,400 --> 00:00:42,360
+but a function can hold one or more complete lines of code.
+
+13
+00:00:42,360 --> 00:00:45,970
+So let's not declare our very first function
+
+14
+00:00:45,970 --> 00:00:48,180
+so we start with the function keyword
+
+15
+00:00:49,830 --> 00:00:52,530
+and then we define a function name
+
+16
+00:00:52,530 --> 00:00:55,330
+and let's now just create a simple logger
+
+17
+00:00:55,330 --> 00:00:58,140
+which is a function that will simply log
+
+18
+00:00:58,140 --> 00:00:59,403
+something to the console.
+
+19
+00:01:00,800 --> 00:01:04,480
+So I will call this one logger and then we need parenthesis
+
+20
+00:01:04,480 --> 00:01:07,360
+and we will see why in a next example
+
+21
+00:01:07,360 --> 00:01:09,090
+and then we use the curly braces
+
+22
+00:01:09,090 --> 00:01:12,230
+to create the so-called function buddy.
+
+23
+00:01:12,230 --> 00:01:15,670
+So all the code that is within this code block here
+
+24
+00:01:15,670 --> 00:01:18,290
+so within this block of curly braces
+
+25
+00:01:18,290 --> 00:01:19,770
+is called the function buddy
+
+26
+00:01:19,770 --> 00:01:21,370
+and it's this code that will
+
+27
+00:01:21,370 --> 00:01:25,050
+be executed when we run this function.
+
+28
+00:01:25,050 --> 00:01:28,990
+So let's say we needed to execute a log many times
+
+29
+00:01:28,990 --> 00:01:30,853
+somewhere in our program.
+
+30
+00:01:31,890 --> 00:01:36,890
+So let's simply console dot log my name is Jonas
+
+31
+00:01:39,830 --> 00:01:41,690
+and so somewhere in our program
+
+32
+00:01:41,690 --> 00:01:45,630
+we needed to reuse this line of code here multiple times
+
+33
+00:01:45,630 --> 00:01:49,440
+and so that's why we put it in a function, okay?
+
+34
+00:01:49,440 --> 00:01:53,090
+So we created the function and now we can use it
+
+35
+00:01:53,090 --> 00:01:56,520
+and we can use it as many times as we want.
+
+36
+00:01:56,520 --> 00:02:00,080
+So to use the function, we simply write the function name
+
+37
+00:02:00,080 --> 00:02:04,000
+followed by a parenthesis and that's actually it
+
+38
+00:02:04,000 --> 00:02:08,640
+and this process here of basically using the function
+
+39
+00:02:08,640 --> 00:02:12,320
+is called invoking the function, running the function
+
+40
+00:02:12,320 --> 00:02:14,400
+or calling the function.
+
+41
+00:02:14,400 --> 00:02:17,120
+So let me actually write these terms here
+
+42
+00:02:18,410 --> 00:02:23,410
+so calling running or invoking the function
+
+43
+00:02:27,780 --> 00:02:30,280
+and you will see me use these three terms here
+
+44
+00:02:30,280 --> 00:02:32,040
+interchangeably, okay?
+
+45
+00:02:32,040 --> 00:02:36,220
+So they basically mean the same thing you can think of them
+
+46
+00:02:36,220 --> 00:02:39,620
+as like executing or using the function
+
+47
+00:02:39,620 --> 00:02:43,120
+that we defined previously, okay?
+
+48
+00:02:43,120 --> 00:02:47,260
+And as I said, we can now use or call
+
+49
+00:02:47,260 --> 00:02:51,420
+or run this function as many times as we want
+
+50
+00:02:51,420 --> 00:02:54,270
+and each time that we call the function like this
+
+51
+00:02:54,270 --> 00:02:56,520
+then the code that is in the function
+
+52
+00:02:56,520 --> 00:02:59,960
+will get executed, all right?
+
+53
+00:02:59,960 --> 00:03:02,403
+So in this case, what should we expect here?
+
+54
+00:03:03,500 --> 00:03:07,310
+Let's see and indeed we get this
+
+55
+00:03:07,310 --> 00:03:09,770
+my name is Jonas log three times
+
+56
+00:03:09,770 --> 00:03:12,290
+because we call the function three times
+
+57
+00:03:12,290 --> 00:03:16,720
+and so this line of code here was executed three times.
+
+58
+00:03:16,720 --> 00:03:20,290
+Great, so we just wrote our very first function
+
+59
+00:03:20,290 --> 00:03:22,530
+and it's already working just fine
+
+60
+00:03:22,530 --> 00:03:24,450
+and I hope that this logic
+
+61
+00:03:24,450 --> 00:03:26,770
+of reusing code makes sense to you
+
+62
+00:03:27,930 --> 00:03:30,071
+but let's now take it to the next level
+
+63
+00:03:30,071 --> 00:03:33,880
+and really use some more functionalities of functions
+
+64
+00:03:33,880 --> 00:03:35,670
+because they can do a lot more
+
+65
+00:03:35,670 --> 00:03:39,800
+than simply reusing a line of code like we did here.
+
+66
+00:03:39,800 --> 00:03:41,743
+So usually when we write functions
+
+67
+00:03:41,743 --> 00:03:45,090
+we also pass data into a function
+
+68
+00:03:45,090 --> 00:03:49,410
+and additionally, a function can also return data as well
+
+69
+00:03:49,410 --> 00:03:51,570
+which means to give us data back
+
+70
+00:03:51,570 --> 00:03:55,420
+that we can then use for something else in the program.
+
+71
+00:03:55,420 --> 00:03:59,090
+So a function cannot only reuse a piece of code
+
+72
+00:03:59,090 --> 00:04:00,260
+like we did here
+
+73
+00:04:00,260 --> 00:04:03,710
+but it can also receive data and return data back
+
+74
+00:04:04,630 --> 00:04:08,840
+and so I like to think of functions as machines.
+
+75
+00:04:08,840 --> 00:04:11,445
+So I think that's a great analogy
+
+76
+00:04:11,445 --> 00:04:15,490
+so for example, let's imagine a food processor,
+
+77
+00:04:15,490 --> 00:04:17,970
+so we put foot into the processor
+
+78
+00:04:17,970 --> 00:04:20,880
+then the processor does something to our food
+
+79
+00:04:20,880 --> 00:04:23,680
+which is the function body basically
+
+80
+00:04:23,680 --> 00:04:24,810
+and then in the end
+
+81
+00:04:24,810 --> 00:04:27,820
+the food processor returns to processed food
+
+82
+00:04:27,820 --> 00:04:29,750
+for example, a juice
+
+83
+00:04:29,750 --> 00:04:33,960
+and so that's exactly what we can do with functions as well
+
+84
+00:04:33,960 --> 00:04:37,193
+and actually let's implement exactly this example.
+
+85
+00:04:39,200 --> 00:04:42,740
+So, again, we need to use the function keyword
+
+86
+00:04:44,120 --> 00:04:46,620
+and then we choose a function name
+
+87
+00:04:46,620 --> 00:04:48,630
+and just like with variable names
+
+88
+00:04:48,630 --> 00:04:51,600
+we should choose descriptive function names
+
+89
+00:04:51,600 --> 00:04:53,450
+so that we know exactly what they do.
+
+90
+00:04:54,470 --> 00:04:57,750
+So let's call this one a fruit processor
+
+91
+00:04:58,640 --> 00:04:59,570
+but in this function
+
+92
+00:04:59,570 --> 00:05:02,950
+we also specify something called parameters
+
+93
+00:05:02,950 --> 00:05:05,340
+and parameters are like variables
+
+94
+00:05:05,340 --> 00:05:08,180
+that are specific only to this function
+
+95
+00:05:08,180 --> 00:05:11,580
+and they will get defined once we call the function.
+
+96
+00:05:11,580 --> 00:05:14,000
+So let's give this fruit processor function
+
+97
+00:05:14,000 --> 00:05:16,610
+two parameters, apples
+
+98
+00:05:16,610 --> 00:05:21,610
+and then a second one separated by a comma called oranges
+
+99
+00:05:22,340 --> 00:05:25,230
+and again these two will get defined
+
+100
+00:05:25,230 --> 00:05:27,330
+once the function is called
+
+101
+00:05:27,330 --> 00:05:32,010
+and they represent the input data of this function, okay?
+
+102
+00:05:32,010 --> 00:05:33,930
+And this will make even more sense
+
+103
+00:05:33,930 --> 00:05:36,230
+when we then actually call his function
+
+104
+00:05:38,560 --> 00:05:42,860
+and let's start by logging these to the console.
+
+105
+00:05:42,860 --> 00:05:45,770
+So apples and also oranges
+
+106
+00:05:46,810 --> 00:05:48,050
+and so what I'm doing here
+
+107
+00:05:48,050 --> 00:05:50,290
+is to basically use these parameters here.
+
+108
+00:05:50,290 --> 00:05:54,760
+So apples and oranges just as if they were normal variables
+
+109
+00:05:54,760 --> 00:05:56,860
+here inside this function
+
+110
+00:05:56,860 --> 00:05:59,560
+and now let's actually do something more interesting
+
+111
+00:05:59,560 --> 00:06:01,490
+with these parameters
+
+112
+00:06:01,490 --> 00:06:05,790
+and so we want to kind of simulate that is fruit processor
+
+113
+00:06:05,790 --> 00:06:09,260
+produces a juice out of the apples and oranges
+
+114
+00:06:09,260 --> 00:06:10,640
+that we give it
+
+115
+00:06:10,640 --> 00:06:15,640
+and so let's just create a string, which says that.
+
+116
+00:06:16,040 --> 00:06:18,790
+So we wanna create a variable called juice
+
+117
+00:06:19,680 --> 00:06:21,290
+and then a template literal
+
+118
+00:06:22,310 --> 00:06:24,790
+and I'm gonna say juice with
+
+119
+00:06:25,910 --> 00:06:29,403
+and then I'm using actually the apples parameter here.
+
+120
+00:06:30,610 --> 00:06:33,890
+So apples and then apples
+
+121
+00:06:33,890 --> 00:06:36,630
+because this apples parameter will be a number
+
+122
+00:06:36,630 --> 00:06:37,890
+once we call this.
+
+123
+00:06:37,890 --> 00:06:40,959
+For example, if we set apples to three
+
+124
+00:06:40,959 --> 00:06:44,130
+then the string will be juice with three apples
+
+125
+00:06:45,750 --> 00:06:48,440
+and again this will really make sense
+
+126
+00:06:48,440 --> 00:06:50,480
+once we call this function
+
+127
+00:06:51,800 --> 00:06:56,800
+so oranges and oranges again, okay?
+
+128
+00:06:56,990 --> 00:07:00,000
+So here we build a string using the input data
+
+129
+00:07:00,000 --> 00:07:02,290
+that we get into the function
+
+130
+00:07:02,290 --> 00:07:04,450
+and now comes the really cool part
+
+131
+00:07:04,450 --> 00:07:08,420
+because now we can use the return keyword
+
+132
+00:07:08,420 --> 00:07:12,340
+and with this, we can return any value from the function
+
+133
+00:07:12,340 --> 00:07:16,690
+and so let's actually return the juice that we just produced
+
+134
+00:07:16,690 --> 00:07:19,130
+and so this value that we then return
+
+135
+00:07:19,130 --> 00:07:22,000
+can be used anywhere later in our code.
+
+136
+00:07:22,000 --> 00:07:25,320
+So basically this Jews will become the result
+
+137
+00:07:25,320 --> 00:07:29,490
+of executing this function and let's actually do that.
+
+138
+00:07:29,490 --> 00:07:34,110
+So let's call or run or invoke this function now
+
+139
+00:07:35,530 --> 00:07:36,980
+so fruit processor
+
+140
+00:07:38,020 --> 00:07:40,410
+and now we're gonna specify the actual values
+
+141
+00:07:40,410 --> 00:07:43,680
+for the parameters, apples and oranges
+
+142
+00:07:43,680 --> 00:07:47,490
+and so let's say for example, five apples
+
+143
+00:07:47,490 --> 00:07:51,200
+and zero oranges, okay?
+
+144
+00:07:51,200 --> 00:07:53,970
+And so these now will be the inputs
+
+145
+00:07:53,970 --> 00:07:56,900
+of the fruit processor function.
+
+146
+00:07:56,900 --> 00:07:59,760
+So you can think of these parameters here
+
+147
+00:07:59,760 --> 00:08:02,880
+like empty spaces that we still need to fill out
+
+148
+00:08:02,880 --> 00:08:04,850
+when we are writing the function
+
+149
+00:08:04,850 --> 00:08:07,520
+and when we call the function, then later in the code
+
+150
+00:08:07,520 --> 00:08:11,120
+here at this point, we then filled these blank spaces
+
+151
+00:08:11,120 --> 00:08:14,220
+by passing in the real specific values
+
+152
+00:08:14,220 --> 00:08:17,120
+which will then get assigned to the parameters
+
+153
+00:08:17,120 --> 00:08:20,020
+and this example, apples will become five
+
+154
+00:08:20,020 --> 00:08:24,170
+and oranges, which is the second parameter here, right?
+
+155
+00:08:24,170 --> 00:08:28,050
+Will become zero, and these actual values here
+
+156
+00:08:28,050 --> 00:08:31,083
+of the parameters are called the arguments.
+
+157
+00:08:32,530 --> 00:08:36,060
+Alright, so let's now basically run the script
+
+158
+00:08:37,210 --> 00:08:39,750
+and so now we get five and zero.
+
+159
+00:08:39,750 --> 00:08:43,530
+so this is coming from line 26, which is this line.
+
+160
+00:08:43,530 --> 00:08:46,360
+So it's this logging to the console of the apples
+
+161
+00:08:46,360 --> 00:08:50,200
+which is five and oranges which is zero
+
+162
+00:08:50,200 --> 00:08:53,290
+and apples are five because that's the value
+
+163
+00:08:53,290 --> 00:08:55,980
+that we specified here, okay?
+
+164
+00:08:55,980 --> 00:08:58,570
+So we specified apples as five
+
+165
+00:08:58,570 --> 00:09:01,740
+and so in this function the apple parameter
+
+166
+00:09:01,740 --> 00:09:04,680
+or you can think of this parameter as a variable
+
+167
+00:09:04,680 --> 00:09:09,210
+is now five and oranges is of course zero
+
+168
+00:09:09,210 --> 00:09:12,810
+but now you might wonder what about the juice
+
+169
+00:09:12,810 --> 00:09:14,330
+that just produced here?
+
+170
+00:09:14,330 --> 00:09:15,810
+Where is it?
+
+171
+00:09:15,810 --> 00:09:19,230
+Well, the juice was returned from this function.
+
+172
+00:09:19,230 --> 00:09:21,560
+So basically that means that the result
+
+173
+00:09:21,560 --> 00:09:23,470
+of running this function here
+
+174
+00:09:23,470 --> 00:09:26,210
+is the juice that we just returned.
+
+175
+00:09:26,210 --> 00:09:29,030
+Basically, once this function has been executed
+
+176
+00:09:29,030 --> 00:09:31,520
+this code here is then replaced
+
+177
+00:09:31,520 --> 00:09:33,710
+by the result of the function
+
+178
+00:09:33,710 --> 00:09:36,250
+and in this case that's gonna be the juice string
+
+179
+00:09:36,250 --> 00:09:37,550
+that we produced.
+
+180
+00:09:37,550 --> 00:09:41,070
+So if we want to use that value that was returned
+
+181
+00:09:41,070 --> 00:09:43,170
+we need to store it in a variable
+
+182
+00:09:44,560 --> 00:09:45,543
+so let's do that.
+
+183
+00:09:46,820 --> 00:09:49,340
+So let's call it apple juice
+
+184
+00:09:52,880 --> 00:09:57,880
+and then let's log that to the console, reload it here
+
+185
+00:10:01,990 --> 00:10:06,283
+and now we get juice with five apples and zero oranges.
+
+186
+00:10:07,190 --> 00:10:09,833
+So let's recap again, what happened here?
+
+187
+00:10:11,150 --> 00:10:14,630
+So we called the fruit processor function here
+
+188
+00:10:14,630 --> 00:10:18,370
+with two arguments, five and zero
+
+189
+00:10:18,370 --> 00:10:20,890
+and these arguments are the specific.
+
+190
+00:10:20,890 --> 00:10:24,540
+So the actual values of the functions parameters
+
+191
+00:10:24,540 --> 00:10:27,900
+which are apples and oranges
+
+192
+00:10:27,900 --> 00:10:30,600
+and so when the function is running now,
+
+193
+00:10:30,600 --> 00:10:34,510
+apples in here will be five and oranges will be zero.
+
+194
+00:10:34,510 --> 00:10:39,510
+Then we use these values to build this juice string here
+
+195
+00:10:39,710 --> 00:10:43,770
+and then we return that value from the function
+
+196
+00:10:43,770 --> 00:10:45,560
+and what that means is that basically
+
+197
+00:10:45,560 --> 00:10:48,260
+the result of calling this function here
+
+198
+00:10:48,260 --> 00:10:52,940
+will be the juice value that was just returned, okay?
+
+199
+00:10:52,940 --> 00:10:55,810
+And then we need to save that value somewhere
+
+200
+00:10:55,810 --> 00:10:57,570
+we need to capture it
+
+201
+00:10:57,570 --> 00:11:00,920
+and we do that by basically saving it
+
+202
+00:11:00,920 --> 00:11:03,120
+into this apple juice variable
+
+203
+00:11:03,120 --> 00:11:07,050
+and then we can simply lock that value to the console.
+
+204
+00:11:07,050 --> 00:11:09,590
+Of course we could have also directly logged it
+
+205
+00:11:09,590 --> 00:11:10,543
+to the console.
+
+206
+00:11:11,660 --> 00:11:14,990
+So basically without capturing the value anywhere
+
+207
+00:11:14,990 --> 00:11:16,293
+and simply log in it.
+
+208
+00:11:17,750 --> 00:11:19,400
+So let me just copy this one here
+
+209
+00:11:23,270 --> 00:11:24,870
+and so if I run this now.
+
+210
+00:11:24,870 --> 00:11:27,100
+we should see the same string twice
+
+211
+00:11:28,690 --> 00:11:30,560
+and yes, indeed.
+
+212
+00:11:30,560 --> 00:11:34,880
+Now the fruit processor function was executed twice
+
+213
+00:11:34,880 --> 00:11:38,080
+once here and once here
+
+214
+00:11:38,080 --> 00:11:41,380
+the only difference is that in this case here
+
+215
+00:11:41,380 --> 00:11:45,490
+we did not capture the value into any variable.
+
+216
+00:11:45,490 --> 00:11:48,190
+We simply log the result of running this function
+
+217
+00:11:48,190 --> 00:11:50,660
+to the console directly, okay?
+
+218
+00:11:50,660 --> 00:11:53,190
+So just to show you the difference.
+
+219
+00:11:53,190 --> 00:11:57,330
+Okay, and now thanks to the power of the function
+
+220
+00:11:57,330 --> 00:12:01,000
+we can reuse the function with different input values
+
+221
+00:12:01,000 --> 00:12:03,300
+and then get a different output.
+
+222
+00:12:03,300 --> 00:12:08,300
+So let's try that and let's create apple and orange juice
+
+223
+00:12:10,330 --> 00:12:14,280
+so apple orange juice
+
+224
+00:12:15,210 --> 00:12:18,420
+and so this time we can call fruit processor
+
+225
+00:12:18,420 --> 00:12:22,940
+let's say with two apples and four oranges.
+
+226
+00:12:22,940 --> 00:12:26,370
+So once again, we are defining specific values here
+
+227
+00:12:26,370 --> 00:12:28,030
+which are the arguments
+
+228
+00:12:28,030 --> 00:12:30,175
+which will get passed into the function
+
+229
+00:12:30,175 --> 00:12:33,780
+here as these parameters.
+
+230
+00:12:33,780 --> 00:12:35,760
+So essentially what we did here
+
+231
+00:12:35,760 --> 00:12:39,070
+was to create a very generic function
+
+232
+00:12:39,070 --> 00:12:42,970
+that works for any number of apples and oranges.
+
+233
+00:12:42,970 --> 00:12:46,970
+So it's really like we're leaving apples and oranges
+
+234
+00:12:46,970 --> 00:12:48,780
+as the blank spaces
+
+235
+00:12:48,780 --> 00:12:50,630
+and then when we call the function
+
+236
+00:12:50,630 --> 00:12:54,960
+we fill in these blank spaces using our arguments.
+
+237
+00:12:54,960 --> 00:12:58,260
+So two and four in this example
+
+238
+00:12:58,260 --> 00:13:01,750
+and now we can also then lock the results.
+
+239
+00:13:01,750 --> 00:13:04,550
+So apple orange juice
+
+240
+00:13:05,800 --> 00:13:08,560
+and actually we can get rid of this console dot log here
+
+241
+00:13:08,560 --> 00:13:10,270
+because we don't really need it.
+
+242
+00:13:10,270 --> 00:13:12,880
+All we want here is to produce this juice
+
+243
+00:13:12,880 --> 00:13:16,143
+and then return the juice from the function, okay?
+
+244
+00:13:19,460 --> 00:13:22,920
+And so now we get two juices, one with five apples
+
+245
+00:13:22,920 --> 00:13:26,280
+and zero oranges, which is this first one
+
+246
+00:13:26,280 --> 00:13:30,550
+and then finally the juice with two apples and four oranges
+
+247
+00:13:30,550 --> 00:13:33,320
+and so that's the second one that we just produced
+
+248
+00:13:33,320 --> 00:13:34,990
+and of course we could run this function
+
+249
+00:13:34,990 --> 00:13:37,422
+as many times as we want it
+
+250
+00:13:37,422 --> 00:13:40,070
+but we should call it at least once
+
+251
+00:13:40,070 --> 00:13:43,110
+because if we never called a function then the code
+
+252
+00:13:43,110 --> 00:13:46,270
+that's in the function will never be executed
+
+253
+00:13:46,270 --> 00:13:48,190
+and that makes sense, right?
+
+254
+00:13:48,190 --> 00:13:51,640
+So without executing the function it's kind of useless
+
+255
+00:13:51,640 --> 00:13:53,670
+because the code will never run
+
+256
+00:13:53,670 --> 00:13:56,890
+it will never be processed because that only happens
+
+257
+00:13:56,890 --> 00:14:01,890
+once we called a function like this or like this here also.
+
+258
+00:14:03,130 --> 00:14:06,870
+So as you see this function here has no parameters
+
+259
+00:14:06,870 --> 00:14:09,060
+and so here when we call the function
+
+260
+00:14:09,060 --> 00:14:13,200
+we do not specify any arguments, we could do that.
+
+261
+00:14:13,200 --> 00:14:17,050
+So let's just pass 23 but since there are no parameters,
+
+262
+00:14:17,050 --> 00:14:18,733
+it will not get used
+
+263
+00:14:18,733 --> 00:14:21,870
+and so specifying the argument here or not
+
+264
+00:14:21,870 --> 00:14:23,623
+will not have any effect.
+
+265
+00:14:24,480 --> 00:14:25,690
+You'll see that this function hear
+
+266
+00:14:25,690 --> 00:14:27,790
+also doesn't return anything
+
+267
+00:14:27,790 --> 00:14:29,580
+and that's not a problem at all,
+
+268
+00:14:29,580 --> 00:14:32,370
+not all functions need to return something
+
+269
+00:14:32,370 --> 00:14:35,590
+and not all functions need to accept parameters
+
+270
+00:14:35,590 --> 00:14:38,263
+like the fruit processor that we have down here.
+
+271
+00:14:39,120 --> 00:14:41,147
+So this is a very simple function here
+
+272
+00:14:41,147 --> 00:14:43,540
+and this is a more complete example
+
+273
+00:14:43,540 --> 00:14:47,270
+showing you everything that we can do with functions
+
+274
+00:14:47,270 --> 00:14:50,500
+and this kind of function is actually way more usual
+
+275
+00:14:50,500 --> 00:14:52,580
+than this simpler one here.
+
+276
+00:14:52,580 --> 00:14:55,610
+So function like this without parameters
+
+277
+00:14:55,610 --> 00:14:58,310
+and without a return we really only use
+
+278
+00:14:58,310 --> 00:15:00,350
+when there is a block of code
+
+279
+00:15:00,350 --> 00:15:03,410
+that we want to reuse over and over again.
+
+280
+00:15:03,410 --> 00:15:04,790
+Once more keep in mind
+
+281
+00:15:04,790 --> 00:15:07,350
+that this function does not return anything
+
+282
+00:15:07,350 --> 00:15:10,600
+all it does is to log something to the console
+
+283
+00:15:10,600 --> 00:15:13,849
+but that has nothing to do with returning a value.
+
+284
+00:15:13,849 --> 00:15:16,587
+This really only prints a message
+
+285
+00:15:16,587 --> 00:15:18,600
+here to the developer console
+
+286
+00:15:18,600 --> 00:15:20,293
+but it doesn't return a value.
+
+287
+00:15:21,200 --> 00:15:24,200
+So basically this here does not produce a value
+
+288
+00:15:24,200 --> 00:15:27,490
+because we don't return anything from the function
+
+289
+00:15:27,490 --> 00:15:29,770
+and that's why here we also don't save
+
+290
+00:15:29,770 --> 00:15:32,770
+the result of the function to any variable
+
+291
+00:15:32,770 --> 00:15:35,270
+because it doesn't produce any result
+
+292
+00:15:35,270 --> 00:15:37,920
+while technically it does produce undefined
+
+293
+00:15:37,920 --> 00:15:40,221
+but that's not really relevant here
+
+294
+00:15:40,221 --> 00:15:45,221
+and so of course we don't capture that undefined value.
+
+295
+00:15:45,710 --> 00:15:48,957
+Okay, great and that's basically
+
+296
+00:15:48,957 --> 00:15:52,170
+the fundamentals of functions
+
+297
+00:15:52,170 --> 00:15:55,510
+and I'm pretty sure that this was confusing for you
+
+298
+00:15:55,510 --> 00:15:58,760
+if this was your first contact with functions
+
+299
+00:15:58,760 --> 00:16:02,460
+and actually that's probably how it's supposed to be.
+
+300
+00:16:02,460 --> 00:16:05,100
+So what I want you to do is to review this lecture
+
+301
+00:16:05,100 --> 00:16:07,509
+very thoroughly and really understand
+
+302
+00:16:07,509 --> 00:16:09,970
+how all of this works together.
+
+303
+00:16:09,970 --> 00:16:12,410
+So how writing this generic function
+
+304
+00:16:12,410 --> 00:16:14,560
+with the parameters works together
+
+305
+00:16:14,560 --> 00:16:18,750
+with then calling a function with the specific values
+
+306
+00:16:18,750 --> 00:16:21,229
+and how the function then returns a value
+
+307
+00:16:21,229 --> 00:16:25,732
+and how in the end we then received that value here
+
+308
+00:16:25,732 --> 00:16:28,870
+and capture it into this variable.
+
+309
+00:16:28,870 --> 00:16:30,900
+So that's what I want you to think about
+
+310
+00:16:30,900 --> 00:16:33,750
+and to analyze, all right?
+
+311
+00:16:33,750 --> 00:16:36,660
+So as a conclusion to this lecture, we can say
+
+312
+00:16:36,660 --> 00:16:40,380
+that functions allow us to write more maintainable code
+
+313
+00:16:40,380 --> 00:16:42,010
+because with functions
+
+314
+00:16:42,010 --> 00:16:44,400
+we can create reusable chunks of code
+
+315
+00:16:44,400 --> 00:16:46,370
+instead of having to manually write
+
+316
+00:16:46,370 --> 00:16:48,920
+the same code over and over again.
+
+317
+00:16:48,920 --> 00:16:50,430
+So that's the most important thing
+
+318
+00:16:50,430 --> 00:16:52,480
+that you need to know about functions
+
+319
+00:16:52,480 --> 00:16:53,670
+and when you know that
+
+320
+00:16:53,670 --> 00:16:57,280
+you will know when you should actually use functions
+
+321
+00:16:57,280 --> 00:17:00,830
+and this is actually a very important principle
+
+322
+00:17:00,830 --> 00:17:02,650
+for writing clean code
+
+323
+00:17:02,650 --> 00:17:05,250
+that is used in programming all the time
+
+324
+00:17:05,250 --> 00:17:10,250
+and this principle is called don't repeat yourself or dry.
+
+325
+00:17:10,500 --> 00:17:13,290
+So we say that we should keep our code dry
+
+326
+00:17:13,290 --> 00:17:16,740
+which means that we should not repeat ourselves
+
+327
+00:17:16,740 --> 00:17:21,040
+and so functions are perfect for implementing dry code
+
+328
+00:17:21,040 --> 00:17:23,690
+because they are reusable code blocks
+
+329
+00:17:23,690 --> 00:17:27,010
+that together, make up all applications
+
+330
+00:17:27,010 --> 00:17:28,930
+and of course we will use functions
+
+331
+00:17:28,930 --> 00:17:31,040
+throughout the rest of the course
+
+332
+00:17:31,040 --> 00:17:32,696
+because as I said in the beginning
+
+333
+00:17:32,696 --> 00:17:35,150
+they are a fundamental building block
+
+334
+00:17:35,150 --> 00:17:37,340
+of JavaScript programs
+
+335
+00:17:37,340 --> 00:17:40,550
+and by the way, you can now understand
+
+336
+00:17:40,550 --> 00:17:45,540
+that console dot log here is actually also just a function
+
+337
+00:17:45,540 --> 00:17:47,180
+but a built in function
+
+338
+00:17:47,180 --> 00:17:50,000
+that we do not have to write ourselves
+
+339
+00:17:50,000 --> 00:17:53,311
+but you see that we just call it like our own functions.
+
+340
+00:17:53,311 --> 00:17:56,504
+So we call it using the parenthesis here
+
+341
+00:17:56,504 --> 00:18:00,230
+and then we pass in a value.
+
+342
+00:18:00,230 --> 00:18:02,170
+So apple, orange juice
+
+343
+00:18:02,170 --> 00:18:05,010
+and the result of calling the function is simply
+
+344
+00:18:05,010 --> 00:18:08,737
+this message then appearing in the developer console
+
+345
+00:18:08,737 --> 00:18:10,543
+and the same is true for the function
+
+346
+00:18:10,543 --> 00:18:14,043
+that we used to convert a string to a number.
+
+347
+00:18:15,230 --> 00:18:17,400
+So this is another built in function
+
+348
+00:18:17,400 --> 00:18:22,400
+that takes this 23 string in this case as a parameter.
+
+349
+00:18:24,470 --> 00:18:27,190
+So we pass this argument into the function
+
+350
+00:18:27,190 --> 00:18:30,060
+and this function will then be executed
+
+351
+00:18:30,060 --> 00:18:33,000
+and returned the string as a number
+
+352
+00:18:33,000 --> 00:18:37,203
+and then we can save that like we did before, okay?
+
+353
+00:18:41,260 --> 00:18:44,260
+So this is gonna work just the same
+
+354
+00:18:44,260 --> 00:18:45,763
+and of course we cannot see it
+
+355
+00:18:45,763 --> 00:18:50,533
+but we can still check it out by writing numb, okay?
+
+356
+00:18:52,230 --> 00:18:55,440
+But now, anyway I will leave you to really analyze
+
+357
+00:18:55,440 --> 00:18:59,215
+how all of this logic here works that we just wrote.
+
+358
+00:18:59,215 --> 00:19:02,500
+So do that now and only once you fully understand
+
+359
+00:19:02,500 --> 00:19:05,993
+how this example works move on to the next video.

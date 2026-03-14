@@ -1,0 +1,55 @@
+1
+00:00:00,950 --> 00:00:03,420
+So, up until this point of the course,
+
+2
+00:00:03,420 --> 00:00:08,220
+we have learned a lot of JavaScript features, and syntax,
+
+3
+00:00:08,220 --> 00:00:12,910
+and also, how the language itself works behind the scenes.
+
+4
+00:00:12,910 --> 00:00:15,570
+But now it's time to take a step back,
+
+5
+00:00:15,570 --> 00:00:17,720
+and talk about the whole process
+
+6
+00:00:17,720 --> 00:00:21,410
+of actually building modern JavaScript applications
+
+7
+00:00:21,410 --> 00:00:22,623
+in the real world.
+
+8
+00:00:23,520 --> 00:00:27,880
+So, this section is not really about the language itself,
+
+9
+00:00:27,880 --> 00:00:30,900
+but more about the development process.
+
+10
+00:00:30,900 --> 00:00:32,850
+So, the modern build tools
+
+11
+00:00:32,850 --> 00:00:35,910
+that every professional developer uses,
+
+12
+00:00:35,910 --> 00:00:39,210
+and also the whole modern ecosystem
+
+13
+00:00:39,210 --> 00:00:42,119
+that has been created around JavaScript.
+
+14
+00:00:42,119 --> 00:00:44,702
+(gentle music)

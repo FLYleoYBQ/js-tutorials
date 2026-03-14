@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object References in Practice (Shallow vs. Deep Copies)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root { --bg-color: #121212; --surface-color: #1e1e1e; --primary-color: #f7df1e; --text-primary: #e0e0e0; --text-secondary: #a0a0a0; --border-color: #333; --info-color: #4da6ff; --danger-color: #ff5252; --success-color: #4caf50; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); margin: 0; line-height: 1.6; }
+        .app-container { display: flex; max-width: 1400px; margin: 0 auto; }
+        .sidebar { width: 260px; padding: 24px; border-right: 1px solid var(--border-color); position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+        .nav-item { display: block; padding: 10px 12px; color: var(--text-primary); text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 14px; transition: background 0.2s; }
+        .nav-item:hover, .nav-item.active { background: rgba(247, 223, 30, 0.1); color: var(--primary-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 900px; }
+        h1, h2, h3 { color: #fff; }
+        .meta-info { display: flex; gap: 16px; font-size: 14px; color: var(--text-secondary); margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--primary-color); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 24px 0; }
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { background: rgba(0, 0, 0, 0.2); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-secondary); }
+        .btn-run { background: var(--primary-color); color: #000; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-run:hover { opacity: 0.9; }
+        .editor-container { padding: 16px; }
+        .editor-textarea { width: 100%; height: 200px; background: transparent; color: #d4d4d4; border: none; font-family: 'JetBrains Mono', monospace; font-size: 14px; resize: vertical; outline: none; }
+        .console-output { background: #000; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a6e22e; white-space: pre-wrap; min-height: 40px; border-top: 1px solid var(--border-color); }
+        
+        .code-comparison { display: flex; gap: 16px; margin: 24px 0; flex-wrap: wrap; }
+        .code-panel { flex: 1; min-width: 300px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+        .panel-header { padding: 12px 16px; font-weight: 600; font-size: 14px; color: #fff; }
+        .panel-header.method1 { background: rgba(255, 82, 82, 0.2); border-bottom: 1px solid rgba(255, 82, 82, 0.3); }
+        .panel-header.method2 { background: rgba(76, 175, 80, 0.2); border-bottom: 1px solid rgba(76, 175, 80, 0.3); }
+        
+        .quiz-card { background: var(--surface-color); padding: 24px; border-radius: 8px; border: 1px solid var(--border-color); margin-top: 16px; }
+        .quiz-question { font-weight: 600; margin-bottom: 16px; }
+        .quiz-option { padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
+        .quiz-option:hover { background: rgba(255,255,255,0.05); }
+        .quiz-option.selected { border-color: var(--primary-color); background: rgba(247, 223, 30, 0.1); }
+        .quiz-explanation { margin-top: 16px; padding: 12px; border-radius: 6px; background: rgba(255,255,255,0.05); display: none; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background: rgba(255,255,255,0.05); font-weight: 600; }
+        
+        details { background: var(--surface-color); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 16px; }
+        summary { font-weight: 600; cursor: pointer; outline: none; }
+        summary:hover { color: var(--primary-color); }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 08 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">🎯 概述</a>
+            <a href="#section-1" class="nav-item">1. 原语与对象的内存陷阱</a>
+            <a href="#section-2" class="nav-item">2. 修复方案：浅拷贝</a>
+            <a href="#section-3" class="nav-item">3. 进阶修复：深拷贝</a>
+            <a href="#section-practice" class="nav-item">📝 动手练习</a>
+            <a href="#section-quiz" class="nav-item">❓ 理解检测</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Object References in Practice</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：014 Object References in Practice_ Shallow vs. Deep Copies.en.srt</span>
+            <span>📂 章节：第 08 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：调用栈(Call Stack)、内存堆(Heap)、引用类型。</li>
+                <li><strong>核心突破</strong>：如何用代码彻底防范变量复制过程中“互相指引、同归于尽”的灾难。理解浅/深拷贝！</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>当我们在日常开发中对一个 Object 使用等于号 <code>=</code> 来赋给另一个变量时，我们仅仅是在转移遥控器，而没有增加新电视！今天我们将通过一系列实战例子，展示如何做 <strong>Shallow Copy (浅拷贝)</strong>，以及引入现代 JavaScript API 解决 <strong>Deep Copy (深拷贝)</strong> 的终极难题。</p>
+
+
+        <h2 id="section-1">1. 变量直接赋值引起的引用陷阱</h2>
+        <p>我们有一名名为 Jessica 的用户婚后改名了。我们在内存里创建了两个变量指向她，结果引发了灾难。</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">reference_trap.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+const jessica1 = {
+    firstName: 'Jessica',
+    lastName: 'Williams',
+    age: 27,
+};
+
+// 尝试创建一个“婚后”对象并修改她姓氏
+const marriedJessica = jessica1;
+marriedJessica.lastName = 'Davis';
+
+console.log('婚前的数据(期望是 Williams):', jessica1.lastName); 
+console.log('婚后的数据(期望是 Davis):', marriedJessica.lastName);
+                </textarea>
+            </div>
+            <div id="console1" class="console-output">控制台输出将显示在这里...</div>
+        </div>
+
+        <p>由于它们是在 Heap 中指向同一个内存块。修改 `marriedJessica` 必然会导致 `jessica1` 也被修改。这在业务逻辑上是毁灭性的！</p>
+
+
+        <h2 id="section-2">2. 基础修复方案：Shallow Copy 浅拷贝</h2>
+        <p>要真正建立一个全新的独立对象，我们可以使用 <code>Object.assign()</code> 或者是解构展开运算符 <code>{...obj}</code>。</p>
+
+        <div class="code-comparison">
+            <div class="code-panel">
+                <div class="panel-header method1">👤 Object.assign (老式但是可靠)</div>
+<pre style="margin:0; border:none; border-radius:0; background:transparent"><code class="language-javascript">const jessica2 = {
+    firstName: 'Jessica',
+    lastName: 'Williams',
+    age: 27
+};
+
+// 合并目标是一个空对象 {}，然后填充来源属性
+const jessicaCopy = Object.assign({}, jessica2);
+jessicaCopy.lastName = 'Davis';
+
+console.log('原始:', jessica2.lastName); // 成功保留 Williams！
+console.log('拷贝:', jessicaCopy.lastName); // 变为了 Davis
+</code></pre>
+            </div>
+            <div class="code-panel">
+                <div class="panel-header method2">✨ 语法糖展开符 {...obj} (现代偏好)</div>
+<pre style="margin:0; border:none; border-radius:0; background:transparent"><code class="language-javascript">const jessica2 = {
+    firstName: 'Jessica',
+    lastName: 'Williams',
+    age: 27
+};
+
+// 使用拓展运算符直接拆包再包装，创建一个新对象
+const jessicaCopy = { ...jessica2 };
+jessicaCopy.lastName = 'Davis';
+
+console.log('原始:', jessica2.lastName); 
+console.log('拷贝:', jessicaCopy.lastName); 
+</code></pre>
+            </div>
+        </div>
+
+        <div class="callout">
+            <strong>⚠️ 浅拷贝的致命盲区</strong>
+            <p>之所以叫它浅拷贝。是因为这种复制<strong>指发生在第一层级</strong>。如果 Jessica 对象里面还嵌套了一个小对象，比如叫做 `family: ['Alice', 'Bob']` 数组，那么这个 `family` 内部并没有被复制产生全新的块！被 `Object.assign` 复制过去的，仍然是一个长长的内存遥控器引用！这就是我们要进入下一环节的原因。</p>
+        </div>
+
+
+        <h2 id="section-3">3. 进阶修复方案：Deep Copy 深拷贝</h2>
+        <p>如果你要修改的是最内层的 <code>family</code> 数组。我们必须采用能把所有嵌套层级全部斩断然后完全复刻的新方法：<code>structuredClone()</code> 是现代浏览器中的原生救星。</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">deep_clone.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
+const jessicaOriginal = {
+    firstName: 'Jessica',
+    lastName: 'Williams',
+    family: ['Alice', 'Bob'] // 这是一个嵌套对象！
+};
+
+// 我们使用现代原生 API 来创建真正的深拷贝！
+const jessicaDeep = structuredClone(jessicaOriginal);
+
+// 此时向深层数组中增加成员：
+jessicaDeep.family.push('Mary');
+jessicaDeep.family.push('John');
+
+console.log('原本全家的成员:', jessicaOriginal.family); // 完美！原来只有 [Alice, Bob]
+console.log('深拷贝全家成员:', jessicaDeep.family); // [Alice, Bob, Mary, John]
+                </textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+
+        <p><strong>🧠 底层原理视图：浅深克隆在内存中的博弈</strong></p>
+        <pre class="language-mermaid">
+            graph TD
+            A[Original obj] --> B{firstName: 'A'}
+            A --> C{family 引用: #0X12}
+            
+            D[Shallow Copy obj] --> E{firstName: 'A'}
+            D --> C
+            
+            F[Deep Copy obj] --> G{firstName: 'A'}
+            F --> H{全新的 family: #0X99}
+            
+            style A fill:#331,stroke:#f7df1e,color:#fff
+            style C fill:#131,stroke:#4caf50,color:#fff
+            style D fill:#321,stroke:#4da6ff,color:#fff
+            style F fill:#214,stroke:#ff5252,color:#fff
+            style H fill:#131,stroke:#4caf50,color:#fff
+        </pre>
+
+        <h2 id="section-practice">📝 动手练习</h2>
+        
+        <p><strong>练习 1：辨认浅拷贝的受灾现场</strong></p>
+        <p>下面的代码使用展开运算符 <code>...</code> 创建新对象，但是修改数组时引发了连带反应。请阅读后修改 <code>clonePerson</code> 的复制方法，让一切正常运行。</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">exercise.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">
+const person1 = {
+    name: 'Tom',
+    skills: ['HTML', 'CSS']
+};
+
+// ⚠️ 这是浅拷贝！你需要在这里修复它：
+const clonePerson = { ...person1 };
+
+clonePerson.skills.push('Javascript');
+
+console.log('P1 skills:', person1.skills); // 我们希望这仍然是 ['HTML', 'CSS']
+console.log('P2 skills:', clonePerson.skills);
+                </textarea>
+            </div>
+            <div id="console3" class="console-output"></div>
+        </div>
+
+        <details>
+            <summary>💡 参考答案</summary>
+            <p>因为 <code>skills</code> 是一个引用类型的数组，浅拷贝只拷贝了外层对象，所以里面共享同一个数组！</p>
+<pre><code class="language-javascript">// 使用最新函数
+const clonePerson = structuredClone(person1);
+// 或者如果由于环境限制不支持，在老代码中常看到:
+const clonePerson = JSON.parse(JSON.stringify(person1));</code></pre>
+        </details>
+
+
+        <h2 id="section-quiz">❓ 理解检测</h2>
+        
+        <div class="quiz-card" data-correct="B" data-content="解析：由于 obj1 先是赋给了 obj2（同一个堆内存对象），然后 obj2.profile 是内部的二级对象，又赋给了 obj3。当我们改变 obj3 上的 username 时，直接改变了堆内存中的数据。最后通过 obj1.profile 这个遥控器访问那个对象时，拿到的也是被修改后的 Bob。">
+            <div class="quiz-question">1. 下拉代码片段执行后，控制台会输出什么？<br><code>const obj1 = { profile: { username: "Alice" } };<br>const obj2 = obj1;<br>const obj3 = obj2.profile;<br>obj3.username = "Bob";<br>console.log(obj1.profile.username);</code></div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) Alice</div>
+                <div class="quiz-option" data-value="B">B) Bob</div>
+                <div class="quiz-option" data-value="C">C) undefined</div>
+            </div>
+            <div class="quiz-explanation"></div>
+        </div>
+
+
+        <h3>🔧 代码填空</h3>
+        <p>在使用传统的 <code>Object.assign</code> 复制数组时，我们通常给它的第一个入口参数传递什么，来确保产生的是新实例对象？</p>
+<pre><code class="language-javascript">
+const source = { score: 99 };
+const copyData = Object.assign( _______, source );
+</code></pre>
+        <details><summary>💡 答案</summary>
+<pre><code class="language-javascript">{} // 一个空的花括号，代表空对象。</code></pre>
+        </details>
+
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>合并对象(浅克隆)</td>
+                    <td>Object.assign()</td>
+                    <td>将所有可枚举属性的值从一个或多个源对象复制到目标对象，它将返回目标对象。</td>
+                    <td><code>Object.assign({}, obj);</code></td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/assign" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>深度克隆</td>
+                    <td>structuredClone()</td>
+                    <td>创建一个给定值的深拷贝，可以安全地处理嵌套对象与大多数 JS 内置数据结构。</td>
+                    <td><code>structuredClone(obj);</code></td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/structuredClone" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const out = document.getElementById(consoleId);
+        const code = document.getElementById(editorId).value;
+        const oldLog = console.log;
+        let output = [];
+        console.log = function(...args) { output.push(args.map(x => typeof x === 'object' ? JSON.stringify(x) : x).join(' ')); };
+        try { 
+            eval(code); 
+            out.innerHTML = output.join('<br>') || '代码执行成功，无输出'; 
+        } catch(e) { 
+            out.innerHTML = `<span style="color: var(--danger-color)">${e.toString()}</span>`; 
+        }
+        console.log = oldLog;
+    }
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correct = card.getAttribute('data-correct');
+        const options = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                exp.style.display = 'block';
+                if(opt.getAttribute('data-value') === correct) {
+                    exp.innerHTML = `<strong>✅ 回答正确！</strong><br>` + card.getAttribute('data-content');
+                    exp.style.color = "var(--success-color)";
+                } else {
+                    exp.innerHTML = `<strong>❌ 回答错误。</strong><br>` + card.getAttribute('data-content');
+                    exp.style.color = "var(--danger-color)";
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

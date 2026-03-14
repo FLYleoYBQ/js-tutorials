@@ -1,0 +1,771 @@
+1
+00:00:01,180 --> 00:00:03,410
+Let's start this section by learning
+
+2
+00:00:03,410 --> 00:00:05,866
+how the DOM really works behind the scenes
+
+3
+00:00:05,866 --> 00:00:10,866
+and more specifically how the DOM is organized internally.
+
+4
+00:00:11,450 --> 00:00:14,510
+This will make it easier to understand everything else
+
+5
+00:00:14,510 --> 00:00:16,623
+that's gonna follow in this section.
+
+6
+00:00:18,410 --> 00:00:21,170
+So first, remember that the DOM
+
+7
+00:00:21,170 --> 00:00:25,280
+is basically the interface between all JavaScript code
+
+8
+00:00:25,280 --> 00:00:29,770
+and the browser, or more specifically HTML documents
+
+9
+00:00:29,770 --> 00:00:33,620
+that are rendered in and by the browser.
+
+10
+00:00:33,620 --> 00:00:37,120
+Now we have written a ton of JavaScript code
+
+11
+00:00:37,120 --> 00:00:38,910
+in this course so far,
+
+12
+00:00:38,910 --> 00:00:42,120
+but many times completely without interacting
+
+13
+00:00:42,120 --> 00:00:45,860
+with the browser so without using the DOM.
+
+14
+00:00:45,860 --> 00:00:47,420
+Right?
+
+15
+00:00:47,420 --> 00:00:50,900
+But now we're back to working with webpages
+
+16
+00:00:50,900 --> 00:00:53,570
+and therefore with the DOM
+
+17
+00:00:53,570 --> 00:00:56,261
+and this time we're going to learn as much as possible
+
+18
+00:00:56,261 --> 00:01:01,261
+about the DOM and how to create amazing dynamic effects.
+
+19
+00:01:01,660 --> 00:01:05,460
+So let's remember what we already know about the DOM,
+
+20
+00:01:05,460 --> 00:01:07,810
+which is that we can use it to make
+
+21
+00:01:07,810 --> 00:01:10,940
+JavaScript interact with the browser
+
+22
+00:01:10,940 --> 00:01:14,220
+and again more specifically we can create
+
+23
+00:01:14,220 --> 00:01:17,050
+and modify and delete elements,
+
+24
+00:01:17,050 --> 00:01:20,340
+set styles and classes and attributes
+
+25
+00:01:20,340 --> 00:01:23,053
+and listen and respond to events.
+
+26
+00:01:23,970 --> 00:01:27,070
+In practice this works because a DOM tree
+
+27
+00:01:27,070 --> 00:01:30,970
+is generated from any HTML document
+
+28
+00:01:30,970 --> 00:01:35,420
+and a DOM tree is a tree like structure made out of nodes
+
+29
+00:01:35,420 --> 00:01:38,300
+which looks something like this.
+
+30
+00:01:38,300 --> 00:01:40,870
+And we can then interact with this tree
+
+31
+00:01:40,870 --> 00:01:44,900
+as we already did a couple of times in this course.
+
+32
+00:01:44,900 --> 00:01:47,882
+Now how does that interaction actually work?
+
+33
+00:01:47,882 --> 00:01:52,340
+Well the DOM is a very complex API
+
+34
+00:01:52,340 --> 00:01:56,383
+which remember stands for application programming interface.
+
+35
+00:01:57,849 --> 00:02:00,080
+So it's the interface we can use to
+
+36
+00:02:00,080 --> 00:02:03,720
+programmatically interact with the DOM.
+
+37
+00:02:03,720 --> 00:02:06,300
+In practice that means that the DOM
+
+38
+00:02:06,300 --> 00:02:08,867
+contains a ton of methods and properties
+
+39
+00:02:08,867 --> 00:02:12,470
+that we use to interact with the DOM tree
+
+40
+00:02:12,470 --> 00:02:14,620
+such as the querySelector, addEventListener
+
+41
+00:02:15,949 --> 00:02:18,570
+or createElement methods,
+
+42
+00:02:18,570 --> 00:02:23,516
+or also the innerHTML, textContent or children properties
+
+43
+00:02:23,516 --> 00:02:25,373
+and many, many more.
+
+44
+00:02:26,250 --> 00:02:30,050
+Now in the DOM there are different types of nodes
+
+45
+00:02:30,050 --> 00:02:32,470
+just as I mentioned before.
+
+46
+00:02:32,470 --> 00:02:35,750
+For example some nodes are HTML elements
+
+47
+00:02:35,750 --> 00:02:39,240
+but others are just text, remember?
+
+48
+00:02:39,240 --> 00:02:41,940
+And this is really important to understand
+
+49
+00:02:41,940 --> 00:02:44,556
+because all these DOM methods and properties
+
+50
+00:02:44,556 --> 00:02:49,073
+are organized into these different types of objects.
+
+51
+00:02:50,710 --> 00:02:53,970
+And so let's now take a look at how the DOM API
+
+52
+00:02:53,970 --> 00:02:56,780
+is organized behind the scenes.
+
+53
+00:02:56,780 --> 00:02:59,977
+So first, every single note in the DOM tree
+
+54
+00:02:59,977 --> 00:03:02,720
+is of the type, node.
+
+55
+00:03:02,720 --> 00:03:05,670
+And such as everything else in JavaScript,
+
+56
+00:03:05,670 --> 00:03:10,092
+each node is represented in JavaScript by an object.
+
+57
+00:03:10,092 --> 00:03:13,690
+This object gets access to special node methods
+
+58
+00:03:13,690 --> 00:03:17,640
+and properties, such as text content, child nodes,
+
+59
+00:03:17,640 --> 00:03:21,063
+parent nodes, clone nodes and many others.
+
+60
+00:03:21,900 --> 00:03:25,320
+Now we already know that there are different types of nodes.
+
+61
+00:03:25,320 --> 00:03:27,000
+Right?
+
+62
+00:03:27,000 --> 00:03:30,167
+So how should these be represented?
+
+63
+00:03:30,167 --> 00:03:35,167
+Well, this node type has a couple of child types so to say.
+
+64
+00:03:35,660 --> 00:03:39,480
+And these are the element type, the text type,
+
+65
+00:03:39,480 --> 00:03:43,588
+the comment type and also the document type.
+
+66
+00:03:43,588 --> 00:03:47,800
+So whenever there is text inside any element,
+
+67
+00:03:47,800 --> 00:03:50,587
+we already know that it gets its own node.
+
+68
+00:03:50,587 --> 00:03:52,080
+Right?
+
+69
+00:03:52,080 --> 00:03:55,890
+And that node will be of the type, text.
+
+70
+00:03:55,890 --> 00:03:59,930
+And the same actually happens for HTML comments
+
+71
+00:03:59,930 --> 00:04:03,060
+and that's because the rule is that everything
+
+72
+00:04:03,060 --> 00:04:07,870
+that's in the HTML has to go into the DOM as well.
+
+73
+00:04:07,870 --> 00:04:10,400
+Now for the element itself there is
+
+74
+00:04:10,400 --> 00:04:12,830
+the element type of node.
+
+75
+00:04:12,830 --> 00:04:16,773
+And this type of node gives each HTML access
+
+76
+00:04:16,773 --> 00:04:19,112
+to a ton of useful properties
+
+77
+00:04:19,112 --> 00:04:24,112
+such as innerHTML, classList, children or parent element.
+
+78
+00:04:25,065 --> 00:04:28,300
+There are also many useful methods
+
+79
+00:04:28,300 --> 00:04:33,300
+like append, remove, insertAdjacentHTML, querySelector,
+
+80
+00:04:33,300 --> 00:04:36,783
+closest and that's just to name a few.
+
+81
+00:04:37,670 --> 00:04:41,763
+So again, each element will be represented internally
+
+82
+00:04:41,763 --> 00:04:44,070
+as an object.
+
+83
+00:04:44,070 --> 00:04:46,120
+Now just to make this complete,
+
+84
+00:04:46,120 --> 00:04:50,180
+the element type has internally an HTML element,
+
+85
+00:04:50,180 --> 00:04:51,698
+child type.
+
+86
+00:04:51,698 --> 00:04:56,590
+And that element type itself has exactly one child type
+
+87
+00:04:56,590 --> 00:05:01,227
+for each HTML element that exists in HTML.
+
+88
+00:05:01,227 --> 00:05:04,530
+So we have a special type for buttons,
+
+89
+00:05:04,530 --> 00:05:06,520
+a special type for images,
+
+90
+00:05:06,520 --> 00:05:09,900
+for links, and so on and so forth.
+
+91
+00:05:09,900 --> 00:05:14,070
+And that's important because each of these HTML elements
+
+92
+00:05:14,070 --> 00:05:16,830
+can have different unique properties.
+
+93
+00:05:16,830 --> 00:05:21,190
+For example and image has a source attribute in HTML
+
+94
+00:05:21,190 --> 00:05:22,913
+which no other element has.
+
+95
+00:05:24,287 --> 00:05:25,750
+Or the anchor element for links
+
+96
+00:05:25,750 --> 00:05:30,520
+has the HREF attribute which also no other element has.
+
+97
+00:05:30,520 --> 00:05:32,950
+And so the DOM needs a way of storing
+
+98
+00:05:32,950 --> 00:05:34,700
+these different attributes
+
+99
+00:05:34,700 --> 00:05:36,790
+and therefore different types
+
+100
+00:05:36,790 --> 00:05:40,593
+of HTML elements were created in the DOM API.
+
+101
+00:05:41,510 --> 00:05:44,614
+And just to make sure that we're all on the same page here,
+
+102
+00:05:44,614 --> 00:05:47,280
+this diagram that I'm showing you here
+
+103
+00:05:47,280 --> 00:05:50,320
+is of course not a DOM tree.
+
+104
+00:05:50,320 --> 00:05:51,400
+Right?
+
+105
+00:05:51,400 --> 00:05:56,290
+So this is not a representation of any HTML document.
+
+106
+00:05:56,290 --> 00:05:59,560
+This is just a way that different types of nodes
+
+107
+00:05:59,560 --> 00:06:03,610
+are represented behind the scenes in the DOM API.
+
+108
+00:06:03,610 --> 00:06:04,443
+Now, right?
+
+109
+00:06:05,320 --> 00:06:09,460
+But anyway, now comes the really important part,
+
+110
+00:06:09,460 --> 00:06:11,930
+because what makes all of this work
+
+111
+00:06:11,930 --> 00:06:14,193
+is something called inheritance.
+
+112
+00:06:15,170 --> 00:06:17,503
+So what is inheritance?
+
+113
+00:06:17,503 --> 00:06:21,840
+Well inheritance means that all the child types
+
+114
+00:06:21,840 --> 00:06:24,791
+will also get access to the methods and properties
+
+115
+00:06:24,791 --> 00:06:28,260
+of all their parent node types.
+
+116
+00:06:28,260 --> 00:06:32,760
+For example an HTML element will get access to everything
+
+117
+00:06:32,760 --> 00:06:37,760
+from the element type, like innerHTML, or classList
+
+118
+00:06:38,350 --> 00:06:41,710
+or all these other methods and properties.
+
+119
+00:06:41,710 --> 00:06:45,080
+And besides that it will also get access to everything
+
+120
+00:06:45,080 --> 00:06:49,382
+from the node type because that is also its parent type.
+
+121
+00:06:49,382 --> 00:06:51,220
+Okay?
+
+122
+00:06:51,220 --> 00:06:53,330
+So we can think of this as though
+
+123
+00:06:53,330 --> 00:06:56,310
+the HTML button element for example,
+
+124
+00:06:56,310 --> 00:06:59,950
+is also an element and also a node.
+
+125
+00:06:59,950 --> 00:07:01,400
+All right?
+
+126
+00:07:01,400 --> 00:07:05,010
+Now this might seem all a bit weird and confusing
+
+127
+00:07:05,010 --> 00:07:06,430
+but don't worry.
+
+128
+00:07:06,430 --> 00:07:10,640
+We will learn why this kind of inheritance works very soon
+
+129
+00:07:10,640 --> 00:07:14,670
+when we finally talk about object oriented JavaScript.
+
+130
+00:07:14,670 --> 00:07:18,330
+For now, what I want you to understand is that a DOM API
+
+131
+00:07:18,330 --> 00:07:22,520
+is broken up into these different types of nodes.
+
+132
+00:07:22,520 --> 00:07:25,140
+I also want you to understand that each
+
+133
+00:07:25,140 --> 00:07:26,690
+of these types of nodes
+
+134
+00:07:26,690 --> 00:07:30,080
+has access to different properties and methods
+
+135
+00:07:30,080 --> 00:07:31,150
+and that some of them
+
+136
+00:07:31,150 --> 00:07:33,910
+even inherit more properties and methods
+
+137
+00:07:33,910 --> 00:07:37,770
+from their ancestors in this organization.
+
+138
+00:07:37,770 --> 00:07:38,603
+All right?
+
+139
+00:07:39,500 --> 00:07:43,840
+Now we didn't talk yet about the documents node type.
+
+140
+00:07:43,840 --> 00:07:48,329
+So document, which we use all the time in DOM manipulation
+
+141
+00:07:48,329 --> 00:07:51,470
+is in fact just another type of node
+
+142
+00:07:52,380 --> 00:07:54,650
+so it contains important methods,
+
+143
+00:07:54,650 --> 00:07:56,980
+such as querySelector, createElement
+
+144
+00:07:58,368 --> 00:08:00,480
+and getElement by I.D.
+
+145
+00:08:00,480 --> 00:08:02,100
+And note how querySelector
+
+146
+00:08:02,100 --> 00:08:07,100
+is available on both the document and element types.
+
+147
+00:08:07,290 --> 00:08:11,073
+So keep this in mind because it will be important later on.
+
+148
+00:08:12,060 --> 00:08:14,160
+All right, and now there is just
+
+149
+00:08:14,160 --> 00:08:16,320
+one final missing piece here
+
+150
+00:08:16,320 --> 00:08:19,081
+because the DOM API actually needs a way
+
+151
+00:08:19,081 --> 00:08:24,081
+of allowing all the node types to listen to events.
+
+152
+00:08:24,300 --> 00:08:28,080
+And remember we usually listen for events by calling the
+
+153
+00:08:28,080 --> 00:08:32,550
+addEventListener method on an element or the document.
+
+154
+00:08:32,550 --> 00:08:33,840
+Right?
+
+155
+00:08:33,840 --> 00:08:36,253
+So why does that actually work?
+
+156
+00:08:37,150 --> 00:08:40,660
+Well its because there is a special node type called
+
+157
+00:08:40,660 --> 00:08:45,410
+EventTarget which is a parent of both the node type
+
+158
+00:08:45,410 --> 00:08:48,310
+and also the window node type.
+
+159
+00:08:48,310 --> 00:08:51,120
+And so with this, thanks to inheritance,
+
+160
+00:08:51,120 --> 00:08:55,180
+we can call addEventListener on every single type of node
+
+161
+00:08:55,180 --> 00:08:58,291
+in the DOM API because all elements
+
+162
+00:08:58,291 --> 00:09:01,280
+as well as document and window,
+
+163
+00:09:01,280 --> 00:09:05,830
+and even text and comment will inherit this method
+
+164
+00:09:05,830 --> 00:09:09,720
+and therefore we will be able to use addEventListener
+
+165
+00:09:09,720 --> 00:09:13,920
+on all of them just as if it was their own method.
+
+166
+00:09:13,920 --> 00:09:16,330
+Now just to be clear, we do never
+
+167
+00:09:16,330 --> 00:09:19,510
+manually create an eventTarget object.
+
+168
+00:09:19,510 --> 00:09:20,530
+Okay.
+
+169
+00:09:20,530 --> 00:09:22,693
+This is just an abstract type
+
+170
+00:09:22,693 --> 00:09:25,010
+that we do not use in practice.
+
+171
+00:09:25,010 --> 00:09:27,373
+This all really happens behind the scenes
+
+172
+00:09:27,373 --> 00:09:32,270
+to make all the functionality work as we expect it to work.
+
+173
+00:09:32,270 --> 00:09:36,496
+So in a nutshell this is how the DOM API works
+
+174
+00:09:36,496 --> 00:09:39,770
+and is structured behind the scenes.
+
+175
+00:09:39,770 --> 00:09:42,370
+There are still some simplifications here
+
+176
+00:09:42,370 --> 00:09:44,960
+but this is all that really matters.
+
+177
+00:09:44,960 --> 00:09:48,690
+And I really wish that I could have had this diagram
+
+178
+00:09:48,690 --> 00:09:51,750
+when I learnt JavaScript for the first time.
+
+179
+00:09:51,750 --> 00:09:55,030
+Because I really think this helps structuring
+
+180
+00:09:55,030 --> 00:09:58,080
+all this information in your mind.
+
+181
+00:09:58,080 --> 00:10:00,820
+Now if you want to go even deeper than this
+
+182
+00:10:00,820 --> 00:10:03,160
+there is still tons of material
+
+183
+00:10:03,160 --> 00:10:06,710
+that you can check out in the MDN documentation
+
+184
+00:10:06,710 --> 00:10:10,740
+and if you ask me it's all really fascinating.
+
+185
+00:10:10,740 --> 00:10:13,040
+But again, all that you need to know
+
+186
+00:10:13,040 --> 00:10:15,370
+is really in this lecture.
+
+187
+00:10:15,370 --> 00:10:18,800
+It took me a lot of hours to put this one together
+
+188
+00:10:18,800 --> 00:10:21,360
+but I think it was well worth it
+
+189
+00:10:21,360 --> 00:10:23,670
+and I hope you think the same.
+
+190
+00:10:23,670 --> 00:10:25,690
+But anyway lets now move on
+
+191
+00:10:25,690 --> 00:10:28,520
+to the practical part Of this section
+
+192
+00:10:28,520 --> 00:10:29,580
+were we will then
+
+193
+00:10:29,580 --> 00:10:32,713
+finally use many of these things in action.

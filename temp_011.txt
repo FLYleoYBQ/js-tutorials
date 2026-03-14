@@ -1,0 +1,159 @@
+﻿JavaScript has some built in functions that we can basically apply directly on arrays.
+
+And these are called methods and we can think of methods as array operations basically.
+
+So let's now learn some useful array methods.
+
+And there are actually countless array methods in JavaScript and in fact, we have a whole section dedicated to arrays alone.
+
+That's how important they are in JavaScript.
+
+But in this video we gonna learn just some basic ones that you really need to know and also so that you start to get used to the idea of using methods on arrays.
+
+Now, let's start by bringing back the friends array from the last lecture.
+
+All right, and now let's start with a method called push.
+
+So the push method adds elements to the end of an array.
+
+And so let's say, friends dot and then push and then the elements that we want to add to the end of the array.
+
+So let's say Jay here, so push is essentially a function and we can see that by these parenthesis.
+
+So it's a function that we call and we call that function really attached to the friends array itself.
+
+And that's what this dot here stands for, all right?
+
+So again push is a method which technically is a function and we call that function directly on the friends array.
+
+So the push function is kind of attached to the friends array and if you're wondering why that is we will once more learn that a little bit later in the course, but there is a good reason why this works and it's actually a pretty fascinating stuff.
+
+So I hope that you're excited to keep continuing to explore this course, until you'll really learn how all of this actually works.
+
+Now anyway, let's now check out the friends array in the console, because this is really all we need to do to add an element to the end of the array.
+
+And indeed now we get the original array that we had before plus the Jay element.
+
+And you see that the length is now also four, okay?
+
+so this actually changed, so it mutated the original array, but that's no problem at all just like I explained you in the previous lecture, remember that?
+
+All right, now since push is a function here, it can also return something.
+
+So we already know that we can pass arguments into functions and we did that here with Jay, then the function can do some work and in this case, the work that the push function does is to add the element to the array and actually the push function does return a value and the value that it returns is the length of the new array.
+
+So if we want to capture that data or that value, we can create a new variable for that.
+
+So let's call it new length and let's then also log it to console.
+
+And indeed, it is four so most of the time we actually don't do this.
+
+So we just push an element and call it a day because usually we don't immediately need the length of the new array.
+
+But in case we need it, we don't need to then calculated separately, we can simply take the result of this function here store it into a variable and then use that.
+
+Great, now besides the push method which adds elements to the end of the array, there's also methods to add elements to the beginning of the array so that is the unshift method.
+
+So unshift and so let's say we wanted to add John right to the beginning of this friends array.
+
+So again, let's check it out and so now it should have five elements and the first one should be John.
+
+And yeah, it is and just like the push method, the unshift method also returns the length of the new array.
+
+But in this case we are just not saving it because we don't really need it.
+
+Next up we also have methods to remove elements from arrays.
+
+So this one here add elements, so let me just write that here, add elements and then we have some to remove elements.
+
+And let's start with the pop method which is basically the opposite of the push method.
+
+So this means that pop will remove the last element of the array, so let's write that here.
+
+And this time we don't need to pass in any argument and that's because there is no information needed really to just take out the last element.
+
+So let's try that, oh we didn't log it again to the console.
+
+So let's just grab it from here and now you see that Jay is actually gone.
+
+And if we did it twice for example, which of course we can also do then Peter should also be gone and indeed, we removed Jay and Peter.
+
+Now, again this pop method also returns something, but this one doesn't return the length of the new array but instead, it returns the removed element.
+
+And so that can sometimes be useful so let's call this one popped, okay?
+
+And so let's log that one to the console as well, so that is the popped element and we could do the same for this first call, but as I said earlier, we don't always do this because it's not always that useful.
+
+But here I just want to show you direct how it works and so the pop element should now be Peter.
+
+So this first one here is Jay and then the last one becomes Peter.
+
+And so here in the second pop call, Peter is the one that's being removed and so that's the element that's then going to be saved into popped and yeah, here it is, okay?
+
+And finally, let's also remove the first element from the array and so that's friends dot unshift.
+
+So let's copy this one again, give it a save and so now only Michael and Steven should be left after all this manipulation, right?
+
+Oh, and actually that did not work and that's because I did a mistake, so unshift is of course to add elements to the array and so this one here is called shift and not unshift, so now it should work, yeah.
+
+Once again we didn't need any arguments and once again this method here will return the element that was removed, so if we need that, we can capture it.
+
+Next up, there is a very useful method that tells us in which position a certain element is in the array.
+
+So let's work with this smaller array that we have left.
+
+And what we want to log to the console now is friends dot indexOf and then we pass the element, which we want to reference.
+
+So let's say we want Steven and so as I said this should return the index at which this element is located, so we know that Steven is right now element number one, right?
+
+So zero and one and we actually can see that here in the console.
+
+So zero is Michael, one is Steven so this indexOf function call should return the value one, because again that's the indexOf the element Steven and yeah, there we go.
+
+Now, if we try the same thing for an element that is not in there, let's say Bob, we will get minus one.
+
+All right, and now finally to finish this lecture, there is a very similar method to the indexOf, but which is a bit more modern and in my opinion also more useful.
+
+So this one is an ES6 method and it's called includes.
+
+So includes, instead of returning the index of the element will simply return true if the element is in the array and false if it's not.
+
+So let's check that, so friends dot includes and now we can actually do the same as up here.
+
+So let me just copy that and the difference here is again the includes method, so let's see what we get now.
+
+And as expected with Stephen it is true because indeed we have one element here Steven but Bob is false because well, there is no element called Bob.
+
+And this method actually uses strict equality for this check.
+
+So let's say that we pushed some value here to this array so friends dot push which remember will add a value to the end of the array.
+
+So if we added 23 and then if we checked for 23 to string, it would not work, so it would say false, right?
+
+And that's because it is testing with strict equality which means that it does not do type coercion.
+
+And since 23 to string is different from 23 to number, it gives us false, but if I test it directly for the number then it should be true and yes, it is.
+
+So we added it here to the array and so then of course the array includes it, that makes sense.
+
+And so we can use the include method to write conditionals.
+
+So that's one of the very useful application of this method.
+
+For example, just to test it out very quickly, let's say friends dot includes Peter and then if so we can log to the console, you have a friend called Peter, okay?
+
+So we already know that this here returns a Boolean and we also already know how the if statement works and so only if this is true.
+
+So if the array does include a string with Peter, only then this code is executed.
+
+And so right now of course nothing happens but if I ask for Steven then here let's say Stephen as well.
+
+Then I get, you have a friend called Stephen.
+
+So that's probably the most use case of the includes method.
+
+Now right, and that's all I had to show you for this lecture and as I said in the beginning, there are many more useful methods for manipulating arrays.
+
+But for now, I just wanted to show you the most basic ones.
+
+And next up, there's yet another coding challenge waiting for you.

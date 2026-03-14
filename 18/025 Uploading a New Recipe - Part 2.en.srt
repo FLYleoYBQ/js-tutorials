@@ -1,0 +1,2491 @@
+1
+00:00:01,520 --> 00:00:03,320
+Let's now continue working
+
+2
+00:00:03,320 --> 00:00:06,190
+on the recipe uploading feature.
+
+3
+00:00:06,190 --> 00:00:09,500
+And this time we will actually work on the model
+
+4
+00:00:09,500 --> 00:00:13,240
+which will be responsible for sending the recipe data
+
+5
+00:00:13,240 --> 00:00:15,373
+to the Forkify API.
+
+6
+00:00:17,070 --> 00:00:20,527
+So let's go to our model.
+
+7
+00:00:20,527 --> 00:00:24,050
+And then down here after the bookmarks
+
+8
+00:00:24,050 --> 00:00:28,640
+let's create a new function and export it,
+
+9
+00:00:28,640 --> 00:00:33,613
+called upload recipe, okay.
+
+10
+00:00:35,230 --> 00:00:39,440
+And this one will eventually make a request to the API.
+
+11
+00:00:39,440 --> 00:00:42,300
+And so therefore it's going to be an async function
+
+12
+00:00:43,440 --> 00:00:47,973
+and it will receive the data for a new recipe.
+
+13
+00:00:49,430 --> 00:00:51,930
+Now, the first task of this function
+
+14
+00:00:51,930 --> 00:00:55,350
+here will be to take the raw input data
+
+15
+00:00:55,350 --> 00:00:59,000
+and transform it into the same format as the data
+
+16
+00:00:59,000 --> 00:01:01,773
+that we also get out of the API.
+
+17
+00:01:02,620 --> 00:01:04,243
+So let's take a look at that.
+
+18
+00:01:05,160 --> 00:01:07,010
+Now, it reloaded the page, of course.
+
+19
+00:01:10,620 --> 00:01:14,330
+So basically the format of the data that we receive
+
+20
+00:01:14,330 --> 00:01:17,933
+from the API looks a little bit like this.
+
+21
+00:01:18,850 --> 00:01:21,940
+Now, it has some different property names here
+
+22
+00:01:21,940 --> 00:01:23,150
+but what really matters
+
+23
+00:01:23,150 --> 00:01:27,280
+here is that the ingredients are nicely stored
+
+24
+00:01:27,280 --> 00:01:28,810
+in this array.
+
+25
+00:01:28,810 --> 00:01:30,700
+So there is an ingredients array
+
+26
+00:01:30,700 --> 00:01:33,250
+which contains a bunch of objects
+
+27
+00:01:33,250 --> 00:01:37,163
+where each contains quantity, unit, and description.
+
+28
+00:01:38,670 --> 00:01:41,810
+However, the data that we get into the function
+
+29
+00:01:41,810 --> 00:01:45,270
+right now simply has these three
+
+30
+00:01:45,270 --> 00:01:49,740
+or actually these six ingredient properties.
+
+31
+00:01:49,740 --> 00:01:53,310
+So ingredient one, two, three, four, five, and six.
+
+32
+00:01:53,310 --> 00:01:57,270
+And also it has each of these ingredients
+
+33
+00:01:57,270 --> 00:02:01,290
+here separated with these commas, all in one string.
+
+34
+00:02:01,290 --> 00:02:05,700
+And so now we need to basically put all of this data
+
+35
+00:02:05,700 --> 00:02:10,290
+here into one array and also separate each of these strings
+
+36
+00:02:10,290 --> 00:02:13,393
+into the quantity, unit, and description.
+
+37
+00:02:14,400 --> 00:02:18,490
+Now, of course, here in the form I could have also created
+
+38
+00:02:18,490 --> 00:02:21,730
+three different fields for each ingredient.
+
+39
+00:02:21,730 --> 00:02:24,140
+So one input field for the quantity,
+
+40
+00:02:24,140 --> 00:02:26,600
+the unit, and to description.
+
+41
+00:02:26,600 --> 00:02:29,240
+But that was a little bit too much work
+
+42
+00:02:29,240 --> 00:02:31,320
+for this learning project
+
+43
+00:02:31,320 --> 00:02:35,400
+and so I decided that I will simply give this hint
+
+44
+00:02:35,400 --> 00:02:40,400
+that the format needs to be quantity, unit, description.
+
+45
+00:02:40,460 --> 00:02:42,640
+And so that's what we have here.
+
+46
+00:02:42,640 --> 00:02:46,360
+So half a kilo, so kilo is to unit,
+
+47
+00:02:46,360 --> 00:02:48,660
+and then rice is to description.
+
+48
+00:02:48,660 --> 00:02:52,040
+Then here we need one avocado but there is no unit
+
+49
+00:02:52,040 --> 00:02:54,490
+and so we leave that one empty.
+
+50
+00:02:54,490 --> 00:02:56,980
+And then here we have just salt,
+
+51
+00:02:56,980 --> 00:03:00,720
+so without any quantity and any unit.
+
+52
+00:03:00,720 --> 00:03:02,970
+And so let's now take this data.
+
+53
+00:03:02,970 --> 00:03:06,090
+So these six ingredients and then take the data
+
+54
+00:03:06,090 --> 00:03:08,743
+out of there and put them into an object.
+
+55
+00:03:12,290 --> 00:03:15,283
+So this is how we will do it.
+
+56
+00:03:16,160 --> 00:03:19,323
+So we want to create an array of ingredients.
+
+57
+00:03:20,810 --> 00:03:21,643
+And so for that,
+
+58
+00:03:21,643 --> 00:03:25,670
+a good idea is to use the map method, right?
+
+59
+00:03:25,670 --> 00:03:28,600
+So map is always good to create new arrays
+
+60
+00:03:28,600 --> 00:03:30,603
+based on some existing data.
+
+61
+00:03:31,560 --> 00:03:35,430
+So in order to use map, we need an array.
+
+62
+00:03:35,430 --> 00:03:37,800
+And so let's convert the object
+
+63
+00:03:37,800 --> 00:03:40,833
+that we get here back to an array.
+
+64
+00:03:42,270 --> 00:03:44,490
+So object.entries,
+
+65
+00:03:44,490 --> 00:03:47,560
+and as I mentioned, this is basically the opposite
+
+66
+00:03:47,560 --> 00:03:50,884
+of object.fromEntries,
+
+67
+00:03:50,884 --> 00:03:53,440
+but it still makes sense to convert it to an object
+
+68
+00:03:53,440 --> 00:03:56,450
+here because we will also need the rest of the data
+
+69
+00:03:56,450 --> 00:03:57,893
+here as an object.
+
+70
+00:04:00,320 --> 00:04:02,414
+So new recipe,
+
+71
+00:04:02,414 --> 00:04:05,730
+and then we want to filter this array
+
+72
+00:04:05,730 --> 00:04:09,060
+because remember we only want the properties
+
+73
+00:04:09,060 --> 00:04:11,160
+that are called ingredient one, two,
+
+74
+00:04:11,160 --> 00:04:14,300
+three, all the way until six.
+
+75
+00:04:14,300 --> 00:04:16,220
+So in this array that we have right now,
+
+76
+00:04:16,220 --> 00:04:21,220
+each element is an entry, right?
+
+77
+00:04:21,540 --> 00:04:24,990
+And once again, let me actually show that to you.
+
+78
+00:04:24,990 --> 00:04:26,600
+So without seeing the data
+
+79
+00:04:26,600 --> 00:04:30,323
+I think that it becomes very difficult to follow this.
+
+80
+00:04:31,190 --> 00:04:33,420
+So I will console.log this data
+
+81
+00:04:33,420 --> 00:04:36,400
+here and now of course, we need to call this function,
+
+82
+00:04:36,400 --> 00:04:38,823
+upload recipe in the controller.
+
+83
+00:04:40,460 --> 00:04:42,290
+So let's not do this,
+
+84
+00:04:42,290 --> 00:04:46,480
+but let's actually call model.uploadRecipe
+
+85
+00:04:49,760 --> 00:04:51,033
+with the new recipe.
+
+86
+00:04:54,090 --> 00:04:56,970
+Now, okay, let's click here.
+
+87
+00:04:56,970 --> 00:05:01,410
+And so again, that is our array that we will work with now.
+
+88
+00:05:01,410 --> 00:05:04,810
+And so remember right now we are filtering this array.
+
+89
+00:05:04,810 --> 00:05:08,230
+And so what we want is basically only the entries
+
+90
+00:05:08,230 --> 00:05:12,810
+where the first element of the array starts with ingredient
+
+91
+00:05:13,830 --> 00:05:16,370
+like this, right?
+
+92
+00:05:16,370 --> 00:05:20,330
+And then also the second part should not be empty.
+
+93
+00:05:20,330 --> 00:05:22,780
+So in this case, we are of course not interested
+
+94
+00:05:22,780 --> 00:05:24,283
+in four, five, six.
+
+95
+00:05:26,700 --> 00:05:31,160
+Okay, so here add this condition
+
+96
+00:05:31,160 --> 00:05:33,553
+that we need for the filter.
+
+97
+00:05:34,610 --> 00:05:39,610
+We want to say, just as I explained just a second ago.
+
+98
+00:05:41,490 --> 00:05:44,710
+So the first element of the current entry should start
+
+99
+00:05:44,710 --> 00:05:49,710
+with ingredient and the second one should exist,
+
+100
+00:05:54,550 --> 00:05:56,723
+so it should not be an empty string.
+
+101
+00:05:58,490 --> 00:06:01,100
+So entry one,
+
+102
+00:06:01,100 --> 00:06:06,100
+so the second element should not be an empty string, okay.
+
+103
+00:06:06,550 --> 00:06:09,910
+And so this should now filter out only the data
+
+104
+00:06:09,910 --> 00:06:11,243
+that we are interested in.
+
+105
+00:06:12,330 --> 00:06:17,330
+So let's log at to the console and not this anymore.
+
+106
+00:06:22,100 --> 00:06:26,740
+And yeah, so that is what we were looking for.
+
+107
+00:06:26,740 --> 00:06:30,060
+And now all we need to do is to basically take the data
+
+108
+00:06:30,060 --> 00:06:34,420
+out of the string here and then put that into an object.
+
+109
+00:06:34,420 --> 00:06:38,373
+And so for that, we now finally use the map method.
+
+110
+00:06:40,090 --> 00:06:42,483
+And so here we already have some ingredients.
+
+111
+00:06:44,070 --> 00:06:47,630
+And so now we will take each ingredient
+
+112
+00:06:47,630 --> 00:06:52,010
+and split it by the comma,
+
+113
+00:06:52,010 --> 00:06:55,300
+so that's the separator that I specified.
+
+114
+00:06:55,300 --> 00:06:56,370
+And before we do that,
+
+115
+00:06:56,370 --> 00:06:59,390
+let's actually make sure that we remove
+
+116
+00:06:59,390 --> 00:07:01,090
+any white space here.
+
+117
+00:07:01,090 --> 00:07:06,090
+So we can simply do .replace and I believe that right now
+
+118
+00:07:07,317 --> 00:07:11,780
+the replace all method is actually already available.
+
+119
+00:07:11,780 --> 00:07:14,990
+So remember in the video where we talked about strings
+
+120
+00:07:14,990 --> 00:07:17,110
+I mentioned that replace all
+
+121
+00:07:17,110 --> 00:07:19,290
+will soon be available in browsers.
+
+122
+00:07:19,290 --> 00:07:22,140
+And I believe that right now it already is.
+
+123
+00:07:22,140 --> 00:07:23,633
+And so let's use that here.
+
+124
+00:07:24,480 --> 00:07:28,590
+So let's replace all the basically spaces
+
+125
+00:07:28,590 --> 00:07:29,783
+with an empty string.
+
+126
+00:07:30,620 --> 00:07:35,540
+And so this should then return an array of three elements,
+
+127
+00:07:35,540 --> 00:07:39,120
+and so let's not destruct that array.
+
+128
+00:07:39,120 --> 00:07:41,520
+So the first element is the quantity,
+
+129
+00:07:41,520 --> 00:07:43,800
+the second one is the unit,
+
+130
+00:07:43,800 --> 00:07:47,493
+and the third one is the description.
+
+131
+00:07:49,690 --> 00:07:53,263
+And now, let's return an object with this.
+
+132
+00:07:55,000 --> 00:08:00,000
+So with quantity, unit, and description.
+
+133
+00:08:01,800 --> 00:08:04,140
+We will still have to do some things
+
+134
+00:08:04,140 --> 00:08:08,063
+here but for now let's take a look at what we get.
+
+135
+00:08:12,220 --> 00:08:16,213
+And ingredient.replaceAll is not a function.
+
+136
+00:08:17,310 --> 00:08:20,780
+So that's because each ingredient
+
+137
+00:08:20,780 --> 00:08:22,270
+here is actually still an array,
+
+138
+00:08:22,270 --> 00:08:26,850
+so just like we had it here before in the entry.
+
+139
+00:08:26,850 --> 00:08:30,217
+So the first element of entry here remember was the key
+
+140
+00:08:30,217 --> 00:08:34,250
+and the second one was the value itself,
+
+141
+00:08:34,250 --> 00:08:38,190
+so here we need to use this on ingredient one.
+
+142
+00:08:38,190 --> 00:08:40,563
+So the second element of the entry.
+
+143
+00:08:42,350 --> 00:08:47,280
+So let's see now, and here we go.
+
+144
+00:08:48,920 --> 00:08:52,050
+So we have quantity, unit, and description
+
+145
+00:08:52,050 --> 00:08:54,670
+nicely inside of one array.
+
+146
+00:08:54,670 --> 00:08:58,487
+And so that's now kind of looks like this, great.
+
+147
+00:09:01,590 --> 00:09:04,800
+Now, there is just one thing that we need to notice here,
+
+148
+00:09:04,800 --> 00:09:09,730
+which is that when the quantity does not exist
+
+149
+00:09:09,730 --> 00:09:11,870
+then we want it to be no.
+
+150
+00:09:11,870 --> 00:09:13,943
+And otherwise it's actually a number.
+
+151
+00:09:15,400 --> 00:09:17,440
+So currently we still have strings
+
+152
+00:09:17,440 --> 00:09:20,320
+here but we want us to be a number now,
+
+153
+00:09:20,320 --> 00:09:22,703
+and so let's go ahead and convert that.
+
+154
+00:09:23,580 --> 00:09:28,160
+So let's come here.
+
+155
+00:09:28,160 --> 00:09:32,593
+So the quantity should be, so if there is a quantity,
+
+156
+00:09:33,640 --> 00:09:36,520
+so let's use the ternary operator.
+
+157
+00:09:36,520 --> 00:09:39,923
+So if there is a quantity, then convert that to a number.
+
+158
+00:09:41,620 --> 00:09:44,900
+All right, and if not, which is the situation
+
+159
+00:09:44,900 --> 00:09:49,263
+in which it is an empty string, then we want to return null.
+
+160
+00:09:50,150 --> 00:09:53,870
+So that should fix that, and indeed it does.
+
+161
+00:09:58,270 --> 00:09:59,830
+But now, let's see what happens
+
+162
+00:09:59,830 --> 00:10:03,060
+when we simply put something else here,
+
+163
+00:10:03,060 --> 00:10:04,383
+let's say just a number.
+
+164
+00:10:06,930 --> 00:10:08,660
+So let's see.
+
+165
+00:10:08,660 --> 00:10:11,440
+Well, then here we get a bunch of undefined
+
+166
+00:10:12,380 --> 00:10:14,870
+and so that we don't want,
+
+167
+00:10:14,870 --> 00:10:15,760
+so our format
+
+168
+00:10:15,760 --> 00:10:20,760
+here should always contain quantity, unit, description.
+
+169
+00:10:21,340 --> 00:10:25,500
+So in this case, what we would need to do is this.
+
+170
+00:10:25,500 --> 00:10:27,293
+So this is what we would expect.
+
+171
+00:10:29,770 --> 00:10:33,793
+That's so then we get here the empty strings as expected.
+
+172
+00:10:35,060 --> 00:10:38,160
+So basically what this means is that when we split
+
+173
+00:10:38,160 --> 00:10:43,070
+this string here, we wanted to have three parts, all right?
+
+174
+00:10:43,070 --> 00:10:46,993
+And so let's actually convert that to a code.
+
+175
+00:10:47,990 --> 00:10:52,593
+So here we want to now put
+
+176
+00:10:55,140 --> 00:10:56,983
+this here into a separate variable.
+
+177
+00:10:59,560 --> 00:11:01,933
+So let's call it ingredients array,
+
+178
+00:11:04,140 --> 00:11:06,940
+and then that is the array that we destructure.
+
+179
+00:11:06,940 --> 00:11:09,300
+But before we do that we can test
+
+180
+00:11:09,300 --> 00:11:12,943
+if this array actually has the length of three.
+
+181
+00:11:15,520 --> 00:11:20,520
+So if ingArray.length is different from three
+
+182
+00:11:23,430 --> 00:11:26,083
+then we want to create a new error.
+
+183
+00:11:27,360 --> 00:11:31,573
+So throw new error,
+
+184
+00:11:32,940 --> 00:11:37,607
+and then let's say wrong ingredient format,
+
+185
+00:11:40,570 --> 00:11:45,570
+please use the correct format.
+
+186
+00:11:47,380 --> 00:11:49,280
+And so then at this point here,
+
+187
+00:11:49,280 --> 00:11:52,240
+the function will immediately exit.
+
+188
+00:11:52,240 --> 00:11:55,380
+Now, then what do we want to actually happen
+
+189
+00:11:55,380 --> 00:11:57,120
+with this error?
+
+190
+00:11:57,120 --> 00:12:01,920
+Well, we will want to render an error message to this view.
+
+191
+00:12:01,920 --> 00:12:05,183
+So to the add recipe view, right?
+
+192
+00:12:06,030 --> 00:12:09,000
+And that is very simple.
+
+193
+00:12:09,000 --> 00:12:11,800
+So here we can use all try catch
+
+194
+00:12:11,800 --> 00:12:13,600
+just like we have been doing before.
+
+195
+00:12:17,060 --> 00:12:22,060
+So try and so if some error occurs in this function here,
+
+196
+00:12:24,180 --> 00:12:28,020
+then it goes to the catch block as always.
+
+197
+00:12:28,020 --> 00:12:32,320
+So here we get the error and then let's log that error
+
+198
+00:12:32,320 --> 00:12:37,320
+to the console again, with some emojis here to make it easy,
+
+199
+00:12:39,760 --> 00:12:44,080
+to understand that it is our own error.
+
+200
+00:12:44,080 --> 00:12:49,080
+And then we can simply say, addRecipeView.renderError.
+
+201
+00:12:51,530 --> 00:12:53,860
+And now we can actually pass in the error message
+
+202
+00:12:53,860 --> 00:12:57,130
+ourselves because here in the view
+
+203
+00:12:57,130 --> 00:12:59,543
+we accounted for that ability.
+
+204
+00:13:00,760 --> 00:13:02,620
+So by default the error message
+
+205
+00:13:02,620 --> 00:13:05,497
+is coming from this .errorMessage
+
+206
+00:13:05,497 --> 00:13:08,040
+but we can also specify our own.
+
+207
+00:13:08,040 --> 00:13:10,460
+And so that is what we will do now
+
+208
+00:13:10,460 --> 00:13:13,740
+because this way we are able to create the error message
+
+209
+00:13:13,740 --> 00:13:16,833
+basically here where the error actually occurred.
+
+210
+00:13:18,650 --> 00:13:23,650
+Okay, so error.message, and so now let's see what happens.
+
+211
+00:13:28,390 --> 00:13:31,240
+So for now, let's use the correct format
+
+212
+00:13:31,240 --> 00:13:33,523
+just to see if everything keeps working,
+
+213
+00:13:34,460 --> 00:13:35,560
+and it does.
+
+214
+00:13:35,560 --> 00:13:37,040
+But now, let's do it wrong
+
+215
+00:13:38,360 --> 00:13:41,370
+and we get wrong ingredient format
+
+216
+00:13:41,370 --> 00:13:43,373
+but it is still coming from the model.
+
+217
+00:13:44,630 --> 00:13:47,230
+So here we got uncaught in promise
+
+218
+00:13:47,230 --> 00:13:49,340
+and that actually makes sense,
+
+219
+00:13:49,340 --> 00:13:52,590
+because remember that here we are in
+
+220
+00:13:52,590 --> 00:13:54,710
+an async function already.
+
+221
+00:13:54,710 --> 00:13:56,650
+So this returns a promise
+
+222
+00:13:56,650 --> 00:13:59,980
+and so basically this then rejects the promise.
+
+223
+00:13:59,980 --> 00:14:03,563
+And so therefore we should handle that already right here.
+
+224
+00:14:05,670 --> 00:14:10,453
+So try like this and then catch the error
+
+225
+00:14:13,940 --> 00:14:17,223
+and simply throw that error again.
+
+226
+00:14:19,490 --> 00:14:22,203
+Okay, let's try that again.
+
+227
+00:14:23,630 --> 00:14:26,340
+Okay, and that still doesn't look
+
+228
+00:14:26,340 --> 00:14:28,710
+the way we want it to look.
+
+229
+00:14:28,710 --> 00:14:31,620
+So we wanted here to be an error message,
+
+230
+00:14:31,620 --> 00:14:34,490
+and so that should come from the controller.
+
+231
+00:14:34,490 --> 00:14:36,870
+And so that means that there is something wrong
+
+232
+00:14:36,870 --> 00:14:38,420
+in the controller.
+
+233
+00:14:38,420 --> 00:14:42,170
+And I guess I know why that happens
+
+234
+00:14:42,170 --> 00:14:45,593
+because remember that this is an async function right here.
+
+235
+00:14:47,940 --> 00:14:50,800
+So it returns a promise but then right
+
+236
+00:14:50,800 --> 00:14:54,820
+here we are actually not awaiting that promise.
+
+237
+00:14:54,820 --> 00:14:56,060
+So we need to use await
+
+238
+00:14:56,060 --> 00:15:01,030
+here and then also make this an async function.
+
+239
+00:15:01,030 --> 00:15:02,460
+And so only with this,
+
+240
+00:15:02,460 --> 00:15:05,010
+we are now actually handling this function
+
+241
+00:15:05,010 --> 00:15:08,160
+here as a function that returns a promise
+
+242
+00:15:08,160 --> 00:15:11,750
+so that the rejected promise can then actually get caught
+
+243
+00:15:11,750 --> 00:15:13,493
+here in this catch block.
+
+244
+00:15:14,950 --> 00:15:18,163
+So let's try once again here with some number.
+
+245
+00:15:19,880 --> 00:15:22,700
+Ah, and now it works.
+
+246
+00:15:22,700 --> 00:15:27,080
+So now, we get the actual error with these emoji mark
+
+247
+00:15:27,080 --> 00:15:31,867
+and also the error that we want here, okay, great.
+
+248
+00:15:33,500 --> 00:15:36,590
+So we have that part working of the ingredients.
+
+249
+00:15:36,590 --> 00:15:39,200
+Now, it's time to actually create the object
+
+250
+00:15:39,200 --> 00:15:41,113
+that is ready to be uploaded.
+
+251
+00:15:42,460 --> 00:15:45,913
+So let's create a recipe object here.
+
+252
+00:15:46,970 --> 00:15:50,130
+And so basically this object will be the opposite
+
+253
+00:15:50,130 --> 00:15:52,100
+of this one here.
+
+254
+00:15:52,100 --> 00:15:56,560
+So here we take in the source URL formatted as this,
+
+255
+00:15:56,560 --> 00:16:01,293
+and we want to send the data where the URL looks like this.
+
+256
+00:16:02,470 --> 00:16:04,930
+So where the property has this format,
+
+257
+00:16:04,930 --> 00:16:09,450
+it's the same here for the URL and to cooking time actually,
+
+258
+00:16:09,450 --> 00:16:11,090
+because that is exactly the format
+
+259
+00:16:11,090 --> 00:16:15,260
+that the API is ready to receive.
+
+260
+00:16:15,260 --> 00:16:18,363
+So it has to be exactly the way that we received it.
+
+261
+00:16:21,280 --> 00:16:26,280
+Okay, so let's write that object very quick.
+
+262
+00:16:27,800 --> 00:16:31,220
+So that is at newRecipe.title
+
+263
+00:16:33,144 --> 00:16:38,144
+then the source URL is that newRecipe.sourceUrl, like this.
+
+264
+00:16:42,110 --> 00:16:47,110
+Then the image URL is newRecipe.image, right?
+
+265
+00:16:51,470 --> 00:16:54,313
+Then the publisher is actually the same,
+
+266
+00:16:56,165 --> 00:16:57,193
+newRecipe.publisher.
+
+267
+00:16:59,340 --> 00:17:02,663
+The cooking time, newRecipe.cookingTime.
+
+268
+00:17:05,220 --> 00:17:07,970
+So fortunately, VS Code is giving us
+
+269
+00:17:08,880 --> 00:17:13,020
+already the correct suggestions, .servings.
+
+270
+00:17:16,470 --> 00:17:18,960
+And so that's all I think.
+
+271
+00:17:18,960 --> 00:17:22,260
+And so all we have to do now is to add the ingredients
+
+272
+00:17:22,260 --> 00:17:25,140
+array, and that's it.
+
+273
+00:17:25,140 --> 00:17:26,610
+And then we also have two numbers
+
+274
+00:17:26,610 --> 00:17:29,960
+here which we should convert to numbers
+
+275
+00:17:29,960 --> 00:17:34,230
+using this plus trick, all right.
+
+276
+00:17:34,230 --> 00:17:37,430
+And so now, let's actually log this one to the console
+
+277
+00:17:37,430 --> 00:17:38,993
+and not just the ingredients.
+
+278
+00:17:39,920 --> 00:17:42,290
+Oh, and of course, all this should be happening
+
+279
+00:17:42,290 --> 00:17:46,747
+inside of this try block, right.
+
+280
+00:17:53,170 --> 00:17:54,783
+So let's see, okay.
+
+281
+00:18:00,960 --> 00:18:02,130
+That looks great.
+
+282
+00:18:02,130 --> 00:18:06,903
+And it looks ready to be actually sent to our API, okay.
+
+283
+00:18:09,950 --> 00:18:11,283
+So let's do that.
+
+284
+00:18:12,380 --> 00:18:17,380
+So remember we already have a method for getting JSON.
+
+285
+00:18:17,600 --> 00:18:20,780
+So that's this one and now let's create a method
+
+286
+00:18:20,780 --> 00:18:23,653
+for sending JSON here in our helper.
+
+287
+00:18:25,900 --> 00:18:28,690
+And actually it's going to be very similar.
+
+288
+00:18:28,690 --> 00:18:30,440
+So for now, let's just copy it,
+
+289
+00:18:30,440 --> 00:18:34,223
+but then a bit later we will simply refactor this.
+
+290
+00:18:35,780 --> 00:18:40,780
+So here let's call it send JSON, all right.
+
+291
+00:18:41,390 --> 00:18:44,740
+And so now, let's learn how we can actually send data
+
+292
+00:18:44,740 --> 00:18:46,353
+using the fetch function.
+
+293
+00:18:47,210 --> 00:18:48,650
+So up until this point,
+
+294
+00:18:48,650 --> 00:18:52,680
+all we ever did was to simply pass in a URL
+
+295
+00:18:52,680 --> 00:18:54,210
+into the fetch function
+
+296
+00:18:54,210 --> 00:18:57,980
+and that would then automatically create a get request.
+
+297
+00:18:57,980 --> 00:19:00,210
+However, to send data,
+
+298
+00:19:00,210 --> 00:19:01,420
+remember how we discussed
+
+299
+00:19:01,420 --> 00:19:05,570
+before that that needs to be a post request.
+
+300
+00:19:05,570 --> 00:19:08,800
+And so here besides passing in the URL
+
+301
+00:19:08,800 --> 00:19:13,293
+we also need to pass in an object of some options, okay.
+
+302
+00:19:17,710 --> 00:19:21,323
+And the first option is going to be the method.
+
+303
+00:19:22,540 --> 00:19:25,163
+And so that method is now post.
+
+304
+00:19:26,400 --> 00:19:29,393
+Then we also need to pass in an object of headers,
+
+305
+00:19:30,600 --> 00:19:34,530
+and headers are basically some snippets of text,
+
+306
+00:19:34,530 --> 00:19:37,823
+which are like information about the request itself.
+
+307
+00:19:38,770 --> 00:19:42,170
+And many of them are like standard headers.
+
+308
+00:19:42,170 --> 00:19:45,113
+And one that we need to define is the Content Type.
+
+309
+00:19:46,010 --> 00:19:50,520
+So Content Type with an uppercase C and a T,
+
+310
+00:19:50,520 --> 00:19:52,490
+so make sure you get that right.
+
+311
+00:19:52,490 --> 00:19:55,587
+And then here application/JSON,
+
+312
+00:19:59,760 --> 00:20:02,560
+and so with this we tell the API.
+
+313
+00:20:02,560 --> 00:20:04,510
+So we specify in the request
+
+314
+00:20:04,510 --> 00:20:06,200
+that the data that we're gonna send
+
+315
+00:20:06,200 --> 00:20:08,800
+is going to be in the JSON format.
+
+316
+00:20:08,800 --> 00:20:13,150
+And so only then our API can correctly accept that data
+
+317
+00:20:13,150 --> 00:20:15,513
+and create a new recipe in the database.
+
+318
+00:20:17,940 --> 00:20:21,680
+And now, finally the payload of the request.
+
+319
+00:20:21,680 --> 00:20:25,130
+So basically the data that we want to send,
+
+320
+00:20:25,130 --> 00:20:27,820
+which is called the body.
+
+321
+00:20:27,820 --> 00:20:30,310
+So the body should be in JSON.
+
+322
+00:20:30,310 --> 00:20:32,410
+Remember as I just explained,
+
+323
+00:20:32,410 --> 00:20:36,620
+and so we can once again use JSON.stringify
+
+324
+00:20:37,500 --> 00:20:41,620
+and then convert the data that we want to send.
+
+325
+00:20:41,620 --> 00:20:44,070
+Now, and here we actually need to accept that data
+
+326
+00:20:44,070 --> 00:20:47,963
+here into the function, of course, as a second parameter.
+
+327
+00:20:49,800 --> 00:20:52,253
+So let's call that upload data.
+
+328
+00:20:53,335 --> 00:20:57,700
+And so that is the data that we then convert to JSON
+
+329
+00:20:57,700 --> 00:21:02,700
+so that it can be sent, and that's actually it.
+
+330
+00:21:02,900 --> 00:21:04,613
+So that's all we need to do.
+
+331
+00:21:05,730 --> 00:21:08,570
+So we still pass in a URL
+
+332
+00:21:08,570 --> 00:21:11,220
+which we will need to specify next.
+
+333
+00:21:11,220 --> 00:21:14,720
+And then we take that URL and the upload data,
+
+334
+00:21:14,720 --> 00:21:19,720
+and then simply create this fetch request like this, okay.
+
+335
+00:21:22,190 --> 00:21:25,860
+And then everything else is actually going to be the same.
+
+336
+00:21:25,860 --> 00:21:29,660
+So we will still have this request a racing about a timeout
+
+337
+00:21:29,660 --> 00:21:32,820
+function so that it can't run forever.
+
+338
+00:21:32,820 --> 00:21:34,850
+And we will also await any data
+
+339
+00:21:34,850 --> 00:21:38,750
+coming back because this API that we're gonna use
+
+340
+00:21:38,750 --> 00:21:42,460
+so the Forkify API will actually return the data
+
+341
+00:21:42,460 --> 00:21:45,180
+back that we just sent.
+
+342
+00:21:45,180 --> 00:21:46,870
+And you will see in a moment
+
+343
+00:21:46,870 --> 00:21:50,350
+why that is very important, okay.
+
+344
+00:21:50,350 --> 00:21:53,930
+So again, everything here is going to be the same.
+
+345
+00:21:53,930 --> 00:21:56,440
+And so a bit later we will then refactor these two
+
+346
+00:21:56,440 --> 00:22:01,280
+here into the same function, but let's do that later.
+
+347
+00:22:01,280 --> 00:22:05,453
+So here we now need to import the send JSON function.
+
+348
+00:22:08,340 --> 00:22:12,780
+And so now, let's use our newly created function
+
+349
+00:22:12,780 --> 00:22:17,110
+to create the Ajax request.
+
+350
+00:22:17,110 --> 00:22:22,110
+So send JSON and now the URL of the API,
+
+351
+00:22:24,070 --> 00:22:27,853
+and actually we have that here stored somewhere,
+
+352
+00:22:28,850 --> 00:22:33,817
+so that's this URL that we have in the config, right?
+
+353
+00:22:35,490 --> 00:22:37,520
+So slash recipes,
+
+354
+00:22:37,520 --> 00:22:41,683
+but that's actually not all as we will see in a second.
+
+355
+00:22:44,510 --> 00:22:47,260
+All right, let's get rid of this.
+
+356
+00:22:47,260 --> 00:22:52,260
+And now, let's go to the Forkify documentation page.
+
+357
+00:22:52,340 --> 00:22:56,963
+So at this URL, because now we actually need the API key.
+
+358
+00:22:57,800 --> 00:23:00,090
+So please click here now on this button,
+
+359
+00:23:00,090 --> 00:23:03,683
+which will then generate your unique developer key.
+
+360
+00:23:04,630 --> 00:23:06,510
+Now, if you got some kind of error
+
+361
+00:23:06,510 --> 00:23:08,980
+here while generating your key
+
+362
+00:23:08,980 --> 00:23:11,870
+then maybe it is because you requested more than one
+
+363
+00:23:11,870 --> 00:23:14,160
+API keys per hour.
+
+364
+00:23:14,160 --> 00:23:19,160
+So remember that you should only ever request one API key.
+
+365
+00:23:19,240 --> 00:23:21,770
+That's why I have this limit here in place
+
+366
+00:23:21,770 --> 00:23:25,990
+so that no one can abuse my API basically.
+
+367
+00:23:25,990 --> 00:23:28,790
+Now, if you did actually only try it once
+
+368
+00:23:28,790 --> 00:23:30,610
+and you still got an error,
+
+369
+00:23:30,610 --> 00:23:35,150
+then you can always contact me on Twitter, okay.
+
+370
+00:23:35,150 --> 00:23:37,370
+So here's the link to my Twitter page
+
+371
+00:23:37,370 --> 00:23:39,870
+and then just tweet the error at me
+
+372
+00:23:39,870 --> 00:23:41,593
+and I will try to help you.
+
+373
+00:23:42,510 --> 00:23:44,420
+Now, my key disappeared here,
+
+374
+00:23:44,420 --> 00:23:48,090
+so let's click again and now I will copy
+
+375
+00:23:48,090 --> 00:23:51,563
+it so that I can use it in my code.
+
+376
+00:23:52,830 --> 00:23:56,913
+So let's go down here or actually it's right here.
+
+377
+00:23:57,840 --> 00:24:02,840
+So you'll see the API path is actually exactly the same
+
+378
+00:24:02,920 --> 00:24:05,400
+as for getting all the recipes.
+
+379
+00:24:05,400 --> 00:24:07,460
+Now, the only difference is that of course,
+
+380
+00:24:07,460 --> 00:24:10,580
+we will not a search for anything now
+
+381
+00:24:10,580 --> 00:24:14,140
+but we will have to add our key like this,
+
+382
+00:24:14,140 --> 00:24:18,550
+so with this key parameter, okay.
+
+383
+00:24:18,550 --> 00:24:22,910
+And so yeah, we are doing a post request now, right.
+
+384
+00:24:22,910 --> 00:24:24,580
+And so that creates a new recipe
+
+385
+00:24:24,580 --> 00:24:27,900
+then when we hit this end point,
+
+386
+00:24:27,900 --> 00:24:31,933
+so this path with a post request and some data, okay.
+
+387
+00:24:34,210 --> 00:24:37,883
+Now, let's store actually this key in the config file.
+
+388
+00:24:43,070 --> 00:24:44,863
+So as a string, okay.
+
+389
+00:24:50,950 --> 00:24:53,193
+And then let's use that key here.
+
+390
+00:24:54,320 --> 00:24:58,460
+So again, the question mark to specify a list of parameters
+
+391
+00:24:58,460 --> 00:25:00,523
+and then key equals,
+
+392
+00:25:01,400 --> 00:25:03,890
+and then we have to import it up here
+
+393
+00:25:11,250 --> 00:25:15,200
+and then the key, okay.
+
+394
+00:25:15,200 --> 00:25:17,880
+And remember that this will actually send the recipe
+
+395
+00:25:17,880 --> 00:25:19,520
+then back to us.
+
+396
+00:25:19,520 --> 00:25:24,173
+And so let's store that as data and also await it.
+
+397
+00:25:27,741 --> 00:25:31,183
+And then finally, let's log that data to the console.
+
+398
+00:25:32,050 --> 00:25:37,050
+So console.logData, and now let's see what happens.
+
+399
+00:25:43,130 --> 00:25:45,870
+So we got a lot of errors here,
+
+400
+00:25:45,870 --> 00:25:48,920
+so it seems like the data is completely wrong.
+
+401
+00:25:48,920 --> 00:25:52,320
+And that's simply because I just forgot
+
+402
+00:25:52,320 --> 00:25:54,550
+to actually put that data here.
+
+403
+00:25:54,550 --> 00:25:59,550
+So the recipe, so of course send JSON has two parameters.
+
+404
+00:26:00,710 --> 00:26:03,463
+So not only the URL but also the data.
+
+405
+00:26:05,140 --> 00:26:06,403
+Let's try that again.
+
+406
+00:26:07,780 --> 00:26:09,500
+And it kind of worked
+
+407
+00:26:09,500 --> 00:26:12,100
+already because this error that we got back
+
+408
+00:26:12,100 --> 00:26:16,570
+here is actually already an error coming from our API.
+
+409
+00:26:16,570 --> 00:26:19,990
+So tells us that the input data is invalid
+
+410
+00:26:19,990 --> 00:26:21,400
+because the source URL
+
+411
+00:26:21,400 --> 00:26:24,073
+needs to be at least five characters long.
+
+412
+00:26:25,530 --> 00:26:27,083
+So let's try that again.
+
+413
+00:26:28,500 --> 00:26:31,053
+And actually we need to reload for now.
+
+414
+00:26:33,630 --> 00:26:38,630
+So the URL, let's just add something here
+
+415
+00:26:39,820 --> 00:26:42,330
+and probably all of them need this.
+
+416
+00:26:42,330 --> 00:26:47,330
+So let's do that quickly here in the HTML.
+
+417
+00:26:47,430 --> 00:26:50,823
+So I say, default value kind of,
+
+418
+00:26:55,670 --> 00:26:58,350
+so you see now we have test 23.
+
+419
+00:26:58,350 --> 00:27:02,360
+And as we upload it now then that worked.
+
+420
+00:27:02,360 --> 00:27:06,480
+So we get a status success back from our server
+
+421
+00:27:07,420 --> 00:27:10,573
+and then our data, right.
+
+422
+00:27:12,610 --> 00:27:15,500
+So that data contains everything that we just send
+
+423
+00:27:15,500 --> 00:27:20,500
+it plus the created at and also an ID.
+
+424
+00:27:20,680 --> 00:27:23,550
+And of course also your key
+
+425
+00:27:23,550 --> 00:27:26,640
+and that key will be very important in the next video
+
+426
+00:27:26,640 --> 00:27:29,700
+when we then want to mark our own recipes,
+
+427
+00:27:29,700 --> 00:27:31,690
+basically as our own.
+
+428
+00:27:31,690 --> 00:27:34,450
+Now, it will make sense to actually render
+
+429
+00:27:34,450 --> 00:27:39,340
+this newly created recipe also then to the user interface
+
+430
+00:27:39,340 --> 00:27:42,100
+after closing this display here,
+
+431
+00:27:42,100 --> 00:27:45,130
+so after closing this window, right.
+
+432
+00:27:45,130 --> 00:27:47,070
+And so therefore we need to convert
+
+433
+00:27:47,070 --> 00:27:52,070
+that to the format that we use in our application, right.
+
+434
+00:27:53,020 --> 00:27:56,810
+So basically in our application
+
+435
+00:27:56,810 --> 00:28:01,517
+we are using these different property names, right.
+
+436
+00:28:02,570 --> 00:28:03,970
+So we are in the same situation
+
+437
+00:28:03,970 --> 00:28:06,090
+as we are here in load recipe
+
+438
+00:28:06,090 --> 00:28:09,350
+where we get the data in the original format.
+
+439
+00:28:09,350 --> 00:28:12,000
+So with this kind of property names,
+
+440
+00:28:12,000 --> 00:28:15,190
+and we now need to convert it back to this one
+
+441
+00:28:15,190 --> 00:28:17,773
+so that all application understands the data.
+
+442
+00:28:18,980 --> 00:28:22,160
+All right, now, instead of writing this entire code
+
+443
+00:28:22,160 --> 00:28:24,760
+here twice, we can simply grab
+
+444
+00:28:24,760 --> 00:28:27,203
+this and put it into a new function.
+
+445
+00:28:28,760 --> 00:28:32,403
+So let's do that right here and call that one,
+
+446
+00:28:33,670 --> 00:28:38,670
+create recipe object,
+
+447
+00:28:38,870 --> 00:28:41,653
+and it simply receives some data.
+
+448
+00:28:44,330 --> 00:28:47,023
+And then it returns an object like this.
+
+449
+00:28:49,970 --> 00:28:54,970
+So return this soda then we can do whatever we want with it.
+
+450
+00:28:55,540 --> 00:28:56,410
+And in this case,
+
+451
+00:28:56,410 --> 00:28:59,840
+that's going to be to put that in the state.
+
+452
+00:28:59,840 --> 00:29:04,840
+So state.recipe will be create recipe object
+
+453
+00:29:06,590 --> 00:29:08,223
+with the data that we receive.
+
+454
+00:29:09,290 --> 00:29:12,590
+So basically just some nice refactoring.
+
+455
+00:29:12,590 --> 00:29:15,410
+So this now does exactly what we had before,
+
+456
+00:29:15,410 --> 00:29:19,653
+but now we can use that down here as well.
+
+457
+00:29:21,350 --> 00:29:23,460
+So we get the data
+
+458
+00:29:23,460 --> 00:29:26,593
+and now we want to then store that into the state.
+
+459
+00:29:27,470 --> 00:29:32,470
+So again, state.recipe equals create recipe object
+
+460
+00:29:36,030 --> 00:29:39,620
+with the data that we just received.
+
+461
+00:29:39,620 --> 00:29:44,510
+And now, let's actually come here to the controller
+
+462
+00:29:45,660 --> 00:29:50,660
+and log that stated recipe to the console,
+
+463
+00:29:51,170 --> 00:29:54,407
+so that's model.state.recipe.
+
+464
+00:29:58,080 --> 00:30:01,903
+Okay, so let's see.
+
+465
+00:30:03,130 --> 00:30:08,130
+And yeah, it now looks exactly the same as this one, right?
+
+466
+00:30:10,740 --> 00:30:12,053
+So beautiful.
+
+467
+00:30:13,240 --> 00:30:15,440
+There's just one thing missing,
+
+468
+00:30:15,440 --> 00:30:18,840
+which is this bookmarked here and also the key
+
+469
+00:30:18,840 --> 00:30:20,750
+is missing as well.
+
+470
+00:30:20,750 --> 00:30:23,060
+So let's take care of the bookmarking
+
+471
+00:30:23,060 --> 00:30:28,060
+and also of preserving our API key in this object, okay.
+
+472
+00:30:31,000 --> 00:30:33,240
+And a quick look at our flow chart
+
+473
+00:30:33,240 --> 00:30:38,240
+here will reveal that all we want to do is basically store
+
+474
+00:30:38,710 --> 00:30:42,470
+the bookmarks to local storage, right.
+
+475
+00:30:42,470 --> 00:30:46,403
+And also mark, of course, that recipe as a bookmark.
+
+476
+00:30:47,750 --> 00:30:51,370
+Okay, so we already implemented most of this.
+
+477
+00:30:51,370 --> 00:30:53,720
+So this and this in the last lecture,
+
+478
+00:30:53,720 --> 00:30:58,140
+then this part and this part in this lecture,
+
+479
+00:30:58,140 --> 00:31:02,040
+but let's now also take care of bookmarking it,
+
+480
+00:31:02,040 --> 00:31:04,590
+but that is very easy
+
+481
+00:31:04,590 --> 00:31:06,890
+because we already have the function for that.
+
+482
+00:31:07,860 --> 00:31:12,070
+So that is of course, add bookmark.
+
+483
+00:31:12,070 --> 00:31:13,890
+So we already have our recipe.
+
+484
+00:31:13,890 --> 00:31:17,940
+And so we can simply call add bookmark with our recipe
+
+485
+00:31:17,940 --> 00:31:20,543
+and that will then take care of everything.
+
+486
+00:31:21,930 --> 00:31:26,207
+So add bookmark with state.recipe.
+
+487
+00:31:29,090 --> 00:31:34,090
+And finally, we also need to add our key to the object,
+
+488
+00:31:34,760 --> 00:31:37,380
+so to state.recipe.
+
+489
+00:31:37,380 --> 00:31:39,540
+And we could do that here manually,
+
+490
+00:31:39,540 --> 00:31:42,500
+but let's actually use a nice trick
+
+491
+00:31:42,500 --> 00:31:45,510
+to do that down here or up here
+
+492
+00:31:45,510 --> 00:31:50,220
+where the object is actually created, so right here.
+
+493
+00:31:50,220 --> 00:31:53,200
+Now, in the case of a load recipe,
+
+494
+00:31:53,200 --> 00:31:55,730
+not always there will be a key.
+
+495
+00:31:55,730 --> 00:31:59,070
+So most of the recipes of course, don't have any key.
+
+496
+00:31:59,070 --> 00:32:02,670
+And so we cannot simply do this.
+
+497
+00:32:02,670 --> 00:32:07,670
+So key recipe.key because again,
+
+498
+00:32:08,630 --> 00:32:10,760
+not all of them will have one.
+
+499
+00:32:10,760 --> 00:32:15,320
+So we only want to add the key if there actually exists one.
+
+500
+00:32:15,320 --> 00:32:18,063
+So let's use a nice trick to do that.
+
+501
+00:32:19,040 --> 00:32:23,810
+So we can use the end operator, which does short-circuiting.
+
+502
+00:32:23,810 --> 00:32:28,810
+So we can do a recipe.key and then this object, all right.
+
+503
+00:32:36,190 --> 00:32:38,927
+I will explain to you in a second what this does that.
+
+504
+00:32:38,927 --> 00:32:41,023
+And then we can spread this.
+
+505
+00:32:42,030 --> 00:32:43,950
+So that looks confusing.
+
+506
+00:32:43,950 --> 00:32:46,113
+So let me explain what is happening here.
+
+507
+00:32:47,000 --> 00:32:51,070
+So remember that the end operator short-circuits.
+
+508
+00:32:51,070 --> 00:32:54,950
+So if recipe.key is a faulty value,
+
+509
+00:32:54,950 --> 00:32:56,610
+so if it doesn't exist
+
+510
+00:32:56,610 --> 00:32:59,860
+well, then nothing happens here, right.
+
+511
+00:32:59,860 --> 00:33:04,860
+And so then destructuring here, well does basically nothing.
+
+512
+00:33:05,780 --> 00:33:08,780
+Now, if this actually is some value,
+
+513
+00:33:08,780 --> 00:33:11,080
+then the second part of the operator
+
+514
+00:33:11,080 --> 00:33:13,580
+is executed and returned.
+
+515
+00:33:13,580 --> 00:33:16,330
+And so in that case, it is this object
+
+516
+00:33:16,330 --> 00:33:19,520
+here basically that is going to be returned.
+
+517
+00:33:19,520 --> 00:33:23,240
+And so then this whole expression will become that object.
+
+518
+00:33:23,240 --> 00:33:25,660
+And so then we can spread that object
+
+519
+00:33:25,660 --> 00:33:28,420
+to basically put the values here.
+
+520
+00:33:28,420 --> 00:33:30,070
+And so that will then be the same
+
+521
+00:33:30,950 --> 00:33:33,850
+as if the values would be out here like this,
+
+522
+00:33:33,850 --> 00:33:36,603
+key recipe.key.
+
+523
+00:33:37,770 --> 00:33:42,210
+But again, only in case that the key actually does exist.
+
+524
+00:33:42,210 --> 00:33:44,280
+And so this is a very nice trick
+
+525
+00:33:44,280 --> 00:33:47,833
+to conditionally add properties to an object.
+
+526
+00:33:49,110 --> 00:33:50,590
+So keep this one in mind,
+
+527
+00:33:50,590 --> 00:33:52,773
+now it is a very handy trick sometimes.
+
+528
+00:33:54,110 --> 00:33:57,763
+Now, okay, and I think we should actually be done here now.
+
+529
+00:33:59,490 --> 00:34:02,623
+So you see uploading data is a lot of work,
+
+530
+00:34:04,430 --> 00:34:09,430
+but I think this is still a nice exercise and let's see.
+
+531
+00:34:09,870 --> 00:34:11,960
+Here is our key now.
+
+532
+00:34:11,960 --> 00:34:16,653
+And also the recipe is now bookmarked, great.
+
+533
+00:34:17,620 --> 00:34:21,350
+So just to finish this lecture very quickly,
+
+534
+00:34:21,350 --> 00:34:23,540
+let's go back to the controller
+
+535
+00:34:23,540 --> 00:34:27,393
+and now actually render this recipe in the recipe view.
+
+536
+00:34:28,490 --> 00:34:33,490
+So render recipe, which will be recipeView.render,
+
+537
+00:34:39,930 --> 00:34:44,930
+and then as always model.state.recipe.
+
+538
+00:34:45,530 --> 00:34:46,600
+But now with this,
+
+539
+00:34:46,600 --> 00:34:51,600
+we would not really be able to see that rendered recipe yet
+
+540
+00:34:51,790 --> 00:34:54,790
+because we still have that form open.
+
+541
+00:34:54,790 --> 00:34:57,410
+So let's now close that form.
+
+542
+00:34:57,410 --> 00:35:01,130
+So close form window.
+
+543
+00:35:01,130 --> 00:35:04,270
+And we can do that because there is already a method
+
+544
+00:35:04,270 --> 00:35:05,133
+for that here.
+
+545
+00:35:06,050 --> 00:35:09,750
+So it's this public toggle window method.
+
+546
+00:35:09,750 --> 00:35:13,333
+And so let's now use that, okay.
+
+547
+00:35:14,940 --> 00:35:19,230
+So and actually let's not do that immediately,
+
+548
+00:35:19,230 --> 00:35:23,130
+but only after some time so that we can first display
+
+549
+00:35:23,130 --> 00:35:24,873
+a nice success message.
+
+550
+00:35:25,870 --> 00:35:30,870
+So we can use a set timeout and an insight of that
+
+551
+00:35:31,040 --> 00:35:32,570
+callback function.
+
+552
+00:35:32,570 --> 00:35:36,217
+We can then call, addRecipeView.toggleWindow,
+
+553
+00:35:39,596 --> 00:35:42,030
+and here let's specify some time,
+
+554
+00:35:42,030 --> 00:35:44,360
+let's say two and a half seconds.
+
+555
+00:35:44,360 --> 00:35:46,290
+However, as you already know,
+
+556
+00:35:46,290 --> 00:35:49,840
+we should never use a magic number like this.
+
+557
+00:35:49,840 --> 00:35:53,960
+So let's create one more configuration variable here,
+
+558
+00:35:53,960 --> 00:35:58,960
+let's call this the modal close,
+
+559
+00:35:59,120 --> 00:36:03,100
+and then let's say seconds so that we know that this value
+
+560
+00:36:03,100 --> 00:36:06,210
+is actually a value in seconds.
+
+561
+00:36:06,210 --> 00:36:08,550
+So let's use two and a half.
+
+562
+00:36:08,550 --> 00:36:10,240
+And now, we need to actually import
+
+563
+00:36:10,240 --> 00:36:12,960
+this because I believe that right now
+
+564
+00:36:12,960 --> 00:36:15,973
+we are not yet importing this into the controller.
+
+565
+00:36:17,120 --> 00:36:18,433
+And indeed we're not.
+
+566
+00:36:20,560 --> 00:36:25,560
+So let's say that the named import from config.js.
+
+567
+00:36:34,530 --> 00:36:39,447
+And so then down here let's use that modal close seconds
+
+568
+00:36:40,860 --> 00:36:42,630
+and then times a thousand
+
+569
+00:36:42,630 --> 00:36:46,520
+to convert it to milliseconds, okay.
+
+570
+00:36:46,520 --> 00:36:51,033
+And before we do that let's also display a success message.
+
+571
+00:36:53,520 --> 00:36:55,713
+And for that we already have in our view,
+
+572
+00:36:57,430 --> 00:37:01,070
+the render message method, right.
+
+573
+00:37:01,070 --> 00:37:03,710
+Which will take this.message,
+
+574
+00:37:03,710 --> 00:37:07,030
+which in this case we don't have one yet,
+
+575
+00:37:07,030 --> 00:37:08,433
+but let's actually add one.
+
+576
+00:37:13,610 --> 00:37:18,610
+Recipe was successfully uploaded.
+
+577
+00:37:22,430 --> 00:37:25,900
+And so now it's very, very easy to do this.
+
+578
+00:37:25,900 --> 00:37:29,133
+All we have to do is addRecipeView.renderMessage.
+
+579
+00:37:34,160 --> 00:37:35,840
+And so once again,
+
+580
+00:37:35,840 --> 00:37:39,230
+now that we have all of these nice methods in place,
+
+581
+00:37:39,230 --> 00:37:41,530
+it's very easy to take data
+
+582
+00:37:41,530 --> 00:37:45,530
+and then render all kinds of things on the user interface.
+
+583
+00:37:45,530 --> 00:37:48,950
+For example, like this error, or the success message,
+
+584
+00:37:48,950 --> 00:37:50,853
+or of course the data itself.
+
+585
+00:37:52,410 --> 00:37:54,593
+So let's try it one more time.
+
+586
+00:37:57,600 --> 00:38:02,600
+And there is our success message and it also disappeared.
+
+587
+00:38:02,760 --> 00:38:06,620
+And great, here is our recipe.
+
+588
+00:38:06,620 --> 00:38:09,893
+And also with our nicely formatted ingredients.
+
+589
+00:38:11,000 --> 00:38:14,400
+So remember we put 0.5 kilos of rice.
+
+590
+00:38:14,400 --> 00:38:18,540
+And so of course, that was successfully converted to an half
+
+591
+00:38:20,841 --> 00:38:23,113
+And you see it's also already a bookmark.
+
+592
+00:38:24,550 --> 00:38:27,030
+So you see that it's right here.
+
+593
+00:38:27,030 --> 00:38:28,650
+Of course, there is no image
+
+594
+00:38:28,650 --> 00:38:30,890
+because that path that I specified
+
+595
+00:38:30,890 --> 00:38:33,820
+there is of course not a correct path
+
+596
+00:38:33,820 --> 00:38:35,803
+but that doesn't matter at all here.
+
+597
+00:38:37,210 --> 00:38:38,960
+And now, to really finish
+
+598
+00:38:38,960 --> 00:38:41,650
+let's now add just one final thing
+
+599
+00:38:41,650 --> 00:38:45,410
+which is to render a loading spinner
+
+600
+00:38:45,410 --> 00:38:47,750
+in the add recipe view,
+
+601
+00:38:47,750 --> 00:38:51,070
+before we actually start to upload the data.
+
+602
+00:38:51,070 --> 00:38:54,993
+So this will then show the user that something is happening.
+
+603
+00:38:57,700 --> 00:39:01,630
+And so one more time that is now really easy to do
+
+604
+00:39:04,900 --> 00:39:07,793
+because we already have all these methods in place.
+
+605
+00:39:09,430 --> 00:39:13,710
+Okay, let's slow down our network a little bit to slow 3D
+
+606
+00:39:14,790 --> 00:39:17,123
+so that we can actually see it happening.
+
+607
+00:39:21,640 --> 00:39:26,640
+Well, that didn't display the spinner for some reason there.
+
+608
+00:39:28,620 --> 00:39:30,306
+So let's see.
+
+609
+00:39:30,306 --> 00:39:35,113
+AddRecipeView.renderSpinner, looks pretty correct to me.
+
+610
+00:39:36,040 --> 00:39:38,560
+So let's just take out this piece
+
+611
+00:39:38,560 --> 00:39:41,593
+here so that we can actually inspect the code.
+
+612
+00:39:48,100 --> 00:39:50,793
+Now it's taking more time because we are,
+
+613
+00:39:54,310 --> 00:39:59,310
+so let's put it back online, add recipe.
+
+614
+00:40:00,980 --> 00:40:04,223
+Oh, and now, you see it actually showed the loading spinner.
+
+615
+00:40:05,450 --> 00:40:08,723
+So not sure what happened to error but now it is all good.
+
+616
+00:40:11,320 --> 00:40:14,280
+Okay, great.
+
+617
+00:40:14,280 --> 00:40:19,150
+So all we have left to do now is to then display this recipe
+
+618
+00:40:19,150 --> 00:40:20,360
+as our own,
+
+619
+00:40:20,360 --> 00:40:22,750
+basically by using the key
+
+620
+00:40:22,750 --> 00:40:25,410
+that we have now here in our object
+
+621
+00:40:25,410 --> 00:40:29,040
+and also do the same thing in the search.
+
+622
+00:40:29,040 --> 00:40:31,550
+So let's take maybe a quick break
+
+623
+00:40:31,550 --> 00:40:35,023
+and then come back to finally finish this application.

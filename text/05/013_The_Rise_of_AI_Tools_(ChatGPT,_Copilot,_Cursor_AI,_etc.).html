@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rise of AI Tools (ChatGPT, Copilot, Cursor AI, etc.)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. AI 工具本质与陷阱</a>
+            <a href="#section-2" class="nav-item">2. 为 AI 时代升级工作流</a>
+            <a href="#section-3" class="nav-item">3. AI 究竟会不会抢走我们的饭碗？</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>The Rise of AI Tools (ChatGPT, Copilot, Cursor AI, etc.)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：013 The Rise of AI Tools (ChatGPT, Copilot, Cursor AI, etc.).en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：无门槛概念谈论</li>
+                <li><strong>后续扩展</strong>：建立对于利用 AI 结对编程不畏缩也不盲从的成熟开发者心态</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>当今世界，所有人都在谈论像是 ChatGPT、GitHub Copilot 以及炙手可热的 Cursor AI 编辑器等编程辅助工具。行业内对此充满了狂热的炒作。这节稍微带点“主观色彩”的闲聊课，我们要直面这个新现实：初学者应该如何权衡并思考 AI，以及它对我们未来代码之路到底意味着什么？</p>
+
+        <h2 id="section-1">1. AI 工具本质与陷阱</h2>
+        <p>所有的这些工具其底层其实都在依靠大语言模型（LLM 例如 GPT 或 Claude），基于你喂给它的<strong>提示词 (Prompt) </strong>生成代码。有的擅长补全，有的更是直接帮你横跨全文件接管架构重构。</p>
+        
+        <p><strong>初学者的究极毒药陷阱：</strong><br>
+        如果你连编程思维和拆解大局观都不懂，便盲目依赖 AI 帮你无脑敲砖，那么 AI 不会让你变成神级黑客，而是让你彻底沦为一名毫无建树的**“搬运缝合机器”**。你将完全看不懂粘进来的这串代码到底有啥隐患，也修补不了因为依赖冲突导致的连环崩溃，甚至连重构都无从下手。</p>
+        
+        <p><strong>黄金信条：只有当你“能够”纯手工把那段代码写出来，且自己甚至在脑海里已经过好了伪代码的场景时，你“才有资格”动用 AI 让它飞速帮你把代码打印出来，节约你的敲键盘时间。</strong>它应当是你的秘书助理，绝非取代你思考的本体头脑主宰！绝大部分初级开发之所以失败，无外乎颠倒了主仆顺序。</p>
+
+        <h2 id="section-2">2. 为 AI 时代升级工作流</h2>
+        <p>如果你决定要融合它们，你的四步解题流程现在应该演变为：</p>
+        
+        <pre class="language-mermaid">
+        flowchart TD
+            A[🎯 1. 百分百理解需求问题和细分界限] --> B[📝 2. 书写具有详实上下文的强力提示词 Prompt]
+            B --> C[⚙️ 3. 拿到生成代码]
+            C --> D[🕵️ 4. 作为极客人类亲自测试、审查与审判！]
+            D --> |未通过审查| E[🔄 给出缺陷反馈进一步迭代 Promtp]
+            E --> B
+            D --> |严苛审查通过 ✅| F[🧩 安全地融合进项目的生命线]
+        </pre>
+        
+        <p>AI 在自动搭建那些千篇一律的脚手架启动代码、编写繁琐的样式结构方面是无可匹敌的。你还可以利用它强大的搜索引擎本质：当成你私人的百科全书导师，向它提问某个知识盲区。</p>
+
+        <h2 id="section-3">3. AI 究竟会不会抢走我们的饭碗？</h2>
+        <p>直接公布简短结论：<strong>不会。</strong>（至少在我们能看得清的短期内）</p>
+        <ul>
+            <li>回顾历史：过去我们曾有过 Dreamweaver、WordPress、Wix......它们横空出世时，那些“吓唬人标题党”同样叫嚣着前端已死，但结果是什么？</li>
+            <li><strong>真正的软件开发，绝非“在机器前打字敲打出长字符串代码”。</strong>开发的核心职责在于：维系宏观项目的架构视野、对人（客户与跨部门成员）妥协、需求交涉设计，以及最核心的 —— 控制住千头万绪的重负荷复杂业务逻辑。</li>
+            <li>由于当前大模型的“幻觉”以及难以对夸文件长上下文的深度洞察能力，对于排查那些跨越数十个嵌套关系底层的连环 Bug 时，人类依然有无法比拟的可靠嗅觉。</li>
+            <li>更开阔的未来：当 AI 帮助全人类把开发效能飞跃 10 倍以后，那也意味着社会有能力生产海量更伟大、更精致 10 倍的巨型应用。因此它往往创造的不是失业，而是创造了一个巨大且难以被满足的宏伟技术洪流新天地。</li>
+        </ul>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 按照 Jonas 提倡的观念，何时才是你正式将 AI 编写的代码融合进你的项目的正确时机？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 只要终端没立即报出明显的红色 Error，就无脑粘进主干逻辑即可。</div>
+                <div class="quiz-option" data-value="B">B) 当且仅当你作为人类工程师完全通读、测试，且明确认为如果靠自己哪怕花点时间也能写出来时。</div>
+                <div class="quiz-option" data-value="C">C) 在解决涉及巨量财务计算相关的核心商务机密控制流时。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的选项</strong>。切勿对核心业务大包大揽使用不明代码；坚守“看得懂才能收编”的安全防御线。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+</body>
+</html>

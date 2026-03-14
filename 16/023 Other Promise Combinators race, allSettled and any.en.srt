@@ -1,0 +1,871 @@
+1
+00:00:00,924 --> 00:00:03,430
+Let's now quickly talk about
+
+2
+00:00:03,430 --> 00:00:05,970
+the three other Promise combinators,
+
+3
+00:00:05,970 --> 00:00:09,383
+which are race, allSettled and any.
+
+4
+00:00:10,960 --> 00:00:15,653
+And the first one we're gonna talk about is Promise.race.
+
+5
+00:00:16,860 --> 00:00:18,610
+So like this .
+
+6
+00:00:18,610 --> 00:00:21,939
+And Promise.race, just like all other combinators,
+
+7
+00:00:21,939 --> 00:00:26,939
+receives an array of promises and it also returns a promise.
+
+8
+00:00:27,420 --> 00:00:30,698
+Now this promise returned by Promise.race
+
+9
+00:00:30,698 --> 00:00:35,698
+is settled as soon as one of the input promises settles.
+
+10
+00:00:36,060 --> 00:00:38,680
+And remember that settled simply means
+
+11
+00:00:38,680 --> 00:00:40,720
+that a value is available,
+
+12
+00:00:40,720 --> 00:00:41,880
+but it doesn't matter
+
+13
+00:00:41,880 --> 00:00:44,982
+if the promise got rejected or fulfilled.
+
+14
+00:00:44,982 --> 00:00:47,390
+And so in Promis.race,
+
+15
+00:00:47,390 --> 00:00:51,420
+basically the first settled promise wins the race.
+
+16
+00:00:51,420 --> 00:00:54,208
+But let's now actually see this in action.
+
+17
+00:00:54,208 --> 00:00:56,880
+And I will create a quick IIFE here
+
+18
+00:00:56,880 --> 00:00:59,720
+so that I can use async await
+
+19
+00:00:59,720 --> 00:01:04,003
+without like creating a whole new function with a name.
+
+20
+00:01:08,580 --> 00:01:13,580
+And so as always then we use await Promise
+
+21
+00:01:14,020 --> 00:01:15,170
+and in this case .race,
+
+22
+00:01:16,810 --> 00:01:21,810
+and let's also now store it here as a response.
+
+23
+00:01:23,400 --> 00:01:26,880
+And now here let's define an array of promises
+
+24
+00:01:27,753 --> 00:01:32,510
+and lets just get this JSON here,
+
+25
+00:01:32,510 --> 00:01:37,510
+let's getJSON function and try it with three countries.
+
+26
+00:01:38,910 --> 00:01:40,243
+Let's say Italy,
+
+27
+00:01:43,140 --> 00:01:45,165
+and do this three times.
+
+28
+00:01:45,165 --> 00:01:49,557
+Let's say Egypt and then also Mexico.
+
+29
+00:01:51,520 --> 00:01:54,260
+And so now these three promises will basically
+
+30
+00:01:54,260 --> 00:01:57,980
+race against each other, like in a real race.
+
+31
+00:01:57,980 --> 00:02:01,680
+Now, if the winning promise is then a fulfilled promise,
+
+32
+00:02:01,680 --> 00:02:06,160
+then the fulfillment value of this whole race promise
+
+33
+00:02:06,160 --> 00:02:09,743
+is gonna be the fulfillment value of the winning promise.
+
+34
+00:02:11,610 --> 00:02:14,900
+So that's more obvious than it maybe sound.
+
+35
+00:02:14,900 --> 00:02:18,454
+So let's just see the result here in the console.
+
+36
+00:02:18,454 --> 00:02:22,890
+And so we got Italy, but if we try it again,
+
+37
+00:02:22,890 --> 00:02:25,130
+then maybe we get another result
+
+38
+00:02:25,130 --> 00:02:28,253
+because then maybe another call is gonna be faster.
+
+39
+00:02:29,230 --> 00:02:34,210
+But well, it seems to be always Italy but now it's Mexico
+
+40
+00:02:34,210 --> 00:02:36,603
+and let's actually see this in the network tab.
+
+41
+00:02:38,350 --> 00:02:40,680
+So making it smaller again.
+
+42
+00:02:40,680 --> 00:02:43,020
+And so you see that indeed Mexico
+
+43
+00:02:43,020 --> 00:02:45,630
+is the one who took the least time.
+
+44
+00:02:45,630 --> 00:02:47,800
+So test the smallest bar here.
+
+45
+00:02:47,800 --> 00:02:52,800
+And it also was the fastest of the three, right?
+
+46
+00:02:53,320 --> 00:02:56,890
+This time, the fastest was Egypt here by far.
+
+47
+00:02:56,890 --> 00:02:59,290
+And so that's what we should see in the console.
+
+48
+00:03:00,840 --> 00:03:03,670
+Okay, so again, just keep in mind
+
+49
+00:03:03,670 --> 00:03:05,730
+that here in Promised.race,
+
+50
+00:03:05,730 --> 00:03:07,490
+we only get one result
+
+51
+00:03:07,490 --> 00:03:11,053
+and not an array of the results of all the three.
+
+52
+00:03:11,980 --> 00:03:14,070
+Now a promise that gets rejected
+
+53
+00:03:14,070 --> 00:03:16,550
+can actually also win the race.
+
+54
+00:03:16,550 --> 00:03:19,444
+And so we say that Promise.race short circuits
+
+55
+00:03:19,444 --> 00:03:22,920
+whenever one of the promises gets settled.
+
+56
+00:03:22,920 --> 00:03:27,123
+And so again, that means no matter if fulfilled or rejected.
+
+57
+00:03:28,240 --> 00:03:30,173
+So let's try some weird name here.
+
+58
+00:03:32,480 --> 00:03:36,883
+And so now it is the rejected promise that won basically.
+
+59
+00:03:38,530 --> 00:03:41,423
+But let's go back here to as it was,
+
+60
+00:03:42,770 --> 00:03:45,940
+and see another example because in the real world
+
+61
+00:03:45,940 --> 00:03:48,810
+Promise.race is actually very useful
+
+62
+00:03:48,810 --> 00:03:51,930
+to prevent against never ending promises
+
+63
+00:03:51,930 --> 00:03:55,110
+or also very long running promises.
+
+64
+00:03:55,110 --> 00:03:56,880
+For example, if your user
+
+65
+00:03:56,880 --> 00:03:59,430
+has a very bad internet connection,
+
+66
+00:03:59,430 --> 00:04:01,940
+then a fetch requests in your application
+
+67
+00:04:01,940 --> 00:04:05,580
+might take way too long to actually be useful.
+
+68
+00:04:05,580 --> 00:04:08,790
+And so we can create a special time out promise,
+
+69
+00:04:08,790 --> 00:04:13,370
+which automatically rejects after a certain time has passed.
+
+70
+00:04:13,370 --> 00:04:15,060
+So let's do that.
+
+71
+00:04:15,060 --> 00:04:17,820
+And it's gonna be similar to the wait function
+
+72
+00:04:17,820 --> 00:04:19,270
+that we created earlier.
+
+73
+00:04:19,270 --> 00:04:22,930
+But the difference is that this one is actually going
+
+74
+00:04:22,930 --> 00:04:25,763
+to reject and not going to resolve.
+
+75
+00:04:27,130 --> 00:04:31,820
+So this time let's actually pass in milliseconds, right?
+
+76
+00:04:31,820 --> 00:04:34,690
+Well, let's just pass in seconds
+
+77
+00:04:34,690 --> 00:04:37,003
+just to make it consistent with the other one.
+
+78
+00:04:38,020 --> 00:04:40,220
+So return new Promise
+
+79
+00:04:43,280 --> 00:04:45,310
+and execute a function.
+
+80
+00:04:45,310 --> 00:04:49,034
+And again, in this case, we will not resolve but reject.
+
+81
+00:04:49,034 --> 00:04:51,180
+And so here for the resolve function,
+
+82
+00:04:51,180 --> 00:04:54,430
+which is always the first one we can once again,
+
+83
+00:04:54,430 --> 00:04:57,090
+use this throw away variable.
+
+84
+00:04:57,090 --> 00:04:58,520
+So using this convention
+
+85
+00:05:00,670 --> 00:05:03,970
+and then here reject and setTimeout
+
+86
+00:05:05,962 --> 00:05:08,973
+and here we specify a callback function.
+
+87
+00:05:10,410 --> 00:05:14,660
+And so we say that after a certain amount of seconds,
+
+88
+00:05:14,660 --> 00:05:18,413
+let's call it sec like this actually.
+
+89
+00:05:20,220 --> 00:05:23,743
+So after this time has passed, we reject the promise.
+
+90
+00:05:25,000 --> 00:05:26,460
+So we create a new error
+
+91
+00:05:28,640 --> 00:05:32,507
+saying, "Requests took too long."
+
+92
+00:05:34,357 --> 00:05:37,740
+And so now we can simply have the Ajax call
+
+93
+00:05:37,740 --> 00:05:40,230
+that we were talking about earlier,
+
+94
+00:05:40,230 --> 00:05:43,210
+raced against this timeout.
+
+95
+00:05:43,210 --> 00:05:46,673
+All right, so let me show you what that means.
+
+96
+00:05:49,930 --> 00:05:51,943
+So Promise.race,
+
+97
+00:05:53,880 --> 00:05:57,330
+and then here, the first promise,
+
+98
+00:05:57,330 --> 00:05:59,173
+let's use again or getJSON.
+
+99
+00:06:00,870 --> 00:06:04,690
+So this is basically what we are interested in here
+
+100
+00:06:04,690 --> 00:06:09,150
+and let's use another country Tanzania again.
+
+101
+00:06:09,150 --> 00:06:12,533
+And the second promise is then going to be or timeout.
+
+102
+00:06:14,720 --> 00:06:18,343
+So let's say that we only want to wait like one second.
+
+103
+00:06:19,780 --> 00:06:24,190
+And so we will have these two then race against each other.
+
+104
+00:06:24,190 --> 00:06:26,410
+And if the timeout happens first,
+
+105
+00:06:26,410 --> 00:06:30,170
+then all of this here will be rejected, right?
+
+106
+00:06:30,170 --> 00:06:33,470
+And so basically that will then abort the fetch
+
+107
+00:06:33,470 --> 00:06:36,170
+that is happening here in getJSON.
+
+108
+00:06:36,170 --> 00:06:39,303
+So I could have used again async await,
+
+109
+00:06:40,920 --> 00:06:43,663
+but why not use the then method also here?
+
+110
+00:06:47,670 --> 00:06:52,670
+So in this case, let's just log the response
+
+111
+00:06:52,946 --> 00:06:54,743
+or we could have called it data,
+
+112
+00:06:55,890 --> 00:06:58,600
+but that's not really important here
+
+113
+00:06:59,831 --> 00:07:01,223
+and here the error,
+
+114
+00:07:02,530 --> 00:07:06,313
+and lets just also log to the console in case there is any.
+
+115
+00:07:09,330 --> 00:07:12,760
+And so now we have "Request took too long."
+
+116
+00:07:12,760 --> 00:07:15,580
+But that was very fast.
+
+117
+00:07:15,580 --> 00:07:19,420
+I went here, we have to multiply it by a 1000.
+
+118
+00:07:19,420 --> 00:07:23,293
+So again, this one takes milliseconds and not just seconds.
+
+119
+00:07:25,330 --> 00:07:28,410
+Okay, so we got to Tanzania pretty fast.
+
+120
+00:07:28,410 --> 00:07:30,820
+And so it was faster than one second.
+
+121
+00:07:30,820 --> 00:07:35,000
+And so therefore it did not timeout.
+
+122
+00:07:35,000 --> 00:07:37,403
+But let's now try 0.1 seconds.
+
+123
+00:07:38,400 --> 00:07:41,980
+And so now we see that the request took too long.
+
+124
+00:07:41,980 --> 00:07:44,870
+So 0.1 seconds was not enough
+
+125
+00:07:44,870 --> 00:07:48,020
+for this request here to get finished.
+
+126
+00:07:48,020 --> 00:07:50,934
+And you will have to experiment with different values here
+
+127
+00:07:50,934 --> 00:07:55,820
+because this is going to depend on your internet connection.
+
+128
+00:07:55,820 --> 00:07:58,086
+So let's see 0.2 seconds.
+
+129
+00:07:58,086 --> 00:08:02,240
+And so now the request was actually fast enough
+
+130
+00:08:02,240 --> 00:08:04,700
+so that it didn't timeout.
+
+131
+00:08:04,700 --> 00:08:09,700
+So with 0.15 seconds, again it takes too long.
+
+132
+00:08:10,430 --> 00:08:15,430
+And so then this promise here is the result of Promise.race.
+
+133
+00:08:16,690 --> 00:08:18,068
+So that's pretty useful.
+
+134
+00:08:18,068 --> 00:08:19,380
+And in the real world
+
+135
+00:08:19,380 --> 00:08:22,590
+of course you will use a larger number.
+
+136
+00:08:22,590 --> 00:08:25,023
+Let's say like five seconds.
+
+137
+00:08:26,020 --> 00:08:29,510
+Now, okay, so that's Promis.race
+
+138
+00:08:29,510 --> 00:08:33,100
+and in fact Promise.race and Promise.all
+
+139
+00:08:33,100 --> 00:08:37,360
+are by far the two most important promise combinators.
+
+140
+00:08:37,360 --> 00:08:40,283
+But let me show you also the other two that we have.
+
+141
+00:08:41,460 --> 00:08:42,370
+So the next one
+
+142
+00:08:43,430 --> 00:08:45,340
+is Promise.allSettled.
+
+143
+00:08:48,561 --> 00:08:50,610
+And this one is a pretty new one.
+
+144
+00:08:50,610 --> 00:08:55,560
+It is from ES2020 and it is actually a very simple one.
+
+145
+00:08:55,560 --> 00:08:58,480
+So it takes in an array of promises again,
+
+146
+00:08:58,480 --> 00:09:00,510
+and it will simply return an array
+
+147
+00:09:00,510 --> 00:09:02,810
+of all the settled promises.
+
+148
+00:09:02,810 --> 00:09:07,810
+And so again, no matter if the promises got rejected or not.
+
+149
+00:09:08,430 --> 00:09:10,278
+So it's similar to Promise.all
+
+150
+00:09:10,278 --> 00:09:15,180
+in regard that it also returns an array of all the results,
+
+151
+00:09:15,180 --> 00:09:17,720
+but the difference is that Promise.all
+
+152
+00:09:17,720 --> 00:09:21,770
+will short circuit as soon as one promise rejects,
+
+153
+00:09:21,770 --> 00:09:26,380
+but Promise.allSettled, simply never short circuits.
+
+154
+00:09:26,380 --> 00:09:27,720
+So it will simply return
+
+155
+00:09:27,720 --> 00:09:30,193
+all the results of all the promises.
+
+156
+00:09:31,220 --> 00:09:33,260
+So Promise.allSettled.
+
+157
+00:09:38,347 --> 00:09:40,550
+And so now here I will create
+
+158
+00:09:40,550 --> 00:09:44,290
+actually the most basic example ever.
+
+159
+00:09:44,290 --> 00:09:47,330
+So I will simply fake promises
+
+160
+00:09:47,330 --> 00:09:50,120
+by saying Promise.resolve
+
+161
+00:09:51,440 --> 00:09:54,170
+Success, all right.
+
+162
+00:09:54,170 --> 00:09:57,490
+And so you already know that this here automatically creates
+
+163
+00:09:57,490 --> 00:10:00,180
+a promise that is resolved.
+
+164
+00:10:00,180 --> 00:10:03,120
+And so we don't have to wait for anything to finish
+
+165
+00:10:03,120 --> 00:10:05,613
+like this here, okay?
+
+166
+00:10:07,200 --> 00:10:09,950
+So then we can have a couple of more.
+
+167
+00:10:09,950 --> 00:10:11,693
+Here we have a rejected one.
+
+168
+00:10:14,530 --> 00:10:16,993
+So let's say ERROR and here another one,
+
+169
+00:10:18,200 --> 00:10:21,173
+let's say Another success.
+
+170
+00:10:22,160 --> 00:10:26,090
+Now, okay, and then here we can just call then
+
+171
+00:10:27,390 --> 00:10:28,253
+and let's see.
+
+172
+00:10:30,120 --> 00:10:34,173
+Now here we want actually all of the results.
+
+173
+00:10:36,630 --> 00:10:40,140
+And so indeed here we get three results,
+
+174
+00:10:40,140 --> 00:10:44,780
+even though one of them rejected, okay?
+
+175
+00:10:44,780 --> 00:10:47,420
+So this is the result of the three promises
+
+176
+00:10:48,815 --> 00:10:52,030
+and yeah, so this is how they look like
+
+177
+00:10:52,030 --> 00:10:56,310
+when we do them manually with resolve, reject and resolve.
+
+178
+00:10:56,310 --> 00:11:00,963
+Just contrast that with Promise.all,
+
+179
+00:11:03,120 --> 00:11:05,730
+so that would then look different.
+
+180
+00:11:05,730 --> 00:11:09,750
+So here we would get an error, okay.
+
+181
+00:11:09,750 --> 00:11:12,223
+So of course we can also catch the error then.
+
+182
+00:11:14,540 --> 00:11:18,345
+And so here we will simply get error and that's again...
+
+183
+00:11:18,345 --> 00:11:22,970
+Because the .allpromise combinator will short circuit
+
+184
+00:11:22,970 --> 00:11:27,133
+if there is one error, if there is one rejected promise.
+
+185
+00:11:28,230 --> 00:11:30,380
+So that's the difference between these two.
+
+186
+00:11:32,620 --> 00:11:35,070
+But now let's go to the last one,
+
+187
+00:11:35,070 --> 00:11:39,063
+which is Promise.any.
+
+188
+00:11:40,580 --> 00:11:41,633
+So like this.
+
+189
+00:11:43,180 --> 00:11:46,110
+Now Promise.any is even more modern.
+
+190
+00:11:46,110 --> 00:11:50,950
+It is ES2021 and actually at the time of recording,
+
+191
+00:11:50,950 --> 00:11:53,460
+this one doesn't work in my browser,
+
+192
+00:11:53,460 --> 00:11:56,190
+but probably by the time I'm releasing this course,
+
+193
+00:11:56,190 --> 00:11:59,360
+it will work in the latest version of Google Chrome.
+
+194
+00:11:59,360 --> 00:12:02,603
+And so let me simply do this here as well.
+
+195
+00:12:03,570 --> 00:12:07,523
+So all am gonna do is to just copy this example here
+
+196
+00:12:07,523 --> 00:12:12,340
+and then do any, and this is not going to work.
+
+197
+00:12:12,340 --> 00:12:14,000
+Let me show you.
+
+198
+00:12:14,000 --> 00:12:17,120
+So we get Promised.any is not a function.
+
+199
+00:12:17,120 --> 00:12:21,110
+But again in your case, it might already work.
+
+200
+00:12:21,110 --> 00:12:24,740
+So let me simply explain what it does.
+
+201
+00:12:24,740 --> 00:12:28,220
+So as always Promise.any takes in an array
+
+202
+00:12:28,220 --> 00:12:31,970
+of multiple promises and this one will then return
+
+203
+00:12:31,970 --> 00:12:34,210
+the first fulfilled promise
+
+204
+00:12:34,210 --> 00:12:37,730
+and it will simply ignore rejected promises.
+
+205
+00:12:37,730 --> 00:12:40,620
+So basically Promise.any is very similar
+
+206
+00:12:40,620 --> 00:12:43,440
+to Promise.race with the difference
+
+207
+00:12:43,440 --> 00:12:46,480
+that rejected promises are ignored.
+
+208
+00:12:46,480 --> 00:12:50,000
+And so therefore the results of Promise.any
+
+209
+00:12:50,000 --> 00:12:52,890
+is always gonna be a fulfilled promise,
+
+210
+00:12:52,890 --> 00:12:56,490
+unless of course all of them reject, okay.
+
+211
+00:12:56,490 --> 00:12:58,810
+But at the time you're watching this video
+
+212
+00:12:58,810 --> 00:13:01,140
+again, this should already work.
+
+213
+00:13:01,140 --> 00:13:04,060
+And then maybe you can experiment a little bit with this
+
+214
+00:13:04,060 --> 00:13:05,640
+to see the difference between
+
+215
+00:13:05,640 --> 00:13:08,260
+all the four Promise combinators.
+
+216
+00:13:08,260 --> 00:13:09,960
+And again, the most important ones
+
+217
+00:13:09,960 --> 00:13:14,050
+are definitely Promise.all and Promise.race.
+
+218
+00:13:14,050 --> 00:13:17,603
+So keep at least these two in mind for your own projects.

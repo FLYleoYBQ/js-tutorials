@@ -1,0 +1,443 @@
+1
+00:00:01,200 --> 00:00:03,630
+Okay, and I'm gonna start
+
+2
+00:00:03,630 --> 00:00:05,710
+by creating the calcTip function
+
+3
+00:00:11,640 --> 00:00:15,810
+and I'm gonna start doing it with a function expression.
+
+4
+00:00:15,810 --> 00:00:20,810
+So this one will receive a bill as an input, I believe.
+
+5
+00:00:20,880 --> 00:00:23,190
+I think, yeah.
+
+6
+00:00:23,190 --> 00:00:26,250
+So calcTip takes any bill as an input.
+
+7
+00:00:26,250 --> 00:00:28,140
+So let's simply call it bill.
+
+8
+00:00:28,140 --> 00:00:31,053
+And then what we want to return is the tip.
+
+9
+00:00:31,890 --> 00:00:34,080
+And here I'm gonna write the exact same code
+
+10
+00:00:34,080 --> 00:00:36,030
+as we did in the other challenge.
+
+11
+00:00:36,030 --> 00:00:38,493
+So there's no need to explain it all again.
+
+12
+00:00:39,360 --> 00:00:41,490
+It would just be a waste of time.
+
+13
+00:00:41,490 --> 00:00:46,490
+So if the bill value is between 50 and 300,
+
+14
+00:00:48,270 --> 00:00:52,530
+so less or equal than 300,
+
+15
+00:00:52,530 --> 00:00:54,630
+and here we're using the turnary operator,
+
+16
+00:00:55,500 --> 00:01:00,500
+then return the bill value times 0.15.
+
+17
+00:01:00,570 --> 00:01:05,570
+So that's 15% and otherwise, it should be 20%.
+
+18
+00:01:08,580 --> 00:01:09,480
+Okay?
+
+19
+00:01:09,480 --> 00:01:12,690
+So the result of this turnary operator here
+
+20
+00:01:12,690 --> 00:01:15,270
+will be one of these values.
+
+21
+00:01:15,270 --> 00:01:19,800
+So either bill times 0.15 or times 0.2.
+
+22
+00:01:19,800 --> 00:01:23,010
+And so that's gonna be the result of this operator.
+
+23
+00:01:23,010 --> 00:01:25,503
+And so that's what this function will return.
+
+24
+00:01:27,300 --> 00:01:30,183
+If you prefer the arrow function, we can also do that.
+
+25
+00:01:31,050 --> 00:01:36,050
+So cons, calcTip equal bill
+
+26
+00:01:38,280 --> 00:01:41,070
+and now we can omit the return keyword
+
+27
+00:01:41,070 --> 00:01:43,383
+and do it all in one nice line.
+
+28
+00:01:44,640 --> 00:01:48,630
+So now you just have to choose which one you like better.
+
+29
+00:01:48,630 --> 00:01:51,453
+And I will just for the sake of readability,
+
+30
+00:01:52,410 --> 00:01:54,120
+keep the first one there.
+
+31
+00:01:54,120 --> 00:01:54,953
+Okay?
+
+32
+00:01:54,953 --> 00:01:56,670
+But if you prefer the arrow function,
+
+33
+00:01:56,670 --> 00:01:58,890
+you can just use this one.
+
+34
+00:01:58,890 --> 00:02:03,890
+Great. So number two is to simply create a bills array
+
+35
+00:02:04,290 --> 00:02:06,123
+with these three values.
+
+36
+00:02:09,360 --> 00:02:14,360
+So bills 125, 555, and 44.
+
+37
+00:02:16,680 --> 00:02:18,510
+So that was easy.
+
+38
+00:02:18,510 --> 00:02:22,920
+And now we will create an array tips,
+
+39
+00:02:22,920 --> 00:02:25,743
+which will contain the tip value for each bill.
+
+40
+00:02:27,930 --> 00:02:29,973
+So let's do that.
+
+41
+00:02:30,870 --> 00:02:31,830
+And now this is similar
+
+42
+00:02:31,830 --> 00:02:35,250
+to what we did previously with calculating the ages.
+
+43
+00:02:35,250 --> 00:02:37,890
+So we are going to create an array,
+
+44
+00:02:37,890 --> 00:02:42,423
+and then each position will be the function call to calcTip.
+
+45
+00:02:43,530 --> 00:02:48,530
+So we wanna calc the tip with bills at position zero.
+
+46
+00:02:50,070 --> 00:02:53,920
+Then at position one, we want to calculate bills
+
+47
+00:02:55,170 --> 00:02:57,240
+or we actually want to calculate tips based
+
+48
+00:02:57,240 --> 00:02:59,760
+on bills on position one.
+
+49
+00:02:59,760 --> 00:03:02,433
+And then on position two.
+
+50
+00:03:06,270 --> 00:03:07,530
+And that's it.
+
+51
+00:03:07,530 --> 00:03:12,530
+So let's log both the bills and to tips to the console here.
+
+52
+00:03:16,710 --> 00:03:19,830
+And that gives us tips is not defined.
+
+53
+00:03:19,830 --> 00:03:21,510
+So here it should be tips.
+
+54
+00:03:21,510 --> 00:03:24,030
+So usually when I have an array,
+
+55
+00:03:24,030 --> 00:03:25,980
+I like to give it a plural name.
+
+56
+00:03:25,980 --> 00:03:30,060
+Like here bills and here tips
+
+57
+00:03:30,060 --> 00:03:31,743
+because it's multiple values.
+
+58
+00:03:33,180 --> 00:03:35,700
+So now that should work.
+
+59
+00:03:35,700 --> 00:03:40,620
+And yeah, so these were the three tips that were calculated.
+
+60
+00:03:40,620 --> 00:03:43,710
+And of course, you could have created separate values
+
+61
+00:03:43,710 --> 00:03:45,750
+or actually separate variables
+
+62
+00:03:45,750 --> 00:03:47,760
+for each of these function calls.
+
+63
+00:03:47,760 --> 00:03:51,960
+Like tip1 equals calcTip
+
+64
+00:03:51,960 --> 00:03:55,380
+with bills zero, something like this.
+
+65
+00:03:55,380 --> 00:03:57,300
+And then tip2 and tip3.
+
+66
+00:03:57,300 --> 00:03:59,940
+And then you could have created
+
+67
+00:03:59,940 --> 00:04:04,503
+like an array with tip1, tip2, and tip3.
+
+68
+00:04:06,090 --> 00:04:08,040
+Okay, so something like this.
+
+69
+00:04:08,040 --> 00:04:11,820
+But my idea was to actually do it like this
+
+70
+00:04:11,820 --> 00:04:12,900
+because then we don't have
+
+71
+00:04:12,900 --> 00:04:15,300
+to create all these extra variables.
+
+72
+00:04:15,300 --> 00:04:16,833
+So that's a lot cleaner.
+
+73
+00:04:19,140 --> 00:04:22,410
+Later on in this section, we will find an even better way
+
+74
+00:04:22,410 --> 00:04:25,890
+of doing this, but with what we know at this point,
+
+75
+00:04:25,890 --> 00:04:27,813
+this is the best that we can do.
+
+76
+00:04:28,800 --> 00:04:33,450
+So we take the first bill, calculate the tip based on that
+
+77
+00:04:33,450 --> 00:04:37,020
+and put it in position number zero.
+
+78
+00:04:37,020 --> 00:04:41,670
+Then we take bills at position number one, calculate the tip
+
+79
+00:04:41,670 --> 00:04:44,550
+and put it in position one of this new array.
+
+80
+00:04:44,550 --> 00:04:48,240
+And then we take bills at position number two
+
+81
+00:04:48,240 --> 00:04:49,875
+calculate the tip and put it
+
+82
+00:04:49,875 --> 00:04:52,533
+at position two of the new array.
+
+83
+00:04:54,030 --> 00:04:57,813
+And so then, yeah, we end up with this.
+
+84
+00:05:00,600 --> 00:05:03,750
+Lastly, let's also complete the bonus question,
+
+85
+00:05:03,750 --> 00:05:05,310
+number four here.
+
+86
+00:05:05,310 --> 00:05:08,610
+And all we have to do here is to create an array,
+
+87
+00:05:08,610 --> 00:05:12,363
+which will have the sum of the bills and the tips.
+
+88
+00:05:14,160 --> 00:05:16,443
+So that's gonna be totals.
+
+89
+00:05:18,000 --> 00:05:22,440
+And now you might have tried to do something like this,
+
+90
+00:05:22,440 --> 00:05:27,440
+so like bills plus tips, but as I told you
+
+91
+00:05:28,140 --> 00:05:31,860
+in the previous lecture, this is simply not gonna work.
+
+92
+00:05:31,860 --> 00:05:35,400
+So we cannot do any operations on arrays like this.
+
+93
+00:05:35,400 --> 00:05:36,813
+It doesn't work like that.
+
+94
+00:05:38,280 --> 00:05:40,800
+So let me show you the result that we would get
+
+95
+00:05:40,800 --> 00:05:41,853
+from doing this.
+
+96
+00:05:43,830 --> 00:05:46,890
+And so basically, each of the arrays would be transformed
+
+97
+00:05:46,890 --> 00:05:50,703
+to a string, and then the two strings would be concatenated.
+
+98
+00:05:52,260 --> 00:05:55,140
+So that's completely useless.
+
+99
+00:05:55,140 --> 00:05:58,020
+And so the only thing that we could do
+
+100
+00:05:58,020 --> 00:06:01,170
+is to say that we want bills
+
+101
+00:06:01,170 --> 00:06:06,170
+at position zero plus the tips at position zero.
+
+102
+00:06:09,240 --> 00:06:13,933
+And now we do this for all the three values.
+
+103
+00:06:16,440 --> 00:06:18,450
+So at position one as well.
+
+104
+00:06:18,450 --> 00:06:22,563
+And then at position two.
+
+105
+00:06:23,460 --> 00:06:27,450
+And so this fixes this error because now in each position,
+
+106
+00:06:27,450 --> 00:06:29,760
+we do actually have a real value
+
+107
+00:06:29,760 --> 00:06:32,220
+because this is an actual value.
+
+108
+00:06:32,220 --> 00:06:35,433
+And so with that, we can then do calculations.
+
+109
+00:06:37,200 --> 00:06:42,200
+So yeah, this is correct, looks correct, right?
+
+110
+00:06:44,520 --> 00:06:49,110
+And yeah, so with that, all of the four points are solved.
+
+111
+00:06:49,110 --> 00:06:52,383
+And so here we conclude this part about arrays.

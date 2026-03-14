@@ -1,0 +1,827 @@
+1
+00:00:01,330 --> 00:00:05,090
+Welcome to the first of three wonderful projects
+
+2
+00:00:05,090 --> 00:00:07,490
+that we're gonna build in this section.
+
+3
+00:00:07,490 --> 00:00:09,853
+And let's get started right away.
+
+4
+00:00:11,770 --> 00:00:13,540
+And here I have a working demo
+
+5
+00:00:13,540 --> 00:00:15,580
+of the project that we're gonna build
+
+6
+00:00:15,580 --> 00:00:17,810
+over the next couple of videos.
+
+7
+00:00:17,810 --> 00:00:20,890
+And this project is called Guess My Number!
+
+8
+00:00:20,890 --> 00:00:24,130
+And I went with this kind of retro design
+
+9
+00:00:24,130 --> 00:00:27,210
+like inspired by the old 80s game.
+
+10
+00:00:27,210 --> 00:00:29,440
+Just to make it a bit more fun.
+
+11
+00:00:29,440 --> 00:00:30,980
+So as the name says,
+
+12
+00:00:30,980 --> 00:00:32,160
+the goal of this project
+
+13
+00:00:32,160 --> 00:00:34,730
+is to simply guess a secret number
+
+14
+00:00:34,730 --> 00:00:37,940
+which is between one and 20.
+
+15
+00:00:37,940 --> 00:00:41,300
+So here in this input we can type a number.
+
+16
+00:00:41,300 --> 00:00:44,370
+Let's say 10, then we click Check!
+
+17
+00:00:44,370 --> 00:00:47,350
+And then here on the right side we get a message.
+
+18
+00:00:47,350 --> 00:00:48,800
+In this case it says,
+
+19
+00:00:48,800 --> 00:00:50,720
+that our guess was Too Low!
+
+20
+00:00:50,720 --> 00:00:54,530
+Also we can see that we started with a Score of 20
+
+21
+00:00:54,530 --> 00:00:58,410
+and now after one failed guess it decreased to 19.
+
+22
+00:00:58,410 --> 00:01:00,870
+So basically after each guess that we fail,
+
+23
+00:01:00,870 --> 00:01:03,063
+the score decreases by one.
+
+24
+00:01:04,580 --> 00:01:06,470
+So let's try another one.
+
+25
+00:01:06,470 --> 00:01:10,250
+It's still Too Low! and our Score decreased again.
+
+26
+00:01:10,250 --> 00:01:12,200
+Let's try 18.
+
+27
+00:01:12,200 --> 00:01:13,500
+And now it's too high.
+
+28
+00:01:13,500 --> 00:01:15,150
+So we get this different message.
+
+29
+00:01:16,870 --> 00:01:18,600
+And now it's correct.
+
+30
+00:01:18,600 --> 00:01:21,360
+So you see that we get this Correct number! message.
+
+31
+00:01:21,360 --> 00:01:23,180
+The screen turns green
+
+32
+00:01:23,180 --> 00:01:26,190
+and also we now have the Highscore here of 17.
+
+33
+00:01:26,190 --> 00:01:28,350
+So a Highscore is another feature
+
+34
+00:01:28,350 --> 00:01:30,600
+of this small application.
+
+35
+00:01:30,600 --> 00:01:32,180
+Then if you want to play again,
+
+36
+00:01:32,180 --> 00:01:34,250
+we can simply click the Again! button
+
+37
+00:01:34,250 --> 00:01:37,243
+and it all resets everything except for the Highscore.
+
+38
+00:01:38,080 --> 00:01:39,970
+So the Highscore is kept
+
+39
+00:01:39,970 --> 00:01:42,490
+and so if I'm quicker in this round,
+
+40
+00:01:42,490 --> 00:01:45,400
+my Highscore will then become better.
+
+41
+00:01:45,400 --> 00:01:46,933
+Let's start again at 10.
+
+42
+00:01:49,400 --> 00:01:50,990
+So maybe I can do it faster.
+
+43
+00:01:50,990 --> 00:01:52,293
+Well, I think I cannot.
+
+44
+00:01:53,340 --> 00:01:54,433
+It's Too high!
+
+45
+00:01:59,550 --> 00:02:01,790
+And so my Highscore stays the same
+
+46
+00:02:01,790 --> 00:02:02,893
+as it was before.
+
+47
+00:02:03,890 --> 00:02:04,723
+Okay.
+
+48
+00:02:04,723 --> 00:02:06,810
+So with this I think you understood
+
+49
+00:02:06,810 --> 00:02:08,400
+how this project works.
+
+50
+00:02:08,400 --> 00:02:10,880
+So let's actually get to work.
+
+51
+00:02:10,880 --> 00:02:13,020
+And as always grab your starter files
+
+52
+00:02:13,020 --> 00:02:15,110
+from the GitHub repository.
+
+53
+00:02:15,110 --> 00:02:17,220
+I already have mine here.
+
+54
+00:02:17,220 --> 00:02:20,113
+And then let's open up this folder.
+
+55
+00:02:25,400 --> 00:02:27,773
+So that's this one.
+
+56
+00:02:29,250 --> 00:02:31,350
+And let's start by taking a look
+
+57
+00:02:31,350 --> 00:02:33,630
+at the files that we have here.
+
+58
+00:02:33,630 --> 00:02:36,850
+First up, we have the Prettier configuration.
+
+59
+00:02:36,850 --> 00:02:39,230
+So exactly the one that we used
+
+60
+00:02:39,230 --> 00:02:41,990
+in the Editor setup section.
+
+61
+00:02:41,990 --> 00:02:44,420
+And from now on we will always use this configuration
+
+62
+00:02:44,420 --> 00:02:45,793
+in every single project.
+
+63
+00:02:47,110 --> 00:02:49,590
+Then we have an empty Script.
+
+64
+00:02:49,590 --> 00:02:51,950
+We have the CSS Style,
+
+65
+00:02:51,950 --> 00:02:53,270
+which you can take a look at
+
+66
+00:02:53,270 --> 00:02:57,010
+if you're interested at the same for the HTML.
+
+67
+00:02:57,010 --> 00:02:59,440
+Now the HTML will actually be important,
+
+68
+00:02:59,440 --> 00:03:02,320
+because that's where we will find the class names
+
+69
+00:03:02,320 --> 00:03:03,893
+of all of these Elements
+
+70
+00:03:03,893 --> 00:03:05,790
+that we gonna have to select
+
+71
+00:03:05,790 --> 00:03:07,800
+to make this project work.
+
+72
+00:03:07,800 --> 00:03:10,160
+But more about that later.
+
+73
+00:03:10,160 --> 00:03:11,700
+And...
+
+74
+00:03:11,700 --> 00:03:12,533
+Yeah.
+
+75
+00:03:12,533 --> 00:03:14,450
+Let's close up this sidebar
+
+76
+00:03:15,850 --> 00:03:18,040
+and focus on those gripped here.
+
+77
+00:03:18,040 --> 00:03:19,410
+So as you just saw,
+
+78
+00:03:19,410 --> 00:03:21,630
+all of this interface here basically
+
+79
+00:03:21,630 --> 00:03:24,350
+is implemented in HTML.
+
+80
+00:03:24,350 --> 00:03:29,190
+So again, that is this document.
+
+81
+00:03:29,190 --> 00:03:30,023
+Okay.
+
+82
+00:03:30,023 --> 00:03:31,590
+And this whole HTML document
+
+83
+00:03:31,590 --> 00:03:35,290
+is made up of smaller HTML Elements.
+
+84
+00:03:35,290 --> 00:03:36,550
+For example,
+
+85
+00:03:36,550 --> 00:03:40,330
+this message that we see here is in our HTML,
+
+86
+00:03:40,330 --> 00:03:43,990
+this paragraph here with the message class.
+
+87
+00:03:43,990 --> 00:03:45,580
+And so now in JavaScript,
+
+88
+00:03:45,580 --> 00:03:47,840
+we can actually select this Element
+
+89
+00:03:47,840 --> 00:03:50,060
+based on this class.
+
+90
+00:03:50,060 --> 00:03:53,590
+So a little bit like we can select Elements in CSS.
+
+91
+00:03:53,590 --> 00:03:56,120
+We can do the same in JavaScript.
+
+92
+00:03:56,120 --> 00:04:00,060
+And if you're not at all familiar with HTML and CSS,
+
+93
+00:04:00,060 --> 00:04:03,620
+then please watch the HTML and CSS crash course,
+
+94
+00:04:03,620 --> 00:04:06,120
+that is in the previous section.
+
+95
+00:04:06,120 --> 00:04:08,460
+Anyway, before we learn what the DOM
+
+96
+00:04:08,460 --> 00:04:11,020
+and DOM Manipulation actually are,
+
+97
+00:04:11,020 --> 00:04:12,710
+let's quickly learn an easy way
+
+98
+00:04:12,710 --> 00:04:16,363
+of selecting an Element like this in JavaScript.
+
+99
+00:04:17,680 --> 00:04:18,930
+And this is how it works.
+
+100
+00:04:20,200 --> 00:04:25,160
+We write document.querySelector
+
+101
+00:04:25,160 --> 00:04:27,780
+So this querySelector is basically
+
+102
+00:04:27,780 --> 00:04:31,010
+a method that's available on the document object.
+
+103
+00:04:31,010 --> 00:04:33,440
+And more about that later.
+
+104
+00:04:33,440 --> 00:04:34,560
+Now into this method,
+
+105
+00:04:34,560 --> 00:04:37,010
+we need to pass in a Selector.
+
+106
+00:04:37,010 --> 00:04:38,850
+And again, this Selector
+
+107
+00:04:38,850 --> 00:04:40,770
+is exactly the same Selector
+
+108
+00:04:40,770 --> 00:04:42,593
+that we would use in CSS.
+
+109
+00:04:43,520 --> 00:04:45,000
+So we pass in the string
+
+110
+00:04:45,000 --> 00:04:46,800
+and we want to select the Element
+
+111
+00:04:46,800 --> 00:04:49,330
+with the class name of message.
+
+112
+00:04:49,330 --> 00:04:51,661
+And so we need to write a .
+
+113
+00:04:51,661 --> 00:04:54,120
+and then message
+
+114
+00:04:54,120 --> 00:04:56,540
+Again, this is exactly how we would select
+
+115
+00:04:56,540 --> 00:04:58,930
+the same Element using CSS.
+
+116
+00:04:58,930 --> 00:05:00,200
+Right?
+
+117
+00:05:00,200 --> 00:05:02,830
+Now if it was an ID instead of a class,
+
+118
+00:05:02,830 --> 00:05:04,157
+we would use the #
+
+119
+00:05:05,260 --> 00:05:06,093
+Right?
+
+120
+00:05:06,093 --> 00:05:09,260
+But in this case, it is really a class.
+
+121
+00:05:09,260 --> 00:05:10,360
+And so let's use the .
+
+122
+00:05:11,250 --> 00:05:13,330
+And now we can quickly take a look
+
+123
+00:05:13,330 --> 00:05:15,830
+at the result of this selection here,
+
+124
+00:05:15,830 --> 00:05:17,420
+using the Console.
+
+125
+00:05:17,420 --> 00:05:20,330
+And remember that we set up the cl snippet
+
+126
+00:05:20,330 --> 00:05:23,000
+in the Editor setup section.
+
+127
+00:05:23,000 --> 00:05:24,730
+So I just write cl
+
+128
+00:05:24,730 --> 00:05:28,330
+and then I get console.log automatically here.
+
+129
+00:05:28,330 --> 00:05:30,830
+Now in case you skipped that section,
+
+130
+00:05:30,830 --> 00:05:34,040
+you can always go back and see how I did that
+
+131
+00:05:34,040 --> 00:05:36,963
+or you can just write console.log manually.
+
+132
+00:05:37,950 --> 00:05:39,470
+So I give it a Save.
+
+133
+00:05:39,470 --> 00:05:41,090
+And now I do another thing
+
+134
+00:05:41,090 --> 00:05:43,980
+that we learned in the Editor setup section,
+
+135
+00:05:43,980 --> 00:05:45,800
+which is to open up this project
+
+136
+00:05:45,800 --> 00:05:47,580
+using the live-server.
+
+137
+00:05:47,580 --> 00:05:48,670
+Right?
+
+138
+00:05:48,670 --> 00:05:51,160
+So let's open up the Terminal here
+
+139
+00:05:51,160 --> 00:05:53,133
+by clicking New Terminal.
+
+140
+00:05:54,510 --> 00:05:55,920
+Okay.
+
+141
+00:05:55,920 --> 00:05:58,090
+Let's clear it using Command + K.
+
+142
+00:05:58,090 --> 00:06:00,380
+And again, we learned how to do all of these
+
+143
+00:06:00,380 --> 00:06:02,820
+in the Editor setup section.
+
+144
+00:06:02,820 --> 00:06:03,800
+So if you skipped that,
+
+145
+00:06:03,800 --> 00:06:06,940
+then please go back and watch that one first.
+
+146
+00:06:06,940 --> 00:06:10,560
+Anyway we see that we're already in the folder.
+
+147
+00:06:10,560 --> 00:06:13,490
+So Guess-My-Number that's exactly the folder.
+
+148
+00:06:13,490 --> 00:06:18,490
+And now all we need to do is to type live-server
+
+149
+00:06:18,840 --> 00:06:21,840
+hit Enter and then it will open up
+
+150
+00:06:21,840 --> 00:06:24,323
+a New Tab in our browser.
+
+151
+00:06:25,420 --> 00:06:26,710
+So this is the demo here
+
+152
+00:06:26,710 --> 00:06:29,250
+that I'm gonna keep on the right side.
+
+153
+00:06:29,250 --> 00:06:30,730
+And then here on the left side,
+
+154
+00:06:30,730 --> 00:06:33,233
+is the actual project that we are building.
+
+155
+00:06:34,170 --> 00:06:36,090
+Of course nothing works yet,
+
+156
+00:06:36,090 --> 00:06:38,730
+but let's just open up the Console.
+
+157
+00:06:38,730 --> 00:06:40,683
+So Inspect Console.
+
+158
+00:06:41,680 --> 00:06:43,063
+Give it some more space.
+
+159
+00:06:46,270 --> 00:06:48,810
+And so indeed we actually already have
+
+160
+00:06:48,810 --> 00:06:51,270
+the p Element here selected.
+
+161
+00:06:51,270 --> 00:06:52,890
+So that's what we did here.
+
+162
+00:06:52,890 --> 00:06:56,100
+So document.querySelector('.message')
+
+163
+00:06:56,100 --> 00:06:56,940
+And so in the Console,
+
+164
+00:06:56,940 --> 00:06:59,980
+we then get basically this entire Element.
+
+165
+00:06:59,980 --> 00:07:01,560
+And as we hover over it,
+
+166
+00:07:01,560 --> 00:07:04,793
+it actually even gets selected here on the page.
+
+167
+00:07:05,810 --> 00:07:06,643
+Great.
+
+168
+00:07:06,643 --> 00:07:07,980
+So this is the first,
+
+169
+00:07:07,980 --> 00:07:11,180
+basically DOM manipulation that you did.
+
+170
+00:07:11,180 --> 00:07:12,770
+Great job.
+
+171
+00:07:12,770 --> 00:07:14,680
+Now this Element here itself
+
+172
+00:07:14,680 --> 00:07:16,920
+is not really that useful.
+
+173
+00:07:16,920 --> 00:07:20,200
+So instead let's actually get this text.
+
+174
+00:07:20,200 --> 00:07:21,733
+So this Start guessing here.
+
+175
+00:07:23,120 --> 00:07:23,980
+And we can do that.
+
+176
+00:07:23,980 --> 00:07:25,130
+Simple enough.
+
+177
+00:07:25,130 --> 00:07:27,300
+All we have to do is another .
+
+178
+00:07:27,300 --> 00:07:28,570
+and then textContent
+
+179
+00:07:31,620 --> 00:07:35,480
+So, this part here first select the Element.
+
+180
+00:07:35,480 --> 00:07:38,110
+And so the result of this querySelector method
+
+181
+00:07:38,110 --> 00:07:39,810
+is gonna be an Element.
+
+182
+00:07:39,810 --> 00:07:41,300
+And then on that Element,
+
+183
+00:07:41,300 --> 00:07:44,060
+we can read the textContent property.
+
+184
+00:07:44,060 --> 00:07:46,600
+And so that's why we use another . here
+
+185
+00:07:46,600 --> 00:07:49,570
+and remember when we have multiple . operators,
+
+186
+00:07:49,570 --> 00:07:51,870
+they are executed from left to right.
+
+187
+00:07:51,870 --> 00:07:54,290
+And so first, this operation here is done.
+
+188
+00:07:54,290 --> 00:07:56,920
+Then these selected here
+
+189
+00:07:56,920 --> 00:08:00,040
+basically will get replaced with the Element itself.
+
+190
+00:08:00,040 --> 00:08:01,470
+And then on that Element,
+
+191
+00:08:01,470 --> 00:08:05,127
+we can read the textContent property using another .
+
+192
+00:08:06,290 --> 00:08:07,870
+So let's give it a Save.
+
+193
+00:08:07,870 --> 00:08:10,300
+This will then reload automatically.
+
+194
+00:08:10,300 --> 00:08:13,790
+And yes, now we get Start guessing...
+
+195
+00:08:13,790 --> 00:08:17,500
+Which is really just a textContent of this Element.
+
+196
+00:08:17,500 --> 00:08:18,530
+Great.
+
+197
+00:08:18,530 --> 00:08:19,900
+So now we kind of know
+
+198
+00:08:19,900 --> 00:08:21,500
+how to establish this connection
+
+199
+00:08:21,500 --> 00:08:24,800
+between our code and the user interface.
+
+200
+00:08:24,800 --> 00:08:26,990
+So in other words, the HTML document
+
+201
+00:08:26,990 --> 00:08:29,940
+that's being displayed in the browser.
+
+202
+00:08:29,940 --> 00:08:33,070
+So this was a quick introduction to the DOM
+
+203
+00:08:33,070 --> 00:08:35,210
+and how to select an Element.
+
+204
+00:08:35,210 --> 00:08:37,300
+But what is the DOM actually?
+
+205
+00:08:37,300 --> 00:08:39,150
+And what is DOM Manipulation?
+
+206
+00:08:39,150 --> 00:08:41,970
+Which is the big topic of this section.
+
+207
+00:08:41,970 --> 00:08:44,883
+Well, let's find out in the next video.

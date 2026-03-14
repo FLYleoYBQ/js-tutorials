@@ -1,0 +1,755 @@
+1
+00:00:00,699 --> 00:00:03,980
+JavaScript has some built in functions
+
+2
+00:00:03,980 --> 00:00:07,610
+that we can basically apply directly on arrays.
+
+3
+00:00:07,610 --> 00:00:10,360
+And these are called methods and we can think
+
+4
+00:00:10,360 --> 00:00:14,490
+of methods as array operations basically.
+
+5
+00:00:14,490 --> 00:00:17,493
+So let's now learn some useful array methods.
+
+6
+00:00:18,727 --> 00:00:21,530
+And there are actually countless array methods
+
+7
+00:00:21,530 --> 00:00:26,470
+in JavaScript and in fact, we have a whole section dedicated
+
+8
+00:00:26,470 --> 00:00:28,390
+to arrays alone.
+
+9
+00:00:28,390 --> 00:00:31,100
+That's how important they are in JavaScript.
+
+10
+00:00:31,100 --> 00:00:34,090
+But in this video we gonna learn just some basic ones
+
+11
+00:00:34,090 --> 00:00:37,890
+that you really need to know and also so that you start
+
+12
+00:00:37,890 --> 00:00:42,460
+to get used to the idea of using methods on arrays.
+
+13
+00:00:42,460 --> 00:00:45,280
+Now, let's start by bringing back the friends array
+
+14
+00:00:45,280 --> 00:00:46,653
+from the last lecture.
+
+15
+00:00:50,120 --> 00:00:55,120
+All right, and now let's start with a method called push.
+
+16
+00:00:55,180 --> 00:00:59,453
+So the push method adds elements to the end of an array.
+
+17
+00:01:00,700 --> 00:01:05,700
+And so let's say, friends dot and then push
+
+18
+00:01:07,410 --> 00:01:09,580
+and then the elements that we want to add
+
+19
+00:01:09,580 --> 00:01:10,883
+to the end of the array.
+
+20
+00:01:12,110 --> 00:01:17,110
+So let's say Jay here, so push is essentially a function
+
+21
+00:01:18,560 --> 00:01:21,720
+and we can see that by these parenthesis.
+
+22
+00:01:21,720 --> 00:01:24,320
+So it's a function that we call and we call
+
+23
+00:01:24,320 --> 00:01:28,720
+that function really attached to the friends array itself.
+
+24
+00:01:28,720 --> 00:01:32,590
+And that's what this dot here stands for, all right?
+
+25
+00:01:32,590 --> 00:01:37,280
+So again push is a method which technically is a function
+
+26
+00:01:37,280 --> 00:01:40,940
+and we call that function directly on the friends array.
+
+27
+00:01:40,940 --> 00:01:43,210
+So the push function is kind of attached
+
+28
+00:01:43,210 --> 00:01:47,100
+to the friends array and if you're wondering why that is
+
+29
+00:01:47,100 --> 00:01:49,840
+we will once more learn that a little bit later
+
+30
+00:01:49,840 --> 00:01:53,320
+in the course, but there is a good reason why this works
+
+31
+00:01:53,320 --> 00:01:55,930
+and it's actually a pretty fascinating stuff.
+
+32
+00:01:55,930 --> 00:01:58,690
+So I hope that you're excited to keep continuing
+
+33
+00:01:58,690 --> 00:02:02,320
+to explore this course, until you'll really learn how all
+
+34
+00:02:02,320 --> 00:02:04,640
+of this actually works.
+
+35
+00:02:04,640 --> 00:02:09,410
+Now anyway, let's now check out the friends array
+
+36
+00:02:09,410 --> 00:02:14,410
+in the console, because this is really all we need to do
+
+37
+00:02:14,720 --> 00:02:17,373
+to add an element to the end of the array.
+
+38
+00:02:19,180 --> 00:02:21,883
+And indeed now we get the original array
+
+39
+00:02:21,883 --> 00:02:25,410
+that we had before plus the Jay element.
+
+40
+00:02:25,410 --> 00:02:30,140
+And you see that the length is now also four, okay?
+
+41
+00:02:30,140 --> 00:02:34,580
+so this actually changed, so it mutated the original array,
+
+42
+00:02:34,580 --> 00:02:37,600
+but that's no problem at all just like I explained you
+
+43
+00:02:37,600 --> 00:02:39,943
+in the previous lecture, remember that?
+
+44
+00:02:41,000 --> 00:02:45,160
+All right, now since push is a function here,
+
+45
+00:02:45,160 --> 00:02:47,340
+it can also return something.
+
+46
+00:02:47,340 --> 00:02:50,340
+So we already know that we can pass arguments
+
+47
+00:02:50,340 --> 00:02:54,170
+into functions and we did that here with Jay,
+
+48
+00:02:54,170 --> 00:02:56,950
+then the function can do some work and in this case,
+
+49
+00:02:56,950 --> 00:03:00,410
+the work that the push function does is to add the element
+
+50
+00:03:00,410 --> 00:03:03,690
+to the array and actually the push function does return
+
+51
+00:03:03,690 --> 00:03:06,390
+a value and the value that it returns
+
+52
+00:03:06,390 --> 00:03:08,930
+is the length of the new array.
+
+53
+00:03:08,930 --> 00:03:13,680
+So if we want to capture that data or that value,
+
+54
+00:03:13,680 --> 00:03:15,923
+we can create a new variable for that.
+
+55
+00:03:17,500 --> 00:03:22,430
+So let's call it new length and let's
+
+56
+00:03:22,430 --> 00:03:24,373
+then also log it to console.
+
+57
+00:03:28,810 --> 00:03:33,140
+And indeed, it is four so most of the time
+
+58
+00:03:33,140 --> 00:03:35,200
+we actually don't do this.
+
+59
+00:03:35,200 --> 00:03:38,590
+So we just push an element and call it a day
+
+60
+00:03:38,590 --> 00:03:41,740
+because usually we don't immediately need the length
+
+61
+00:03:41,740 --> 00:03:43,080
+of the new array.
+
+62
+00:03:43,080 --> 00:03:45,190
+But in case we need it, we don't need
+
+63
+00:03:45,190 --> 00:03:49,650
+to then calculated separately, we can simply take the result
+
+64
+00:03:49,650 --> 00:03:53,170
+of this function here store it into a variable
+
+65
+00:03:53,170 --> 00:03:54,343
+and then use that.
+
+66
+00:03:57,070 --> 00:04:01,850
+Great, now besides the push method which adds elements to
+
+67
+00:04:01,850 --> 00:04:05,610
+the end of the array, there's also methods to add elements
+
+68
+00:04:05,610 --> 00:04:10,610
+to the beginning of the array so that is the unshift method.
+
+69
+00:04:13,650 --> 00:04:18,400
+So unshift and so let's say we wanted to add John
+
+70
+00:04:18,400 --> 00:04:21,613
+right to the beginning of this friends array.
+
+71
+00:04:23,230 --> 00:04:27,630
+So again, let's check it out and so now it should
+
+72
+00:04:29,090 --> 00:04:32,930
+have five elements and the first one should be John.
+
+73
+00:04:32,930 --> 00:04:37,930
+And yeah, it is and just like the push method,
+
+74
+00:04:38,130 --> 00:04:41,950
+the unshift method also returns the length of the new array.
+
+75
+00:04:41,950 --> 00:04:44,330
+But in this case we are just not saving it
+
+76
+00:04:44,330 --> 00:04:46,800
+because we don't really need it.
+
+77
+00:04:46,800 --> 00:04:51,800
+Next up we also have methods to remove elements from arrays.
+
+78
+00:04:53,800 --> 00:04:57,100
+So this one here add elements, so let me just write
+
+79
+00:04:57,100 --> 00:04:59,140
+that here, add elements
+
+80
+00:05:01,590 --> 00:05:05,893
+and then we have some to remove elements.
+
+81
+00:05:06,770 --> 00:05:11,770
+And let's start with the pop method which is basically
+
+82
+00:05:12,490 --> 00:05:15,440
+the opposite of the push method.
+
+83
+00:05:15,440 --> 00:05:19,030
+So this means that pop will remove the last element
+
+84
+00:05:19,030 --> 00:05:22,233
+of the array, so let's write that here.
+
+85
+00:05:23,260 --> 00:05:26,790
+And this time we don't need to pass in any argument
+
+86
+00:05:26,790 --> 00:05:29,760
+and that's because there is no information needed really
+
+87
+00:05:29,760 --> 00:05:32,920
+to just take out the last element.
+
+88
+00:05:32,920 --> 00:05:37,920
+So let's try that, oh we didn't log it again to the console.
+
+89
+00:05:39,060 --> 00:05:44,060
+So let's just grab it from here and now you see
+
+90
+00:05:44,620 --> 00:05:46,453
+that Jay is actually gone.
+
+91
+00:05:48,540 --> 00:05:52,230
+And if we did it twice for example, which of course
+
+92
+00:05:52,230 --> 00:05:56,890
+we can also do then Peter should also be gone
+
+93
+00:05:58,200 --> 00:06:01,083
+and indeed, we removed Jay and Peter.
+
+94
+00:06:02,010 --> 00:06:06,320
+Now, again this pop method also returns something,
+
+95
+00:06:06,320 --> 00:06:09,650
+but this one doesn't return the length of the new array
+
+96
+00:06:09,650 --> 00:06:13,270
+but instead, it returns the removed element.
+
+97
+00:06:13,270 --> 00:06:17,380
+And so that can sometimes be useful
+
+98
+00:06:17,380 --> 00:06:20,263
+so let's call this one popped, okay?
+
+99
+00:06:22,210 --> 00:06:26,033
+And so let's log that one to the console as well,
+
+100
+00:06:28,290 --> 00:06:32,520
+so that is the popped element and we could do the same for
+
+101
+00:06:32,520 --> 00:06:36,930
+this first call, but as I said earlier, we don't always do
+
+102
+00:06:36,930 --> 00:06:39,330
+this because it's not always that useful.
+
+103
+00:06:39,330 --> 00:06:42,520
+But here I just want to show you direct how it works
+
+104
+00:06:43,440 --> 00:06:47,350
+and so the pop element should now be Peter.
+
+105
+00:06:47,350 --> 00:06:50,530
+So this first one here is Jay and then
+
+106
+00:06:50,530 --> 00:06:52,160
+the last one becomes Peter.
+
+107
+00:06:52,160 --> 00:06:55,430
+And so here in the second pop call, Peter is the one
+
+108
+00:06:55,430 --> 00:06:58,330
+that's being removed and so that's the element that's
+
+109
+00:06:58,330 --> 00:07:01,080
+then going to be saved into popped
+
+110
+00:07:02,290 --> 00:07:06,400
+and yeah, here it is, okay?
+
+111
+00:07:06,400 --> 00:07:10,070
+And finally, let's also remove the first element
+
+112
+00:07:10,070 --> 00:07:14,970
+from the array and so that's friends dot unshift.
+
+113
+00:07:19,590 --> 00:07:24,590
+So let's copy this one again, give it a save
+
+114
+00:07:24,650 --> 00:07:28,240
+and so now only Michael and Steven should be left after all
+
+115
+00:07:28,240 --> 00:07:30,063
+this manipulation, right?
+
+116
+00:07:31,360 --> 00:07:35,770
+Oh, and actually that did not work and that's because I did
+
+117
+00:07:35,770 --> 00:07:39,850
+a mistake, so unshift is of course to add elements
+
+118
+00:07:39,850 --> 00:07:43,210
+to the array and so this one here is called shift
+
+119
+00:07:43,210 --> 00:07:48,093
+and not unshift, so now it should work, yeah.
+
+120
+00:07:49,500 --> 00:07:53,660
+Once again we didn't need any arguments and once again
+
+121
+00:07:53,660 --> 00:07:57,770
+this method here will return the element that was removed,
+
+122
+00:07:57,770 --> 00:08:00,363
+so if we need that, we can capture it.
+
+123
+00:08:01,800 --> 00:08:05,730
+Next up, there is a very useful method that tells us
+
+124
+00:08:05,730 --> 00:08:09,630
+in which position a certain element is in the array.
+
+125
+00:08:09,630 --> 00:08:14,070
+So let's work with this smaller array that we have left.
+
+126
+00:08:14,070 --> 00:08:17,920
+And what we want to log to the console now
+
+127
+00:08:17,920 --> 00:08:22,920
+is friends dot indexOf and then we pass the element,
+
+128
+00:08:25,610 --> 00:08:27,150
+which we want to reference.
+
+129
+00:08:27,150 --> 00:08:32,140
+So let's say we want Steven and so as I said
+
+130
+00:08:32,140 --> 00:08:35,210
+this should return the index at which this element
+
+131
+00:08:35,210 --> 00:08:37,760
+is located, so we know that Steven
+
+132
+00:08:37,760 --> 00:08:42,020
+is right now element number one, right?
+
+133
+00:08:42,020 --> 00:08:44,980
+So zero and one and we actually can see
+
+134
+00:08:44,980 --> 00:08:46,200
+that here in the console.
+
+135
+00:08:46,200 --> 00:08:51,200
+So zero is Michael, one is Steven so this indexOf function
+
+136
+00:08:52,340 --> 00:08:56,060
+call should return the value one, because again that's
+
+137
+00:08:56,060 --> 00:09:01,060
+the indexOf the element Steven and yeah, there we go.
+
+138
+00:09:02,430 --> 00:09:05,330
+Now, if we try the same thing for an element that
+
+139
+00:09:05,330 --> 00:09:10,330
+is not in there, let's say Bob, we will get minus one.
+
+140
+00:09:13,740 --> 00:09:17,690
+All right, and now finally to finish this lecture,
+
+141
+00:09:17,690 --> 00:09:21,200
+there is a very similar method to the indexOf,
+
+142
+00:09:21,200 --> 00:09:23,290
+but which is a bit more modern
+
+143
+00:09:23,290 --> 00:09:26,140
+and in my opinion also more useful.
+
+144
+00:09:26,140 --> 00:09:30,270
+So this one is an ES6 method and it's called includes.
+
+145
+00:09:30,270 --> 00:09:33,340
+So includes, instead of returning the index of
+
+146
+00:09:33,340 --> 00:09:36,890
+the element will simply return true if the element
+
+147
+00:09:36,890 --> 00:09:39,963
+is in the array and false if it's not.
+
+148
+00:09:40,930 --> 00:09:45,930
+So let's check that, so friends dot includes and now
+
+149
+00:09:49,030 --> 00:09:52,593
+we can actually do the same as up here.
+
+150
+00:09:53,810 --> 00:09:57,470
+So let me just copy that and the difference here is again
+
+151
+00:09:57,470 --> 00:10:02,470
+the includes method, so let's see what we get now.
+
+152
+00:10:02,510 --> 00:10:07,510
+And as expected with Stephen it is true because indeed
+
+153
+00:10:07,670 --> 00:10:12,290
+we have one element here Steven but Bob is false
+
+154
+00:10:12,290 --> 00:10:16,293
+because well, there is no element called Bob.
+
+155
+00:10:17,880 --> 00:10:21,330
+And this method actually uses strict equality
+
+156
+00:10:21,330 --> 00:10:22,810
+for this check.
+
+157
+00:10:22,810 --> 00:10:27,360
+So let's say that we pushed some value here to this array
+
+158
+00:10:27,360 --> 00:10:32,360
+so friends dot push which remember will add a value
+
+159
+00:10:33,650 --> 00:10:34,853
+to the end of the array.
+
+160
+00:10:36,020 --> 00:10:41,020
+So if we added 23 and then if we checked for 23 to string,
+
+161
+00:10:45,210 --> 00:10:50,210
+it would not work, so it would say false, right?
+
+162
+00:10:51,940 --> 00:10:55,500
+And that's because it is testing with strict equality
+
+163
+00:10:55,500 --> 00:10:58,870
+which means that it does not do type coercion.
+
+164
+00:10:58,870 --> 00:11:03,870
+And since 23 to string is different from 23 to number,
+
+165
+00:11:04,200 --> 00:11:08,380
+it gives us false, but if I test it directly for the number
+
+166
+00:11:08,380 --> 00:11:12,630
+then it should be true and yes, it is.
+
+167
+00:11:12,630 --> 00:11:16,020
+So we added it here to the array and so then of course
+
+168
+00:11:16,020 --> 00:11:19,360
+the array includes it, that makes sense.
+
+169
+00:11:19,360 --> 00:11:23,970
+And so we can use the include method to write conditionals.
+
+170
+00:11:23,970 --> 00:11:27,690
+So that's one of the very useful application of this method.
+
+171
+00:11:27,690 --> 00:11:31,263
+For example, just to test it out very quickly,
+
+172
+00:11:32,200 --> 00:11:36,880
+let's say friends dot includes Peter and then
+
+173
+00:11:41,960 --> 00:11:44,313
+if so we can log to the console,
+
+174
+00:11:46,520 --> 00:11:51,273
+you have a friend called Peter, okay?
+
+175
+00:11:53,070 --> 00:11:56,750
+So we already know that this here returns a Boolean
+
+176
+00:11:56,750 --> 00:12:00,430
+and we also already know how the if statement works
+
+177
+00:12:00,430 --> 00:12:03,110
+and so only if this is true.
+
+178
+00:12:03,110 --> 00:12:06,890
+So if the array does include a string with Peter,
+
+179
+00:12:06,890 --> 00:12:10,023
+only then this code is executed.
+
+180
+00:12:11,200 --> 00:12:14,080
+And so right now of course nothing happens
+
+181
+00:12:14,080 --> 00:12:19,080
+but if I ask for Steven then here let's say Stephen as well.
+
+182
+00:12:22,080 --> 00:12:25,910
+Then I get, you have a friend called Stephen.
+
+183
+00:12:25,910 --> 00:12:30,910
+So that's probably the most use case of the includes method.
+
+184
+00:12:32,470 --> 00:12:35,600
+Now right, and that's all I had to show you for
+
+185
+00:12:35,600 --> 00:12:38,210
+this lecture and as I said in the beginning,
+
+186
+00:12:38,210 --> 00:12:42,750
+there are many more useful methods for manipulating arrays.
+
+187
+00:12:42,750 --> 00:12:46,540
+But for now, I just wanted to show you the most basic ones.
+
+188
+00:12:46,540 --> 00:12:49,140
+And next up, there's yet another coding challenge
+
+189
+00:12:49,140 --> 00:12:50,393
+waiting for you.

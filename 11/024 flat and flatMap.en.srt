@@ -1,0 +1,827 @@
+1
+00:00:00,891 --> 00:00:02,835
+The next two array methods
+
+2
+00:00:02,835 --> 00:00:04,490
+that we're gonna learn,
+
+3
+00:00:04,490 --> 00:00:07,790
+are the flat and flat map methods.
+
+4
+00:00:07,790 --> 00:00:11,630
+And thankfully, these are very easy to understand.
+
+5
+00:00:11,630 --> 00:00:13,143
+So let's go.
+
+6
+00:00:14,650 --> 00:00:16,880
+So let's say that we have an array
+
+7
+00:00:16,880 --> 00:00:18,693
+with some arrays in it.
+
+8
+00:00:19,570 --> 00:00:22,083
+So essentially a nested array.
+
+9
+00:00:23,810 --> 00:00:26,113
+So let's say one, two, three,
+
+10
+00:00:27,180 --> 00:00:29,020
+and then another array here,
+
+11
+00:00:29,020 --> 00:00:30,253
+four, five, six,
+
+12
+00:00:31,370 --> 00:00:34,180
+and then even some values like this.
+
+13
+00:00:34,180 --> 00:00:36,430
+So this is perfectly normal,
+
+14
+00:00:36,430 --> 00:00:37,740
+but what if we wanted
+
+15
+00:00:37,740 --> 00:00:41,600
+to take all these elements in the separate
+
+16
+00:00:41,600 --> 00:00:43,420
+and put all of these together
+
+17
+00:00:43,420 --> 00:00:45,280
+in just one big array,
+
+18
+00:00:45,280 --> 00:00:47,040
+which contains all the numbers here
+
+19
+00:00:47,040 --> 00:00:48,880
+from one to eight?
+
+20
+00:00:48,880 --> 00:00:50,810
+Well, that's pretty simple,
+
+21
+00:00:50,810 --> 00:00:53,793
+using the new flat method.
+
+22
+00:00:54,800 --> 00:00:55,700
+And they say new,
+
+23
+00:00:55,700 --> 00:00:58,670
+because flat and also flat map
+
+24
+00:00:58,670 --> 00:01:01,340
+were introduced in ES2019.
+
+25
+00:01:01,340 --> 00:01:03,120
+So they are pretty recent,
+
+26
+00:01:03,120 --> 00:01:04,360
+and one more time,
+
+27
+00:01:04,360 --> 00:01:06,470
+they will therefore not work
+
+28
+00:01:06,470 --> 00:01:09,650
+in super old browsers. Okay.
+
+29
+00:01:09,650 --> 00:01:11,210
+And actually that's it,
+
+30
+00:01:11,210 --> 00:01:12,800
+for the flat method.
+
+31
+00:01:12,800 --> 00:01:16,210
+So no callback function, adjust like this,
+
+32
+00:01:16,210 --> 00:01:18,030
+and we get indeed,
+
+33
+00:01:18,030 --> 00:01:20,486
+or full array from one to eight.
+
+34
+00:01:20,486 --> 00:01:23,620
+So (indistinct) removed the nested arrays
+
+35
+00:01:23,620 --> 00:01:25,310
+and flattened the array,
+
+36
+00:01:25,310 --> 00:01:29,660
+which is why the method is called flat.
+
+37
+00:01:29,660 --> 00:01:32,200
+So very nice, very simple
+
+38
+00:01:32,200 --> 00:01:34,633
+and no callback function this time.
+
+39
+00:01:35,610 --> 00:01:37,290
+Okay. But now let's say
+
+40
+00:01:37,290 --> 00:01:40,100
+that we have an array,
+
+41
+00:01:40,100 --> 00:01:41,973
+which is even deeper nested.
+
+42
+00:01:43,390 --> 00:01:45,033
+So let's call it arrDeep.
+
+43
+00:01:46,190 --> 00:01:48,790
+And so this one right now has only,
+
+44
+00:01:48,790 --> 00:01:51,280
+like, one level of nesting,
+
+45
+00:01:51,280 --> 00:01:52,120
+but let's say that,
+
+46
+00:01:52,120 --> 00:01:55,493
+these two here, are in their own array still.
+
+47
+00:01:56,350 --> 00:01:58,770
+And maybe these two here as well.
+
+48
+00:01:58,770 --> 00:02:00,310
+So now we have an array,
+
+49
+00:02:00,310 --> 00:02:02,603
+inside an array, inside an array.
+
+50
+00:02:04,530 --> 00:02:05,910
+So let's see what happens,
+
+51
+00:02:05,910 --> 00:02:07,493
+when we flat this one,
+
+52
+00:02:11,880 --> 00:02:14,410
+and we got the same result,
+
+53
+00:02:14,410 --> 00:02:17,580
+but that's because I made this mistake.
+
+54
+00:02:17,580 --> 00:02:19,993
+So we need to flatten arrDeep.
+
+55
+00:02:21,440 --> 00:02:23,700
+And so now you'll see
+
+56
+00:02:23,700 --> 00:02:25,750
+that we get this result,
+
+57
+00:02:25,750 --> 00:02:30,110
+which still contains the two inner arrays. All right.
+
+58
+00:02:30,110 --> 00:02:32,030
+So this means that the flat method,
+
+59
+00:02:32,030 --> 00:02:33,910
+only goes one level deep,
+
+60
+00:02:33,910 --> 00:02:35,393
+when flattening the array.
+
+61
+00:02:36,470 --> 00:02:37,860
+So this three here,
+
+62
+00:02:37,860 --> 00:02:40,890
+was inside the first level of nesting.
+
+63
+00:02:40,890 --> 00:02:43,170
+And so therefore it was taken out
+
+64
+00:02:43,170 --> 00:02:44,880
+and it's now in the main array,
+
+65
+00:02:44,880 --> 00:02:47,863
+but then we still have this nested array in there.
+
+66
+00:02:48,860 --> 00:02:51,450
+So we can fortunately fix that,
+
+67
+00:02:51,450 --> 00:02:54,110
+by using the depth argument.
+
+68
+00:02:54,110 --> 00:02:56,300
+So right now, basically flat,
+
+69
+00:02:56,300 --> 00:02:57,700
+is running with the,
+
+70
+00:02:57,700 --> 00:02:59,203
+one here as the depth.
+
+71
+00:03:00,080 --> 00:03:02,320
+And so if we run it with one,
+
+72
+00:03:02,320 --> 00:03:03,710
+which is the default,
+
+73
+00:03:03,710 --> 00:03:05,520
+then we get this,
+
+74
+00:03:05,520 --> 00:03:08,023
+but we can go two levels deep.
+
+75
+00:03:09,010 --> 00:03:13,350
+And so now we get the same result as before.
+
+76
+00:03:13,350 --> 00:03:15,370
+And that's because it now goes,
+
+77
+00:03:15,370 --> 00:03:17,880
+even into the second level of nesting
+
+78
+00:03:17,880 --> 00:03:22,293
+and also takes the element out of depth array. All right.
+
+79
+00:03:23,270 --> 00:03:25,230
+So that's how flat works,
+
+80
+00:03:25,230 --> 00:03:28,390
+but this example is not really that useful.
+
+81
+00:03:28,390 --> 00:03:29,460
+And so let's go back
+
+82
+00:03:29,460 --> 00:03:31,460
+to the bank accounts.
+
+83
+00:03:31,460 --> 00:03:33,820
+So let's say that the bank itself,
+
+84
+00:03:33,820 --> 00:03:36,220
+wants to calculate the overall balance
+
+85
+00:03:36,220 --> 00:03:37,620
+of all the movements
+
+86
+00:03:37,620 --> 00:03:39,710
+of all the accounts.
+
+87
+00:03:39,710 --> 00:03:42,773
+So how would we go about solving this problem?
+
+88
+00:03:43,620 --> 00:03:45,040
+Well, first of all,
+
+89
+00:03:45,040 --> 00:03:48,590
+we have all these movements stored in arrays,
+
+90
+00:03:48,590 --> 00:03:51,160
+and these arrays are inside the objects
+
+91
+00:03:51,160 --> 00:03:52,583
+in the accounts array.
+
+92
+00:03:53,840 --> 00:03:58,840
+So in this array that we have been using.
+
+93
+00:03:58,850 --> 00:04:02,460
+So accounts, so that's the one,
+
+94
+00:04:02,460 --> 00:04:05,700
+so this is where we have our movements.
+
+95
+00:04:05,700 --> 00:04:07,320
+And so the first thing to do,
+
+96
+00:04:07,320 --> 00:04:08,960
+is to take them out of here
+
+97
+00:04:08,960 --> 00:04:11,780
+and put them all into one array.
+
+98
+00:04:11,780 --> 00:04:13,313
+So how would we do that?
+
+99
+00:04:14,550 --> 00:04:16,650
+Well, let's create a variable here called,
+
+100
+00:04:17,750 --> 00:04:22,750
+account movements, and so we could do,
+
+101
+00:04:24,860 --> 00:04:29,200
+accounts, accounts like this,
+
+102
+00:04:29,200 --> 00:04:30,950
+and then what we want to create,
+
+103
+00:04:30,950 --> 00:04:32,250
+is the new array,
+
+104
+00:04:32,250 --> 00:04:33,770
+but with the same length,
+
+105
+00:04:33,770 --> 00:04:36,313
+which only contains these movements array.
+
+106
+00:04:37,150 --> 00:04:39,836
+So that's what I was just saying.
+
+107
+00:04:39,836 --> 00:04:40,980
+And so for that,
+
+108
+00:04:40,980 --> 00:04:43,250
+we can use the map method.
+
+109
+00:04:43,250 --> 00:04:45,930
+So in each account,
+
+110
+00:04:45,930 --> 00:04:50,330
+take the account.movements
+
+111
+00:04:50,330 --> 00:04:52,940
+and so return that value,
+
+112
+00:04:52,940 --> 00:04:57,940
+into the new array. All right.
+
+113
+00:04:58,970 --> 00:05:00,930
+And so now we have this array,
+
+114
+00:05:00,930 --> 00:05:03,050
+which then in turn contains the array
+
+115
+00:05:03,890 --> 00:05:05,370
+of all the movements.
+
+116
+00:05:05,370 --> 00:05:06,203
+And so you see,
+
+117
+00:05:06,203 --> 00:05:09,860
+that now we actually have a nested structure here.
+
+118
+00:05:09,860 --> 00:05:13,310
+So an array which contains other arrays.
+
+119
+00:05:13,310 --> 00:05:15,530
+And so probably you can see
+
+120
+00:05:15,530 --> 00:05:17,900
+where I'm going with this,
+
+121
+00:05:17,900 --> 00:05:20,580
+because now I want an array,
+
+122
+00:05:20,580 --> 00:05:23,240
+which simply contains all of these values,
+
+123
+00:05:23,240 --> 00:05:24,353
+just in one array.
+
+124
+00:05:25,200 --> 00:05:28,590
+So let's call this one all movements.
+
+125
+00:05:28,590 --> 00:05:31,710
+And so it's gonna be, accountmovements.flat.
+
+126
+00:05:38,070 --> 00:05:41,050
+And we have only one level of nesting.
+
+127
+00:05:41,050 --> 00:05:42,650
+And so there's not even a need
+
+128
+00:05:42,650 --> 00:05:44,770
+for any parameter here.
+
+129
+00:05:44,770 --> 00:05:46,053
+So for any argument.
+
+130
+00:05:47,370 --> 00:05:49,280
+So, now we get this,
+
+131
+00:05:49,280 --> 00:05:52,240
+nice array of the length 29,
+
+132
+00:05:52,240 --> 00:05:54,220
+which all of these movements.
+
+133
+00:05:54,220 --> 00:05:55,500
+And now all we have to do,
+
+134
+00:05:55,500 --> 00:05:57,290
+is to add them all together,
+
+135
+00:05:57,290 --> 00:06:00,223
+which is pretty easy at this point.
+
+136
+00:06:02,009 --> 00:06:05,160
+So let's call this one overall balance,
+
+137
+00:06:06,290 --> 00:06:11,177
+is equal to allmovements.reduce,
+
+138
+00:06:13,580 --> 00:06:16,640
+until we got the accumulator
+
+139
+00:06:16,640 --> 00:06:18,073
+and to current movement.
+
+140
+00:06:20,100 --> 00:06:23,320
+And we return accumulator plus movement,
+
+141
+00:06:23,320 --> 00:06:25,133
+and we start with zero.
+
+142
+00:06:26,610 --> 00:06:28,910
+So I'm doing this all very fast here,
+
+143
+00:06:28,910 --> 00:06:31,870
+because I already explained all of this,
+
+144
+00:06:31,870 --> 00:06:33,683
+multiple times at this point.
+
+145
+00:06:36,470 --> 00:06:38,560
+And so here we get the final result
+
+146
+00:06:38,560 --> 00:06:41,150
+of adding up all of these values,
+
+147
+00:06:41,150 --> 00:06:44,010
+that were originally as we started,
+
+148
+00:06:44,010 --> 00:06:46,240
+in the separate movements arrays
+
+149
+00:06:46,240 --> 00:06:47,490
+that were in turn,
+
+150
+00:06:47,490 --> 00:06:49,853
+the inside of the account objects.
+
+151
+00:06:51,061 --> 00:06:53,230
+And of course we can make this here,
+
+152
+00:06:53,230 --> 00:06:55,740
+a lot more beautiful.
+
+153
+00:06:55,740 --> 00:06:59,470
+So instead of doing all of this separately,
+
+154
+00:06:59,470 --> 00:07:01,510
+as you already know,
+
+155
+00:07:01,510 --> 00:07:02,933
+we can use chaining.
+
+156
+00:07:03,870 --> 00:07:06,920
+So we start with this here,
+
+157
+00:07:06,920 --> 00:07:08,943
+so building a new array,
+
+158
+00:07:10,180 --> 00:07:13,670
+out of the array of account objects,
+
+159
+00:07:13,670 --> 00:07:17,650
+then we flat that result.
+
+160
+00:07:17,650 --> 00:07:20,183
+And then we add it all together.
+
+161
+00:07:22,480 --> 00:07:24,583
+So like this,
+
+162
+00:07:27,030 --> 00:07:29,660
+and then we log it all to the console,
+
+163
+00:07:29,660 --> 00:07:32,210
+and this is then unnecessary.
+
+164
+00:07:32,210 --> 00:07:34,533
+And actually I will just delete all of it.
+
+165
+00:07:35,950 --> 00:07:37,320
+Give it a safe,
+
+166
+00:07:37,320 --> 00:07:39,943
+until we get the exact same result.
+
+167
+00:07:41,250 --> 00:07:44,640
+Now it turns out that, using a map first
+
+168
+00:07:44,640 --> 00:07:46,670
+and then flattening the result,
+
+169
+00:07:46,670 --> 00:07:48,870
+and it's a pretty common operation.
+
+170
+00:07:48,870 --> 00:07:51,410
+So that's exactly what we have here.
+
+171
+00:07:51,410 --> 00:07:52,864
+So first we map,
+
+172
+00:07:52,864 --> 00:07:55,520
+and then we flat that result.
+
+173
+00:07:55,520 --> 00:07:57,990
+So that's exactly what we have here.
+
+174
+00:07:57,990 --> 00:07:59,470
+And so to solve this,
+
+175
+00:07:59,470 --> 00:08:00,830
+there is another method
+
+176
+00:08:00,830 --> 00:08:02,190
+that was also introduced
+
+177
+00:08:02,190 --> 00:08:05,730
+at the same time, which is flat map.
+
+178
+00:08:05,730 --> 00:08:08,280
+And so flat map essentially combines,
+
+179
+00:08:08,280 --> 00:08:10,500
+a map and a flat method,
+
+180
+00:08:10,500 --> 00:08:12,060
+into just one method,
+
+181
+00:08:12,060 --> 00:08:14,153
+which is better for performance.
+
+182
+00:08:17,446 --> 00:08:19,840
+So let's do this one here again,
+
+183
+00:08:19,840 --> 00:08:24,043
+but this time with flat map.
+
+184
+00:08:25,730 --> 00:08:28,890
+So actually we can just copy it
+
+185
+00:08:28,890 --> 00:08:31,283
+and here I'm gonna call it, just the two.
+
+186
+00:08:32,470 --> 00:08:36,343
+And so here we will now use flat map instead.
+
+187
+00:08:37,370 --> 00:08:40,460
+And since flat map also does mapping,
+
+188
+00:08:40,460 --> 00:08:43,520
+it needs to receive exactly the same callback
+
+189
+00:08:43,520 --> 00:08:45,063
+as a map method.
+
+190
+00:08:47,790 --> 00:08:49,730
+So this is essentially a map method
+
+191
+00:08:49,730 --> 00:08:52,200
+that all it does is, in the end,
+
+192
+00:08:52,200 --> 00:08:55,170
+it then flattens the result.
+
+193
+00:08:55,170 --> 00:08:58,893
+And so you see here the result is the same.
+
+194
+00:08:59,810 --> 00:09:02,440
+Now just notice that, flat map here,
+
+195
+00:09:02,440 --> 00:09:04,360
+only goes one level deep
+
+196
+00:09:04,360 --> 00:09:06,130
+and we cannot change it.
+
+197
+00:09:06,130 --> 00:09:09,480
+So if you do need to go deeper than just one level,
+
+198
+00:09:09,480 --> 00:09:12,680
+you still need to use the flat method.
+
+199
+00:09:12,680 --> 00:09:14,940
+So anyway, keep these two in mind.
+
+200
+00:09:14,940 --> 00:09:17,940
+Whenever you find yourself in a situation
+
+201
+00:09:17,940 --> 00:09:19,640
+where you have nested the race
+
+202
+00:09:19,640 --> 00:09:21,003
+and need to work with them.
+
+203
+00:09:21,930 --> 00:09:22,763
+And believe me,
+
+204
+00:09:22,763 --> 00:09:24,800
+that happens more often than you think,
+
+205
+00:09:24,800 --> 00:09:25,633
+and I believe that,
+
+206
+00:09:25,633 --> 00:09:28,050
+even in the course of this course,
+
+207
+00:09:28,050 --> 00:09:30,023
+there is gonna be another situation.

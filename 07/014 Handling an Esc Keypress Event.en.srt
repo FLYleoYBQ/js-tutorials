@@ -1,0 +1,1255 @@
+1
+00:00:01,130 --> 00:00:03,150
+Let's now learn how to handle
+
+2
+00:00:03,150 --> 00:00:04,653
+the Key Press events.
+
+3
+00:00:06,240 --> 00:00:09,060
+So right now we can already close the modal
+
+4
+00:00:09,060 --> 00:00:10,790
+by clicking the close button
+
+5
+00:00:10,790 --> 00:00:13,800
+and by clicking outside of the model.
+
+6
+00:00:13,800 --> 00:00:17,060
+But usually there is also a third way
+
+7
+00:00:17,060 --> 00:00:20,550
+and that's by hitting the escape key on the keyboard.
+
+8
+00:00:20,550 --> 00:00:21,610
+Right?
+
+9
+00:00:21,610 --> 00:00:24,940
+And so this is actually a great use case
+
+10
+00:00:24,940 --> 00:00:28,570
+to learn how to respond to keyboard events.
+
+11
+00:00:28,570 --> 00:00:31,620
+So in order to listen for keyboard events,
+
+12
+00:00:31,620 --> 00:00:34,720
+we still need to use add event listener.
+
+13
+00:00:34,720 --> 00:00:37,310
+Because the key press event is simply just
+
+14
+00:00:37,310 --> 00:00:39,260
+another type of event.
+
+15
+00:00:39,260 --> 00:00:43,110
+Now, keyboard events are so-called global events
+
+16
+00:00:43,110 --> 00:00:47,000
+because they do not happen on one specific element.
+
+17
+00:00:47,000 --> 00:00:49,900
+And for global events like keyboard events
+
+18
+00:00:49,900 --> 00:00:53,240
+we usually list and on the whole document.
+
+19
+00:00:53,240 --> 00:00:54,173
+So,
+
+20
+00:00:55,320 --> 00:00:57,810
+let's close this terminal here
+
+21
+00:00:57,810 --> 00:01:01,340
+and now let's write document.
+
+22
+00:01:01,340 --> 00:01:06,070
+So that's the same document that we use for query selector.
+
+23
+00:01:06,070 --> 00:01:09,830
+And so basically it's a big object which contains a bunch
+
+24
+00:01:09,830 --> 00:01:12,370
+of methods for all kinds of stuff.
+
+25
+00:01:12,370 --> 00:01:15,363
+And that includes the add event listener method.
+
+26
+00:01:16,920 --> 00:01:21,640
+So by using add a vent listener here on the document
+
+27
+00:01:21,640 --> 00:01:24,560
+we are basically listening for events everywhere.
+
+28
+00:01:24,560 --> 00:01:26,950
+So no matter where they happen on the page,
+
+29
+00:01:26,950 --> 00:01:29,420
+they will always trigger the event handler
+
+30
+00:01:29,420 --> 00:01:31,430
+that we're going to specify here.
+
+31
+00:01:31,430 --> 00:01:32,810
+Now right,
+
+32
+00:01:32,810 --> 00:01:35,720
+Now here about the name of the event itself
+
+33
+00:01:35,720 --> 00:01:39,720
+there are actually three types of events for the keyboard.
+
+34
+00:01:39,720 --> 00:01:43,840
+There is the key down the key press or the key up.
+
+35
+00:01:43,840 --> 00:01:47,090
+key up, which is so it's this one
+
+36
+00:01:47,090 --> 00:01:49,560
+this one only happens when we lift or finger
+
+37
+00:01:49,560 --> 00:01:53,080
+off the keyboard basically Or off the key.
+
+38
+00:01:53,080 --> 00:01:55,560
+Key press is fired continuously
+
+39
+00:01:55,560 --> 00:01:58,430
+as we keep our finger on a certain key
+
+40
+00:01:58,430 --> 00:02:03,050
+and key down is fired as soon as we just press down the key.
+
+41
+00:02:03,050 --> 00:02:05,940
+And so usually that is the one that we use.
+
+42
+00:02:05,940 --> 00:02:06,840
+Okay,
+
+43
+00:02:06,840 --> 00:02:09,830
+so the name of this event is just key down
+
+44
+00:02:09,830 --> 00:02:11,750
+and this event will happen as soon
+
+45
+00:02:11,750 --> 00:02:14,620
+as we hit any key on the keyboard.
+
+46
+00:02:14,620 --> 00:02:15,660
+Okay.
+
+47
+00:02:15,660 --> 00:02:20,180
+And then just like before we specify a function here
+
+48
+00:02:20,180 --> 00:02:23,130
+and this time let's specify it here directly.
+
+49
+00:02:23,130 --> 00:02:25,623
+So without creating a separate function.
+
+50
+00:02:27,050 --> 00:02:28,363
+So function,
+
+51
+00:02:29,330 --> 00:02:30,830
+and then the usual way
+
+52
+00:02:30,830 --> 00:02:33,180
+just like we have been doing.
+
+53
+00:02:33,180 --> 00:02:35,610
+Now, as I just mentioned here.
+
+54
+00:02:35,610 --> 00:02:39,130
+So this function here will actually be executed
+
+55
+00:02:39,130 --> 00:02:41,890
+for any key press that happens.
+
+56
+00:02:41,890 --> 00:02:44,210
+So let me prove that to you.
+
+57
+00:02:44,210 --> 00:02:46,070
+And actually it will be hard to prove
+
+58
+00:02:46,070 --> 00:02:49,480
+because you cannot see what key I'm pressing
+
+59
+00:02:49,480 --> 00:02:50,790
+but anyway,
+
+60
+00:02:50,790 --> 00:02:54,743
+a key was pressed.
+
+61
+00:02:56,760 --> 00:02:59,540
+And so now as I go to the console
+
+62
+00:02:59,540 --> 00:03:01,370
+and just press any key
+
+63
+00:03:01,370 --> 00:03:02,987
+you see achy was pressed.
+
+64
+00:03:02,987 --> 00:03:04,290
+And it doesn't matter which one.
+
+65
+00:03:04,290 --> 00:03:07,870
+So Q three P enter
+
+66
+00:03:07,870 --> 00:03:09,130
+Esc
+
+67
+00:03:09,130 --> 00:03:09,963
+any key,
+
+68
+00:03:09,963 --> 00:03:12,370
+just renders here,
+
+69
+00:03:12,370 --> 00:03:14,540
+the same message.
+
+70
+00:03:14,540 --> 00:03:17,100
+However, we only want to close the popup
+
+71
+00:03:17,100 --> 00:03:19,750
+when the escape key was pressed.
+
+72
+00:03:19,750 --> 00:03:22,150
+Okay. So that key in the top left corner,
+
+73
+00:03:22,150 --> 00:03:23,720
+which says Esc
+
+74
+00:03:23,720 --> 00:03:24,610
+right.
+
+75
+00:03:24,610 --> 00:03:28,530
+So how will we know which key was actually pressed
+
+76
+00:03:28,530 --> 00:03:31,540
+If this event here happens for all the keys?
+
+77
+00:03:31,540 --> 00:03:32,373
+Well
+
+78
+00:03:32,373 --> 00:03:35,420
+the information about which key was pressed will be stored
+
+79
+00:03:35,420 --> 00:03:38,600
+in the event that is going to occur as soon
+
+80
+00:03:38,600 --> 00:03:40,460
+as any key is pressed.
+
+81
+00:03:40,460 --> 00:03:43,790
+So remember, as I hit any key here on the keyboard,
+
+82
+00:03:43,790 --> 00:03:46,410
+a key down event is generated
+
+83
+00:03:46,410 --> 00:03:48,350
+and our list and our function here.
+
+84
+00:03:48,350 --> 00:03:53,330
+So our handler function is waiting for that event to happen.
+
+85
+00:03:53,330 --> 00:03:56,250
+And anytime that an event like this occurs
+
+86
+00:03:56,250 --> 00:03:59,810
+JavaScript does in fact generate an object.
+
+87
+00:03:59,810 --> 00:04:02,210
+And that object contains all the information
+
+88
+00:04:02,210 --> 00:04:03,970
+about the event itself,
+
+89
+00:04:03,970 --> 00:04:05,830
+and we can then actually access that
+
+90
+00:04:05,830 --> 00:04:09,170
+object indie event handler function.
+
+91
+00:04:09,170 --> 00:04:10,003
+All right.
+
+92
+00:04:10,003 --> 00:04:12,110
+So again, when an event happened
+
+93
+00:04:12,110 --> 00:04:15,200
+we can have access to information about that event
+
+94
+00:04:15,200 --> 00:04:19,180
+in the event handler function just like this one.
+
+95
+00:04:19,180 --> 00:04:20,540
+Now up until this point,
+
+96
+00:04:20,540 --> 00:04:23,330
+we have never looked at debt event.
+
+97
+00:04:23,330 --> 00:04:27,000
+We only just listened for it and then reacted to it.
+
+98
+00:04:27,000 --> 00:04:27,940
+Right?
+
+99
+00:04:27,940 --> 00:04:30,380
+But this time we actually need to look
+
+100
+00:04:30,380 --> 00:04:33,130
+at the event object in order to figure out
+
+101
+00:04:33,130 --> 00:04:35,330
+which key was pressed.
+
+102
+00:04:35,330 --> 00:04:37,460
+And how can we do that?
+
+103
+00:04:37,460 --> 00:04:40,950
+Well, what we need to do is to give this function here
+
+104
+00:04:40,950 --> 00:04:42,290
+a parameter.
+
+105
+00:04:42,290 --> 00:04:46,220
+and let's call it E which stands for event.
+
+106
+00:04:46,220 --> 00:04:48,810
+So we could also call it event
+
+107
+00:04:48,810 --> 00:04:52,890
+or we could call it X or Q I,
+
+108
+00:04:52,890 --> 00:04:54,310
+so it doesn't matter
+
+109
+00:04:54,310 --> 00:04:59,130
+but I like to call it E which dance again for event.
+
+110
+00:04:59,130 --> 00:05:00,240
+Okay.
+
+111
+00:05:00,240 --> 00:05:02,350
+So then as the event occurs
+
+112
+00:05:02,350 --> 00:05:06,010
+JavaScript, we'll call this function with the event object
+
+113
+00:05:06,010 --> 00:05:07,750
+as an argument.
+
+114
+00:05:07,750 --> 00:05:09,720
+And once more, this works
+
+115
+00:05:09,720 --> 00:05:13,680
+because we do not call this function here or selves.
+
+116
+00:05:13,680 --> 00:05:14,513
+Right?
+
+117
+00:05:14,513 --> 00:05:15,490
+We do not call the function.
+
+118
+00:05:15,490 --> 00:05:17,610
+We only define it here.
+
+119
+00:05:17,610 --> 00:05:18,443
+So we say
+
+120
+00:05:18,443 --> 00:05:22,910
+Hey, JavaScript call function when a key down event happens.
+
+121
+00:05:22,910 --> 00:05:24,250
+And when you do so
+
+122
+00:05:24,250 --> 00:05:27,690
+please pass in the event object as an argument.
+
+123
+00:05:27,690 --> 00:05:29,150
+Okay. And we will learn
+
+124
+00:05:29,150 --> 00:05:32,690
+about the mechanics of this a bit better later.
+
+125
+00:05:32,690 --> 00:05:36,680
+But it's probably still a good idea to already take notes
+
+126
+00:05:36,680 --> 00:05:39,160
+of this stuff that I'm explaining.
+
+127
+00:05:39,160 --> 00:05:39,993
+Anyway,
+
+128
+00:05:39,993 --> 00:05:44,290
+now that you know why this function has access to an event,
+
+129
+00:05:44,290 --> 00:05:46,230
+So to this E here,
+
+130
+00:05:46,230 --> 00:05:48,513
+let's now actually take a look at it.
+
+131
+00:05:49,700 --> 00:05:53,440
+So simply logging it to the console for now.
+
+132
+00:05:53,440 --> 00:05:55,740
+And we can actually get rid of this one here
+
+133
+00:05:57,560 --> 00:06:01,660
+and now I will hit the enter key,
+
+134
+00:06:01,660 --> 00:06:05,010
+and so you see now we get this event.
+
+135
+00:06:05,010 --> 00:06:08,050
+And it's called a keyboard event.
+
+136
+00:06:08,050 --> 00:06:11,900
+It is just an object that is generated by a JavaScript.
+
+137
+00:06:11,900 --> 00:06:13,500
+So you see that here in the console,
+
+138
+00:06:13,500 --> 00:06:14,520
+it actually looks
+
+139
+00:06:14,520 --> 00:06:18,410
+like the objects that we generated ourselves previously.
+
+140
+00:06:18,410 --> 00:06:20,480
+So with a key here
+
+141
+00:06:20,480 --> 00:06:22,390
+and then a value.
+
+142
+00:06:22,390 --> 00:06:24,220
+For property and the value.
+
+143
+00:06:24,220 --> 00:06:27,600
+and what matters here is basically the key
+
+144
+00:06:28,580 --> 00:06:30,880
+which as I said, was enter.
+
+145
+00:06:30,880 --> 00:06:34,780
+So I hit the enter key and then this event was generated
+
+146
+00:06:34,780 --> 00:06:37,513
+with the key property set to enter.
+
+147
+00:06:40,160 --> 00:06:42,130
+So that's great information
+
+148
+00:06:42,130 --> 00:06:45,560
+because now when I hit the escape key,
+
+149
+00:06:45,560 --> 00:06:46,393
+then you see
+
+150
+00:06:46,393 --> 00:06:48,480
+that the key was now escape.
+
+151
+00:06:48,480 --> 00:06:50,550
+Or I can of course, at any key.
+
+152
+00:06:50,550 --> 00:06:52,800
+So this was the space key.
+
+153
+00:06:52,800 --> 00:06:53,800
+So you see here
+
+154
+00:06:53,800 --> 00:06:58,800
+we have a space or the Q or Z or control or shift.
+
+155
+00:07:02,760 --> 00:07:04,490
+And so whatever key you press,
+
+156
+00:07:04,490 --> 00:07:06,410
+we now get this information
+
+157
+00:07:06,410 --> 00:07:08,360
+about the event itself.
+
+158
+00:07:08,360 --> 00:07:11,030
+And in this case, since it was a keyboard event
+
+159
+00:07:11,030 --> 00:07:14,720
+we get information about which key was pressed.
+
+160
+00:07:14,720 --> 00:07:17,290
+So as you see the information about the key
+
+161
+00:07:17,290 --> 00:07:21,040
+I was always getting it from this key property.
+
+162
+00:07:21,040 --> 00:07:25,290
+So let's just log E dot key because remember we use dot
+
+163
+00:07:26,390 --> 00:07:29,000
+and then the property name to read any property
+
+164
+00:07:29,000 --> 00:07:29,873
+from an object.
+
+165
+00:07:31,890 --> 00:07:36,670
+And so escape is now the key that I pressed
+
+166
+00:07:36,670 --> 00:07:40,743
+or enter or shift and so on and so forth.
+
+167
+00:07:41,620 --> 00:07:42,520
+Great.
+
+168
+00:07:42,520 --> 00:07:45,500
+And now that I know which key was actually pressed
+
+169
+00:07:45,500 --> 00:07:48,820
+I can use that information to actually close the modal,
+
+170
+00:07:48,820 --> 00:07:51,893
+whenever the escape key is pressed.
+
+171
+00:07:53,370 --> 00:07:58,370
+So we can simply do if E dot key,
+
+172
+00:07:59,630 --> 00:08:02,633
+triple equal is Cape.
+
+173
+00:08:04,420 --> 00:08:05,253
+And then again,
+
+174
+00:08:05,253 --> 00:08:07,470
+let's just lock to the consult to see if it works,
+
+175
+00:08:08,356 --> 00:08:11,900
+Esc was pressed.
+
+176
+00:08:11,900 --> 00:08:13,790
+And so now I can hit any key
+
+177
+00:08:13,790 --> 00:08:14,820
+and nothing happens
+
+178
+00:08:17,430 --> 00:08:19,450
+or actually some stuff happens
+
+179
+00:08:19,450 --> 00:08:23,280
+because we're still logging here the E dot key.
+
+180
+00:08:23,280 --> 00:08:26,600
+But the string that I just wrote here does not appear
+
+181
+00:08:26,600 --> 00:08:31,060
+unless I hit the escape key.
+
+182
+00:08:31,060 --> 00:08:33,143
+So now you see S cape was pressed.
+
+183
+00:08:35,090 --> 00:08:36,580
+Alright,
+
+184
+00:08:36,580 --> 00:08:39,010
+so that's of course not what we want
+
+185
+00:08:39,010 --> 00:08:41,890
+but instead we want to close the modal.
+
+186
+00:08:41,890 --> 00:08:44,580
+However, I only want to close the model
+
+187
+00:08:44,580 --> 00:08:47,370
+when the model is actually visible.
+
+188
+00:08:47,370 --> 00:08:48,380
+Right.
+
+189
+00:08:48,380 --> 00:08:52,350
+And how do we know if the model is currently invisible?
+
+190
+00:08:52,350 --> 00:08:55,190
+Well, if the model contains the class hidden
+
+191
+00:08:55,190 --> 00:08:57,570
+it means that it's not visible.
+
+192
+00:08:57,570 --> 00:09:00,970
+And so basically when it does not contain the class hidden
+
+193
+00:09:00,970 --> 00:09:02,750
+it means that it's visible
+
+194
+00:09:02,750 --> 00:09:06,117
+and then that's the condition in which we want to close it.
+
+195
+00:09:06,117 --> 00:09:07,340
+All right.
+
+196
+00:09:07,340 --> 00:09:10,040
+And so we talked in the last lecture about adding
+
+197
+00:09:10,040 --> 00:09:11,860
+and removing classes
+
+198
+00:09:11,860 --> 00:09:14,840
+but as I mentioned back then we can also check
+
+199
+00:09:14,840 --> 00:09:18,220
+if an element already has a certain class.
+
+200
+00:09:18,220 --> 00:09:19,053
+And so now,
+
+201
+00:09:19,053 --> 00:09:20,700
+that becomes really handy.
+
+202
+00:09:20,700 --> 00:09:22,650
+Because now I can do this.
+
+203
+00:09:22,650 --> 00:09:25,680
+So if the escape key is pressed,
+
+204
+00:09:25,680 --> 00:09:27,530
+then we can now check
+
+205
+00:09:27,530 --> 00:09:30,150
+if the model contains the hidden class.
+
+206
+00:09:30,150 --> 00:09:32,380
+So another F,
+
+207
+00:09:32,380 --> 00:09:34,120
+so if modal
+
+208
+00:09:34,120 --> 00:09:36,163
+and again, dot class list,
+
+209
+00:09:37,470 --> 00:09:39,440
+and then dot contains
+
+210
+00:09:41,350 --> 00:09:43,740
+and then again, the class name.
+
+211
+00:09:43,740 --> 00:09:46,670
+So that's hidden in this case.
+
+212
+00:09:46,670 --> 00:09:51,670
+So if the modal dot class name contains the hidden class
+
+213
+00:09:52,260 --> 00:09:55,700
+it means that the model is currently hidden.
+
+214
+00:09:55,700 --> 00:09:56,700
+And so in this condition,
+
+215
+00:09:56,700 --> 00:09:58,920
+we actually don't want to do anything.
+
+216
+00:09:58,920 --> 00:10:00,700
+We only want to close the modal
+
+217
+00:10:00,700 --> 00:10:03,470
+if it does not contain the hidden class.
+
+218
+00:10:03,470 --> 00:10:04,303
+Right?
+
+219
+00:10:04,303 --> 00:10:08,870
+And so here we can once more invert that Boolean value.
+
+220
+00:10:08,870 --> 00:10:09,703
+Now right?
+
+221
+00:10:09,703 --> 00:10:12,340
+So this knot here is very important
+
+222
+00:10:12,340 --> 00:10:15,330
+as you probably start to see.
+
+223
+00:10:15,330 --> 00:10:17,070
+So let's read this again.
+
+224
+00:10:17,070 --> 00:10:22,070
+If the model does not contain the hidden class
+
+225
+00:10:22,240 --> 00:10:23,543
+then close the model.
+
+226
+00:10:25,640 --> 00:10:27,830
+And so how do we close the model?
+
+227
+00:10:27,830 --> 00:10:32,650
+Well, we can simply call this close model function.
+
+228
+00:10:32,650 --> 00:10:33,483
+Right?
+
+229
+00:10:33,483 --> 00:10:34,840
+So let's do that.
+
+230
+00:10:34,840 --> 00:10:37,100
+Close model.
+
+231
+00:10:37,100 --> 00:10:40,890
+And here we do actually need to call this function.
+
+232
+00:10:40,890 --> 00:10:44,830
+Okay? Because when this function here is executing
+
+233
+00:10:44,830 --> 00:10:48,280
+so this one here as a den reaches this line
+
+234
+00:10:48,280 --> 00:10:50,660
+of course, something needs to happen.
+
+235
+00:10:50,660 --> 00:10:54,600
+And what needs to happen is basically this coat.
+
+236
+00:10:54,600 --> 00:10:57,620
+So we could just copy this coat down here
+
+237
+00:10:57,620 --> 00:10:59,790
+but that's of course not what we want.
+
+238
+00:10:59,790 --> 00:11:03,820
+Instead, we can simply use this function here again.
+
+239
+00:11:03,820 --> 00:11:06,210
+And using means here to call it.
+
+240
+00:11:06,210 --> 00:11:09,040
+So to execute the code that is in here.
+
+241
+00:11:09,040 --> 00:11:09,873
+So this,
+
+242
+00:11:11,550 --> 00:11:13,300
+so let's test this now
+
+243
+00:11:13,300 --> 00:11:15,850
+and then we can improve the code even a little bit.
+
+244
+00:11:16,980 --> 00:11:18,230
+So we open it.
+
+245
+00:11:18,230 --> 00:11:20,820
+Now I'm gonna to press just any key,
+
+246
+00:11:20,820 --> 00:11:22,640
+let's say enter,
+
+247
+00:11:22,640 --> 00:11:24,190
+so you see enter,
+
+248
+00:11:24,190 --> 00:11:27,270
+and now as I hit the escape key,
+
+249
+00:11:27,270 --> 00:11:28,633
+watch what happens.
+
+250
+00:11:29,840 --> 00:11:31,250
+Yes indeed,
+
+251
+00:11:31,250 --> 00:11:33,150
+the modal is gone.
+
+252
+00:11:33,150 --> 00:11:33,983
+Great.
+
+253
+00:11:34,940 --> 00:11:37,420
+Let's see where this button clicked here
+
+254
+00:11:37,420 --> 00:11:39,900
+comes from in line nine.
+
+255
+00:11:39,900 --> 00:11:41,070
+Now that's of course
+
+256
+00:11:41,070 --> 00:11:43,020
+because of this console dot log
+
+257
+00:11:43,020 --> 00:11:44,320
+and let's get rid of this.
+
+258
+00:11:46,200 --> 00:11:47,160
+Okay.
+
+259
+00:11:47,160 --> 00:11:48,090
+Let's try it again,
+
+260
+00:11:48,090 --> 00:11:49,920
+open it on this button.
+
+261
+00:11:49,920 --> 00:11:51,620
+I hit any other key,
+
+262
+00:11:51,620 --> 00:11:52,780
+nothing happens,
+
+263
+00:11:52,780 --> 00:11:56,700
+I hit escape and it's gone.
+
+264
+00:11:56,700 --> 00:11:57,583
+Great.
+
+265
+00:11:58,860 --> 00:12:01,190
+Now let's read this code here a little bit.
+
+266
+00:12:01,190 --> 00:12:04,460
+So basically this means if depressed key is escape
+
+267
+00:12:05,490 --> 00:12:09,710
+and if the model does not contain the hidden class
+
+268
+00:12:09,710 --> 00:12:13,890
+then execute disfunction to close the model.
+
+269
+00:12:13,890 --> 00:12:15,910
+Now notice how I just said
+
+270
+00:12:15,910 --> 00:12:17,080
+if this,
+
+271
+00:12:17,080 --> 00:12:19,710
+and then if this,
+
+272
+00:12:19,710 --> 00:12:20,960
+and so what I mean
+
+273
+00:12:20,960 --> 00:12:22,880
+is that we can actually aggregate
+
+274
+00:12:22,880 --> 00:12:25,163
+these two if statements together.
+
+275
+00:12:26,680 --> 00:12:30,190
+And so this is the same as having just...
+
+276
+00:12:31,680 --> 00:12:33,500
+and I'm cutting it here.
+
+277
+00:12:33,500 --> 00:12:36,253
+So it's the same as having just this.
+
+278
+00:12:37,450 --> 00:12:41,110
+Now we can get rid of this stuff here
+
+279
+00:12:42,010 --> 00:12:43,280
+and that's it.
+
+280
+00:12:43,280 --> 00:12:46,320
+And so now it reads the exact same way as before.
+
+281
+00:12:46,320 --> 00:12:48,173
+If depressed key is escape.
+
+282
+00:12:49,040 --> 00:12:54,040
+And if the model does not contain the class of hidden,
+
+283
+00:12:55,370 --> 00:12:57,053
+then close the model.
+
+284
+00:12:58,070 --> 00:13:01,113
+So give it another try just to make sure,
+
+285
+00:13:02,220 --> 00:13:03,950
+And yes,
+
+286
+00:13:03,950 --> 00:13:06,000
+that works perfect.
+
+287
+00:13:06,000 --> 00:13:07,100
+Beautiful.
+
+288
+00:13:07,100 --> 00:13:07,933
+And with this,
+
+289
+00:13:07,933 --> 00:13:11,060
+or modal is actually feature complete.
+
+290
+00:13:11,060 --> 00:13:15,640
+It works exactly as or demo here.
+
+291
+00:13:15,640 --> 00:13:17,040
+And so with this,
+
+292
+00:13:17,040 --> 00:13:21,260
+we finished this very small second project.
+
+293
+00:13:21,260 --> 00:13:22,093
+So once again,
+
+294
+00:13:22,093 --> 00:13:23,990
+I hope you liked this one
+
+295
+00:13:23,990 --> 00:13:26,090
+and I hope you can start to see the power
+
+296
+00:13:26,090 --> 00:13:27,710
+of Dom manipulation.
+
+297
+00:13:27,710 --> 00:13:28,860
+So that in the future
+
+298
+00:13:28,860 --> 00:13:31,990
+you will be able to build anything you can imagine just
+
+299
+00:13:31,990 --> 00:13:33,740
+with JavaScript.
+
+300
+00:13:33,740 --> 00:13:36,620
+Now that is of course still a long way to go,
+
+301
+00:13:36,620 --> 00:13:39,940
+but that's also why we have the next project.
+
+302
+00:13:39,940 --> 00:13:42,210
+Which is going to be a really nice project
+
+303
+00:13:42,210 --> 00:13:43,670
+to basically train
+
+304
+00:13:43,670 --> 00:13:46,860
+and reinforce most of the things that we already did
+
+305
+00:13:46,860 --> 00:13:49,810
+in this project and to previous one.
+
+306
+00:13:49,810 --> 00:13:51,900
+So the next project is gonna to be more
+
+307
+00:13:51,900 --> 00:13:53,800
+like a practice project
+
+308
+00:13:53,800 --> 00:13:57,870
+but I still believe it's very important to do that project
+
+309
+00:13:57,870 --> 00:13:59,460
+in case you have to time.
+
+310
+00:13:59,460 --> 00:14:00,800
+And believe me it's
+
+311
+00:14:00,800 --> 00:14:03,810
+by far the most exciting thing we have done yet
+
+312
+00:14:03,810 --> 00:14:05,150
+in this course.
+
+313
+00:14:05,150 --> 00:14:06,760
+So I hope to see you there soon
+
+314
+00:14:06,760 --> 00:14:09,393
+after you take a well deserved break.

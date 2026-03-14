@@ -1,0 +1,403 @@
+1
+00:00:01,470 --> 00:00:03,510
+There is actually a small bug
+
+2
+00:00:03,510 --> 00:00:04,830
+in the implementation
+
+3
+00:00:04,830 --> 00:00:08,040
+of the revealing sections that we just built.
+
+4
+00:00:08,040 --> 00:00:11,313
+And so let's now find and fix that bug.
+
+5
+00:00:12,810 --> 00:00:17,520
+So this bug appears when the user reloads the page
+
+6
+00:00:17,520 --> 00:00:20,670
+while being between two sections here.
+
+7
+00:00:20,670 --> 00:00:22,080
+So let's go here.
+
+8
+00:00:22,080 --> 00:00:24,510
+So here is one section and here is the other one.
+
+9
+00:00:24,510 --> 00:00:28,050
+And if we reload the page here, then you will notice
+
+10
+00:00:28,050 --> 00:00:30,810
+that these sections haven't been loaded yet.
+
+11
+00:00:30,810 --> 00:00:34,260
+Well, actually right now, this one is already here,
+
+12
+00:00:34,260 --> 00:00:35,700
+but not this one.
+
+13
+00:00:35,700 --> 00:00:38,010
+So then the user needs to scroll around
+
+14
+00:00:38,010 --> 00:00:39,723
+in order to see this one as well.
+
+15
+00:00:40,770 --> 00:00:44,190
+Maybe we can see this even better somewhere else.
+
+16
+00:00:44,190 --> 00:00:48,780
+Well, let's just do it at a slightly different position.
+
+17
+00:00:48,780 --> 00:00:51,210
+But in any case, you get the point
+
+18
+00:00:51,210 --> 00:00:54,150
+that these sections here are hidden in the beginning
+
+19
+00:00:54,150 --> 00:00:56,640
+when we first load the page.
+
+20
+00:00:56,640 --> 00:00:59,640
+And that is simply because we did hid them in the beginning.
+
+21
+00:00:59,640 --> 00:01:03,090
+And the revealSection function will not make them visible
+
+22
+00:01:03,090 --> 00:01:06,750
+at load time in our current solution.
+
+23
+00:01:06,750 --> 00:01:10,230
+But luckily for us, it's actually a pretty simple fix.
+
+24
+00:01:10,230 --> 00:01:14,910
+And so let's do that, and here is how we're gonna do it.
+
+25
+00:01:14,910 --> 00:01:16,500
+So one thing that's important
+
+26
+00:01:16,500 --> 00:01:19,440
+to know about the IntersectionObserver is
+
+27
+00:01:19,440 --> 00:01:23,700
+that it will actually observe all of the observed elements.
+
+28
+00:01:23,700 --> 00:01:25,050
+So all the elements
+
+29
+00:01:25,050 --> 00:01:28,020
+that it's been set up on in the very beginning
+
+30
+00:01:28,020 --> 00:01:30,420
+when the DOM first loads.
+
+31
+00:01:30,420 --> 00:01:32,220
+So in our case, this means
+
+32
+00:01:32,220 --> 00:01:36,660
+that all sections will be observed at the beginning.
+
+33
+00:01:36,660 --> 00:01:39,390
+So let me actually show that to you.
+
+34
+00:01:39,390 --> 00:01:42,130
+Let's give ourselves a bit more space here
+
+35
+00:01:43,200 --> 00:01:48,200
+and let's get rid of this console.log that we had here,
+
+36
+00:01:48,420 --> 00:01:50,040
+and let's actually observe
+
+37
+00:01:50,040 --> 00:01:53,973
+or log to the console all of the entries.
+
+38
+00:01:55,320 --> 00:01:56,820
+So let's give it a save.
+
+39
+00:01:56,820 --> 00:01:58,260
+And immediately you see
+
+40
+00:01:58,260 --> 00:02:01,410
+that we have these four observations here.
+
+41
+00:02:01,410 --> 00:02:04,260
+That's why we have this array with four elements
+
+42
+00:02:04,260 --> 00:02:07,470
+where each of them is an IntersectionObserver.
+
+43
+00:02:07,470 --> 00:02:10,830
+And again, this one happened right at the very beginning.
+
+44
+00:02:10,830 --> 00:02:12,930
+Then as we keep scrolling, you will see
+
+45
+00:02:12,930 --> 00:02:17,520
+that we only then get one, which is exactly the one
+
+46
+00:02:17,520 --> 00:02:20,010
+that we are destructuring here.
+
+47
+00:02:20,010 --> 00:02:23,880
+So now, instead of destructuring here, so instead
+
+48
+00:02:23,880 --> 00:02:27,240
+of just taking out the first element of the array
+
+49
+00:02:27,240 --> 00:02:30,450
+and then remove the hidden section on that,
+
+50
+00:02:30,450 --> 00:02:33,240
+let's use the fact that in the beginning,
+
+51
+00:02:33,240 --> 00:02:35,250
+all of the elements are observed.
+
+52
+00:02:35,250 --> 00:02:38,640
+And so we can simply loop always over this array
+
+53
+00:02:38,640 --> 00:02:40,740
+and then just run this code here
+
+54
+00:02:40,740 --> 00:02:43,500
+for all the IntersectionObserver entries.
+
+55
+00:02:43,500 --> 00:02:45,090
+So in the regular situation
+
+56
+00:02:45,090 --> 00:02:47,340
+that we just built in the last section,
+
+57
+00:02:47,340 --> 00:02:50,430
+and where we have just this one element in the array,
+
+58
+00:02:50,430 --> 00:02:51,600
+nothing is gonna change.
+
+59
+00:02:51,600 --> 00:02:54,450
+It will simply loop over this array of one
+
+60
+00:02:54,450 --> 00:02:56,670
+and then perform this code right here.
+
+61
+00:02:56,670 --> 00:02:59,430
+But what will change is that in the very beginning,
+
+62
+00:02:59,430 --> 00:03:03,510
+it will also loop over this array of all of the entries.
+
+63
+00:03:03,510 --> 00:03:08,510
+And so then it will remove this hidden from all of them
+
+64
+00:03:08,820 --> 00:03:12,150
+as long as they are already intersecting.
+
+65
+00:03:12,150 --> 00:03:14,490
+So that's what this one here is ensuring.
+
+66
+00:03:14,490 --> 00:03:16,200
+So otherwise, of course,
+
+67
+00:03:16,200 --> 00:03:19,200
+all of the sections would already be visible
+
+68
+00:03:19,200 --> 00:03:22,233
+and the whole effect that we were building would disappear.
+
+69
+00:03:23,100 --> 00:03:27,810
+All right, but anyway, let's just write the code here.
+
+70
+00:03:27,810 --> 00:03:29,880
+So we're gonna get rid of this.
+
+71
+00:03:29,880 --> 00:03:33,840
+And so as I just said, we're gonna take all the entries
+
+72
+00:03:33,840 --> 00:03:36,693
+and then just run this code for each of them.
+
+73
+00:03:37,890 --> 00:03:39,960
+So we need to perform some work.
+
+74
+00:03:39,960 --> 00:03:42,753
+And so that's when we need the forEach method.
+
+75
+00:03:46,049 --> 00:03:49,440
+Okay, well actually let's leave it like this,
+
+76
+00:03:49,440 --> 00:03:52,830
+move this all the way to the end, give it a save,
+
+77
+00:03:52,830 --> 00:03:56,460
+and this should already be enough to fix the problem.
+
+78
+00:03:56,460 --> 00:03:57,390
+So let's see.
+
+79
+00:03:57,390 --> 00:04:00,420
+Let's just like before reload here in the middle.
+
+80
+00:04:00,420 --> 00:04:03,870
+And then now these two sections are actually visible
+
+81
+00:04:03,870 --> 00:04:06,330
+and the next one not.
+
+82
+00:04:06,330 --> 00:04:08,973
+So the next one then faded in later.
+
+83
+00:04:10,530 --> 00:04:11,580
+Beautiful.
+
+84
+00:04:11,580 --> 00:04:14,880
+Now, I'm not sure if this part here we already built,
+
+85
+00:04:14,880 --> 00:04:17,070
+because I made this video a little bit later
+
+86
+00:04:17,070 --> 00:04:19,410
+once I noticed the bug.
+
+87
+00:04:19,410 --> 00:04:23,763
+But let's try it again a bit earlier, like here.
+
+88
+00:04:24,870 --> 00:04:27,690
+And so yeah, now this one is already here,
+
+89
+00:04:27,690 --> 00:04:29,400
+but then the next ones are not,
+
+90
+00:04:29,400 --> 00:04:32,853
+again, because they weren't intersecting yet anyway.
+
+91
+00:04:33,990 --> 00:04:36,360
+But that problem that we had earlier,
+
+92
+00:04:36,360 --> 00:04:38,613
+that is now gone for sure.
+
+93
+00:04:40,200 --> 00:04:41,033
+Right?
+
+94
+00:04:42,630 --> 00:04:45,600
+So make sure to always test very thoroughly
+
+95
+00:04:45,600 --> 00:04:47,700
+the code that you are writing,
+
+96
+00:04:47,700 --> 00:04:50,319
+and of course the results of it
+
+97
+00:04:50,319 --> 00:04:54,303
+so that you don't run into bugs like this.
+
+98
+00:04:56,130 --> 00:04:58,590
+So just getting rid of this console.log,
+
+99
+00:04:58,590 --> 00:05:01,020
+and now this part is really done
+
+100
+00:05:01,020 --> 00:05:03,120
+and working just as expected,
+
+101
+00:05:03,120 --> 00:05:06,183
+and we are ready to move on to the next lecture.

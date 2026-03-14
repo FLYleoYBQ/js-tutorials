@@ -1,0 +1,1539 @@
+1
+00:00:01,340 --> 00:00:04,160
+In this video, we're finally gonna be back
+
+2
+00:00:04,160 --> 00:00:06,430
+to DOM manipulation.
+
+3
+00:00:06,430 --> 00:00:07,270
+And we're gonna learn
+
+4
+00:00:07,270 --> 00:00:09,960
+a couple of DOM manipulation techniques.
+
+5
+00:00:09,960 --> 00:00:12,060
+And we will use them together
+
+6
+00:00:12,060 --> 00:00:15,730
+with the forEach method that we just learned about.
+
+7
+00:00:15,730 --> 00:00:18,320
+So this is really exciting stuff.
+
+8
+00:00:18,320 --> 00:00:20,003
+So let's get started.
+
+9
+00:00:21,840 --> 00:00:26,840
+And to start, let's actually open up the HTML and CSS files
+
+10
+00:00:27,510 --> 00:00:30,070
+and we will then keep them open here
+
+11
+00:00:30,070 --> 00:00:31,493
+throughout this project.
+
+12
+00:00:32,540 --> 00:00:35,900
+And I like to have the script always the last.
+
+13
+00:00:35,900 --> 00:00:40,380
+Now, in the HTML, we have this navigation bar.
+
+14
+00:00:40,380 --> 00:00:44,570
+So there's nav element, which has all of this top part.
+
+15
+00:00:44,570 --> 00:00:47,770
+And then after that we have the main element.
+
+16
+00:00:47,770 --> 00:00:51,070
+And so that's basically the entire application
+
+17
+00:00:51,070 --> 00:00:53,683
+and that part is right now invisible.
+
+18
+00:00:54,520 --> 00:00:57,593
+And so that's because here in the CSS,
+
+19
+00:00:58,480 --> 00:01:02,130
+so in line 87 we have the app selector
+
+20
+00:01:02,130 --> 00:01:04,580
+and the opacity is set to zero.
+
+21
+00:01:04,580 --> 00:01:06,690
+And so we need to comment that.
+
+22
+00:01:06,690 --> 00:01:09,770
+And for that we can as always use comment slash,
+
+23
+00:01:09,770 --> 00:01:11,720
+give it a save,
+
+24
+00:01:11,720 --> 00:01:16,420
+and then we can finally see the application here.
+
+25
+00:01:16,420 --> 00:01:17,810
+Alright.
+
+26
+00:01:17,810 --> 00:01:21,110
+So logging in and out of this application
+
+27
+00:01:21,110 --> 00:01:25,340
+is essentially just changing this opacity here.
+
+28
+00:01:25,340 --> 00:01:29,960
+And so now the opacity is basically back to 100
+
+29
+00:01:29,960 --> 00:01:32,520
+because now we commented it out
+
+30
+00:01:32,520 --> 00:01:34,233
+and so 100 is the default.
+
+31
+00:01:35,370 --> 00:01:38,730
+But anyway, let's go back to our script here.
+
+32
+00:01:38,730 --> 00:01:40,950
+And so what we want to do now
+
+33
+00:01:40,950 --> 00:01:45,000
+is to basically display these movements right here
+
+34
+00:01:45,000 --> 00:01:48,110
+in the application here in this list.
+
+35
+00:01:48,110 --> 00:01:49,810
+So in this container.
+
+36
+00:01:49,810 --> 00:01:54,810
+So for each movement, we want one element like this, okay.
+
+37
+00:01:55,450 --> 00:01:57,180
+And we will be able to do that
+
+38
+00:01:57,180 --> 00:01:59,400
+because of the forEach method
+
+39
+00:01:59,400 --> 00:02:02,580
+which will allow us to loop through this array.
+
+40
+00:02:02,580 --> 00:02:04,080
+And then in each iteration
+
+41
+00:02:05,150 --> 00:02:07,400
+basically create an element like this
+
+42
+00:02:07,400 --> 00:02:09,730
+and display it on the page.
+
+43
+00:02:09,730 --> 00:02:13,490
+So this time we're finally gonna move away from the console
+
+44
+00:02:13,490 --> 00:02:16,630
+and actually do some DOM manipulation here.
+
+45
+00:02:16,630 --> 00:02:17,800
+Now, right.
+
+46
+00:02:17,800 --> 00:02:21,563
+So let's move down here after these elements,
+
+47
+00:02:22,520 --> 00:02:25,650
+but still inside of the app part of this file
+
+48
+00:02:26,490 --> 00:02:28,450
+and then let's write our code.
+
+49
+00:02:28,450 --> 00:02:30,920
+Now we could simply start writing our code
+
+50
+00:02:30,920 --> 00:02:33,330
+out here in the global context.
+
+51
+00:02:33,330 --> 00:02:35,740
+However, that is not a good practice.
+
+52
+00:02:35,740 --> 00:02:38,170
+So whenever we do something like this,
+
+53
+00:02:38,170 --> 00:02:40,563
+it's always best to create a function.
+
+54
+00:02:41,530 --> 00:02:46,470
+So let's call this one print or a display.
+
+55
+00:02:46,470 --> 00:02:48,440
+I prefer display.
+
+56
+00:02:48,440 --> 00:02:50,240
+So displayMovements.
+
+57
+00:02:51,420 --> 00:02:54,100
+And then we make this function receive the data
+
+58
+00:02:54,100 --> 00:02:57,380
+with which it should actually work,
+
+59
+00:02:57,380 --> 00:03:00,360
+so in this case, that's the movements.
+
+60
+00:03:00,360 --> 00:03:02,850
+So we call this parameter movements
+
+61
+00:03:02,850 --> 00:03:07,850
+because this function should receive one array of movements
+
+62
+00:03:07,920 --> 00:03:10,400
+and then work with that data.
+
+63
+00:03:10,400 --> 00:03:13,660
+So in this case, that's the movements that it should display
+
+64
+00:03:13,660 --> 00:03:15,360
+in the user interface.
+
+65
+00:03:15,360 --> 00:03:16,210
+Now, right?
+
+66
+00:03:16,210 --> 00:03:18,910
+And so it's a good practice to pass the data
+
+67
+00:03:18,910 --> 00:03:20,240
+into a function
+
+68
+00:03:20,240 --> 00:03:23,510
+instead of, for example, having this function work
+
+69
+00:03:23,510 --> 00:03:25,150
+with a global variable.
+
+70
+00:03:25,150 --> 00:03:26,990
+That would work as well
+
+71
+00:03:26,990 --> 00:03:30,070
+but it's a lot better to pass that data directly
+
+72
+00:03:30,070 --> 00:03:31,690
+into the function.
+
+73
+00:03:31,690 --> 00:03:32,523
+Okay.
+
+74
+00:03:32,523 --> 00:03:35,160
+So get used to that kind of approach.
+
+75
+00:03:35,160 --> 00:03:36,170
+All right.
+
+76
+00:03:36,170 --> 00:03:39,510
+So again, instead of working with global variables,
+
+77
+00:03:39,510 --> 00:03:42,370
+start passing the data that function needs
+
+78
+00:03:42,370 --> 00:03:44,363
+actually into that function.
+
+79
+00:03:45,230 --> 00:03:46,673
+So let me, as always,
+
+80
+00:03:48,660 --> 00:03:50,400
+call this function first
+
+81
+00:03:50,400 --> 00:03:54,020
+to see what we will get as an input.
+
+82
+00:03:54,020 --> 00:03:56,080
+And so the movements that I will use here
+
+83
+00:03:57,800 --> 00:04:00,070
+will come from this account1.
+
+84
+00:04:00,070 --> 00:04:03,040
+So essentially that's gonna be this array.
+
+85
+00:04:03,040 --> 00:04:05,663
+So account1.movements.
+
+86
+00:04:07,670 --> 00:04:12,260
+So account1.movements.
+
+87
+00:04:12,260 --> 00:04:13,100
+Now, Okay.
+
+88
+00:04:13,100 --> 00:04:15,430
+And so inside of this function,
+
+89
+00:04:15,430 --> 00:04:19,050
+these movements are simply called movements.
+
+90
+00:04:19,050 --> 00:04:22,510
+And so now let's loop over these movements
+
+91
+00:04:22,510 --> 00:04:24,560
+using what we learned before.
+
+92
+00:04:24,560 --> 00:04:29,560
+So forEach and then our callback function here.
+
+93
+00:04:30,610 --> 00:04:32,570
+Now inside of this function,
+
+94
+00:04:32,570 --> 00:04:34,820
+we need the current movement
+
+95
+00:04:34,820 --> 00:04:37,420
+and we also need the index.
+
+96
+00:04:37,420 --> 00:04:41,140
+And that's because here actually I have them here
+
+97
+00:04:41,140 --> 00:04:43,060
+number one, number two.
+
+98
+00:04:43,060 --> 00:04:47,260
+And so basically we have the movements numbered like this.
+
+99
+00:04:47,260 --> 00:04:48,110
+Okay.
+
+100
+00:04:48,110 --> 00:04:50,520
+So starting with the first movement down
+
+101
+00:04:50,520 --> 00:04:52,853
+and then adding the new ones on top.
+
+102
+00:04:54,860 --> 00:04:56,471
+Okay.
+
+103
+00:04:56,471 --> 00:04:57,304
+All right.
+
+104
+00:04:57,304 --> 00:04:58,880
+So that's the easiest part.
+
+105
+00:04:58,880 --> 00:05:02,780
+Now we have to essentially create an HTML
+
+106
+00:05:02,780 --> 00:05:05,130
+that looks like this.
+
+107
+00:05:05,130 --> 00:05:07,860
+So let's go to our HTML file
+
+108
+00:05:07,860 --> 00:05:10,770
+and to actually take a look
+
+109
+00:05:10,770 --> 00:05:12,973
+at what does HTML looks like.
+
+110
+00:05:13,900 --> 00:05:18,820
+So we are inside our app element here basically.
+
+111
+00:05:18,820 --> 00:05:21,460
+Then we have this movements element
+
+112
+00:05:21,460 --> 00:05:24,320
+which is all of this container here.
+
+113
+00:05:24,320 --> 00:05:25,930
+And maybe it would be easier
+
+114
+00:05:25,930 --> 00:05:28,373
+to actually see this in the console.
+
+115
+00:05:30,540 --> 00:05:35,540
+So if we did this maybe we can get rid of this part.
+
+116
+00:05:36,890 --> 00:05:37,723
+Not really.
+
+117
+00:05:39,120 --> 00:05:40,460
+But anyway, now we can see
+
+118
+00:05:40,460 --> 00:05:42,303
+that all of this is the movements.
+
+119
+00:05:43,152 --> 00:05:46,670
+And then in each movement we have a movements_row.
+
+120
+00:05:46,670 --> 00:05:50,000
+So each of this is a movements_row.
+
+121
+00:05:50,000 --> 00:05:51,180
+Okay.
+
+122
+00:05:51,180 --> 00:05:53,350
+And so lets now copy the entire code
+
+123
+00:05:53,350 --> 00:05:55,220
+of one movements_row
+
+124
+00:05:55,220 --> 00:05:57,640
+because this is what we want to create
+
+125
+00:05:57,640 --> 00:06:01,203
+in each iteration of the loop with the current data.
+
+126
+00:06:02,950 --> 00:06:07,950
+So, essentially let's take all of this.
+
+127
+00:06:07,990 --> 00:06:09,140
+So I'm gonna copy it
+
+128
+00:06:10,560 --> 00:06:14,403
+and let me now paste it here into a template string.
+
+129
+00:06:15,290 --> 00:06:17,096
+So I'll create a variable,
+
+130
+00:06:17,096 --> 00:06:19,540
+which I'm gonna call HTML
+
+131
+00:06:19,540 --> 00:06:22,140
+and then I'm creating a template literal.
+
+132
+00:06:22,140 --> 00:06:24,800
+And template literals are amazing
+
+133
+00:06:24,800 --> 00:06:26,970
+for creating HTML templates,
+
+134
+00:06:26,970 --> 00:06:29,830
+like the one one we will create now,
+
+135
+00:06:29,830 --> 00:06:31,270
+because now it's really easy
+
+136
+00:06:31,270 --> 00:06:34,583
+to create a multi-line string like this.
+
+137
+00:06:36,940 --> 00:06:37,773
+Okay.
+
+138
+00:06:37,773 --> 00:06:40,450
+Let's just fix indentation here a little bit
+
+139
+00:06:40,450 --> 00:06:42,400
+to make this then easier to understand.
+
+140
+00:06:43,689 --> 00:06:44,522
+Okay.
+
+141
+00:06:44,522 --> 00:06:46,210
+And now all we have to do
+
+142
+00:06:46,210 --> 00:06:50,106
+is to basically replace the data that's not relevant,
+
+143
+00:06:50,106 --> 00:06:52,450
+so this hard coded data,
+
+144
+00:06:52,450 --> 00:06:55,355
+with our actual movements data.
+
+145
+00:06:55,355 --> 00:06:57,220
+Okay.
+
+146
+00:06:57,220 --> 00:06:58,890
+Now this part here of the date,
+
+147
+00:06:58,890 --> 00:07:00,500
+we will not do now.
+
+148
+00:07:00,500 --> 00:07:03,058
+We will take care of this in the next section,
+
+149
+00:07:03,058 --> 00:07:05,760
+So let's get rid of it.
+
+150
+00:07:05,760 --> 00:07:08,187
+And then here we have the movements_value.
+
+151
+00:07:09,220 --> 00:07:10,470
+So this is formatted
+
+152
+00:07:10,470 --> 00:07:13,300
+but again, we will just use the plain value
+
+153
+00:07:13,300 --> 00:07:15,573
+that's coming out of the array for now.
+
+154
+00:07:16,460 --> 00:07:19,875
+And so now we can simply insert that here.
+
+155
+00:07:19,875 --> 00:07:23,640
+And so that's mov, right?
+
+156
+00:07:23,640 --> 00:07:26,380
+So mov is the current element in the array
+
+157
+00:07:26,380 --> 00:07:28,120
+that we are looping over.
+
+158
+00:07:28,120 --> 00:07:29,400
+And so in each iteration
+
+159
+00:07:29,400 --> 00:07:33,253
+that will then be one of the movements in the array.
+
+160
+00:07:34,250 --> 00:07:37,390
+Then here we have 2 deposit.
+
+161
+00:07:37,390 --> 00:07:38,660
+And so we will have to check
+
+162
+00:07:38,660 --> 00:07:43,580
+whether a certain movement is a deposit or a withdrawal.
+
+163
+00:07:43,580 --> 00:07:45,650
+So let's delete that.
+
+164
+00:07:45,650 --> 00:07:48,455
+And for now we can add the number here.
+
+165
+00:07:48,455 --> 00:07:50,686
+So you see one, two,
+
+166
+00:07:50,686 --> 00:07:54,350
+and so for that, we now use the i.
+
+167
+00:07:54,350 --> 00:07:57,850
+And so that's why we also need it to do current index
+
+168
+00:07:57,850 --> 00:07:59,943
+besides just the current value.
+
+169
+00:08:01,560 --> 00:08:02,560
+Okay.
+
+170
+00:08:02,560 --> 00:08:04,700
+And now we need a way to knowing
+
+171
+00:08:04,700 --> 00:08:07,750
+if it's a deposit or a withdrawal.
+
+172
+00:08:07,750 --> 00:08:11,220
+And so let's use a ternary operator
+
+173
+00:08:11,220 --> 00:08:12,850
+and let's do that out here
+
+174
+00:08:12,850 --> 00:08:14,440
+as a separate variable,
+
+175
+00:08:14,440 --> 00:08:16,380
+because we will need that twice.
+
+176
+00:08:16,380 --> 00:08:17,213
+We will need it
+
+177
+00:08:17,213 --> 00:08:20,306
+one, to write it here on the user interface,
+
+178
+00:08:20,306 --> 00:08:23,953
+but here also, this class name depends on that.
+
+179
+00:08:24,840 --> 00:08:28,550
+So you see that we have type--deposit.
+
+180
+00:08:28,550 --> 00:08:31,880
+So that's in this green color
+
+181
+00:08:31,880 --> 00:08:35,270
+and we have type--withdrawal
+
+182
+00:08:35,270 --> 00:08:37,023
+and so that's in this red color.
+
+183
+00:08:38,550 --> 00:08:41,770
+So we will need this information twice.
+
+184
+00:08:41,770 --> 00:08:43,970
+And so let's just calculate it outside here.
+
+185
+00:08:45,830 --> 00:08:47,563
+So I'm gonna call it type.
+
+186
+00:08:49,060 --> 00:08:51,820
+And so this is the same logic as before.
+
+187
+00:08:51,820 --> 00:08:55,200
+So if the current movement is greater than zero
+
+188
+00:08:56,652 --> 00:09:00,230
+then the type should be deposit
+
+189
+00:09:00,230 --> 00:09:03,213
+or else it should then be withdrawal.
+
+190
+00:09:04,357 --> 00:09:05,573
+Okay.
+
+191
+00:09:06,420 --> 00:09:09,593
+And now let's write that here.
+
+192
+00:09:10,800 --> 00:09:14,540
+So to type here, and again also here in the class name.
+
+193
+00:09:14,540 --> 00:09:19,540
+So we can also basically construct this a class name here
+
+194
+00:09:20,290 --> 00:09:21,803
+which is very useful too.
+
+195
+00:09:22,840 --> 00:09:24,710
+And I hope here, you can see
+
+196
+00:09:24,710 --> 00:09:28,423
+that the template literal is really a lifesaver here.
+
+197
+00:09:30,400 --> 00:09:31,910
+Okay.
+
+198
+00:09:31,910 --> 00:09:36,020
+So we created our HTML template here.
+
+199
+00:09:36,020 --> 00:09:37,510
+Now, all we need to do
+
+200
+00:09:37,510 --> 00:09:41,520
+is to find a way to actually adding this HTML
+
+201
+00:09:41,520 --> 00:09:43,860
+onto the webpage here.
+
+202
+00:09:43,860 --> 00:09:48,860
+So we need to attach this HTML somehow into this container.
+
+203
+00:09:50,290 --> 00:09:52,550
+So into this movements element.
+
+204
+00:09:52,550 --> 00:09:53,940
+Okay.
+
+205
+00:09:53,940 --> 00:09:55,210
+And to do that,
+
+206
+00:09:55,210 --> 00:09:58,567
+we will use a method called insertAdjacentHTML.
+
+207
+00:10:00,470 --> 00:10:04,263
+So that's gotta go right here.
+
+208
+00:10:05,710 --> 00:10:09,210
+So let me first write the name of the method.
+
+209
+00:10:09,210 --> 00:10:10,260
+And then I'm gonna tell you
+
+210
+00:10:10,260 --> 00:10:13,533
+where we actually have to attach this method to.
+
+211
+00:10:15,140 --> 00:10:16,840
+So it's called insertAdjacentHTML.
+
+212
+00:10:20,779 --> 00:10:22,730
+And we are gonna call this method
+
+213
+00:10:22,730 --> 00:10:25,390
+on this movements element here.
+
+214
+00:10:25,390 --> 00:10:26,700
+So this container
+
+215
+00:10:26,700 --> 00:10:30,780
+onto which we want to add a new movements_row element.
+
+216
+00:10:30,780 --> 00:10:32,310
+So this element here
+
+217
+00:10:32,310 --> 00:10:37,310
+on which we want to add a new movement_row, right?
+
+218
+00:10:37,310 --> 00:10:40,930
+So we are looking for an element with a class of movements.
+
+219
+00:10:40,930 --> 00:10:43,400
+And as I told you in the last lecture,
+
+220
+00:10:43,400 --> 00:10:46,450
+I already selected all of these elements.
+
+221
+00:10:46,450 --> 00:10:48,770
+And so in this case, it's this one,
+
+222
+00:10:48,770 --> 00:10:51,347
+and so the name is containerMovements.
+
+223
+00:10:52,690 --> 00:10:54,020
+Okay.
+
+224
+00:10:54,020 --> 00:10:57,870
+So you see that I used kind of a uniform names here.
+
+225
+00:10:57,870 --> 00:10:59,590
+So I have containerApp
+
+226
+00:10:59,590 --> 00:11:02,670
+for this entire application container
+
+227
+00:11:02,670 --> 00:11:04,400
+and containerMovements.
+
+228
+00:11:04,400 --> 00:11:07,010
+Then all the other ones are called label.
+
+229
+00:11:07,010 --> 00:11:10,600
+So labelWelcome, date and so on and so forth.
+
+230
+00:11:10,600 --> 00:11:13,650
+Then the others are called button
+
+231
+00:11:13,650 --> 00:11:17,100
+and then all the input fields are all called input
+
+232
+00:11:17,100 --> 00:11:19,823
+and to then whatever the name of them,
+
+233
+00:11:20,900 --> 00:11:24,010
+so to keep it nice and easy to understand.
+
+234
+00:11:24,010 --> 00:11:27,537
+But anyway, this one is called containerMovements.
+
+235
+00:11:28,470 --> 00:11:33,017
+And so onto there, again, we call insertAdjacentHTML.
+
+236
+00:11:33,960 --> 00:11:37,060
+And this method accepts two strings.
+
+237
+00:11:37,060 --> 00:11:39,000
+The first string is the position
+
+238
+00:11:39,000 --> 00:11:41,723
+in which we want to attach the HTML.
+
+239
+00:11:42,650 --> 00:11:45,490
+And this one I'm gonna set to afterbegin,
+
+240
+00:11:47,100 --> 00:11:48,990
+but there are more options.
+
+241
+00:11:48,990 --> 00:11:52,290
+And I think the best way of showing it to you
+
+242
+00:11:52,290 --> 00:11:55,750
+is actually in the documentation.
+
+243
+00:11:55,750 --> 00:11:56,713
+So MDN.
+
+244
+00:11:57,960 --> 00:12:00,530
+And so whenever I need to figure out something,
+
+245
+00:12:00,530 --> 00:12:01,623
+this is how I do it.
+
+246
+00:12:03,700 --> 00:12:04,810
+So I know that down here,
+
+247
+00:12:04,810 --> 00:12:06,863
+there is a visualization,
+
+248
+00:12:07,810 --> 00:12:09,410
+and yeah.
+
+249
+00:12:09,410 --> 00:12:11,990
+So these are the four options here
+
+250
+00:12:11,990 --> 00:12:15,038
+and the one we chose is afterbegin.
+
+251
+00:12:15,038 --> 00:12:16,463
+So that's this one.
+
+252
+00:12:17,920 --> 00:12:20,100
+So imagine that this p element here
+
+253
+00:12:20,100 --> 00:12:22,400
+is our containerMovements.
+
+254
+00:12:22,400 --> 00:12:24,910
+And so basically I want to add new elements
+
+255
+00:12:24,910 --> 00:12:28,290
+right after the beginning of this element.
+
+256
+00:12:28,290 --> 00:12:30,310
+And so basically I'm saying here
+
+257
+00:12:30,310 --> 00:12:33,150
+that I want to insert the new child element
+
+258
+00:12:33,150 --> 00:12:36,250
+right after the beginning of the parent element.
+
+259
+00:12:36,250 --> 00:12:39,038
+And so again, that's containerMovements.
+
+260
+00:12:39,038 --> 00:12:40,380
+Then we have beforeend,
+
+261
+00:12:40,380 --> 00:12:44,490
+which is at the end of the element as the name says
+
+262
+00:12:44,490 --> 00:12:48,380
+and then we can even put it outside of the parent element.
+
+263
+00:12:48,380 --> 00:12:49,780
+And then we could even put it
+
+264
+00:12:49,780 --> 00:12:52,048
+outside of the containerMovements.
+
+265
+00:12:52,048 --> 00:12:55,630
+And sometimes this is useful as well.
+
+266
+00:12:55,630 --> 00:13:00,040
+But usually, I always use afterbegin or beforeend.
+
+267
+00:13:00,040 --> 00:13:01,690
+And once we see the results,
+
+268
+00:13:01,690 --> 00:13:03,110
+I will explain a bit better
+
+269
+00:13:03,110 --> 00:13:06,407
+why it's afterbegin and not beforeend.
+
+270
+00:13:07,500 --> 00:13:09,510
+But anyway, let's go back here
+
+271
+00:13:09,510 --> 00:13:13,140
+because now we need to specify the second argument
+
+272
+00:13:13,140 --> 00:13:16,453
+and that is the string containing the HTML
+
+273
+00:13:16,453 --> 00:13:17,993
+that we want to insert.
+
+274
+00:13:19,350 --> 00:13:20,770
+And that's it.
+
+275
+00:13:20,770 --> 00:13:23,633
+So if we now run this, it should already work.
+
+276
+00:13:25,260 --> 00:13:27,263
+And yes it does.
+
+277
+00:13:28,770 --> 00:13:30,720
+So that's amazing.
+
+278
+00:13:30,720 --> 00:13:32,660
+And let's check it out
+
+279
+00:13:32,660 --> 00:13:35,093
+and let's compare it with our values.
+
+280
+00:13:36,150 --> 00:13:40,780
+And so indeed, the newest one is the last one here.
+
+281
+00:13:40,780 --> 00:13:43,200
+And so that's element number eight
+
+282
+00:13:43,200 --> 00:13:46,550
+and it is indeed 1300, right?
+
+283
+00:13:46,550 --> 00:13:50,450
+And it is indeed green because it is a deposit.
+
+284
+00:13:50,450 --> 00:13:52,570
+So a positive number.
+
+285
+00:13:52,570 --> 00:13:54,000
+The same with the 70.
+
+286
+00:13:54,000 --> 00:13:56,300
+And then we have minus 130,
+
+287
+00:13:56,300 --> 00:13:58,859
+and so indeed that's a withdrawal.
+
+288
+00:13:58,859 --> 00:14:00,573
+Beautiful.
+
+289
+00:14:00,573 --> 00:14:02,690
+Now, if we scroll down here,
+
+290
+00:14:02,690 --> 00:14:06,600
+we will see that we still have these two old ones.
+
+291
+00:14:06,600 --> 00:14:09,620
+So basically the two that were already there.
+
+292
+00:14:09,620 --> 00:14:11,550
+And that's because all we are doing
+
+293
+00:14:11,550 --> 00:14:14,663
+is to add new elements to this container,
+
+294
+00:14:17,180 --> 00:14:18,485
+right?
+
+295
+00:14:18,485 --> 00:14:21,490
+We're only inserting new HTML here
+
+296
+00:14:21,490 --> 00:14:23,800
+inside of the containerMovements
+
+297
+00:14:23,800 --> 00:14:26,160
+but we are not overriding anything.
+
+298
+00:14:26,160 --> 00:14:30,479
+And so actually that has to be the first thing that we do.
+
+299
+00:14:30,479 --> 00:14:33,420
+So the first thing is to essentially
+
+300
+00:14:33,420 --> 00:14:36,000
+empty the entire container
+
+301
+00:14:36,000 --> 00:14:38,453
+and only then we start adding new elements.
+
+302
+00:14:40,930 --> 00:14:43,470
+So that's something common to do
+
+303
+00:14:43,470 --> 00:14:47,130
+and it is also not difficult at all.
+
+304
+00:14:47,130 --> 00:14:49,140
+So container movements
+
+305
+00:14:49,140 --> 00:14:51,963
+and now we can use the inner HTML property,
+
+306
+00:14:52,959 --> 00:14:53,792
+innerHTML,
+
+307
+00:14:55,110 --> 00:14:57,740
+and set it to the empty string
+
+308
+00:14:58,770 --> 00:14:59,603
+and that's it.
+
+309
+00:15:00,730 --> 00:15:03,203
+So this fixes our problem.
+
+310
+00:15:04,800 --> 00:15:06,060
+Alright.
+
+311
+00:15:06,060 --> 00:15:07,540
+Now in our HTML here
+
+312
+00:15:07,540 --> 00:15:11,380
+is a little bit similar to text content.
+
+313
+00:15:11,380 --> 00:15:14,060
+So remember that now the difference
+
+314
+00:15:14,060 --> 00:15:18,330
+is that text content simply returns the text itself
+
+315
+00:15:18,330 --> 00:15:22,710
+while HTML returns everything, including the HTML.
+
+316
+00:15:22,710 --> 00:15:26,210
+So all the HTML tags will be included.
+
+317
+00:15:26,210 --> 00:15:27,680
+Okay.
+
+318
+00:15:27,680 --> 00:15:31,700
+But here we are then using innerHTML as a setter.
+
+319
+00:15:31,700 --> 00:15:36,000
+So just like we also used text content equal empty string
+
+320
+00:15:36,000 --> 00:15:38,630
+or equal something else, remember?
+
+321
+00:15:38,630 --> 00:15:41,890
+So we used to do in our pic game, for example,
+
+322
+00:15:41,890 --> 00:15:42,836
+like whatever
+
+323
+00:15:42,836 --> 00:15:43,669
+(indistinct)
+
+324
+00:15:43,669 --> 00:15:45,260
+Text content,
+
+325
+00:15:45,260 --> 00:15:47,620
+and then set it to zero.
+
+326
+00:15:47,620 --> 00:15:49,080
+Remember that?
+
+327
+00:15:49,080 --> 00:15:53,350
+But as I said, we can also use this to read data.
+
+328
+00:15:53,350 --> 00:15:55,640
+So that's simply log to the console
+
+329
+00:15:55,640 --> 00:15:58,680
+just to understand this property
+
+330
+00:15:58,680 --> 00:15:59,980
+which is pretty important.
+
+331
+00:16:01,610 --> 00:16:02,610
+So after all this,
+
+332
+00:16:02,610 --> 00:16:05,273
+let's do containerMovements.innerHTML.
+
+333
+00:16:06,760 --> 00:16:09,390
+So we're simply reading the innerHTML
+
+334
+00:16:09,390 --> 00:16:11,140
+and then logging it to the console.
+
+335
+00:16:14,210 --> 00:16:19,210
+So console, and indeed, here you'll see all of this HTML.
+
+336
+00:16:20,690 --> 00:16:21,523
+All right.
+
+337
+00:16:21,523 --> 00:16:24,983
+So essentially that's the HTML that we just created.
+
+338
+00:16:26,300 --> 00:16:27,930
+Okay.
+
+339
+00:16:27,930 --> 00:16:29,870
+But let's get rid of this.
+
+340
+00:16:29,870 --> 00:16:32,710
+I just wanted to show you both sides
+
+341
+00:16:32,710 --> 00:16:34,893
+or both applications of innerHTML.
+
+342
+00:16:38,330 --> 00:16:39,163
+All right.
+
+343
+00:16:39,163 --> 00:16:41,410
+And finally, I wanted to show you
+
+344
+00:16:41,410 --> 00:16:45,130
+why I used afterbegin and not beforeend.
+
+345
+00:16:45,130 --> 00:16:47,887
+Well, let me show you what happened with beforeend.
+
+346
+00:16:49,430 --> 00:16:51,960
+I think this is how it works.
+
+347
+00:16:51,960 --> 00:16:53,360
+So beforeend.
+
+348
+00:16:53,360 --> 00:16:54,750
+Yeah.
+
+349
+00:16:54,750 --> 00:16:59,750
+So with that, the order of the movements would be inverted.
+
+350
+00:17:00,060 --> 00:17:00,950
+Okay.
+
+351
+00:17:00,950 --> 00:17:04,270
+And that's because each new element would simply be added
+
+352
+00:17:04,270 --> 00:17:06,030
+after the previous one.
+
+353
+00:17:06,030 --> 00:17:09,410
+So at the end of the container, right?
+
+354
+00:17:09,410 --> 00:17:12,190
+And so that's after all the child elements
+
+355
+00:17:12,190 --> 00:17:14,470
+that are already in there.
+
+356
+00:17:14,470 --> 00:17:17,770
+And that's why I wanted it to be the other way around
+
+357
+00:17:17,770 --> 00:17:21,880
+because like this, it will always be basically appended
+
+358
+00:17:21,880 --> 00:17:23,710
+to all the other children.
+
+359
+00:17:23,710 --> 00:17:25,410
+So any new child element
+
+360
+00:17:25,410 --> 00:17:28,650
+will appear before all the other child elements
+
+361
+00:17:28,650 --> 00:17:30,880
+that were already there.
+
+362
+00:17:30,880 --> 00:17:35,880
+And so now we are back to the order that we wanted here.
+
+363
+00:17:36,400 --> 00:17:37,450
+ALright.
+
+364
+00:17:37,450 --> 00:17:39,150
+That's amazing.
+
+365
+00:17:39,150 --> 00:17:41,660
+So we completed the first part
+
+366
+00:17:41,660 --> 00:17:44,070
+of our user interface here already
+
+367
+00:17:44,070 --> 00:17:47,470
+and all with the power of the forEach method.
+
+368
+00:17:47,470 --> 00:17:50,630
+And then also we introduced some new concepts
+
+369
+00:17:50,630 --> 00:17:55,140
+in particular here the insertAdjacentHTML method,
+
+370
+00:17:55,140 --> 00:17:58,420
+and then the innerHTML property.
+
+371
+00:17:58,420 --> 00:18:00,420
+Now, there are many other ways
+
+372
+00:18:00,420 --> 00:18:04,980
+of creating elements in JavaScript besides this one here.
+
+373
+00:18:04,980 --> 00:18:06,730
+And we're gonna study all of them
+
+374
+00:18:06,730 --> 00:18:09,440
+in great detail in a future section.
+
+375
+00:18:09,440 --> 00:18:12,790
+But this here is actually the one that I liked the most.
+
+376
+00:18:12,790 --> 00:18:16,950
+It's the easy, quick and dirty solution, so to say.
+
+377
+00:18:16,950 --> 00:18:21,950
+So all we have to do is to create a string of HTML.
+
+378
+00:18:22,090 --> 00:18:27,090
+And then we can insert that simply with this method.
+
+379
+00:18:27,470 --> 00:18:30,093
+So very simple, very straightforward.
+
+380
+00:18:30,940 --> 00:18:32,940
+So this is some great DOM manipulation
+
+381
+00:18:32,940 --> 00:18:34,710
+that we did right here.
+
+382
+00:18:34,710 --> 00:18:36,780
+And I'm really happy about the result
+
+383
+00:18:36,780 --> 00:18:40,040
+that we got here in our application.
+
+384
+00:18:40,040 --> 00:18:40,873
+Great.
+
+385
+00:18:40,873 --> 00:18:42,073
+So let's now move on.

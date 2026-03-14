@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section Intro</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        /* 必须保留此套极简暗色主题 CSS。因篇幅限制，这里不重复，假设已经包含了高对比度、圆角、响应式设计以及 .code-comparison 的样式 */
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- 左侧导航 -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 本章学习目标</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <h1>Section Intro</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：001 Section Intro.en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：JavaScript 基础概念（变量、函数、基本语法）</li>
+                <li><strong>后续扩展</strong>：为编写复杂逻辑、独立调试错误以及打造专业工作流打底</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>掌握了 JavaScript 的基础知识后，是时候停下来稍作休息，补充一些成为优秀前端开发者必须具备的“软技能”和“硬核工具链”了。本节主要为你揭示接下来的学习路线：从思维方式到专业开发环境的搭建。</p>
+
+        <h2 id="section-1">1. 本章学习目标</h2>
+        <p>在接下来的课程中，我们将不仅限于写代码，而是要培养以下四项核心技能：</p>
+        
+        <ul>
+            <li><strong>如何真正学编程</strong>：掌握高效的吸收和实践方法。</li>
+            <li><strong>像开发者一样思考</strong>：遇到业务需求如何拆解问题（Problem Solving）。</li>
+            <li><strong>代码调试（Debugging）</strong>：当代码罢工报错时，如何冷静定位并修复 Bug。</li>
+            <li><strong>搭建专业开发环境</strong>：告别简陋的浏览器控制台，配置属于你的现代化工作流。</li>
+        </ul>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <!-- Quiz 组件 -->
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="C">
+            <div class="quiz-question">1. 本章重点强调除了写代码外，还需要掌握什么？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 重新学习另一门编程语言</div>
+                <div class="quiz-option" data-value="B">B) 强记所有的内置函数和属性名</div>
+                <div class="quiz-option" data-value="C">C) 像开发者一样思考、熟练调试机制并建立专业环境</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确判定</strong>：本章的核心在于培养开发者的综合素质。只有掌握调试技巧与解决问题的思维，才能真正在实际开发环境下游刃有余。
+            </div>
+        </div>
+        
+        <br>
+        
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>调试</td>
+                    <td>Debugging</td>
+                    <td>发现和修正代码中错误（Bug）的过程</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>开发环境</td>
+                    <td>Dev Environment</td>
+                    <td>程序员编写、测试代码的系列工具组合</td>
+                    <td>-</td>
+                    <td>-</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+</body>
+</html>

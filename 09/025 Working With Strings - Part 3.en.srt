@@ -1,0 +1,1611 @@
+1
+00:00:01,210 --> 00:00:04,140
+This is the third and final part
+
+2
+00:00:04,140 --> 00:00:06,133
+of Working With Strings.
+
+3
+00:00:07,580 --> 00:00:09,440
+And let's start by learning about
+
+4
+00:00:09,440 --> 00:00:14,330
+one of the most powerful string methods, which is split.
+
+5
+00:00:14,330 --> 00:00:16,780
+So split allows us to split a string
+
+6
+00:00:16,780 --> 00:00:21,410
+into multiple parts based on a divider string.
+
+7
+00:00:21,410 --> 00:00:23,630
+So let's check that out.
+
+8
+00:00:23,630 --> 00:00:25,910
+So any string works here,
+
+9
+00:00:25,910 --> 00:00:26,743
+let's say
+
+10
+00:00:26,743 --> 00:00:31,453
+A+very+nice+string.
+
+11
+00:00:33,570 --> 00:00:34,403
+So let's say
+
+12
+00:00:34,403 --> 00:00:37,580
+that for some reason we have a string like this
+
+13
+00:00:37,580 --> 00:00:42,080
+and now on this string we can call the split method.
+
+14
+00:00:42,080 --> 00:00:45,520
+Here we need to specify a divider string.
+
+15
+00:00:45,520 --> 00:00:47,680
+So let's just use plus,
+
+16
+00:00:47,680 --> 00:00:50,710
+and so what will happen now is that it will split up
+
+17
+00:00:50,710 --> 00:00:54,500
+this string by this plus sign
+
+18
+00:00:54,500 --> 00:00:56,530
+and it will then store the results
+
+19
+00:00:56,530 --> 00:00:59,190
+into elements of a new array.
+
+20
+00:00:59,190 --> 00:01:00,940
+So let's see that,
+
+21
+00:01:00,940 --> 00:01:05,930
+and indeed we get an array which contains A,
+
+22
+00:01:05,930 --> 00:01:09,360
+and very, and nice, and string.
+
+23
+00:01:09,360 --> 00:01:14,360
+So essentially everything's split up by this divider string.
+
+24
+00:01:16,150 --> 00:01:18,160
+So let's try the same
+
+25
+00:01:18,160 --> 00:01:19,833
+with my name.split.
+
+26
+00:01:26,070 --> 00:01:28,780
+And so the goal here is off having one array,
+
+27
+00:01:28,780 --> 00:01:32,120
+which two elements, one for each name.
+
+28
+00:01:32,120 --> 00:01:34,910
+And so I can split by the space.
+
+29
+00:01:34,910 --> 00:01:37,010
+And this is a very common one
+
+30
+00:01:37,010 --> 00:01:39,590
+and so indeed I get this result
+
+31
+00:01:39,590 --> 00:01:41,690
+and this is really useful.
+
+32
+00:01:41,690 --> 00:01:42,523
+Now indeed
+
+33
+00:01:42,523 --> 00:01:45,350
+we can now actually use the power of destructuring
+
+34
+00:01:46,310 --> 00:01:49,163
+to create variables directly like this.
+
+35
+00:01:50,860 --> 00:01:55,370
+So I can say first name and last name
+
+36
+00:01:56,230 --> 00:02:01,230
+will be the results of this split, okay?
+
+37
+00:02:01,810 --> 00:02:05,550
+So this here we'll create an array with two elements.
+
+38
+00:02:05,550 --> 00:02:06,980
+And then from that array,
+
+39
+00:02:06,980 --> 00:02:10,300
+the first one is gonna be taken into first name
+
+40
+00:02:10,300 --> 00:02:14,023
+and the second one and two last name, okay?
+
+41
+00:02:15,770 --> 00:02:18,930
+Now we could have done the same thing with a slice method
+
+42
+00:02:18,930 --> 00:02:21,760
+but that would have been a lot more complicated
+
+43
+00:02:21,760 --> 00:02:25,130
+and for longer sentences or almost impossible
+
+44
+00:02:25,130 --> 00:02:28,300
+and like this it's really straight forward.
+
+45
+00:02:28,300 --> 00:02:31,080
+Okay, Now let's say that we want to make
+
+46
+00:02:31,080 --> 00:02:34,580
+the last name uppercase here.
+
+47
+00:02:34,580 --> 00:02:38,140
+And then we also want to add a Mister in the beginning.
+
+48
+00:02:38,140 --> 00:02:41,680
+So we could just use a simple template literal
+
+49
+00:02:41,680 --> 00:02:44,010
+and do what I just said
+
+50
+00:02:44,010 --> 00:02:46,290
+but I wanna show you something else here.
+
+51
+00:02:46,290 --> 00:02:48,210
+And that's the joint method
+
+52
+00:02:48,210 --> 00:02:51,133
+which is essentially the opposite of split.
+
+53
+00:02:52,110 --> 00:02:54,100
+So let's create an array,
+
+54
+00:02:54,100 --> 00:02:56,540
+which contains all I just said.
+
+55
+00:02:56,540 --> 00:02:58,933
+So we want to start with Mr.
+
+56
+00:02:59,800 --> 00:03:01,120
+Then the first name
+
+57
+00:03:02,475 --> 00:03:05,970
+and so that's gonna be the second element of this array
+
+58
+00:03:05,970 --> 00:03:09,103
+and then the last name in uppercase, okay?
+
+59
+00:03:12,150 --> 00:03:13,880
+And now I want to join this
+
+60
+00:03:16,170 --> 00:03:19,740
+and again we can specify a divider string
+
+61
+00:03:19,740 --> 00:03:23,840
+and hopefully you can see by now where this is going.
+
+62
+00:03:23,840 --> 00:03:28,840
+So let's store the result of this into new name,
+
+63
+00:03:31,960 --> 00:03:34,623
+and then let's check it out in the console.
+
+64
+00:03:36,290 --> 00:03:38,960
+So what do you think will be the result of this?
+
+65
+00:03:38,960 --> 00:03:40,393
+So of the joint method.
+
+66
+00:03:42,380 --> 00:03:46,580
+So indeed we now get one entire string here.
+
+67
+00:03:46,580 --> 00:03:51,580
+So one string composed of the three parts of this array
+
+68
+00:03:51,640 --> 00:03:56,430
+and joined together by this joining string here basically.
+
+69
+00:03:56,430 --> 00:03:59,570
+And of course we could have used anything else
+
+70
+00:03:59,570 --> 00:04:01,853
+so like this, or even like this.
+
+71
+00:04:02,940 --> 00:04:04,870
+So anything works here,
+
+72
+00:04:04,870 --> 00:04:07,130
+but what makes sense of course in this case
+
+73
+00:04:07,130 --> 00:04:09,320
+is just the space.
+
+74
+00:04:09,320 --> 00:04:14,040
+So this combination of split and join is really powerful
+
+75
+00:04:14,040 --> 00:04:16,800
+and we will actually use this all the time
+
+76
+00:04:18,180 --> 00:04:23,180
+so split and join, okay?
+
+77
+00:04:23,550 --> 00:04:26,070
+And in fact, we can use this for something
+
+78
+00:04:26,070 --> 00:04:29,480
+that we already did in one of the previous lectures
+
+79
+00:04:29,480 --> 00:04:31,623
+which is to capitalize a name.
+
+80
+00:04:32,780 --> 00:04:36,160
+But now with this it makes it really easy
+
+81
+00:04:36,160 --> 00:04:40,683
+to capitalize an entire name with multiple names in there.
+
+82
+00:04:42,400 --> 00:04:45,100
+So let's say that this passenger is called
+
+83
+00:04:46,350 --> 00:04:51,350
+Jessica Ann Smith Davis.
+
+84
+00:04:51,640 --> 00:04:55,670
+So how will we capitalize this name here?
+
+85
+00:04:55,670 --> 00:04:58,090
+And actually let's write a function.
+
+86
+00:04:58,090 --> 00:05:00,181
+So that's a bit nicer.
+
+87
+00:05:00,181 --> 00:05:04,203
+So const capitalize name,
+
+88
+00:05:05,270 --> 00:05:09,030
+which is a function which receives a name
+
+89
+00:05:09,030 --> 00:05:11,030
+and then it will do something with that.
+
+90
+00:05:12,090 --> 00:05:17,090
+So let's capitalize name here with that string instead.
+
+91
+00:05:18,470 --> 00:05:21,403
+And then we can also call it with some other name.
+
+92
+00:05:22,680 --> 00:05:24,253
+So my name for example,
+
+93
+00:05:25,260 --> 00:05:27,923
+and you can use your own name here of course.
+
+94
+00:05:28,840 --> 00:05:33,600
+So what's the strategy for capitalizing this entire name.
+
+95
+00:05:33,600 --> 00:05:37,020
+And by the way what I mean here is to transform
+
+96
+00:05:37,020 --> 00:05:41,090
+the first letter of each name into a capital letter.
+
+97
+00:05:41,090 --> 00:05:44,650
+So here Jonas, and then this one here Schmedtmnan
+
+98
+00:05:44,650 --> 00:05:48,643
+with this capital S okay?
+
+99
+00:05:49,670 --> 00:05:52,300
+Well we have multiple words here,
+
+100
+00:05:52,300 --> 00:05:56,020
+and so we will have to capitalize all of them one by one.
+
+101
+00:05:56,020 --> 00:05:57,180
+And so to do that,
+
+102
+00:05:57,180 --> 00:06:00,660
+it would be good to have them inside of an array
+
+103
+00:06:00,660 --> 00:06:02,830
+that we can then loop over.
+
+104
+00:06:02,830 --> 00:06:06,133
+And so now we can use the split method for that.
+
+105
+00:06:08,010 --> 00:06:13,010
+So let's say names is equal to name, split by the space.
+
+106
+00:06:18,380 --> 00:06:22,940
+And so this will be an array and now we can then loop
+
+107
+00:06:22,940 --> 00:06:26,660
+over that array using the four off loop.
+
+108
+00:06:26,660 --> 00:06:30,040
+So const, let's just call this one word
+
+109
+00:06:31,420 --> 00:06:36,420
+of names or let's call it N which stands for name,
+
+110
+00:06:37,170 --> 00:06:39,060
+but I cannot reuse name
+
+111
+00:06:39,060 --> 00:06:41,650
+because that would then override this
+
+112
+00:06:41,650 --> 00:06:46,540
+input here and that's a bad practice, okay?
+
+113
+00:06:46,540 --> 00:06:51,190
+And so now here we will then capitalize this name.
+
+114
+00:06:51,190 --> 00:06:52,980
+So this individual name.
+
+115
+00:06:52,980 --> 00:06:55,570
+So remember how we did that in the last lecture
+
+116
+00:06:56,570 --> 00:07:00,370
+we took the first letter converted that to uppercase
+
+117
+00:07:02,300 --> 00:07:06,650
+and then joined it with basically the rest of the word.
+
+118
+00:07:06,650 --> 00:07:09,830
+So that's N.slice
+
+119
+00:07:11,140 --> 00:07:13,790
+starting from position number one.
+
+120
+00:07:13,790 --> 00:07:16,270
+So everything except the first letter
+
+121
+00:07:16,270 --> 00:07:19,330
+which is letter number zero, okay?
+
+122
+00:07:19,330 --> 00:07:21,950
+And now what should we do with this?
+
+123
+00:07:21,950 --> 00:07:26,200
+Well, I think we should push this into a new array
+
+124
+00:07:26,200 --> 00:07:28,960
+so that in the end we end up with an array
+
+125
+00:07:28,960 --> 00:07:30,540
+with all the names capitalized
+
+126
+00:07:30,540 --> 00:07:32,963
+and then we can join that array together.
+
+127
+00:07:34,410 --> 00:07:38,240
+So let's say const names upper
+
+128
+00:07:40,750 --> 00:07:43,380
+and start it as an empty array.
+
+129
+00:07:43,380 --> 00:07:44,740
+And then in each iteration
+
+130
+00:07:44,740 --> 00:07:48,153
+we will simply push into this array.
+
+131
+00:07:50,930 --> 00:07:54,930
+So sounds good to you, okay?
+
+132
+00:07:54,930 --> 00:07:56,150
+And now in the end,
+
+133
+00:07:56,150 --> 00:08:00,593
+let's then log to the console names, upper.
+
+134
+00:08:01,530 --> 00:08:04,950
+And so now we need to join that array back together
+
+135
+00:08:04,950 --> 00:08:08,893
+using a space as the separator, okay?
+
+136
+00:08:10,520 --> 00:08:13,660
+So here we practice a lot of different methods
+
+137
+00:08:13,660 --> 00:08:15,660
+all in one function.
+
+138
+00:08:15,660 --> 00:08:18,750
+So this is a really great use case.
+
+139
+00:08:18,750 --> 00:08:23,240
+So let's now give it a try and indeed it worked.
+
+140
+00:08:23,240 --> 00:08:25,210
+So great right?
+
+141
+00:08:25,210 --> 00:08:28,920
+No matter how long a name we feed into the function
+
+142
+00:08:28,920 --> 00:08:31,403
+it will always give us the correct output.
+
+143
+00:08:32,370 --> 00:08:34,940
+Now here's a small challenge for you
+
+144
+00:08:34,940 --> 00:08:38,800
+because there is another way of doing this.
+
+145
+00:08:38,800 --> 00:08:43,430
+So basically of doing the capitalization of one name.
+
+146
+00:08:43,430 --> 00:08:45,340
+So given what we already learned
+
+147
+00:08:45,340 --> 00:08:47,230
+and especially in the last lecture
+
+148
+00:08:47,230 --> 00:08:50,370
+can you think of a different way of doing this?
+
+149
+00:08:50,370 --> 00:08:52,780
+And if you can't, it's not a problem at all
+
+150
+00:08:52,780 --> 00:08:55,840
+but maybe you can pause the video here for a minute or two
+
+151
+00:08:55,840 --> 00:08:57,970
+and think about this.
+
+152
+00:08:57,970 --> 00:09:00,870
+So let me just show it to you quickly,
+
+153
+00:09:00,870 --> 00:09:03,450
+because I think this is really interesting
+
+154
+00:09:03,450 --> 00:09:06,993
+that we have different ways of achieving the same thing.
+
+155
+00:09:08,440 --> 00:09:12,350
+And so this time what will we push into the array here
+
+156
+00:09:12,350 --> 00:09:17,350
+is simply N and then in there we replace the first letter
+
+157
+00:09:18,540 --> 00:09:21,020
+with the first letter in uppercase.
+
+158
+00:09:21,020 --> 00:09:22,203
+So let me write that.
+
+159
+00:09:23,120 --> 00:09:25,750
+So that's N at position zero
+
+160
+00:09:26,870 --> 00:09:31,870
+and replaced with N at position zero to upper case
+
+161
+00:09:34,400 --> 00:09:38,223
+let's give it a try and we get the same result, all right?
+
+162
+00:09:39,110 --> 00:09:42,380
+So again, we are here simply taking the word
+
+163
+00:09:42,380 --> 00:09:44,803
+and then we replaced the first character.
+
+164
+00:09:45,720 --> 00:09:47,740
+So that's N at position zero
+
+165
+00:09:47,740 --> 00:09:50,593
+with the first character to uppercase.
+
+166
+00:09:51,970 --> 00:09:54,230
+So that's a completely different approach
+
+167
+00:09:54,230 --> 00:09:55,710
+than this one here,
+
+168
+00:09:55,710 --> 00:09:57,343
+but it gives us the same result.
+
+169
+00:09:59,910 --> 00:10:04,420
+Now next up, let's talk about padding a string.
+
+170
+00:10:04,420 --> 00:10:06,110
+Now padding a string means
+
+171
+00:10:06,110 --> 00:10:09,410
+to add a number of characters to the string
+
+172
+00:10:09,410 --> 00:10:12,703
+until the string has a certain desired length.
+
+173
+00:10:13,850 --> 00:10:16,000
+So padding
+
+174
+00:10:18,230 --> 00:10:20,470
+and let's just create a message here
+
+175
+00:10:21,910 --> 00:10:24,743
+go to gate 23.
+
+176
+00:10:25,860 --> 00:10:29,690
+So now let's take a look at padding here.
+
+177
+00:10:29,690 --> 00:10:32,380
+So I will take message,
+
+178
+00:10:32,380 --> 00:10:34,200
+and then I can say padstart
+
+179
+00:10:35,695 --> 00:10:38,030
+and so this will then add some characters
+
+180
+00:10:38,030 --> 00:10:40,260
+to the beginning of the string.
+
+181
+00:10:40,260 --> 00:10:42,420
+And the first argument here is the
+
+182
+00:10:42,420 --> 00:10:45,010
+length that we want for the string.
+
+183
+00:10:45,010 --> 00:10:48,550
+Let's say we want it to be 25 characters long,
+
+184
+00:10:48,550 --> 00:10:49,863
+so after the padding.
+
+185
+00:10:50,950 --> 00:10:52,520
+And then the character that
+
+186
+00:10:52,520 --> 00:10:54,733
+we want to pad the string with.
+
+187
+00:10:55,630 --> 00:10:57,580
+So let's use plus
+
+188
+00:10:57,580 --> 00:11:02,370
+and let's take a look, okay?
+
+189
+00:11:02,370 --> 00:11:04,070
+And so you'll see that at edit
+
+190
+00:11:04,070 --> 00:11:05,263
+all of these here.
+
+191
+00:11:06,530 --> 00:11:07,810
+And so now the length
+
+192
+00:11:07,810 --> 00:11:09,930
+of this entire string here
+
+193
+00:11:09,930 --> 00:11:12,693
+should be 25, okay?
+
+194
+00:11:13,750 --> 00:11:15,510
+So let me show that to you
+
+195
+00:11:15,510 --> 00:11:16,913
+with another string here.
+
+196
+00:11:17,750 --> 00:11:19,170
+So if I said Jonas,
+
+197
+00:11:19,170 --> 00:11:20,203
+and then the same,
+
+198
+00:11:21,890 --> 00:11:24,490
+you would see that it would add a lot more
+
+199
+00:11:24,490 --> 00:11:26,120
+of the plus signs
+
+200
+00:11:26,120 --> 00:11:28,383
+because the initial string is shorter.
+
+201
+00:11:29,820 --> 00:11:31,530
+So you see you,
+
+202
+00:11:31,530 --> 00:11:33,550
+we have a lot more pluses now
+
+203
+00:11:33,550 --> 00:11:34,720
+but in the end
+
+204
+00:11:34,720 --> 00:11:37,000
+the string is also a 25
+
+205
+00:11:37,000 --> 00:11:38,430
+or actually 23
+
+206
+00:11:38,430 --> 00:11:39,893
+so mistake here.
+
+207
+00:11:41,460 --> 00:11:44,220
+So now the string is also 25 long.
+
+208
+00:11:44,220 --> 00:11:45,460
+And so we see here at this
+
+209
+00:11:45,460 --> 00:11:47,490
+has exactly the same length
+
+210
+00:11:47,490 --> 00:11:51,250
+as this one here in the console, alright?
+
+211
+00:11:51,250 --> 00:11:54,050
+Then there's also pad ENT.
+
+212
+00:11:54,050 --> 00:11:56,420
+And so we can now take the result of this,
+
+213
+00:11:56,420 --> 00:11:59,903
+and immediately also pad the end of the string.
+
+214
+00:12:01,100 --> 00:12:04,600
+So pad end
+
+215
+00:12:04,600 --> 00:12:06,000
+and now let's make it longer
+
+216
+00:12:07,900 --> 00:12:10,600
+and then again the plus sign.
+
+217
+00:12:10,600 --> 00:12:12,460
+So this will basically then add
+
+218
+00:12:12,460 --> 00:12:15,120
+10 pluses to the end of the string
+
+219
+00:12:15,120 --> 00:12:17,880
+because the result of this string here
+
+220
+00:12:17,880 --> 00:12:21,420
+is already 25 characters long, right?
+
+221
+00:12:21,420 --> 00:12:22,810
+And so onto this one
+
+222
+00:12:22,810 --> 00:12:24,890
+we then pet it all the way
+
+223
+00:12:24,890 --> 00:12:29,010
+until the length of 35 with some more pluses,
+
+224
+00:12:29,010 --> 00:12:32,410
+and so we're gonna add 10 of them.
+
+225
+00:12:32,410 --> 00:12:33,600
+Let's just do a 30,
+
+226
+00:12:33,600 --> 00:12:35,063
+so we can easily see that,
+
+227
+00:12:35,920 --> 00:12:40,171
+and so indeed it now added five of them here.
+
+228
+00:12:40,171 --> 00:12:42,490
+And just for the sake of completion
+
+229
+00:12:43,330 --> 00:12:45,800
+let's do the same here with my name
+
+230
+00:12:47,180 --> 00:12:49,640
+and this here just to 20
+
+231
+00:12:49,640 --> 00:12:51,853
+to make it a bit more even,
+
+232
+00:12:53,630 --> 00:12:54,910
+alright?
+
+233
+00:12:54,910 --> 00:12:57,260
+But now let's actually use a more
+
+234
+00:12:57,260 --> 00:13:00,060
+real world example of padding here.
+
+235
+00:13:00,060 --> 00:13:03,450
+So when you see a credit card number on the internet,
+
+236
+00:13:03,450 --> 00:13:06,760
+you never see the entire number, right?
+
+237
+00:13:06,760 --> 00:13:09,520
+So usually we see the last four digits
+
+238
+00:13:09,520 --> 00:13:12,720
+and the rest is masked with some symbol.
+
+239
+00:13:12,720 --> 00:13:15,840
+So let's implement a function that
+
+240
+00:13:15,840 --> 00:13:17,713
+actually does that masking.
+
+241
+00:13:18,910 --> 00:13:20,893
+So this is gonna be really interesting.
+
+242
+00:13:22,130 --> 00:13:25,480
+This is a great application of string methods.
+
+243
+00:13:25,480 --> 00:13:29,130
+So mask credit cards function.
+
+244
+00:13:29,130 --> 00:13:32,750
+And so we're gonna receive a number, okay?
+
+245
+00:13:32,750 --> 00:13:34,900
+So an actual number
+
+246
+00:13:34,900 --> 00:13:37,683
+and let's start by converting this number to a string.
+
+247
+00:13:39,500 --> 00:13:40,633
+So string,
+
+248
+00:13:41,980 --> 00:13:45,090
+now we learned how to convert a number to a string
+
+249
+00:13:45,090 --> 00:13:47,840
+in the fundamental section, right?
+
+250
+00:13:47,840 --> 00:13:52,360
+So that was like this, remember?
+
+251
+00:13:52,360 --> 00:13:54,320
+However, there is a nice trick
+
+252
+00:13:54,320 --> 00:13:57,220
+that actually makes this easier for us.
+
+253
+00:13:57,220 --> 00:13:59,000
+So we can just take the number
+
+254
+00:13:59,900 --> 00:14:02,823
+and then we add an empty string.
+
+255
+00:14:03,960 --> 00:14:05,300
+And so the result of this
+
+256
+00:14:05,300 --> 00:14:06,960
+will be the number
+
+257
+00:14:06,960 --> 00:14:07,793
+but as a string.
+
+258
+00:14:07,793 --> 00:14:09,570
+And this works
+
+259
+00:14:09,570 --> 00:14:11,950
+because as you hopefully remember
+
+260
+00:14:11,950 --> 00:14:15,740
+when one of the operands of the plus sign is a string
+
+261
+00:14:15,740 --> 00:14:19,230
+it will convert all the operands to a string.
+
+262
+00:14:19,230 --> 00:14:22,530
+And so then this number will become a string
+
+263
+00:14:22,530 --> 00:14:24,400
+plus the empty string
+
+264
+00:14:24,400 --> 00:14:27,950
+and so then it's gonna stay exactly the same, okay.
+
+265
+00:14:27,950 --> 00:14:32,230
+So in order to know what we should do here
+
+266
+00:14:32,230 --> 00:14:33,860
+let's one more time
+
+267
+00:14:33,860 --> 00:14:35,490
+first call the function
+
+268
+00:14:35,490 --> 00:14:37,750
+before we actually write it
+
+269
+00:14:37,750 --> 00:14:40,223
+so that we know what kind of input we get.
+
+270
+00:14:41,060 --> 00:14:44,370
+So mask credit card
+
+271
+00:14:44,370 --> 00:14:48,880
+and let's say, now the number is this one
+
+272
+00:14:48,880 --> 00:14:51,030
+and I'm just putting something random here.
+
+273
+00:14:53,459 --> 00:14:56,660
+But of course it will also work with strings
+
+274
+00:14:59,820 --> 00:15:03,230
+and no matter how long it is, alright?
+
+275
+00:15:03,230 --> 00:15:04,750
+So as I was saying,
+
+276
+00:15:04,750 --> 00:15:06,280
+usually on the internet
+
+277
+00:15:06,280 --> 00:15:09,350
+we can only see these last four digits
+
+278
+00:15:09,350 --> 00:15:12,180
+and the rest is masked by some symbol.
+
+279
+00:15:12,180 --> 00:15:13,750
+So what we need to do here
+
+280
+00:15:13,750 --> 00:15:17,230
+is basically to take out these four numbers
+
+281
+00:15:17,230 --> 00:15:18,705
+and then use padstart
+
+282
+00:15:18,705 --> 00:15:21,810
+to create a string with the same length
+
+283
+00:15:21,810 --> 00:15:23,770
+as this initial number here
+
+284
+00:15:23,770 --> 00:15:26,720
+but with some kind of symbol there.
+
+285
+00:15:26,720 --> 00:15:30,470
+So let me just write that in code,
+
+286
+00:15:30,470 --> 00:15:32,473
+and then I hope it will become clear.
+
+287
+00:15:34,200 --> 00:15:38,853
+So we're gonna take the last four characters of the string.
+
+288
+00:15:40,020 --> 00:15:42,200
+And so, we use slice
+
+289
+00:15:42,200 --> 00:15:45,513
+with a negative parameter again of minus four.
+
+290
+00:15:47,610 --> 00:15:50,570
+And now here is what we're gonna return,
+
+291
+00:15:50,570 --> 00:15:53,140
+we will return a last.
+
+292
+00:15:53,140 --> 00:15:56,473
+So that is just these four characters.
+
+293
+00:15:58,820 --> 00:16:02,162
+And then we will Pad it at the start
+
+294
+00:16:02,162 --> 00:16:06,520
+all the way until the original length of the string.
+
+295
+00:16:06,520 --> 00:16:08,740
+So string.length
+
+296
+00:16:09,950 --> 00:16:14,950
+and the character we're gonna use will be this star, okay?
+
+297
+00:16:15,530 --> 00:16:18,090
+And so since we returned something
+
+298
+00:16:18,090 --> 00:16:20,720
+to make this function a bit more real
+
+299
+00:16:20,720 --> 00:16:23,830
+now we need to lock the result to the console
+
+300
+00:16:29,530 --> 00:16:31,670
+and to start let's actually make
+
+301
+00:16:31,670 --> 00:16:33,390
+a slightly simpler version
+
+302
+00:16:33,390 --> 00:16:35,630
+so that we see that it actually worked.
+
+303
+00:16:35,630 --> 00:16:37,070
+So a shorter number here
+
+304
+00:16:37,070 --> 00:16:39,040
+with just eight digits.
+
+305
+00:16:39,040 --> 00:16:42,230
+And so the end should be 7836
+
+306
+00:16:42,230 --> 00:16:44,970
+and then beginning with four stars.
+
+307
+00:16:44,970 --> 00:16:45,803
+So let's see,
+
+308
+00:16:47,050 --> 00:16:49,453
+and yeah, that worked great,
+
+309
+00:16:51,060 --> 00:16:52,180
+right?
+
+310
+00:16:52,180 --> 00:16:54,640
+So again, we took the last four here
+
+311
+00:16:54,640 --> 00:16:56,890
+and then we padded the rest of the string
+
+312
+00:16:56,890 --> 00:17:00,150
+until it matched the original length of the string
+
+313
+00:17:00,150 --> 00:17:04,530
+which was eight and therefore four stars were added.
+
+314
+00:17:04,530 --> 00:17:07,530
+And the same here and to same here.
+
+315
+00:17:07,530 --> 00:17:08,470
+Awesome.
+
+316
+00:17:08,470 --> 00:17:11,990
+That's really fantastic application
+
+317
+00:17:11,990 --> 00:17:14,800
+of this method, I think.
+
+318
+00:17:14,800 --> 00:17:17,720
+And now to finish the last simple method that I want to
+
+319
+00:17:17,720 --> 00:17:20,690
+show you is the repeat method.
+
+320
+00:17:20,690 --> 00:17:21,960
+So repeat
+
+321
+00:17:25,310 --> 00:17:26,600
+and as the name says,
+
+322
+00:17:26,600 --> 00:17:28,827
+this one simply allows us to repeat
+
+323
+00:17:28,827 --> 00:17:31,740
+the same string multiple times.
+
+324
+00:17:31,740 --> 00:17:36,150
+So let's say there is some bad weather at Wen airport.
+
+325
+00:17:36,150 --> 00:17:37,120
+So when that happens
+
+326
+00:17:37,120 --> 00:17:41,260
+they usually have those long messages on the screen,
+
+327
+00:17:41,260 --> 00:17:43,820
+like with the texts repeating
+
+328
+00:17:43,820 --> 00:17:47,540
+which then keeps running and repeating all the time.
+
+329
+00:17:47,540 --> 00:17:49,410
+So let's call this one message.
+
+330
+00:17:49,410 --> 00:17:50,520
+So let's call it message two
+
+331
+00:17:50,520 --> 00:17:52,363
+we already have a message up there.
+
+332
+00:17:53,270 --> 00:17:56,170
+So let's say bad weather
+
+333
+00:17:57,850 --> 00:18:00,420
+all departures
+
+334
+00:18:02,980 --> 00:18:06,230
+delayed, okay?
+
+335
+00:18:06,230 --> 00:18:08,450
+And now we want to
+
+336
+00:18:08,450 --> 00:18:10,610
+basically create a bigger string
+
+337
+00:18:10,610 --> 00:18:13,660
+repeating this one here multiple times.
+
+338
+00:18:13,660 --> 00:18:16,010
+So that's easy enough.
+
+339
+00:18:16,010 --> 00:18:17,960
+We just take this string
+
+340
+00:18:19,670 --> 00:18:20,623
+call repeat,
+
+341
+00:18:21,500 --> 00:18:23,570
+so repeat
+
+342
+00:18:23,570 --> 00:18:26,360
+and then the number of times we want to repeat it,
+
+343
+00:18:26,360 --> 00:18:28,010
+let's say five
+
+344
+00:18:28,010 --> 00:18:29,940
+and there it is.
+
+345
+00:18:29,940 --> 00:18:32,460
+So this is all the same long string
+
+346
+00:18:32,460 --> 00:18:35,473
+and we should just add one space here at the end.
+
+347
+00:18:37,206 --> 00:18:38,600
+And so you'll see
+
+348
+00:18:38,600 --> 00:18:40,530
+now you can see it even better.
+
+349
+00:18:40,530 --> 00:18:42,630
+That it's all just one big string
+
+350
+00:18:42,630 --> 00:18:46,640
+with the same message repeating over and over again.
+
+351
+00:18:46,640 --> 00:18:48,950
+Or we can also simulate
+
+352
+00:18:48,950 --> 00:18:51,330
+that due to the bad weather
+
+353
+00:18:51,330 --> 00:18:56,330
+there are now many planes waiting in line for takeoff.
+
+354
+00:18:56,360 --> 00:18:59,750
+So let's create a fun function for that.
+
+355
+00:18:59,750 --> 00:19:02,290
+So planes in line
+
+356
+00:19:04,750 --> 00:19:06,393
+and here the number of planes.
+
+357
+00:19:09,220 --> 00:19:11,270
+So console.log
+
+358
+00:19:11,270 --> 00:19:16,270
+there are N planes in line.
+
+359
+00:19:18,950 --> 00:19:21,940
+And then here we can kind of show that
+
+360
+00:19:21,940 --> 00:19:25,203
+graphically using an emoji like this,
+
+361
+00:19:26,420 --> 00:19:28,520
+let's say plain,
+
+362
+00:19:28,520 --> 00:19:30,440
+I'm gonna use this one.
+
+363
+00:19:30,440 --> 00:19:34,610
+And so this here in fact counts as a string.
+
+364
+00:19:34,610 --> 00:19:36,640
+So let's create a string with that
+
+365
+00:19:36,640 --> 00:19:37,743
+and then repeat it.
+
+366
+00:19:39,230 --> 00:19:41,590
+And we will repeat it as many times
+
+367
+00:19:41,590 --> 00:19:43,573
+as there are planes waiting.
+
+368
+00:19:45,960 --> 00:19:47,570
+So planes in line
+
+369
+00:19:48,600 --> 00:19:50,123
+here we have five waiting,
+
+370
+00:19:51,010 --> 00:19:53,480
+then let's call it on in other airport
+
+371
+00:19:53,480 --> 00:19:56,170
+where there are just three planes waiting
+
+372
+00:19:57,353 --> 00:19:58,373
+and then 12.
+
+373
+00:20:00,360 --> 00:20:04,950
+So indeed, now we have five planes here, three
+
+374
+00:20:04,950 --> 00:20:07,793
+and here, 12 planes, alright?
+
+375
+00:20:09,550 --> 00:20:11,620
+Okay, cool.
+
+376
+00:20:11,620 --> 00:20:13,090
+Now we didn't talk about
+
+377
+00:20:13,090 --> 00:20:15,940
+all of these string methods that exist
+
+378
+00:20:15,940 --> 00:20:17,940
+but if you want to check them out,
+
+379
+00:20:17,940 --> 00:20:19,773
+you can do so on MDN.
+
+380
+00:20:21,720 --> 00:20:24,380
+And what I like to do is to simply search
+
+381
+00:20:24,380 --> 00:20:26,530
+for one of the methods,
+
+382
+00:20:26,530 --> 00:20:28,940
+let's say, string replace
+
+383
+00:20:30,500 --> 00:20:34,600
+and then that will take me to that page of replace
+
+384
+00:20:34,600 --> 00:20:36,233
+because then on the left side,
+
+385
+00:20:37,100 --> 00:20:39,863
+at least when the window is a bit bigger.
+
+386
+00:20:41,390 --> 00:20:43,350
+So then here we can see all
+
+387
+00:20:43,350 --> 00:20:47,330
+of the different string methods that we can use.
+
+388
+00:20:47,330 --> 00:20:52,330
+So we used split, slice, repeat, padstart, pad end.
+
+389
+00:20:53,410 --> 00:20:56,080
+But as you can see there are even more here
+
+390
+00:20:57,010 --> 00:21:01,173
+but actually we talked about all of the most important ones.
+
+391
+00:21:02,250 --> 00:21:04,830
+Maybe one that you can check out is
+
+392
+00:21:06,190 --> 00:21:07,023
+let's see
+
+393
+00:21:08,910 --> 00:21:10,780
+concat maybe
+
+394
+00:21:10,780 --> 00:21:14,483
+or there should one be called reverse.
+
+395
+00:21:17,270 --> 00:21:19,153
+Well, actually it is not here,
+
+396
+00:21:20,460 --> 00:21:22,620
+but anyway, as you see we talked about
+
+397
+00:21:22,620 --> 00:21:26,060
+most of the most important string methods here.
+
+398
+00:21:26,060 --> 00:21:28,220
+And so I hope you had fun with this.
+
+399
+00:21:28,220 --> 00:21:30,440
+And I see you in the next video
+
+400
+00:21:30,440 --> 00:21:32,830
+where we then have a challenge
+
+401
+00:21:32,830 --> 00:21:34,650
+where you can then use all of
+
+402
+00:21:34,650 --> 00:21:36,610
+this knowledge that you just gained here
+
+403
+00:21:36,610 --> 00:21:38,543
+over the past three videos.

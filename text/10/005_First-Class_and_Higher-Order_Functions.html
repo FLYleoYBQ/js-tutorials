@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First-Class and Higher-Order Functions</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --border-color: #2b3040;
+            --text-primary: #e0e6f8;
+            --text-secondary: #8b94b0;
+            --accent-color: #00ff9d;
+            --accent-hover: #00e68d;
+            --danger-color: #ff4d4d;
+            --info-color: #4da6ff;
+            --warning-color: #ffaa00;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 16px; color: var(--text-primary); }
+        .progress-container { width: 100%; height: 6px; background-color: var(--border-color); border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: var(--accent-color); width: 0%; transition: width 0.3s ease; }
+        .nav-item { display: block; padding: 10px 16px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: var(--border-color); color: var(--text-primary); }
+        .main-content { margin-left: 280px; padding: 64px 80px; max-width: 1000px; width: 100%; }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; color: #fff; letter-spacing: -0.02em; }
+        h2 { font-size: 1.8rem; font-weight: 600; margin: 48px 0 24px; color: #fff; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        h3 { font-size: 1.4rem; font-weight: 600; margin: 32px 0 16px; color: #e0e6f8; }
+        p { margin-bottom: 24px; font-size: 1.1rem; color: #a4adc5; }
+        .meta-info { display: flex; gap: 24px; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 40px; }
+        .callout { background-color: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--info-color); padding: 24px; border-radius: 0 8px 8px 0; margin: 32px 0; }
+        .runnable-editor { background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); margin: 32px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+        .btn-run { background-color: var(--accent-color); color: #000; border: none; padding: 6px 16px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-run:hover { opacity: 0.9; }
+        .editor-textarea { width: 100%; height: 350px; background: transparent; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 16px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background-color: #000; color: #00ff9d; font-family: 'JetBrains Mono', monospace; padding: 16px; font-size: 14px; min-height: 50px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        .quiz-card { background-color: var(--surface-color); border-radius: 8px; padding: 24px; border: 1px solid var(--border-color); margin-bottom: 24px; }
+        .quiz-question { font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; color: #fff; }
+        .quiz-option { padding: 12px 16px; background-color: rgba(255,255,255,0.05); border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; }
+        .quiz-option:hover { background-color: rgba(255,255,255,0.1); }
+        .quiz-explanation { margin-top: 16px; padding: 16px; background-color: rgba(77, 166, 255, 0.1); border-radius: 4px; display: none; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 32px 0; background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
+        th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        code { font-family: 'JetBrains Mono', monospace; background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 10 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 头等函数 (First-Class Functions)</a>
+            <a href="#section-2" class="nav-item">2. 高阶函数 (Higher-Order Functions)</a>
+            <a href="#section-3" class="nav-item">📊 概念终极对比辨析</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>头等函数与高阶函数 (First-Class and Higher-Order Functions)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：005 First-Class and Higher-Order Functions.en.srt</span>
+            <span>📂 章节：第 10 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：基础函数定义、对象（Objects）</li>
+                <li><strong>后续扩展</strong>：回调函数实战、闭包（Closures）的核心基石</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>JavaScript 语言有一个让它在众多编程语言中脱颖而出的核心特性：它将函数视为头等公民。这不仅是一种语法设计，更是开启了激动人心的函数式编程（Functional Programming）大门。本节我们将彻底厘清两个经常被混淆的重要术语：<strong>头等函数（First-Class Functions）</strong> 和 <strong>高阶函数（Higher-Order Functions）</strong>。</p>
+
+        <h2 id="section-1">1. 头等函数 (First-Class Functions)</h2>
+        
+        <p>在 JavaScript 中，函数被赋予了“头等公民”的特权。用技术术语解释就是：<strong>函数仅仅就是一种类型的值（Value）</strong>。既然它们不过是底层包装好的对象（Object），我们自然可以对它做普通数值能做的一切操作：</p>
+
+        <ul>
+            <li>✨ <strong>存在变量里</strong>： <code>const add = (a, b) => a + b;</code></li>
+            <li>✨ <strong>存在对象属性里（方法）</strong>： <code>const obj = { calc: add };</code></li>
+            <li>✨ <strong>当作参数传递给别的函数</strong>： 比如给按钮添加事件时 <code>addEventListener('click', greet)</code>。</li>
+            <li>✨ <strong>从一个函数中被返回出来</strong></li>
+            <li>✨ <strong>拥有自己的方法</strong>：函数对象本身自带 <code>.bind()</code>、<code>.call()</code> 等方法。</li>
+        </ul>
+
+        <div class="callout" style="border-color: var(--accent-color);">
+            > 💡 **核心认知**：头等函数（First-Class Functions）是一个**编程语言特性层面**的概念。一门语言要么支持头等函数，要么不支持。在实践中，根本不存在某个特定的函数叫“头等函数”，它只是说明了语言设计的可能性。
+        </div>
+
+        <h2 id="section-2">2. 高阶函数 (Higher-Order Functions)</h2>
+        <p>得益于语言支持了“头等函数”的特性，我们才得以能在实践中编写出<strong>高阶函数</strong>。只要满足以下<strong>两个条件之一</strong>的，就被称为高阶函数：</p>
+        
+        <p><strong>类型 1：接收另一个函数作为输入参数的函数</strong></p>
+        <p>比如大名鼎鼎的 <code>document.addEventListener()</code>。在下方的代码中，<code>addEventListener</code> 是真正的高阶函数，而传入其中的 <code>greet</code> 函数，我们通常称之为<strong>回调函数（Callback Function）</strong>，因为它不会立即执行，而是被“稍后再叫回来（Call back later）”。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+            </div>
+            <div class="editor-container">
+                <textarea class="editor-textarea" spellcheck="false" readonly>// 这是一个普通的回调函数
+const greet = () => console.log('Hello world');
+
+// addEventListener 是高阶函数！它接收了 greet 函数作为参数
+document.body.addEventListener('click', greet);
+</textarea>
+            </div>
+        </div>
+
+        <p><strong>类型 2：返回一个新函数的函数</strong></p>
+        <p>这种模式稍显高级，你会在后面学习闭包（Closures）时大量见到它。它的运行机制就像一个工厂，生产出定制版的函数。</p>
+
+        <h2 id="section-3">📊 概念终极对比辨析</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>概念名称</th>
+                    <th>本质</th>
+                    <th>是否存在所谓的实体？</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>头等函数 (First-Class Functions)</strong></td>
+                    <td>一种<strong>编程语言特性</strong>。指的是语言设计者赋予了函数和 String/Number 同样的值平权地位。</td>
+                    <td>❌ 没有。它只是一种能力机制。</td>
+                </tr>
+                <tr>
+                    <td><strong>高阶函数 (Higher-Order Functions)</strong></td>
+                    <td>一种<strong>实际的代码设计模式</strong>。特指那些能接收别的函数，或者返回别的函数的实实在在的函数体。</td>
+                    <td>✅ 存在实物。比如 <code>filter()</code>, <code>map()</code>, <code>addEventListener()</code>。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>理解了这个细微的差别，你就能像真正的 JavaScript 大师一样探讨架构与设计原理了。</p>
+
+        <br>
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 下属哪个自带的 API 属于高阶函数？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) `Math.trunc(10.5)`</div>
+                <div class="quiz-option" data-value="B">B) `document.querySelector('.btn').addEventListener('click', function() { ... })`</div>
+                <div class="quiz-option" data-value="C">C) `console.log("Hello")`</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案: B。</strong>`addEventListener` 接收了另一个匿名函数作为第二个实参，符合高阶函数第一种类型定义。其他两个都是普通地接收数值或字符串。
+            </div>
+        </div>
+
+        <div class="quiz-card" data-correct="C">
+            <div class="quiz-question">2. 关于“头等函数”的定义，最准确的是？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 头等函数是指那些运行优先级最高，总是第一个被加入 Call Stack 的极速函数。</div>
+                <div class="quiz-option" data-value="B">B) 头等函数是只有 ES6 规范才能使用的箭头函数的高级名称。</div>
+                <div class="quiz-option" data-value="C">C) 头等函数意味着在这门语言内部，函数不过就只是另一种能被传递、被赋值的 Object (对象) 值罢了。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案: C。</strong>“头等公民”代表着它们与基本数据类型别无二致：可赋给变量、可当做参数进出其他函数、甚至拥有自己的方法。
+            </div>
+        </div>
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>头等函数</td>
+                    <td>First-Class Function</td>
+                    <td>语言特性：函数被视为对象和普通的值（Value）。</td>
+                    <td>-</td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/First-class_Function" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>高阶函数</td>
+                    <td>Higher-Order Function</td>
+                    <td>实际代码模式：接收函数作为参数或返回一个函数的函数实例。</td>
+                    <td><code>const hof = fn => fn();</code></td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>回调函数</td>
+                    <td>Callback Function</td>
+                    <td>被作为输入参数传递进高阶函数内，在特定时机被“叫回/唤起”执行的函数。</td>
+                    <td><code>btn.addEventListener('click', cb)</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Callback_function" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    // Quiz 验证脚本
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.dataset.correct;
+            const selectedAnswer = this.dataset.value;
+            const explanation = card.querySelector('.quiz-explanation');
+
+            card.querySelectorAll('.quiz-option').forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (selectedAnswer === correctAnswer) {
+                this.style.backgroundColor = 'rgba(0, 255, 157, 0.2)';
+                this.style.border = '1px solid var(--accent-color)';
+            } else {
+                this.style.backgroundColor = 'rgba(255, 77, 77, 0.2)';
+                this.style.border = '1px solid var(--danger-color)';
+                card.querySelector(`.quiz-option[data-value="${correctAnswer}"]`).style.backgroundColor = 'rgba(0, 255, 157, 0.2)';
+            }
+            
+            explanation.style.display = 'block';
+        });
+    });
+
+    // 目录高亮联动
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('h2, h3');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        let currentSectionId = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${currentSectionId}`) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>

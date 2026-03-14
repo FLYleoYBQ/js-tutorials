@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解答 CHALLENGE #4 - Video Solution</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 480px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 挑战解答</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #4 解答：小费计算器</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：029 CHALLENGE #4 Video Solution.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <p>这是基础部分的最后一个实战运用！我们需要利用新学到的魔法：三元运算符，只写一行代码就解决小费分配的问题。不仅如此，还得运用字符串模板特性将最终计算的账单拼接在一起打印出来。</p>
+
+        <h2 id="section-1">1. 行云流水的一路代码</h2>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">tip-calculator.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+const bill = 275;
+
+// 利用三元操作符，将判断夹杂在运算中。
+// 规则：只要在 50~300 (包前包后) 之间，结 15% 辛苦费；反之结 20%
+// 将三元表达式算出的终值直接倾泻注入给 tip 变量！
+const tip = bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.2;
+
+// 使用模板字面量拼接，同时内部直接执行加法表达式
+console.log(`小金库账单是 ${bill} 美元，产生的小费为 ${tip} 美元。总刷卡金额：${bill + tip} 美元。`);
+
+// 你看，我们根本没有动用 if {} else {} 的冗余模块，就完成了一切！</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+        
+    </main>
+</div>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n');
+        } catch (e) {
+            outConsole.innerHTML = `<span style="color:var(--error-color)">⚠️ ${e.name} : ${e.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+</script>
+</body>
+</html>

@@ -1,0 +1,1611 @@
+1
+00:00:01,360 --> 00:00:02,960
+So the module bundler
+
+2
+00:00:02,960 --> 00:00:06,750
+that we're gonna use in this course is called Parcel.
+
+3
+00:00:06,750 --> 00:00:09,560
+And it's super fast and easy to use,
+
+4
+00:00:09,560 --> 00:00:11,460
+and, even more importantly,
+
+5
+00:00:11,460 --> 00:00:15,410
+it works out of the box without any configuration.
+
+6
+00:00:15,410 --> 00:00:18,012
+Now you might've heard of Webpack as well
+
+7
+00:00:18,012 --> 00:00:21,190
+which is probably the most popular bundler
+
+8
+00:00:21,190 --> 00:00:24,140
+and especially in react world.
+
+9
+00:00:24,140 --> 00:00:28,510
+However, it's way too complex to use in a course like this.
+
+10
+00:00:28,510 --> 00:00:31,083
+And so let's now learn how to use Parcel.
+
+11
+00:00:32,950 --> 00:00:36,760
+So Parcel is basically just another build tool
+
+12
+00:00:36,760 --> 00:00:39,010
+which is also on NPM.
+
+13
+00:00:39,010 --> 00:00:42,013
+And so we will use NPM to install it.
+
+14
+00:00:42,860 --> 00:00:46,540
+So NPM install Parcel
+
+15
+00:00:46,540 --> 00:00:49,430
+but this is now a different dependency.
+
+16
+00:00:49,430 --> 00:00:51,060
+And so here we have to write
+
+17
+00:00:51,060 --> 00:00:55,303
+dash, dash, safe, dev like this.
+
+18
+00:00:56,360 --> 00:00:57,230
+Okay?
+
+19
+00:00:57,230 --> 00:01:00,173
+Then hit enter, and simply watch it install.
+
+20
+00:01:01,030 --> 00:01:04,480
+So a devDependency is basically like a tool
+
+21
+00:01:04,480 --> 00:01:07,650
+that we need to build our application.
+
+22
+00:01:07,650 --> 00:01:09,080
+But it's not a dependency
+
+23
+00:01:09,080 --> 00:01:12,030
+that we actually include in our code.
+
+24
+00:01:12,030 --> 00:01:12,863
+All right.
+
+25
+00:01:12,863 --> 00:01:14,470
+So it's simply a tool.
+
+26
+00:01:14,470 --> 00:01:17,980
+And so that's why it's called a devDependency
+
+27
+00:01:17,980 --> 00:01:22,770
+because we can use it to develop our project.
+
+28
+00:01:22,770 --> 00:01:26,090
+And so therefore it appears here in a new field,
+
+29
+00:01:26,090 --> 00:01:27,923
+in our package.json file.
+
+30
+00:01:28,920 --> 00:01:30,930
+So again, these libraries,
+
+31
+00:01:30,930 --> 00:01:33,270
+that we actually include in our code,
+
+32
+00:01:33,270 --> 00:01:35,180
+are the regular dependencies
+
+33
+00:01:35,180 --> 00:01:39,550
+and Parcel is a devDependency now, right?
+
+34
+00:01:39,550 --> 00:01:43,350
+So let's clear the console here and actually use Parcel.
+
+35
+00:01:43,350 --> 00:01:45,270
+So we do it here in the terminal
+
+36
+00:01:45,270 --> 00:01:47,290
+because Parcel is basically
+
+37
+00:01:47,290 --> 00:01:50,380
+just another command line interface.
+
+38
+00:01:50,380 --> 00:01:54,393
+However, we cannot simply run Parcel like this.
+
+39
+00:01:56,020 --> 00:01:58,270
+So this is not going to work
+
+40
+00:01:58,270 --> 00:02:00,750
+because the command is not found.
+
+41
+00:02:00,750 --> 00:02:01,950
+And the reason for that
+
+42
+00:02:01,950 --> 00:02:04,280
+is simply that this doesn't work
+
+43
+00:02:04,280 --> 00:02:07,150
+with locally installed packages.
+
+44
+00:02:07,150 --> 00:02:10,230
+And Parcel was indeed installed locally.
+
+45
+00:02:10,230 --> 00:02:12,660
+So basically only on this project
+
+46
+00:02:12,660 --> 00:02:16,040
+and that's why it showed up in the package.json file
+
+47
+00:02:16,040 --> 00:02:18,100
+of this exact project.
+
+48
+00:02:18,100 --> 00:02:20,390
+So there are also global installations
+
+49
+00:02:20,390 --> 00:02:23,700
+but more about that by the end of this video.
+
+50
+00:02:23,700 --> 00:02:26,640
+Now, in order to still be able to use Parcel
+
+51
+00:02:26,640 --> 00:02:30,100
+here in the console, we have two options.
+
+52
+00:02:30,100 --> 00:02:32,560
+So we can use something called NPX
+
+53
+00:02:32,560 --> 00:02:35,900
+or we can use NPM scripts.
+
+54
+00:02:35,900 --> 00:02:37,970
+So let's start with NPX,
+
+55
+00:02:37,970 --> 00:02:42,363
+which is basically an application built into a NPM.
+
+56
+00:02:43,290 --> 00:02:45,200
+So the details don't matter.
+
+57
+00:02:45,200 --> 00:02:48,930
+But what does matter is that we can simply use NPX
+
+58
+00:02:48,930 --> 00:02:53,351
+to now run the same command as we did before,
+
+59
+00:02:53,351 --> 00:02:56,800
+but this time it is going to work.
+
+60
+00:02:56,800 --> 00:02:59,803
+And so this is the normal command,
+
+61
+00:02:59,803 --> 00:03:02,800
+and the option that we pass into Parcel
+
+62
+00:03:02,800 --> 00:03:05,820
+basically is this entry point.
+
+63
+00:03:05,820 --> 00:03:08,830
+So the entry point is index.html
+
+64
+00:03:08,830 --> 00:03:11,733
+because that is where we include our script.js.
+
+65
+00:03:12,790 --> 00:03:16,110
+So basically the file that we want to bundle up.
+
+66
+00:03:16,110 --> 00:03:20,290
+So in our script.js, we are currently including
+
+67
+00:03:20,290 --> 00:03:23,713
+this cloneDeep deep module from Lodash,
+
+68
+00:03:24,730 --> 00:03:26,874
+and also let's actually put back
+
+69
+00:03:26,874 --> 00:03:29,570
+this code from the beginning
+
+70
+00:03:29,570 --> 00:03:32,387
+so that we are also importing
+
+71
+00:03:32,387 --> 00:03:35,610
+our shoppingCart module from before.
+
+72
+00:03:35,610 --> 00:03:39,440
+And so basically in this example, the goal of using Parcel
+
+73
+00:03:39,440 --> 00:03:42,730
+is to bundle these three modules together.
+
+74
+00:03:42,730 --> 00:03:47,730
+So script.js together with shoppingCart.js
+
+75
+00:03:47,760 --> 00:03:50,753
+and together with this cloneDeep.
+
+76
+00:03:52,250 --> 00:03:55,160
+And so let's actually try this now.
+
+77
+00:03:55,160 --> 00:03:57,080
+So I'm hitting enter here
+
+78
+00:03:57,080 --> 00:03:58,890
+and now it's going to take some time
+
+79
+00:03:58,890 --> 00:04:01,250
+and do some magic behind the scenes,
+
+80
+00:04:01,250 --> 00:04:02,933
+but now it is actually done.
+
+81
+00:04:03,960 --> 00:04:05,872
+So a Parcel actually then also starts
+
+82
+00:04:05,872 --> 00:04:08,893
+a new development server on this URL.
+
+83
+00:04:10,090 --> 00:04:11,273
+So let's click that.
+
+84
+00:04:12,410 --> 00:04:16,510
+And so you'll see it opened a new tab right here.
+
+85
+00:04:16,510 --> 00:04:19,410
+So basically besides only bundling,
+
+86
+00:04:19,410 --> 00:04:23,483
+it also does exactly the same job as our live server.
+
+87
+00:04:24,440 --> 00:04:27,370
+So remember that we started this development server
+
+88
+00:04:27,370 --> 00:04:30,830
+using the live server package, right?
+
+89
+00:04:30,830 --> 00:04:33,500
+And so this one here does exactly the same.
+
+90
+00:04:33,500 --> 00:04:37,000
+The difference is that this one is on port 8080,
+
+91
+00:04:37,000 --> 00:04:40,130
+and this one is on port 1234.
+
+92
+00:04:40,130 --> 00:04:42,330
+And here we also have local hosts
+
+93
+00:04:42,330 --> 00:04:46,893
+but that is exactly the same as the writing 127001.
+
+94
+00:04:47,860 --> 00:04:50,360
+So this is just the raw IP address
+
+95
+00:04:50,360 --> 00:04:53,480
+and local host is the nicer name.
+
+96
+00:04:53,480 --> 00:04:54,760
+All right.
+
+97
+00:04:54,760 --> 00:04:58,400
+Now, if you did have any errors by doing this,
+
+98
+00:04:58,400 --> 00:05:01,020
+so maybe you couldn't even install Parcel,
+
+99
+00:05:01,020 --> 00:05:02,770
+or maybe you got some error
+
+100
+00:05:02,770 --> 00:05:05,530
+while you were trying to run this command
+
+101
+00:05:05,530 --> 00:05:08,563
+then let me help you troubleshoot that.
+
+102
+00:05:10,070 --> 00:05:13,190
+So to do that, I'm going to open a new terminal here
+
+103
+00:05:13,190 --> 00:05:16,020
+and we can do that by clicking this plus.
+
+104
+00:05:16,020 --> 00:05:17,313
+And so now we have three.
+
+105
+00:05:18,410 --> 00:05:21,530
+And this first one we actually don't need anymore.
+
+106
+00:05:21,530 --> 00:05:24,630
+So this one is still running our live server.
+
+107
+00:05:24,630 --> 00:05:29,630
+And so let's canceled that by hitting control, C, okay?
+
+108
+00:05:29,670 --> 00:05:33,900
+And again, that's because Parcel already does that same job.
+
+109
+00:05:33,900 --> 00:05:37,100
+And so right now we no longer need this
+
+110
+00:05:37,100 --> 00:05:41,000
+and so now it's not working anymore, so let's close it.
+
+111
+00:05:41,000 --> 00:05:43,700
+And the same for this terminal window.
+
+112
+00:05:43,700 --> 00:05:47,497
+But anyway, let's go back to the one we were using.
+
+113
+00:05:47,497 --> 00:05:50,810
+And so again, if you had any error installing it,
+
+114
+00:05:50,810 --> 00:05:53,410
+you can try installing it with sudo
+
+115
+00:05:53,410 --> 00:05:56,560
+which will give you basically more permissions.
+
+116
+00:05:56,560 --> 00:05:57,980
+So you write sudo,
+
+117
+00:05:57,980 --> 00:06:00,850
+and then exactly the same command as before.
+
+118
+00:06:00,850 --> 00:06:04,040
+So NPM install Parcel.
+
+119
+00:06:04,040 --> 00:06:06,370
+This will then ask you for your password
+
+120
+00:06:06,370 --> 00:06:09,200
+and then hopefully that's going to work.
+
+121
+00:06:09,200 --> 00:06:11,000
+Now, if that doesn't fix it,
+
+122
+00:06:11,000 --> 00:06:13,950
+then you have to install exactly the same version
+
+123
+00:06:13,950 --> 00:06:15,433
+as I am using here.
+
+124
+00:06:16,350 --> 00:06:20,080
+So we can read that in our package.json file.
+
+125
+00:06:20,080 --> 00:06:24,363
+And so here you see that I'm using version 1.12.4.
+
+126
+00:06:25,520 --> 00:06:29,930
+And so you can NPM install exactly this version
+
+127
+00:06:29,930 --> 00:06:34,930
+by writing at and then 1.12.4.
+
+128
+00:06:35,150 --> 00:06:38,060
+So maybe you have version two already installed
+
+129
+00:06:38,060 --> 00:06:41,000
+because it's going to be coming out very soon
+
+130
+00:06:41,000 --> 00:06:43,250
+and then that might break something.
+
+131
+00:06:43,250 --> 00:06:46,210
+And so therefore it's best to use this version,
+
+132
+00:06:46,210 --> 00:06:50,220
+1.12.4, at least in this project.
+
+133
+00:06:50,220 --> 00:06:54,040
+In the next project, we will probably use version two.
+
+134
+00:06:54,040 --> 00:06:55,950
+And if that still doesn't fix it,
+
+135
+00:06:55,950 --> 00:06:58,130
+then before doing this command,
+
+136
+00:06:58,130 --> 00:07:00,630
+you can try to uninstall it first.
+
+137
+00:07:00,630 --> 00:07:05,630
+So NPM uninstall Parcel like this.
+
+138
+00:07:06,290 --> 00:07:07,810
+And then after that,
+
+139
+00:07:07,810 --> 00:07:10,550
+you can try again to install this version.
+
+140
+00:07:10,550 --> 00:07:13,240
+And so then you should be good to go.
+
+141
+00:07:13,240 --> 00:07:15,323
+So you should have no more errors then.
+
+142
+00:07:16,770 --> 00:07:18,100
+Okay.
+
+143
+00:07:18,100 --> 00:07:19,390
+Now speaking of errors,
+
+144
+00:07:19,390 --> 00:07:23,380
+we do actually have one error here coming from our code.
+
+145
+00:07:23,380 --> 00:07:25,560
+But the problem for all of that
+
+146
+00:07:25,560 --> 00:07:28,923
+is that we still have this type module here.
+
+147
+00:07:29,940 --> 00:07:31,930
+However, what Parcel does
+
+148
+00:07:31,930 --> 00:07:35,420
+is that it basically, simply, creates a script.
+
+149
+00:07:35,420 --> 00:07:39,090
+And so now we are actually no longer using a module
+
+150
+00:07:39,090 --> 00:07:42,450
+but we are back to using a regular script.
+
+151
+00:07:42,450 --> 00:07:43,550
+And that is important
+
+152
+00:07:43,550 --> 00:07:47,100
+because modules do not work in older browsers.
+
+153
+00:07:47,100 --> 00:07:52,100
+So let's comment this one out just so we can also keep it.
+
+154
+00:07:52,430 --> 00:07:56,620
+Then I'm deleting this part and then let's give it a save
+
+155
+00:07:56,620 --> 00:08:00,940
+so that Parcel can rebuild this application.
+
+156
+00:08:00,940 --> 00:08:03,053
+And great, the error is gone.
+
+157
+00:08:04,182 --> 00:08:05,015
+Okay.
+
+158
+00:08:05,015 --> 00:08:09,320
+But now let's actually take a look at what Parcel did here.
+
+159
+00:08:09,320 --> 00:08:13,270
+So what it did was to create this dist folder,
+
+160
+00:08:13,270 --> 00:08:15,390
+which stands for distribution,
+
+161
+00:08:15,390 --> 00:08:18,360
+because it is essentially gonna be this folder
+
+162
+00:08:18,360 --> 00:08:20,780
+that we will send for production.
+
+163
+00:08:20,780 --> 00:08:23,160
+So basically it's the code in this folder
+
+164
+00:08:23,160 --> 00:08:26,260
+that we will send to our final users.
+
+165
+00:08:26,260 --> 00:08:29,760
+So you'll see it created a new index.html here
+
+166
+00:08:29,760 --> 00:08:32,703
+and also a bunch of JavaScript files.
+
+167
+00:08:33,900 --> 00:08:37,110
+So let's take a look at this index here.
+
+168
+00:08:37,110 --> 00:08:40,140
+And so you see that indeed it is a new one
+
+169
+00:08:40,140 --> 00:08:42,070
+because the included script here
+
+170
+00:08:42,070 --> 00:08:45,500
+is now no longer the one that we built ourselves
+
+171
+00:08:45,500 --> 00:08:50,500
+but it is script, dot and then all of this here.
+
+172
+00:08:52,500 --> 00:08:57,500
+And so this new script here is basically the bundle itself.
+
+173
+00:08:57,680 --> 00:09:01,233
+So it's this file, and so let's analyze it here as well.
+
+174
+00:09:02,750 --> 00:09:03,680
+Okay.
+
+175
+00:09:03,680 --> 00:09:06,090
+And so here you already see that it does include
+
+176
+00:09:06,090 --> 00:09:10,650
+some of the stuff that we have in our other modules.
+
+177
+00:09:10,650 --> 00:09:15,063
+So importing module, for example, we had in script.js.
+
+178
+00:09:17,190 --> 00:09:18,863
+Let's see what else we have here.
+
+179
+00:09:20,560 --> 00:09:22,290
+So here you see a bunch of stuff
+
+180
+00:09:22,290 --> 00:09:25,223
+that is created by Parcel, of course.
+
+181
+00:09:26,870 --> 00:09:30,760
+So this is basically the cloneDeep function,
+
+182
+00:09:30,760 --> 00:09:32,653
+probably, at some point here.
+
+183
+00:09:34,510 --> 00:09:37,893
+So you see a lot of code created by Parcel.
+
+184
+00:09:40,470 --> 00:09:42,880
+But, yeah.
+
+185
+00:09:42,880 --> 00:09:45,690
+So in the real world, you will not take a look at this code,
+
+186
+00:09:45,690 --> 00:09:47,310
+but I just wanted to show you
+
+187
+00:09:47,310 --> 00:09:50,710
+that, of course, all of our code is now in here.
+
+188
+00:09:50,710 --> 00:09:54,320
+So let's just search for cloneDeep, for example.
+
+189
+00:09:54,320 --> 00:09:55,543
+So the one that we used.
+
+190
+00:09:56,840 --> 00:10:01,330
+And so it's gotta be somewhere down here as a function.
+
+191
+00:10:01,330 --> 00:10:04,100
+And so indeed all the code that we had before,
+
+192
+00:10:04,100 --> 00:10:08,733
+spread across multiple modules, is now all in this script.
+
+193
+00:10:09,850 --> 00:10:12,427
+And so that's exactly the goal that we had.
+
+194
+00:10:13,800 --> 00:10:18,220
+And unused code has probably also not yet been removed
+
+195
+00:10:18,220 --> 00:10:20,670
+but we will leave that for later.
+
+196
+00:10:20,670 --> 00:10:23,180
+So that's going to be the build step
+
+197
+00:10:23,180 --> 00:10:26,620
+but what we're doing right now is the development step.
+
+198
+00:10:26,620 --> 00:10:28,270
+And so in order for us to be able
+
+199
+00:10:28,270 --> 00:10:31,130
+to check the code during development,
+
+200
+00:10:31,130 --> 00:10:33,003
+it will not compress everything.
+
+201
+00:10:36,020 --> 00:10:36,853
+All right?
+
+202
+00:10:36,853 --> 00:10:41,853
+So we can close all of this and go back to our script here
+
+203
+00:10:42,040 --> 00:10:43,890
+because I want to show you something.
+
+204
+00:10:45,090 --> 00:10:49,070
+So of course, whenever we now save this file,
+
+205
+00:10:49,070 --> 00:10:51,420
+then it will reload this file here,
+
+206
+00:10:51,420 --> 00:10:55,950
+just as we had before with live server, right?
+
+207
+00:10:55,950 --> 00:11:00,587
+So as I saved you see that everything here reloaded, right?
+
+208
+00:11:01,640 --> 00:11:04,100
+And we can see that here as well.
+
+209
+00:11:04,100 --> 00:11:06,750
+So take a look at what happens when I save this here.
+
+210
+00:11:07,670 --> 00:11:10,630
+Then you'll see this happened again.
+
+211
+00:11:10,630 --> 00:11:14,580
+However, in Parcel, we can activate something even better,
+
+212
+00:11:14,580 --> 00:11:17,930
+which is called hot module replacement.
+
+213
+00:11:17,930 --> 00:11:22,930
+So we can write if module.hot, like this,
+
+214
+00:11:25,360 --> 00:11:29,147
+then module.hot.accept.
+
+215
+00:11:32,400 --> 00:11:36,770
+Now this code here is code that only Parcel understands.
+
+216
+00:11:36,770 --> 00:11:40,280
+And so of course it will not make it into our final bundle
+
+217
+00:11:40,280 --> 00:11:43,313
+because the browser is not going to understand any of it.
+
+218
+00:11:44,220 --> 00:11:47,310
+But anyway, what hot module reloading means
+
+219
+00:11:47,310 --> 00:11:50,320
+is that whenever we change one of the modules,
+
+220
+00:11:50,320 --> 00:11:54,020
+it will then, of course, trigger a rebuild, like this,
+
+221
+00:11:54,020 --> 00:11:58,250
+but that new modified bundle will then automatically,
+
+222
+00:11:58,250 --> 00:12:01,650
+like magic, get injected into the browser
+
+223
+00:12:01,650 --> 00:12:04,860
+without triggering a whole page reload.
+
+224
+00:12:04,860 --> 00:12:06,220
+All right.
+
+225
+00:12:06,220 --> 00:12:08,570
+So again, whenever we change something here,
+
+226
+00:12:08,570 --> 00:12:11,960
+this will then not reload this part of the page.
+
+227
+00:12:11,960 --> 00:12:13,600
+And so that's going to be amazing
+
+228
+00:12:13,600 --> 00:12:16,350
+for maintaining state on our page
+
+229
+00:12:16,350 --> 00:12:18,660
+whenever we are testing out something.
+
+230
+00:12:18,660 --> 00:12:21,610
+So this used to be something quite annoying in the past.
+
+231
+00:12:21,610 --> 00:12:24,020
+For example, in our Bankist the application,
+
+232
+00:12:24,020 --> 00:12:26,400
+where whenever we reloaded the page,
+
+233
+00:12:26,400 --> 00:12:29,530
+we needed to log in again into the application.
+
+234
+00:12:29,530 --> 00:12:30,850
+Remember that?
+
+235
+00:12:30,850 --> 00:12:33,720
+But with Parcel and hot module replacement,
+
+236
+00:12:33,720 --> 00:12:35,490
+that's not going to happen,
+
+237
+00:12:35,490 --> 00:12:38,300
+because the page will not reload.
+
+238
+00:12:38,300 --> 00:12:39,380
+So if I save this now,
+
+239
+00:12:39,380 --> 00:12:42,300
+then probably it's going to look the same.
+
+240
+00:12:42,300 --> 00:12:45,160
+But again, if we had some state here on the page,
+
+241
+00:12:45,160 --> 00:12:46,873
+then that would be maintained.
+
+242
+00:12:47,900 --> 00:12:51,603
+Okay, next up, let's change something here.
+
+243
+00:12:52,860 --> 00:12:57,860
+So as I said, when we first included this cloneDeep here,
+
+244
+00:12:58,370 --> 00:13:03,370
+from lodash, this is quite cumbersome doing it like this.
+
+245
+00:13:03,394 --> 00:13:05,790
+And so that's why in all module bundlers,
+
+246
+00:13:05,790 --> 00:13:07,630
+there's no need for specifying
+
+247
+00:13:07,630 --> 00:13:10,650
+the entire path to any module.
+
+248
+00:13:10,650 --> 00:13:12,703
+So instead we can simply do this.
+
+249
+00:13:13,890 --> 00:13:17,090
+So keeping this here just for reference,
+
+250
+00:13:17,090 --> 00:13:18,840
+and then all we need to say
+
+251
+00:13:18,840 --> 00:13:22,733
+is that we want to include the lodash library.
+
+252
+00:13:23,920 --> 00:13:26,240
+And so Parcel will then automatically
+
+253
+00:13:26,240 --> 00:13:29,060
+find the path to this module,
+
+254
+00:13:29,060 --> 00:13:31,720
+and will simply import it like this
+
+255
+00:13:31,720 --> 00:13:34,230
+without us having to manually tie up
+
+256
+00:13:34,230 --> 00:13:35,893
+the entire path to there.
+
+257
+00:13:36,810 --> 00:13:41,130
+And so that's a lot more useful than what we had before.
+
+258
+00:13:41,130 --> 00:13:44,420
+And in fact, this works with all kinds of assets.
+
+259
+00:13:44,420 --> 00:13:49,220
+So even with HTML or CSS or SAS files,
+
+260
+00:13:49,220 --> 00:13:53,870
+or even images, and of course also all kinds of modules.
+
+261
+00:13:53,870 --> 00:13:56,200
+So not only ESX modules,
+
+262
+00:13:56,200 --> 00:14:00,200
+but this is also going to work with CommonJS modules.
+
+263
+00:14:00,200 --> 00:14:02,360
+So let me actually show that to you.
+
+264
+00:14:02,360 --> 00:14:06,630
+So instead of importing a DES version of lodash,
+
+265
+00:14:06,630 --> 00:14:09,393
+we can simply import lodash like this.
+
+266
+00:14:10,490 --> 00:14:12,743
+So just a regular version of lodash
+
+267
+00:14:13,730 --> 00:14:15,920
+and Parcel is even smart enough
+
+268
+00:14:15,920 --> 00:14:18,663
+to then automatically install this package here.
+
+269
+00:14:21,950 --> 00:14:23,110
+Okay.
+
+270
+00:14:23,110 --> 00:14:27,853
+So now if we go to our package.json right here,
+
+271
+00:14:29,290 --> 00:14:31,550
+well, it's probably not here.
+
+272
+00:14:31,550 --> 00:14:34,500
+So it looks like maybe it didn't install it.
+
+273
+00:14:34,500 --> 00:14:37,583
+So probably it's simply still using this one.
+
+274
+00:14:39,250 --> 00:14:40,083
+Okay.
+
+275
+00:14:40,083 --> 00:14:43,740
+But anyway, what I said is still true.
+
+276
+00:14:43,740 --> 00:14:45,890
+So Parcel can indeed work
+
+277
+00:14:45,890 --> 00:14:48,820
+with all the CommonJS modules as well.
+
+278
+00:14:48,820 --> 00:14:51,290
+And so this way we can then simply use
+
+279
+00:14:51,290 --> 00:14:54,520
+all the modules that are available on NPM
+
+280
+00:14:54,520 --> 00:14:58,020
+and which still use this older module format.
+
+281
+00:14:58,020 --> 00:15:01,630
+So let's leave it like this, save it again.
+
+282
+00:15:01,630 --> 00:15:05,640
+And maybe you have been noticing that this cart right here
+
+283
+00:15:05,640 --> 00:15:08,690
+keeps growing and growing and growing.
+
+284
+00:15:08,690 --> 00:15:10,496
+So if we take a look at this,
+
+285
+00:15:10,496 --> 00:15:14,770
+you see that we are adding these three products
+
+286
+00:15:14,770 --> 00:15:16,690
+over and over again.
+
+287
+00:15:16,690 --> 00:15:21,030
+And so the reason for that is hot module replacement.
+
+288
+00:15:21,030 --> 00:15:25,130
+So the state is maintained whenever we reload the page here.
+
+289
+00:15:25,130 --> 00:15:27,903
+And so that's exactly what we can now observe here.
+
+290
+00:15:29,490 --> 00:15:30,400
+Okay.
+
+291
+00:15:30,400 --> 00:15:32,910
+So if we save it again, then we will have 15
+
+292
+00:15:34,040 --> 00:15:37,830
+because we are simply adding new objects into this object
+
+293
+00:15:37,830 --> 00:15:42,830
+that keeps persisting over page reloads, basically.
+
+294
+00:15:43,130 --> 00:15:45,450
+And so this works with all state,
+
+295
+00:15:45,450 --> 00:15:48,930
+and again, it's going to be really, really helpful.
+
+296
+00:15:48,930 --> 00:15:49,780
+Okay.
+
+297
+00:15:49,780 --> 00:15:54,490
+So this is how Parcel works and let me know, finish it here
+
+298
+00:15:54,490 --> 00:15:58,020
+because remember the way we executed Parcel first
+
+299
+00:15:58,020 --> 00:16:03,020
+was by saying a NPX Parcel and then index.html.
+
+300
+00:16:04,110 --> 00:16:06,710
+However, I mentioned that there is a second way,
+
+301
+00:16:06,710 --> 00:16:09,360
+which is to use NPM script.
+
+302
+00:16:09,360 --> 00:16:13,070
+And so that's the way we actually use it in practice.
+
+303
+00:16:13,070 --> 00:16:16,370
+So NPM scripts are basically another way
+
+304
+00:16:17,560 --> 00:16:21,773
+of running a locally installed packages in the command line.
+
+305
+00:16:23,350 --> 00:16:27,910
+They also allow us to basically automate repetitive tasks.
+
+306
+00:16:27,910 --> 00:16:31,690
+And so therefore we then don't have to write NPX Parcel
+
+307
+00:16:31,690 --> 00:16:34,773
+and all of that, every time that we want to use it.
+
+308
+00:16:35,870 --> 00:16:38,067
+So we can simply create a script here,
+
+309
+00:16:38,067 --> 00:16:40,363
+and let me delete this one here,
+
+310
+00:16:41,530 --> 00:16:44,073
+let me just delete all of it and create a new one.
+
+311
+00:16:45,700 --> 00:16:49,420
+So we need to double quote and then the name of the script
+
+312
+00:16:49,420 --> 00:16:51,793
+and the default is start here,
+
+313
+00:16:54,200 --> 00:16:57,330
+and then here comes the script itself.
+
+314
+00:16:57,330 --> 00:16:58,620
+And so the script is going to
+
+315
+00:16:58,620 --> 00:17:03,620
+be simply Parcel index.html.
+
+316
+00:17:04,610 --> 00:17:07,330
+So again, we can't write this command
+
+317
+00:17:07,330 --> 00:17:09,570
+directly in the command line,
+
+318
+00:17:09,570 --> 00:17:13,190
+but we can write it in the NPM script.
+
+319
+00:17:13,190 --> 00:17:15,900
+And so let's now go back to our console
+
+320
+00:17:15,900 --> 00:17:20,040
+and try it out and actually run this command.
+
+321
+00:17:20,040 --> 00:17:24,120
+NPM run and then start.
+
+322
+00:17:24,120 --> 00:17:27,140
+And so start is the name of the NPM script
+
+323
+00:17:27,140 --> 00:17:28,333
+that we defined here.
+
+324
+00:17:30,150 --> 00:17:31,590
+So let's try that.
+
+325
+00:17:31,590 --> 00:17:32,763
+And here we go.
+
+326
+00:17:34,770 --> 00:17:36,960
+So it's doing the same thing as before
+
+327
+00:17:36,960 --> 00:17:38,593
+but now we have the simple command
+
+328
+00:17:38,593 --> 00:17:42,630
+that we can execute whenever we want to start Parcel
+
+329
+00:17:42,630 --> 00:17:46,500
+and whenever we want to start developing, basically.
+
+330
+00:17:46,500 --> 00:17:47,380
+All right.
+
+331
+00:17:47,380 --> 00:17:51,453
+And so again, that is mainly how we do it in development.
+
+332
+00:17:53,290 --> 00:17:54,530
+Okay.
+
+333
+00:17:54,530 --> 00:17:56,620
+And speaking of development,
+
+334
+00:17:56,620 --> 00:17:59,480
+whenever we are done developing our project,
+
+335
+00:17:59,480 --> 00:18:02,670
+it is time to build the final bundle.
+
+336
+00:18:02,670 --> 00:18:04,680
+So the bundle that is compressed
+
+337
+00:18:04,680 --> 00:18:08,560
+and has dead code elimination and all of that.
+
+338
+00:18:08,560 --> 00:18:11,920
+And so for that, we need another Parcel command.
+
+339
+00:18:11,920 --> 00:18:15,350
+And so let's add that as another script here.
+
+340
+00:18:15,350 --> 00:18:16,570
+So we need to come up
+
+341
+00:18:16,570 --> 00:18:19,943
+and then this one will be called build.
+
+342
+00:18:22,320 --> 00:18:27,320
+And so Parcel, build, and then again, index.html.
+
+343
+00:18:30,880 --> 00:18:33,453
+So let's stop this one here actually,
+
+344
+00:18:34,980 --> 00:18:39,843
+and now let's run NPM run build.
+
+345
+00:18:42,000 --> 00:18:44,740
+So this might take some more time this time
+
+346
+00:18:45,610 --> 00:18:48,550
+because it's doing a lot more work behind the scenes,
+
+347
+00:18:48,550 --> 00:18:50,143
+but let's just wait for it.
+
+348
+00:18:52,320 --> 00:18:53,260
+All right.
+
+349
+00:18:53,260 --> 00:18:55,950
+And so now we even get this nice output
+
+350
+00:18:55,950 --> 00:18:57,623
+with the sizes of everything.
+
+351
+00:18:58,580 --> 00:19:01,713
+And so let's now take a look at our dist folder,
+
+352
+00:19:03,050 --> 00:19:04,170
+and you see immediately
+
+353
+00:19:04,170 --> 00:19:07,640
+that this HTML looks different, right?
+
+354
+00:19:07,640 --> 00:19:09,910
+It is compressed now.
+
+355
+00:19:09,910 --> 00:19:12,850
+So the script that we can then ship to the browser
+
+356
+00:19:12,850 --> 00:19:15,870
+and ship to our users is this one.
+
+357
+00:19:15,870 --> 00:19:18,523
+So ending in FD3.
+
+358
+00:19:19,730 --> 00:19:23,070
+So this one, all right.
+
+359
+00:19:23,070 --> 00:19:26,910
+And again, you see that it looks quite different.
+
+360
+00:19:26,910 --> 00:19:30,283
+Everything is compressed into this unreadable mess,
+
+361
+00:19:31,160 --> 00:19:34,210
+but it is, of course, a lot more performance
+
+362
+00:19:34,210 --> 00:19:36,590
+than the script that we had before.
+
+363
+00:19:36,590 --> 00:19:39,343
+And so that's why Parcel does this for us.
+
+364
+00:19:40,230 --> 00:19:41,700
+And we will, again, come back
+
+365
+00:19:41,700 --> 00:19:44,230
+to all of this in the real world
+
+366
+00:19:44,230 --> 00:19:48,410
+once we actually move to our next more real project
+
+367
+00:19:48,410 --> 00:19:50,703
+in which we're going to use all of this.
+
+368
+00:19:52,170 --> 00:19:53,940
+Now, just to finish this lecture,
+
+369
+00:19:53,940 --> 00:19:55,310
+I also wanted to mention
+
+370
+00:19:55,310 --> 00:19:59,200
+that we can also install packages globally.
+
+371
+00:19:59,200 --> 00:20:01,510
+And so that would work like this.
+
+372
+00:20:01,510 --> 00:20:06,510
+So NPM install Parcel, and then G which stands for global.
+
+373
+00:20:08,660 --> 00:20:09,960
+And this is actually the way
+
+374
+00:20:09,960 --> 00:20:13,060
+that we installed the live server package before.
+
+375
+00:20:13,060 --> 00:20:14,300
+And so, because of that,
+
+376
+00:20:14,300 --> 00:20:17,430
+we were then simply able to use live server
+
+377
+00:20:17,430 --> 00:20:20,350
+in every directory on our computer.
+
+378
+00:20:20,350 --> 00:20:22,310
+So basically the big difference
+
+379
+00:20:22,310 --> 00:20:26,130
+between globally and locally installed packages
+
+380
+00:20:26,130 --> 00:20:29,980
+and especially these tools like Parcel or live server,
+
+381
+00:20:29,980 --> 00:20:31,840
+is that we can use the global tools
+
+382
+00:20:31,840 --> 00:20:33,760
+directly in the command line
+
+383
+00:20:33,760 --> 00:20:37,840
+without the intermediate step of an NPM script.
+
+384
+00:20:37,840 --> 00:20:41,580
+However, most of these tools actually advise developers
+
+385
+00:20:41,580 --> 00:20:44,950
+to always install the tools locally
+
+386
+00:20:44,950 --> 00:20:48,210
+so that they can always stay on the latest version.
+
+387
+00:20:48,210 --> 00:20:51,280
+And so usually I follow that approach as well.
+
+388
+00:20:51,280 --> 00:20:55,477
+And so I'm not going to install Parcel globally like this.
+
+389
+00:20:55,477 --> 00:20:57,050
+Okay.
+
+390
+00:20:57,050 --> 00:21:00,830
+And that's the fundamentals of bundling with Parcel
+
+391
+00:21:00,830 --> 00:21:04,400
+and of using build tools with NPM.
+
+392
+00:21:04,400 --> 00:21:07,730
+So I introduced a lot of different concepts here.
+
+393
+00:21:07,730 --> 00:21:10,560
+So to make sure to review this,
+
+394
+00:21:10,560 --> 00:21:13,880
+especially this part about the NPM scripts,
+
+395
+00:21:13,880 --> 00:21:16,330
+maybe that might be confusing
+
+396
+00:21:16,330 --> 00:21:19,030
+and also take a look at the output files
+
+397
+00:21:19,030 --> 00:21:21,170
+that Parcel gives us.
+
+398
+00:21:21,170 --> 00:21:23,570
+So just take some time to review
+
+399
+00:21:23,570 --> 00:21:25,410
+all that we did in this video.
+
+400
+00:21:25,410 --> 00:21:29,446
+And if after that, this is all still very confusing to you,
+
+401
+00:21:29,446 --> 00:21:31,210
+then don't worry.
+
+402
+00:21:31,210 --> 00:21:33,700
+I'm sure that it will make total sense
+
+403
+00:21:33,700 --> 00:21:37,243
+once we actually use this in our next big project.

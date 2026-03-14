@@ -1,0 +1,811 @@
+1
+00:00:01,350 --> 00:00:03,090
+(instructor)So before we continue
+
+2
+00:00:03,090 --> 00:00:05,250
+any further in our project,
+
+3
+00:00:05,250 --> 00:00:07,000
+we should now think a little bit
+
+4
+00:00:07,000 --> 00:00:09,433
+about our project Architecture.
+
+5
+00:00:11,140 --> 00:00:13,220
+Now, there are some quite advanced
+
+6
+00:00:13,220 --> 00:00:15,970
+architecture patterns in JavaScript.
+
+7
+00:00:15,970 --> 00:00:18,720
+And we will actually talk a little bit about this
+
+8
+00:00:18,720 --> 00:00:20,780
+by the end of the course.
+
+9
+00:00:20,780 --> 00:00:22,380
+But in this small project,
+
+10
+00:00:22,380 --> 00:00:25,970
+we will simply use object oriented programming with classes,
+
+11
+00:00:25,970 --> 00:00:28,970
+just like we learned in the last section.
+
+12
+00:00:28,970 --> 00:00:29,950
+And so this way,
+
+13
+00:00:29,950 --> 00:00:34,170
+you can then use these concepts here in a real project.
+
+14
+00:00:34,170 --> 00:00:37,380
+And remember that Architecture is all about
+
+15
+00:00:37,380 --> 00:00:40,060
+giving the project a structure.
+
+16
+00:00:40,060 --> 00:00:41,740
+And so in that structure,
+
+17
+00:00:41,740 --> 00:00:44,670
+we can then develop the functionality.
+
+18
+00:00:44,670 --> 00:00:46,670
+And so in this project,
+
+19
+00:00:46,670 --> 00:00:48,790
+I decided that the main structure
+
+20
+00:00:48,790 --> 00:00:52,580
+will come from classes and objects.
+
+21
+00:00:52,580 --> 00:00:55,470
+All right, so let's now dig a little bit deeper
+
+22
+00:00:55,470 --> 00:00:58,900
+into this Architecture that we gonna use.
+
+23
+00:00:58,900 --> 00:01:02,290
+So to start, one of the most important aspects
+
+24
+00:01:02,290 --> 00:01:04,070
+of any Architecture,
+
+25
+00:01:04,070 --> 00:01:08,040
+is to decide where and how to store the data.
+
+26
+00:01:08,040 --> 00:01:09,980
+Because data is probably
+
+27
+00:01:09,980 --> 00:01:13,660
+the most fundamental part of any application.
+
+28
+00:01:13,660 --> 00:01:16,860
+Because without data, it doesn't even make sense
+
+29
+00:01:16,860 --> 00:01:19,800
+to have an application in the first place.
+
+30
+00:01:19,800 --> 00:01:22,720
+Right, what would the application be about,
+
+31
+00:01:22,720 --> 00:01:25,840
+if not about some sort of data.
+
+32
+00:01:25,840 --> 00:01:28,620
+Now, in this case, the data that we need to store
+
+33
+00:01:28,620 --> 00:01:32,530
+and to manage comes directly from the user stories.
+
+34
+00:01:32,530 --> 00:01:34,610
+So right in the first user story,
+
+35
+00:01:34,610 --> 00:01:36,910
+we can already see that we will somehow
+
+36
+00:01:36,910 --> 00:01:40,040
+need to store the location, distance,
+
+37
+00:01:40,040 --> 00:01:43,320
+time, pace, and steps per minute.
+
+38
+00:01:43,320 --> 00:01:45,650
+And to fit the second user story,
+
+39
+00:01:45,650 --> 00:01:49,450
+we will have to implement basically the same data.
+
+40
+00:01:49,450 --> 00:01:52,210
+So again, location, distance, time and speed
+
+41
+00:01:52,210 --> 00:01:54,550
+but then also the elevation gain
+
+42
+00:01:54,550 --> 00:01:57,290
+instead of the steps per minute.
+
+43
+00:01:57,290 --> 00:01:59,470
+And so we will design our classes,
+
+44
+00:01:59,470 --> 00:02:01,380
+so that they can create objects
+
+45
+00:02:01,380 --> 00:02:03,860
+that will hold this kind of data.
+
+46
+00:02:03,860 --> 00:02:06,550
+And I believe that this is the best way
+
+47
+00:02:06,550 --> 00:02:11,430
+of designing the classes to really fit all user stories.
+
+48
+00:02:11,430 --> 00:02:14,560
+So you see that we are gonna have a big parent class,
+
+49
+00:02:14,560 --> 00:02:17,050
+which will be called Workout.
+
+50
+00:02:17,050 --> 00:02:18,470
+And so this one is gonna hold
+
+51
+00:02:18,470 --> 00:02:21,480
+the distance duration in coordinates.
+
+52
+00:02:21,480 --> 00:02:24,970
+And then we will have a more specific class for the running,
+
+53
+00:02:24,970 --> 00:02:28,370
+which will hold the cadence and the pace.
+
+54
+00:02:28,370 --> 00:02:31,070
+All right, and the reason why the classes
+
+55
+00:02:31,070 --> 00:02:33,140
+are designed like this is
+
+56
+00:02:33,140 --> 00:02:34,820
+because the distance duration
+
+57
+00:02:34,820 --> 00:02:36,830
+and coordinates are common
+
+58
+00:02:36,830 --> 00:02:39,770
+to both of the types of activities.
+
+59
+00:02:39,770 --> 00:02:42,110
+So both to Running and to Cycling
+
+60
+00:02:42,110 --> 00:02:45,090
+and so therefore they are in the Parent Class.
+
+61
+00:02:45,090 --> 00:02:49,060
+All right, and the same will also be true for some methods.
+
+62
+00:02:49,060 --> 00:02:52,050
+And so we will see that once we implement it.
+
+63
+00:02:52,050 --> 00:02:54,438
+And then for each type of activities,
+
+64
+00:02:54,438 --> 00:02:57,780
+as you see, we have one child class,
+
+65
+00:02:57,780 --> 00:03:00,580
+so that each child class can hold the data
+
+66
+00:03:00,580 --> 00:03:05,210
+and methods that are specific to that type of activity.
+
+67
+00:03:05,210 --> 00:03:07,260
+So I hope that makes sense
+
+68
+00:03:07,260 --> 00:03:08,670
+and this is the whole reason
+
+69
+00:03:08,670 --> 00:03:12,440
+why inheritance basically actually exists.
+
+70
+00:03:12,440 --> 00:03:14,900
+So that we can have more specific classes
+
+71
+00:03:14,900 --> 00:03:16,890
+that can inherited behavior
+
+72
+00:03:16,890 --> 00:03:18,840
+and common properties that are
+
+73
+00:03:18,840 --> 00:03:21,690
+common to all the child classes.
+
+74
+00:03:21,690 --> 00:03:24,558
+So the cadence and pace are specific for Running
+
+75
+00:03:24,558 --> 00:03:27,430
+and then the elevation gain and speed
+
+76
+00:03:27,430 --> 00:03:30,000
+are specific to the Cycling.
+
+77
+00:03:30,000 --> 00:03:32,800
+Okay, but once again, the Cycling also has
+
+78
+00:03:32,800 --> 00:03:35,560
+distance, duration, and coordinates.
+
+79
+00:03:35,560 --> 00:03:39,000
+And so that's why they are there in the parent class,
+
+80
+00:03:39,000 --> 00:03:41,220
+so in the workout class,
+
+81
+00:03:41,220 --> 00:03:43,330
+then here in this diagram,
+
+82
+00:03:43,330 --> 00:03:46,150
+you also see that we have some other properties,
+
+83
+00:03:46,150 --> 00:03:47,970
+like the ID and date.
+
+84
+00:03:47,970 --> 00:03:49,430
+But we will see why,
+
+85
+00:03:49,430 --> 00:03:51,830
+once we start implementing the code.
+
+86
+00:03:51,830 --> 00:03:55,453
+And yeah, that's actually it for the data.
+
+87
+00:03:56,320 --> 00:03:58,310
+So this kind of diagram is something
+
+88
+00:03:58,310 --> 00:03:59,660
+that you will commonly see
+
+89
+00:03:59,660 --> 00:04:02,940
+when working in object oriented programming.
+
+90
+00:04:02,940 --> 00:04:07,160
+So usually each class is represented by a box like this,
+
+91
+00:04:07,160 --> 00:04:08,300
+where in the top part,
+
+92
+00:04:08,300 --> 00:04:09,940
+you're gonna have the properties
+
+93
+00:04:09,940 --> 00:04:12,770
+and in the bottom part, the methods.
+
+94
+00:04:12,770 --> 00:04:14,320
+And of course, each class here
+
+95
+00:04:14,320 --> 00:04:17,410
+will have more than just the constructor method.
+
+96
+00:04:17,410 --> 00:04:20,690
+And so that's why I have these three dots there.
+
+97
+00:04:20,690 --> 00:04:22,790
+All right, so for now,
+
+98
+00:04:22,790 --> 00:04:23,830
+that's all we need to know
+
+99
+00:04:23,830 --> 00:04:27,370
+about the architecture of our data.
+
+100
+00:04:27,370 --> 00:04:30,076
+But now about the rest of the Architecture,
+
+101
+00:04:30,076 --> 00:04:33,060
+it's gonna be more about structuring the code
+
+102
+00:04:33,060 --> 00:04:36,260
+that we already have from the previous lectures.
+
+103
+00:04:36,260 --> 00:04:38,580
+And the events that we already have
+
+104
+00:04:38,580 --> 00:04:41,010
+are the loading of the page,
+
+105
+00:04:41,010 --> 00:04:45,730
+then receiving a position from the Geolocation API.
+
+106
+00:04:45,730 --> 00:04:48,950
+So this one isn't an event in the traditional sense.
+
+107
+00:04:48,950 --> 00:04:51,740
+So we're not handling it with Add Event Listener,
+
+108
+00:04:51,740 --> 00:04:54,850
+but we can still classify it as an event.
+
+109
+00:04:54,850 --> 00:04:56,990
+Then we have to click on the map.
+
+110
+00:04:56,990 --> 00:05:01,040
+We have changing the input from Cycling to Running,
+
+111
+00:05:01,040 --> 00:05:04,010
+or from Running to Cycling, remember,
+
+112
+00:05:04,010 --> 00:05:08,020
+and then we also have the event of submitting a form.
+
+113
+00:05:08,020 --> 00:05:09,730
+And so all we have to do now
+
+114
+00:05:09,730 --> 00:05:11,590
+is to create different functions
+
+115
+00:05:11,590 --> 00:05:14,590
+that will handle these different events.
+
+116
+00:05:14,590 --> 00:05:17,040
+And in fact, what we are gonna do
+
+117
+00:05:17,040 --> 00:05:19,990
+is to create a big class called App
+
+118
+00:05:19,990 --> 00:05:24,530
+that will basically hold all of these functions as methods.
+
+119
+00:05:24,530 --> 00:05:28,510
+So from a quick look at this application class diagram,
+
+120
+00:05:28,510 --> 00:05:31,250
+we can immediately see that loading the page
+
+121
+00:05:31,250 --> 00:05:34,370
+will of course trigger the constructor of the object
+
+122
+00:05:34,370 --> 00:05:37,310
+that we're gonna create through this class.
+
+123
+00:05:37,310 --> 00:05:39,850
+Okay, and so then right at the beginning,
+
+124
+00:05:39,850 --> 00:05:41,600
+we want to get the current position
+
+125
+00:05:41,600 --> 00:05:45,260
+of the user using the Geolocation API.
+
+126
+00:05:45,260 --> 00:05:47,150
+And so that's why there is that arrow
+
+127
+00:05:47,150 --> 00:05:50,520
+pointing from constructor to Get Position.
+
+128
+00:05:50,520 --> 00:05:52,550
+Then as we receive that position,
+
+129
+00:05:52,550 --> 00:05:56,240
+we want to load the map based on that position.
+
+130
+00:05:56,240 --> 00:06:00,280
+And so therefore, we're gonna have a method called Load Map.
+
+131
+00:06:00,280 --> 00:06:01,610
+Then as we click on the map,
+
+132
+00:06:01,610 --> 00:06:04,210
+we want a method called Show Form.
+
+133
+00:06:04,210 --> 00:06:05,970
+Then as we change the input,
+
+134
+00:06:05,970 --> 00:06:09,850
+we want a method called Toggle Elevation Field.
+
+135
+00:06:09,850 --> 00:06:12,700
+And then, and probably the most important one
+
+136
+00:06:12,700 --> 00:06:15,540
+is the event of submitting the form.
+
+137
+00:06:15,540 --> 00:06:17,280
+And this new workout method
+
+138
+00:06:17,280 --> 00:06:20,850
+will basically be the heart of this entire class,
+
+139
+00:06:20,850 --> 00:06:24,350
+because this is the one that will create new Running objects
+
+140
+00:06:24,350 --> 00:06:26,720
+or new Cycling objects.
+
+141
+00:06:26,720 --> 00:06:30,600
+And of course, these objects will be built based on the data
+
+142
+00:06:30,600 --> 00:06:33,260
+that's coming in from the form.
+
+143
+00:06:33,260 --> 00:06:37,240
+And as the user keeps adding Running, or Cycling workouts,
+
+144
+00:06:37,240 --> 00:06:40,371
+a new object will be created for each of the workouts.
+
+145
+00:06:40,371 --> 00:06:44,510
+And each of them will then be stored in a Workouts Array,
+
+146
+00:06:44,510 --> 00:06:48,470
+which will basically hold all of these objects.
+
+147
+00:06:48,470 --> 00:06:52,780
+Alright, so this is gonna be an important class property
+
+148
+00:06:52,780 --> 00:06:54,590
+that all methods of the class
+
+149
+00:06:54,590 --> 00:06:58,580
+will then be able to use to work with the workouts.
+
+150
+00:06:58,580 --> 00:07:00,670
+And so with this structure here,
+
+151
+00:07:00,670 --> 00:07:02,700
+we have everything that is related
+
+152
+00:07:02,700 --> 00:07:05,140
+to building the application itself,
+
+153
+00:07:05,140 --> 00:07:08,430
+organized into one neat block of data
+
+154
+00:07:08,430 --> 00:07:09,833
+and functionality.
+
+155
+00:07:10,700 --> 00:07:12,680
+And actually, having a class
+
+156
+00:07:12,680 --> 00:07:14,150
+that contains all the data
+
+157
+00:07:14,150 --> 00:07:16,570
+and methods about the application,
+
+158
+00:07:16,570 --> 00:07:20,670
+like we have here is a pretty common thing that you will see
+
+159
+00:07:20,670 --> 00:07:24,550
+in simple JavaScript applications like this one.
+
+160
+00:07:24,550 --> 00:07:27,640
+Now, if the application was a bit more complex,
+
+161
+00:07:27,640 --> 00:07:30,660
+then we could divide this Architecture even further
+
+162
+00:07:30,660 --> 00:07:32,030
+and create one class
+
+163
+00:07:32,030 --> 00:07:35,250
+that would only be concerned with the user interface
+
+164
+00:07:35,250 --> 00:07:38,900
+and one class for the so called Business Logic.
+
+165
+00:07:38,900 --> 00:07:40,390
+So basically, the logic
+
+166
+00:07:40,390 --> 00:07:43,120
+that works only with the underlying data.
+
+167
+00:07:43,120 --> 00:07:47,170
+But in this case, we can just keep it simple like this.
+
+168
+00:07:47,170 --> 00:07:49,000
+And so as I mentioned before,
+
+169
+00:07:49,000 --> 00:07:52,220
+this Architecture will then allow us to have everything
+
+170
+00:07:52,220 --> 00:07:55,090
+that is about the application in one nice,
+
+171
+00:07:55,090 --> 00:07:56,870
+self contained block.
+
+172
+00:07:56,870 --> 00:07:59,093
+And besides the application itself,
+
+173
+00:07:59,093 --> 00:08:01,730
+we then also have these classes
+
+174
+00:08:01,730 --> 00:08:04,510
+that are only concerned about the data.
+
+175
+00:08:04,510 --> 00:08:06,920
+And so therefore, application and data
+
+176
+00:08:06,920 --> 00:08:11,520
+will be nicely separated in a very logical way, I believe.
+
+177
+00:08:11,520 --> 00:08:13,830
+Now, What's also great about this
+
+178
+00:08:13,830 --> 00:08:17,590
+is that we will be able to protect all of these methods,
+
+179
+00:08:17,590 --> 00:08:19,930
+so that they are nicely encapsulated
+
+180
+00:08:19,930 --> 00:08:23,790
+and not accessible from everywhere else in the code.
+
+181
+00:08:23,790 --> 00:08:25,630
+So that's the reason why you see these
+
+182
+00:08:25,630 --> 00:08:29,040
+underscores on all of the method names.
+
+183
+00:08:29,040 --> 00:08:31,930
+Right, so that is, again, the convention
+
+184
+00:08:31,930 --> 00:08:34,800
+that we can use to protect method names
+
+185
+00:08:34,800 --> 00:08:38,290
+from being changed and used from the outside.
+
+186
+00:08:38,290 --> 00:08:41,620
+And so this will make the code a lot easier to work with
+
+187
+00:08:41,620 --> 00:08:43,600
+because we will know for sure
+
+188
+00:08:43,600 --> 00:08:47,810
+that no place else in the code is working with the data.
+
+189
+00:08:47,810 --> 00:08:51,770
+And yeah, calling any of the methods here.
+
+190
+00:08:51,770 --> 00:08:53,910
+And trust me with experience,
+
+191
+00:08:53,910 --> 00:08:58,040
+you will really start to appreciate these kinds of things.
+
+192
+00:08:58,040 --> 00:09:00,200
+Now right, but anyway,
+
+193
+00:09:00,200 --> 00:09:03,370
+this is the initial approach for Architecture
+
+194
+00:09:03,370 --> 00:09:05,130
+that we're now gonna implement.
+
+195
+00:09:05,130 --> 00:09:07,150
+And of course, based on the code
+
+196
+00:09:07,150 --> 00:09:08,830
+that we already have.
+
+197
+00:09:08,830 --> 00:09:10,510
+We will keep adding more methods
+
+198
+00:09:10,510 --> 00:09:12,510
+and properties as we go
+
+199
+00:09:12,510 --> 00:09:16,310
+but this is already an excellent starting point.
+
+200
+00:09:16,310 --> 00:09:18,590
+So maybe take another minute or two,
+
+201
+00:09:18,590 --> 00:09:20,410
+to study this diagram.
+
+202
+00:09:20,410 --> 00:09:21,980
+And then in the next video,
+
+203
+00:09:21,980 --> 00:09:25,673
+we will refactor our code to fit this Architecture.

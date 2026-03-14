@@ -1,0 +1,927 @@
+1
+00:00:01,490 --> 00:00:03,130
+So, we just reviewed
+
+2
+00:00:03,130 --> 00:00:05,670
+and also implemented some clean
+
+3
+00:00:05,670 --> 00:00:08,590
+and modern JavaScript practices.
+
+4
+00:00:08,590 --> 00:00:12,030
+However, there is currently a major trend
+
+5
+00:00:12,030 --> 00:00:15,610
+and shift to something called declarative code
+
+6
+00:00:15,610 --> 00:00:18,670
+and functional programming in JavaScript.
+
+7
+00:00:18,670 --> 00:00:22,780
+And so, let's now take some time to look at what declarative
+
+8
+00:00:22,780 --> 00:00:25,393
+and functional programming actually are.
+
+9
+00:00:26,530 --> 00:00:29,710
+So, there are two fundamentally different ways
+
+10
+00:00:29,710 --> 00:00:32,090
+of writing code in programming,
+
+11
+00:00:32,090 --> 00:00:34,540
+which we also call paradigms.
+
+12
+00:00:34,540 --> 00:00:36,120
+And these two paradigms,
+
+13
+00:00:36,120 --> 00:00:39,323
+are imperative code and declarative code.
+
+14
+00:00:40,240 --> 00:00:43,210
+Now, whenever we write imperative code,
+
+15
+00:00:43,210 --> 00:00:45,560
+we basically need to explain to the computer
+
+16
+00:00:45,560 --> 00:00:48,660
+how to do a certain things.
+
+17
+00:00:48,660 --> 00:00:52,570
+So, basically, we need to explain every single step
+
+18
+00:00:52,570 --> 00:00:54,840
+that the computer needs to follow
+
+19
+00:00:54,840 --> 00:00:57,770
+in order to achieve a certain result.
+
+20
+00:00:57,770 --> 00:01:00,770
+But, this might sound a little bit abstract,
+
+21
+00:01:00,770 --> 00:01:03,740
+so let's try a more real world example.
+
+22
+00:01:03,740 --> 00:01:08,460
+So, let's say that we want someone to bake a cake for us.
+
+23
+00:01:08,460 --> 00:01:11,880
+And so, if we would do that in an imperative way,
+
+24
+00:01:11,880 --> 00:01:16,150
+we would tell the person exactly the step by step recipe
+
+25
+00:01:16,150 --> 00:01:20,350
+that they would have to follow in order to bake that cake,
+
+26
+00:01:20,350 --> 00:01:21,630
+am I right?
+
+27
+00:01:21,630 --> 00:01:24,690
+So again, it is telling every single step
+
+28
+00:01:24,690 --> 00:01:29,150
+that the person has to follow in order to achieve a result.
+
+29
+00:01:29,150 --> 00:01:31,940
+And now bringing that back into code,
+
+30
+00:01:31,940 --> 00:01:33,750
+here in this code example,
+
+31
+00:01:33,750 --> 00:01:37,000
+we are trying to double the R array.
+
+32
+00:01:37,000 --> 00:01:39,480
+And so, this loop that I have here,
+
+33
+00:01:39,480 --> 00:01:43,420
+is a purely imperative way of writing that.
+
+34
+00:01:43,420 --> 00:01:46,500
+So, here we are telling the computer step by step,
+
+35
+00:01:46,500 --> 00:01:50,700
+to create an empty array to create a counter
+
+36
+00:01:50,700 --> 00:01:54,220
+that starts at zero, then to increase that counter
+
+37
+00:01:54,220 --> 00:01:57,780
+until we reach the length of the original array,
+
+38
+00:01:57,780 --> 00:02:01,850
+and then how exactly to store the new result
+
+39
+00:02:01,850 --> 00:02:04,230
+in each new position of the array.
+
+40
+00:02:04,230 --> 00:02:05,860
+So, there's a lot of steps
+
+41
+00:02:05,860 --> 00:02:08,190
+that we really give the computer here,
+
+42
+00:02:08,190 --> 00:02:10,790
+in order for us to achieve the result
+
+43
+00:02:10,790 --> 00:02:13,003
+of doubling that R array.
+
+44
+00:02:13,960 --> 00:02:17,100
+Okay, so that's imperative programming,
+
+45
+00:02:17,100 --> 00:02:20,670
+but on the other hand, we also have declarative programming,
+
+46
+00:02:20,670 --> 00:02:25,190
+where the programmer tells the computer only what to do.
+
+47
+00:02:25,190 --> 00:02:28,110
+And so, when we write declarative code,
+
+48
+00:02:28,110 --> 00:02:31,930
+we simply describe the way that the computer should achieve
+
+49
+00:02:31,930 --> 00:02:33,570
+a certain result.
+
+50
+00:02:33,570 --> 00:02:35,590
+But the how it should do it,
+
+51
+00:02:35,590 --> 00:02:38,460
+so basically, the step by step instructions,
+
+52
+00:02:38,460 --> 00:02:43,030
+they get abstracted away, so we do not care about them.
+
+53
+00:02:43,030 --> 00:02:45,807
+And going back to our cake example here,
+
+54
+00:02:45,807 --> 00:02:50,070
+the declarative way of instructing someone to bake the cake
+
+55
+00:02:50,070 --> 00:02:54,230
+would be to simply describe that cake to the person,
+
+56
+00:02:54,230 --> 00:02:56,400
+and then the person would have to come up
+
+57
+00:02:56,400 --> 00:02:59,900
+with the step by step recipe on their own.
+
+58
+00:02:59,900 --> 00:03:02,250
+So, simply describing the task,
+
+59
+00:03:02,250 --> 00:03:04,640
+and the result that should be achieved
+
+60
+00:03:04,640 --> 00:03:09,010
+is the declarative way of doing it, all right?
+
+61
+00:03:09,010 --> 00:03:12,270
+And now coming back to the code example of duplicating
+
+62
+00:03:12,270 --> 00:03:14,060
+the values in an array,
+
+63
+00:03:14,060 --> 00:03:17,510
+this is how we do it in the declarative way.
+
+64
+00:03:17,510 --> 00:03:21,410
+So, we have R array, and then we simply tell JavaScript,
+
+65
+00:03:21,410 --> 00:03:26,130
+that it should map the values in the R array to a new array,
+
+66
+00:03:26,130 --> 00:03:30,270
+and each of these values should be multiplied by two.
+
+67
+00:03:30,270 --> 00:03:32,710
+And so, if you compare this code example,
+
+68
+00:03:32,710 --> 00:03:34,360
+with the one on the left,
+
+69
+00:03:34,360 --> 00:03:37,230
+then you will really see that in this example,
+
+70
+00:03:37,230 --> 00:03:40,030
+all we are doing is describing the way
+
+71
+00:03:40,030 --> 00:03:42,620
+that the computer should achieve the result
+
+72
+00:03:42,620 --> 00:03:44,210
+that we are looking for.
+
+73
+00:03:44,210 --> 00:03:47,780
+We are simply telling it what to do, which in this case,
+
+74
+00:03:47,780 --> 00:03:51,680
+is to simply map the original array onto a new array
+
+75
+00:03:51,680 --> 00:03:54,120
+and doubling all the elements.
+
+76
+00:03:54,120 --> 00:03:56,470
+But, all these super detailed steps
+
+77
+00:03:56,470 --> 00:04:00,440
+that we have on the left side, like creating an empty array
+
+78
+00:04:00,440 --> 00:04:02,520
+and initializing a counter,
+
+79
+00:04:02,520 --> 00:04:05,730
+all of these steps have been abstracted away,
+
+80
+00:04:05,730 --> 00:04:09,550
+because we don't really care about them, all right?
+
+81
+00:04:09,550 --> 00:04:12,140
+And this is pretty important to understand,
+
+82
+00:04:12,140 --> 00:04:15,980
+because more and more this is how modern JavaScript code
+
+83
+00:04:15,980 --> 00:04:17,890
+is actually written.
+
+84
+00:04:17,890 --> 00:04:21,700
+So, the difference between imperative and declarative
+
+85
+00:04:21,700 --> 00:04:24,530
+is not just some theoretical difference.
+
+86
+00:04:24,530 --> 00:04:28,490
+So, the declarative paradigm is actually a really big
+
+87
+00:04:28,490 --> 00:04:31,040
+and popular programming paradigm,
+
+88
+00:04:31,040 --> 00:04:35,020
+which has even given rise to a sub paradigm called,
+
+89
+00:04:35,020 --> 00:04:36,383
+functional programming.
+
+90
+00:04:37,620 --> 00:04:39,320
+And functional programming,
+
+91
+00:04:39,320 --> 00:04:42,120
+is basically a declarative paradigm,
+
+92
+00:04:42,120 --> 00:04:45,780
+which is based on the idea of writing software,
+
+93
+00:04:45,780 --> 00:04:50,200
+simply by combining multiple so called pure functions,
+
+94
+00:04:50,200 --> 00:04:54,230
+while avoiding side effects and mutating data.
+
+95
+00:04:54,230 --> 00:04:56,810
+And actually, functional programming
+
+96
+00:04:56,810 --> 00:04:58,970
+and writing declarative code,
+
+97
+00:04:58,970 --> 00:05:03,280
+has now basically become the modern way of writing code
+
+98
+00:05:03,280 --> 00:05:05,440
+in the JavaScript world.
+
+99
+00:05:05,440 --> 00:05:09,831
+So, you will see declarative and functional code everywhere.
+
+100
+00:05:09,831 --> 00:05:14,070
+And, in fact, we have even been using it all along,
+
+101
+00:05:14,070 --> 00:05:16,730
+but without really knowing that this style
+
+102
+00:05:16,730 --> 00:05:21,050
+was called declarative, and functional, all right.
+
+103
+00:05:21,050 --> 00:05:23,730
+But let's quickly go back to the definition
+
+104
+00:05:23,730 --> 00:05:27,800
+of functional programming, and talk about what side effects
+
+105
+00:05:27,800 --> 00:05:30,130
+and pure functions are.
+
+106
+00:05:30,130 --> 00:05:35,130
+So, a side effect is basically simply a modification
+
+107
+00:05:35,130 --> 00:05:39,350
+of any data that's outside of a function.
+
+108
+00:05:39,350 --> 00:05:43,680
+So, for example, mutating any variable that is external
+
+109
+00:05:43,680 --> 00:05:47,370
+to the function is causing a side effect.
+
+110
+00:05:47,370 --> 00:05:51,070
+So basically, any variable that is outside of the scope
+
+111
+00:05:51,070 --> 00:05:54,100
+of the function, all right?
+
+112
+00:05:54,100 --> 00:05:57,526
+Now, data does not only refer to variables,
+
+113
+00:05:57,526 --> 00:06:01,840
+so for example, logging stuff to the console,
+
+114
+00:06:01,840 --> 00:06:04,280
+or also changing something in the DOM,
+
+115
+00:06:04,280 --> 00:06:07,370
+is also causing side effects.
+
+116
+00:06:07,370 --> 00:06:09,660
+Now next up, a pure function,
+
+117
+00:06:09,660 --> 00:06:12,800
+is a function without side effects.
+
+118
+00:06:12,800 --> 00:06:16,070
+So, basically a function that does not mutate
+
+119
+00:06:16,070 --> 00:06:20,210
+any external variables, and that does also not depend
+
+120
+00:06:20,210 --> 00:06:22,350
+on any external variables.
+
+121
+00:06:22,350 --> 00:06:26,700
+So basically, if we give the same inputs to a pure function,
+
+122
+00:06:26,700 --> 00:06:29,890
+it will always return the same output
+
+123
+00:06:29,890 --> 00:06:32,870
+and again, that's because it does not depend
+
+124
+00:06:32,870 --> 00:06:34,880
+on any external variables,
+
+125
+00:06:34,880 --> 00:06:36,963
+and it also does not manipulate them.
+
+126
+00:06:37,840 --> 00:06:41,760
+And finally, if we look again, at our definition here,
+
+127
+00:06:41,760 --> 00:06:44,260
+we also see that functional programming
+
+128
+00:06:44,260 --> 00:06:47,490
+is about avoiding mutating data,
+
+129
+00:06:47,490 --> 00:06:51,810
+and we do that by using something called immutability.
+
+130
+00:06:51,810 --> 00:06:54,920
+So, in functional programming state,
+
+131
+00:06:54,920 --> 00:06:59,890
+which also means basically data is never modified.
+
+132
+00:06:59,890 --> 00:07:02,410
+So, let's say that we have some application,
+
+133
+00:07:02,410 --> 00:07:06,250
+and we have an object there to keep track of all the data
+
+134
+00:07:06,250 --> 00:07:08,580
+that we need in an application.
+
+135
+00:07:08,580 --> 00:07:11,130
+And so that we usually called state,
+
+136
+00:07:11,130 --> 00:07:14,220
+and so again, in functional programming,
+
+137
+00:07:14,220 --> 00:07:17,040
+that state is never modified.
+
+138
+00:07:17,040 --> 00:07:21,550
+Instead, what we will do is to copy that object,
+
+139
+00:07:21,550 --> 00:07:26,160
+so that state, and then it is that copy that is mutated,
+
+140
+00:07:26,160 --> 00:07:28,210
+and can then be returned,
+
+141
+00:07:28,210 --> 00:07:32,840
+but the original state is never touched, okay?
+
+142
+00:07:32,840 --> 00:07:37,020
+So, that's what it means for the state being immutable,
+
+143
+00:07:37,020 --> 00:07:40,100
+and the big upside of immutability is that,
+
+144
+00:07:40,100 --> 00:07:43,200
+it makes it so much easier to keep track
+
+145
+00:07:43,200 --> 00:07:46,971
+of how the data flows through our entire application.
+
+146
+00:07:46,971 --> 00:07:51,370
+And so ultimately, that will allow us to write better code
+
+147
+00:07:51,370 --> 00:07:56,070
+with less bugs, and code that is also more readable,
+
+148
+00:07:56,070 --> 00:07:58,890
+which overall, is the entire goal
+
+149
+00:07:58,890 --> 00:08:02,510
+of using functional programming in the first place.
+
+150
+00:08:02,510 --> 00:08:04,420
+Now, I'm telling you all this,
+
+151
+00:08:04,420 --> 00:08:06,240
+not with the goal of turning you
+
+152
+00:08:06,240 --> 00:08:08,400
+into a functional programmer,
+
+153
+00:08:08,400 --> 00:08:12,160
+because that would actually be a very hard task,
+
+154
+00:08:12,160 --> 00:08:16,320
+because this is really just a very high level introduction
+
+155
+00:08:16,320 --> 00:08:19,100
+to what functional programming actually is.
+
+156
+00:08:19,100 --> 00:08:20,520
+But behind the surface,
+
+157
+00:08:20,520 --> 00:08:23,400
+functional programming is a huge paradigm,
+
+158
+00:08:23,400 --> 00:08:27,490
+which is really difficult to implement in practice.
+
+159
+00:08:27,490 --> 00:08:30,360
+But it is still very important that you know,
+
+160
+00:08:30,360 --> 00:08:33,700
+some of these principles, such as side effects,
+
+161
+00:08:33,700 --> 00:08:36,370
+pure functions, and immutability,
+
+162
+00:08:36,370 --> 00:08:38,610
+because many of the popular libraries,
+
+163
+00:08:38,610 --> 00:08:42,000
+such as React or Redux, are actually built
+
+164
+00:08:42,000 --> 00:08:44,510
+around all of these principles.
+
+165
+00:08:44,510 --> 00:08:46,080
+So for example, in React,
+
+166
+00:08:46,080 --> 00:08:49,190
+the state is also completely immutable,
+
+167
+00:08:49,190 --> 00:08:52,370
+and so if you ever want to learn something like React,
+
+168
+00:08:52,370 --> 00:08:54,830
+you will need to know about these concepts
+
+169
+00:08:54,830 --> 00:08:57,460
+in order to use it properly.
+
+170
+00:08:57,460 --> 00:09:01,150
+However, some principles such as pure functions,
+
+171
+00:09:01,150 --> 00:09:05,570
+or side effects, can actually be a bit easier to implement
+
+172
+00:09:05,570 --> 00:09:07,460
+into our own code.
+
+173
+00:09:07,460 --> 00:09:09,890
+So, what I'm trying to say is that,
+
+174
+00:09:09,890 --> 00:09:14,330
+we can actually mix imperative and declarative programming
+
+175
+00:09:14,330 --> 00:09:19,330
+in our own codes, we don't have to go 100% declarative.
+
+176
+00:09:19,570 --> 00:09:24,090
+Or in other words, we don't have to go 100% in the direction
+
+177
+00:09:24,090 --> 00:09:27,260
+of making our code completely functional.
+
+178
+00:09:27,260 --> 00:09:30,620
+And so again, we can already start using,
+
+179
+00:09:30,620 --> 00:09:32,840
+some of the functional programming techniques
+
+180
+00:09:32,840 --> 00:09:35,050
+in our own code base.
+
+181
+00:09:35,050 --> 00:09:38,820
+So for example, you can try to avoid data mutations
+
+182
+00:09:38,820 --> 00:09:40,840
+as often as possible.
+
+183
+00:09:40,840 --> 00:09:43,900
+And of course, this will not always be possible,
+
+184
+00:09:43,900 --> 00:09:46,930
+but it's also not really necessary.
+
+185
+00:09:46,930 --> 00:09:50,150
+So these are mainly and are just suggestions,
+
+186
+00:09:50,150 --> 00:09:53,540
+but which will still create more readable
+
+187
+00:09:53,540 --> 00:09:57,120
+and overall better and cleaner code.
+
+188
+00:09:57,120 --> 00:10:00,570
+So, another thing that you can do is to always prefer,
+
+189
+00:10:00,570 --> 00:10:04,260
+built in methods or functions that do not produce
+
+190
+00:10:04,260 --> 00:10:07,510
+side effects over the ones that do,
+
+191
+00:10:07,510 --> 00:10:11,450
+and this is really important for data transformations.
+
+192
+00:10:11,450 --> 00:10:13,210
+So whenever you want to do that,
+
+193
+00:10:13,210 --> 00:10:18,210
+you should use a method such as Map, Filter and Reduce.
+
+194
+00:10:18,230 --> 00:10:20,970
+So, this is the functional and modern way
+
+195
+00:10:20,970 --> 00:10:24,380
+of doing data transformations, and many times,
+
+196
+00:10:24,380 --> 00:10:27,620
+this is actually the first contact that many people have,
+
+197
+00:10:27,620 --> 00:10:29,570
+with functional programming.
+
+198
+00:10:29,570 --> 00:10:32,860
+So, Map, Filter and Reduce are actually present
+
+199
+00:10:32,860 --> 00:10:35,550
+in all functional programming languages,
+
+200
+00:10:35,550 --> 00:10:39,460
+and they are very important to implement a functional code
+
+201
+00:10:39,460 --> 00:10:42,173
+into more declarative code in our code.
+
+202
+00:10:43,100 --> 00:10:46,730
+And finally, you can also try to avoid side effects
+
+203
+00:10:46,730 --> 00:10:49,610
+into functions that you write yourself.
+
+204
+00:10:49,610 --> 00:10:53,320
+And again, this is of course, not always possible,
+
+205
+00:10:53,320 --> 00:10:55,970
+and also not always necessary.
+
+206
+00:10:55,970 --> 00:10:59,390
+So, we will never be able to avoid all side effects
+
+207
+00:10:59,390 --> 00:11:03,040
+in applications, because of course, at some point,
+
+208
+00:11:03,040 --> 00:11:05,590
+the application needs to do something.
+
+209
+00:11:05,590 --> 00:11:08,120
+So, it needs to display something on the DOM,
+
+210
+00:11:08,120 --> 00:11:10,380
+or log something to the console,
+
+211
+00:11:10,380 --> 00:11:14,470
+or really create some side effect, okay?
+
+212
+00:11:14,470 --> 00:11:17,060
+But you can still try to think about this,
+
+213
+00:11:17,060 --> 00:11:19,940
+and to start incorporating side effects
+
+214
+00:11:19,940 --> 00:11:21,343
+more into your own code.
+
+215
+00:11:22,310 --> 00:11:26,420
+And now to finish, let's come back to declarative syntax,
+
+216
+00:11:26,420 --> 00:11:30,390
+because functional programming is only a part of using
+
+217
+00:11:30,390 --> 00:11:32,750
+and writing declarative code.
+
+218
+00:11:32,750 --> 00:11:36,160
+So, in order to write code that is more declarative,
+
+219
+00:11:36,160 --> 00:11:39,320
+you should use array and object destructuring
+
+220
+00:11:39,320 --> 00:11:41,310
+whenever that's possible.
+
+221
+00:11:41,310 --> 00:11:43,740
+You should also use the spread operator,
+
+222
+00:11:43,740 --> 00:11:47,570
+the ternary operator, and also template literals
+
+223
+00:11:47,570 --> 00:11:51,300
+whenever that is possible, because if you think about it,
+
+224
+00:11:51,300 --> 00:11:54,700
+then all of these four ways of writing code,
+
+225
+00:11:54,700 --> 00:11:57,930
+actually makes the code more declarative.
+
+226
+00:11:57,930 --> 00:12:01,330
+So, these operators are more about telling the code
+
+227
+00:12:01,330 --> 00:12:04,270
+what to do, and not exactly the steps
+
+228
+00:12:04,270 --> 00:12:06,530
+that it should take, right?
+
+229
+00:12:06,530 --> 00:12:11,530
+And that's, again, true for all these four pieces of syntax.
+
+230
+00:12:11,880 --> 00:12:15,410
+All right, so let's now actually continue working
+
+231
+00:12:15,410 --> 00:12:19,060
+on the code example from last lecture and implement,
+
+232
+00:12:19,060 --> 00:12:23,183
+some of these functional programming principles in practice.

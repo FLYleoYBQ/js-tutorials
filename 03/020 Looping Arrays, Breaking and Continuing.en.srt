@@ -1,0 +1,1895 @@
+1
+00:00:01,270 --> 00:00:03,780
+Let's now explore some more features
+
+2
+00:00:03,780 --> 00:00:05,260
+of the for loop
+
+3
+00:00:05,260 --> 00:00:08,723
+and also create a somewhat more useful example.
+
+4
+00:00:10,260 --> 00:00:12,670
+And one of the most used applications
+
+5
+00:00:12,670 --> 00:00:16,560
+of for loops is to loop through a race.
+
+6
+00:00:16,560 --> 00:00:21,283
+So let's get back the array that we were using before.
+
+7
+00:00:22,670 --> 00:00:24,773
+So where is that?
+
+8
+00:00:26,160 --> 00:00:27,280
+So, I mean the one
+
+9
+00:00:28,220 --> 00:00:30,260
+where we talked about objects.
+
+10
+00:00:30,260 --> 00:00:31,610
+Yeah, this one.
+
+11
+00:00:31,610 --> 00:00:35,100
+So go to this lecture about introduction to objects
+
+12
+00:00:35,100 --> 00:00:37,890
+and then grab this Jonas array.
+
+13
+00:00:37,890 --> 00:00:40,620
+And maybe you didn't write it back then
+
+14
+00:00:40,620 --> 00:00:44,163
+but then you can just write it, right now.
+
+15
+00:00:45,480 --> 00:00:47,900
+Okay, and so now we can use a for loop
+
+16
+00:00:47,900 --> 00:00:50,530
+to loop through this array.
+
+17
+00:00:50,530 --> 00:00:54,230
+And let's say for now that we wanted to individually
+
+18
+00:00:54,230 --> 00:00:57,440
+log every element of the array to the console.
+
+19
+00:00:57,440 --> 00:00:59,030
+So very simple.
+
+20
+00:00:59,030 --> 00:01:03,223
+All we want to do is to log these five elements here.
+
+21
+00:01:04,290 --> 00:01:07,743
+So let's write a for loop.
+
+22
+00:01:08,870 --> 00:01:11,920
+And as always, we start with the counter.
+
+23
+00:01:11,920 --> 00:01:12,979
+So let...
+
+24
+00:01:12,979 --> 00:01:16,960
+And now a traditional counter variable name has been I
+
+25
+00:01:16,960 --> 00:01:18,530
+for a long time.
+
+26
+00:01:18,530 --> 00:01:20,770
+And so let's use that here as well.
+
+27
+00:01:20,770 --> 00:01:25,770
+So just I, and this time we need to start it at zero.
+
+28
+00:01:26,210 --> 00:01:28,890
+And that's because the array is zero based
+
+29
+00:01:28,890 --> 00:01:31,930
+when it comes to reading elements out of the array.
+
+30
+00:01:31,930 --> 00:01:36,110
+Remember, and this will make sense once we actually write
+
+31
+00:01:36,110 --> 00:01:38,750
+the code of this loop.
+
+32
+00:01:38,750 --> 00:01:41,840
+Let's now actually skip the condition for now.
+
+33
+00:01:41,840 --> 00:01:44,290
+So we're gonna deal with that a little bit later.
+
+34
+00:01:45,210 --> 00:01:47,550
+And so now updating the counter
+
+35
+00:01:47,550 --> 00:01:50,990
+is gonna work exactly the same as before.
+
+36
+00:01:50,990 --> 00:01:53,800
+So since we want to log all of the elements
+
+37
+00:01:53,800 --> 00:01:57,230
+we need to update the counter variable simply by one.
+
+38
+00:01:57,230 --> 00:01:58,803
+And so again, we use ++, okay.
+
+39
+00:02:01,000 --> 00:02:04,423
+And now let's write or loop here itself.
+
+40
+00:02:05,530 --> 00:02:06,993
+So console.log,
+
+41
+00:02:07,890 --> 00:02:10,550
+and remember all we want to log to the console
+
+42
+00:02:10,550 --> 00:02:12,780
+is each element of the array.
+
+43
+00:02:12,780 --> 00:02:14,370
+And so without a loop
+
+44
+00:02:14,370 --> 00:02:17,180
+we would write that like this,
+
+45
+00:02:17,180 --> 00:02:19,780
+so Jonas zero.
+
+46
+00:02:19,780 --> 00:02:20,613
+Right?
+
+47
+00:02:20,613 --> 00:02:23,083
+And then let's do that outside.
+
+48
+00:02:23,960 --> 00:02:25,310
+So we would do this
+
+49
+00:02:25,310 --> 00:02:29,110
+this, and then all the way to
+
+50
+00:02:30,400 --> 00:02:31,253
+number four.
+
+51
+00:02:33,981 --> 00:02:34,814
+All right.
+
+52
+00:02:34,814 --> 00:02:36,590
+So let's comment is out
+
+53
+00:02:36,590 --> 00:02:39,350
+but this is helpful to see what kind of code
+
+54
+00:02:39,350 --> 00:02:41,090
+we want to achieve.
+
+55
+00:02:41,090 --> 00:02:44,710
+So again, we want to start at Jonas zero
+
+56
+00:02:44,710 --> 00:02:46,240
+which is the first element.
+
+57
+00:02:46,240 --> 00:02:50,320
+Jonas one is this one, then two, three, and four.
+
+58
+00:02:50,320 --> 00:02:54,570
+And so that's the reason why we started the counter at zero
+
+59
+00:02:54,570 --> 00:02:57,200
+because that's the first element that we want to get.
+
+60
+00:02:57,200 --> 00:02:59,410
+It's Jonas zero.
+
+61
+00:02:59,410 --> 00:03:01,800
+And so here, instead of hard coding to zero,
+
+62
+00:03:01,800 --> 00:03:05,280
+of course, we are going to use or counter variable.
+
+63
+00:03:05,280 --> 00:03:06,803
+So, and that's I.
+
+64
+00:03:07,930 --> 00:03:11,130
+And now the trickiest part here, is the condition.
+
+65
+00:03:11,130 --> 00:03:14,150
+And so that's why we left it for the end,
+
+66
+00:03:14,150 --> 00:03:16,860
+but now we need to actually tackle it.
+
+67
+00:03:16,860 --> 00:03:20,233
+So for how long do we want to keep this loop running?
+
+68
+00:03:21,090 --> 00:03:24,070
+Well, it should run when I is zero.
+
+69
+00:03:24,070 --> 00:03:24,903
+Right?
+
+70
+00:03:24,903 --> 00:03:29,750
+It should also run when it's one two, three, and four.
+
+71
+00:03:29,750 --> 00:03:32,100
+Because four is the last element.
+
+72
+00:03:32,100 --> 00:03:35,150
+But when it's five, it's no longer run.
+
+73
+00:03:35,150 --> 00:03:35,983
+Right?
+
+74
+00:03:35,983 --> 00:03:40,770
+And that's because Jonas at five does not exist.
+
+75
+00:03:40,770 --> 00:03:41,913
+Let's just write that,
+
+76
+00:03:48,590 --> 00:03:50,283
+does not exist.
+
+77
+00:03:52,120 --> 00:03:55,470
+And so that means that the I counter variable
+
+78
+00:03:55,470 --> 00:03:57,653
+should always stay below five.
+
+79
+00:03:58,670 --> 00:04:01,060
+So let's write that here.
+
+80
+00:04:01,060 --> 00:04:03,480
+So I should stay
+
+81
+00:04:03,480 --> 00:04:05,860
+below five.
+
+82
+00:04:05,860 --> 00:04:06,910
+And so with this,
+
+83
+00:04:06,910 --> 00:04:10,910
+as soon as the counter variable is updated to five
+
+84
+00:04:10,910 --> 00:04:14,373
+then the next iteration of the loop will not run anymore.
+
+85
+00:04:15,290 --> 00:04:16,563
+So let's try this.
+
+86
+00:04:18,080 --> 00:04:20,580
+And here it's of course not Jonas
+
+87
+00:04:20,580 --> 00:04:22,730
+it's Jonas array.
+
+88
+00:04:22,730 --> 00:04:25,123
+So let's actually change the name up here,
+
+89
+00:04:26,030 --> 00:04:27,313
+in the array itself.
+
+90
+00:04:28,630 --> 00:04:29,970
+Try that again.
+
+91
+00:04:29,970 --> 00:04:34,760
+And yeah, we get a log of each of the elements
+
+92
+00:04:34,760 --> 00:04:35,870
+in the array.
+
+93
+00:04:35,870 --> 00:04:38,010
+So all of the five of them.
+
+94
+00:04:38,010 --> 00:04:39,120
+Great.
+
+95
+00:04:39,120 --> 00:04:42,020
+But there's actually still one problem with this,
+
+96
+00:04:42,020 --> 00:04:45,210
+which is that we hard-coded the length of the array
+
+97
+00:04:45,210 --> 00:04:46,263
+here with five.
+
+98
+00:04:47,220 --> 00:04:48,563
+So let's now say
+
+99
+00:04:48,563 --> 00:04:50,163
+that we add another element,
+
+100
+00:04:51,020 --> 00:04:53,000
+let's say just true.
+
+101
+00:04:53,000 --> 00:04:54,850
+And so if we try this now,
+
+102
+00:04:54,850 --> 00:04:57,943
+do you think that's true will be logged here as well?
+
+103
+00:04:59,720 --> 00:05:01,340
+Well, it will not.
+
+104
+00:05:01,340 --> 00:05:04,620
+Because of course we are still telling JavaScript
+
+105
+00:05:04,620 --> 00:05:07,220
+that I should stay below five.
+
+106
+00:05:07,220 --> 00:05:10,990
+And so it will not print the array at position number five,
+
+107
+00:05:10,990 --> 00:05:12,600
+which does now exist.
+
+108
+00:05:12,600 --> 00:05:17,600
+So now we do have Jonas at position five, right?
+
+109
+00:05:17,650 --> 00:05:19,470
+And so the solution to this,
+
+110
+00:05:19,470 --> 00:05:21,650
+is to not hard code the value here
+
+111
+00:05:21,650 --> 00:05:23,500
+but to compute this value.
+
+112
+00:05:23,500 --> 00:05:27,160
+So basically to get it from JavaScript itself.
+
+113
+00:05:27,160 --> 00:05:29,790
+And how can we get this number?
+
+114
+00:05:29,790 --> 00:05:34,670
+Well, actually this five is simply the length of the array
+
+115
+00:05:34,670 --> 00:05:35,640
+right?
+
+116
+00:05:35,640 --> 00:05:39,040
+Not of this one anymore, but off the original one.
+
+117
+00:05:39,040 --> 00:05:41,600
+So this array has a length of five.
+
+118
+00:05:41,600 --> 00:05:44,870
+And so five is exactly the number that we put here.
+
+119
+00:05:44,870 --> 00:05:48,630
+And so we can simply replace the hard-coded value
+
+120
+00:05:48,630 --> 00:05:51,650
+with a dynamically calculated one.
+
+121
+00:05:51,650 --> 00:05:55,020
+and that's Jonas.length.
+
+122
+00:05:55,020 --> 00:05:56,375
+Remember?
+
+123
+00:05:56,375 --> 00:05:58,270
+So,
+
+124
+00:05:58,270 --> 00:05:59,223
+let's try that.
+
+125
+00:06:00,200 --> 00:06:02,350
+And indeed it still works.
+
+126
+00:06:02,350 --> 00:06:05,260
+And if I now go back to adding something else
+
+127
+00:06:05,260 --> 00:06:06,460
+like true,
+
+128
+00:06:06,460 --> 00:06:07,730
+then Jonas.length
+
+129
+00:06:07,730 --> 00:06:09,570
+will now be six.
+
+130
+00:06:09,570 --> 00:06:11,658
+And that of course happens automatically.
+
+131
+00:06:11,658 --> 00:06:14,521
+And we don't have to manually change any code
+
+132
+00:06:14,521 --> 00:06:15,993
+in that loop.
+
+133
+00:06:17,230 --> 00:06:21,420
+So now we did true also appears here in our luck.
+
+134
+00:06:21,420 --> 00:06:22,253
+Great.
+
+135
+00:06:23,140 --> 00:06:25,130
+Let's now also log something else here.
+
+136
+00:06:25,130 --> 00:06:27,473
+Let's say the type of the variable.
+
+137
+00:06:28,590 --> 00:06:32,710
+So type of Jonas i.
+
+138
+00:06:32,710 --> 00:06:35,180
+And I hope that this part here makes sense.
+
+139
+00:06:35,180 --> 00:06:37,920
+So the fact that we're using the counter variable here
+
+140
+00:06:37,920 --> 00:06:40,683
+to retrieve all the elements of the array.
+
+141
+00:06:42,390 --> 00:06:45,050
+So now let's say, so string,
+
+142
+00:06:45,050 --> 00:06:48,340
+string, number, string, object.
+
+143
+00:06:48,340 --> 00:06:51,810
+So remember how I said that an array is in fact an object
+
+144
+00:06:51,810 --> 00:06:53,963
+and here we have the proof of that.
+
+145
+00:06:54,920 --> 00:06:57,873
+And then finally the last one is of course a boolean.
+
+146
+00:06:58,880 --> 00:06:59,750
+Okay.
+
+147
+00:06:59,750 --> 00:07:03,040
+So I hope that this logic here made sense.
+
+148
+00:07:03,040 --> 00:07:05,090
+And so this is in a nutshell,
+
+149
+00:07:05,090 --> 00:07:08,350
+how we loop race using the for loop.
+
+150
+00:07:08,350 --> 00:07:11,510
+Now, what we did here, was only to read values
+
+151
+00:07:11,510 --> 00:07:12,920
+from an array.
+
+152
+00:07:12,920 --> 00:07:15,490
+But now let's also at the same time,
+
+153
+00:07:15,490 --> 00:07:18,260
+create a new array which will contain
+
+154
+00:07:18,260 --> 00:07:21,160
+this type of each of the elements.
+
+155
+00:07:21,160 --> 00:07:23,900
+So basically this, all right?
+
+156
+00:07:23,900 --> 00:07:25,820
+So again, what I want to do now
+
+157
+00:07:25,820 --> 00:07:29,990
+is to create a new array which will contain all the types
+
+158
+00:07:29,990 --> 00:07:32,210
+for all these elements.
+
+159
+00:07:32,210 --> 00:07:35,180
+And if that sounds a little bit useless,
+
+160
+00:07:35,180 --> 00:07:38,860
+then just keep in mind that these are all just
+
+161
+00:07:38,860 --> 00:07:40,920
+educational exercises.
+
+162
+00:07:40,920 --> 00:07:44,320
+So I designed them to show you how these different features
+
+163
+00:07:44,320 --> 00:07:46,270
+of the language work.
+
+164
+00:07:46,270 --> 00:07:50,260
+So in real world, we would probably not create an array
+
+165
+00:07:50,260 --> 00:07:52,380
+with types of variables.
+
+166
+00:07:52,380 --> 00:07:54,500
+But this is excellent to show you,
+
+167
+00:07:54,500 --> 00:07:57,820
+how to create a new array based on the values
+
+168
+00:07:57,820 --> 00:07:59,660
+of one original array.
+
+169
+00:07:59,660 --> 00:08:01,770
+So to do that we start by creating
+
+170
+00:08:01,770 --> 00:08:05,530
+a new empty array outside of the loop.
+
+171
+00:08:05,530 --> 00:08:08,113
+And let's do that here, after this one.
+
+172
+00:08:09,380 --> 00:08:11,433
+So I will call this one types.
+
+173
+00:08:12,760 --> 00:08:16,350
+And now I think this is something we didn't do before,
+
+174
+00:08:16,350 --> 00:08:18,980
+which is to simply create an empty array.
+
+175
+00:08:18,980 --> 00:08:22,180
+And all we have to do is to basically create an array
+
+176
+00:08:22,180 --> 00:08:27,160
+with the usual syntax, but without any element inside of it.
+
+177
+00:08:27,160 --> 00:08:30,800
+And so now we have to go here to the same loop
+
+178
+00:08:30,800 --> 00:08:33,330
+because this new array types will be based
+
+179
+00:08:33,330 --> 00:08:34,610
+on the Jonas array.
+
+180
+00:08:34,610 --> 00:08:36,450
+So it's gonna have the same length.
+
+181
+00:08:36,450 --> 00:08:38,690
+And so we can use the exact same loop
+
+182
+00:08:38,690 --> 00:08:42,143
+that we used to read data from the Jonas loop
+
+183
+00:08:42,143 --> 00:08:45,593
+also to construct this new types array.
+
+184
+00:08:46,810 --> 00:08:49,350
+So let's say types,
+
+185
+00:08:49,350 --> 00:08:52,600
+at position I, should be equal to
+
+186
+00:08:53,620 --> 00:08:57,450
+type of Jonas
+
+187
+00:08:57,450 --> 00:08:59,780
+at position I.
+
+188
+00:08:59,780 --> 00:09:01,400
+And remember that this works
+
+189
+00:09:01,400 --> 00:09:04,470
+because we can essentially do this.
+
+190
+00:09:04,470 --> 00:09:07,510
+So we could do it again without the loop
+
+191
+00:09:07,510 --> 00:09:10,270
+and say types zero
+
+192
+00:09:10,270 --> 00:09:13,720
+is equals string.
+
+193
+00:09:13,720 --> 00:09:15,800
+So this would work, right?
+
+194
+00:09:15,800 --> 00:09:18,890
+And so of course it also works with the
+
+195
+00:09:18,890 --> 00:09:21,260
+index number here dynamically.
+
+196
+00:09:21,260 --> 00:09:23,410
+And so that's exactly what we're doing here
+
+197
+00:09:23,410 --> 00:09:25,940
+in the exact same way as we read data
+
+198
+00:09:25,940 --> 00:09:27,163
+from the Jonas array,
+
+199
+00:09:29,650 --> 00:09:30,530
+right?
+
+200
+00:09:30,530 --> 00:09:32,430
+So in iteration zero,
+
+201
+00:09:32,430 --> 00:09:37,430
+we will have type zero equals type of Jonas zero.
+
+202
+00:09:37,720 --> 00:09:39,320
+Then in the next iteration,
+
+203
+00:09:39,320 --> 00:09:41,400
+we will have types one
+
+204
+00:09:41,400 --> 00:09:44,030
+equals type of Jonas one
+
+205
+00:09:44,030 --> 00:09:46,683
+and then two, three, four, and five.
+
+206
+00:09:47,840 --> 00:09:48,673
+All right.
+
+207
+00:09:49,640 --> 00:09:52,110
+So just to see if that works
+
+208
+00:09:52,110 --> 00:09:54,610
+let's then log to the console,
+
+209
+00:09:54,610 --> 00:09:56,350
+this newly created
+
+210
+00:09:56,350 --> 00:10:00,223
+or to be more accurate, this newly filled array.
+
+211
+00:10:01,720 --> 00:10:03,760
+So let's see.
+
+212
+00:10:03,760 --> 00:10:06,070
+And indeed now we get this array
+
+213
+00:10:06,070 --> 00:10:09,170
+which has exactly the types that we can see here as well.
+
+214
+00:10:09,170 --> 00:10:11,220
+So string, string, number,
+
+215
+00:10:11,220 --> 00:10:13,550
+string, object, and boolean.
+
+216
+00:10:13,550 --> 00:10:16,160
+So these six that we also have here
+
+217
+00:10:16,160 --> 00:10:19,450
+which means that we achieved our goal here.
+
+218
+00:10:19,450 --> 00:10:21,090
+Now, this is just one way
+
+219
+00:10:21,990 --> 00:10:24,033
+of filling an array.
+
+220
+00:10:25,300 --> 00:10:27,380
+And let me write that down here,
+
+221
+00:10:27,380 --> 00:10:30,847
+filling the types array.
+
+222
+00:10:30,847 --> 00:10:33,290
+And here we do basically reading
+
+223
+00:10:35,200 --> 00:10:37,800
+from Jonas array.
+
+224
+00:10:37,800 --> 00:10:40,410
+But this is just one way of doing it.
+
+225
+00:10:40,410 --> 00:10:42,040
+So let's comment out this one
+
+226
+00:10:42,040 --> 00:10:44,140
+and do it in another way.
+
+227
+00:10:44,140 --> 00:10:46,880
+And do you remember how to add elements
+
+228
+00:10:46,880 --> 00:10:49,420
+to an array in another way?
+
+229
+00:10:49,420 --> 00:10:52,483
+Well, we could use the push method, right?
+
+230
+00:10:54,040 --> 00:10:57,810
+So that would be types.push.
+
+231
+00:10:57,810 --> 00:10:59,350
+And remember that push
+
+232
+00:10:59,350 --> 00:11:02,600
+adds a new element to the end of the array.
+
+233
+00:11:02,600 --> 00:11:05,460
+And so here, we now need to pass in the element
+
+234
+00:11:05,460 --> 00:11:08,550
+that we do want to add on to the array.
+
+235
+00:11:08,550 --> 00:11:09,740
+And so that's again
+
+236
+00:11:09,740 --> 00:11:11,200
+type of Jonas
+
+237
+00:11:12,180 --> 00:11:14,080
+at position I.
+
+238
+00:11:14,080 --> 00:11:16,150
+So off the current counter.
+
+239
+00:11:16,150 --> 00:11:17,913
+And so if we try this now again,
+
+240
+00:11:19,810 --> 00:11:21,600
+we should get to the same.
+
+241
+00:11:21,600 --> 00:11:24,380
+And it's important that we add the new element
+
+242
+00:11:24,380 --> 00:11:27,550
+to the end of array and not to the beginning.
+
+243
+00:11:27,550 --> 00:11:31,790
+So we really need to use pushier and not unshift.
+
+244
+00:11:31,790 --> 00:11:34,130
+So I think that this way of doing it here
+
+245
+00:11:34,130 --> 00:11:36,570
+is actually a little bit cleaner.
+
+246
+00:11:36,570 --> 00:11:39,010
+But if you prefer this first way here
+
+247
+00:11:39,010 --> 00:11:42,720
+then of course you can just use that one as well.
+
+248
+00:11:42,720 --> 00:11:44,030
+But what matters here,
+
+249
+00:11:44,030 --> 00:11:46,600
+is that we really understood the logic
+
+250
+00:11:46,600 --> 00:11:50,480
+of how to construct all the different parts of this for loop
+
+251
+00:11:50,480 --> 00:11:52,270
+in order to loop the array.
+
+252
+00:11:52,270 --> 00:11:54,710
+So it starts the counter being zero
+
+253
+00:11:54,710 --> 00:11:57,167
+because that's the first element of the array.
+
+254
+00:11:57,167 --> 00:12:00,150
+And then this condition here
+
+255
+00:12:00,150 --> 00:12:04,400
+which specifies that the current index always needs to stay
+
+256
+00:12:04,400 --> 00:12:07,860
+below the length of the array that we're looping through.
+
+257
+00:12:07,860 --> 00:12:09,930
+And then in the loop itself
+
+258
+00:12:09,930 --> 00:12:13,860
+we always get the current element using the current counter.
+
+259
+00:12:13,860 --> 00:12:15,400
+Which is gonna go from zero
+
+260
+00:12:15,400 --> 00:12:18,573
+to the length of the array minus one basically.
+
+261
+00:12:19,700 --> 00:12:20,533
+All right.
+
+262
+00:12:21,710 --> 00:12:23,770
+And to make sure we really get this
+
+263
+00:12:23,770 --> 00:12:27,290
+let's try another, maybe more practical example.
+
+264
+00:12:27,290 --> 00:12:30,113
+So let's go back to having an array of birth years.
+
+265
+00:12:31,920 --> 00:12:33,713
+So 1991,
+
+266
+00:12:34,810 --> 00:12:35,760
+2007,
+
+267
+00:12:35,760 --> 00:12:38,790
+let's say 1969
+
+268
+00:12:38,790 --> 00:12:40,623
+and 2020.
+
+269
+00:12:42,140 --> 00:12:45,230
+And now what we want to do is to calculate the ages
+
+270
+00:12:45,230 --> 00:12:47,930
+for all these four birth years here.
+
+271
+00:12:47,930 --> 00:12:50,850
+And we want to store them in a new array.
+
+272
+00:12:50,850 --> 00:12:53,700
+And that's a very common type of operation,
+
+273
+00:12:53,700 --> 00:12:56,210
+which we actually already did before
+
+274
+00:12:56,210 --> 00:12:58,870
+but without using loops.
+
+275
+00:12:58,870 --> 00:13:00,160
+So essentially that's what we did
+
+276
+00:13:00,160 --> 00:13:01,883
+in the tip calculator challenge.
+
+277
+00:13:05,610 --> 00:13:06,453
+So,
+
+278
+00:13:08,030 --> 00:13:09,450
+yeah, here.
+
+279
+00:13:09,450 --> 00:13:12,310
+So here we had an array of three bills
+
+280
+00:13:12,310 --> 00:13:15,960
+and then we manually calculated the tip for each of them.
+
+281
+00:13:15,960 --> 00:13:18,960
+So manually we specified index zero,
+
+282
+00:13:18,960 --> 00:13:21,730
+one and two,
+
+283
+00:13:21,730 --> 00:13:25,810
+and created a new array based on these values.
+
+284
+00:13:25,810 --> 00:13:29,550
+But in the real world, we would have used a loop to do that.
+
+285
+00:13:29,550 --> 00:13:31,543
+And so that's what we will do now.
+
+286
+00:13:32,520 --> 00:13:33,353
+Okay.
+
+287
+00:13:33,353 --> 00:13:35,983
+Just with another, a bit more simple example.
+
+288
+00:13:37,330 --> 00:13:40,200
+Years is the array which contains the birth years,
+
+289
+00:13:40,200 --> 00:13:42,090
+and now let's create another
+
+290
+00:13:42,090 --> 00:13:45,683
+and again, empty array, which will then hold the ages.
+
+291
+00:13:46,970 --> 00:13:48,420
+And so what we're gonna do now
+
+292
+00:13:48,420 --> 00:13:52,890
+is to loop through years and then fill up these ages array.
+
+293
+00:13:52,890 --> 00:13:55,023
+So four,
+
+294
+00:13:55,860 --> 00:13:56,960
+and then once more,
+
+295
+00:13:56,960 --> 00:14:00,050
+let's define the counter at zero
+
+296
+00:14:00,050 --> 00:14:03,210
+for the same reasons that we did it before.
+
+297
+00:14:03,210 --> 00:14:07,250
+And it's not a problem that discounter variable here
+
+298
+00:14:07,250 --> 00:14:09,490
+has exactly the same name.
+
+299
+00:14:09,490 --> 00:14:11,890
+Then the condition is also gonna be the same.
+
+300
+00:14:11,890 --> 00:14:13,590
+And actually the whole loop
+
+301
+00:14:13,590 --> 00:14:15,420
+always kind of looks the same,
+
+302
+00:14:15,420 --> 00:14:17,680
+when we loop over an array.
+
+303
+00:14:17,680 --> 00:14:19,040
+So now here the difference
+
+304
+00:14:19,040 --> 00:14:22,910
+is that it's of course, years.length.
+
+305
+00:14:22,910 --> 00:14:24,480
+And then at the end,
+
+306
+00:14:24,480 --> 00:14:28,770
+we as always increased the counter by one.
+
+307
+00:14:28,770 --> 00:14:31,620
+And now what we need to do is to calculate the age
+
+308
+00:14:31,620 --> 00:14:33,200
+of the current year.
+
+309
+00:14:33,200 --> 00:14:34,890
+So that's gonna be,
+
+310
+00:14:34,890 --> 00:14:36,400
+2037.
+
+311
+00:14:36,400 --> 00:14:39,700
+So as always that's the year that we're currently in,
+
+312
+00:14:39,700 --> 00:14:43,430
+let's say, and then minus the current birth here.
+
+313
+00:14:43,430 --> 00:14:45,143
+So how do we get that?
+
+314
+00:14:46,090 --> 00:14:50,420
+We say years, at the current loop position.
+
+315
+00:14:50,420 --> 00:14:51,253
+Okay?
+
+316
+00:14:51,253 --> 00:14:52,460
+So that's nothing new.
+
+317
+00:14:52,460 --> 00:14:55,210
+I hope now at this point, okay.
+
+318
+00:14:55,210 --> 00:14:57,600
+So we have this calculation now
+
+319
+00:14:57,600 --> 00:15:01,860
+and now we want to add it to this new empty array.
+
+320
+00:15:01,860 --> 00:15:03,510
+So we say we want to push it,
+
+321
+00:15:03,510 --> 00:15:04,707
+to that array.
+
+322
+00:15:04,707 --> 00:15:07,970
+And so we use the push method to do that.
+
+323
+00:15:07,970 --> 00:15:12,430
+So ages.push.
+
+324
+00:15:12,430 --> 00:15:13,840
+And so this is the value
+
+325
+00:15:13,840 --> 00:15:16,990
+that we want to push into this empty array.
+
+326
+00:15:16,990 --> 00:15:18,733
+And that's actually it.
+
+327
+00:15:20,090 --> 00:15:21,890
+So let's check it out in a console
+
+328
+00:15:25,850 --> 00:15:26,700
+and
+
+329
+00:15:28,440 --> 00:15:30,030
+here we go.
+
+330
+00:15:30,030 --> 00:15:31,660
+So just to confirm,
+
+331
+00:15:31,660 --> 00:15:36,413
+2037 minus 1991 is of course 46.
+
+332
+00:15:37,960 --> 00:15:40,560
+And that's just do it with 27 as well,
+
+333
+00:15:40,560 --> 00:15:42,360
+2007 I mean.
+
+334
+00:15:42,360 --> 00:15:44,480
+And so that's 30, which is this one.
+
+335
+00:15:44,480 --> 00:15:48,240
+And so this array result, is correct indeed.
+
+336
+00:15:48,240 --> 00:15:51,490
+So what we essentially did is this.
+
+337
+00:15:51,490 --> 00:15:53,810
+We cannot do an operations
+
+338
+00:15:53,810 --> 00:15:56,370
+between simple values and an array.
+
+339
+00:15:56,370 --> 00:15:58,430
+So that I showed you earlier, right?
+
+340
+00:15:58,430 --> 00:16:00,980
+We can not do 2037
+
+341
+00:16:00,980 --> 00:16:03,337
+minus the years array.
+
+342
+00:16:03,337 --> 00:16:06,100
+That will just give us not a number.
+
+343
+00:16:06,100 --> 00:16:08,060
+And so here in this loop,
+
+344
+00:16:08,060 --> 00:16:10,420
+we basically did it individually.
+
+345
+00:16:10,420 --> 00:16:13,060
+So we did to calculation one by one.
+
+346
+00:16:13,060 --> 00:16:14,910
+In each iteration of the loop
+
+347
+00:16:14,910 --> 00:16:17,060
+we calculated 2037
+
+348
+00:16:17,060 --> 00:16:19,350
+minus this year and then added it
+
+349
+00:16:19,350 --> 00:16:21,920
+to the first position in the ages array.
+
+350
+00:16:21,920 --> 00:16:24,880
+Then we did 2037 minus this
+
+351
+00:16:24,880 --> 00:16:27,920
+and put it at the end of the ages array again.
+
+352
+00:16:27,920 --> 00:16:31,540
+And then the same for this one and for 2020.
+
+353
+00:16:31,540 --> 00:16:32,420
+Great.
+
+354
+00:16:32,420 --> 00:16:34,910
+So that is a very very useful
+
+355
+00:16:34,910 --> 00:16:39,000
+and important application of the for loop.
+
+356
+00:16:39,000 --> 00:16:40,060
+And now to finish,
+
+357
+00:16:40,060 --> 00:16:42,820
+let's learn about two important statements
+
+358
+00:16:42,820 --> 00:16:44,130
+for loops.
+
+359
+00:16:44,130 --> 00:16:47,480
+And that's the continue and to break statement.
+
+360
+00:16:47,480 --> 00:16:49,540
+Let me just write that here,
+
+361
+00:16:49,540 --> 00:16:52,860
+continue and break.
+
+362
+00:16:52,860 --> 00:16:54,663
+And let's start with continue.
+
+363
+00:16:55,590 --> 00:17:00,110
+So continue is to exit the current iteration of the loop
+
+364
+00:17:00,110 --> 00:17:02,150
+and continue to the next one.
+
+365
+00:17:02,150 --> 00:17:04,800
+On the other hand, break is used
+
+366
+00:17:04,800 --> 00:17:08,090
+to completely terminate the whole loop.
+
+367
+00:17:08,090 --> 00:17:11,040
+So let's see two quick examples for that.
+
+368
+00:17:11,040 --> 00:17:13,560
+And let's go back to actually this loop
+
+369
+00:17:13,560 --> 00:17:15,470
+that we had here.
+
+370
+00:17:15,470 --> 00:17:17,623
+Where we looped this Jonas array.
+
+371
+00:17:18,570 --> 00:17:20,480
+So I will just copy this,
+
+372
+00:17:20,480 --> 00:17:24,150
+because we already learned how to loop through the array.
+
+373
+00:17:24,150 --> 00:17:25,800
+And now I'm just interested in showing you
+
+374
+00:17:25,800 --> 00:17:28,793
+how continue and to break a work.
+
+375
+00:17:29,780 --> 00:17:31,540
+So let me delete this
+
+376
+00:17:31,540 --> 00:17:33,660
+and this as well.
+
+377
+00:17:33,660 --> 00:17:36,280
+And now let's say that for some reason,
+
+378
+00:17:36,280 --> 00:17:39,080
+we only wanted to print elements to the array
+
+379
+00:17:39,080 --> 00:17:40,640
+that are strings.
+
+380
+00:17:40,640 --> 00:17:44,310
+And the continue statement is perfect for this.
+
+381
+00:17:44,310 --> 00:17:45,430
+Because again,
+
+382
+00:17:45,430 --> 00:17:49,470
+with continue we can exit the current iteration of the loop.
+
+383
+00:17:49,470 --> 00:17:51,943
+So what we can do here, is to say,
+
+384
+00:17:53,160 --> 00:17:57,010
+if the type of the current element
+
+385
+00:17:58,100 --> 00:17:59,330
+so of Jonas I,
+
+386
+00:18:03,180 --> 00:18:04,483
+is not a string,
+
+387
+00:18:06,940 --> 00:18:09,543
+then continue.
+
+388
+00:18:10,580 --> 00:18:13,610
+And so that's how we write the continue statement.
+
+389
+00:18:13,610 --> 00:18:16,640
+It's really just this continue keyword.
+
+390
+00:18:16,640 --> 00:18:18,778
+So again, what we want to do here,
+
+391
+00:18:18,778 --> 00:18:22,140
+is to only log strings to the console.
+
+392
+00:18:22,140 --> 00:18:23,820
+Which means that everything else,
+
+393
+00:18:23,820 --> 00:18:25,840
+should basically be skipped.
+
+394
+00:18:25,840 --> 00:18:27,800
+And that's what we do here.
+
+395
+00:18:27,800 --> 00:18:31,540
+So we say, if the type of the current element,
+
+396
+00:18:31,540 --> 00:18:33,270
+so that's this one here.
+
+397
+00:18:33,270 --> 00:18:35,210
+So if the type of the current element
+
+398
+00:18:35,210 --> 00:18:38,380
+is not a string then continue.
+
+399
+00:18:38,380 --> 00:18:39,920
+Which again means,
+
+400
+00:18:39,920 --> 00:18:43,060
+that the current iteration of the loop is exited,
+
+401
+00:18:43,060 --> 00:18:45,453
+and then the next one starts immediately.
+
+402
+00:18:46,540 --> 00:18:50,590
+So let's just write some other note here
+
+403
+00:18:50,590 --> 00:18:52,280
+to the console just so we know
+
+404
+00:18:52,280 --> 00:18:54,250
+what we're doing here, like
+
+405
+00:18:56,920 --> 00:18:58,490
+all the strings
+
+406
+00:18:58,490 --> 00:19:00,480
+because otherwise the output here
+
+407
+00:19:00,480 --> 00:19:03,433
+is gonna start to look a little bit confusing.
+
+408
+00:19:04,800 --> 00:19:06,593
+But anyway, let's test this now.
+
+409
+00:19:07,460 --> 00:19:10,840
+And indeed, we only get strings now.
+
+410
+00:19:10,840 --> 00:19:12,870
+So these three are strings
+
+411
+00:19:12,870 --> 00:19:15,070
+and all the other ones are not strings.
+
+412
+00:19:15,070 --> 00:19:18,570
+So this number, this array and this boolean,
+
+413
+00:19:18,570 --> 00:19:21,480
+so they will now not get printed.
+
+414
+00:19:21,480 --> 00:19:23,760
+Because we basically skipped them.
+
+415
+00:19:23,760 --> 00:19:25,800
+For example, that eight number,
+
+416
+00:19:25,800 --> 00:19:27,650
+which is 46 here.
+
+417
+00:19:27,650 --> 00:19:31,890
+So the third element, does have to type number here.
+
+418
+00:19:31,890 --> 00:19:32,723
+Right?
+
+419
+00:19:32,723 --> 00:19:34,030
+So it's not a string.
+
+420
+00:19:34,030 --> 00:19:36,550
+And so this year will be true
+
+421
+00:19:36,550 --> 00:19:39,820
+because of course number is different than string.
+
+422
+00:19:39,820 --> 00:19:41,120
+And so this is true.
+
+423
+00:19:41,120 --> 00:19:43,600
+And so this code here, will run.
+
+424
+00:19:43,600 --> 00:19:45,250
+And what continue will do
+
+425
+00:19:45,250 --> 00:19:48,380
+is that it will immediately exit the current iteration.
+
+426
+00:19:48,380 --> 00:19:49,810
+And so this line of code here,
+
+427
+00:19:49,810 --> 00:19:52,950
+will not be executed in the current iteration.
+
+428
+00:19:52,950 --> 00:19:54,593
+It will not even be reached.
+
+429
+00:19:55,440 --> 00:19:56,470
+Okay.
+
+430
+00:19:56,470 --> 00:20:00,400
+And now finally, let me just show you how break works.
+
+431
+00:20:00,400 --> 00:20:02,840
+And remember that what break does
+
+432
+00:20:02,840 --> 00:20:05,610
+is to completely terminate the whole loop.
+
+433
+00:20:05,610 --> 00:20:07,800
+So not just the current iteration.
+
+434
+00:20:07,800 --> 00:20:11,510
+So what we want to do now, is to log no other elements
+
+435
+00:20:11,510 --> 00:20:14,020
+after we found a number.
+
+436
+00:20:14,020 --> 00:20:16,800
+So essentially after a number is found
+
+437
+00:20:16,800 --> 00:20:18,800
+which will be this 46 here,
+
+438
+00:20:18,800 --> 00:20:20,813
+nothing else should be printed.
+
+439
+00:20:22,270 --> 00:20:23,930
+So let's do that.
+
+440
+00:20:23,930 --> 00:20:25,680
+And i will again, copy all of this.
+
+441
+00:20:27,820 --> 00:20:30,580
+And so let's say here
+
+442
+00:20:31,570 --> 00:20:32,403
+break
+
+443
+00:20:33,900 --> 00:20:35,043
+with number.
+
+444
+00:20:36,290 --> 00:20:40,920
+So let's translate a logic that we just said into the code.
+
+445
+00:20:40,920 --> 00:20:42,920
+So as soon as a number is found,
+
+446
+00:20:42,920 --> 00:20:44,680
+we want to break the loop.
+
+447
+00:20:44,680 --> 00:20:46,570
+So, our if condition here should be
+
+448
+00:20:47,510 --> 00:20:49,640
+type of Jonas I,
+
+449
+00:20:49,640 --> 00:20:51,100
+so the current element,
+
+450
+00:20:51,100 --> 00:20:52,793
+if it's equal to a number,
+
+451
+00:20:55,520 --> 00:20:58,383
+so now that's number then break.
+
+452
+00:20:59,770 --> 00:21:00,603
+Now, okay.
+
+453
+00:21:00,603 --> 00:21:01,973
+Let's see the result here.
+
+454
+00:21:03,070 --> 00:21:06,510
+And indeed, that's exactly what we wanted.
+
+455
+00:21:06,510 --> 00:21:09,060
+So after the first number is found
+
+456
+00:21:09,060 --> 00:21:11,470
+which is this 46 here,
+
+457
+00:21:11,470 --> 00:21:13,610
+nothing else is printed.
+
+458
+00:21:13,610 --> 00:21:17,210
+So in this iteration where the number is found
+
+459
+00:21:17,210 --> 00:21:19,950
+not even this line of code is printed anymore
+
+460
+00:21:19,950 --> 00:21:22,163
+and then the loop is terminated completely.
+
+461
+00:21:23,640 --> 00:21:24,560
+All right.
+
+462
+00:21:24,560 --> 00:21:27,550
+Now this might not sound very practical,
+
+463
+00:21:27,550 --> 00:21:30,330
+but believe me there are some important use cases
+
+464
+00:21:30,330 --> 00:21:32,530
+for continue and break.
+
+465
+00:21:32,530 --> 00:21:36,150
+It's just hard to create some small and isolated
+
+466
+00:21:36,150 --> 00:21:40,470
+code examples to show you just how useful they can be.
+
+467
+00:21:40,470 --> 00:21:42,480
+But anyway I wanted to let you know
+
+468
+00:21:42,480 --> 00:21:45,200
+that continue and break exist.
+
+469
+00:21:45,200 --> 00:21:47,870
+But the most important takeaway from this lecture,
+
+470
+00:21:47,870 --> 00:21:49,700
+is definitely to understand,
+
+471
+00:21:49,700 --> 00:21:51,570
+how we can loop through a race
+
+472
+00:21:51,570 --> 00:21:53,793
+using this kind of logic here.
+
+473
+00:21:54,820 --> 00:21:57,270
+Okay, so this one here is really important
+
+474
+00:21:57,270 --> 00:21:59,653
+that you understand this snippet of code.

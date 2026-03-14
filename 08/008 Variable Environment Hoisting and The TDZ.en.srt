@@ -1,0 +1,971 @@
+1
+00:00:01,530 --> 00:00:03,490
+The next topic we need to talk about
+
+2
+00:00:03,490 --> 00:00:07,570
+is a very misunderstood concept in JavaScript
+
+3
+00:00:07,570 --> 00:00:09,313
+and that is hoisting.
+
+4
+00:00:11,550 --> 00:00:14,380
+So we learned that an execution context
+
+5
+00:00:14,380 --> 00:00:16,810
+always contains three parts.
+
+6
+00:00:16,810 --> 00:00:18,800
+A variable environment,
+
+7
+00:00:18,800 --> 00:00:21,530
+the scope chain in the current context,
+
+8
+00:00:21,530 --> 00:00:23,500
+and the disk keyword.
+
+9
+00:00:23,500 --> 00:00:26,110
+We already learned about the scope chain
+
+10
+00:00:26,110 --> 00:00:28,800
+and so now it's time to take a closer look
+
+11
+00:00:28,800 --> 00:00:31,090
+at the variable environment
+
+12
+00:00:31,090 --> 00:00:33,750
+and in particular at how variables
+
+13
+00:00:33,750 --> 00:00:37,320
+are actually created in JavaScript.
+
+14
+00:00:37,320 --> 00:00:38,810
+So in JavaScript
+
+15
+00:00:38,810 --> 00:00:41,630
+we have a mechanism called hoisting.
+
+16
+00:00:41,630 --> 00:00:43,600
+And hoisting basically make
+
+17
+00:00:43,600 --> 00:00:46,450
+some types of variables accessible,
+
+18
+00:00:46,450 --> 00:00:49,570
+or let's say usable in the code
+
+19
+00:00:49,570 --> 00:00:52,963
+before they are actually declared in the code.
+
+20
+00:00:53,830 --> 00:00:56,520
+Now, many people simply define hoisting
+
+21
+00:00:56,520 --> 00:01:00,030
+by saying that variables are magically lifted
+
+22
+00:01:00,030 --> 00:01:03,530
+or moved to the top of their scope
+
+23
+00:01:03,530 --> 00:01:06,640
+for example, to the top of a function.
+
+24
+00:01:06,640 --> 00:01:08,790
+And that is actually what hoisting
+
+25
+00:01:08,790 --> 00:01:11,020
+looks like on the surface.
+
+26
+00:01:11,020 --> 00:01:12,520
+But behind the scenes
+
+27
+00:01:12,520 --> 00:01:15,830
+that's in fact not what happens.
+
+28
+00:01:15,830 --> 00:01:17,970
+Instead, behind the scenes
+
+29
+00:01:17,970 --> 00:01:19,780
+the code is basically scanned
+
+30
+00:01:19,780 --> 00:01:24,420
+for variable declarations before it is executed.
+
+31
+00:01:24,420 --> 00:01:26,430
+So this happens during the so-called
+
+32
+00:01:26,430 --> 00:01:29,660
+creation phase of the execution context
+
+33
+00:01:29,660 --> 00:01:32,010
+that we talked about before.
+
+34
+00:01:32,010 --> 00:01:35,530
+Then for each variable that is found in the code,
+
+35
+00:01:35,530 --> 00:01:37,630
+a new property is created
+
+36
+00:01:37,630 --> 00:01:40,330
+in a variable environment object.
+
+37
+00:01:40,330 --> 00:01:43,470
+And that's how hoisting really works.
+
+38
+00:01:43,470 --> 00:01:46,150
+Now, hoisting does not work the same
+
+39
+00:01:46,150 --> 00:01:48,160
+for all variable types.
+
+40
+00:01:48,160 --> 00:01:50,890
+And so let's analyze the way hosting works
+
+41
+00:01:50,890 --> 00:01:53,100
+for function declarations,
+
+42
+00:01:53,100 --> 00:01:55,620
+variables defined with var
+
+43
+00:01:55,620 --> 00:01:58,670
+variables defined with let or const
+
+44
+00:01:58,670 --> 00:02:00,700
+and function expressions,
+
+45
+00:02:00,700 --> 00:02:03,410
+and also arrow functions.
+
+46
+00:02:03,410 --> 00:02:07,060
+So function declarations are actually hoisted
+
+47
+00:02:07,060 --> 00:02:10,360
+and the initial value in the variable environment
+
+48
+00:02:10,360 --> 00:02:13,550
+is set to the actual function.
+
+49
+00:02:13,550 --> 00:02:15,970
+So in practice, what this means
+
+50
+00:02:15,970 --> 00:02:18,490
+is that we can use function declarations
+
+51
+00:02:18,490 --> 00:02:22,430
+before they are actually declared in the code,
+
+52
+00:02:22,430 --> 00:02:24,340
+again, because they are stored
+
+53
+00:02:24,340 --> 00:02:26,650
+in the variable environment object,
+
+54
+00:02:26,650 --> 00:02:30,360
+even before the code starts executing.
+
+55
+00:02:30,360 --> 00:02:32,070
+And I actually told you before
+
+56
+00:02:32,070 --> 00:02:35,030
+that function declarations work this way,
+
+57
+00:02:35,030 --> 00:02:37,290
+but now you understand why.
+
+58
+00:02:37,290 --> 00:02:39,900
+It is because of hoisting.
+
+59
+00:02:39,900 --> 00:02:43,100
+And just to make this table a bit more complete
+
+60
+00:02:43,100 --> 00:02:46,450
+so that it serves as a nice overview for you,
+
+61
+00:02:46,450 --> 00:02:49,280
+I also show here that function declarations
+
+62
+00:02:49,280 --> 00:02:52,800
+are block scoped as we learned before.
+
+63
+00:02:52,800 --> 00:02:55,360
+Just keep in mind that this is only true
+
+64
+00:02:55,360 --> 00:02:57,220
+for strict mode.
+
+65
+00:02:57,220 --> 00:02:59,430
+So if you're using a sloppy mode,
+
+66
+00:02:59,430 --> 00:03:00,800
+which you shouldn't ,
+
+67
+00:03:00,800 --> 00:03:04,070
+then functions are functioned sculpt.
+
+68
+00:03:04,070 --> 00:03:07,310
+Next, variables declared with var
+
+69
+00:03:07,310 --> 00:03:10,370
+are also hoisted, but hoisting works
+
+70
+00:03:10,370 --> 00:03:12,430
+in a different way here.
+
+71
+00:03:12,430 --> 00:03:14,010
+So unlike functions,
+
+72
+00:03:14,010 --> 00:03:16,860
+when we try to access a var variable
+
+73
+00:03:16,860 --> 00:03:19,220
+before it's declared in a code,
+
+74
+00:03:19,220 --> 00:03:21,760
+we don't get the declared value
+
+75
+00:03:21,760 --> 00:03:23,980
+but we get undefined.
+
+76
+00:03:23,980 --> 00:03:28,110
+And this is a really weird behavior for beginners.
+
+77
+00:03:28,110 --> 00:03:31,080
+You might expect that you simply get an error
+
+78
+00:03:31,080 --> 00:03:33,980
+when using a variable before declaring it
+
+79
+00:03:33,980 --> 00:03:36,140
+or to get the actual value.
+
+80
+00:03:36,140 --> 00:03:38,610
+But not to get undefined
+
+81
+00:03:38,610 --> 00:03:42,300
+because getting undefined is just really weird
+
+82
+00:03:42,300 --> 00:03:45,640
+and it's not really useful either, right?
+
+83
+00:03:45,640 --> 00:03:47,500
+And actually this behavior
+
+84
+00:03:47,500 --> 00:03:51,130
+is a common source of bugs in JavaScript.
+
+85
+00:03:51,130 --> 00:03:53,230
+So this is one of the main reasons
+
+86
+00:03:53,230 --> 00:03:55,060
+why in modern JavaScript
+
+87
+00:03:55,060 --> 00:03:58,250
+we almost never use var.
+
+88
+00:03:58,250 --> 00:03:59,550
+Now on the other hand,
+
+89
+00:03:59,550 --> 00:04:03,680
+let and const variables are not hoisted.
+
+90
+00:04:03,680 --> 00:04:07,060
+I mean, technically they are actually hoisted
+
+91
+00:04:07,060 --> 00:04:11,120
+but their value is basically set to an initialized.
+
+92
+00:04:11,120 --> 00:04:14,420
+So there is no value to work with at all.
+
+93
+00:04:14,420 --> 00:04:17,410
+And so in practice, it is as if hoisting
+
+94
+00:04:17,410 --> 00:04:19,950
+was not happening at all.
+
+95
+00:04:19,950 --> 00:04:22,280
+Instead, we say that these variables
+
+96
+00:04:22,280 --> 00:04:27,280
+are placed in a so-called Temporal Dead Zone or TDZ
+
+97
+00:04:27,540 --> 00:04:30,700
+which makes it so that we can't access the variables
+
+98
+00:04:30,700 --> 00:04:32,800
+between the beginning of the scope
+
+99
+00:04:32,800 --> 00:04:36,600
+and to place where the variables are declared.
+
+100
+00:04:36,600 --> 00:04:38,010
+So as a consequence,
+
+101
+00:04:38,010 --> 00:04:41,380
+if we attempt to use a let or const variable
+
+102
+00:04:41,380 --> 00:04:45,050
+before it's declared, we get an error.
+
+103
+00:04:45,050 --> 00:04:49,620
+Also keep in mind that let and const are block scoped.
+
+104
+00:04:49,620 --> 00:04:51,620
+So they exist only in the block
+
+105
+00:04:51,620 --> 00:04:53,700
+in which they were created.
+
+106
+00:04:53,700 --> 00:04:55,850
+And all these factors together
+
+107
+00:04:55,850 --> 00:04:58,700
+is basically the reason why let and const
+
+108
+00:04:58,700 --> 00:05:01,420
+were first introduced into the language,
+
+109
+00:05:01,420 --> 00:05:04,130
+and why we use them now instead of var
+
+110
+00:05:04,130 --> 00:05:06,450
+in modern JavaScript.
+
+111
+00:05:06,450 --> 00:05:07,283
+Okay.
+
+112
+00:05:07,283 --> 00:05:09,960
+But now what about function expressions
+
+113
+00:05:09,960 --> 00:05:11,940
+and arrow functions?
+
+114
+00:05:11,940 --> 00:05:14,710
+How does hoisting work for this?
+
+115
+00:05:14,710 --> 00:05:17,270
+Well, it depends if they were created
+
+116
+00:05:17,270 --> 00:05:20,540
+using var or const or let.
+
+117
+00:05:20,540 --> 00:05:23,020
+Because keep in mind that these functions
+
+118
+00:05:23,020 --> 00:05:24,790
+are simply variables.
+
+119
+00:05:24,790 --> 00:05:27,460
+And so they behave the exact same way
+
+120
+00:05:27,460 --> 00:05:30,940
+as variables in regard to hoisting.
+
+121
+00:05:30,940 --> 00:05:33,220
+This means that a function expression
+
+122
+00:05:33,220 --> 00:05:36,420
+or arrow function created with var
+
+123
+00:05:36,420 --> 00:05:38,600
+is hoisted to undefined.
+
+124
+00:05:38,600 --> 00:05:41,660
+But if created with let or const,
+
+125
+00:05:41,660 --> 00:05:45,130
+it's not usable before it's declared in a code
+
+126
+00:05:45,130 --> 00:05:48,150
+because of the Temporal Dead Zone
+
+127
+00:05:48,150 --> 00:05:52,620
+so again, just like normal variables, right?
+
+128
+00:05:52,620 --> 00:05:56,250
+And this is actually the reason why I told you earlier
+
+129
+00:05:56,250 --> 00:05:58,840
+that we cannot use function expressions
+
+130
+00:05:58,840 --> 00:06:01,450
+before we write them in the code,
+
+131
+00:06:01,450 --> 00:06:03,823
+unlike function declarations.
+
+132
+00:06:05,480 --> 00:06:06,380
+Okay.
+
+133
+00:06:06,380 --> 00:06:08,320
+But now before finishing,
+
+134
+00:06:08,320 --> 00:06:10,550
+let's take a more detailed look
+
+135
+00:06:10,550 --> 00:06:14,020
+at this mysterious Temporal Dead Zone.
+
+136
+00:06:14,020 --> 00:06:16,090
+So in this example code
+
+137
+00:06:16,090 --> 00:06:19,620
+we're gonna look at the job variable.
+
+138
+00:06:19,620 --> 00:06:24,210
+It is a const so it's scoped only to this if block
+
+139
+00:06:24,210 --> 00:06:25,760
+and it's gonna be accessible
+
+140
+00:06:25,760 --> 00:06:29,330
+starting from the line where it's defined.
+
+141
+00:06:29,330 --> 00:06:30,490
+Why?
+
+142
+00:06:30,490 --> 00:06:33,920
+Well, because there is this Temporal Dead Zone
+
+143
+00:06:33,920 --> 00:06:36,130
+for the job variable.
+
+144
+00:06:36,130 --> 00:06:38,230
+It's basically the region of the scope
+
+145
+00:06:38,230 --> 00:06:40,540
+in which the variable is defined,
+
+146
+00:06:40,540 --> 00:06:43,260
+but can't be used in any way.
+
+147
+00:06:43,260 --> 00:06:47,650
+So it is as if the variable didn't even exist.
+
+148
+00:06:47,650 --> 00:06:50,510
+Now, if we still tried to access the variable
+
+149
+00:06:50,510 --> 00:06:53,390
+while in the TDZ like we actually
+
+150
+00:06:53,390 --> 00:06:56,580
+do in the first line of this if block,
+
+151
+00:06:56,580 --> 00:06:58,810
+then we get a reference error
+
+152
+00:06:58,810 --> 00:07:01,170
+telling us that we can't access job
+
+153
+00:07:01,170 --> 00:07:03,320
+before initialization.
+
+154
+00:07:03,320 --> 00:07:04,970
+So exactly as we learned
+
+155
+00:07:04,970 --> 00:07:06,823
+in the last slide, right?
+
+156
+00:07:07,720 --> 00:07:10,773
+However, if we tried to access a variable
+
+157
+00:07:10,773 --> 00:07:13,710
+that was actually never even created,
+
+158
+00:07:13,710 --> 00:07:15,470
+like in the last line here
+
+159
+00:07:15,470 --> 00:07:17,670
+where we want to log x,
+
+160
+00:07:17,670 --> 00:07:20,090
+then we get a different error message
+
+161
+00:07:20,090 --> 00:07:23,720
+saying that x is not defined at all.
+
+162
+00:07:23,720 --> 00:07:25,820
+What this means is that job is
+
+163
+00:07:25,820 --> 00:07:28,430
+in fact in the Temporal Dead Zone
+
+164
+00:07:28,430 --> 00:07:30,550
+where it is still initialized,
+
+165
+00:07:30,550 --> 00:07:32,370
+but the engine knows that it will
+
+166
+00:07:32,370 --> 00:07:34,900
+eventually be initialized
+
+167
+00:07:34,900 --> 00:07:37,610
+because it already read the code before
+
+168
+00:07:37,610 --> 00:07:41,010
+and set the job variable in the variable environment
+
+169
+00:07:41,010 --> 00:07:43,200
+to uninitialized.
+
+170
+00:07:43,200 --> 00:07:45,530
+Then when the execution reaches the line
+
+171
+00:07:45,530 --> 00:07:47,690
+where the variable is declared,
+
+172
+00:07:47,690 --> 00:07:50,300
+it is removed from the Temporal Dead Zone
+
+173
+00:07:50,300 --> 00:07:53,000
+and it's then safe to use.
+
+174
+00:07:53,000 --> 00:07:56,130
+So to recap, basically each and every
+
+175
+00:07:56,130 --> 00:07:58,540
+let and const variable get their own
+
+176
+00:07:58,540 --> 00:08:00,570
+Temporal Dead Zone that starts
+
+177
+00:08:00,570 --> 00:08:02,250
+at the beginning of the scope
+
+178
+00:08:02,250 --> 00:08:05,180
+until the line where it is defined.
+
+179
+00:08:05,180 --> 00:08:07,660
+And the variable is only safe to use
+
+180
+00:08:07,660 --> 00:08:09,990
+after the TDZ,
+
+181
+00:08:09,990 --> 00:08:12,740
+so the Temporal Dead Zone.
+
+182
+00:08:12,740 --> 00:08:15,920
+Alright, now what is actually the need
+
+183
+00:08:15,920 --> 00:08:19,480
+for JavaScript to have a Temporal Dead Zone?
+
+184
+00:08:19,480 --> 00:08:22,320
+Well, the main reason that the TDZ
+
+185
+00:08:22,320 --> 00:08:25,340
+was introduced in ES6 is that
+
+186
+00:08:25,340 --> 00:08:27,490
+the behavior I described before
+
+187
+00:08:27,490 --> 00:08:31,660
+makes it way easier to avoid and catch errors.
+
+188
+00:08:31,660 --> 00:08:35,030
+Because using a variable that is set to undefined
+
+189
+00:08:35,030 --> 00:08:37,150
+before it's actually declared
+
+190
+00:08:37,150 --> 00:08:39,150
+can cause serious bugs
+
+191
+00:08:39,150 --> 00:08:41,320
+which might be hard to find.
+
+192
+00:08:41,320 --> 00:08:43,050
+And I will show you a small example
+
+193
+00:08:43,050 --> 00:08:44,253
+in the next lecture.
+
+194
+00:08:45,290 --> 00:08:48,430
+So accessing variables before declaration
+
+195
+00:08:48,430 --> 00:08:51,650
+is bad practice and should be avoided.
+
+196
+00:08:51,650 --> 00:08:53,530
+And the best way to avoid it
+
+197
+00:08:53,530 --> 00:08:55,360
+is by simply getting an error
+
+198
+00:08:55,360 --> 00:08:57,410
+when we attempt to do so.
+
+199
+00:08:57,410 --> 00:09:00,653
+And that's exactly what a Temporal Dead Zone does.
+
+200
+00:09:01,610 --> 00:09:05,880
+A second and smaller reason why the TDZ exists
+
+201
+00:09:05,880 --> 00:09:07,570
+is to make const variables
+
+202
+00:09:07,570 --> 00:09:10,770
+actually work the way they are supposed to.
+
+203
+00:09:10,770 --> 00:09:14,560
+So as you know, we can't reassign const variables.
+
+204
+00:09:14,560 --> 00:09:16,270
+So it will not be possible
+
+205
+00:09:16,270 --> 00:09:18,350
+to set them to undefined first
+
+206
+00:09:18,350 --> 00:09:21,700
+and then assign their real value later.
+
+207
+00:09:21,700 --> 00:09:24,340
+Const should never be reassigned.
+
+208
+00:09:24,340 --> 00:09:27,200
+And so it's only assigned when execution
+
+209
+00:09:27,200 --> 00:09:30,090
+actually reaches the declaration.
+
+210
+00:09:30,090 --> 00:09:31,690
+And that makes it impossible
+
+211
+00:09:31,690 --> 00:09:34,160
+to use the variable before.
+
+212
+00:09:34,160 --> 00:09:36,083
+Okay? Makes sense?
+
+213
+00:09:37,000 --> 00:09:40,530
+Now, if hoisting creates so many problems,
+
+214
+00:09:40,530 --> 00:09:43,720
+why does it exist in the first place?
+
+215
+00:09:43,720 --> 00:09:45,720
+I get this question all the time.
+
+216
+00:09:45,720 --> 00:09:48,660
+And so let's quickly talk about that here.
+
+217
+00:09:48,660 --> 00:09:51,460
+So the creator of JavaScript basically
+
+218
+00:09:51,460 --> 00:09:53,050
+implemented hoisting
+
+219
+00:09:53,050 --> 00:09:55,480
+so that we can use function declarations
+
+220
+00:09:55,480 --> 00:09:57,330
+before we use them.
+
+221
+00:09:57,330 --> 00:09:58,930
+Because this is essential
+
+222
+00:09:58,930 --> 00:10:01,020
+for some programming techniques,
+
+223
+00:10:01,020 --> 00:10:03,570
+such as mutual recursion.
+
+224
+00:10:03,570 --> 00:10:06,100
+Some people also think that it makes code
+
+225
+00:10:06,100 --> 00:10:08,310
+a lot more readable.
+
+226
+00:10:08,310 --> 00:10:12,220
+Now, the fact that it also works for var declarations
+
+227
+00:10:12,220 --> 00:10:14,700
+is because that was the only way hoisting
+
+228
+00:10:14,700 --> 00:10:17,390
+could be implemented at the time.
+
+229
+00:10:17,390 --> 00:10:20,090
+So the hoisting of var variables
+
+230
+00:10:20,090 --> 00:10:22,140
+is basically just a byproduct
+
+231
+00:10:22,140 --> 00:10:24,290
+of hoisting functions.
+
+232
+00:10:24,290 --> 00:10:27,000
+And it probably seemed like a good idea
+
+233
+00:10:27,000 --> 00:10:29,860
+to simply set variables to undefined,
+
+234
+00:10:29,860 --> 00:10:33,460
+which in hindsight is not really that great.
+
+235
+00:10:33,460 --> 00:10:35,780
+But we need to remember that JavaScript
+
+236
+00:10:35,780 --> 00:10:38,160
+was never intended to become the huge
+
+237
+00:10:38,160 --> 00:10:41,090
+programming language that it is today.
+
+238
+00:10:41,090 --> 00:10:43,350
+Also, we can't remove this feature
+
+239
+00:10:43,350 --> 00:10:44,850
+from the language now.
+
+240
+00:10:44,850 --> 00:10:48,323
+And so we just use let and const to work around this.
+
+241
+00:10:49,610 --> 00:10:51,580
+Alright, great.
+
+242
+00:10:51,580 --> 00:10:53,780
+And with all that being said,
+
+243
+00:10:53,780 --> 00:10:57,573
+let's now work on some practical hoisting examples.

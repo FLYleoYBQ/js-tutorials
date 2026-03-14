@@ -1,0 +1,1075 @@
+1
+00:00:01,290 --> 00:00:05,280
+Let's now start working on the Bankist website,
+
+2
+00:00:05,280 --> 00:00:08,500
+and we're gonna start by implementing smooth scrolling
+
+3
+00:00:10,650 --> 00:00:13,650
+and the functionality that we're gonna implement now
+
+4
+00:00:13,650 --> 00:00:15,570
+is when we click on this button,
+
+5
+00:00:15,570 --> 00:00:19,173
+then it will smoothly scroll to this first section.
+
+6
+00:00:20,430 --> 00:00:22,440
+Okay, so that's it.
+
+7
+00:00:22,440 --> 00:00:25,860
+Simple fact all that happens is one click,
+
+8
+00:00:25,860 --> 00:00:28,920
+and the effect is that it smoothly scrolls
+
+9
+00:00:28,920 --> 00:00:30,780
+here to this first section.
+
+10
+00:00:30,780 --> 00:00:34,050
+So we're gonna see two ways of doing this.
+
+11
+00:00:34,050 --> 00:00:36,450
+First one a bit more old school,
+
+12
+00:00:36,450 --> 00:00:37,350
+which will allow me
+
+13
+00:00:37,350 --> 00:00:40,020
+to show you a couple of interesting stuff.
+
+14
+00:00:40,020 --> 00:00:43,110
+And then finally, I will show you the more modern way,
+
+15
+00:00:43,110 --> 00:00:46,260
+which only works in super modern browsers.
+
+16
+00:00:46,260 --> 00:00:48,330
+So let's start by selecting the button
+
+17
+00:00:48,330 --> 00:00:50,493
+and the section that we want to scroll to.
+
+18
+00:00:51,780 --> 00:00:56,310
+So that button is, it's this one,
+
+19
+00:00:56,310 --> 00:00:59,190
+btn--scroll-to, all right?
+
+20
+00:00:59,190 --> 00:01:02,460
+And then the section is this one, section--1.
+
+21
+00:01:02,460 --> 00:01:05,163
+So with this ID of section--1.
+
+22
+00:01:07,290 --> 00:01:09,200
+So const btnScrollTo
+
+23
+00:01:14,040 --> 00:01:15,393
+is document.querySelector.
+
+24
+00:01:20,070 --> 00:01:22,840
+All right, and now section1
+
+25
+00:01:25,290 --> 00:01:29,430
+is document.querySelector,
+
+26
+00:01:29,430 --> 00:01:30,870
+and now it's the ID.
+
+27
+00:01:30,870 --> 00:01:33,240
+So that's the hash
+
+28
+00:01:33,240 --> 00:01:36,633
+and then section dash dash one.
+
+29
+00:01:38,100 --> 00:01:39,990
+So that's the easy part.
+
+30
+00:01:39,990 --> 00:01:42,180
+And now as always, we need to start
+
+31
+00:01:42,180 --> 00:01:45,213
+by adding an event listener to the button.
+
+32
+00:01:48,037 --> 00:01:52,173
+.addEventListener on click.
+
+33
+00:01:54,090 --> 00:01:58,113
+And then our function, and let's actually give it the event.
+
+34
+00:01:59,310 --> 00:02:02,370
+So in the first way that we're gonna do, we need
+
+35
+00:02:02,370 --> 00:02:05,130
+to first get the coordinates of the element
+
+36
+00:02:05,130 --> 00:02:06,633
+that we want to scroll to.
+
+37
+00:02:07,830 --> 00:02:09,783
+So let me show you how.
+
+38
+00:02:11,250 --> 00:02:16,250
+So s1cords, and that's section1.getBoundingClientRect.
+
+39
+00:02:22,260 --> 00:02:25,920
+Alright, that sounds like a mouthful.
+
+40
+00:02:25,920 --> 00:02:28,140
+It's actually pretty straightforward.
+
+41
+00:02:28,140 --> 00:02:30,033
+Let me show it to you actually first.
+
+42
+00:02:32,310 --> 00:02:34,170
+So when I click this,
+
+43
+00:02:34,170 --> 00:02:38,580
+then we get this dome rectangle now, right?
+
+44
+00:02:38,580 --> 00:02:40,590
+And it has all of these properties.
+
+45
+00:02:40,590 --> 00:02:45,510
+So the exposition, which is measured from the left side,
+
+46
+00:02:45,510 --> 00:02:48,360
+the Y position, which is measured from the top,
+
+47
+00:02:48,360 --> 00:02:51,420
+and then the width of the element, the height,
+
+48
+00:02:51,420 --> 00:02:54,917
+and then a lot of other properties now, right?
+
+49
+00:02:54,917 --> 00:02:57,930
+And this element is probably not the best one
+
+50
+00:02:57,930 --> 00:03:00,360
+to understand this.
+
+51
+00:03:00,360 --> 00:03:03,753
+So let's get this rectangle for the button.
+
+52
+00:03:04,650 --> 00:03:06,630
+So that's the element we just clicked.
+
+53
+00:03:06,630 --> 00:03:09,840
+So e.target, remember?
+
+54
+00:03:09,840 --> 00:03:13,680
+So e.target is essentially this element here.
+
+55
+00:03:13,680 --> 00:03:15,040
+So the one that was clicked
+
+56
+00:03:16,470 --> 00:03:19,863
+and now getBoundingClientRect as well.
+
+57
+00:03:22,950 --> 00:03:25,590
+And so let's take a look at that second one.
+
+58
+00:03:25,590 --> 00:03:30,590
+So this 30 pixels here is the distance between the
+
+59
+00:03:30,900 --> 00:03:33,750
+border here of the browser, alright?
+
+60
+00:03:33,750 --> 00:03:37,620
+And then this Y is this distance from the top.
+
+61
+00:03:37,620 --> 00:03:41,523
+Then we also have the width, which is this 112, the height.
+
+62
+00:03:46,260 --> 00:03:49,230
+And yeah, here we also get the top,
+
+63
+00:03:49,230 --> 00:03:53,280
+which is in this case similar to Y, okay?
+
+64
+00:03:53,280 --> 00:03:56,760
+But it isn't always because when we scroll then X
+
+65
+00:03:56,760 --> 00:03:58,650
+and Y actually change.
+
+66
+00:03:58,650 --> 00:04:00,120
+So let me show that to you.
+
+67
+00:04:00,120 --> 00:04:01,773
+And if I click this again now,
+
+68
+00:04:04,280 --> 00:04:05,680
+then let's take a look here.
+
+69
+00:04:07,080 --> 00:04:11,400
+So you see that Y is now only 168 pixels.
+
+70
+00:04:11,400 --> 00:04:14,130
+And so that's the distance between this element
+
+71
+00:04:14,130 --> 00:04:17,042
+and the top of this viewport.
+
+72
+00:04:17,042 --> 00:04:21,000
+So this boundingClientRect is basically relative
+
+73
+00:04:21,000 --> 00:04:22,683
+to this visible viewport.
+
+74
+00:04:23,700 --> 00:04:25,200
+All right?
+
+75
+00:04:25,200 --> 00:04:26,280
+And in fact,
+
+76
+00:04:26,280 --> 00:04:29,310
+we can also get the current scroll position.
+
+77
+00:04:29,310 --> 00:04:32,010
+So since we're talking about scrolling, let me show
+
+78
+00:04:32,010 --> 00:04:33,183
+that to you as well.
+
+79
+00:04:34,860 --> 00:04:39,860
+So current scroll, so that's the X
+
+80
+00:04:40,350 --> 00:04:44,523
+and the Y positions, just so we see what we are looking at.
+
+81
+00:04:45,510 --> 00:04:49,680
+So these values are at window, pageXOffset,
+
+82
+00:04:49,680 --> 00:04:52,533
+and pageYOffset.
+
+83
+00:04:55,470 --> 00:05:00,470
+So let me just scroll somewhere here, click this.
+
+84
+00:05:00,990 --> 00:05:05,490
+And so we get that the current scroll is at zero from X,
+
+85
+00:05:05,490 --> 00:05:07,740
+so there's no horizontal scroll
+
+86
+00:05:07,740 --> 00:05:10,620
+and vertically, we already scrolled 290
+
+87
+00:05:10,620 --> 00:05:13,350
+pixels here at this point.
+
+88
+00:05:13,350 --> 00:05:14,910
+So when we're at the very top,
+
+89
+00:05:14,910 --> 00:05:18,090
+then these two values should both be zero.
+
+90
+00:05:18,090 --> 00:05:20,160
+And so yeah, now they are.
+
+91
+00:05:20,160 --> 00:05:24,603
+So basically this y coordinate here is the distance between
+
+92
+00:05:24,603 --> 00:05:27,690
+the current position here of the viewport
+
+93
+00:05:27,690 --> 00:05:29,253
+and the top of the page.
+
+94
+00:05:30,180 --> 00:05:32,733
+So here at this line, for example, when we're here,
+
+95
+00:05:33,900 --> 00:05:37,740
+if we get to scroll now, well now we can't
+
+96
+00:05:37,740 --> 00:05:39,960
+because we can click on the button.
+
+97
+00:05:39,960 --> 00:05:42,180
+But yeah, you get the point.
+
+98
+00:05:42,180 --> 00:05:46,980
+So the distance for example here is now 421.
+
+99
+00:05:46,980 --> 00:05:49,290
+So that means that from this very edge
+
+100
+00:05:49,290 --> 00:05:52,830
+of the browser right now all the way to the top of the page,
+
+101
+00:05:52,830 --> 00:05:55,530
+it is 421 pixels.
+
+102
+00:05:55,530 --> 00:05:58,170
+Okay, and sometimes that's very important
+
+103
+00:05:58,170 --> 00:06:00,783
+to know in certain applications.
+
+104
+00:06:01,710 --> 00:06:05,250
+And if you're even more curious than
+
+105
+00:06:05,250 --> 00:06:07,590
+since we're talking about coordinates
+
+106
+00:06:07,590 --> 00:06:10,110
+and stuff, we can also read the height
+
+107
+00:06:10,110 --> 00:06:12,390
+and the width of this view port.
+
+108
+00:06:12,390 --> 00:06:14,310
+So again, of this
+
+109
+00:06:14,310 --> 00:06:16,800
+rectangle in which we can see the current
+
+110
+00:06:16,800 --> 00:06:18,543
+portion of the page.
+
+111
+00:06:20,070 --> 00:06:23,080
+So height and width
+
+112
+00:06:24,690 --> 00:06:29,077
+of viewport, they are at document,
+
+113
+00:06:29,077 --> 00:06:30,577
+.documentElement.clientHeight,
+
+114
+00:06:34,260 --> 00:06:37,043
+and then the same with client width.
+
+115
+00:06:42,347 --> 00:06:43,347
+clientWidth.
+
+116
+00:06:44,730 --> 00:06:45,563
+Alright,
+
+117
+00:06:47,610 --> 00:06:50,730
+so you see that this high tier is 588,
+
+118
+00:06:50,730 --> 00:06:53,460
+and the width 10 67.
+
+119
+00:06:53,460 --> 00:06:58,460
+So if I change this here, so this is kind of half now,
+
+120
+00:06:58,920 --> 00:07:01,053
+so let's see what value we get now.
+
+121
+00:07:02,070 --> 00:07:06,030
+And so now it is 276. Okay?
+
+122
+00:07:06,030 --> 00:07:09,540
+And so that's because I decreased that visible box there.
+
+123
+00:07:09,540 --> 00:07:12,993
+And so the height of the viewport is of course different.
+
+124
+00:07:13,920 --> 00:07:17,220
+So let's reload here, click again.
+
+125
+00:07:17,220 --> 00:07:20,250
+And so yeah, here we get all kinds
+
+126
+00:07:20,250 --> 00:07:25,250
+of interesting information about coordinates, scrolling
+
+127
+00:07:25,320 --> 00:07:28,020
+and dimensions of the view port.
+
+128
+00:07:28,020 --> 00:07:29,220
+Alright?
+
+129
+00:07:29,220 --> 00:07:33,120
+But anyway, the goal of actually getting these coordinates
+
+130
+00:07:33,120 --> 00:07:35,250
+is because we need them to scroll
+
+131
+00:07:35,250 --> 00:07:37,740
+to this first section here.
+
+132
+00:07:37,740 --> 00:07:38,640
+Alright?
+
+133
+00:07:38,640 --> 00:07:41,190
+So basically we need these coordinates here
+
+134
+00:07:41,190 --> 00:07:43,983
+to tell JavaScript where it should scroll to.
+
+135
+00:07:45,210 --> 00:07:47,223
+So let's now do that actually.
+
+136
+00:07:49,080 --> 00:07:53,163
+So scrolling and we use window.scrollTo,
+
+137
+00:07:56,220 --> 00:07:58,800
+okay, so that's a global function
+
+138
+00:07:58,800 --> 00:08:01,530
+that's available on the window object.
+
+139
+00:08:01,530 --> 00:08:04,680
+And here the first argument is the left position.
+
+140
+00:08:04,680 --> 00:08:08,463
+And so that is at s1cords.
+
+141
+00:08:09,810 --> 00:08:11,910
+And let's take a look here.
+
+142
+00:08:11,910 --> 00:08:15,633
+So this is the one, now it's gone.
+
+143
+00:08:18,750 --> 00:08:23,750
+So we are interested here in this left value right now.
+
+144
+00:08:23,760 --> 00:08:25,950
+So it is zero and that's good
+
+145
+00:08:25,950 --> 00:08:29,340
+because we don't want any horizontal scroll.
+
+146
+00:08:29,340 --> 00:08:30,720
+Then for the second one,
+
+147
+00:08:30,720 --> 00:08:33,090
+we're gonna be interested in the top,
+
+148
+00:08:33,090 --> 00:08:37,920
+which is again the position from the top of the viewport.
+
+149
+00:08:37,920 --> 00:08:40,020
+So the section starts here.
+
+150
+00:08:40,020 --> 00:08:44,013
+So it's basically these 270 pixels right there.
+
+151
+00:08:45,510 --> 00:08:49,380
+Okay, so left
+
+152
+00:08:49,380 --> 00:08:53,313
+and s1cords.top.
+
+153
+00:08:55,380 --> 00:08:59,073
+So let's give it some more space and let's try it.
+
+154
+00:09:00,000 --> 00:09:02,460
+And indeed now it worked.
+
+155
+00:09:02,460 --> 00:09:07,460
+So we are now here at the top of section one. Okay?
+
+156
+00:09:07,890 --> 00:09:12,890
+And so that's because the top was at 730 pixels.
+
+157
+00:09:15,510 --> 00:09:18,153
+And so that's the distance that was scrolled.
+
+158
+00:09:20,400 --> 00:09:23,763
+However, watch what happens when I click again.
+
+159
+00:09:25,020 --> 00:09:27,783
+So now it doesn't really work, does it?
+
+160
+00:09:28,740 --> 00:09:31,203
+Well that's because this top here
+
+161
+00:09:31,203 --> 00:09:35,340
+that we specified is always relative to the view port,
+
+162
+00:09:35,340 --> 00:09:37,950
+but not to the document.
+
+163
+00:09:37,950 --> 00:09:39,510
+So not to the top
+
+164
+00:09:39,510 --> 00:09:44,130
+of the page basically, right?
+
+165
+00:09:44,130 --> 00:09:48,960
+So let me show it to you again so it works when we are here.
+
+166
+00:09:48,960 --> 00:09:49,950
+Alright?
+
+167
+00:09:49,950 --> 00:09:54,630
+And that's because this y position here, which is the same
+
+168
+00:09:54,630 --> 00:09:59,010
+as this top is 429,
+
+169
+00:09:59,010 --> 00:10:01,950
+which is basically the distance between this point
+
+170
+00:10:01,950 --> 00:10:05,160
+and this point, okay?
+
+171
+00:10:05,160 --> 00:10:08,430
+But if we're doing it here, then the distance
+
+172
+00:10:08,430 --> 00:10:10,800
+between the line and the top
+
+173
+00:10:10,800 --> 00:10:13,740
+of the viewport here is a lot less.
+
+174
+00:10:13,740 --> 00:10:15,933
+So it's only like 200 or something.
+
+175
+00:10:17,010 --> 00:10:22,010
+So let's see, it is only, actually it's only 112.
+
+176
+00:10:22,620 --> 00:10:24,070
+Well that doesn't make sense.
+
+177
+00:10:28,290 --> 00:10:33,180
+Well actually it's this one. So it's only 333.
+
+178
+00:10:33,180 --> 00:10:34,020
+Alright?
+
+179
+00:10:34,020 --> 00:10:35,850
+And so basically it only scrolls
+
+180
+00:10:35,850 --> 00:10:40,110
+to position 333 while in fact we wanted
+
+181
+00:10:40,110 --> 00:10:44,103
+to scroll all the way to here, which was at something like,
+
+182
+00:10:45,799 --> 00:10:49,750
+so it was at 492
+
+183
+00:10:50,640 --> 00:10:53,160
+or actually at 713.
+
+184
+00:10:53,160 --> 00:10:56,910
+Okay? So I know it's all a little bit confusing.
+
+185
+00:10:56,910 --> 00:10:59,880
+And in order to really understand all of these numbers,
+
+186
+00:10:59,880 --> 00:11:03,330
+you have to play around with this a lot by yourself.
+
+187
+00:11:03,330 --> 00:11:06,900
+Otherwise it's gonna be hard to make sense of this.
+
+188
+00:11:06,900 --> 00:11:09,150
+But the solution to this problem is
+
+189
+00:11:09,150 --> 00:11:11,940
+to simply add the current scroll position
+
+190
+00:11:11,940 --> 00:11:13,743
+to the top value here.
+
+191
+00:11:14,640 --> 00:11:17,490
+And with this we will then determine the position
+
+192
+00:11:17,490 --> 00:11:21,720
+of this section here, not relative to the viewport,
+
+193
+00:11:21,720 --> 00:11:24,660
+so to the top of this browser window here,
+
+194
+00:11:24,660 --> 00:11:28,230
+but instead to the top of the page.
+
+195
+00:11:28,230 --> 00:11:31,110
+Okay, so again, the position
+
+196
+00:11:31,110 --> 00:11:35,010
+of this section here is always this top, which is from here
+
+197
+00:11:35,010 --> 00:11:38,520
+to the viewport plus the current scroll position.
+
+198
+00:11:38,520 --> 00:11:42,213
+And so that's the distance from here all the way to the top.
+
+199
+00:11:43,830 --> 00:11:46,770
+Okay? So let's add that here.
+
+200
+00:11:46,770 --> 00:11:50,700
+And again to really make sense of all I'm saying here,
+
+201
+00:11:50,700 --> 00:11:53,910
+please play around with this a lot by yourself.
+
+202
+00:11:53,910 --> 00:11:55,893
+Okay, so pageYOffset.
+
+203
+00:11:57,570 --> 00:11:59,793
+And here it should actually also be window.
+
+204
+00:12:01,320 --> 00:12:05,400
+And then we also, just for the sake of completeness,
+
+205
+00:12:05,400 --> 00:12:07,200
+edit here as well.
+
+206
+00:12:07,200 --> 00:12:09,243
+So window.pageXOffset.
+
+207
+00:12:13,560 --> 00:12:18,560
+Okay? So let's see if it still works here and it does.
+
+208
+00:12:18,960 --> 00:12:22,620
+And now let's try it from somewhere else like here.
+
+209
+00:12:22,620 --> 00:12:26,220
+And now it works. Now it goes to the correct place.
+
+210
+00:12:26,220 --> 00:12:27,810
+And so by doing this here,
+
+211
+00:12:27,810 --> 00:12:30,780
+we basically determined the absolute position
+
+212
+00:12:30,780 --> 00:12:35,190
+of this element relative to the document,
+
+213
+00:12:35,190 --> 00:12:37,260
+so to the entire page.
+
+214
+00:12:37,260 --> 00:12:39,060
+And that's important to note.
+
+215
+00:12:39,060 --> 00:12:43,320
+So if you need that, then this is how you calculate it.
+
+216
+00:12:43,320 --> 00:12:47,610
+So again, the current position plus the current scroll.
+
+217
+00:12:47,610 --> 00:12:51,693
+Alright, now we can even make this better.
+
+218
+00:12:55,872 --> 00:12:57,372
+So .scrollTo again
+
+219
+00:12:58,230 --> 00:12:59,280
+because there is a way
+
+220
+00:12:59,280 --> 00:13:02,550
+of making this animation nice and smooth.
+
+221
+00:13:02,550 --> 00:13:05,670
+And this works by passing in an object now instead
+
+222
+00:13:05,670 --> 00:13:07,890
+of just one argument.
+
+223
+00:13:07,890 --> 00:13:10,230
+So let's get these two
+
+224
+00:13:10,230 --> 00:13:12,183
+and then let's comment all of this out.
+
+225
+00:13:14,850 --> 00:13:19,850
+And so the properties that we need to specify are the
+
+226
+00:13:20,400 --> 00:13:25,400
+left, so this is the left, this is the top.
+
+227
+00:13:25,710 --> 00:13:27,900
+And so this is actually called top.
+
+228
+00:13:27,900 --> 00:13:31,593
+And then we also have a property called behavior.
+
+229
+00:13:33,000 --> 00:13:35,613
+And so here we can now specify smooth.
+
+230
+00:13:37,830 --> 00:13:38,940
+Alright?
+
+231
+00:13:38,940 --> 00:13:42,090
+So to implement smooth scrolling like this, we need
+
+232
+00:13:42,090 --> 00:13:45,270
+to specify an object with the left top
+
+233
+00:13:45,270 --> 00:13:46,833
+and behavior properties.
+
+234
+00:13:47,670 --> 00:13:52,670
+So let's try it out and it works, great.
+
+235
+00:13:52,770 --> 00:13:55,293
+So that is a lot better, isn't it?
+
+236
+00:13:56,910 --> 00:14:00,780
+And again, it also is gonna work from this position
+
+237
+00:14:00,780 --> 00:14:04,980
+and the browser automatically figures out the speed it
+
+238
+00:14:04,980 --> 00:14:07,533
+should go to make this look really nice.
+
+239
+00:14:08,370 --> 00:14:10,710
+All right, so this is kind
+
+240
+00:14:10,710 --> 00:14:13,860
+of the old school way still of doing it.
+
+241
+00:14:13,860 --> 00:14:17,370
+So manually calculating all of these values here
+
+242
+00:14:17,370 --> 00:14:19,620
+and then saying that we want to scroll
+
+243
+00:14:19,620 --> 00:14:22,023
+to this position, all right?
+
+244
+00:14:22,980 --> 00:14:27,980
+But there is a more modern way, and it works like this.
+
+245
+00:14:28,200 --> 00:14:31,680
+We simply take the element that we want to scroll to
+
+246
+00:14:31,680 --> 00:14:33,033
+and that is section one.
+
+247
+00:14:33,930 --> 00:14:36,893
+And on that we call scrollIntoView,
+
+248
+00:14:39,060 --> 00:14:43,800
+and then we pass in an object and specify again behavior
+
+249
+00:14:43,800 --> 00:14:45,033
+and set it to smooth.
+
+250
+00:14:45,990 --> 00:14:49,923
+And that's actually it. Then we don't need any of this.
+
+251
+00:14:52,470 --> 00:14:57,470
+Okay, let me prove it to you. And it works just the same.
+
+252
+00:14:58,440 --> 00:15:02,010
+So without any of these weird calculations here,
+
+253
+00:15:02,010 --> 00:15:03,450
+with these weird positions
+
+254
+00:15:03,450 --> 00:15:07,380
+and all of that, it's all unnecessary if we are able
+
+255
+00:15:07,380 --> 00:15:10,350
+to use this function here.
+
+256
+00:15:10,350 --> 00:15:13,440
+And again, this only works in modern browsers,
+
+257
+00:15:13,440 --> 00:15:15,900
+but if you only need to support these,
+
+258
+00:15:15,900 --> 00:15:20,250
+then you are 100% fine using only this method.
+
+259
+00:15:20,250 --> 00:15:23,550
+But I think it was still a good idea to show you all
+
+260
+00:15:23,550 --> 00:15:26,490
+of these different numbers here.
+
+261
+00:15:26,490 --> 00:15:30,270
+So like calculating the current scroll positions
+
+262
+00:15:30,270 --> 00:15:34,110
+or the current window positions and sizes,
+
+263
+00:15:34,110 --> 00:15:37,290
+and also all the sizes of the elements
+
+264
+00:15:37,290 --> 00:15:39,750
+that we can get using this function.
+
+265
+00:15:39,750 --> 00:15:41,790
+And by the way, these client height
+
+266
+00:15:41,790 --> 00:15:45,450
+and width here are not counting with the scroll bars,
+
+267
+00:15:45,450 --> 00:15:48,030
+it's just the dimensions of the viewport
+
+268
+00:15:48,030 --> 00:15:51,000
+that are actually available for the content.
+
+269
+00:15:51,000 --> 00:15:54,393
+And of course that excludes any scroll bars.

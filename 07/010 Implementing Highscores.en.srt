@@ -1,0 +1,563 @@
+1
+00:00:01,100 --> 00:00:03,630
+All right.So let's now implement
+
+2
+00:00:03,630 --> 00:00:06,620
+the last missing functionality in our game,
+
+3
+00:00:06,620 --> 00:00:08,463
+which is the high scores.
+
+4
+00:00:09,880 --> 00:00:12,550
+And to really understand how the high score
+
+5
+00:00:12,550 --> 00:00:14,280
+should work in this game,
+
+6
+00:00:14,280 --> 00:00:17,283
+let's take a look at the demo again.
+
+7
+00:00:18,420 --> 00:00:20,880
+So let's reload the game.
+
+8
+00:00:20,880 --> 00:00:21,993
+And let's start here.
+
+9
+00:00:23,770 --> 00:00:26,983
+And so you see that the score starts at 19.
+
+10
+00:00:29,610 --> 00:00:33,733
+So let's try a couple of times to a low score.
+
+11
+00:00:37,440 --> 00:00:40,950
+Okay, so correct number two score is 10.
+
+12
+00:00:40,950 --> 00:00:44,370
+And the high score is now also set to 10.
+
+13
+00:00:44,370 --> 00:00:46,330
+Because this was my first game,
+
+14
+00:00:46,330 --> 00:00:49,810
+and so now this is also my new high score.
+
+15
+00:00:49,810 --> 00:00:51,423
+But now as I play again,
+
+16
+00:00:52,390 --> 00:00:55,560
+my score is of course, resetted to 20.
+
+17
+00:00:55,560 --> 00:00:59,400
+But now, if I do a better score, than this 10 here,
+
+18
+00:00:59,400 --> 00:01:01,813
+then that will become my new high score.
+
+19
+00:01:02,760 --> 00:01:07,300
+Okay, and that is going to happen as soon as I win the game.
+
+20
+00:01:07,300 --> 00:01:08,563
+So let's play again.
+
+21
+00:01:13,350 --> 00:01:15,893
+And to wish for a quick result.
+
+22
+00:01:18,320 --> 00:01:22,270
+And great, so now my score is 17.
+
+23
+00:01:22,270 --> 00:01:25,660
+And since that is more than the 10, that I had before,
+
+24
+00:01:25,660 --> 00:01:28,060
+that is now also my highest score.
+
+25
+00:01:28,060 --> 00:01:31,690
+Okay. Again because the current score is larger
+
+26
+00:01:31,690 --> 00:01:33,540
+than the previous high score.
+
+27
+00:01:33,540 --> 00:01:35,970
+And so that is now the new high score.
+
+28
+00:01:35,970 --> 00:01:38,670
+Okay. Now, right. And so basically,
+
+29
+00:01:38,670 --> 00:01:42,653
+what we just store here is now what we need to implement.
+
+30
+00:01:43,840 --> 00:01:45,580
+First off, we're gonna to need a
+
+31
+00:01:45,580 --> 00:01:48,440
+variable for the high score.
+
+32
+00:01:48,440 --> 00:01:51,960
+Right. So just like for the regular score,
+
+33
+00:01:51,960 --> 00:01:55,223
+we also need to store the high score in a variable.
+
+34
+00:01:56,600 --> 00:01:59,110
+So let, high score
+
+35
+00:02:00,150 --> 00:02:03,010
+and let's start this one at zero.
+
+36
+00:02:03,010 --> 00:02:05,720
+This way, the first score is always gonna be
+
+37
+00:02:05,720 --> 00:02:06,780
+the highest score,
+
+38
+00:02:06,780 --> 00:02:09,803
+because it's always going to be greater than zero.
+
+39
+00:02:11,570 --> 00:02:15,590
+Okay.So where do you think we should check
+
+40
+00:02:15,590 --> 00:02:17,270
+for the high score?.
+
+41
+00:02:17,270 --> 00:02:19,560
+So basically, if the current score
+
+42
+00:02:19,560 --> 00:02:21,940
+is greater than the high score?.
+
+43
+00:02:21,940 --> 00:02:25,240
+Well, remember that here the high score was set
+
+44
+00:02:25,240 --> 00:02:27,780
+as soon as the player won the game.
+
+45
+00:02:27,780 --> 00:02:29,633
+And so where is that in our code?
+
+46
+00:02:30,640 --> 00:02:33,223
+Well, it's here in this if block.
+
+47
+00:02:34,420 --> 00:02:37,233
+Okay, and so this is where we will check.
+
+48
+00:02:38,130 --> 00:02:39,860
+And to check that we will do,
+
+49
+00:02:39,860 --> 00:02:41,780
+as I explained previously,
+
+50
+00:02:41,780 --> 00:02:46,777
+is to ask whether the score is greater
+
+51
+00:02:48,430 --> 00:02:50,203
+than the current high score.
+
+52
+00:02:51,290 --> 00:02:53,510
+Right. And if it is,
+
+53
+00:02:53,510 --> 00:02:57,200
+so if our score of the current game is greater
+
+54
+00:02:57,200 --> 00:02:59,380
+than the highest score that we already had,
+
+55
+00:02:59,380 --> 00:03:01,670
+well, then the highest score will become
+
+56
+00:03:01,670 --> 00:03:03,203
+this new current score.
+
+57
+00:03:04,050 --> 00:03:08,673
+Right. So high score,equal score.
+
+58
+00:03:10,450 --> 00:03:11,710
+And that's it.
+
+59
+00:03:11,710 --> 00:03:13,890
+Now all we have to do is to display
+
+60
+00:03:13,890 --> 00:03:18,460
+that new high score here, in this element.
+
+61
+00:03:18,460 --> 00:03:21,990
+And actually, of course in our version of the game.
+
+62
+00:03:21,990 --> 00:03:23,053
+So right here.
+
+63
+00:03:24,250 --> 00:03:26,873
+So let's check the class name.
+
+64
+00:03:27,720 --> 00:03:31,810
+And it is called the highest score here.
+
+65
+00:03:31,810 --> 00:03:33,773
+So just this span,
+
+66
+00:03:35,290 --> 00:03:40,290
+So, document dot query selector.
+
+67
+00:03:42,040 --> 00:03:45,100
+And do remember, you should always write all of this here
+
+68
+00:03:45,100 --> 00:03:48,720
+by hand, to really put it into your brain.
+
+69
+00:03:48,720 --> 00:03:53,720
+So document dot query selector and dot high score.
+
+70
+00:03:55,920 --> 00:03:58,283
+And I have a problem writing score, apparently.
+
+71
+00:03:59,130 --> 00:04:04,130
+So text content, and this will be set to high score.
+
+72
+00:04:06,164 --> 00:04:08,430
+Okay, that's it.
+
+73
+00:04:08,430 --> 00:04:10,890
+This is the translation of the logic
+
+74
+00:04:10,890 --> 00:04:13,130
+that I just explained earlier.
+
+75
+00:04:13,130 --> 00:04:15,330
+So we need to have a high score variable,
+
+76
+00:04:15,330 --> 00:04:17,380
+so that we can keep track of it.
+
+77
+00:04:17,380 --> 00:04:19,600
+And then whenever our game finishes,
+
+78
+00:04:19,600 --> 00:04:21,840
+we check if the current score is
+
+79
+00:04:21,840 --> 00:04:23,540
+greater than the high score.
+
+80
+00:04:23,540 --> 00:04:26,950
+And if it is, that will become the new high score.
+
+81
+00:04:26,950 --> 00:04:29,130
+And so we set or high score variable
+
+82
+00:04:29,130 --> 00:04:31,243
+to the current score here.
+
+83
+00:04:32,790 --> 00:04:33,653
+Okay.
+
+84
+00:04:35,020 --> 00:04:38,330
+That's just to make sure we load it here.
+
+85
+00:04:38,330 --> 00:04:42,070
+And then let's play too high,Correct.
+
+86
+00:04:44,020 --> 00:04:46,180
+Oh now we have a very high score,
+
+87
+00:04:46,180 --> 00:04:48,680
+because we did it in our second guess.
+
+88
+00:04:48,680 --> 00:04:51,040
+Let me actually reload this page here.
+
+89
+00:04:51,040 --> 00:04:54,500
+So I want a really low, high score.
+
+90
+00:04:54,500 --> 00:04:55,823
+So let's try it again.
+
+91
+00:04:57,550 --> 00:05:01,203
+So I click a couple of times to decrease the current score.
+
+92
+00:05:03,780 --> 00:05:06,930
+Oh, and now we have a score of 14.
+
+93
+00:05:06,930 --> 00:05:09,660
+And you see the new high score is now 14.
+
+94
+00:05:09,660 --> 00:05:11,340
+Because it used to be zero,
+
+95
+00:05:11,340 --> 00:05:13,330
+but of course, 14 is greater.
+
+96
+00:05:13,330 --> 00:05:16,023
+And so 14 becomes our new high score.
+
+97
+00:05:17,990 --> 00:05:20,450
+Okay, and now as I click again,
+
+98
+00:05:20,450 --> 00:05:24,520
+everything will reset, except for the high score.
+
+99
+00:05:24,520 --> 00:05:27,200
+So that was the goal of having this button here.
+
+100
+00:05:27,200 --> 00:05:29,070
+So that we can play the game again,
+
+101
+00:05:29,070 --> 00:05:30,750
+but keeping the high score.
+
+102
+00:05:30,750 --> 00:05:33,500
+Because of course, if we reload the whole page,
+
+103
+00:05:33,500 --> 00:05:35,310
+then everything will be lost.
+
+104
+00:05:35,310 --> 00:05:37,540
+So the whole code will then run again,
+
+105
+00:05:37,540 --> 00:05:40,070
+and everything will reset.
+
+106
+00:05:40,070 --> 00:05:43,203
+But here, we now keep our high score, right.
+
+107
+00:05:44,380 --> 00:05:48,690
+So let's play again, and try to get a,
+
+108
+00:05:48,690 --> 00:05:50,600
+a better score here.
+
+109
+00:05:50,600 --> 00:05:51,973
+So that's too low,
+
+110
+00:05:56,900 --> 00:06:01,180
+17, maybe, and, yeah, now we get an even better score,
+
+111
+00:06:01,180 --> 00:06:05,143
+because of course, 18 is even greater than 17.
+
+112
+00:06:06,150 --> 00:06:10,460
+One last time now with a lower score,
+
+113
+00:06:10,460 --> 00:06:14,960
+just to see that it will then not become the new high score.
+
+114
+00:06:14,960 --> 00:06:17,760
+So we always need to test for all the scenarios
+
+115
+00:06:17,760 --> 00:06:19,440
+that we implemented in the code.
+
+116
+00:06:19,440 --> 00:06:21,863
+Just to make sure that everything works.
+
+117
+00:06:23,170 --> 00:06:27,280
+All 15 again, and so you see that the score was now 12.
+
+118
+00:06:27,280 --> 00:06:30,990
+But the highest score, of course, remained at 18.
+
+119
+00:06:30,990 --> 00:06:34,923
+Because this part here is now not true. Right?
+
+120
+00:06:36,400 --> 00:06:40,080
+Okay, so we implemented that as well.
+
+121
+00:06:40,080 --> 00:06:43,990
+And now our game is actually functional, it works just fine.
+
+122
+00:06:43,990 --> 00:06:46,550
+And you can show this now to a friend
+
+123
+00:06:46,550 --> 00:06:49,690
+and tell them that you built this on your own
+
+124
+00:06:49,690 --> 00:06:51,910
+with the power of JavaScript.
+
+125
+00:06:51,910 --> 00:06:54,070
+So how great is that?
+
+126
+00:06:54,070 --> 00:06:58,200
+So again, congratulations for making it to this point,
+
+127
+00:06:58,200 --> 00:07:02,400
+and for building really your first game using code.
+
+128
+00:07:02,400 --> 00:07:05,100
+Now, it's not really a sophisticated game,
+
+129
+00:07:05,100 --> 00:07:08,510
+but I still think it's a great achievement.
+
+130
+00:07:08,510 --> 00:07:09,820
+Now in the next video,
+
+131
+00:07:09,820 --> 00:07:13,583
+we will finish up and clean this code a little bit.
+
+132
+00:07:14,567 --> 00:07:19,567
+For example, this code here that we have in this scenario,
+
+133
+00:07:19,690 --> 00:07:21,200
+where the guess is too high,
+
+134
+00:07:21,200 --> 00:07:25,080
+is almost the same as we have here.
+
+135
+00:07:25,080 --> 00:07:27,290
+And so we can change that a little bit
+
+136
+00:07:27,290 --> 00:07:29,680
+to eliminate some of this duplicate codes.
+
+137
+00:07:29,680 --> 00:07:33,130
+There's also some other duplicate code
+
+138
+00:07:33,130 --> 00:07:35,090
+that we can get rid of.
+
+139
+00:07:35,090 --> 00:07:39,000
+And so yeah, let's do that in the next lecture,
+
+140
+00:07:39,000 --> 00:07:42,020
+because it's also important to really finish up
+
+141
+00:07:42,020 --> 00:07:45,023
+all applications and not just make them work.

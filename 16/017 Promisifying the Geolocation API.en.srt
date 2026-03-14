@@ -1,0 +1,971 @@
+1
+00:00:01,290 --> 00:00:04,410
+Let's now keep promisifying things
+
+2
+00:00:04,410 --> 00:00:05,800
+and this time around,
+
+3
+00:00:05,800 --> 00:00:09,820
+we're gonna promisify the geolocation API,
+
+4
+00:00:09,820 --> 00:00:12,330
+and this is gonna be really cool
+
+5
+00:00:12,330 --> 00:00:15,170
+because it will allow us to take the small app
+
+6
+00:00:15,170 --> 00:00:17,880
+that we built in the last coding challenge
+
+7
+00:00:17,880 --> 00:00:19,393
+to the next level.
+
+8
+00:00:21,580 --> 00:00:25,250
+Now we used the geolocation API before,
+
+9
+00:00:25,250 --> 00:00:28,023
+and so let's start by reviewing how it works.
+
+10
+00:00:29,090 --> 00:00:31,959
+So remember we use navigator
+
+11
+00:00:31,959 --> 00:00:36,959
+.geolocation.getcurrentposition,
+
+12
+00:00:38,276 --> 00:00:41,030
+and then this function here accepts two callbacks
+
+13
+00:00:41,030 --> 00:00:43,240
+where the first is for the success
+
+14
+00:00:43,240 --> 00:00:46,080
+and the second one is for the error.
+
+15
+00:00:46,080 --> 00:00:47,830
+So this first callback function
+
+16
+00:00:47,830 --> 00:00:50,683
+actually gets access to the position object.
+
+17
+00:00:51,540 --> 00:00:53,780
+So let's pass that in as an argument
+
+18
+00:00:53,780 --> 00:00:55,779
+to this callback function,
+
+19
+00:00:55,779 --> 00:00:59,003
+then let's simply log that to the console.
+
+20
+00:01:00,570 --> 00:01:02,640
+So this is our first callback,
+
+21
+00:01:02,640 --> 00:01:05,763
+and now let's create a second callback with the error.
+
+22
+00:01:07,000 --> 00:01:07,833
+So for example,
+
+23
+00:01:07,833 --> 00:01:12,180
+in case that the user does not allow the page to get access
+
+24
+00:01:12,180 --> 00:01:14,190
+to the current location
+
+25
+00:01:14,190 --> 00:01:15,410
+and so in that case,
+
+26
+00:01:15,410 --> 00:01:20,000
+let's just lock that error to the console
+
+27
+00:01:20,000 --> 00:01:21,653
+just as we did previously.
+
+28
+00:01:22,510 --> 00:01:25,950
+To now, just like before Andy mapped the app,
+
+29
+00:01:25,950 --> 00:01:29,050
+JavaScript asks us for permission here
+
+30
+00:01:29,050 --> 00:01:30,800
+and when we allow,
+
+31
+00:01:30,800 --> 00:01:34,140
+then at some point when JavaScript actually figures out
+
+32
+00:01:34,140 --> 00:01:37,810
+the location, then we get that data back
+
+33
+00:01:37,810 --> 00:01:40,210
+and so here it is,
+
+34
+00:01:40,210 --> 00:01:41,570
+and so again,
+
+35
+00:01:41,570 --> 00:01:44,280
+this is actually asynchronous behavior
+
+36
+00:01:44,280 --> 00:01:47,870
+in exactly the way that we have been talking about.
+
+37
+00:01:47,870 --> 00:01:52,083
+So the code is not blocked, which we can check here.
+
+38
+00:01:54,730 --> 00:01:58,760
+So we have a console.log after the geolocation.
+
+39
+00:01:58,760 --> 00:02:03,760
+Now part here and still, this part here is locked first
+
+40
+00:02:04,770 --> 00:02:06,900
+and so this one happens first
+
+41
+00:02:06,900 --> 00:02:09,760
+and so that's because this function here
+
+42
+00:02:09,760 --> 00:02:12,880
+basically offloaded its work to the background.
+
+43
+00:02:12,880 --> 00:02:15,950
+So to the web API environment in the browser,
+
+44
+00:02:15,950 --> 00:02:18,790
+and then immediately it moved on right here
+
+45
+00:02:18,790 --> 00:02:19,793
+to the next line.
+
+46
+00:02:21,590 --> 00:02:25,433
+So this is very clearly a callback based API.
+
+47
+00:02:26,622 --> 00:02:29,860
+So we have to pass in these different callbacks
+
+48
+00:02:29,860 --> 00:02:32,580
+and so this is another great opportunity
+
+49
+00:02:32,580 --> 00:02:37,537
+to promisify a callback based API, to a promise based API.
+
+50
+00:02:38,410 --> 00:02:40,440
+So let's do that
+
+51
+00:02:40,440 --> 00:02:42,623
+and it's actually pretty simple.
+
+52
+00:02:43,470 --> 00:02:45,560
+So let's create a function here
+
+53
+00:02:45,560 --> 00:02:48,240
+just like before with the wait function.
+
+54
+00:02:48,240 --> 00:02:49,090
+So get positioned
+
+55
+00:02:51,350 --> 00:02:54,253
+and we don't need to pass anything into this one,
+
+56
+00:02:55,520 --> 00:03:00,220
+and just like before we are going to return a new promise,
+
+57
+00:03:00,220 --> 00:03:02,573
+which we then can handle later on.
+
+58
+00:03:03,530 --> 00:03:06,310
+So here we pass in the executer function,
+
+59
+00:03:06,310 --> 00:03:10,700
+which gets access to the resolve function
+
+60
+00:03:10,700 --> 00:03:12,900
+and the reject function,
+
+61
+00:03:12,900 --> 00:03:16,350
+which remember we can use to mark the promise
+
+62
+00:03:16,350 --> 00:03:19,023
+as either rejected or fulfilled.
+
+63
+00:03:19,960 --> 00:03:20,793
+All right.
+
+64
+00:03:21,670 --> 00:03:26,670
+So let's actually grab this code here and paste it here
+
+65
+00:03:26,760 --> 00:03:28,680
+and now all we need to change
+
+66
+00:03:28,680 --> 00:03:30,320
+is basically what happens here
+
+67
+00:03:30,320 --> 00:03:32,323
+in each of these callback functions.
+
+68
+00:03:33,240 --> 00:03:35,120
+So remember that this one here
+
+69
+00:03:35,120 --> 00:03:37,720
+is the success callback function
+
+70
+00:03:37,720 --> 00:03:40,060
+and so it receives the position,
+
+71
+00:03:40,060 --> 00:03:43,853
+and so when we have success, we want to resolve the promise.
+
+72
+00:03:44,950 --> 00:03:47,800
+So we want to mark it as fulfilled,
+
+73
+00:03:47,800 --> 00:03:51,210
+and so therefore we call the result function
+
+74
+00:03:51,210 --> 00:03:54,040
+and we pass in that position object,
+
+75
+00:03:54,040 --> 00:03:56,863
+because that is actually the fulfilled value
+
+76
+00:03:56,863 --> 00:03:59,470
+that we want to get from this promise
+
+77
+00:03:59,470 --> 00:04:01,263
+in case that is successful.
+
+78
+00:04:02,750 --> 00:04:04,180
+So that's the whole reason
+
+79
+00:04:04,180 --> 00:04:06,620
+of using this function in the first place.
+
+80
+00:04:06,620 --> 00:04:09,760
+It is to get access to the current position,
+
+81
+00:04:09,760 --> 00:04:12,070
+and that is in this object
+
+82
+00:04:12,070 --> 00:04:15,453
+and so therefore that's what we're gonna pass into resolve,
+
+83
+00:04:17,820 --> 00:04:18,850
+So in the last lecture,
+
+84
+00:04:18,850 --> 00:04:21,880
+we just passed a simple string into resolve
+
+85
+00:04:21,880 --> 00:04:24,460
+because that would then be the resolved value
+
+86
+00:04:24,460 --> 00:04:25,890
+of the promise.
+
+87
+00:04:25,890 --> 00:04:29,000
+So basically the future value of the promise,
+
+88
+00:04:29,000 --> 00:04:32,830
+but in this case, it has this more meaningful object,
+
+89
+00:04:32,830 --> 00:04:36,220
+which we actually need outside of the promise here
+
+90
+00:04:36,220 --> 00:04:37,173
+when we handle it.
+
+91
+00:04:38,940 --> 00:04:43,173
+But anyway, here we do the same, but with reject.
+
+92
+00:04:44,600 --> 00:04:47,000
+Now to this is going to work just fine,
+
+93
+00:04:47,000 --> 00:04:50,040
+but we can actually make this even simpler
+
+94
+00:04:50,040 --> 00:04:53,200
+because if this function here automatically
+
+95
+00:04:53,200 --> 00:04:55,660
+calls these callback functions here,
+
+96
+00:04:55,660 --> 00:04:59,920
+and if it also automatically passes in the position,
+
+97
+00:04:59,920 --> 00:05:01,883
+then we can simply do this.
+
+98
+00:05:02,990 --> 00:05:04,515
+So let's copy it here
+
+99
+00:05:04,515 --> 00:05:07,283
+and that will comment this part.
+
+100
+00:05:08,330 --> 00:05:13,330
+So we can simply do this resolve and reject
+
+101
+00:05:14,630 --> 00:05:15,900
+and that's it.
+
+102
+00:05:15,900 --> 00:05:19,160
+So this is exactly the same as this one here.
+
+103
+00:05:19,160 --> 00:05:23,810
+So before we specified the callback manually like this,
+
+104
+00:05:23,810 --> 00:05:26,210
+but all we did was to take the position
+
+105
+00:05:26,210 --> 00:05:28,970
+and pass it down into resolve,
+
+106
+00:05:28,970 --> 00:05:31,690
+but here that now happens automatically.
+
+107
+00:05:31,690 --> 00:05:34,780
+So now resolve itself is the callback function,
+
+108
+00:05:34,780 --> 00:05:36,920
+which will get called with the position,
+
+109
+00:05:36,920 --> 00:05:39,993
+and so that's exactly what we do here,
+
+110
+00:05:42,649 --> 00:05:44,783
+and the same of course, here with reject,
+
+111
+00:05:45,670 --> 00:05:47,953
+and so now let's actually try this out.
+
+112
+00:05:48,850 --> 00:05:53,850
+So get position and then we want to handle the result.
+
+113
+00:05:55,350 --> 00:05:57,990
+So again, this is exactly the same thing
+
+114
+00:05:57,990 --> 00:06:00,723
+that we did previously with the fetch function,
+
+115
+00:06:02,030 --> 00:06:03,683
+or also with the wait function
+
+116
+00:06:03,683 --> 00:06:06,453
+that we created in the last lecture.
+
+117
+00:06:07,930 --> 00:06:11,570
+So let's now log this position to the console
+
+118
+00:06:12,930 --> 00:06:15,630
+and for now we don't need the catch block
+
+119
+00:06:16,890 --> 00:06:18,083
+and so let's see.
+
+120
+00:06:19,200 --> 00:06:22,960
+So it probably is now getting the position in the background
+
+121
+00:06:22,960 --> 00:06:26,000
+and yeah, so now we get it back.
+
+122
+00:06:26,000 --> 00:06:28,779
+So the promise was marked as successful
+
+123
+00:06:28,779 --> 00:06:30,867
+by the resolve function
+
+124
+00:06:30,867 --> 00:06:33,060
+and so therefore then here,
+
+125
+00:06:33,060 --> 00:06:36,280
+this callback was called in the den handler
+
+126
+00:06:37,130 --> 00:06:40,600
+and so the position was passed in and here finally,
+
+127
+00:06:40,600 --> 00:06:45,500
+we logged it to the console, so beautiful.
+
+128
+00:06:45,500 --> 00:06:47,230
+This worked just fine
+
+129
+00:06:47,230 --> 00:06:51,077
+and so we just promisified the geolocation API
+
+130
+00:06:51,077 --> 00:06:53,600
+to a promised based API now,
+
+131
+00:06:53,600 --> 00:06:57,173
+but now let's actually take it to the next level.
+
+132
+00:06:58,059 --> 00:07:01,360
+So remember how in the last coding challenge,
+
+133
+00:07:01,360 --> 00:07:04,990
+we built a function which received GPS coordinates
+
+134
+00:07:04,990 --> 00:07:09,310
+as an input, and then rendered the corresponding country.
+
+135
+00:07:09,310 --> 00:07:13,970
+Well, now we actually got these coordinates via geolocation
+
+136
+00:07:13,970 --> 00:07:17,230
+and so we don't even have to pass in any coordinates
+
+137
+00:07:17,230 --> 00:07:18,423
+into that function.
+
+138
+00:07:19,260 --> 00:07:21,180
+So let me actually get that function
+
+139
+00:07:21,180 --> 00:07:22,493
+from the coding challenge.
+
+140
+00:07:24,070 --> 00:07:26,520
+So that's this one here
+
+141
+00:07:34,020 --> 00:07:35,320
+and so remember here,
+
+142
+00:07:35,320 --> 00:07:38,130
+we passed in the latitude and longitude
+
+143
+00:07:38,130 --> 00:07:41,780
+and then based on that, we did reverse geocoding,
+
+144
+00:07:41,780 --> 00:07:43,400
+which gave us the country
+
+145
+00:07:43,400 --> 00:07:46,670
+that basically these coordinates belong to
+
+146
+00:07:46,670 --> 00:07:49,100
+and so then based on that country,
+
+147
+00:07:49,100 --> 00:07:51,910
+we could get all the data about the country
+
+148
+00:07:51,910 --> 00:07:54,503
+and then display it here on our page,
+
+149
+00:07:55,710 --> 00:07:59,450
+but now since we have this get positioned function,
+
+150
+00:07:59,450 --> 00:08:02,420
+we actually no longer need to even pass in
+
+151
+00:08:02,420 --> 00:08:04,170
+these coordinates
+
+152
+00:08:04,170 --> 00:08:06,840
+and so now we're gonna be able to build a function
+
+153
+00:08:06,840 --> 00:08:09,860
+that will tell us where we are in the world,
+
+154
+00:08:09,860 --> 00:08:13,690
+simply based on the geolocation of our device.
+
+155
+00:08:13,690 --> 00:08:15,923
+So how cool is that?
+
+156
+00:08:16,980 --> 00:08:19,590
+So we no longer needs this one
+
+157
+00:08:19,590 --> 00:08:21,060
+and now here this time,
+
+158
+00:08:21,060 --> 00:08:23,883
+we are gonna start by getting the position.
+
+159
+00:08:25,330 --> 00:08:26,180
+So get positioned
+
+160
+00:08:29,670 --> 00:08:34,670
+and then let's do something with the position.
+
+161
+00:08:35,500 --> 00:08:38,120
+So we already know what that the coordinates
+
+162
+00:08:38,120 --> 00:08:41,040
+are here in this coords property.
+
+163
+00:08:41,040 --> 00:08:45,000
+I just don't remember if they are an array or an object
+
+164
+00:08:45,000 --> 00:08:48,170
+so let's lock that to the console here for starters.
+
+165
+00:08:48,170 --> 00:08:49,770
+So console.log(position.coords).
+
+166
+00:08:54,360 --> 00:08:55,290
+All right.
+
+167
+00:08:55,290 --> 00:08:59,140
+And so for now, we'll just leave it at that
+
+168
+00:08:59,140 --> 00:09:02,293
+and we will not yet connected to this part here.
+
+169
+00:09:05,640 --> 00:09:06,967
+So let's run this
+
+170
+00:09:06,967 --> 00:09:11,650
+and probably we're gonna get an error when we run this
+
+171
+00:09:11,650 --> 00:09:13,940
+and actually we first need to set it up
+
+172
+00:09:13,940 --> 00:09:15,263
+with the event handler.
+
+173
+00:09:16,350 --> 00:09:20,750
+So remember that's the button and then add event listener
+
+174
+00:09:21,950 --> 00:09:25,550
+and of course we could also immediately run the function,
+
+175
+00:09:25,550 --> 00:09:27,420
+but I think that it's nice to call it
+
+176
+00:09:27,420 --> 00:09:29,730
+only when we click that button
+
+177
+00:09:29,730 --> 00:09:33,430
+and here we actually can simply pass in that function now.
+
+178
+00:09:33,430 --> 00:09:35,073
+So the, where am I function?
+
+179
+00:09:36,140 --> 00:09:38,863
+Because we don't need to pass in any arguments.
+
+180
+00:09:40,150 --> 00:09:41,493
+So if we click now,
+
+181
+00:09:43,662 --> 00:09:47,310
+so here, then we get an error that latitude is not defined,
+
+182
+00:09:47,310 --> 00:09:50,920
+but what we were interested in any way is get the latitude
+
+183
+00:09:50,920 --> 00:09:54,193
+and longitude of this coords object,
+
+184
+00:09:55,310 --> 00:09:59,703
+and so let's not go ahead and destructure this object.
+
+185
+00:10:03,100 --> 00:10:08,050
+So const latitude and longitude equals this,
+
+186
+00:10:12,960 --> 00:10:16,930
+but now here we call them lats and lng
+
+187
+00:10:16,930 --> 00:10:19,753
+and so let's do this.
+
+188
+00:10:25,590 --> 00:10:27,780
+So basically giving them new names
+
+189
+00:10:28,750 --> 00:10:30,643
+and next, all we need to do done
+
+190
+00:10:30,643 --> 00:10:33,053
+is to chain the next promise,
+
+191
+00:10:34,160 --> 00:10:38,170
+and so let's grab this code here and put it in here
+
+192
+00:10:39,750 --> 00:10:41,140
+and so just like before
+
+193
+00:10:41,140 --> 00:10:45,560
+we now simply create a new promise here, basically,
+
+194
+00:10:45,560 --> 00:10:47,320
+and then return that,
+
+195
+00:10:47,320 --> 00:10:51,583
+and so then we can handle it here in the next, den handler,
+
+196
+00:10:54,690 --> 00:10:58,920
+and so now we have an even longer chain, as you can see,
+
+197
+00:10:58,920 --> 00:11:01,430
+this one here still comes from here,
+
+198
+00:11:01,430 --> 00:11:02,860
+no need for that anymore
+
+199
+00:11:04,370 --> 00:11:06,070
+and so now let's see what happens.
+
+200
+00:11:07,270 --> 00:11:09,593
+So a latitude is not defined,
+
+201
+00:11:11,130 --> 00:11:14,440
+but that's because I got the syntax here wrong.
+
+202
+00:11:14,440 --> 00:11:16,720
+So in the structuring, the equal sign
+
+203
+00:11:16,720 --> 00:11:19,443
+is actually to set a default value.
+
+204
+00:11:21,210 --> 00:11:22,840
+So this is not what we want.
+
+205
+00:11:22,840 --> 00:11:25,720
+We want to still destruct latitude
+
+206
+00:11:25,720 --> 00:11:27,670
+and then we want to say that,
+
+207
+00:11:27,670 --> 00:11:31,840
+We basically want to create a variable called lat.
+
+208
+00:11:31,840 --> 00:11:34,120
+So based on that latitude, variable
+
+209
+00:11:35,220 --> 00:11:39,353
+and to your lng to fit this one and this one.
+
+210
+00:11:41,370 --> 00:11:43,400
+So let's try again,
+
+211
+00:11:43,400 --> 00:11:45,280
+and so it does take some time.
+
+212
+00:11:45,280 --> 00:11:46,210
+So in the real world,
+
+213
+00:11:46,210 --> 00:11:48,880
+we would have like some loading spinner,
+
+214
+00:11:48,880 --> 00:11:50,773
+but it works.
+
+215
+00:11:53,320 --> 00:11:57,150
+So we got now the country that I'm currently in,
+
+216
+00:11:57,150 --> 00:11:59,130
+which is indeed Portugal
+
+217
+00:11:59,130 --> 00:12:02,833
+and all of that was simply done using geolocation.
+
+218
+00:12:03,870 --> 00:12:06,800
+So again, we got to the coordinates here,
+
+219
+00:12:06,800 --> 00:12:10,730
+then from those coordinates, we got the location.
+
+220
+00:12:10,730 --> 00:12:13,030
+So the actual location with country
+
+221
+00:12:14,000 --> 00:12:15,400
+and so then from there,
+
+222
+00:12:15,400 --> 00:12:18,460
+we got all the data about the country,
+
+223
+00:12:18,460 --> 00:12:21,540
+and so now we have the ability of
+
+224
+00:12:21,540 --> 00:12:24,300
+basically displaying the flag of a country
+
+225
+00:12:24,300 --> 00:12:27,763
+simply based on geolocation on any device.
+
+226
+00:12:28,630 --> 00:12:31,120
+Now, just imagine that you would have to handle
+
+227
+00:12:31,120 --> 00:12:33,940
+all of these asynchronous operations here
+
+228
+00:12:33,940 --> 00:12:36,020
+using callback function.
+
+229
+00:12:36,020 --> 00:12:39,403
+So that would literally be hell.
+
+230
+00:12:40,390 --> 00:12:43,040
+So therefore the name callback hell,
+
+231
+00:12:43,040 --> 00:12:44,350
+but again, with this,
+
+232
+00:12:44,350 --> 00:12:48,480
+we have a really nice flat chain of promises
+
+233
+00:12:48,480 --> 00:12:52,270
+that's easy to handle and also easy to manage.
+
+234
+00:12:52,270 --> 00:12:53,280
+Now.
+
+235
+00:12:53,280 --> 00:12:57,870
+But anyway, with this, we saw that We can really promisify
+
+236
+00:12:57,870 --> 00:13:01,790
+all kinds of asynchronous stuff in JavaScript.
+
+237
+00:13:01,790 --> 00:13:04,400
+For example, we could also promisify,
+
+238
+00:13:04,400 --> 00:13:07,660
+the old XML HTTP request function
+
+239
+00:13:07,660 --> 00:13:11,180
+that we used in the beginning to make Ajax calls,
+
+240
+00:13:11,180 --> 00:13:15,260
+or also we could promisify the image loading example
+
+241
+00:13:15,260 --> 00:13:18,980
+that We have seen a couple of times in our slides
+
+242
+00:13:18,980 --> 00:13:22,060
+and actually that's exactly what we're gonna do
+
+243
+00:13:22,060 --> 00:13:23,853
+in the next coding challenge.

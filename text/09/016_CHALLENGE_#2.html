@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #2: Football App - Loops</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */
+    .solution-btn {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 600;
+        margin-top: 15px;
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+    .solution-btn:hover { background-color: var(--primary-color-hover); }
+    .solution-content {
+        margin-top: 15px;
+        padding: 15px;
+        border-left: 3px solid var(--primary-color);
+        background-color: var(--bg-card);
+        display: none;
+    }
+    .solution-content.show { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">需求描述</a>
+            <a href="#section-test-data" class="nav-item">数据准备</a>
+            <a href="#section-code-area" class="nav-item">沙盒试炼</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #2: Football App - Loops</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：016 CHALLENGE #2.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout callout-warning">
+            <strong>⚠️ 考验遍历引擎深浅的修罗场</strong>
+            <p>本次竞赛将考核你的武器库是否装载完毕我们此前修行的所有遍历手段：包含数组直接切阵的 <code>for-of</code>，配合数组天梯阶层定位仪 <code>.entries()</code>；以及徒手粉碎无常形对象的破壁机法决：<code>Object.values()</code> 用以汲取水潭数据取核心，<code>Object.entries()</code> 强迫剥壳展翅。不用顾及是否烧脑卡死，一切困难皆是长肌肉的台阶。</p>
+        </div>
+
+        <h2 id="section-overview">📝 需求描述</h2>
+        <p>延续我们火爆运转着的体育大博彩平台系统。对这盘球赛：</p>
+        
+        <ol>
+            <li><strong>遍历战败记功碑</strong>：在游戏统计字典下翻查名叫 <code>game.scored</code> 这块阵亡录队列并施加 <code>for-of</code> 光环扫描大循环。终端需精准无误报单播放格式战报：打印 <strong>"Goal 1: Lewandowski"</strong>...直冲念到大满贯 Goal 4！必须用到能带小下标返回包数组的那个函数。</li>
+            <li><strong>测算下注大盘的赔率平均值浮点数</strong>：在浩如烟海的内部风暴眼 <code>game.odds</code> （一个对象块并不是数组）里面抽吸其隐藏内层全部 3 枚数值核心碎片，循环把值聚合运算除以块头长短并输出均算值结果。别再企图偷懒像前几回那样强迫硬提取分拆到常数写死算术。</li>
+            <li><strong>以极佳排版列席宣判台并播送宣誓</strong>：优雅遍历游走穿梭过整个隐形的 <code>odds</code> 对象大森林。播报必须严格按格式装裱框架文字：“Odd of victory Bayern Munich: 1.33”。<br><br>🚨铁规红线：不能将战队真容在模板字符串写死打在模具上！请在遍历游走抓到队伍的假名标识符比如 'team1' 时作为指针，折返回上方到高居顶点位置的顶级上帝字典：母星光主盘 <code>game</code> 头身里面借位调用它相对应记录真名的实际属相实体去替代拼接。<br>
+            ※ （唯一的网外放生漏斗）：由于"平局"(名为 'x' 这个符号位)它是一个虚体不在字典上报名单。如果是它就可以动用三元逻辑强制打印文字 'draw'。</li>
+        </ol>
+
+        <h2 id="section-test-data">🧪 测试数据准备</h2>
+
+<pre><code class="language-javascript">const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    ['Neuer', 'Pavard', 'Martinez', 'Alaba', 'Davies', /* ... */ ],
+    ['Burki', 'Schulz', 'Hummels', 'Akanji', 'Hakimi', /* ... */ ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};</code></pre>
+
+        <h2 id="section-code-area">💻 沙盒试炼</h2>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge2.js</span>
+                <button class="btn-run" onclick="runCode('codeEditorChallenge', 'consoleChallenge')">▶ 执行脚本调试检查出入</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditorChallenge" class="editor-textarea" spellcheck="false">const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  odds: { team1: 1.33, x: 3.25, team2: 6.5 }
+};
+
+// --- 在此尽情书写 ---
+
+// 1. 数组游走遍历播报进球英雄榜：
+
+
+// 2. 将对象吸干打碎进行盘点聚合并算出均数：
+
+
+// 3. 全局对象名牌映射加持下的复杂格式套打与变体输出（平局小漏斗）：
+
+</textarea>
+            </div>
+            <div id="consoleChallenge" class="console-output">终端输出区...</div>
+        </div>
+
+        <button class="solution-btn" onclick="document.getElementById('solutionContent').classList.toggle('show')">👁️ 大招解法查勘 - 点击查看 Jonas 切糕手法</button>
+
+        <div id="solutionContent" class="solution-content">
+            <h3>Jonas 的权威标准解答方案</h3>
+            
+<pre><code class="language-javascript">// 1. 挂钩 entries 把普通队列转化成送上下标的列套阵。
+// [i, player] 犹如一柄手术刀直接撕解开外包快递获取数据：
+for (const [i, player] of game.scored.entries()) {
+  console.log(`Goal ${i + 1}: ${player}`);
+}
+
+// 2. 先强行呼叫高阶对象神明施法融化对象！只要 values 内芯！
+const odds = Object.values(game.odds);
+let average = 0;
+// 再拿化解出装满了数字干果的实则队列的容器丢进循环。
+for (const odd of odds) average += odd;
+average /= odds.length;
+console.log(`博彩开挂计算之中心赔率平均刻度落在: ${average}`);
+
+// 3. 全抓法阵神明化解对象！连血肉并内脏一把揽获取。
+// 撕剥获得队伍名牌暗号 [team] 和其附属大头头衔数字 [odd]
+for (const [team, odd] of Object.entries(game.odds)) {
+  // 这句神级替身！若游走位处于 x 暗号，抛出特赐称号 'draw'。
+  // 若是 team1 或者 team2 则强行倒流回头去攀高爬取母体对象那实报的战队头衔宏名！
+  const teamStr = team === 'x' ? 'draw' : `victory ${game[team]}`;
+  console.log(`Odd of ${teamStr}: ${odd}`);
+}</code></pre>
+            
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

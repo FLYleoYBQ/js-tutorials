@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #1: Print Forecast</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */
+    .solution-btn {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 600;
+        margin-top: 15px;
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+    .solution-btn:hover { background-color: var(--primary-color-hover); }
+    .solution-content {
+        margin-top: 15px;
+        padding: 15px;
+        border-left: 3px solid var(--primary-color);
+        background-color: var(--bg-card);
+        display: none;
+    }
+    .solution-content.show { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">需求描述</a>
+            <a href="#section-test-data" class="nav-item">测试数据</a>
+            <a href="#section-code-area" class="nav-item">实战演练</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #1: Print Forecast</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：012 CHALLENGE #1.en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout callout-warning">
+            <strong>⚠️ 挑战时刻！</strong>
+            <p>我们已经学习了理论知识并体验了用四步框架推导解题。现在，是时候独立把这一切应用到实际业务中了。千万不要急着看答案！先尝试按步就班地做出来。</p>
+        </div>
+
+        <h2 id="section-overview">📝 需求描述</h2>
+        <p>给定一个表示<strong>预报最高气温</strong>的数据数组。我们正负责构建的“前端温度计面板”需要将这组庞大的数据输出渲染为一句特定格式的长字符串。</p>
+        
+        <p>你需要创建一个名为 <code>printForecast</code> 的函数。<br>它接收一个数组 <code>arr</code> 作为输入，并将上述格式的长字符串直接打印 (<code>console.log</code>) 在控制台上。</p>
+
+        <p><strong>🎯 输出格式示范：</strong><br>
+        如果输入数组是 <code>[17, 21, 23]</code>，预期的打印结构必须如下：<br>
+        <code>"... 17ºC in 1 days ... 21ºC in 2 days ... 23ºC in 3 days ..."</code>
+        </p>
+        
+        <p><strong>💡 破题心法：</strong></p>
+        <ul>
+            <li>请使用本章节刚刚提及的“解决问题四步法”先拆分框架。</li>
+            <li>如何把原本零散的多个元素打包成一条又长又连贯的麻绳？想想那几个小段是如何无缝对接“加起来”的。</li>
+            <li>你需要什么类型的循环构造？</li>
+        </ul>
+
+        <h2 id="section-test-data">🧪 测试数据</h2>
+        <ul>
+            <li><strong>Data 1:</strong> <code>[17, 21, 23]</code></li>
+            <li><strong>Data 2:</strong> <code>[12, 5, -5, 0, 4]</code></li>
+        </ul>
+
+        <h2 id="section-code-area">💻 实战演练</h2>
+        <p>在下方的沙盒中书写你的实现，并对 <code>Data 1</code> 和 <code>Data 2</code> 进行验证测试：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge.js</span>
+                <button class="btn-run" onclick="runCode('codeEditorChallenge', 'consoleChallenge')">▶ 运行你的解答</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditorChallenge" class="editor-textarea" spellcheck="false">// 1. 尝试理解问题，列出子任务
+// 2. 将每个元素转化为 "XºC in Y days" 的字符串
+// 3. 把所有的局部字符串和 "..." 桥接拼凑起来，构成超大变体字符串
+
+const data1 = [17, 21, 23];
+const data2 = [12, 5, -5, 0, 4];
+
+// 在这里编写你名为 printForecast 的函数：
+
+
+
+
+
+</textarea>
+            </div>
+            <div id="consoleChallenge" class="console-output">控制台输出区域...</div>
+        </div>
+
+        <button class="solution-btn" onclick="document.getElementById('solutionContent').classList.toggle('show')">👁️ 实在卡住了？点击查阅 Jonas 的重构路线与答案</button>
+
+        <div id="solutionContent" class="solution-content">
+            <h3>Jonas 的 4 步拆解法演示</h3>
+            <p><strong>理解问题：</strong></p>
+            <ul>
+                <li>核心挑战在于需要把整堆 Array 转换为一个一体的 String，它们由 <code>...</code> 间隔符拼接。</li>
+                <li>X 天代表什么？就是我们常说的第 1 天、第 2 天。本质上就是<strong>数组当前索引 (index) 加上 1</strong>。</li>
+            </ul>
+            
+            <p><strong>拆分为子任务：</strong></p>
+            <ol>
+                <li>遍历数组元素并将元素转为其等效的格式：<code>"XºC in Y days"</code>。</li>
+                <li>需要有个外部大字符串把这些小零碎像吸尘器一样全部聚合到一块。</li>
+                <li>处理起始和接驳处的 <code>"..."</code> 逻辑。</li>
+            </ol>
+
+            <div class="code-comparison">
+                <div class="code-column">
+                    <div class="code-header">🔥 进阶：如何拼接超级长字符串</div>
+                    <p style="font-size: 14px; margin-bottom: 10px; color: var(--text-secondary);">回顾一下计算总和。那也是在循环外声明一个 `sum = 0` 做容器。我们现在依葫芦画瓢，只是这次容器是一个空皮囊 `""`。</p>
+<pre><code class="language-javascript">const printForecast = function(arr) {
+    // 蓄水池变量，初始极净为空白
+    let str = '';
+
+    for (let i = 0; i < arr.length; i++) {
+        // 利用模板字符串魔幻拼接，每次都向旧蓄水池填充水
+        str += `${arr[i]}ºC in ${i + 1} days ... `;
+    }
+    
+    // 我们发现上面的结果首部还缺一个 `...` 
+    // 于是在全局输出打印的时候人工补充一个领班
+    console.log('... ' + str);
+};
+
+printForecast([17, 21, 23]);</code></pre>
+                </div>
+            </div>
+            
+            <p>巧妙利用空的 String <code>str</code> 并在执行内部打补丁式向后累加 <code>+=</code>！这是编程里非常经典的模式。</p>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

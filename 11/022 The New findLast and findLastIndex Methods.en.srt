@@ -1,0 +1,615 @@
+1
+00:00:01,260 --> 00:00:05,730
+Okay, so now we know about find and findindex,
+
+2
+00:00:05,730 --> 00:00:08,340
+but there are actually two additional methods
+
+3
+00:00:08,340 --> 00:00:10,980
+that were added in ES 2023,
+
+4
+00:00:10,980 --> 00:00:13,620
+and those are called findlast and findlastindex.
+
+5
+00:00:15,300 --> 00:00:19,110
+So these are basically counterparts to find and findindex
+
+6
+00:00:19,110 --> 00:00:21,150
+because as their name says,
+
+7
+00:00:21,150 --> 00:00:24,240
+they do the exact same thing as these two,
+
+8
+00:00:24,240 --> 00:00:28,233
+but they start searching from the last to the first element.
+
+9
+00:00:29,970 --> 00:00:32,910
+Now, let's just, as always,
+
+10
+00:00:32,910 --> 00:00:35,130
+start by logging our movements here,
+
+11
+00:00:35,130 --> 00:00:39,630
+so that later we actually see if our results are correct.
+
+12
+00:00:39,630 --> 00:00:43,350
+And so now, using the findlast method,
+
+13
+00:00:43,350 --> 00:00:46,800
+I want to determine the last withdrawal,
+
+14
+00:00:46,800 --> 00:00:50,370
+so lastwithdrawal.
+
+15
+00:00:50,370 --> 00:00:54,060
+So it's a bit hard to type, but we can do it.
+
+16
+00:00:54,060 --> 00:00:57,150
+So again, now on movement,
+
+17
+00:00:57,150 --> 00:01:01,383
+we're going to not call the find method, but findlast.
+
+18
+00:01:04,410 --> 00:01:06,060
+And so, as we already know,
+
+19
+00:01:06,060 --> 00:01:09,360
+a withdrawal happens whenever the value of the movement
+
+20
+00:01:09,360 --> 00:01:10,650
+is less than zero.
+
+21
+00:01:10,650 --> 00:01:14,100
+So this kind of condition that we're writing here now,
+
+22
+00:01:14,100 --> 00:01:18,600
+we have written it many times before, so nothing new here.
+
+23
+00:01:18,600 --> 00:01:20,100
+So less than zero,
+
+24
+00:01:20,100 --> 00:01:23,943
+and then let's log it to the console as well,
+
+25
+00:01:25,410 --> 00:01:27,379
+so lastwithdrawal.
+
+26
+00:01:27,379 --> 00:01:29,940
+And so, as expected, we get -130,
+
+27
+00:01:31,800 --> 00:01:35,190
+because now the method is starting to look here
+
+28
+00:01:35,190 --> 00:01:36,990
+from the end of the array.
+
+29
+00:01:36,990 --> 00:01:39,420
+So it's basically finding the last value
+
+30
+00:01:39,420 --> 00:01:42,780
+that is less than zero, which is this one right here.
+
+31
+00:01:42,780 --> 00:01:46,230
+If we were, just like before, using the find method,
+
+32
+00:01:46,230 --> 00:01:48,630
+then we would get this one right here.
+
+33
+00:01:48,630 --> 00:01:52,713
+So the first starting to look from the beginning, so -400.
+
+34
+00:01:54,960 --> 00:01:57,960
+So, that's actually it about this method.
+
+35
+00:01:57,960 --> 00:02:01,800
+As defined, lastindex is also pretty simple,
+
+36
+00:02:01,800 --> 00:02:04,950
+so it's basically just like findindex.
+
+37
+00:02:04,950 --> 00:02:07,650
+So let's do a nice small challenge here,
+
+38
+00:02:07,650 --> 00:02:08,820
+and actually, if you want,
+
+39
+00:02:08,820 --> 00:02:12,510
+you can really pause the video and do this as a challenge,
+
+40
+00:02:12,510 --> 00:02:15,990
+but we can also just do it together here if you like.
+
+41
+00:02:15,990 --> 00:02:19,680
+So what I want to do is to use this method
+
+42
+00:02:19,680 --> 00:02:21,843
+to print a string like this.
+
+43
+00:02:23,370 --> 00:02:28,370
+So your latest large movement was,
+
+44
+00:02:30,630 --> 00:02:35,610
+and then a number here, X movements ago.
+
+45
+00:02:35,610 --> 00:02:38,910
+And notice the part of ago here,
+
+46
+00:02:38,910 --> 00:02:42,060
+which implies, again, that we're counting from the end.
+
+47
+00:02:42,060 --> 00:02:44,610
+And so basically, these two methods,
+
+48
+00:02:44,610 --> 00:02:49,560
+so findlast and findlastindex are very, very useful
+
+49
+00:02:49,560 --> 00:02:52,080
+when we're dealing with sorted data
+
+50
+00:02:52,080 --> 00:02:55,890
+and are interested in getting the most recent occurrence
+
+51
+00:02:55,890 --> 00:03:00,000
+of something in this array, or basically in other words,
+
+52
+00:03:00,000 --> 00:03:02,880
+the latest addition to the array.
+
+53
+00:03:02,880 --> 00:03:05,700
+And so here, we're also basically assuming
+
+54
+00:03:05,700 --> 00:03:08,640
+that these movements here happen in order,
+
+55
+00:03:08,640 --> 00:03:11,100
+so first this one, then this one, this one,
+
+56
+00:03:11,100 --> 00:03:12,900
+and so on and so forth.
+
+57
+00:03:12,900 --> 00:03:15,030
+That's why here we said that
+
+58
+00:03:15,030 --> 00:03:17,040
+this one here was the last withdrawal,
+
+59
+00:03:17,040 --> 00:03:19,500
+so in this ordered array of movements,
+
+60
+00:03:19,500 --> 00:03:21,540
+this one here is indeed the last.
+
+61
+00:03:21,540 --> 00:03:24,810
+And so again, for finding the last occurrence
+
+62
+00:03:24,810 --> 00:03:27,210
+or the most recent occurrence,
+
+63
+00:03:27,210 --> 00:03:30,150
+it is useful to start looking from the end,
+
+64
+00:03:30,150 --> 00:03:34,830
+and so that's when findlast and findlastindex become useful.
+
+65
+00:03:34,830 --> 00:03:36,570
+And so here in this case,
+
+66
+00:03:36,570 --> 00:03:40,620
+we're basically gonna look for how many movements ago
+
+67
+00:03:40,620 --> 00:03:43,920
+the last large movement happened,
+
+68
+00:03:43,920 --> 00:03:48,920
+and with large, we mean greater than 2000 euros
+
+69
+00:03:49,320 --> 00:03:51,990
+or dollars or whatever it is here.
+
+70
+00:03:51,990 --> 00:03:53,910
+All right, so again, if you want,
+
+71
+00:03:53,910 --> 00:03:55,620
+you can do this as a challenge,
+
+72
+00:03:55,620 --> 00:03:57,690
+or we can just do it together here.
+
+73
+00:03:57,690 --> 00:03:58,983
+So let's do that now.
+
+74
+00:04:02,670 --> 00:04:06,210
+So let's find the index
+
+75
+00:04:06,210 --> 00:04:09,930
+of the latest large movement here first.
+
+76
+00:04:09,930 --> 00:04:11,380
+So, latestlargemovementindex,
+
+77
+00:04:15,840 --> 00:04:19,590
+and again, I like to use these pretty long variable names
+
+78
+00:04:19,590 --> 00:04:21,330
+just because they're so descriptive.
+
+79
+00:04:21,330 --> 00:04:23,940
+If someone else reads this code in the future,
+
+80
+00:04:23,940 --> 00:04:26,190
+they will know exactly what kind of value
+
+81
+00:04:26,190 --> 00:04:30,060
+is stored in that variable.
+
+82
+00:04:30,060 --> 00:04:31,853
+So, findlastindex.
+
+83
+00:04:36,030 --> 00:04:38,850
+And then here again, we get all our movements,
+
+84
+00:04:38,850 --> 00:04:41,640
+and now here, it doesn't really matter
+
+85
+00:04:41,640 --> 00:04:45,150
+whether this movement was a withdrawal or a deposit,
+
+86
+00:04:45,150 --> 00:04:46,410
+it's just a movement.
+
+87
+00:04:46,410 --> 00:04:50,190
+So we're not interested here in the sign of the number,
+
+88
+00:04:50,190 --> 00:04:52,440
+so whether it is positive or negative,
+
+89
+00:04:52,440 --> 00:04:57,330
+so we just take the absolute value of it.
+
+90
+00:04:57,330 --> 00:04:58,953
+So this we already did before,
+
+91
+00:05:00,570 --> 00:05:03,990
+so just the value of the movement
+
+92
+00:05:03,990 --> 00:05:07,053
+needs to be larger than 2000 here.
+
+93
+00:05:09,000 --> 00:05:11,463
+So let's check if we got this correct.
+
+94
+00:05:15,300 --> 00:05:20,073
+And so, the result is three, so zero, one, two, three.
+
+95
+00:05:20,940 --> 00:05:22,050
+Now in this case,
+
+96
+00:05:22,050 --> 00:05:24,600
+actually it would've been the same result
+
+97
+00:05:24,600 --> 00:05:27,540
+using findlastindex or findindex
+
+98
+00:05:27,540 --> 00:05:29,490
+because there is only one value
+
+99
+00:05:29,490 --> 00:05:32,100
+that satisfies this condition.
+
+100
+00:05:32,100 --> 00:05:36,270
+So let's actually use greater than 1000
+
+101
+00:05:36,270 --> 00:05:37,590
+because in this case,
+
+102
+00:05:37,590 --> 00:05:40,860
+this 1300 here is also a large movement.
+
+103
+00:05:40,860 --> 00:05:44,790
+And so, then the last index should be this one,
+
+104
+00:05:44,790 --> 00:05:47,940
+and indeed, now it is number seven.
+
+105
+00:05:47,940 --> 00:05:52,200
+So zero, one, two, three, four, five, six, seven.
+
+106
+00:05:52,200 --> 00:05:55,020
+Great, and now let's use this value
+
+107
+00:05:55,020 --> 00:05:57,990
+to lock this string here to the console.
+
+108
+00:05:57,990 --> 00:05:59,673
+So let's grab this from here,
+
+109
+00:06:01,160 --> 00:06:03,003
+and let's leave that there, why not?
+
+110
+00:06:03,870 --> 00:06:06,690
+Console.log like this,
+
+111
+00:06:06,690 --> 00:06:09,873
+and let's make a template literal here.
+
+112
+00:06:11,880 --> 00:06:15,600
+But here, we cannot just plug in this value like this.
+
+113
+00:06:15,600 --> 00:06:17,193
+So latest.
+
+114
+00:06:18,972 --> 00:06:21,422
+Well actually, this is not the correct name here,
+
+115
+00:06:23,400 --> 00:06:27,843
+so latest, it was a typo there.
+
+116
+00:06:32,550 --> 00:06:35,160
+Right, because the latest large movement
+
+117
+00:06:35,160 --> 00:06:37,410
+was not zero movements ago,
+
+118
+00:06:37,410 --> 00:06:40,290
+but really just this one movement ago,
+
+119
+00:06:40,290 --> 00:06:42,930
+so basically, the last movement here.
+
+120
+00:06:42,930 --> 00:06:46,230
+And so, we can just subtract this value here
+
+121
+00:06:46,230 --> 00:06:48,300
+from the total length of the array,
+
+122
+00:06:48,300 --> 00:06:51,000
+so to get the value that we want here.
+
+123
+00:06:51,000 --> 00:06:52,680
+So again, this now has nothing to do
+
+124
+00:06:52,680 --> 00:06:55,710
+with this method here anymore.
+
+125
+00:06:55,710 --> 00:06:59,610
+This is just us trying to get the value that we want
+
+126
+00:06:59,610 --> 00:07:02,373
+to solve this challenge that we set for ourself.
+
+127
+00:07:03,360 --> 00:07:07,050
+So, movements.length
+
+128
+00:07:07,050 --> 00:07:09,330
+and then minus this,
+
+129
+00:07:09,330 --> 00:07:12,630
+which gives us was one movement ago.
+
+130
+00:07:12,630 --> 00:07:16,200
+But let's assume that this here is actually zero movements,
+
+131
+00:07:16,200 --> 00:07:19,140
+so that if you want to say that it happened just now.
+
+132
+00:07:19,140 --> 00:07:22,410
+So since the index is zero based
+
+133
+00:07:22,410 --> 00:07:25,140
+but the length is really eight,
+
+134
+00:07:25,140 --> 00:07:26,640
+so the length of the array is eight,
+
+135
+00:07:26,640 --> 00:07:29,250
+but this last element is number seven.
+
+136
+00:07:29,250 --> 00:07:32,133
+We just need to subtract always just one more here.
+
+137
+00:07:33,510 --> 00:07:36,780
+And so, it was zero movements ago.
+
+138
+00:07:36,780 --> 00:07:38,160
+If you were to go back
+
+139
+00:07:38,160 --> 00:07:40,980
+to the initial thing that we had here,
+
+140
+00:07:40,980 --> 00:07:43,020
+then it would be four movements ago,
+
+141
+00:07:43,020 --> 00:07:46,230
+so zero, one, two, three, four.
+
+142
+00:07:46,230 --> 00:07:48,240
+And maybe it would make a bit more sense,
+
+143
+00:07:48,240 --> 00:07:51,180
+if this was actually five movements ago,
+
+144
+00:07:51,180 --> 00:07:54,840
+and this one here was one, as it was initially.
+
+145
+00:07:54,840 --> 00:07:57,660
+So let's just get rid of this part again,
+
+146
+00:07:57,660 --> 00:07:59,250
+and this is a bit more natural.
+
+147
+00:07:59,250 --> 00:08:00,990
+So now, this was five movements ago,
+
+148
+00:08:00,990 --> 00:08:04,260
+and if it was like this, if this was the large movement,
+
+149
+00:08:04,260 --> 00:08:05,940
+then it would be one movement ago.
+
+150
+00:08:05,940 --> 00:08:06,993
+This one right there.
+
+151
+00:08:07,830 --> 00:08:11,340
+Now, all right, and this is all for this lecture,
+
+152
+00:08:11,340 --> 00:08:14,940
+and so let's move on to some more array methods.
+
+153
+00:08:14,940 --> 00:08:16,650
+We're still not done here.
+
+154
+00:08:16,650 --> 00:08:17,853
+There's a lot to come.

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-challenge" class="nav-item active">挑战内容</a>
+            <a href="#section-solution" class="nav-item">导师拆解思路</a>
+            <a href="#section-code" class="nav-item">最终通关代码</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #4 (蛇形地狱转驼峰神教挑战)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：026 CHALLENGE #4.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <h2 id="section-challenge">⚔️ 任务总览</h2>
+        <p>欢迎挑战本章节的最难字符串地狱拉锯战！<br>
+        很多老掉牙的旧型语言很喜欢使用 <code>some_variable_name</code> 这种下划线蛇形法（Underscore case/Snake case）来构建变量名。而在绝大多数极度现代化优雅的 JS 等系统中，一统江湖的都是首单词不写首字大写的骆驼神教 <strong><code>someVariableName</code></strong> (Camel case)。</p>
+
+        <div class="callout callout-important">
+            <strong>📋 你的核心特务行动：</strong>
+            <p>你收到了一批从数据库复制粘贴下来的大量带有空隙甚至肮脏杂文大写的变量行，<strong>一行一个</strong>。你的程序需要剥开杂乱空格，把蛇形转化为骆驼形，并在屏幕控制台上像楼梯层叠出带递增符号 <code>✅</code> 的最终成果。比如如下变废为宝过程：</p>
+            <pre><code>(脏数据输入源)
+underscore_case
+ first_name
+Some_Variable 
+  calculate_AGE
+delayed_departure
+
+(转换重构为金砖出库展示排位)
+underscoreCase      ✅
+firstName           ✅✅
+someVariable        ✅✅✅
+calculateAge        ✅✅✅✅
+delayedDeparture    ✅✅✅✅✅</code></pre>
+            <p><strong>注意：</strong>你不需要去考虑含有三个下划线拆合三个字的变量，只对标处理 <code>单词_单词</code> 型。</p>
+        </div>
+
+        <h2 id="section-solution">🧠 导师拆解拔桩阵思路</h2>
+        
+        <ul style="line-height: 1.8;">
+            <li><strong>第一锤（分解排位大阵）</strong>：把那漫天的一大团文本用回车回行控制符 <code>\n</code> 一刀猛劈 <code>.split('\n')</code> 成阵列！这下大块肉就被分解装进了一行行的数组盒长条里！</li>
+            <li><strong>第二锤（下放屠宰抽空刀）</strong>：开始让大阵列挂进 <code>for-of</code>，并且要附带能感知他目前走到了倒下数组里的第几个刻度的绝密游标机制！所以得挂 <code>.entries()</code>！</li>
+            <li><strong>第三锤（精细剔毒提纯并重构）</strong>：将拿到的某排数据洗干净（toLowerCase & trim 去除隐蔽空隙），接着照准 <code>_</code> 下划线为准绳再剁一刀！拆成左右双生子。给右侧的孩子首脑套上霸王化升级 <code>.toUpperCase()</code> 后贴回身上！</li>
+            <li><strong>第四锤（强制撑平列队大炮）</strong>：不管这名字长或短，咱们只要统一把它使用强硬加注撑补空格符法：<code>.padEnd(20)</code>，它们全部都会齐刷刷右侧死死撑对齐出一段巨硬的空气墙阵！接着直接贴上用阶梯楼层游标参数生成的 <code>✅.repeat(i + 1)</code>。大功告成！！</li>
+        </ul>
+
+        <h2 id="section-code">💻 最终通关执行</h2>
+        <p>我们将在这块区域直接用 JS 强行模拟创建 DOM 的形式插入一个 HTML 文本框以捕获实验文本。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge4.js</span>
+                <button class="btn-run" onclick="runCode()">▶ 发动格式化炼狱阵</button>
+            </div>
+            
+            <textarea id="myInputArea" class="editor-textarea" spellcheck="false" style="height: 140px; border-bottom: none; border-radius: 6px 6px 0 0;">underscore_case
+ first_name
+Some_Variable 
+  calculate_AGE
+delayed_departure</textarea>
+            
+            <div class="editor-container" style="border-top: 1px solid var(--border-color); border-radius: 0 0 6px 6px;">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false" style="height: auto;">// 假设上面紧贴着的那个编辑文字框里面已经写好了用户脏数据了
+
+const textRaw = document.getElementById('myInputArea').value;
+
+// 1. 把包含回车的整坨生殖繁乱字堆按回车符怒劈劈开 
+// 碎裂成有五个肉干阵列： ['underscore_case', ' first_name', ...]
+const rows = textRaw.split('\n');
+
+// 2. 携带游标刻度大巡游！因为我们在贴✅的时候要知道现在正杀在第几行。
+for (const [i, row] of rows.entries()) {
+
+  // a) 洗净两边灰尘并让它降权降维至纯净全小写。
+  // b) 根据中间下划线把尸体一折两断，并解构成 [首片, 后篇] 双向包裹接住！
+  const [first, second] = row.toLowerCase().trim().split('_');
+  
+  // c) 局部强化：把第二个单词首首脑抽出来大写重塑，再接拼合回原味剩余首尾块。
+  // 最终的重构成果 output
+  const output = `${first}${second.replace(
+    second[0],
+    second[0].toUpperCase()
+  )}`;
+
+  // 3. 空气墙大展军鼓！不管原本的 output 有多短或多长
+  // 强行向后面拍定狂生出空白块把墙面一直顶撞到整个宽度有 20 定死！然后缝合阶梯递增连号符
+  console.log(`${output.padEnd(20)}${'✅'.repeat(i + 1)}`);
+}
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode() {
+        const code = document.getElementById('codeEditor1').value;
+        const outputDiv = document.getElementById('console1');
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            // 保留多个空格的输出并用pre包围，强制展现对齐艺术
+            output.push(args.map(a => typeof a === 'object' && !Array.isArray(a) ? JSON.stringify(a) : a).join(' ').replace(/ /g, '&nbsp;'));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = `<pre style="font-family: 'JetBrains Mono', monospace; margin: 0; padding: 0;">${output.join('<br>')}</pre>` || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

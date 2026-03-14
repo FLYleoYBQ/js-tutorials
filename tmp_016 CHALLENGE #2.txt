@@ -1,0 +1,323 @@
+﻿Let's challenge ourselves with Coding Challenge number two.
+
+And in this one, we're gonna continue with our football betting application.
+
+And let me start by saying that this challenge is actually a bit difficult.
+
+All right?
+
+But that is on purpose.
+
+So after all, it's called a challenge.
+
+And so you should really challenge yourself with these exercises.
+
+Otherwise it could be called a coding copy and paste, right?
+
+So please try your best to solve these.
+
+And you can try the problem solving framework that we talked about earlier.
+
+And of course you can also use Google MDN and so on and so forth.
+
+Okay.
+
+But with that out of the way, let's get into the exercises.
+
+And the first one is to loop over the game.scored array and then print each of the players to the console along with the goal number.
+
+So this one is not that hard.
+
+And so let's just...
+
+Yeah.
+
+So the object is down here, so we're gonna use the same object. All right?
+
+So this is the array that I was talking about.
+
+And so here, in this case, we should print "lewandowski" goal one, Then here goal two, "Gnarby", goal three "Lewandowski", and goal four, "Hummels".
+
+Okay.
+
+Then number two, use a loop to calculate the average odd and to log it to the console.
+
+And we already studied how to calculate averages.
+
+And so you can go check that out if you don't remember.
+
+And here you should actually directly use the object itself.
+
+So don't destruct the object first into variables and then use that to calculate the average, but instead really calculate the average of the elements in the object, okay?
+
+Then number three, I want you to print the three odds to the console and do that in a nice formatted way, like you can see it here.
+
+Now here, You're not allowed to hard-code the names of the teams.
+
+Alright.
+
+So instead get them directly from the game object itself.
+
+Now of course you're except for draw because that's nowhere in the game object.
+
+So as a hint, I have fear that the odds and the game objects have the exact same property names.
+
+And so you can use that knowledge maybe to get the name of the teams here.
+
+So these are the three exercises for this challenge, but then I also have a bonus.
+
+Now, let me just tell you that I will not solve this bonus question in this video because it would take me a little bit too long but I will still put the solution in the final code of this section, so in the GitHub repository, so you can check out the solution there if you attempt to do this bonus.
+
+So this one is really hard.
+
+And what I want you to do is to create an object called scores, which will contain the name of the players who scored as properties, and so Gnarby, Hummels, and Lewandowski were the players who scored in this game.
+
+And as a value for each of the properties we want the number of goals.
+
+Alright.
+
+So this means Lewandowski scored two goals and the other two players scored just one goal each.
+
+So this is a little bit difficult again but you can do it.
+
+Well at least with some research and with some reviewing of all the material of the course so far.
+
+Anyway, good luck with this challenge.
+
+Take your time.
+
+And I'll see you once you're ready.
+
+All right.
+
+Hopefully you did at least one or two of these exercises.
+
+And so here it goes my solution.
+
+And keep in mind once more that my solution might be different from yours, but that's totally okay.
+
+As long as yours produces the same result.
+
+So here, the goal is to score on the scored array, and print all of the players to the console.
+
+So const, and let's again fix that later, and then of game.scored.
+
+And now we actually want the entries.
+
+All right.
+
+And we want the indexes because we also want the number of the goal.
+
+Remember?
+
+So goal one, two, three, and four.
+
+Okay. And so entries will give us that.
+
+And so now we just need to re-structure that into the index and then the player.
+
+Okay. Actually we don't even need to curly braces.
+
+Let's just say, console.log and then Goal, then the index plus one.
+
+So that it starts at goal number one, and then simply the player.
+
+Let's take a look.
+
+Oh, and now we have the problem here that I'm accessing game before it is initialized.
+
+And so the problem is that the game is down here.
+
+So I'll have to take this game object now to that other challenge.
+
+So let's just cut it from here and put it here.
+
+So now it should work.
+
+And indeed we get the four goals nicely printed to the console exactly in the order in which they appear here.
+
+Alright, next one.
+
+And it is one we have to calculate the average odd.
+
+So the average basically of these three numbers here.
+
+So what we're gonna do is to loop over this object here and simply add all of these three values together and then finally divide them by the number of elements here.
+
+And so that's how you calculate an average.
+
+And so we start by creating the average and set it to zero.
+
+And so again, we already did that before, I believe.
+
+And so now we can loop over the object such as I explained it to you before.
+
+const odd of, and now what do we actually want?
+
+Do we want the keys or the values or both?
+
+Well, in this case, we are really just interested in the values, right?
+
+And so this Object.values will give us an array essentially containing these three values.
+
+So we need to say game.odds.
+
+Okay.
+
+And now in each iteration, we will simply add these odds to the average.
+
+So that then in the end, we can divide it by the length of this object.values array.
+
+So let's do that, plus equal the current odd, and then finally average, average divided equal, and so this is a new one, by object.values, game.odds, and then let's log it to the console.
+
+So this one here means basically, average is equal average divided by this here.
+
+And this is actually the same as up here, so that's refactor it into let's say, simply odds, and then let's use that here.
+
+Odds, and odds.
+
+And we have a problem.
+
+So let's do some debugging here.
+
+I will start by taking a look at the average after it is computed here in the array.
+
+So average, oh.
+
+So here we have a number which means that something is wrong here in the division.
+
+Right.
+
+And I see it's because we need to write odds.length.
+
+Okay. And so then it will be the number three in this case.
+
+So before I was dividing by the entire array and that doesn't make any sense.
+
+And so now we should see something close to four here.
+
+Yeah. So 3.7 essentially.
+
+And so that's our result.
+
+Okay.
+
+And you can go over to this code here again, if you need to understand that even further, but now let's move on here to Exercise number three.
+
+And this time the goal is to print basically the content of the object to the console.
+
+So we're gonna loop over that.
+
+And again, I will first say what we need here actually.
+
+So we want to print both the team and the odd, so we need the entire object.
+
+And so just as we learned in a previous lecture, we use object.entries of game.odds.
+
+Okay. And so we know that we get an array of arrays, which in each position will have both the team and the odd.
+
+All right.
+
+So let's say team and odd.
+
+All right.
+
+And so here it is us who defined the variable name because it is now an array.
+
+So we don't have to match any property names.
+
+And let's start by simply logging both to the console team and odd.
+
+Okay.
+
+And so indeed, we already have that kind of working.
+
+We already have the team here and we have the three odd values.
+
+Now what we want to do is to create a string like this.
+
+let's actually copy this.
+
+So we know what we have to do.
+
+And by the way, here, notice again, what I explained to you in the last lecture, how in the array we use the entries method to get the entries of the array, but in the object we have to use object.entries and then pass into the function, the object that we are interested in.
+
+So that's fundamentally difference.
+
+So keep that in mind.
+
+Okay. So here, we now want to build a string like that.
+
+So odd of victory Bayern Munich, draw or victory Borussia Dortmund.
+
+And so here, we're gonna need some more logic.
+
+Let's just put here some dots.
+
+And now, now here the odd.
+
+So the odd is the easy part.
+
+So we have that one already finished.
+
+But now here we need some more complex logic.
+
+And actually let's create this part of the string.
+
+So like victory Bayern Munich, or Borrusia Dortmund or draw, let's create it here in a separate value.
+
+So let's call this one teamString.
+
+And so here what I'm gonna use is to use the ternery operator.
+
+Okay.
+
+So I will say that if the team here is x, like we have a it here, then the string should become draw.
+
+And so that will then create this here.
+
+So team equals x then the result should be draw.
+
+But if not, then we need the team name itself.
+
+So how will we get that?
+
+And remember, there was a hint about this.
+
+So note how the odds and the game objects have the same property names.
+
+And indeed here we have team one, team two, and here we have team one and team two as well.
+
+And so here are the team names.
+
+And so let's now get these team names using these keys that we already have here.
+
+So we want to string victory.
+
+And then we go to the game object and team.
+
+Let's check.
+
+Now I know of course we need to put that string here.
+
+So teamString and it works beautiful.
+
+So let's just recap this part here.
+
+So here we go into the game, which is the entire game object and we take the property team.
+
+But team is already this property name here, right?
+
+So it's team one or team two.
+
+And so then we take that to read the property with the same name from the game object.
+
+And so therefore we get Bayern Munich and Borussia Dortmund.
+
+Okay. Great.
+
+So this one was a little bit more tough but we managed to do it in the end.
+
+Now, again, I will not create the solution for the bonus but you can always find it in the final code of this section.
+
+And with that being said, let's now go back to learning some more JavaScript.

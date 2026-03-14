@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What's the DOM and DOM Manipulation</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        .mermaid { background: var(--surface-color); padding: 24px; border-radius: var(--radius-lg); display: flex; justify-content: center; margin: 24px 0; border: 1px solid var(--surface-border); overflow-x: auto; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
+        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        td a { color: var(--info-color); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-dom-tree" class="nav-item">1. DOM 树结构解析</a>
+            <a href="#section-web-api" class="nav-item">2. 澄清误区：DOM !== JavaScript</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>What's the DOM and DOM Manipulation</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：004 What's the DOM and DOM Manipulation.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>欢迎来到令人兴奋的地方！在这一节，我们将使用 JavaScript 与网页进行真正的交互，专业术语叫做 <strong>DOM 操作 (DOM Manipulation)</strong>。我们将揭开 DOM 的神秘面纱，了解它的树状结构，并澄清一个极其普遍的新手误区。</p>
+
+        <h2 id="section-dom-tree">1. 什么是 DOM？它的树结构是怎样的？</h2>
+        <p><strong>DOM (Document Object Model，文档对象模型)</strong> 是 HTML 文档的结构化表示形式。简单来说，DOM 就像是 HTML 和 JavaScript 之间的一座桥梁，它允许我们使用 JavaScript 去访问和修改 HTML 元素及 CSS 样式（比如改变文本、修改属性、变换颜色等）。</p>
+
+        <p>当浏览器加载 HTML 页面时，它会自动在幕后创建这个 DOM。DOM 的结构是一棵倒置的“家族树”：</p>
+
+        <div class="mermaid">
+        flowchart TD
+            Doc[document 对象<br/>(DOM 的入口点)] --> HTML[html<br/>(根元素)]
+            HTML --> HEAD[head]
+            HTML --> BODY[body]
+            HEAD --> TITLE[title]
+            BODY --> SECTION1[section]
+            BODY --> SECTION2[section]
+            SECTION1 --> H1[h1]
+            SECTION1 --> P[p]
+            P --> A[a 链接]
+            
+            style Doc fill:#f7df1e,color:#000
+            style HTML fill:#8be9fd,color:#000
+            style HEAD fill:#50fa7b,color:#000
+            style BODY fill:#50fa7b,color:#000
+        </div>
+
+        <ul>
+            <li><strong>document</strong>：位于树的最顶端。它是所有 DOM 操作的入口点（这也是为什么我们总是写 <code>document.querySelector(...)</code>）。</li>
+            <li><strong>节点关系</strong>：在这棵树里，每个 HTML 标签都是一个“对象”（或者叫节点 Node）。我们常常用 <strong>父元素 (Parent)</strong>、<strong>子元素 (Child)</strong>、<strong>兄弟元素 (Sibling)</strong> 来描述它们之间的亲戚关系。</li>
+            <li>除了元素节点，DOM 树里甚至还包含纯文本节点、注释节点等，DOM 必须是一份百分百忠实于 HTML 原文档的完整倒影。</li>
+        </ul>
+
+        <h2 id="section-web-api">2. 澄清误区：DOM 根本不是 JavaScript 的一部分！</h2>
+        <p>这是一个连很多老手都搞错的惊天秘密：</p>
+        <div class="callout warning">
+            <p>🚨 <strong>真相大白：</strong>诸如 <code>document.querySelector()</code> 这样的 DOM 方法和属性，<strong>其实根本不属于 JavaScript 语言本身！</strong></p>
+        </div>
+        
+        <p>我们在前面学过，JavaScript 只是 ECMAScript 规范的方言，它的核心语法库里根本没有这些操作网页的东西。那它是怎么工作的呢？</p>
+
+        <p>答案是：<strong>Web APIs</strong>。</p>
+        <p>Web APIs 是浏览器内置的、用 JavaScript 编写的库。浏览器大方地把这些 API 开放出来，让我们的 JavaScript 代码可以直接调用。不仅仅是 DOM，像后面会学到的 <strong>Timers (定时器)</strong>、<strong>Fetch API (网络请求)</strong> 等等，全都是浏览器提供的 Web APIs。</p>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 下列关于 DOM 的说法中，哪一项是绝对正确的？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) DOM 是 JavaScript 语言核心规范 (ECMAScript) 中的一部分机制，只要能跑 JS 的地方（比如 Node.js）就一定有 DOM。</div>
+                <div class="quiz-option" data-value="B">B) DOM 是一套由浏览器提供的 Web API 接口，用于将 HTML 文档映射为树状对象，以便 JS 能修改网页。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。DOM 属于浏览器环境宿主提供的 Web API，脱离了浏览器的纯运行环境（如 Node.js）是没有 `document` 对象的。
+            </div>
+        </div>
+        
+        <br>
+
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">2. 为什么我们在操作网页前，首先要通过 `document` 对象进行查询？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为 `document` 对象不仅是特殊对象，更是整棵 HTML DOM 树的顶级入口点 (Entry Point)。不通过它，JS 就像没钥匙进不了家门。</div>
+                <div class="quiz-option" data-value="B">B) 因为 `document` 代表了浏览器整个窗口，包含了浏览器的地址栏和历史记录等功能。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：A</strong>。`document` 专门负责表示当前加载的 HTML 页面本身及其结构；而代表整个浏览器窗口的是另一个叫 `window` 的对象。
+            </div>
+        </div>
+
+        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>文档对象模型</td>
+                    <td>DOM (Document Object Model)</td>
+                    <td>浏览器把 HTML 翻译成的一棵能用代码修改的节点树</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document_Object_Model/Introduction" target="_blank">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>Web APIs</td>
+                    <td>Web Application Programming Interface</td>
+                    <td>浏览器内置提供的接口库，赋予 JS 语言操作网页和调用系统能力的功能</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/API" target="_blank">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const opts = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.style.background = 'transparent');
+                if (opt.getAttribute('data-value') === correctVal) {
+                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--success-color)';
+                } else {
+                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--error-color)';
+                }
+                exp.style.display = 'block';
+            });
+        });
+    });
+</script>
+</body>
+</html>

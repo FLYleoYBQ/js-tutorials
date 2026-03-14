@@ -1,0 +1,783 @@
+1
+00:00:00,907 --> 00:00:02,520
+So in this video,
+
+2
+00:00:02,520 --> 00:00:05,810
+we're going to put all our code on to GitHub.
+
+3
+00:00:05,810 --> 00:00:07,368
+Or as we usually say,
+
+4
+00:00:07,368 --> 00:00:11,170
+we're going to push our code to a remote branch,
+
+5
+00:00:11,170 --> 00:00:12,220
+so that we can
+
+6
+00:00:12,220 --> 00:00:15,245
+then set up the continuous integration feature
+
+7
+00:00:15,245 --> 00:00:18,683
+that I talked about before in the next video.
+
+8
+00:00:20,780 --> 00:00:23,380
+And so now here on GitHub,
+
+9
+00:00:23,380 --> 00:00:26,320
+let's click on this plus button here,
+
+10
+00:00:26,320 --> 00:00:28,770
+and create a new repository.
+
+11
+00:00:28,770 --> 00:00:32,040
+Or we could also click right here,
+
+12
+00:00:32,040 --> 00:00:34,170
+so there are going to be multiple ways
+
+13
+00:00:34,170 --> 00:00:35,991
+of creating a New repository
+
+14
+00:00:35,991 --> 00:00:39,620
+because that's basically the most important feature
+
+15
+00:00:39,620 --> 00:00:40,523
+on GitHub.
+
+16
+00:00:41,670 --> 00:00:42,950
+Am I right?
+
+17
+00:00:42,950 --> 00:00:44,410
+Then here, the first thing
+
+18
+00:00:44,410 --> 00:00:47,940
+is that we need to give the repository a name,
+
+19
+00:00:47,940 --> 00:00:49,317
+and I'm going to call it,
+
+20
+00:00:49,317 --> 00:00:50,993
+"fortify-course-video",
+
+21
+00:00:50,993 --> 00:00:52,837
+"fortify-course-video",
+
+22
+00:00:52,837 --> 00:00:54,164
+"fortify-course-video",
+
+23
+00:00:54,164 --> 00:00:59,164
+just so that I know exactly what this repository is about.
+
+24
+00:00:59,230 --> 00:01:01,740
+So I like to be really descriptive here.
+
+25
+00:01:01,740 --> 00:01:04,070
+Then, I'm going to make it private,
+
+26
+00:01:04,070 --> 00:01:07,563
+and so it is no one else can see this repository.
+
+27
+00:01:09,340 --> 00:01:12,250
+Then down here, we have the option to add a README
+
+28
+00:01:12,250 --> 00:01:16,650
+and a .gitignore, but we don't want to do that,
+
+29
+00:01:16,650 --> 00:01:17,483
+okay?
+
+30
+00:01:17,483 --> 00:01:19,770
+So if we added a README right now,
+
+31
+00:01:19,770 --> 00:01:22,290
+then we would create a conflict later on
+
+32
+00:01:22,290 --> 00:01:23,983
+when we import our code.
+
+33
+00:01:26,010 --> 00:01:29,180
+So actually, that's what's saying here right now,
+
+34
+00:01:29,180 --> 00:01:30,550
+so skip this step,
+
+35
+00:01:30,550 --> 00:01:33,450
+if you're importing an existing repository.
+
+36
+00:01:33,450 --> 00:01:35,303
+And so that's what we will do next.
+
+37
+00:01:36,400 --> 00:01:39,023
+So then click on creating repository,
+
+38
+00:01:39,889 --> 00:01:40,904
+(keyboard tapping)
+
+39
+00:01:40,904 --> 00:01:42,890
+and so here we are.
+
+40
+00:01:42,890 --> 00:01:44,210
+Okay.
+
+41
+00:01:44,210 --> 00:01:49,210
+So this year is the URL, basically of or a git repository,
+
+42
+00:01:49,940 --> 00:01:51,430
+but what matters here
+
+43
+00:01:51,430 --> 00:01:54,320
+is that now there are these two scenarios:
+
+44
+00:01:54,320 --> 00:01:55,690
+So there is the scenario
+
+45
+00:01:55,690 --> 00:01:58,630
+that we don't have a repository yet.
+
+46
+00:01:58,630 --> 00:02:00,850
+So I mean, a local one,
+
+47
+00:02:00,850 --> 00:02:02,530
+but that's not the case.
+
+48
+00:02:02,530 --> 00:02:04,433
+So we already have the repository
+
+49
+00:02:04,433 --> 00:02:06,310
+that we have been working on,
+
+50
+00:02:06,310 --> 00:02:07,790
+and so what we want to do now,
+
+51
+00:02:07,790 --> 00:02:10,518
+is to push that existing repository
+
+52
+00:02:10,518 --> 00:02:13,300
+to this online repository.
+
+53
+00:02:13,300 --> 00:02:15,330
+So to this remote repository
+
+54
+00:02:15,330 --> 00:02:17,430
+that we just created here.
+
+55
+00:02:17,430 --> 00:02:20,120
+And so in order to connect these two,
+
+56
+00:02:20,120 --> 00:02:22,690
+we need to copy this line of code
+
+57
+00:02:22,690 --> 00:02:26,313
+and execute it in or a local repository.
+
+58
+00:02:27,860 --> 00:02:30,583
+So let's go back, clear this here,
+
+59
+00:02:31,630 --> 00:02:34,770
+and then paste it and execute it.
+
+60
+00:02:34,770 --> 00:02:39,590
+And so what this did here, was to add a remote branch,
+
+61
+00:02:39,590 --> 00:02:41,870
+which is called "origin".
+
+62
+00:02:41,870 --> 00:02:43,360
+All right,
+
+63
+00:02:43,360 --> 00:02:48,030
+and the URL of that remote branch is called,
+
+64
+00:02:48,030 --> 00:02:48,863
+this one here.
+
+65
+00:02:50,780 --> 00:02:53,360
+So again, with this, we basically let
+
+66
+00:02:53,360 --> 00:02:56,090
+our local repository know about
+
+67
+00:02:56,090 --> 00:02:58,333
+this remote repository right here.
+
+68
+00:02:59,270 --> 00:03:01,840
+And if we check out our branches, now,
+
+69
+00:03:01,840 --> 00:03:05,560
+then that origin branch might actually be there.
+
+70
+00:03:05,560 --> 00:03:07,080
+Now I'm not sure if it is,
+
+71
+00:03:07,080 --> 00:03:08,890
+but let's check that out.
+
+72
+00:03:08,890 --> 00:03:09,723
+So git,
+
+73
+00:03:10,640 --> 00:03:11,473
+branch,
+
+74
+00:03:12,900 --> 00:03:15,260
+and it actually doesn't say here,
+
+75
+00:03:15,260 --> 00:03:17,490
+but that doesn't really matter.
+
+76
+00:03:17,490 --> 00:03:19,690
+So this was just to check.
+
+77
+00:03:19,690 --> 00:03:23,090
+But what matters is that we can now push code
+
+78
+00:03:23,090 --> 00:03:27,917
+to this remote branch, which remember is called "origin".
+
+79
+00:03:28,880 --> 00:03:31,050
+And, so the way we do that is
+
+80
+00:03:31,050 --> 00:03:32,773
+by writing git,
+
+81
+00:03:33,727 --> 00:03:35,430
+push,
+
+82
+00:03:35,430 --> 00:03:37,430
+and then the name of the remote brand,
+
+83
+00:03:37,430 --> 00:03:39,047
+which is called "origin".
+
+84
+00:03:40,290 --> 00:03:42,290
+So that's right here.
+
+85
+00:03:42,290 --> 00:03:45,090
+And of course, you could give this one another name,
+
+86
+00:03:45,090 --> 00:03:47,453
+but "origin" is simply the standard name.
+
+87
+00:03:48,290 --> 00:03:50,053
+So that's what everyone uses.
+
+88
+00:03:50,910 --> 00:03:52,580
+So git, push, origin,
+
+89
+00:03:52,580 --> 00:03:54,200
+and then the name of the branch
+
+90
+00:03:54,200 --> 00:03:56,723
+that you want to, to push.
+
+91
+00:03:56,723 --> 00:03:58,420
+(keybooard tapping)
+
+92
+00:03:58,420 --> 00:03:59,660
+And so let's say,
+
+93
+00:03:59,660 --> 00:04:02,083
+that we only want to push the master branch.
+
+94
+00:04:03,060 --> 00:04:04,740
+So, hit Enter,
+
+95
+00:04:04,740 --> 00:04:08,003
+and then you will see that it's going to do some work here.
+
+96
+00:04:09,690 --> 00:04:10,943
+And now it's done.
+
+97
+00:04:12,110 --> 00:04:12,943
+Okay.
+
+98
+00:04:12,943 --> 00:04:15,010
+And so now, if we go to GitHub
+
+99
+00:04:15,010 --> 00:04:18,179
+and reload, or repository here,
+
+100
+00:04:18,179 --> 00:04:19,012
+then,
+
+101
+00:04:20,040 --> 00:04:21,423
+then our code is there.
+
+102
+00:04:22,489 --> 00:04:24,480
+All right.
+
+103
+00:04:24,480 --> 00:04:25,420
+Great!
+
+104
+00:04:25,420 --> 00:04:29,060
+So we successfully pushed our local repository
+
+105
+00:04:29,060 --> 00:04:31,650
+into this remote repository.
+
+106
+00:04:31,650 --> 00:04:35,000
+And so now, if we would work on any other computer,
+
+107
+00:04:35,000 --> 00:04:39,123
+we could go ahead and take our code out of this repository.
+
+108
+00:04:40,130 --> 00:04:43,040
+And you see that indeed, all our code is here,
+
+109
+00:04:43,040 --> 00:04:44,270
+at least all the code
+
+110
+00:04:44,270 --> 00:04:47,780
+that we did not add to the Git ignore file.
+
+111
+00:04:47,780 --> 00:04:49,960
+So that's why you only have to source here now,
+
+112
+00:04:49,960 --> 00:04:52,963
+but not the dist and node modules folders.
+
+113
+00:04:53,970 --> 00:04:55,970
+But everything else is, of course, here.
+
+114
+00:04:58,090 --> 00:05:02,653
+So our index, HTML, and all our source codes.
+
+115
+00:05:03,610 --> 00:05:05,333
+And you can see here,
+
+116
+00:05:05,333 --> 00:05:07,650
+also, the commit messages that we had,
+
+117
+00:05:07,650 --> 00:05:10,040
+and you can see the branches.
+
+118
+00:05:10,040 --> 00:05:12,600
+So right now we only have the master branch,
+
+119
+00:05:12,600 --> 00:05:16,980
+but if we really wanted to keep that other branch as well,
+
+120
+00:05:16,980 --> 00:05:19,020
+in our remote repository,
+
+121
+00:05:19,020 --> 00:05:22,370
+then we can simply recall this again.
+
+122
+00:05:22,370 --> 00:05:24,690
+And so, .git-push-origin,
+
+123
+00:05:24,690 --> 00:05:26,900
+and then the name of that other branch,
+
+124
+00:05:26,900 --> 00:05:29,847
+which was called "new feature".
+
+125
+00:05:32,690 --> 00:05:33,583
+Now, right.
+
+126
+00:05:35,690 --> 00:05:36,743
+So ...
+
+127
+00:05:37,850 --> 00:05:39,370
+this looks a bit different,
+
+128
+00:05:39,370 --> 00:05:41,873
+but let's see, let's reload.
+
+129
+00:05:43,970 --> 00:05:45,133
+And then here it is.
+
+130
+00:05:46,867 --> 00:05:47,700
+All right.
+
+131
+00:05:49,000 --> 00:05:52,020
+But anyway, let's now add a readme file,
+
+132
+00:05:52,020 --> 00:05:53,430
+which is a common thing
+
+133
+00:05:53,430 --> 00:05:56,730
+that all GitHub repositories should have.
+
+134
+00:05:56,730 --> 00:06:00,260
+So it's basically a file that appears down here
+
+135
+00:06:00,260 --> 00:06:03,053
+with a description of the project.
+
+136
+00:06:04,990 --> 00:06:08,263
+So let's come here, or actually, let's do it from here.
+
+137
+00:06:09,290 --> 00:06:13,100
+So "touch, readme.md",
+
+138
+00:06:13,100 --> 00:06:16,393
+and so we can use or command line scales a little bit.
+
+139
+00:06:17,390 --> 00:06:19,490
+So, here it is.
+
+140
+00:06:19,490 --> 00:06:23,160
+And now to add a title to any MD file.
+
+141
+00:06:23,160 --> 00:06:25,750
+So "MD" stands for "markdown".
+
+142
+00:06:25,750 --> 00:06:29,760
+And so markdown, is like a special typing format
+
+143
+00:06:29,760 --> 00:06:32,450
+that we can use to write simple documents.
+
+144
+00:06:32,450 --> 00:06:37,167
+And so let's give this here a name of, "fortify, project",
+
+145
+00:06:38,740 --> 00:06:41,170
+and then, an empty line.
+
+146
+00:06:41,170 --> 00:06:43,733
+And then here, we can add some description text,
+
+147
+00:06:44,870 --> 00:06:45,703
+let's say,
+
+148
+00:06:45,703 --> 00:06:50,217
+"a recipe application with custom recipe uploads".
+
+149
+00:06:55,170 --> 00:06:58,623
+And so, you can write whatever description you want here.
+
+150
+00:06:59,500 --> 00:07:02,440
+I just want to keep it really short here.
+
+151
+00:07:02,440 --> 00:07:06,070
+And now, let's go through the same process, as before,
+
+152
+00:07:06,070 --> 00:07:09,490
+so that we can also upload this file.
+
+153
+00:07:09,490 --> 00:07:12,050
+So basically, upload this modification
+
+154
+00:07:12,050 --> 00:07:14,880
+to our remote repository as well.
+
+155
+00:07:14,880 --> 00:07:16,570
+So as always, we need to start
+
+156
+00:07:16,570 --> 00:07:20,033
+by adding this new file to the staging area,
+
+157
+00:07:21,120 --> 00:07:23,313
+then, we need to commit it.
+
+158
+00:07:25,260 --> 00:07:27,770
+So git commit message.
+
+159
+00:07:27,770 --> 00:07:31,920
+And then here a nice, descriptive, message.
+
+160
+00:07:31,920 --> 00:07:36,920
+So edit, the readme, and then git-push-origin, master.
+
+161
+00:07:45,060 --> 00:07:46,820
+So let's wait for it.
+
+162
+00:07:46,820 --> 00:07:48,949
+And now if we come here,
+
+163
+00:07:48,949 --> 00:07:53,949
+you see that we had, 26 minutes ago, we had two commits,
+
+164
+00:07:54,760 --> 00:07:57,450
+and this here is the latest commit message.
+
+165
+00:07:57,450 --> 00:07:59,173
+And now as we reload this,
+
+166
+00:08:00,250 --> 00:08:03,590
+then you'll see, we now have three commits.
+
+167
+00:08:03,590 --> 00:08:05,740
+This is the latest commit message.
+
+168
+00:08:05,740 --> 00:08:08,980
+And indeed, down here now appears,
+
+169
+00:08:08,980 --> 00:08:10,780
+this description that we just added.
+
+170
+00:08:11,670 --> 00:08:13,140
+Great!
+
+171
+00:08:13,140 --> 00:08:17,930
+Now, if you wanted to now start working on another computer,
+
+172
+00:08:17,930 --> 00:08:21,145
+you could simply go to this button here, copy this URL,
+
+173
+00:08:21,145 --> 00:08:24,873
+and then do the opposite, which is pull.
+
+174
+00:08:25,760 --> 00:08:27,220
+Okay.
+
+175
+00:08:27,220 --> 00:08:30,376
+Now, many times when we create a new repository,
+
+176
+00:08:30,376 --> 00:08:31,209
+we actually do it the other way around.
+
+177
+00:08:31,209 --> 00:08:36,209
+So, we start with a new repository on GitHub,
+
+178
+00:08:37,340 --> 00:08:38,880
+then we give it a name,
+
+179
+00:08:38,880 --> 00:08:42,350
+and then we actually add a readme here,
+
+180
+00:08:42,350 --> 00:08:46,900
+and also a git ignore, then we create that repository,
+
+181
+00:08:46,900 --> 00:08:50,620
+and then we pull that repo onto our computer.
+
+182
+00:08:50,620 --> 00:08:51,510
+And so this,
+
+183
+00:08:51,510 --> 00:08:55,170
+then actually, automatically connects the local repository
+
+184
+00:08:55,170 --> 00:08:56,820
+with the remote one.
+
+185
+00:08:56,820 --> 00:09:00,540
+And so that makes things a little bit easier.
+
+186
+00:09:00,540 --> 00:09:03,159
+So a lot of times I do it like this, but in this case,
+
+187
+00:09:03,159 --> 00:09:07,790
+we already had the local repository with all our code.
+
+188
+00:09:07,790 --> 00:09:09,370
+And so, therefore,
+
+189
+00:09:09,370 --> 00:09:13,530
+we needed to create this repository really empty.
+
+190
+00:09:13,530 --> 00:09:15,790
+So just the way that we did it.
+
+191
+00:09:15,790 --> 00:09:17,010
+Okay.
+
+192
+00:09:17,010 --> 00:09:17,843
+But anyway,
+
+193
+00:09:17,843 --> 00:09:22,290
+let's go back here to our remote Git repository now,
+
+194
+00:09:22,290 --> 00:09:23,600
+so that in the next video,
+
+195
+00:09:23,600 --> 00:09:27,380
+we can finally set up the continuous integration feature
+
+196
+00:09:27,380 --> 00:09:28,653
+with netlify.

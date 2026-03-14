@@ -1,0 +1,347 @@
+﻿This is the third and final part of Working With Strings.
+
+And let's start by learning about one of the most powerful string methods, which is split.
+
+So split allows us to split a string into multiple parts based on a divider string.
+
+So let's check that out.
+
+So any string works here, let's say A+very+nice+string.
+
+So let's say that for some reason we have a string like this and now on this string we can call the split method.
+
+Here we need to specify a divider string.
+
+So let's just use plus, and so what will happen now is that it will split up this string by this plus sign and it will then store the results into elements of a new array.
+
+So let's see that, and indeed we get an array which contains A, and very, and nice, and string.
+
+So essentially everything's split up by this divider string.
+
+So let's try the same with my name.split.
+
+And so the goal here is off having one array, which two elements, one for each name.
+
+And so I can split by the space.
+
+And this is a very common one and so indeed I get this result and this is really useful.
+
+Now indeed we can now actually use the power of destructuring to create variables directly like this.
+
+So I can say first name and last name will be the results of this split, okay?
+
+So this here we'll create an array with two elements.
+
+And then from that array, the first one is gonna be taken into first name and the second one and two last name, okay?
+
+Now we could have done the same thing with a slice method but that would have been a lot more complicated and for longer sentences or almost impossible and like this it's really straight forward.
+
+Okay, Now let's say that we want to make the last name uppercase here.
+
+And then we also want to add a Mister in the beginning.
+
+So we could just use a simple template literal and do what I just said but I wanna show you something else here.
+
+And that's the joint method which is essentially the opposite of split.
+
+So let's create an array, which contains all I just said.
+
+So we want to start with Mr.
+
+Then the first name and so that's gonna be the second element of this array and then the last name in uppercase, okay?
+
+And now I want to join this and again we can specify a divider string and hopefully you can see by now where this is going.
+
+So let's store the result of this into new name, and then let's check it out in the console.
+
+So what do you think will be the result of this?
+
+So of the joint method.
+
+So indeed we now get one entire string here.
+
+So one string composed of the three parts of this array and joined together by this joining string here basically.
+
+And of course we could have used anything else so like this, or even like this.
+
+So anything works here, but what makes sense of course in this case is just the space.
+
+So this combination of split and join is really powerful and we will actually use this all the time so split and join, okay?
+
+And in fact, we can use this for something that we already did in one of the previous lectures which is to capitalize a name.
+
+But now with this it makes it really easy to capitalize an entire name with multiple names in there.
+
+So let's say that this passenger is called Jessica Ann Smith Davis.
+
+So how will we capitalize this name here?
+
+And actually let's write a function.
+
+So that's a bit nicer.
+
+So const capitalize name, which is a function which receives a name and then it will do something with that.
+
+So let's capitalize name here with that string instead.
+
+And then we can also call it with some other name.
+
+So my name for example, and you can use your own name here of course.
+
+So what's the strategy for capitalizing this entire name.
+
+And by the way what I mean here is to transform the first letter of each name into a capital letter.
+
+So here Jonas, and then this one here Schmedtmnan with this capital S okay?
+
+Well we have multiple words here, and so we will have to capitalize all of them one by one.
+
+And so to do that, it would be good to have them inside of an array that we can then loop over.
+
+And so now we can use the split method for that.
+
+So let's say names is equal to name, split by the space.
+
+And so this will be an array and now we can then loop over that array using the four off loop.
+
+So const, let's just call this one word of names or let's call it N which stands for name, but I cannot reuse name because that would then override this input here and that's a bad practice, okay?
+
+And so now here we will then capitalize this name.
+
+So this individual name.
+
+So remember how we did that in the last lecture we took the first letter converted that to uppercase and then joined it with basically the rest of the word.
+
+So that's N.slice starting from position number one.
+
+So everything except the first letter which is letter number zero, okay?
+
+And now what should we do with this?
+
+Well, I think we should push this into a new array so that in the end we end up with an array with all the names capitalized and then we can join that array together.
+
+So let's say const names upper and start it as an empty array.
+
+And then in each iteration we will simply push into this array.
+
+So sounds good to you, okay?
+
+And now in the end, let's then log to the console names, upper.
+
+And so now we need to join that array back together using a space as the separator, okay?
+
+So here we practice a lot of different methods all in one function.
+
+So this is a really great use case.
+
+So let's now give it a try and indeed it worked.
+
+So great right?
+
+No matter how long a name we feed into the function it will always give us the correct output.
+
+Now here's a small challenge for you because there is another way of doing this.
+
+So basically of doing the capitalization of one name.
+
+So given what we already learned and especially in the last lecture can you think of a different way of doing this?
+
+And if you can't, it's not a problem at all but maybe you can pause the video here for a minute or two and think about this.
+
+So let me just show it to you quickly, because I think this is really interesting that we have different ways of achieving the same thing.
+
+And so this time what will we push into the array here is simply N and then in there we replace the first letter with the first letter in uppercase.
+
+So let me write that.
+
+So that's N at position zero and replaced with N at position zero to upper case let's give it a try and we get the same result, all right?
+
+So again, we are here simply taking the word and then we replaced the first character.
+
+So that's N at position zero with the first character to uppercase.
+
+So that's a completely different approach than this one here, but it gives us the same result.
+
+Now next up, let's talk about padding a string.
+
+Now padding a string means to add a number of characters to the string until the string has a certain desired length.
+
+So padding and let's just create a message here go to gate 23.
+
+So now let's take a look at padding here.
+
+So I will take message, and then I can say padstart and so this will then add some characters to the beginning of the string.
+
+And the first argument here is the length that we want for the string.
+
+Let's say we want it to be 25 characters long, so after the padding.
+
+And then the character that we want to pad the string with.
+
+So let's use plus and let's take a look, okay?
+
+And so you'll see that at edit all of these here.
+
+And so now the length of this entire string here should be 25, okay?
+
+So let me show that to you with another string here.
+
+So if I said Jonas, and then the same, you would see that it would add a lot more of the plus signs because the initial string is shorter.
+
+So you see you, we have a lot more pluses now but in the end the string is also a 25 or actually 23 so mistake here.
+
+So now the string is also 25 long.
+
+And so we see here at this has exactly the same length as this one here in the console, alright?
+
+Then there's also pad ENT.
+
+And so we can now take the result of this, and immediately also pad the end of the string.
+
+So pad end and now let's make it longer and then again the plus sign.
+
+So this will basically then add 10 pluses to the end of the string because the result of this string here is already 25 characters long, right?
+
+And so onto this one we then pet it all the way until the length of 35 with some more pluses, and so we're gonna add 10 of them.
+
+Let's just do a 30, so we can easily see that, and so indeed it now added five of them here.
+
+And just for the sake of completion let's do the same here with my name and this here just to 20 to make it a bit more even, alright?
+
+But now let's actually use a more real world example of padding here.
+
+So when you see a credit card number on the internet, you never see the entire number, right?
+
+So usually we see the last four digits and the rest is masked with some symbol.
+
+So let's implement a function that actually does that masking.
+
+So this is gonna be really interesting.
+
+This is a great application of string methods.
+
+So mask credit cards function.
+
+And so we're gonna receive a number, okay?
+
+So an actual number and let's start by converting this number to a string.
+
+So string, now we learned how to convert a number to a string in the fundamental section, right?
+
+So that was like this, remember?
+
+However, there is a nice trick that actually makes this easier for us.
+
+So we can just take the number and then we add an empty string.
+
+And so the result of this will be the number but as a string.
+
+And this works because as you hopefully remember when one of the operands of the plus sign is a string it will convert all the operands to a string.
+
+And so then this number will become a string plus the empty string and so then it's gonna stay exactly the same, okay.
+
+So in order to know what we should do here let's one more time first call the function before we actually write it so that we know what kind of input we get.
+
+So mask credit card and let's say, now the number is this one and I'm just putting something random here.
+
+But of course it will also work with strings and no matter how long it is, alright?
+
+So as I was saying, usually on the internet we can only see these last four digits and the rest is masked by some symbol.
+
+So what we need to do here is basically to take out these four numbers and then use padstart to create a string with the same length as this initial number here but with some kind of symbol there.
+
+So let me just write that in code, and then I hope it will become clear.
+
+So we're gonna take the last four characters of the string.
+
+And so, we use slice with a negative parameter again of minus four.
+
+And now here is what we're gonna return, we will return a last.
+
+So that is just these four characters.
+
+And then we will Pad it at the start all the way until the original length of the string.
+
+So string.length and the character we're gonna use will be this star, okay?
+
+And so since we returned something to make this function a bit more real now we need to lock the result to the console and to start let's actually make a slightly simpler version so that we see that it actually worked.
+
+So a shorter number here with just eight digits.
+
+And so the end should be 7836 and then beginning with four stars.
+
+So let's see, and yeah, that worked great, right?
+
+So again, we took the last four here and then we padded the rest of the string until it matched the original length of the string which was eight and therefore four stars were added.
+
+And the same here and to same here.
+
+Awesome.
+
+That's really fantastic application of this method, I think.
+
+And now to finish the last simple method that I want to show you is the repeat method.
+
+So repeat and as the name says, this one simply allows us to repeat the same string multiple times.
+
+So let's say there is some bad weather at Wen airport.
+
+So when that happens they usually have those long messages on the screen, like with the texts repeating which then keeps running and repeating all the time.
+
+So let's call this one message.
+
+So let's call it message two we already have a message up there.
+
+So let's say bad weather all departures delayed, okay?
+
+And now we want to basically create a bigger string repeating this one here multiple times.
+
+So that's easy enough.
+
+We just take this string call repeat, so repeat and then the number of times we want to repeat it, let's say five and there it is.
+
+So this is all the same long string and we should just add one space here at the end.
+
+And so you'll see now you can see it even better.
+
+That it's all just one big string with the same message repeating over and over again.
+
+Or we can also simulate that due to the bad weather there are now many planes waiting in line for takeoff.
+
+So let's create a fun function for that.
+
+So planes in line and here the number of planes.
+
+So console.log there are N planes in line.
+
+And then here we can kind of show that graphically using an emoji like this, let's say plain, I'm gonna use this one.
+
+And so this here in fact counts as a string.
+
+So let's create a string with that and then repeat it.
+
+And we will repeat it as many times as there are planes waiting.
+
+So planes in line here we have five waiting, then let's call it on in other airport where there are just three planes waiting and then 12.
+
+So indeed, now we have five planes here, three and here, 12 planes, alright?
+
+Okay, cool.
+
+Now we didn't talk about all of these string methods that exist but if you want to check them out, you can do so on MDN.
+
+And what I like to do is to simply search for one of the methods, let's say, string replace and then that will take me to that page of replace because then on the left side, at least when the window is a bit bigger.
+
+So then here we can see all of the different string methods that we can use.
+
+So we used split, slice, repeat, padstart, pad end.
+
+But as you can see there are even more here but actually we talked about all of the most important ones.
+
+Maybe one that you can check out is let's see concat maybe or there should one be called reverse.
+
+Well, actually it is not here, but anyway, as you see we talked about most of the most important string methods here.
+
+And so I hope you had fun with this.
+
+And I see you in the next video where we then have a challenge where you can then use all of this knowledge that you just gained here over the past three videos.

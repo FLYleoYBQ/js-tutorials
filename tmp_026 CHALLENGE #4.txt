@@ -1,0 +1,265 @@
+﻿Welcome back to the last coding challenge of this section.
+
+And this one is gonna be quite a bit different from the previous ones.
+
+So in this one, I want you to write a program that receives a list of variable names, written in the underscore case, and your program should then convert them to camel case like this.
+
+Now, the input will come from a text area that was inserted into the DOM, using this code below here.
+
+So, this code here created the text area, and this one the button using the createElement function, which you will learn about later.
+
+That's where the variable name list will come from, and the conversion will happen when this button here is clicked.
+
+And here is the test data.
+
+This is what you will take and paste here into this text area, and as you click the button, you should produce this output here.
+
+So five separate console dot log outputs.
+
+Essentially, five different results.
+
+Here are a couple of hints for you to solve this problem.
+
+First off, you need to remember which character actually defines a new line in the text area.
+
+I hope you can remember that.
+
+Then, the second one, the solution only needs to work for a variable made out of two words.
+
+For example, in this format, a underscore b.
+
+So that's exactly what we have here, right?
+
+Then number three, start to solve this challenge without worrying at all about this here.
+
+Because this actually is a little bit difficult.
+
+And so start by only creating this variable name in the camel case notation.
+
+And finally, I also want to let you know that this challenge is quite difficult on purpose.
+
+So once again, I really want you to challenge yourself, but in case you're stuck, of course, you should not get frustrated.
+
+Instead, you can just start watching the solution, and then if that helps you, you just pause and continue.
+
+Then once you made it work with this test data, you can of course, also use your own.
+
+So pause the video now and take all the time that you need, and I see you back here as soon as you're ready.
+
+And let's start by attaching an event handler to the button.
+
+So to this button here.
+
+All we have to do is querySelector, actually, document dot querySelector, and then we just select the button element.
+
+And then add event listener for a click, and then a certain function.
+
+And the first thing that we need to do is to get the value out of the text area.
+
+And for that, I already put you this snippet of code here.
+
+So let's grab that and just to start, let's log it to the console.
+
+Paste that here and indeed, it is basically one big string containing all of this.
+
+All right, so how do we now separate this basically, into five different strings to start with?
+
+Well, we remember which character defines a new line, right?
+
+Because that's gonna be a great starting point to split up this string into multiple pieces.
+
+And so that's gonna be, let's say rows, and so that will be text dot split, and that newline character is backslash, n.
+
+So let's see.
+
+Let's log rows now.
+
+And so now we should get an array with five elements.
+
+And of course, we need to first paste it back here, click this button, and so indeed, we now have this result here as expected.
+
+And now let's just simply loop over this array, and in each iteration, we'll log this variable name here, converted to camel case.
+
+So simple enough.
+
+For const row in rows.
+
+So first off, the first thing that we gonna need to do is to, now I clicked here, now it's gone.
+
+But anyway, let's take a look at this case here.
+
+And indeed, let me copy it down here, so we can always take a look at it while we are developing.
+
+Okay, so we need to, let me also also write result underscoreCase.
+
+So it should become this.
+
+To do this, we need to first split this variable name here also in its two parts, which are separated by the underscore right now.
+
+Each word here is now called row, right?
+
+And so we split that by this underscore.
+
+But actually, that is not enough because as you know, camel case should be all lowercase, except for this second word here, which should start with an uppercase.
+
+However, here actually, we have some uppercase right here, and here even worse is entire word.
+
+Also, we have some weird spacing going on.
+
+So here we have this space, here have even two spaces, and so we need to get rid of both of these.
+
+And so just like before, we can use toLowercase and then we can also use the trim method on that.
+
+And then we can even chain a third method, which is then that result of splitting it into words.
+
+So we end up with an array with two words, and so let's destructure that into two variables, the first and second, okay?
+
+And then we are already well on our way to building the output here.
+
+Let's call it output and it's gonna be this string with simply the first word, because that's already good enough.
+
+And now we just need the second word capitalized.
+
+And we already did that a couple of times and so let me show the second version that I showed you which is simply well, second dot replace.
+
+And what we want to replace is second zero, so the first character with second zero to uppercase.
+
+And then logging it to the console, and I think that's already it.
+
+So I wrote this here quite fast, because I already explained everything before.
+
+But of course, you can keep pausing the video to take a look at what I'm doing even more closer.
+
+And maybe also really analyze what I'm doing.
+
+Now we get, "Cannot read property replace of undefined."
+
+So what it means is that, second, is undefined.
+
+And so therefore, we are getting a weird result from this here basically.
+
+So let's use some console dot logs here.
+
+So let's log the row first and second, just to make sure or just to see what's happening.
+
+And we can get rid of this console dot log, so it doesn't get in our way.
+
+Then paste that here, run it and we get, zero, zero undefined.
+
+Well, that's weird.
+
+Everything looks correct.
+
+Oh here, this should actually be of, not in.
+
+And actually there is an older loop called the for in loop, which I didn't show you because it doesn't matter anymore.
+
+But that's why we didn't get an error as I wrote the in here.
+
+So let's see if now it works.
+
+And now at least this result here makes sense.
+
+This is indeed the row, this is the first and this is the second, but now we get some other error here, so the toUpperCase.
+
+And yeah, that's here because I didn't actually call it.
+
+I just wrote the name of the method without calling it.
+
+That was another bug.
+
+But this is one more time good to show you that bugs are actually a common thing in software development.
+
+Anyway, we see that actually, our variable names are already correct.
+
+All of them are converted to camel case.
+
+So let's get rid of that console dot log here, and now let's tackle this last part here, with these emojis here.
+
+But you could of course, use any other sign.
+
+So two things to notice here.
+
+The first word has one check mark, the second one has two check marks, then three, four, five.
+
+So that's the first thing.
+
+And the second thing is that they all start at the same position.
+
+So this means that all of these strings here basically should have the same length.
+
+And how do we do that?
+
+How do we give all of them the same length?
+
+Well, we can use padding, right?
+
+In this case, we use pad end, and set them all to a fixed length.
+
+Let's do that here first.
+
+So, padEnd, with a length of 20, and the string to pad should be simply an empty string.
+
+So let's see.
+
+And it will look the same, but as we select, we see that actually, now the selection continues.
+
+Which means that there is indeed some empty spaces there.
+
+And in fact, when we want just empty spaces, we can actually omit this second argument, and just call with 20, and then the result is gonna to be the same.
+
+So then after that, let's just add the check mark.
+
+And so here, we now need to return or to log a template string, which will contain all of that.
+
+So here's the emoji, and yeah, okay, is the way to go here.
+
+And so this should be almost now the correct solution.
+
+Let's see, okay.
+
+So all the emojis now start at the same place, but now, all we have to do is to add to here, three, four, and five.
+
+And for that, we are going to use the current index in each iteration.
+
+Now remember how we can get access to the current index in the for of loop.
+
+So we're looping over an array here, and so to get the current index, we need to actually use the entries of the array, remember that?
+
+So we say, entries, and then here, the row is now actually an array with first the index, and then second, the actual element.
+
+And so let's destructure that here, right away, where I is the index, and row is then the actual element itself.
+
+And then here, we can use that index to basically repeat this string.
+
+So you see, this is a lot of work and it's quite a challenge again.
+
+So I didn't expect you to really make this on your own, at least not in a very fast way.
+
+Maybe you took some time, and then you made it, and so then that's really great.
+
+But anyway, it's very good to challenge yourself and bring yourself to the limit too.
+
+Anyway, here, we now took this string, and then on that string we called repeat, just like we did before with the airplanes.
+
+And then we want in the first iteration one, and so that's gonna be your zero plus one, because we always need to add one because it starts at zero.
+
+So give it a save, paste all variable here.
+
+And yes, that is the solution, that's amazing.
+
+Let's add another one here.
+
+Showing us S-C-H, and let's see.
+
+And indeed, it now is also in camel case, and with six okay emojis here.
+
+So this one here is from the previous time, so each time we click the button, of course, this will get logged here.
+
+Okay, so that's it here.
+
+Make sure that you really understand how strings work in JavaScript.
+
+You can review this lecture and the last three lectures, and if you want even more string exercises, you can let me know in the Q and A section, and I can then give them to you.
+
+Anyway, that's it for now I see you in the next one.

@@ -1,0 +1,63 @@
+1
+00:00:01,190 --> 00:00:03,560
+So over the last few sections,
+
+2
+00:00:03,560 --> 00:00:07,850
+we have learned all about common JavaScript data structures
+
+3
+00:00:07,850 --> 00:00:09,860
+and also strings.
+
+4
+00:00:09,860 --> 00:00:12,500
+But now it's time to turn our attention
+
+5
+00:00:12,500 --> 00:00:16,340
+onto two additional ways of representing data,
+
+6
+00:00:16,340 --> 00:00:19,050
+numbers and dates.
+
+7
+00:00:19,050 --> 00:00:21,560
+Now, these might be a bit less important
+
+8
+00:00:21,560 --> 00:00:24,550
+than things like strings and arrays,
+
+9
+00:00:24,550 --> 00:00:27,590
+but you should still know how to use them.
+
+10
+00:00:27,590 --> 00:00:29,210
+And so in this section,
+
+11
+00:00:29,210 --> 00:00:32,470
+we will continue working on the Bankist App,
+
+12
+00:00:32,470 --> 00:00:36,310
+but now we will incorporate numbers and dates
+
+13
+00:00:36,310 --> 00:00:40,190
+and also internationalization and timers,
+
+14
+00:00:40,190 --> 00:00:43,350
+which are another two very important aspects
+
+15
+00:00:43,350 --> 00:00:45,490
+that you should actually know about.
+
+16
+00:00:45,490 --> 00:00:48,073
+(gentle music)

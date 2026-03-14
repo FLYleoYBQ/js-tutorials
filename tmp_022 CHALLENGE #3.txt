@@ -1,0 +1,185 @@
+﻿And now, it's time for coding challenge number three.
+
+And we are still working on our football betting application.
+
+Now this time, we have this map down here.
+
+So this one, which contains all the events that happened during the game.
+
+So the values here are the events themselves, for example, a goal or a substitution, and the keys are the minutes, in which the event occurs.
+
+And just notice, that a football game has 90 minutes, plus some extra time.
+
+So this might be a little bit over 90, but usually it's always 90 minutes, in case you're not familiar with this beautiful game.
+
+Anyway, your tasks are to create an array called events, which will contain all the different game events that happened during this game.
+
+And that means no duplicates in that array.
+
+Now, after the game has finished, it was found that the yellow card from minute 64 was unfair.
+
+So please just remove this event from the log.
+
+Next up print dis string to the console.
+
+An event happened on average every nine minutes.
+
+And of course, your task is to calculate this nine minutes, keeping in mind, that a game has 90 minutes.
+
+Finally, loop over the events, and then log into the console.
+
+And what's tricky about this, is that you should mark whether they happened in the first half of the game, or the second half.
+
+And the second half means, that it happened after 45 minutes.
+
+So it should look something like this.
+
+So I believe that this challenge is a little bit easier than the previous one, and so hopefully you can manage to complete all of these four tasks.
+
+So I'll see you once you're done.
+
+So, I hope that was fun.
+
+So let's get started immediately with the solution here.
+
+So we should create an array called events, with the unique events.
+
+So basically, that's the unique values of all of these here.
+
+Now, what are these values here?
+
+They are essentially the values of this map, right?
+
+So, what I'm saying, is that they are in gameEvents.values.
+
+And we learned about this one kind of by the end of the last video.
+
+So let's comment out this one here.
+
+And so indeed, we see that this is what contains the values that we are interested in.
+
+Alright.
+
+So, let's say gameEvents.values, and this is our starting point, and now to get the unique values here, we basically need to create a set, out of this, right?
+
+That's the main use case of sets.
+
+So, new set, but this alone is not going to be enough, but let's still take a look, at this for now, and beautiful.
+
+So, indeed we have a set with the only four events that happened.
+
+So, there were only goals, substitutions yellow cards and red cards.
+
+And now to convert us to an array, we do adjust like before.
+
+Create a new array, and a spread operator to unpack this set, and then we are done.
+
+Next up, this one is the easiest one, so it tells us to delete the event from minute 64.
+
+So that's very easy.
+
+So gameEvents.delete, and now all we have to do is to use that exact key, and then that event will be gone.
+
+Great. The next one is just as easy I believe.
+
+So let's just grab this from here.
+
+And now we just need to calculate this actual average.
+
+And how do we do that?
+
+So basically, to say that an event happened every X minutes, we simply need to divide the number of events by 90 minutes.
+
+So the duration of the game.
+
+So, we see here that we have three, six, nine, eleven events.
+
+So, how can we count that programmatically?
+
+Well, for that we have gameEvents.size, remember?
+
+And now we just divide that by 90, and with that, we get this weird number and that's because in fact we need the opposite.
+
+So we need to say 90 minutes divided by how many events there happened, to say that on average, something happened every nine minutes.
+
+Now, if we want it to be really specific, then this game actually lasted 92 minutes.
+
+So, how do we get that value?
+
+So this is just a bonus, Okay?
+
+I didn't expect you to do this one.
+
+So this 92, is essentially the last of the keys of the map.
+
+I'm sold. Let's get the keys.
+
+So, that's gameEvents.keys.
+
+And as always, we need to convert this to an array.
+
+So, using all the tools that we already learned.
+
+So just to make sure, indeed it is.
+
+And now we want the last value.
+
+And how can we get the last value?
+
+Do you remember that?
+
+Well, we can use the pop method.
+
+And in the past, we mainly used the pop method, to simply delete the last element of the array.
+
+But also, back then I told you, that it also returns, that deleted array.
+
+Or actually that deleted element.
+
+And so, here we can take the advantage of that.
+
+So, this here is an array now, and so on that, we can call pop.
+
+And so that will take, the last element out of the array and give it to us.
+
+So that's 92.
+
+And so to make this really accurate, here we can now say, time.
+
+Okay. And so this, is even better right now, but again, this is just kind of a bonus just to show you some more nice little tricks.
+
+Anyway. Now our goal is to loop through the object, or actually through the map.
+
+And so this is pretty standard now at this point.
+
+Here we are missing the off.
+
+So just like we did in the last video, and now all we need to do, is to figure out the half.
+
+So if it's the first half, or the second half.
+
+So, what we want to lock to the console is this.
+
+And then so, either a first or second half, and then the minute, I believe, let's see.
+
+Yeah. So, the minute and then colon, and then the event.
+
+So let's actually make these here more specific, so a minute and event.
+
+So that makes it easier to read the code.
+
+So minute and event.
+
+And now here, let's just again, create an external variable, which I'm going to call the Half.
+
+And let's use the turnery operator here again, so if the minute is below or equal 45, then it is the first, otherwise it's the second, and that's it.
+
+And, that worked just fine once again. Okay.
+
+So, I hope that made sense, in case it didn't, then it's always just analyze the code, or you can also just ask some questions in the Q and A area.
+
+Anyway, we're now almost done with this section.
+
+Next up, all we have left to do is to work with strengths, which is also a really nice and really interesting topic that we need in JavaScript all the time.
+
+So make sure to follow me there, right away.

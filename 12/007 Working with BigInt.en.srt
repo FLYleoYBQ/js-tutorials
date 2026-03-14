@@ -1,0 +1,827 @@
+1
+00:00:01,150 --> 00:00:04,280
+Let's now meet one of the primitive data types,
+
+2
+00:00:04,280 --> 00:00:06,550
+that we never talked about before
+
+3
+00:00:06,550 --> 00:00:07,827
+and that is BigInt.
+
+4
+00:00:08,930 --> 00:00:12,300
+So big and is a special type of integers
+
+5
+00:00:12,300 --> 00:00:15,320
+that was introduced in year 2020
+
+6
+00:00:15,320 --> 00:00:17,533
+and so let's quickly take a look at it.
+
+7
+00:00:19,090 --> 00:00:22,030
+So we learned in the first lecture of the section
+
+8
+00:00:22,030 --> 00:00:26,900
+that numbers are represented internally as 64 bits.
+
+9
+00:00:26,900 --> 00:00:31,900
+And that means that there are exactly 64 ones or zeros
+
+10
+00:00:32,240 --> 00:00:34,720
+to represent any given number.
+
+11
+00:00:34,720 --> 00:00:38,910
+Now of these 64 bits only 53 are used
+
+12
+00:00:38,910 --> 00:00:41,730
+to actually store the digits themselves.
+
+13
+00:00:41,730 --> 00:00:43,760
+The rest are for storing the position
+
+14
+00:00:43,760 --> 00:00:46,850
+of the decimal point and the sign.
+
+15
+00:00:46,850 --> 00:00:51,030
+Now, if there are only 53 bits to store the number,
+
+16
+00:00:51,030 --> 00:00:52,830
+that means that there is a limit
+
+17
+00:00:52,830 --> 00:00:55,310
+of how big numbers can be,
+
+18
+00:00:55,310 --> 00:00:57,630
+and we can calculate that number.
+
+19
+00:00:57,630 --> 00:01:02,330
+So that's two elevated to 53
+
+20
+00:01:03,550 --> 00:01:08,463
+and then minus one, because the numbers starts at zero.
+
+21
+00:01:09,560 --> 00:01:13,220
+And so that is this gigantic number right here.
+
+22
+00:01:13,220 --> 00:01:16,220
+And so this is essentially the biggest number
+
+23
+00:01:16,220 --> 00:01:21,220
+that JavaScript can safely represent, okay.
+
+24
+00:01:22,110 --> 00:01:23,573
+Or actually is 53.
+
+25
+00:01:25,020 --> 00:01:28,550
+So this is the biggest number, alright.
+
+26
+00:01:28,550 --> 00:01:29,590
+And it is two,
+
+27
+00:01:29,590 --> 00:01:32,680
+because again we are working with base two,
+
+28
+00:01:32,680 --> 00:01:34,703
+which has only zeros and ones.
+
+29
+00:01:35,650 --> 00:01:37,380
+And this number is so important
+
+30
+00:01:37,380 --> 00:01:40,750
+that it's even stored into the number namespace
+
+31
+00:01:41,650 --> 00:01:42,650
+as MAX_SAFE_INTEGER.
+
+32
+00:01:46,120 --> 00:01:49,170
+So this gives us the exact same number.
+
+33
+00:01:49,170 --> 00:01:50,320
+Now right?
+
+34
+00:01:50,320 --> 00:01:54,370
+So any integer that is larger than this, is not safe
+
+35
+00:01:54,370 --> 00:01:58,760
+and that means it cannot be represented accurately.
+
+36
+00:01:58,760 --> 00:02:00,870
+So let's duplicate this line here
+
+37
+00:02:00,870 --> 00:02:03,543
+and for example add one to this.
+
+38
+00:02:04,827 --> 00:02:08,870
+And so you'll see that this is not correct, right?
+
+39
+00:02:08,870 --> 00:02:10,300
+It only added one number
+
+40
+00:02:10,300 --> 00:02:13,263
+to this one where it should have been added two.
+
+41
+00:02:14,400 --> 00:02:17,613
+So if we do this, then we get the exact same thing.
+
+42
+00:02:18,480 --> 00:02:20,410
+So we keep adding numbers here
+
+43
+00:02:20,410 --> 00:02:22,820
+and they are always the same.
+
+44
+00:02:22,820 --> 00:02:24,890
+And so that means that JavaScript can
+
+45
+00:02:24,890 --> 00:02:28,330
+simply not represent these numbers accurately.
+
+46
+00:02:28,330 --> 00:02:31,280
+And so if we do calculations with numbers
+
+47
+00:02:31,280 --> 00:02:32,130
+that are bigger than this,
+
+48
+00:02:32,130 --> 00:02:36,310
+then we might lose precision, okay.
+
+49
+00:02:36,310 --> 00:02:39,790
+So in some numbers it does actually work
+
+50
+00:02:39,790 --> 00:02:42,550
+for some reason, but that's because JavaScript
+
+51
+00:02:42,550 --> 00:02:45,090
+behind the scenes uses some tricks
+
+52
+00:02:45,090 --> 00:02:48,540
+to still represent some of the unsafe numbers.
+
+53
+00:02:48,540 --> 00:02:51,470
+But again, sometimes that works,
+
+54
+00:02:51,470 --> 00:02:53,090
+sometimes it doesn't.
+
+55
+00:02:53,090 --> 00:02:55,783
+And so that's why we call these unsafe numbers.
+
+56
+00:02:57,010 --> 00:03:01,060
+So you'll see sometimes these numbers are
+
+57
+00:03:01,060 --> 00:03:03,170
+or at least look correct.
+
+58
+00:03:03,170 --> 00:03:06,193
+And sometimes they don't, okay.
+
+59
+00:03:07,410 --> 00:03:10,200
+So, this can be a problem sometimes
+
+60
+00:03:10,200 --> 00:03:11,890
+because in some situations
+
+61
+00:03:11,890 --> 00:03:14,960
+we might need really, really big numbers.
+
+62
+00:03:14,960 --> 00:03:16,750
+Way bigger than this one here,
+
+63
+00:03:16,750 --> 00:03:19,860
+for example, for database IDs
+
+64
+00:03:19,860 --> 00:03:23,460
+or when interacting with real 60 bit numbers
+
+65
+00:03:23,460 --> 00:03:27,050
+and these numbers are actually used in other languages.
+
+66
+00:03:27,050 --> 00:03:28,470
+And so we might, for example
+
+67
+00:03:28,470 --> 00:03:31,910
+from some API, get a number that is larger than this.
+
+68
+00:03:31,910 --> 00:03:34,040
+And then we have no way
+
+69
+00:03:34,040 --> 00:03:36,990
+of storing that in JavaScript,
+
+70
+00:03:36,990 --> 00:03:39,060
+at least not until now,
+
+71
+00:03:39,060 --> 00:03:42,170
+because now starting from IES 2020
+
+72
+00:03:42,170 --> 00:03:44,270
+a new primitive was added,
+
+73
+00:03:44,270 --> 00:03:46,520
+which is called BigInt.
+
+74
+00:03:46,520 --> 00:03:50,660
+Now right? And BigInt stands for big integer.
+
+75
+00:03:50,660 --> 00:03:55,090
+And it can be used to store numbers as large as we want.
+
+76
+00:03:55,090 --> 00:03:58,460
+So no matter how big, all right.
+
+77
+00:03:58,460 --> 00:04:00,750
+So let's say we need this number
+
+78
+00:04:00,750 --> 00:04:04,130
+and I'm just using random numbers here.
+
+79
+00:04:04,130 --> 00:04:05,453
+So if I lock this,
+
+80
+00:04:06,370 --> 00:04:09,488
+then you'll see well this here
+
+81
+00:04:09,488 --> 00:04:12,200
+which probably does not have precision
+
+82
+00:04:12,200 --> 00:04:14,850
+because of course it's larger than this,
+
+83
+00:04:14,850 --> 00:04:19,850
+but if I use the n, then this will be a BigInt.
+
+84
+00:04:19,862 --> 00:04:21,852
+So let's see that.
+
+85
+00:04:21,852 --> 00:04:26,852
+And so this n here basically transforms a regular number,
+
+86
+00:04:27,000 --> 00:04:29,350
+into a BigInt number.
+
+87
+00:04:29,350 --> 00:04:30,750
+And you see in the console here,
+
+88
+00:04:30,750 --> 00:04:34,498
+it then also does look different. Okay?
+
+89
+00:04:34,498 --> 00:04:37,890
+So this is a really really huge number,
+
+90
+00:04:37,890 --> 00:04:40,040
+but now JavaScript has a way
+
+91
+00:04:40,040 --> 00:04:43,880
+of finally displaying this number here accurately.
+
+92
+00:04:43,880 --> 00:04:45,260
+All right.
+
+93
+00:04:45,260 --> 00:04:49,253
+We can also create BigInt by using the BigInt function.
+
+94
+00:04:52,440 --> 00:04:54,580
+So sometimes that's necessary
+
+95
+00:04:54,580 --> 00:04:56,203
+and then without the n.
+
+96
+00:04:57,340 --> 00:05:00,230
+And so this gives us kind of the same result,
+
+97
+00:05:00,230 --> 00:05:02,630
+while not really, for some reason,
+
+98
+00:05:02,630 --> 00:05:06,240
+but I guess it is because JavaScript will first have
+
+99
+00:05:06,240 --> 00:05:09,490
+to still represent this number here internally,
+
+100
+00:05:09,490 --> 00:05:12,970
+before it can then transform it into a BigInt.
+
+101
+00:05:12,970 --> 00:05:14,890
+And that's the reason why here
+
+102
+00:05:14,890 --> 00:05:18,173
+from a certain point on this second number is different.
+
+103
+00:05:19,260 --> 00:05:23,000
+So this constructor function should probably only be used
+
+104
+00:05:23,000 --> 00:05:24,603
+with small numbers,
+
+105
+00:05:25,840 --> 00:05:27,273
+for example, like this.
+
+106
+00:05:28,820 --> 00:05:29,653
+Now, okay.
+
+107
+00:05:29,653 --> 00:05:32,440
+So this is how we create BigInt numbers
+
+108
+00:05:33,620 --> 00:05:37,410
+but let's now see some operations with these numbers.
+
+109
+00:05:37,410 --> 00:05:40,790
+And well, basically it's very simple.
+
+110
+00:05:40,790 --> 00:05:44,280
+All the usual operators still work the same.
+
+111
+00:05:44,280 --> 00:05:49,280
+So let's say we have one or 10,000n plus 10,000 again.
+
+112
+00:05:51,820 --> 00:05:52,653
+And so in this case
+
+113
+00:05:52,653 --> 00:05:55,990
+of course we wouldn't even need a BigInt,
+
+114
+00:05:55,990 --> 00:05:57,750
+but this is just to demonstrate
+
+115
+00:05:57,750 --> 00:06:01,900
+that the operators work just the same with BigInt.
+
+116
+00:06:01,900 --> 00:06:04,250
+So we get indeed 20,000
+
+117
+00:06:05,450 --> 00:06:08,670
+and the same is true with other operations.
+
+118
+00:06:08,670 --> 00:06:10,920
+So for example, a multiplication,
+
+119
+00:06:10,920 --> 00:06:12,890
+let's try a really huge number
+
+120
+00:06:16,210 --> 00:06:19,660
+10 times this and a huge number.
+
+121
+00:06:19,660 --> 00:06:22,353
+And so it then gives us, this result.
+
+122
+00:06:23,250 --> 00:06:25,410
+Now what is not possible is
+
+123
+00:06:25,410 --> 00:06:28,433
+to mix BigInt with regular numbers.
+
+124
+00:06:29,820 --> 00:06:32,423
+So let's say we have huge,
+
+125
+00:06:33,780 --> 00:06:36,443
+so some random number like this.
+
+126
+00:06:38,034 --> 00:06:41,673
+And then we have a regular number, which is just 23.
+
+127
+00:06:44,990 --> 00:06:47,720
+And so if I wanted to multiply them
+
+128
+00:06:47,720 --> 00:06:52,720
+so huge times num then we would get this error
+
+129
+00:06:53,420 --> 00:06:56,073
+cannot mix BigInt and other types.
+
+130
+00:06:57,370 --> 00:06:58,260
+All right?
+
+131
+00:06:58,260 --> 00:06:59,850
+And so this is where we then would have
+
+132
+00:06:59,850 --> 00:07:03,610
+to convert this number here to a BigInt.
+
+133
+00:07:03,610 --> 00:07:06,419
+And this is where the constructor function
+
+134
+00:07:06,419 --> 00:07:09,413
+that i showed you here becomes necessary.
+
+135
+00:07:13,394 --> 00:07:16,650
+And so now it is indeed going to work.
+
+136
+00:07:16,650 --> 00:07:19,490
+However, there are two exceptions to this
+
+137
+00:07:19,490 --> 00:07:21,920
+which are the comparison operators
+
+138
+00:07:21,920 --> 00:07:25,760
+and the plus operator when working with strings.
+
+139
+00:07:25,760 --> 00:07:27,349
+So let's see that.
+
+140
+00:07:27,349 --> 00:07:30,664
+So we can still do a BigInt,
+
+141
+00:07:30,664 --> 00:07:34,609
+and then for example, a greater than a normal number.
+
+142
+00:07:34,609 --> 00:07:36,350
+So this still works
+
+143
+00:07:36,350 --> 00:07:40,103
+and we still get true as expected, okay.
+
+144
+00:07:41,230 --> 00:07:42,950
+However, when we do this
+
+145
+00:07:42,950 --> 00:07:47,170
+so 20n equal, equal, equal 20,
+
+146
+00:07:47,170 --> 00:07:48,960
+we will get false.
+
+147
+00:07:48,960 --> 00:07:50,250
+But that makes sense
+
+148
+00:07:50,250 --> 00:07:53,310
+because JavaScript when we use the triple operator
+
+149
+00:07:53,310 --> 00:07:55,640
+does not do type coercion.
+
+150
+00:07:55,640 --> 00:07:56,800
+And in fact,
+
+151
+00:07:56,800 --> 00:07:58,140
+these two values here,
+
+152
+00:07:58,140 --> 00:08:00,710
+they have a different primitive type.
+
+153
+00:08:00,710 --> 00:08:04,293
+This is a regular number, and this is a BigInt.
+
+154
+00:08:05,350 --> 00:08:06,700
+In fact, we can check that,
+
+155
+00:08:09,160 --> 00:08:11,760
+Or at least I think we can,
+
+156
+00:08:11,760 --> 00:08:13,173
+I never did this actually.
+
+157
+00:08:14,740 --> 00:08:18,547
+But yeah, indeed the type of this is a BigInt,
+
+158
+00:08:19,640 --> 00:08:21,000
+All right.
+
+159
+00:08:21,000 --> 00:08:25,930
+But however, if we do the regular equality operator,
+
+160
+00:08:25,930 --> 00:08:27,063
+so the lose one,
+
+161
+00:08:28,610 --> 00:08:30,313
+then this should still be true.
+
+162
+00:08:31,410 --> 00:08:35,390
+Right. Because then JavaScript does the type coercion.
+
+163
+00:08:35,390 --> 00:08:38,750
+And so then it will coerce this one to a regular number,
+
+164
+00:08:38,750 --> 00:08:41,050
+and then they're both the same.
+
+165
+00:08:41,050 --> 00:08:44,903
+So just like, so it would even work like this.
+
+166
+00:08:46,360 --> 00:08:49,923
+So this is one exception that's right out here.
+
+167
+00:08:53,010 --> 00:08:55,350
+So logical operators are one exception.
+
+168
+00:08:55,350 --> 00:08:57,780
+And the other exception is when
+
+169
+00:08:57,780 --> 00:09:01,370
+we do string concatenations.
+
+170
+00:09:01,370 --> 00:09:05,240
+So let's say huge plus
+
+171
+00:09:06,440 --> 00:09:08,180
+and then some string here,
+
+172
+00:09:08,180 --> 00:09:12,393
+is really big.
+
+173
+00:09:13,810 --> 00:09:16,300
+Now. And so you'll see in this case,
+
+174
+00:09:16,300 --> 00:09:19,560
+the number is actually converted to a string.
+
+175
+00:09:19,560 --> 00:09:23,190
+So even the BigInt number, okay.
+
+176
+00:09:23,190 --> 00:09:27,080
+Now, one other thing that I didn't tell you up here is
+
+177
+00:09:27,080 --> 00:09:30,050
+that also the math operations that we talked
+
+178
+00:09:30,050 --> 00:09:32,493
+about earlier are not gonna work here.
+
+179
+00:09:33,750 --> 00:09:37,683
+For example, we cannot take this square root like this.
+
+180
+00:09:38,740 --> 00:09:41,723
+Q R T of 16n.
+
+181
+00:09:44,100 --> 00:09:45,200
+All right.
+
+182
+00:09:45,200 --> 00:09:46,593
+So that doesn't work.
+
+183
+00:09:50,000 --> 00:09:51,320
+All right.
+
+184
+00:09:51,320 --> 00:09:55,540
+Finally, let's take a look at what happens with divisions
+
+185
+00:09:57,330 --> 00:10:00,763
+because BigInt is indeed an integer.
+
+186
+00:10:01,860 --> 00:10:03,863
+So what happens if we do this,
+
+187
+00:10:05,120 --> 00:10:08,820
+10 divided by three n
+
+188
+00:10:08,820 --> 00:10:11,470
+and we know that with normal numbers,
+
+189
+00:10:11,470 --> 00:10:14,490
+this would not be an integer, right?
+
+190
+00:10:14,490 --> 00:10:19,490
+So 10 divided by three is 3.33 until infinity.
+
+191
+00:10:19,850 --> 00:10:22,870
+So here, but with BigInt,
+
+192
+00:10:22,870 --> 00:10:27,670
+it will simply then return the closest BigInt. Right?
+
+193
+00:10:27,670 --> 00:10:29,713
+Let's try it with 11 here,
+
+194
+00:10:31,330 --> 00:10:35,430
+and so it simply basically cuts the decimal part off,
+
+195
+00:10:35,430 --> 00:10:39,950
+of course with 12, it would then be four, right.
+
+196
+00:10:39,950 --> 00:10:41,370
+But with anything else,
+
+197
+00:10:41,370 --> 00:10:45,450
+it will then cut off the decimal part, okay.
+
+198
+00:10:45,450 --> 00:10:49,020
+And basically, this is all that I have to tell you
+
+199
+00:10:49,020 --> 00:10:52,247
+in an introduction video like this one about BigInt.
+
+200
+00:10:53,110 --> 00:10:55,040
+So this new primitive type
+
+201
+00:10:55,040 --> 00:10:57,410
+adds some new capabilities
+
+202
+00:10:57,410 --> 00:10:59,180
+to the JavaScript language.
+
+203
+00:10:59,180 --> 00:11:02,837
+When you really need to work with like huge numbers
+
+204
+00:11:02,837 --> 00:11:06,170
+just like this one here, for example.
+
+205
+00:11:06,170 --> 00:11:10,920
+Now in practice, you will probably not use this very much
+
+206
+00:11:10,920 --> 00:11:14,050
+but it's still good to know that BigInt exists
+
+207
+00:11:14,050 --> 00:11:15,823
+and also how it works.

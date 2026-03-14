@@ -1,0 +1,1127 @@
+1
+00:00:01,300 --> 00:00:02,210
+In the past,
+
+2
+00:00:02,210 --> 00:00:04,740
+JavaScript has always had very little
+
+3
+00:00:04,740 --> 00:00:06,900
+built-in data structures.
+
+4
+00:00:06,900 --> 00:00:10,600
+So basically, we only had objects and arrays.
+
+5
+00:00:10,600 --> 00:00:13,650
+But in ESX, two more data structures
+
+6
+00:00:13,650 --> 00:00:15,570
+were finally introduced.
+
+7
+00:00:15,570 --> 00:00:18,550
+And that are. sets and maps.
+
+8
+00:00:18,550 --> 00:00:21,350
+So these are pretty common data structures
+
+9
+00:00:21,350 --> 00:00:24,660
+that already exists in other programming languages,
+
+10
+00:00:24,660 --> 00:00:27,860
+and now, they also exist in JavaScript.
+
+11
+00:00:27,860 --> 00:00:31,453
+So in this lecture, let's learn all about sets.
+
+12
+00:00:33,160 --> 00:00:36,270
+And a set is basically just a collection
+
+13
+00:00:36,270 --> 00:00:38,330
+of unique values.
+
+14
+00:00:38,330 --> 00:00:42,200
+So that means that a set can never have any duplicates.
+
+15
+00:00:42,200 --> 00:00:44,180
+And that property makes them useful
+
+16
+00:00:44,180 --> 00:00:46,400
+in certain situations.
+
+17
+00:00:46,400 --> 00:00:48,193
+So let's create a new set here.
+
+18
+00:00:50,220 --> 00:00:51,807
+Let's call it ordersSet.
+
+19
+00:00:57,257 --> 00:01:00,280
+Okay. So again, to create a new set,
+
+20
+00:01:00,280 --> 00:01:02,310
+we write new set
+
+21
+00:01:02,310 --> 00:01:05,060
+and then here, we need to pass in an iterable.
+
+22
+00:01:05,060 --> 00:01:08,620
+And the most common iterable here is an array.
+
+23
+00:01:08,620 --> 00:01:10,260
+So let's create an array
+
+24
+00:01:10,260 --> 00:01:12,713
+with a couple of strings now.
+
+25
+00:01:13,760 --> 00:01:16,483
+Let's say pasta, pizza,
+
+26
+00:01:18,810 --> 00:01:20,073
+then pizza again,
+
+27
+00:01:23,000 --> 00:01:27,163
+then risotto. Let's put another pasta,
+
+28
+00:01:29,440 --> 00:01:31,033
+and another pizza.
+
+29
+00:01:33,080 --> 00:01:36,140
+Okay. So six strings.
+
+30
+00:01:36,140 --> 00:01:39,790
+But of course, they could be different data types in here.
+
+31
+00:01:39,790 --> 00:01:43,050
+So set can of course hold mixed data types.
+
+32
+00:01:43,050 --> 00:01:45,380
+That's not a problem at all.
+
+33
+00:01:45,380 --> 00:01:48,483
+Now, here we clearly see some duplicate strings.
+
+34
+00:01:49,560 --> 00:01:50,520
+So what do you think
+
+35
+00:01:50,520 --> 00:01:52,557
+that this set will look like?
+
+36
+00:01:52,557 --> 00:01:54,680
+And now that we created it,
+
+37
+00:01:54,680 --> 00:01:56,380
+and when we log it to the console?
+
+38
+00:01:57,930 --> 00:01:59,880
+Well, we get a set.
+
+39
+00:01:59,880 --> 00:02:03,060
+Here, we can see it has a size of three.
+
+40
+00:02:03,060 --> 00:02:04,860
+And the only values that are in there
+
+41
+00:02:04,860 --> 00:02:08,020
+are pasta, pizza and risotto.
+
+42
+00:02:08,020 --> 00:02:12,360
+So, that's right. All the duplicates are actually gone.
+
+43
+00:02:12,360 --> 00:02:15,110
+Now, also we can see that a set
+
+44
+00:02:15,110 --> 00:02:18,980
+kind of looks similar to an array, right.
+
+45
+00:02:18,980 --> 00:02:21,390
+So there are no key value pairs,
+
+46
+00:02:21,390 --> 00:02:24,680
+it's just a bunch of values grouped together,
+
+47
+00:02:24,680 --> 00:02:26,810
+in this case into a set.
+
+48
+00:02:26,810 --> 00:02:30,880
+And just like arrays, sets are also iterables.
+
+49
+00:02:30,880 --> 00:02:33,800
+Okay. Now, of course a set
+
+50
+00:02:33,800 --> 00:02:36,350
+is still very different from an array.
+
+51
+00:02:36,350 --> 00:02:39,790
+So first, because its elements are unique.
+
+52
+00:02:39,790 --> 00:02:41,610
+And second, because the order
+
+53
+00:02:41,610 --> 00:02:45,410
+of elements in the set is irrelevant.
+
+54
+00:02:45,410 --> 00:02:47,603
+And we will see why in a second.
+
+55
+00:02:48,700 --> 00:02:51,410
+But anyway, keep in mind that strings
+
+56
+00:02:51,410 --> 00:02:52,823
+are also iterables.
+
+57
+00:02:53,690 --> 00:02:55,073
+So we can do this.
+
+58
+00:02:58,180 --> 00:03:00,523
+So we can pass in a string.
+
+59
+00:03:02,460 --> 00:03:03,970
+And so now we get a set
+
+60
+00:03:03,970 --> 00:03:06,060
+with these five elements.
+
+61
+00:03:06,060 --> 00:03:08,850
+So, and that's the five components basically
+
+62
+00:03:08,850 --> 00:03:11,943
+of this iterable, which is the string.
+
+63
+00:03:13,250 --> 00:03:16,510
+And of course, the set could also be empty,
+
+64
+00:03:16,510 --> 00:03:17,463
+just like this.
+
+65
+00:03:18,790 --> 00:03:21,090
+All right. And now let's learn how
+
+66
+00:03:21,090 --> 00:03:23,300
+to actually work with sets.
+
+67
+00:03:23,300 --> 00:03:26,433
+So first off, we can get the size of a set.
+
+68
+00:03:27,330 --> 00:03:30,570
+So orderSet.size.
+
+69
+00:03:30,570 --> 00:03:32,380
+And so that is three.
+
+70
+00:03:32,380 --> 00:03:34,260
+And so in this particular example,
+
+71
+00:03:34,260 --> 00:03:37,260
+this might be useful for the chef of our kitchen
+
+72
+00:03:37,260 --> 00:03:39,440
+to know how many different meals
+
+73
+00:03:39,440 --> 00:03:40,913
+are going to be cooked here.
+
+74
+00:03:42,530 --> 00:03:44,980
+Right. So if this array here is an array
+
+75
+00:03:44,980 --> 00:03:46,840
+of all the orders,
+
+76
+00:03:46,840 --> 00:03:48,500
+then the set of these orders
+
+77
+00:03:48,500 --> 00:03:50,760
+are simply the unique different meals
+
+78
+00:03:50,760 --> 00:03:52,210
+that are gonna be cooked.
+
+79
+00:03:52,210 --> 00:03:53,530
+And then the size
+
+80
+00:03:53,530 --> 00:03:56,220
+is how many different meals will be cooked?
+
+81
+00:03:56,220 --> 00:03:59,460
+And just note, how it is actually called size
+
+82
+00:03:59,460 --> 00:04:00,580
+and to not length
+
+83
+00:04:00,580 --> 00:04:02,460
+like it is in arrays.
+
+84
+00:04:02,460 --> 00:04:04,283
+So don't make that confusion.
+
+85
+00:04:05,130 --> 00:04:09,523
+Next, we can check if a certain element is in a set.
+
+86
+00:04:11,040 --> 00:04:14,380
+So orderset.has.
+
+87
+00:04:14,380 --> 00:04:17,330
+And so this is actually a method.
+
+88
+00:04:17,330 --> 00:04:20,350
+And so let's check if pizza is in there.
+
+89
+00:04:20,350 --> 00:04:24,520
+And let's check if bread is in there.
+
+90
+00:04:24,520 --> 00:04:26,180
+So true and false.
+
+91
+00:04:26,180 --> 00:04:29,490
+And that's exactly as we expect it.
+
+92
+00:04:29,490 --> 00:04:32,700
+And so, comparing again two arrays,
+
+93
+00:04:32,700 --> 00:04:34,880
+this has method is similar
+
+94
+00:04:34,880 --> 00:04:38,070
+to the includes method in arrays.
+
+95
+00:04:38,070 --> 00:04:40,410
+Right. Next step,
+
+96
+00:04:40,410 --> 00:04:43,703
+we can also add new elements to a set.
+
+97
+00:04:44,840 --> 00:04:46,073
+So orderSet.
+
+98
+00:04:49,220 --> 00:04:52,463
+So let's say that now someone ordered garlic bread.
+
+99
+00:04:56,790 --> 00:05:00,160
+And let's say that is actually happened twice.
+
+100
+00:05:00,160 --> 00:05:01,470
+So, what do you think
+
+101
+00:05:01,470 --> 00:05:03,363
+that the set will look like now?
+
+102
+00:05:06,480 --> 00:05:07,313
+So orderSet.
+
+103
+00:05:08,710 --> 00:05:12,360
+And so the garlic bread got added.
+
+104
+00:05:12,360 --> 00:05:14,800
+But only, of course, one of them,
+
+105
+00:05:14,800 --> 00:05:18,070
+because again, the set has to be unique.
+
+106
+00:05:18,070 --> 00:05:20,943
+And so the second one was basically ignored.
+
+107
+00:05:22,920 --> 00:05:26,080
+Finally, we can also delete elements.
+
+108
+00:05:26,080 --> 00:05:28,513
+So let's do that before the log.
+
+109
+00:05:29,820 --> 00:05:32,203
+So orderSet.delete.
+
+110
+00:05:33,090 --> 00:05:34,450
+So all of these method names
+
+111
+00:05:34,450 --> 00:05:36,390
+are very straightforward.
+
+112
+00:05:36,390 --> 00:05:39,863
+And that's because this is such a modern feature.
+
+113
+00:05:41,810 --> 00:05:43,740
+So the modern stuff really has
+
+114
+00:05:43,740 --> 00:05:46,900
+this more straightforward names,
+
+115
+00:05:46,900 --> 00:05:48,920
+and a different way of working
+
+116
+00:05:48,920 --> 00:05:50,363
+with the data structures.
+
+117
+00:05:51,710 --> 00:05:53,070
+So we have risotto here.
+
+118
+00:05:53,070 --> 00:05:55,160
+And so now here we are deleting it.
+
+119
+00:05:55,160 --> 00:05:57,840
+And so Indeed, it is now gone
+
+120
+00:05:57,840 --> 00:05:59,590
+from the set.
+
+121
+00:05:59,590 --> 00:06:01,230
+So really, really easy.
+
+122
+00:06:01,230 --> 00:06:03,920
+And in arrays, there is actually no method
+
+123
+00:06:03,920 --> 00:06:06,050
+that is this simple.
+
+124
+00:06:06,050 --> 00:06:08,350
+We will see how to delete elements
+
+125
+00:06:08,350 --> 00:06:09,710
+from arrays later.
+
+126
+00:06:09,710 --> 00:06:13,130
+But I can tell you that it's a little bit more complex.
+
+127
+00:06:13,130 --> 00:06:15,500
+Okay, and that's actually it.
+
+128
+00:06:15,500 --> 00:06:17,070
+But now you might ask,
+
+129
+00:06:17,070 --> 00:06:21,240
+how do we actually retrieve values out of a set?
+
+130
+00:06:21,240 --> 00:06:23,080
+Can we maybe use an index,
+
+131
+00:06:23,080 --> 00:06:25,020
+like in a race?
+
+132
+00:06:25,020 --> 00:06:28,433
+So doing something like, maybe like this here?
+
+133
+00:06:29,930 --> 00:06:33,690
+And the answer, as we will see is no.
+
+134
+00:06:33,690 --> 00:06:35,230
+So this doesn't work,
+
+135
+00:06:35,230 --> 00:06:36,890
+it gives us undefined,
+
+136
+00:06:36,890 --> 00:06:38,833
+no matter what number we put here.
+
+137
+00:06:40,710 --> 00:06:42,340
+All right. And that is
+
+138
+00:06:42,340 --> 00:06:45,700
+because in sets there are actually no indexes.
+
+139
+00:06:45,700 --> 00:06:48,210
+And in fact, there is no way
+
+140
+00:06:48,210 --> 00:06:51,000
+of getting values out of a set.
+
+141
+00:06:51,000 --> 00:06:52,740
+And if we think about this,
+
+142
+00:06:52,740 --> 00:06:54,700
+then it makes sense.
+
+143
+00:06:54,700 --> 00:06:57,950
+So there's really no need for getting data out
+
+144
+00:06:57,950 --> 00:07:02,240
+of a set. That's because if all values are unique,
+
+145
+00:07:02,240 --> 00:07:04,690
+and if their order does not matter,
+
+146
+00:07:04,690 --> 00:07:06,300
+then there is no point
+
+147
+00:07:06,300 --> 00:07:08,659
+of retrieving values out of a set.
+
+148
+00:07:08,659 --> 00:07:10,240
+All we need to know
+
+149
+00:07:10,240 --> 00:07:11,640
+is whether a certain value
+
+150
+00:07:11,640 --> 00:07:13,560
+is in the set or not.
+
+151
+00:07:13,560 --> 00:07:16,810
+And that's why we have the has method.
+
+152
+00:07:16,810 --> 00:07:19,810
+If your goal is to actually store values in order
+
+153
+00:07:19,810 --> 00:07:21,023
+and then retrieve it,
+
+154
+00:07:21,023 --> 00:07:24,420
+then the best use case, is to just use an array.
+
+155
+00:07:24,420 --> 00:07:26,510
+You wouldn't use a set for that.
+
+156
+00:07:26,510 --> 00:07:28,480
+And so again, there's no need
+
+157
+00:07:28,480 --> 00:07:30,890
+for getting values out of a set,
+
+158
+00:07:30,890 --> 00:07:34,080
+because if you need it, then you will just use an array.
+
+159
+00:07:34,080 --> 00:07:38,060
+Finally, there is actually one more method here
+
+160
+00:07:39,010 --> 00:07:40,410
+but it's not that important.
+
+161
+00:07:40,410 --> 00:07:41,810
+All we can use it for is
+
+162
+00:07:41,810 --> 00:07:45,900
+to basically delete all of the elements
+
+163
+00:07:45,900 --> 00:07:47,430
+of the set.
+
+164
+00:07:47,430 --> 00:07:51,550
+And so we see that now it is empty, right.
+
+165
+00:07:51,550 --> 00:07:53,350
+But let's put that back,
+
+166
+00:07:53,350 --> 00:07:56,520
+so that we can work some more with a set.
+
+167
+00:07:56,520 --> 00:07:59,380
+So as I said, in the beginning,
+
+168
+00:07:59,380 --> 00:08:01,720
+sets are also iterables.
+
+169
+00:08:01,720 --> 00:08:04,283
+And therefore, we can loop over them.
+
+170
+00:08:05,980 --> 00:08:08,320
+So let's say, order
+
+171
+00:08:08,320 --> 00:08:09,783
+from ordersSet
+
+172
+00:08:12,130 --> 00:08:13,410
+and not from...
+
+173
+00:08:13,410 --> 00:08:16,950
+It is off, obviously.
+
+174
+00:08:16,950 --> 00:08:18,953
+And then we can just lock the order.
+
+175
+00:08:20,510 --> 00:08:22,543
+And indeed, here they are.
+
+176
+00:08:23,950 --> 00:08:25,750
+So looping is possible,
+
+177
+00:08:25,750 --> 00:08:28,280
+just like in any other iterable.
+
+178
+00:08:28,280 --> 00:08:32,870
+All right, so now that we know how to work with sets,
+
+179
+00:08:32,870 --> 00:08:36,880
+let's see a big use case for them right now.
+
+180
+00:08:36,880 --> 00:08:38,750
+So in a normal code base,
+
+181
+00:08:38,750 --> 00:08:41,580
+the main use case of sets is actually
+
+182
+00:08:41,580 --> 00:08:44,123
+to remove duplicate values of arrays.
+
+183
+00:08:45,500 --> 00:08:47,980
+So let's just write that here.
+
+184
+00:08:47,980 --> 00:08:51,860
+Example. So let's say that we have an array
+
+185
+00:08:51,860 --> 00:08:53,500
+in our restaurant,
+
+186
+00:08:53,500 --> 00:08:56,993
+which contains the staff of our restaurant.
+
+187
+00:08:58,580 --> 00:09:00,370
+Let's say, we have one person
+
+188
+00:09:00,370 --> 00:09:01,483
+that is the waiter,
+
+189
+00:09:02,350 --> 00:09:03,923
+one person, that is the chef,
+
+190
+00:09:04,980 --> 00:09:07,490
+another person, that is a waiter,
+
+191
+00:09:07,490 --> 00:09:09,893
+then we have also a manager,
+
+192
+00:09:11,290 --> 00:09:13,580
+then we have another person
+
+193
+00:09:13,580 --> 00:09:15,610
+that is a chef also,
+
+194
+00:09:15,610 --> 00:09:16,713
+and another waiter.
+
+195
+00:09:18,190 --> 00:09:19,240
+So that's an array
+
+196
+00:09:19,240 --> 00:09:22,820
+of all our staff in the restaurant.
+
+197
+00:09:22,820 --> 00:09:24,840
+But now let's say that for some reason,
+
+198
+00:09:24,840 --> 00:09:27,310
+we are interested in knowing only
+
+199
+00:09:27,310 --> 00:09:30,950
+which different positions there are in our restaurant.
+
+200
+00:09:30,950 --> 00:09:32,340
+Or in other words,
+
+201
+00:09:32,340 --> 00:09:34,160
+we would basically like
+
+202
+00:09:34,160 --> 00:09:38,260
+to have a unique array of this, right?
+
+203
+00:09:38,260 --> 00:09:41,410
+So this array without all the duplicates
+
+204
+00:09:41,410 --> 00:09:43,150
+that will solve the problem.
+
+205
+00:09:43,150 --> 00:09:46,430
+So let's create a set for that.
+
+206
+00:09:46,430 --> 00:09:47,763
+Easy enough, right?
+
+207
+00:09:50,150 --> 00:09:53,540
+So staff, unique,
+
+208
+00:09:53,540 --> 00:09:57,110
+equals, new, set,
+
+209
+00:09:57,110 --> 00:09:58,180
+and then the iterable
+
+210
+00:09:58,180 --> 00:10:00,980
+that we need to pass in, here's the staff
+
+211
+00:10:00,980 --> 00:10:03,313
+because an array is already an iterable.
+
+212
+00:10:04,870 --> 00:10:07,730
+Now, this is not yet the end of the solution,
+
+213
+00:10:07,730 --> 00:10:10,093
+but let's take a look at it for now.
+
+214
+00:10:11,120 --> 00:10:16,120
+And, of course, it needs to be staff, unique.
+
+215
+00:10:16,180 --> 00:10:19,660
+And so, yes. So we have a set now
+
+216
+00:10:19,660 --> 00:10:22,530
+with waiter, chef and manager.
+
+217
+00:10:22,530 --> 00:10:25,210
+So the three unique positions.
+
+218
+00:10:25,210 --> 00:10:26,720
+But now we actually want this
+
+219
+00:10:26,720 --> 00:10:28,610
+to be an array.
+
+220
+00:10:28,610 --> 00:10:30,220
+But the conversion from a set
+
+221
+00:10:30,220 --> 00:10:32,400
+to an array is pretty easy,
+
+222
+00:10:32,400 --> 00:10:34,690
+because they're both iterables.
+
+223
+00:10:34,690 --> 00:10:36,490
+So remember from earlier
+
+224
+00:10:36,490 --> 00:10:38,290
+that the spread operator works
+
+225
+00:10:38,290 --> 00:10:40,720
+on all iterables. Right?
+
+226
+00:10:40,720 --> 00:10:43,180
+So that includes sets.
+
+227
+00:10:43,180 --> 00:10:47,860
+And so we can now create an array around this basically.
+
+228
+00:10:47,860 --> 00:10:49,440
+And then we can unpack
+
+229
+00:10:49,440 --> 00:10:52,510
+this entire set here
+
+230
+00:10:52,510 --> 00:10:54,560
+using the spread operator,
+
+231
+00:10:54,560 --> 00:10:56,730
+and then these elements will be put
+
+232
+00:10:56,730 --> 00:11:00,413
+into the newly constructed array. Okay.
+
+233
+00:11:01,310 --> 00:11:03,560
+And so Indeed, we now end up
+
+234
+00:11:03,560 --> 00:11:06,040
+with a new array. Okay.
+
+235
+00:11:06,040 --> 00:11:08,860
+So the spread operator here works just like
+
+236
+00:11:08,860 --> 00:11:12,430
+on an array. It works really exactly the same.
+
+237
+00:11:12,430 --> 00:11:15,220
+So it takes all the elements out of the iterable
+
+238
+00:11:15,220 --> 00:11:17,790
+and essentially writes them here,
+
+239
+00:11:17,790 --> 00:11:20,780
+like comma separated, right.
+
+240
+00:11:20,780 --> 00:11:23,030
+Now, if we only wanted to know
+
+241
+00:11:23,030 --> 00:11:25,560
+how many different positions there are,
+
+242
+00:11:25,560 --> 00:11:27,360
+then the size property
+
+243
+00:11:27,360 --> 00:11:28,513
+is very useful.
+
+244
+00:11:29,690 --> 00:11:31,293
+So all you would have to do,
+
+245
+00:11:32,230 --> 00:11:34,420
+even though this looks a little bit weird,
+
+246
+00:11:34,420 --> 00:11:35,713
+would be to say,
+
+247
+00:11:37,580 --> 00:11:41,653
+new set, then with the array,
+
+248
+00:11:42,970 --> 00:11:43,923
+and then .size.
+
+249
+00:11:46,380 --> 00:11:47,370
+And that's it.
+
+250
+00:11:47,370 --> 00:11:48,770
+And then we wouldn't even need
+
+251
+00:11:48,770 --> 00:11:52,150
+to have to create the array at all.
+
+252
+00:11:52,150 --> 00:11:55,870
+So if we didn't need the unique array.
+
+253
+00:11:55,870 --> 00:11:57,840
+So if all we had was this,
+
+254
+00:11:57,840 --> 00:12:01,000
+and we wanted to know how many unique positions there are,
+
+255
+00:12:01,000 --> 00:12:03,280
+then this year would be the way to go.
+
+256
+00:12:03,280 --> 00:12:06,260
+And the same could even be done with counting,
+
+257
+00:12:06,260 --> 00:12:10,720
+how many different letters there are in a string, right.
+
+258
+00:12:10,720 --> 00:12:13,130
+Because an iterable,
+
+259
+00:12:13,130 --> 00:12:15,553
+or actually a string is also an iterable.
+
+260
+00:12:17,970 --> 00:12:20,580
+So let's see how many different letters there
+
+261
+00:12:20,580 --> 00:12:21,593
+are in my name.
+
+262
+00:12:23,300 --> 00:12:25,373
+And it looks like there are 11.
+
+263
+00:12:27,220 --> 00:12:29,860
+All right. So as a conclusion
+
+264
+00:12:29,860 --> 00:12:32,700
+to this video sets are not intended
+
+265
+00:12:32,700 --> 00:12:35,310
+to replace arrays at all.
+
+266
+00:12:35,310 --> 00:12:37,960
+So whenever you need to store values in order,
+
+267
+00:12:37,960 --> 00:12:40,180
+and that might contain duplicates,
+
+268
+00:12:40,180 --> 00:12:42,220
+always just use arrays.
+
+269
+00:12:42,220 --> 00:12:43,880
+That's also true when you need
+
+270
+00:12:43,880 --> 00:12:45,810
+to really manipulate data,
+
+271
+00:12:45,810 --> 00:12:48,580
+because arrays have access to a lot
+
+272
+00:12:48,580 --> 00:12:50,360
+of great array methods
+
+273
+00:12:50,360 --> 00:12:52,890
+that we're going to study a little bit later.
+
+274
+00:12:52,890 --> 00:12:55,350
+Now sets have this very useful property
+
+275
+00:12:55,350 --> 00:12:57,200
+of being unique.
+
+276
+00:12:57,200 --> 00:12:59,690
+And it's also very easy to interact
+
+277
+00:12:59,690 --> 00:13:01,620
+with sets by using all
+
+278
+00:13:01,620 --> 00:13:03,910
+of their straightforward methods.
+
+279
+00:13:03,910 --> 00:13:08,000
+However, they are not nearly as important as arrays.
+
+280
+00:13:08,000 --> 00:13:10,620
+So keep sets in mind when you need to work
+
+281
+00:13:10,620 --> 00:13:12,170
+with unique values.
+
+282
+00:13:12,170 --> 00:13:15,883
+But besides that, you can just continue using arrays.

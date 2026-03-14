@@ -1,0 +1,1019 @@
+1
+00:00:01,030 --> 00:00:02,700
+To finish this section,
+
+2
+00:00:02,700 --> 00:00:05,520
+let's take a quick look at different ways
+
+3
+00:00:05,520 --> 00:00:09,063
+of loading a JavaScript script in HTML.
+
+4
+00:00:10,980 --> 00:00:14,790
+So up to this point, we have always used the regular way
+
+5
+00:00:14,790 --> 00:00:18,500
+of including JavaScript files into our HTML,
+
+6
+00:00:18,500 --> 00:00:20,420
+like we can see here.
+
+7
+00:00:20,420 --> 00:00:23,930
+However, we can also add the async attribute
+
+8
+00:00:23,930 --> 00:00:28,890
+to the script tag like this, or the defer attribute.
+
+9
+00:00:28,890 --> 00:00:31,890
+And these attributes are gonna influence the way
+
+10
+00:00:31,890 --> 00:00:35,030
+in which the JavaScript file is fetched,
+
+11
+00:00:35,030 --> 00:00:39,290
+which basically means download and then executed.
+
+12
+00:00:39,290 --> 00:00:42,610
+Now in the HTML, we can write the script tag
+
+13
+00:00:42,610 --> 00:00:47,610
+in the document head, or usually at the end of the body.
+
+14
+00:00:47,900 --> 00:00:49,940
+So these are the two situations
+
+15
+00:00:49,940 --> 00:00:53,180
+that we're gonna be comparing in this slide.
+
+16
+00:00:53,180 --> 00:00:56,630
+So when we include a script without any attribute
+
+17
+00:00:56,630 --> 00:00:57,820
+in the head,
+
+18
+00:00:57,820 --> 00:01:02,340
+what will the page loading process look like over time?
+
+19
+00:01:02,340 --> 00:01:04,690
+Well, as the user loads the page
+
+20
+00:01:04,690 --> 00:01:09,050
+and receives the HTML, the HTML code will start
+
+21
+00:01:09,050 --> 00:01:13,330
+to be parsed by the browser and parsing the HTML
+
+22
+00:01:13,330 --> 00:01:18,100
+is basically building the DOM tree from the HTML elements.
+
+23
+00:01:18,100 --> 00:01:19,920
+Then at a certain point,
+
+24
+00:01:19,920 --> 00:01:24,450
+it will find or a script tag, start to fetch the script,
+
+25
+00:01:24,450 --> 00:01:26,590
+and then execute it.
+
+26
+00:01:26,590 --> 00:01:28,680
+Now, during all this time,
+
+27
+00:01:28,680 --> 00:01:31,970
+the HTML parsing will actually stop.
+
+28
+00:01:31,970 --> 00:01:34,400
+So it will be waiting for the script
+
+29
+00:01:34,400 --> 00:01:37,090
+to get fetched and executed.
+
+30
+00:01:37,090 --> 00:01:41,540
+Only after that, the rest of the HTML can be parsed.
+
+31
+00:01:41,540 --> 00:01:43,600
+And at the end of that parsing,
+
+32
+00:01:43,600 --> 00:01:47,430
+the DOM content loaded event will finally get fired,
+
+33
+00:01:47,430 --> 00:01:50,040
+as we learned in the last video.
+
+34
+00:01:50,040 --> 00:01:53,710
+Now, this is not ideal at all, right?
+
+35
+00:01:53,710 --> 00:01:55,150
+We don't want the browser
+
+36
+00:01:55,150 --> 00:01:58,160
+to be just sitting there doing nothing,
+
+37
+00:01:58,160 --> 00:02:00,460
+because this can have a huge impact
+
+38
+00:02:00,460 --> 00:02:02,750
+on the pages performance.
+
+39
+00:02:02,750 --> 00:02:07,170
+Plus, in this case, the script will actually be executed
+
+40
+00:02:07,170 --> 00:02:09,400
+before the DOM is ready.
+
+41
+00:02:09,400 --> 00:02:12,610
+And so again, that's not ideal.
+
+42
+00:02:12,610 --> 00:02:14,410
+So never do this,
+
+43
+00:02:14,410 --> 00:02:18,210
+never include the script in the head like this.
+
+44
+00:02:18,210 --> 00:02:21,750
+That's why we usually always put the script tag at the end
+
+45
+00:02:21,750 --> 00:02:25,940
+of the body, so that all the HTML is already parsed,
+
+46
+00:02:25,940 --> 00:02:29,230
+when it finally reaches the script tag.
+
+47
+00:02:29,230 --> 00:02:31,160
+So in this situation,
+
+48
+00:02:31,160 --> 00:02:34,690
+this is how the page loading process looks like.
+
+49
+00:02:34,690 --> 00:02:36,140
+The HTML is parsed,
+
+50
+00:02:36,140 --> 00:02:39,820
+then the script tag is found at the end of the document,
+
+51
+00:02:39,820 --> 00:02:42,030
+then the script is fetched.
+
+52
+00:02:42,030 --> 00:02:45,750
+And then finally, the script gets executed.
+
+53
+00:02:45,750 --> 00:02:48,210
+And this is much better.
+
+54
+00:02:48,210 --> 00:02:51,520
+So if you didn't know why we always put the script
+
+55
+00:02:51,520 --> 00:02:53,430
+at the end of the body.
+
+56
+00:02:53,430 --> 00:02:58,430
+Well, now you know, however, this is still not perfect,
+
+57
+00:02:58,720 --> 00:03:02,170
+because the script could have been downloaded before,
+
+58
+00:03:02,170 --> 00:03:05,620
+while the HTML was still being parsed.
+
+59
+00:03:05,620 --> 00:03:08,800
+So what about the async attribute?
+
+60
+00:03:08,800 --> 00:03:12,230
+Well, this is what the loading process looks like
+
+61
+00:03:12,230 --> 00:03:15,240
+when we use async script loading in the head
+
+62
+00:03:15,240 --> 00:03:17,000
+of the document.
+
+63
+00:03:17,000 --> 00:03:20,480
+So as you can see, the difference is that the script
+
+64
+00:03:20,480 --> 00:03:25,090
+is loaded at the same time as the HTML is parsed.
+
+65
+00:03:25,090 --> 00:03:27,430
+So in an asynchronous way,
+
+66
+00:03:27,430 --> 00:03:29,660
+so that's already an advantage.
+
+67
+00:03:29,660 --> 00:03:32,920
+However, the HTML parsing still stops
+
+68
+00:03:32,920 --> 00:03:35,340
+for the script execution.
+
+69
+00:03:35,340 --> 00:03:39,430
+So the script is actually downloaded asynchronously.
+
+70
+00:03:39,430 --> 00:03:43,260
+But then it's executed right away in a synchronous way.
+
+71
+00:03:43,260 --> 00:03:47,860
+And so the HTML code has to wait for being parsed.
+
+72
+00:03:47,860 --> 00:03:50,740
+But anyway, as we can see from the length
+
+73
+00:03:50,740 --> 00:03:55,720
+of the diagrams, this still makes page loading time shorter.
+
+74
+00:03:55,720 --> 00:03:59,600
+But now, what about the defer attribute?
+
+75
+00:03:59,600 --> 00:04:03,510
+Well, when deferring what happens is that the script
+
+76
+00:04:03,510 --> 00:04:05,940
+is still loaded asynchronously.
+
+77
+00:04:05,940 --> 00:04:07,750
+But the execution of the script
+
+78
+00:04:07,750 --> 00:04:12,250
+is deferred until the end of the HTML parsing.
+
+79
+00:04:12,250 --> 00:04:14,970
+So in practice, loading time is similar
+
+80
+00:04:14,970 --> 00:04:18,350
+to the async attribute, but with the key difference
+
+81
+00:04:18,350 --> 00:04:22,740
+that would defer the HTML parsing is never interrupted,
+
+82
+00:04:22,740 --> 00:04:26,880
+because the script is only executed at the end.
+
+83
+00:04:26,880 --> 00:04:31,030
+And many times, this is exactly what we want.
+
+84
+00:04:31,030 --> 00:04:34,210
+Now, you might be wondering why I didn't show async
+
+85
+00:04:34,210 --> 00:04:36,340
+and defer in the body yet.
+
+86
+00:04:36,340 --> 00:04:38,340
+And the reason for that is
+
+87
+00:04:38,340 --> 00:04:40,840
+that they simply don't make sense there.
+
+88
+00:04:40,840 --> 00:04:44,490
+Because in the body, fetching and executing the script
+
+89
+00:04:44,490 --> 00:04:48,720
+always happens after parsing the HTML anyway.
+
+90
+00:04:48,720 --> 00:04:53,130
+And so async and defer have no practical effector.
+
+91
+00:04:53,130 --> 00:04:55,660
+All right and so the async
+
+92
+00:04:55,660 --> 00:04:59,800
+and defer attributes have no practical effect here at all.
+
+93
+00:04:59,800 --> 00:05:02,283
+They will make no difference all right.
+
+94
+00:05:03,150 --> 00:05:07,420
+Now there are, of course use cases for all these strategies.
+
+95
+00:05:07,420 --> 00:05:10,300
+So let's now compare them, except, of course,
+
+96
+00:05:10,300 --> 00:05:12,620
+the regular loading in the head,
+
+97
+00:05:12,620 --> 00:05:14,523
+which is completely ruled out.
+
+98
+00:05:16,210 --> 00:05:18,130
+So here is what we already know
+
+99
+00:05:18,130 --> 00:05:20,030
+about the three strategies,
+
+100
+00:05:20,030 --> 00:05:23,370
+and also the three loading diagrams that we analyzed
+
+101
+00:05:23,370 --> 00:05:25,200
+in the last slide.
+
+102
+00:05:25,200 --> 00:05:27,440
+But let's now compare the async
+
+103
+00:05:27,440 --> 00:05:30,610
+and defer attributes a little bit better.
+
+104
+00:05:30,610 --> 00:05:34,890
+So one important thing about loading an async script is
+
+105
+00:05:34,890 --> 00:05:37,150
+that the DOM content loaded event
+
+106
+00:05:37,150 --> 00:05:39,380
+will not wait for the script
+
+107
+00:05:39,380 --> 00:05:41,990
+to be downloaded and executed.
+
+108
+00:05:41,990 --> 00:05:44,660
+So usually, DOM content loaded,
+
+109
+00:05:44,660 --> 00:05:47,180
+waits for all scripts to execute.
+
+110
+00:05:47,180 --> 00:05:51,170
+But scripts loaded with async are an exception.
+
+111
+00:05:51,170 --> 00:05:55,270
+So with async, DOM content loaded is fired off as soon
+
+112
+00:05:55,270 --> 00:05:58,160
+as the HTML finishes parsing.
+
+113
+00:05:58,160 --> 00:05:59,980
+And this might actually happen
+
+114
+00:05:59,980 --> 00:06:03,290
+when a big script takes a long time to load,
+
+115
+00:06:03,290 --> 00:06:05,350
+like in this example.
+
+116
+00:06:05,350 --> 00:06:09,290
+So notice how the DOM content loaded event appears right
+
+117
+00:06:09,290 --> 00:06:13,650
+after HTML parsing in both these diagrams.
+
+118
+00:06:13,650 --> 00:06:17,110
+Now, using defer, on the other hand, forces,
+
+119
+00:06:17,110 --> 00:06:20,550
+the DOM content loaded event to only get fired
+
+120
+00:06:20,550 --> 00:06:24,550
+after the whole script has been downloaded and executed.
+
+121
+00:06:24,550 --> 00:06:26,730
+And so this is the more traditional way
+
+122
+00:06:26,730 --> 00:06:29,100
+that this event works.
+
+123
+00:06:29,100 --> 00:06:32,500
+Another very important aspect is that async scripts
+
+124
+00:06:32,500 --> 00:06:36,550
+are not guaranteed to be executed in the exact order
+
+125
+00:06:36,550 --> 00:06:39,230
+that they are declared in the code.
+
+126
+00:06:39,230 --> 00:06:43,580
+So the script that arrives first gets executed first.
+
+127
+00:06:43,580 --> 00:06:45,930
+On the other hand, by using defer,
+
+128
+00:06:45,930 --> 00:06:47,680
+that is not the case.
+
+129
+00:06:47,680 --> 00:06:51,720
+So using the defer attribute guarantees that the scripts
+
+130
+00:06:51,720 --> 00:06:55,760
+are actually executed in the order that they are declared
+
+131
+00:06:55,760 --> 00:06:57,540
+or written in the code.
+
+132
+00:06:57,540 --> 00:07:00,550
+And that is usually what we want to happen.
+
+133
+00:07:00,550 --> 00:07:03,550
+So in conclusion, and also keeping in mind,
+
+134
+00:07:03,550 --> 00:07:05,810
+what we learned in the last slide,
+
+135
+00:07:05,810 --> 00:07:10,810
+using defer in the HTML head is overall the best solution.
+
+136
+00:07:10,850 --> 00:07:13,590
+So you should use it for your own scripts.
+
+137
+00:07:13,590 --> 00:07:17,670
+And for scripts where the order of execution is important.
+
+138
+00:07:17,670 --> 00:07:20,080
+For example, if your script relies
+
+139
+00:07:20,080 --> 00:07:23,770
+on some third party library that you need to include,
+
+140
+00:07:23,770 --> 00:07:27,620
+you will include that library before your own script,
+
+141
+00:07:27,620 --> 00:07:31,690
+so that your script can then use the library's code.
+
+142
+00:07:31,690 --> 00:07:36,000
+And in this case, you have to use defer and not async.
+
+143
+00:07:36,000 --> 00:07:41,000
+Because defer will guarantee the correct order of execution.
+
+144
+00:07:41,210 --> 00:07:43,210
+Now, for third party scripts,
+
+145
+00:07:43,210 --> 00:07:46,690
+where the order does not matter, for example,
+
+146
+00:07:46,690 --> 00:07:49,730
+an analytics software like Google Analytics,
+
+147
+00:07:49,730 --> 00:07:52,800
+or an ad script, or something like that,
+
+148
+00:07:52,800 --> 00:07:56,660
+then in this case, you should totally use async.
+
+149
+00:07:56,660 --> 00:08:00,030
+So for any code that your own code will not need
+
+150
+00:08:00,030 --> 00:08:03,410
+to interact with async is just fine.
+
+151
+00:08:03,410 --> 00:08:07,240
+So it's a good use case for this kind of scripts.
+
+152
+00:08:07,240 --> 00:08:10,090
+And I'm saying this because, of course,
+
+153
+00:08:10,090 --> 00:08:12,530
+you can use different loading strategies
+
+154
+00:08:12,530 --> 00:08:16,560
+for different scripts in your web application or website.
+
+155
+00:08:16,560 --> 00:08:19,370
+Okay, now, what's important to note
+
+156
+00:08:19,370 --> 00:08:24,370
+is that only modern browsers support async and defer.
+
+157
+00:08:24,410 --> 00:08:28,730
+And they will basically get ignored in older browsers.
+
+158
+00:08:28,730 --> 00:08:31,630
+So if you need to support all browsers,
+
+159
+00:08:31,630 --> 00:08:34,550
+then you need to put your script tag at the end
+
+160
+00:08:34,550 --> 00:08:38,170
+of the body and not in the head.
+
+161
+00:08:38,170 --> 00:08:41,710
+That's because this is actually not a JavaScript feature,
+
+162
+00:08:41,710 --> 00:08:44,330
+but an HTML5 feature.
+
+163
+00:08:44,330 --> 00:08:47,500
+And so you can't really work around this limitation,
+
+164
+00:08:47,500 --> 00:08:50,420
+like you can do with modern JavaScript features
+
+165
+00:08:50,420 --> 00:08:53,680
+by transpiling, or poly-filling.
+
+166
+00:08:53,680 --> 00:08:57,270
+Okay, now, this should give you a pretty good idea
+
+167
+00:08:57,270 --> 00:09:01,430
+about different ways of loading JavaScript scripts.
+
+168
+00:09:01,430 --> 00:09:04,200
+So let's now quickly move over to the code
+
+169
+00:09:04,200 --> 00:09:05,463
+and implement this.
+
+170
+00:09:07,680 --> 00:09:12,500
+And here, we still have the script at the end of our body,
+
+171
+00:09:12,500 --> 00:09:16,970
+and of course, without any async or defer attributes.
+
+172
+00:09:16,970 --> 00:09:18,960
+Now before we move this to the head,
+
+173
+00:09:18,960 --> 00:09:22,530
+let's quickly check out here our Network tab
+
+174
+00:09:22,530 --> 00:09:23,463
+one more time.
+
+175
+00:09:24,470 --> 00:09:29,000
+And let's use the fast 3G preset now.
+
+176
+00:09:29,000 --> 00:09:32,870
+Just so we can see these files here being loaded.
+
+177
+00:09:32,870 --> 00:09:37,870
+And also to see this DOM content loaded event being fired.
+
+178
+00:09:39,760 --> 00:09:43,090
+And so here we can actually see the different assets
+
+179
+00:09:43,090 --> 00:09:45,393
+of the page being loaded over time.
+
+180
+00:09:46,590 --> 00:09:49,413
+And let's search for the script.
+
+181
+00:09:50,550 --> 00:09:51,870
+And so yeah,
+
+182
+00:09:51,870 --> 00:09:56,250
+here you see that the script actually only loaded
+
+183
+00:09:56,250 --> 00:09:59,943
+so only started to load after these first images here.
+
+184
+00:10:01,210 --> 00:10:05,900
+And also the HTML itself, which is this one here.
+
+185
+00:10:05,900 --> 00:10:08,350
+So only after they finished loading is
+
+186
+00:10:08,350 --> 00:10:11,370
+when the JavaScript file started loading.
+
+187
+00:10:11,370 --> 00:10:14,313
+That's why here, we have this stalled time.
+
+188
+00:10:15,220 --> 00:10:18,130
+And so this is a bit similar to the diagram
+
+189
+00:10:18,130 --> 00:10:19,693
+that I showed you in the slide.
+
+190
+00:10:21,260 --> 00:10:24,910
+Okay, now, this time is probably different for you.
+
+191
+00:10:24,910 --> 00:10:27,580
+But just take note of it, so we can compare it
+
+192
+00:10:27,580 --> 00:10:29,043
+to the next scenario.
+
+193
+00:10:31,060 --> 00:10:33,190
+So let's now copy this.
+
+194
+00:10:33,190 --> 00:10:35,983
+And I will command it out using command slash.
+
+195
+00:10:36,900 --> 00:10:40,163
+And so now I'm moving it here to the head.
+
+196
+00:10:41,920 --> 00:10:46,460
+Okay, and then I'm gonna put the defer attribute.
+
+197
+00:10:46,460 --> 00:10:49,750
+Because as we just learned, this is the preferred way
+
+198
+00:10:49,750 --> 00:10:51,660
+of loading our own scripts.
+
+199
+00:10:51,660 --> 00:10:54,120
+And also when the order matters.
+
+200
+00:10:54,120 --> 00:10:58,840
+So from now on, we will always load our scripts like this.
+
+201
+00:10:58,840 --> 00:11:02,510
+So in the head with the defer attribute.
+
+202
+00:11:02,510 --> 00:11:04,250
+So let's give it a save.
+
+203
+00:11:04,250 --> 00:11:08,220
+And this will then trigger a reload here.
+
+204
+00:11:08,220 --> 00:11:12,050
+And you see that now the DOM content loaded event here,
+
+205
+00:11:12,050 --> 00:11:14,240
+fired half a second earlier.
+
+206
+00:11:14,240 --> 00:11:16,390
+And so that's because the JavaScript file
+
+207
+00:11:16,390 --> 00:11:19,160
+could start to load immediately.
+
+208
+00:11:19,160 --> 00:11:22,850
+And so indeed, now here, as we hover this file,
+
+209
+00:11:22,850 --> 00:11:25,690
+we don't have that stalled period.
+
+210
+00:11:25,690 --> 00:11:27,320
+So that period in the beginning,
+
+211
+00:11:27,320 --> 00:11:31,200
+where the file isn't even being loaded, right,
+
+212
+00:11:31,200 --> 00:11:32,970
+so this looks different.
+
+213
+00:11:32,970 --> 00:11:37,940
+And, in fact, it looks exactly as I showed you in the slide
+
+214
+00:11:37,940 --> 00:11:39,023
+one more time.
+
+215
+00:11:39,930 --> 00:11:42,270
+So the load time is of course different,
+
+216
+00:11:42,270 --> 00:11:44,830
+because the assets that we need to download
+
+217
+00:11:44,830 --> 00:11:46,510
+are exactly the same.
+
+218
+00:11:46,510 --> 00:11:48,430
+But what matters is that the page
+
+219
+00:11:48,430 --> 00:11:52,093
+is basically ready earlier in this scenario.
+
+220
+00:11:53,610 --> 00:11:54,750
+All right.
+
+221
+00:11:54,750 --> 00:11:55,903
+So let's put it back.
+
+222
+00:11:56,990 --> 00:11:59,470
+And, yeah, with this,
+
+223
+00:11:59,470 --> 00:12:01,970
+we actually finished one more section.
+
+224
+00:12:01,970 --> 00:12:04,940
+And one more really beautiful project,
+
+225
+00:12:04,940 --> 00:12:06,323
+in my opinion, at least.
+
+226
+00:12:07,320 --> 00:12:11,660
+So one more time, you can add this to your portfolio,
+
+227
+00:12:11,660 --> 00:12:13,720
+or show off to your friends,
+
+228
+00:12:13,720 --> 00:12:18,500
+or maybe even potential employees, or employers,
+
+229
+00:12:18,500 --> 00:12:22,650
+just make sure about this notice that I have here
+
+230
+00:12:22,650 --> 00:12:24,020
+at the bottom of this page,
+
+231
+00:12:24,020 --> 00:12:26,100
+and in all the other big projects,
+
+232
+00:12:26,100 --> 00:12:28,500
+which is please don't use this project
+
+233
+00:12:28,500 --> 00:12:31,560
+on your own to create your own course.
+
+234
+00:12:31,560 --> 00:12:34,440
+Also, don't claim it as your own product, as if,
+
+235
+00:12:34,440 --> 00:12:37,460
+like you came up with this design on your own.
+
+236
+00:12:37,460 --> 00:12:39,820
+So this is just for learning purposes,
+
+237
+00:12:39,820 --> 00:12:41,950
+or for your portfolio.
+
+238
+00:12:41,950 --> 00:12:45,060
+All right, but I think that's pretty obvious anyway.
+
+239
+00:12:45,060 --> 00:12:47,520
+I just wanted to make sure to mention it here,
+
+240
+00:12:47,520 --> 00:12:49,770
+because many people ask me questions
+
+241
+00:12:49,770 --> 00:12:52,030
+about what they can do with the projects
+
+242
+00:12:52,030 --> 00:12:53,093
+and what they can't.
+
+243
+00:12:54,450 --> 00:12:58,560
+But anyway, congratulations for finishing one more section.
+
+244
+00:12:58,560 --> 00:13:02,350
+And actually, by reaching the end of the intermediate part
+
+245
+00:13:02,350 --> 00:13:03,870
+of this course.
+
+246
+00:13:03,870 --> 00:13:05,380
+That's a huge milestone,
+
+247
+00:13:05,380 --> 00:13:07,830
+and you should really be celebrating.
+
+248
+00:13:07,830 --> 00:13:09,800
+So great job of going through
+
+249
+00:13:09,800 --> 00:13:11,970
+all these videos together with me,
+
+250
+00:13:11,970 --> 00:13:15,600
+learning all of these important and valuable skills.
+
+251
+00:13:15,600 --> 00:13:18,230
+So take a well deserved break now.
+
+252
+00:13:18,230 --> 00:13:21,780
+And after you're energized, let's move on together to one
+
+253
+00:13:21,780 --> 00:13:24,370
+of the most important sections of this course,
+
+254
+00:13:24,370 --> 00:13:27,400
+which is gonna be about object oriented programming
+
+255
+00:13:27,400 --> 00:13:28,523
+in JavaScript.

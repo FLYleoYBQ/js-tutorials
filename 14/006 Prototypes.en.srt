@@ -1,0 +1,1223 @@
+1
+00:00:01,080 --> 00:00:02,040
+Now it's time
+
+2
+00:00:02,040 --> 00:00:05,040
+to finally start using prototypes.
+
+3
+00:00:05,040 --> 00:00:07,180
+And after this, you will feel
+
+4
+00:00:07,180 --> 00:00:09,340
+like a real pro developer,
+
+5
+00:00:09,340 --> 00:00:10,173
+believe me.
+
+6
+00:00:12,000 --> 00:00:14,550
+And we're gonna continue with the example
+
+7
+00:00:14,550 --> 00:00:16,063
+from the previous video.
+
+8
+00:00:17,690 --> 00:00:18,570
+Okay.
+
+9
+00:00:18,570 --> 00:00:22,880
+But now we're gonna talk about prototypes.
+
+10
+00:00:22,880 --> 00:00:25,650
+So actually, we talked about prototypes,
+
+11
+00:00:25,650 --> 00:00:30,420
+prototypal inheritance and delegation earlier already.
+
+12
+00:00:30,420 --> 00:00:34,020
+But how does all of that actually work?
+
+13
+00:00:34,020 --> 00:00:37,650
+Well, it can be summarized like this.
+
+14
+00:00:37,650 --> 00:00:41,600
+So, first each and every function in JavaScript
+
+15
+00:00:41,600 --> 00:00:45,550
+automatically has a property called prototype.
+
+16
+00:00:45,550 --> 00:00:49,140
+And that includes, of course, constructor functions.
+
+17
+00:00:49,140 --> 00:00:51,500
+Now every object that's created
+
+18
+00:00:51,500 --> 00:00:53,840
+by a certain constructor function
+
+19
+00:00:53,840 --> 00:00:57,420
+will get access to all the methods and properties
+
+20
+00:00:57,420 --> 00:01:01,830
+that we define on the constructors prototype property.
+
+21
+00:01:01,830 --> 00:01:03,260
+So just to visualize
+
+22
+00:01:04,170 --> 00:01:05,003
+in our case,
+
+23
+00:01:05,003 --> 00:01:08,637
+this would be person dot prototype.
+
+24
+00:01:10,980 --> 00:01:13,440
+So the prototype property
+
+25
+00:01:13,440 --> 00:01:15,880
+of the constructor function.
+
+26
+00:01:15,880 --> 00:01:18,750
+So again, as I was just saying,
+
+27
+00:01:18,750 --> 00:01:21,210
+all the objects that are created
+
+28
+00:01:21,210 --> 00:01:23,850
+through this constructor function here
+
+29
+00:01:23,850 --> 00:01:25,270
+will inherit,
+
+30
+00:01:25,270 --> 00:01:26,850
+so they will get access
+
+31
+00:01:26,850 --> 00:01:28,920
+to all the methods and properties
+
+32
+00:01:28,920 --> 00:01:32,383
+that are defined on this prototype property.
+
+33
+00:01:33,320 --> 00:01:35,900
+And so let's no actually add a method
+
+34
+00:01:35,900 --> 00:01:37,503
+to this prototype property.
+
+35
+00:01:38,710 --> 00:01:41,420
+And so, this is actually an object.
+
+36
+00:01:41,420 --> 00:01:44,120
+And so we can now say calcAge
+
+37
+00:01:46,290 --> 00:01:48,280
+and then we can simply set it
+
+38
+00:01:48,280 --> 00:01:50,153
+to this same function here,
+
+39
+00:01:52,550 --> 00:01:56,723
+so equal, and that's it.
+
+40
+00:01:58,050 --> 00:02:00,510
+Now we get some error here
+
+41
+00:02:00,510 --> 00:02:04,850
+and that's because I misspelled prototype.
+
+42
+00:02:04,850 --> 00:02:07,423
+So that's type right here.
+
+43
+00:02:08,840 --> 00:02:10,930
+And then let's actually take a look
+
+44
+00:02:10,930 --> 00:02:13,470
+at his prototype property
+
+45
+00:02:13,470 --> 00:02:15,053
+just for curiosity.
+
+46
+00:02:19,200 --> 00:02:22,373
+So that's not comma, of course, it's the dot.
+
+47
+00:02:23,900 --> 00:02:27,110
+And so here is that prototype property.
+
+48
+00:02:27,110 --> 00:02:28,610
+And so you see that right now
+
+49
+00:02:28,610 --> 00:02:32,490
+we already have the calcAge method in there.
+
+50
+00:02:32,490 --> 00:02:35,990
+So before it was kind of an empty object
+
+51
+00:02:35,990 --> 00:02:39,450
+so nevermind these two here.
+
+52
+00:02:39,450 --> 00:02:42,010
+So basically it was empty before
+
+53
+00:02:42,010 --> 00:02:44,700
+but now there is the calcAge method
+
+54
+00:02:44,700 --> 00:02:46,400
+already in here,
+
+55
+00:02:46,400 --> 00:02:48,653
+so this one that we just defined down here.
+
+56
+00:02:50,010 --> 00:02:51,160
+Alright.
+
+57
+00:02:51,160 --> 00:02:53,950
+And once again, remember how I said
+
+58
+00:02:53,950 --> 00:02:56,190
+that each object created
+
+59
+00:02:56,190 --> 00:02:58,220
+by this constructor function
+
+60
+00:02:58,220 --> 00:03:00,670
+will now get access to all the methods
+
+61
+00:03:00,670 --> 00:03:03,110
+of this prototype property.
+
+62
+00:03:03,110 --> 00:03:04,160
+And so of course,
+
+63
+00:03:04,160 --> 00:03:06,110
+also to calcAge.
+
+64
+00:03:06,110 --> 00:03:08,923
+And so we should be able to do this.
+
+65
+00:03:10,030 --> 00:03:13,160
+So Jonas, which is this object here
+
+66
+00:03:13,160 --> 00:03:14,970
+which was of course created
+
+67
+00:03:14,970 --> 00:03:16,823
+by this constructor function.
+
+68
+00:03:18,290 --> 00:03:19,713
+And so, calcAge.
+
+69
+00:03:20,890 --> 00:03:22,760
+And let's see.
+
+70
+00:03:22,760 --> 00:03:26,320
+And indeed, we get to the correct age here.
+
+71
+00:03:26,320 --> 00:03:28,110
+So it worked.
+
+72
+00:03:28,110 --> 00:03:29,350
+Great.
+
+73
+00:03:29,350 --> 00:03:30,960
+That's amazing.
+
+74
+00:03:30,960 --> 00:03:34,190
+So we can now use this method here
+
+75
+00:03:34,190 --> 00:03:35,850
+on the Jonas object
+
+76
+00:03:35,850 --> 00:03:38,020
+even though it is not really
+
+77
+00:03:38,020 --> 00:03:40,630
+on the object itself, right?
+
+78
+00:03:40,630 --> 00:03:42,433
+So if we check our Jonas here,
+
+79
+00:03:43,690 --> 00:03:46,350
+then you see that it contains of course
+
+80
+00:03:46,350 --> 00:03:48,830
+the birth year and the first name,
+
+81
+00:03:48,830 --> 00:03:52,340
+but it does not contain the calcAge method.
+
+82
+00:03:52,340 --> 00:03:54,640
+But still, we have access to it
+
+83
+00:03:54,640 --> 00:03:57,163
+because of prototypal inheritance.
+
+84
+00:03:58,240 --> 00:03:59,750
+Okay.
+
+85
+00:03:59,750 --> 00:04:01,650
+And of course the same is gonna work
+
+86
+00:04:01,650 --> 00:04:03,500
+for Matilda here,
+
+87
+00:04:03,500 --> 00:04:07,320
+and of course, also for the Jack object.
+
+88
+00:04:07,320 --> 00:04:08,730
+Beautiful.
+
+89
+00:04:08,730 --> 00:04:12,720
+So that effectively solves this problem
+
+90
+00:04:12,720 --> 00:04:13,960
+that we had before
+
+91
+00:04:13,960 --> 00:04:16,160
+when we added the calcAge method
+
+92
+00:04:16,160 --> 00:04:20,490
+directly to each of the objects, remember that?
+
+93
+00:04:20,490 --> 00:04:23,070
+So here we would have created a copy
+
+94
+00:04:23,070 --> 00:04:24,610
+of this method here
+
+95
+00:04:24,610 --> 00:04:27,750
+and attached it to every single object.
+
+96
+00:04:27,750 --> 00:04:30,350
+And so that's why we don't do this.
+
+97
+00:04:30,350 --> 00:04:32,880
+Instead, what we do is this.
+
+98
+00:04:32,880 --> 00:04:35,940
+Because now there exists only one copy
+
+99
+00:04:35,940 --> 00:04:37,800
+of this function.
+
+100
+00:04:37,800 --> 00:04:39,840
+So only one of them exists,
+
+101
+00:04:39,840 --> 00:04:43,190
+but then all of the objects that are created
+
+102
+00:04:43,190 --> 00:04:45,380
+using this constructor function
+
+103
+00:04:45,380 --> 00:04:47,850
+can basically reuse this function
+
+104
+00:04:47,850 --> 00:04:49,460
+on themselves.
+
+105
+00:04:49,460 --> 00:04:51,010
+And so, the disc keyword,
+
+106
+00:04:51,010 --> 00:04:53,220
+of course, in each of them
+
+107
+00:04:53,220 --> 00:04:55,740
+is as always set to the object
+
+108
+00:04:55,740 --> 00:04:57,560
+that is calling the method.
+
+109
+00:04:57,560 --> 00:04:59,030
+And so here that's Jonas
+
+110
+00:04:59,030 --> 00:05:01,480
+and here that's gonna be Matilda.
+
+111
+00:05:01,480 --> 00:05:03,460
+So just like we learned previously,
+
+112
+00:05:03,460 --> 00:05:06,330
+the disc keyword is set to the object
+
+113
+00:05:06,330 --> 00:05:08,030
+that is calling the method.
+
+114
+00:05:08,030 --> 00:05:08,990
+Now right.
+
+115
+00:05:08,990 --> 00:05:11,960
+So, in a nutshell, this is how we implement
+
+116
+00:05:11,960 --> 00:05:14,430
+very basic prototypal inheritance
+
+117
+00:05:14,430 --> 00:05:16,920
+in JavaScript and practice.
+
+118
+00:05:16,920 --> 00:05:19,900
+So we just observed, that the Jonas
+
+119
+00:05:19,900 --> 00:05:21,960
+and the Matilda objects
+
+120
+00:05:21,960 --> 00:05:26,600
+are kind of somehow connected to the person, right?
+
+121
+00:05:26,600 --> 00:05:30,120
+That's why they can have access to these methods
+
+122
+00:05:30,120 --> 00:05:32,470
+or in this case to just this method
+
+123
+00:05:32,470 --> 00:05:37,040
+that is located inside the prototype property of person.
+
+124
+00:05:37,040 --> 00:05:40,770
+But how and why does this actually work?
+
+125
+00:05:40,770 --> 00:05:43,870
+Well, it works because any object always
+
+126
+00:05:43,870 --> 00:05:46,820
+has access to the methods and properties
+
+127
+00:05:46,820 --> 00:05:48,980
+from its prototype.
+
+128
+00:05:48,980 --> 00:05:51,790
+And the prototype of Jonas and Matilda
+
+129
+00:05:51,790 --> 00:05:53,993
+is person dot prototype.
+
+130
+00:05:55,050 --> 00:05:57,290
+And we can actually confirm that
+
+131
+00:05:57,290 --> 00:06:00,450
+because each object has a special property
+
+132
+00:06:00,450 --> 00:06:03,513
+called a underscore underscore proto.
+
+133
+00:06:04,820 --> 00:06:05,943
+So like this.
+
+134
+00:06:06,840 --> 00:06:09,800
+Underscore underscore proto
+
+135
+00:06:09,800 --> 00:06:12,910
+and then again, underscore underscore.
+
+136
+00:06:12,910 --> 00:06:15,233
+So this looks a bit weird, but,
+
+137
+00:06:16,378 --> 00:06:18,660
+and this is just kind of how it works.
+
+138
+00:06:18,660 --> 00:06:20,550
+So let's take a look.
+
+139
+00:06:20,550 --> 00:06:24,390
+And so this is the prototype of Jonas.
+
+140
+00:06:24,390 --> 00:06:26,520
+It's not the prototype property
+
+141
+00:06:26,520 --> 00:06:30,020
+but it is simply the prototype, okay?
+
+142
+00:06:30,020 --> 00:06:33,010
+And so here again, we see the calcAge function
+
+143
+00:06:33,010 --> 00:06:36,510
+and that's why Jonas is able to use this.
+
+144
+00:06:36,510 --> 00:06:39,270
+So to prototype of the Jonas object
+
+145
+00:06:39,270 --> 00:06:42,210
+is essentially the prototype property
+
+146
+00:06:42,210 --> 00:06:43,893
+of the constructor function.
+
+147
+00:06:44,920 --> 00:06:48,073
+So let's quickly see that as well.
+
+148
+00:06:49,490 --> 00:06:51,663
+So we can check that.
+
+149
+00:06:52,560 --> 00:06:55,510
+So person dot prototype.
+
+150
+00:06:55,510 --> 00:06:57,690
+And so this should not be true,
+
+151
+00:06:57,690 --> 00:06:59,523
+and indeed it is.
+
+152
+00:07:00,460 --> 00:07:01,570
+All right?
+
+153
+00:07:01,570 --> 00:07:03,590
+But what I just said
+
+154
+00:07:03,590 --> 00:07:07,140
+sounded incredibly confusing, didn't it?
+
+155
+00:07:07,140 --> 00:07:09,900
+So shouldn't person dot prototype
+
+156
+00:07:09,900 --> 00:07:12,530
+be the prototype of person,
+
+157
+00:07:12,530 --> 00:07:13,363
+I mean
+
+158
+00:07:13,363 --> 00:07:15,450
+should this prototype property here
+
+159
+00:07:15,450 --> 00:07:19,110
+not be the prototype of person?
+
+160
+00:07:19,110 --> 00:07:21,530
+Well, actually, no.
+
+161
+00:07:21,530 --> 00:07:24,280
+So this is the confusing part.
+
+162
+00:07:24,280 --> 00:07:26,440
+So person dot prototype here
+
+163
+00:07:26,440 --> 00:07:30,040
+is actually not the prototype of person.
+
+164
+00:07:30,040 --> 00:07:33,600
+But instead, it is what's gonna be used
+
+165
+00:07:33,600 --> 00:07:36,410
+as the prototype of all the objects
+
+166
+00:07:36,410 --> 00:07:40,290
+that are created with the person constructor function.
+
+167
+00:07:40,290 --> 00:07:43,420
+So that's a subtle but important difference
+
+168
+00:07:43,420 --> 00:07:45,620
+that you need to keep in mind.
+
+169
+00:07:45,620 --> 00:07:48,180
+And, in fact, what I just said
+
+170
+00:07:48,180 --> 00:07:51,340
+that is confirmed by this comparison
+
+171
+00:07:51,340 --> 00:07:53,020
+that we just did here.
+
+172
+00:07:53,020 --> 00:07:57,110
+So we just saw that Jonas's prototype
+
+173
+00:07:57,110 --> 00:07:59,800
+which is this, is the prototype property
+
+174
+00:07:59,800 --> 00:08:02,870
+of the person constructor function.
+
+175
+00:08:02,870 --> 00:08:05,450
+And there are actually other built in methods
+
+176
+00:08:05,450 --> 00:08:07,533
+that we can use to prove this.
+
+177
+00:08:10,010 --> 00:08:11,670
+So on any object,
+
+178
+00:08:11,670 --> 00:08:15,000
+for example, object dot prototype,
+
+179
+00:08:15,000 --> 00:08:19,220
+we can test if this is a prototype of another object.
+
+180
+00:08:19,220 --> 00:08:21,713
+So we can call is prototype,
+
+181
+00:08:24,600 --> 00:08:28,300
+so is prototype
+
+182
+00:08:28,300 --> 00:08:33,300
+like this of and then Jonas.
+
+183
+00:08:34,220 --> 00:08:37,000
+And so this should also become true.
+
+184
+00:08:37,000 --> 00:08:39,100
+And indeed it is.
+
+185
+00:08:39,100 --> 00:08:41,490
+So this confirms one more time
+
+186
+00:08:41,490 --> 00:08:43,740
+that person dot prototype
+
+187
+00:08:43,740 --> 00:08:47,730
+is indeed the prototype of Jonas.
+
+188
+00:08:47,730 --> 00:08:52,420
+And the same for Matilda, of course as well.
+
+189
+00:08:52,420 --> 00:08:54,222
+But person dot prototype
+
+190
+00:08:54,222 --> 00:08:56,883
+is not the prototype of person.
+
+191
+00:08:59,130 --> 00:09:01,193
+So you see, it is false here.
+
+192
+00:09:02,840 --> 00:09:05,420
+So, this very common confusion
+
+193
+00:09:05,420 --> 00:09:09,823
+comes from bad naming of this property.
+
+194
+00:09:10,830 --> 00:09:13,270
+So the fact that it's called prototype
+
+195
+00:09:13,270 --> 00:09:17,690
+kind of implies that this is the prototype of person,
+
+196
+00:09:17,690 --> 00:09:21,310
+but as we just learned, it is actually not.
+
+197
+00:09:21,310 --> 00:09:23,470
+Probably shouldn't be called prototype
+
+198
+00:09:23,470 --> 00:09:28,470
+but instead something like prototype of linked objects
+
+199
+00:09:29,380 --> 00:09:30,563
+or something like this.
+
+200
+00:09:33,270 --> 00:09:34,800
+So if this makes it easier
+
+201
+00:09:34,800 --> 00:09:37,310
+you can think of the prototype property
+
+202
+00:09:37,310 --> 00:09:41,660
+as prototype of linked objects property.
+
+203
+00:09:41,660 --> 00:09:44,970
+Even though of course it's not called like this,
+
+204
+00:09:44,970 --> 00:09:48,400
+but this would be a more honest name.
+
+205
+00:09:48,400 --> 00:09:50,930
+So take some time to really understand
+
+206
+00:09:50,930 --> 00:09:54,823
+what the prototype of what object actually is here.
+
+207
+00:09:55,740 --> 00:09:59,620
+Now, anyway, where does this proto,
+
+208
+00:09:59,620 --> 00:10:02,040
+property here, on the Jonas object
+
+209
+00:10:02,040 --> 00:10:03,880
+actually come from?
+
+210
+00:10:03,880 --> 00:10:07,250
+Well, remember the new operator
+
+211
+00:10:07,250 --> 00:10:08,723
+that we talked about before,
+
+212
+00:10:09,610 --> 00:10:12,760
+well, it contains this step number three
+
+213
+00:10:12,760 --> 00:10:15,310
+which links the empty new object
+
+214
+00:10:15,310 --> 00:10:17,120
+to the prototype.
+
+215
+00:10:17,120 --> 00:10:20,510
+And so basically, it is this step number three
+
+216
+00:10:20,510 --> 00:10:24,500
+which will create this proto property.
+
+217
+00:10:24,500 --> 00:10:27,220
+So it creates this proto property
+
+218
+00:10:27,220 --> 00:10:31,040
+and it sets its value to the prototype property
+
+219
+00:10:31,040 --> 00:10:33,440
+of the function that is being called.
+
+220
+00:10:33,440 --> 00:10:37,720
+And so that's exactly what is written here, right?
+
+221
+00:10:37,720 --> 00:10:40,360
+So again, it sets the proto property
+
+222
+00:10:40,360 --> 00:10:43,980
+on the object to the prototype property
+
+223
+00:10:43,980 --> 00:10:47,360
+of the constructor function.
+
+224
+00:10:47,360 --> 00:10:50,400
+And so this is how JavaScript knows internally
+
+225
+00:10:50,400 --> 00:10:52,890
+that the Jonas object is connected
+
+226
+00:10:52,890 --> 00:10:54,653
+to person dot prototype.
+
+227
+00:10:55,570 --> 00:10:57,640
+And in fact, when we check out
+
+228
+00:10:57,640 --> 00:10:59,980
+the Jonas object here
+
+229
+00:10:59,980 --> 00:11:03,690
+we can indeed also see that property in here.
+
+230
+00:11:03,690 --> 00:11:05,780
+So it's also right here,
+
+231
+00:11:05,780 --> 00:11:07,870
+and if we open that up,
+
+232
+00:11:07,870 --> 00:11:10,830
+then you see exactly person dot prototype
+
+233
+00:11:10,830 --> 00:11:15,310
+which contains this calcAge function, all right?
+
+234
+00:11:15,310 --> 00:11:17,530
+So I'm spending a lot of time here
+
+235
+00:11:17,530 --> 00:11:19,040
+for you to really understand
+
+236
+00:11:19,040 --> 00:11:21,610
+what this proto property here is
+
+237
+00:11:21,610 --> 00:11:24,570
+and what the prototype of the constructor is
+
+238
+00:11:24,570 --> 00:11:26,580
+and how they are all linked
+
+239
+00:11:26,580 --> 00:11:29,870
+because this is one of the most important things,
+
+240
+00:11:29,870 --> 00:11:32,210
+and also one of the most difficult things
+
+241
+00:11:32,210 --> 00:11:34,590
+to understand in JavaScript.
+
+242
+00:11:34,590 --> 00:11:37,710
+But I hope that it's becoming increasingly clear
+
+243
+00:11:37,710 --> 00:11:40,010
+and there will also be a couple of diagrams
+
+244
+00:11:40,010 --> 00:11:42,610
+in the next video that will basically
+
+245
+00:11:42,610 --> 00:11:44,670
+bring all this knowledge together
+
+246
+00:11:44,670 --> 00:11:46,623
+in an easier to understand way.
+
+247
+00:11:47,690 --> 00:11:50,400
+So, by now you're probably sick
+
+248
+00:11:50,400 --> 00:11:52,730
+of hearing the word prototype
+
+249
+00:11:52,730 --> 00:11:55,073
+but I just wanted to quickly show you
+
+250
+00:11:55,073 --> 00:11:58,840
+that we can also set properties on the prototype.
+
+251
+00:11:58,840 --> 00:12:01,170
+And so not just methods.
+
+252
+00:12:01,170 --> 00:12:04,403
+So let's say person dot prototype,
+
+253
+00:12:05,260 --> 00:12:06,573
+dot species,
+
+254
+00:12:07,520 --> 00:12:09,010
+and so this is something
+
+255
+00:12:09,010 --> 00:12:10,897
+that all of the objects here
+
+256
+00:12:10,897 --> 00:12:13,260
+will have in common,
+
+257
+00:12:13,260 --> 00:12:15,273
+and so that's Homo Sapiens.
+
+258
+00:12:17,780 --> 00:12:18,613
+Now, right?
+
+259
+00:12:18,613 --> 00:12:21,720
+And so, if we now take a look at Jonas
+
+260
+00:12:21,720 --> 00:12:24,220
+and at Matilda also,
+
+261
+00:12:24,220 --> 00:12:27,080
+then we should see this property,
+
+262
+00:12:27,080 --> 00:12:29,620
+so the species on both of them
+
+263
+00:12:30,700 --> 00:12:33,070
+and actually not directly here
+
+264
+00:12:33,070 --> 00:12:36,120
+but indeed they will be here
+
+265
+00:12:36,120 --> 00:12:38,070
+in this prototype.
+
+266
+00:12:38,070 --> 00:12:42,680
+And so, we will be able to do Jonas dot species
+
+267
+00:12:42,680 --> 00:12:45,023
+and Matilda dot species.
+
+268
+00:12:46,300 --> 00:12:49,680
+And both of these objects will then inherit
+
+269
+00:12:49,680 --> 00:12:52,700
+so they will get access to this property
+
+270
+00:12:52,700 --> 00:12:54,820
+from the prototype.
+
+271
+00:12:54,820 --> 00:12:57,360
+So, you see, in both cases,
+
+272
+00:12:57,360 --> 00:12:59,743
+we indeed get Homo Sapiens.
+
+273
+00:13:00,700 --> 00:13:04,110
+Now however, since when we take a look
+
+274
+00:13:04,110 --> 00:13:05,303
+at these objects,
+
+275
+00:13:06,390 --> 00:13:10,020
+well, as we just saw this property is not really
+
+276
+00:13:10,020 --> 00:13:11,820
+directly in the object,
+
+277
+00:13:11,820 --> 00:13:14,350
+so it's not its own property.
+
+278
+00:13:14,350 --> 00:13:16,950
+So own properties are only the ones
+
+279
+00:13:16,950 --> 00:13:20,690
+that are declared directly on the object itself.
+
+280
+00:13:20,690 --> 00:13:24,390
+So, not including the inherited properties.
+
+281
+00:13:24,390 --> 00:13:26,630
+And actually in JavaScript, there is a way
+
+282
+00:13:26,630 --> 00:13:28,600
+of checking for that.
+
+283
+00:13:28,600 --> 00:13:30,290
+So, we can do Jonas
+
+284
+00:13:30,290 --> 00:13:34,393
+as own property.
+
+285
+00:13:35,500 --> 00:13:37,933
+So that's with a capital P here.
+
+286
+00:13:38,950 --> 00:13:40,560
+And so let's first check
+
+287
+00:13:40,560 --> 00:13:42,963
+for first name,
+
+288
+00:13:43,980 --> 00:13:47,000
+and indeed this object does have its own property
+
+289
+00:13:47,000 --> 00:13:48,760
+with this name
+
+290
+00:13:48,760 --> 00:13:50,513
+but now if we try species,
+
+291
+00:13:51,835 --> 00:13:54,370
+then that is gonna be false.
+
+292
+00:13:54,370 --> 00:13:57,240
+And again, that's because this property
+
+293
+00:13:57,240 --> 00:14:00,890
+is not really inside of the Jonas object.
+
+294
+00:14:00,890 --> 00:14:02,900
+It simply has access to it
+
+295
+00:14:02,900 --> 00:14:05,130
+because of its prototype.
+
+296
+00:14:05,130 --> 00:14:09,113
+So because it's in the prototype property of person.
+
+297
+00:14:10,250 --> 00:14:13,933
+So right here, right?
+
+298
+00:14:15,030 --> 00:14:17,500
+And sometimes, this method here
+
+299
+00:14:17,500 --> 00:14:21,210
+can be quite helpful in certain situations.
+
+300
+00:14:21,210 --> 00:14:24,040
+Now right, and that is probably enough
+
+301
+00:14:24,040 --> 00:14:25,660
+for one lecture.
+
+302
+00:14:25,660 --> 00:14:27,770
+And as I just mentioned earlier
+
+303
+00:14:27,770 --> 00:14:28,840
+in the next video
+
+304
+00:14:28,840 --> 00:14:30,950
+I'm gonna show you a nice diagram
+
+305
+00:14:30,950 --> 00:14:32,380
+of all of this.
+
+306
+00:14:32,380 --> 00:14:34,493
+So, stay tuned for that one.

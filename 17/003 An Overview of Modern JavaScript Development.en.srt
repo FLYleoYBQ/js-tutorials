@@ -1,0 +1,507 @@
+1
+00:00:00,188 --> 00:00:04,190
+Let's start a section with a general overview
+
+2
+00:00:04,190 --> 00:00:06,750
+of Modern JavaScript Development.
+
+3
+00:00:06,750 --> 00:00:10,760
+So basically of how we write JavaScript today.
+
+4
+00:00:10,760 --> 00:00:13,230
+Because when we built applications,
+
+5
+00:00:13,230 --> 00:00:17,350
+we don't just write all of our code into one big script
+
+6
+00:00:17,350 --> 00:00:20,780
+send that script as it is to the browser,
+
+7
+00:00:20,780 --> 00:00:22,590
+and call it a day.
+
+8
+00:00:22,590 --> 00:00:24,640
+Now it used to be like this,
+
+9
+00:00:24,640 --> 00:00:27,360
+but the way we built JavaScript applications,
+
+10
+00:00:27,360 --> 00:00:31,373
+has changed tremendously over the last couple of years.
+
+11
+00:00:32,940 --> 00:00:34,650
+So back in the day,
+
+12
+00:00:34,650 --> 00:00:36,480
+we used to write all our codes
+
+13
+00:00:36,480 --> 00:00:40,720
+into one big script or maybe multiple scripts.
+
+14
+00:00:40,720 --> 00:00:45,190
+But today, we divide our projects into multiple modules
+
+15
+00:00:45,190 --> 00:00:48,210
+and these modules can share data between them
+
+16
+00:00:48,210 --> 00:00:52,240
+and make our code more organized and maintainable.
+
+17
+00:00:52,240 --> 00:00:54,930
+Now, one great thing about modules
+
+18
+00:00:54,930 --> 00:00:58,160
+is that we can also include 3rd-party modules
+
+19
+00:00:58,160 --> 00:01:00,100
+into our own code.
+
+20
+00:01:00,100 --> 00:01:03,500
+And there are thousands of open source modules,
+
+21
+00:01:03,500 --> 00:01:05,630
+which we also call packages,
+
+22
+00:01:05,630 --> 00:01:09,590
+that developers share on the NPM repository.
+
+23
+00:01:09,590 --> 00:01:14,120
+And we can then use these packages for free in our own code.
+
+24
+00:01:14,120 --> 00:01:18,520
+For example, the popular React framework or jQuery,
+
+25
+00:01:18,520 --> 00:01:20,840
+or even the Leaflet library,
+
+26
+00:01:20,840 --> 00:01:24,210
+that we used before in our Mapty project.
+
+27
+00:01:24,210 --> 00:01:27,523
+All of these packages are available through NPM.
+
+28
+00:01:28,380 --> 00:01:31,920
+Now NPM stands for Node Package Manager,
+
+29
+00:01:31,920 --> 00:01:35,030
+because it was originally developed together
+
+30
+00:01:35,030 --> 00:01:38,650
+with Node.js and 4Node.js.
+
+31
+00:01:38,650 --> 00:01:41,550
+However, NPM has established itself
+
+32
+00:01:41,550 --> 00:01:43,560
+as the go to repository
+
+33
+00:01:43,560 --> 00:01:45,520
+for all kinds of packages
+
+34
+00:01:45,520 --> 00:01:48,210
+in Modern JavaScript Development.
+
+35
+00:01:48,210 --> 00:01:50,810
+Now, in order to actually download
+
+36
+00:01:50,810 --> 00:01:53,660
+and use and share packages,
+
+37
+00:01:53,660 --> 00:01:58,050
+we use the NPM software installed on our computer.
+
+38
+00:01:58,050 --> 00:02:01,220
+And this is just a simple command line interface
+
+39
+00:02:01,220 --> 00:02:03,970
+that allows us to do all that.
+
+40
+00:02:03,970 --> 00:02:07,570
+So basically NPM is both the repository
+
+41
+00:02:07,570 --> 00:02:10,910
+in which packages live and a program that we use
+
+42
+00:02:10,910 --> 00:02:15,910
+on our computers to install and manage these packages.
+
+43
+00:02:16,010 --> 00:02:20,470
+So let's say that we are done writing our project code.
+
+44
+00:02:20,470 --> 00:02:23,340
+So we divided it into multiple modules
+
+45
+00:02:23,340 --> 00:02:26,900
+and we included some 3rd-party modules as well.
+
+46
+00:02:26,900 --> 00:02:30,650
+And so now the development step is complete.
+
+47
+00:02:30,650 --> 00:02:34,790
+However, usually that's not the end of the story.
+
+48
+00:02:34,790 --> 00:02:38,890
+At least not when rebuilding a real world application.
+
+49
+00:02:38,890 --> 00:02:41,120
+Instead, our project now needs
+
+50
+00:02:41,120 --> 00:02:43,260
+to go through a build process,
+
+51
+00:02:43,260 --> 00:02:47,590
+where one big final JavaScript bundle is built.
+
+52
+00:02:47,590 --> 00:02:49,420
+And that's the final file,
+
+53
+00:02:49,420 --> 00:02:53,190
+which we will deploy to our web server for production.
+
+54
+00:02:53,190 --> 00:02:55,970
+So basically it's the JavaScript file,
+
+55
+00:02:55,970 --> 00:02:59,610
+that will be sent to browsers in production.
+
+56
+00:02:59,610 --> 00:03:02,350
+And production simply means that the application
+
+57
+00:03:02,350 --> 00:03:06,740
+is being used by real users in the real world.
+
+58
+00:03:06,740 --> 00:03:10,520
+Now, a build process can be something really complex,
+
+59
+00:03:10,520 --> 00:03:12,390
+but we gonna keep it simple here
+
+60
+00:03:12,390 --> 00:03:14,830
+and only include two steps.
+
+61
+00:03:14,830 --> 00:03:17,680
+And the first step, we'll bundle all our modules
+
+62
+00:03:17,680 --> 00:03:20,390
+together into one big file.
+
+63
+00:03:20,390 --> 00:03:22,660
+This is a pretty complex process
+
+64
+00:03:22,660 --> 00:03:25,210
+which can eliminate unused code
+
+65
+00:03:25,210 --> 00:03:27,453
+and compress or code as well.
+
+66
+00:03:28,350 --> 00:03:32,790
+Now this step is super important for two big reasons.
+
+67
+00:03:32,790 --> 00:03:36,750
+First, older browsers don't support modules at all.
+
+68
+00:03:36,750 --> 00:03:40,300
+And so code that's in a module could not be executed
+
+69
+00:03:40,300 --> 00:03:42,560
+by any older browser.
+
+70
+00:03:42,560 --> 00:03:45,720
+And second, it's also better for performance
+
+71
+00:03:45,720 --> 00:03:48,160
+to send less files to the browser,
+
+72
+00:03:48,160 --> 00:03:49,950
+and it's also beneficial that
+
+73
+00:03:49,950 --> 00:03:53,140
+the bundling step compresses our code.
+
+74
+00:03:53,140 --> 00:03:55,460
+But anyway, as the second step,
+
+75
+00:03:55,460 --> 00:03:59,100
+we do something called transpiling and polyfilling,
+
+76
+00:03:59,100 --> 00:04:00,940
+which is basically to convert
+
+77
+00:04:00,940 --> 00:04:02,890
+all modern JavaScript syntax
+
+78
+00:04:02,890 --> 00:04:06,560
+and features back to old ES5 syntax,
+
+79
+00:04:06,560 --> 00:04:09,200
+so that even older browsers can understand
+
+80
+00:04:09,200 --> 00:04:11,470
+our code without breaking.
+
+81
+00:04:11,470 --> 00:04:16,080
+And this is usually done using a tool called Babel.
+
+82
+00:04:16,080 --> 00:04:18,910
+So, remember that I said right in the beginning
+
+83
+00:04:18,910 --> 00:04:21,620
+of the course, that we were gonna do this,
+
+84
+00:04:21,620 --> 00:04:25,090
+and in this section, we will finally do it.
+
+85
+00:04:25,090 --> 00:04:29,090
+So these are the two steps of our build process,
+
+86
+00:04:29,090 --> 00:04:31,030
+and after these two steps,
+
+87
+00:04:31,030 --> 00:04:33,940
+we end up with that final JavaScript bundle,
+
+88
+00:04:33,940 --> 00:04:37,920
+ready to be deployed on a server for production.
+
+89
+00:04:37,920 --> 00:04:41,920
+Now, of course we don't perform these steps ourselves.
+
+90
+00:04:41,920 --> 00:04:45,070
+Instead, we use a special tool to implement
+
+91
+00:04:45,070 --> 00:04:47,080
+this build process for us.
+
+92
+00:04:47,080 --> 00:04:49,600
+And the most common build tools available,
+
+93
+00:04:49,600 --> 00:04:52,910
+are probably webpack and Parcel.
+
+94
+00:04:52,910 --> 00:04:55,590
+And these are called JavaScript bundlers
+
+95
+00:04:55,590 --> 00:05:00,550
+because well, as the name says they take our raw code
+
+96
+00:05:00,550 --> 00:05:04,110
+and transform it into a JavaScript bundle.
+
+97
+00:05:04,110 --> 00:05:06,860
+Now Webpack is the more popular one,
+
+98
+00:05:06,860 --> 00:05:10,650
+but it can be really hard and confusing to set it up.
+
+99
+00:05:10,650 --> 00:05:12,950
+So that's because there's a lot of stuff
+
+100
+00:05:12,950 --> 00:05:14,950
+that we need to configure manually,
+
+101
+00:05:14,950 --> 00:05:17,600
+in order to make it work properly.
+
+102
+00:05:17,600 --> 00:05:21,990
+Parcel, on the other hand is a zero configuration bundler,
+
+103
+00:05:21,990 --> 00:05:24,700
+which simply works out of the box.
+
+104
+00:05:24,700 --> 00:05:26,010
+And so in this bundler,
+
+105
+00:05:26,010 --> 00:05:28,700
+we don't have to write any set up code,
+
+106
+00:05:28,700 --> 00:05:30,820
+which is really amazing.
+
+107
+00:05:30,820 --> 00:05:33,980
+So I personally absolutely love Parcel
+
+108
+00:05:33,980 --> 00:05:35,980
+and I use it all the time,
+
+109
+00:05:35,980 --> 00:05:38,390
+and I think that you will love it too.
+
+110
+00:05:38,390 --> 00:05:41,010
+And so, that is the JavaScript bundler
+
+111
+00:05:41,010 --> 00:05:43,373
+that we gonna use later in the section.
+
+112
+00:05:44,430 --> 00:05:46,910
+Now these development tools are actually
+
+113
+00:05:46,910 --> 00:05:49,940
+also available on NPM.
+
+114
+00:05:49,940 --> 00:05:53,530
+So just like packages that we include in our code,
+
+115
+00:05:53,530 --> 00:05:57,960
+we will download and manage tools using NPM as well.
+
+116
+00:05:57,960 --> 00:06:00,530
+And these tools include the live-server
+
+117
+00:06:00,530 --> 00:06:02,770
+that we've been using all along,
+
+118
+00:06:02,770 --> 00:06:05,790
+the Parcel bundler that we just talked about
+
+119
+00:06:05,790 --> 00:06:09,163
+or Babel to transpile code back to ES5.
+
+120
+00:06:10,230 --> 00:06:14,340
+All right, so this is a high level overview,
+
+121
+00:06:14,340 --> 00:06:18,310
+of how we develop Modern JavaScript applications today.
+
+122
+00:06:18,310 --> 00:06:22,240
+And if you ask me, this is really exciting stuff,
+
+123
+00:06:22,240 --> 00:06:24,960
+because this is how professional developers
+
+124
+00:06:24,960 --> 00:06:27,570
+actually write JavaScript today.
+
+125
+00:06:27,570 --> 00:06:29,830
+And so in the rest of the section,
+
+126
+00:06:29,830 --> 00:06:32,710
+you will take a big step in the direction
+
+127
+00:06:32,710 --> 00:06:35,473
+of becoming a professional developer too.

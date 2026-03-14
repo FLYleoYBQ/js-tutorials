@@ -1,0 +1,1291 @@
+1
+00:00:01,359 --> 00:00:02,270
+In this lecture,
+
+2
+00:00:02,270 --> 00:00:04,444
+we're gonna go back to the this keyword
+
+3
+00:00:04,444 --> 00:00:08,060
+and learn how we can set the this keyword manually
+
+4
+00:00:08,060 --> 00:00:10,963
+and also why we would want to do that.
+
+5
+00:00:12,195 --> 00:00:15,523
+So let's say we are an airline again
+
+6
+00:00:15,523 --> 00:00:19,100
+and in this case, Lufthansa,
+
+7
+00:00:19,100 --> 00:00:22,203
+which is the biggest European airline group, by the way.
+
+8
+00:00:23,280 --> 00:00:26,410
+And so let's create a very simple object
+
+9
+00:00:26,410 --> 00:00:31,410
+for this airline with a very simple booking method as well.
+
+10
+00:00:34,120 --> 00:00:35,673
+So we have the airline name.
+
+11
+00:00:36,520 --> 00:00:39,363
+We have the code basically.
+
+12
+00:00:42,750 --> 00:00:46,093
+We also want to keep an array of bookings.
+
+13
+00:00:47,010 --> 00:00:50,080
+So also inside of the object,
+
+14
+00:00:50,080 --> 00:00:52,160
+and then the book method.
+
+15
+00:00:52,160 --> 00:00:54,630
+And remember from the previous section,
+
+16
+00:00:54,630 --> 00:00:57,880
+I will now start using the way of writing methods,
+
+17
+00:00:57,880 --> 00:01:00,897
+using the enhanced object literal syntax.
+
+18
+00:01:00,897 --> 00:01:05,897
+And so that's simply by defining the method like this
+
+19
+00:01:06,010 --> 00:01:07,913
+without having to write a function.
+
+20
+00:01:08,770 --> 00:01:11,710
+So remember, before this,
+
+21
+00:01:11,710 --> 00:01:15,200
+we used to do this, right?
+
+22
+00:01:15,200 --> 00:01:17,260
+And if you still prefer this syntax,
+
+23
+00:01:17,260 --> 00:01:19,330
+you can still do this one.
+
+24
+00:01:19,330 --> 00:01:22,940
+But I do actually prefer the new syntax.
+
+25
+00:01:22,940 --> 00:01:25,653
+And so I'll just start using this one now.
+
+26
+00:01:27,300 --> 00:01:29,340
+So the flight number
+
+27
+00:01:29,340 --> 00:01:31,683
+and also the passenger name here.
+
+28
+00:01:33,450 --> 00:01:35,873
+So then let's log something to the console.
+
+29
+00:01:37,720 --> 00:01:40,930
+And again, this could have been boilerplate code here
+
+30
+00:01:40,930 --> 00:01:45,223
+but it's also good to practice writing this.
+
+31
+00:01:46,720 --> 00:01:51,463
+So this should be a template string booked a seat on,
+
+32
+00:01:52,490 --> 00:01:55,700
+so basically, we want to print like Jonas booked a seat
+
+33
+00:01:55,700 --> 00:01:57,837
+on Lufthansa flight
+
+34
+00:01:57,837 --> 00:01:59,210
+and then the flight number.
+
+35
+00:01:59,210 --> 00:02:02,440
+And so here we are now going to get the airline name
+
+36
+00:02:02,440 --> 00:02:04,290
+from the object.
+
+37
+00:02:04,290 --> 00:02:05,518
+And so we already learned
+
+38
+00:02:05,518 --> 00:02:09,903
+that for that, we use the this keyword, right?
+
+39
+00:02:11,858 --> 00:02:15,463
+And then flight this.iataCode.
+
+40
+00:02:18,490 --> 00:02:20,020
+So that's gonna be the LH
+
+41
+00:02:20,020 --> 00:02:22,130
+and then the flight number itself
+
+42
+00:02:22,130 --> 00:02:23,853
+that we pass into the function.
+
+43
+00:02:24,710 --> 00:02:26,307
+So the flightNumber.
+
+44
+00:02:27,170 --> 00:02:29,760
+So for now, this is just a nice review
+
+45
+00:02:29,760 --> 00:02:32,853
+of how the this keyword works, right?
+
+46
+00:02:34,100 --> 00:02:36,540
+And of course, I will now assume that you know
+
+47
+00:02:36,540 --> 00:02:37,950
+how all of this works
+
+48
+00:02:37,950 --> 00:02:41,040
+because otherwise, I will have to explain the same things
+
+49
+00:02:41,040 --> 00:02:43,000
+over and over again.
+
+50
+00:02:43,000 --> 00:02:44,910
+And so as I mentioned before,
+
+51
+00:02:44,910 --> 00:02:47,550
+you should only progress once you really understand
+
+52
+00:02:47,550 --> 00:02:49,200
+a certain topic.
+
+53
+00:02:49,200 --> 00:02:53,200
+Anyway, let's now use the book function here.
+
+54
+00:02:53,200 --> 00:02:56,220
+And I'll use the flight number 239
+
+55
+00:02:57,440 --> 00:02:59,963
+and then with my own name.
+
+56
+00:03:01,350 --> 00:03:04,210
+And let's right away book another Lufthansa flight
+
+57
+00:03:06,020 --> 00:03:11,003
+for let's say Mike Smith on flight number 635.
+
+58
+00:03:12,830 --> 00:03:15,080
+John Smith.
+
+59
+00:03:15,080 --> 00:03:17,930
+And now, if we take a look at the results,
+
+60
+00:03:17,930 --> 00:03:22,930
+then indeed, everything works just as expected, right?
+
+61
+00:03:23,840 --> 00:03:25,830
+And so it's important to understand
+
+62
+00:03:25,830 --> 00:03:28,030
+that the this keyword here points
+
+63
+00:03:28,030 --> 00:03:30,190
+to the lufthansa object itself
+
+64
+00:03:30,190 --> 00:03:31,640
+because that's the object
+
+65
+00:03:31,640 --> 00:03:34,990
+on which the book method here was called.
+
+66
+00:03:34,990 --> 00:03:39,240
+So again, that's just what I explained before, right?
+
+67
+00:03:39,240 --> 00:03:41,670
+But now let's say that after some years,
+
+68
+00:03:41,670 --> 00:03:44,383
+the Lufthansa Group created a new airline.
+
+69
+00:03:45,480 --> 00:03:48,910
+So let's create eurowings here.
+
+70
+00:03:52,057 --> 00:03:53,757
+And then a very similar object.
+
+71
+00:03:55,460 --> 00:03:58,403
+So with the airline, the code.
+
+72
+00:04:00,660 --> 00:04:03,483
+And also an empty bookings array.
+
+73
+00:04:06,160 --> 00:04:07,580
+Okay?
+
+74
+00:04:07,580 --> 00:04:08,413
+Oh, and by the way,
+
+75
+00:04:08,413 --> 00:04:11,840
+we actually also want our book method here
+
+76
+00:04:11,840 --> 00:04:14,520
+to add a new object to our bookings here.
+
+77
+00:04:14,520 --> 00:04:16,770
+So that's super important as well.
+
+78
+00:04:16,770 --> 00:04:17,750
+So I forget that.
+
+79
+00:04:17,750 --> 00:04:19,590
+So let's go back here.
+
+80
+00:04:19,590 --> 00:04:21,610
+So we will say again this
+
+81
+00:04:21,610 --> 00:04:22,960
+and then the bookings array
+
+82
+00:04:24,280 --> 00:04:27,620
+and then let's put a new object in there
+
+83
+00:04:27,620 --> 00:04:29,020
+with the flight
+
+84
+00:04:30,020 --> 00:04:32,653
+and so that's essentially gonna be this one.
+
+85
+00:04:33,750 --> 00:04:36,003
+So the code plus the flight number.
+
+86
+00:04:40,150 --> 00:04:42,630
+And then also the passenger name.
+
+87
+00:04:42,630 --> 00:04:46,143
+And then let's quickly log that to the console here.
+
+88
+00:04:48,960 --> 00:04:52,090
+So this.bookings is not a function
+
+89
+00:04:52,090 --> 00:04:54,339
+and of course, it's not.
+
+90
+00:04:54,339 --> 00:04:57,153
+We need the push method indeed.
+
+91
+00:04:58,470 --> 00:05:01,590
+And so now you see that we have an array
+
+92
+00:05:01,590 --> 00:05:03,133
+of our two bookings here.
+
+93
+00:05:05,000 --> 00:05:06,790
+So that works perfectly.
+
+94
+00:05:06,790 --> 00:05:10,010
+But now anyway, going back here to Eurowings,
+
+95
+00:05:10,010 --> 00:05:11,720
+of course, we also want to be able
+
+96
+00:05:11,720 --> 00:05:15,290
+to take bookings for a Eurowings flight,
+
+97
+00:05:15,290 --> 00:05:18,370
+so as being this airline, right?
+
+98
+00:05:18,370 --> 00:05:21,110
+Now, taking this exact same method here
+
+99
+00:05:21,110 --> 00:05:24,070
+and simply copying it and pasting it here
+
+100
+00:05:24,070 --> 00:05:26,670
+is a bad practice, right?
+
+101
+00:05:26,670 --> 00:05:29,240
+So of course, we are not gonna do that.
+
+102
+00:05:29,240 --> 00:05:31,750
+So instead, we will just take the method
+
+103
+00:05:31,750 --> 00:05:34,290
+and store it in an external function.
+
+104
+00:05:34,290 --> 00:05:36,650
+And then we can reuse that function
+
+105
+00:05:36,650 --> 00:05:38,453
+for all of the different airlines.
+
+106
+00:05:39,520 --> 00:05:44,520
+So what I mean is to create a new function called book
+
+107
+00:05:45,400 --> 00:05:50,357
+and we will simply set it to lufthansa.book, all right?
+
+108
+00:05:52,860 --> 00:05:54,300
+So again, this is possible
+
+109
+00:05:54,300 --> 00:05:57,630
+because JavaScript has first class functions.
+
+110
+00:05:57,630 --> 00:06:01,260
+And so we can simply take this function value here.
+
+111
+00:06:01,260 --> 00:06:03,730
+So that's this function
+
+112
+00:06:03,730 --> 00:06:06,430
+and then store it into a new variable,
+
+113
+00:06:06,430 --> 00:06:10,470
+which is then gonna be also the book function, okay?
+
+114
+00:06:10,470 --> 00:06:13,460
+Now, we could have written the function here also literally
+
+115
+00:06:13,460 --> 00:06:15,280
+but that's just not necessary.
+
+116
+00:06:15,280 --> 00:06:16,680
+We have it right here
+
+117
+00:06:16,680 --> 00:06:18,350
+and so let's just leave it there
+
+118
+00:06:18,350 --> 00:06:21,160
+and assign it to book right here.
+
+119
+00:06:21,160 --> 00:06:24,660
+Okay, so let's try to use this book function
+
+120
+00:06:24,660 --> 00:06:27,230
+to do a new booking now.
+
+121
+00:06:27,230 --> 00:06:30,150
+But what do you think is gonna happen?
+
+122
+00:06:30,150 --> 00:06:35,150
+So 23, and then let's say Sarah Williams
+
+123
+00:06:37,030 --> 00:06:38,520
+and let's give it a save
+
+124
+00:06:38,520 --> 00:06:43,480
+and now we get cannot read property airline of undefined.
+
+125
+00:06:43,480 --> 00:06:45,193
+So do you know why this happened?
+
+126
+00:06:46,120 --> 00:06:48,710
+Well, it's because this function here,
+
+127
+00:06:48,710 --> 00:06:52,030
+the book function is now just a regular function call
+
+128
+00:06:52,030 --> 00:06:55,170
+and so as we learned in one of the previous sections,
+
+129
+00:06:55,170 --> 00:06:56,427
+in a regular function call,
+
+130
+00:06:56,427 --> 00:06:59,400
+the this keyword points to undefined,
+
+131
+00:06:59,400 --> 00:07:02,070
+at least in strict mode.
+
+132
+00:07:02,070 --> 00:07:03,086
+All right?
+
+133
+00:07:03,086 --> 00:07:08,086
+So once more, this book function is no longer this method.
+
+134
+00:07:08,900 --> 00:07:09,733
+Okay?
+
+135
+00:07:09,733 --> 00:07:10,566
+It's just not.
+
+136
+00:07:10,566 --> 00:07:13,400
+It is now this separate function here.
+
+137
+00:07:13,400 --> 00:07:16,280
+It's a copy of this one
+
+138
+00:07:16,280 --> 00:07:17,980
+but it's not a method anymore,
+
+139
+00:07:17,980 --> 00:07:19,007
+it's now a function.
+
+140
+00:07:19,007 --> 00:07:21,900
+And so here it's a regular function call.
+
+141
+00:07:21,900 --> 00:07:25,130
+And so therefore, the this keyword inside of it
+
+142
+00:07:25,130 --> 00:07:27,470
+will now point to undefined.
+
+143
+00:07:27,470 --> 00:07:29,810
+And that's why I kept telling you earlier
+
+144
+00:07:29,810 --> 00:07:32,610
+that the this keyword depends on how the function
+
+145
+00:07:32,610 --> 00:07:34,410
+is actually called.
+
+146
+00:07:34,410 --> 00:07:38,240
+Okay, so make sure to understand these dynamics here.
+
+147
+00:07:38,240 --> 00:07:41,500
+But now how do we actually fix this problem?
+
+148
+00:07:41,500 --> 00:07:44,870
+So in other words, how do we tell JavaScript
+
+149
+00:07:44,870 --> 00:07:46,720
+that we want to create a booking
+
+150
+00:07:46,720 --> 00:07:49,030
+on the new Eurowings airline?
+
+151
+00:07:49,030 --> 00:07:51,290
+Or even how do we tell it that we want
+
+152
+00:07:51,290 --> 00:07:53,980
+to book on Lufthansa here?
+
+153
+00:07:53,980 --> 00:07:57,910
+Well, basically, we need to tell JavaScript explicitly
+
+154
+00:07:57,910 --> 00:08:00,780
+what the this keyword here should be like.
+
+155
+00:08:00,780 --> 00:08:03,320
+So if we want to book a Lufthansa flight,
+
+156
+00:08:03,320 --> 00:08:06,190
+the this keyword should point to Lufthansa
+
+157
+00:08:06,190 --> 00:08:09,620
+but if we want to book a Eurowings flight,
+
+158
+00:08:09,620 --> 00:08:12,800
+then the this keyword should point to Eurowings.
+
+159
+00:08:12,800 --> 00:08:14,370
+So how do we do that?
+
+160
+00:08:14,370 --> 00:08:17,300
+How do we tell JavaScript explicitly
+
+161
+00:08:17,300 --> 00:08:21,700
+or manually what this this keyword should look like?
+
+162
+00:08:21,700 --> 00:08:24,890
+Well, there are three function methods to do that
+
+163
+00:08:24,890 --> 00:08:28,550
+and they are call, apply and bind.
+
+164
+00:08:28,550 --> 00:08:31,020
+So when we first talked about the this keyword,
+
+165
+00:08:31,020 --> 00:08:33,700
+I think I mentioned these methods back then
+
+166
+00:08:33,700 --> 00:08:35,300
+and so now we're gonna use them,
+
+167
+00:08:35,300 --> 00:08:37,453
+at least the call and apply methods.
+
+168
+00:08:38,790 --> 00:08:40,743
+Okay, so let me show you how.
+
+169
+00:08:40,743 --> 00:08:43,870
+So instead of just doing this,
+
+170
+00:08:43,870 --> 00:08:45,810
+which doesn't work,
+
+171
+00:08:45,810 --> 00:08:47,983
+let's actually comment that out.
+
+172
+00:08:48,930 --> 00:08:50,793
+Does NOT work.
+
+173
+00:08:52,330 --> 00:08:57,330
+So instead, we use book.call, all right?
+
+174
+00:08:57,440 --> 00:09:02,280
+And remember that a function is really just an object
+
+175
+00:09:02,280 --> 00:09:04,390
+and objects have methods
+
+176
+00:09:04,390 --> 00:09:07,370
+and therefore, functions can have methods too
+
+177
+00:09:07,370 --> 00:09:09,573
+and the call method is one of them.
+
+178
+00:09:10,670 --> 00:09:11,870
+And in the call method,
+
+179
+00:09:11,870 --> 00:09:14,230
+the first argument is exactly
+
+180
+00:09:14,230 --> 00:09:17,230
+what we want the this keyword to point to.
+
+181
+00:09:17,230 --> 00:09:21,130
+So let's say we want a Eurowings flight
+
+182
+00:09:21,130 --> 00:09:22,520
+and then as usual,
+
+183
+00:09:22,520 --> 00:09:24,350
+the rest of the arguments.
+
+184
+00:09:24,350 --> 00:09:29,350
+So 23 and Sarah Williams.
+
+185
+00:09:29,400 --> 00:09:30,310
+All right?
+
+186
+00:09:30,310 --> 00:09:34,800
+And then let's log to the console also the eurowings object.
+
+187
+00:09:34,800 --> 00:09:38,320
+Let's run this and then I'll explain a bit better
+
+188
+00:09:38,320 --> 00:09:39,393
+what just happened.
+
+189
+00:09:40,270 --> 00:09:43,140
+But indeed, we now have the bookings array
+
+190
+00:09:43,140 --> 00:09:45,270
+and in there, we have the object
+
+191
+00:09:45,270 --> 00:09:49,710
+with the EW23 and so EW comes from here.
+
+192
+00:09:49,710 --> 00:09:51,770
+So exactly from the eurowings object
+
+193
+00:09:52,965 --> 00:09:54,900
+and then also, of course, the name.
+
+194
+00:09:54,900 --> 00:09:57,227
+And again, it is inside the bookings array
+
+195
+00:09:57,227 --> 00:09:59,083
+of the Eurowings object.
+
+196
+00:10:00,270 --> 00:10:02,383
+So let's recap what happened here.
+
+197
+00:10:03,460 --> 00:10:05,110
+So this time, we did actually
+
+198
+00:10:05,110 --> 00:10:07,870
+not call the book function ourselves.
+
+199
+00:10:07,870 --> 00:10:10,480
+Instead, we called the call method
+
+200
+00:10:10,480 --> 00:10:12,210
+and it's then this call method,
+
+201
+00:10:12,210 --> 00:10:14,610
+which will call the book function
+
+202
+00:10:14,610 --> 00:10:18,230
+with the this keyword set to eurowings.
+
+203
+00:10:18,230 --> 00:10:21,080
+So whatever we pass has the first argument
+
+204
+00:10:21,080 --> 00:10:22,940
+of the call method.
+
+205
+00:10:22,940 --> 00:10:25,280
+And so this allows us to manually
+
+206
+00:10:25,280 --> 00:10:27,950
+and explicitly set the this keyword
+
+207
+00:10:27,950 --> 00:10:30,770
+of any function that we want to call.
+
+208
+00:10:30,770 --> 00:10:33,360
+Then all the arguments after the first one
+
+209
+00:10:33,360 --> 00:10:36,800
+are simply the arguments of the original function.
+
+210
+00:10:36,800 --> 00:10:38,510
+And so in the case of the book function,
+
+211
+00:10:38,510 --> 00:10:41,000
+of course, that's the flight number
+
+212
+00:10:41,000 --> 00:10:42,733
+and the passenger name.
+
+213
+00:10:44,460 --> 00:10:47,863
+And of course, now we can do the same also for Lufthansa.
+
+214
+00:10:49,020 --> 00:10:53,243
+So book.call, this time with lufthansa
+
+215
+00:10:54,630 --> 00:10:58,213
+and let's book someone else on flight 239.
+
+216
+00:11:02,210 --> 00:11:03,750
+Let's say Mary Cooper
+
+217
+00:11:03,750 --> 00:11:08,557
+and let's log again the lufthansa object
+
+218
+00:11:08,557 --> 00:11:10,763
+but let's do it now here.
+
+219
+00:11:12,890 --> 00:11:15,210
+And indeed, the string that we get here
+
+220
+00:11:15,210 --> 00:11:16,870
+is completely correct
+
+221
+00:11:16,870 --> 00:11:21,670
+and in here, so in the Lufthansa bookings array,
+
+222
+00:11:21,670 --> 00:11:24,373
+we now have, of course, three bookings.
+
+223
+00:11:25,413 --> 00:11:26,370
+Okay?
+
+224
+00:11:26,370 --> 00:11:29,000
+And so that, of course, happened because this time,
+
+225
+00:11:29,000 --> 00:11:30,890
+we set the this keyword inside
+
+226
+00:11:30,890 --> 00:11:33,843
+of the function call to lufthansa.
+
+227
+00:11:34,770 --> 00:11:39,770
+And so now this here is again back to pointing to Lufthansa,
+
+228
+00:11:39,940 --> 00:11:42,920
+while before, right here,
+
+229
+00:11:42,920 --> 00:11:46,320
+it was being pointed to Eurowings, all right?
+
+230
+00:11:46,320 --> 00:11:49,660
+So even though the code of this function
+
+231
+00:11:49,660 --> 00:11:52,740
+is inside of the lufthansa object,
+
+232
+00:11:52,740 --> 00:11:56,370
+we made it so that the this keyword in here
+
+233
+00:11:56,370 --> 00:11:58,820
+pointed to eurowings.
+
+234
+00:11:58,820 --> 00:12:03,460
+So to this object, this new one right here, okay?
+
+235
+00:12:03,460 --> 00:12:04,450
+So we have a way now
+
+236
+00:12:04,450 --> 00:12:07,484
+of manually manipulating the this keyword
+
+237
+00:12:07,484 --> 00:12:09,530
+using the call method.
+
+238
+00:12:09,530 --> 00:12:11,860
+And of course, we could now keep going
+
+239
+00:12:11,860 --> 00:12:15,027
+and create more airlines into the Lufthansa Group,
+
+240
+00:12:15,027 --> 00:12:17,423
+like the Swiss Air Lines.
+
+241
+00:12:23,115 --> 00:12:23,948
+Air Lines.
+
+242
+00:12:25,040 --> 00:12:27,770
+Now, of course, these property names,
+
+243
+00:12:27,770 --> 00:12:31,800
+they all need to have the exact same format
+
+244
+00:12:31,800 --> 00:12:34,230
+as this original object here
+
+245
+00:12:34,230 --> 00:12:38,720
+because this method is trying to read just these properties.
+
+246
+00:12:38,720 --> 00:12:40,820
+So it's always iataCode
+
+247
+00:12:40,820 --> 00:12:44,560
+and bookings, as you see here, and airline.
+
+248
+00:12:44,560 --> 00:12:45,580
+And so of course,
+
+249
+00:12:45,580 --> 00:12:49,480
+we need to use exactly these property names here as well
+
+250
+00:12:51,120 --> 00:12:52,420
+but just like this,
+
+251
+00:12:52,420 --> 00:12:54,300
+we can now go ahead
+
+252
+00:12:54,300 --> 00:12:58,443
+and use our book function on the Swiss Air Line.
+
+253
+00:13:00,070 --> 00:13:02,660
+And so this time, we will set the this keyword
+
+254
+00:13:02,660 --> 00:13:06,163
+in the book.call to the swiss object.
+
+255
+00:13:07,250 --> 00:13:12,250
+583 and let's book another flight for Mary Cooper here.
+
+256
+00:13:18,500 --> 00:13:20,473
+And indeed, it worked again.
+
+257
+00:13:21,600 --> 00:13:25,323
+So here is the booking again.
+
+258
+00:13:26,390 --> 00:13:27,390
+Okay?
+
+259
+00:13:27,390 --> 00:13:29,510
+There's just some weird thing here
+
+260
+00:13:30,600 --> 00:13:33,380
+and so oh, actually here,
+
+261
+00:13:33,380 --> 00:13:35,120
+it needs to be airline as well.
+
+262
+00:13:35,120 --> 00:13:39,620
+So I was telling you you need to use the same property names
+
+263
+00:13:39,620 --> 00:13:42,070
+and I wasn't even doing it myself.
+
+264
+00:13:42,070 --> 00:13:46,290
+So it needs to be airline, just like it is here
+
+265
+00:13:47,250 --> 00:13:48,763
+and the same here too.
+
+266
+00:13:51,150 --> 00:13:53,993
+And now the string is, of course, correct here.
+
+267
+00:13:55,480 --> 00:13:56,860
+Okay.
+
+268
+00:13:56,860 --> 00:13:58,573
+Let me add a comment here.
+
+269
+00:14:00,160 --> 00:14:03,000
+Call method because in fact,
+
+270
+00:14:03,000 --> 00:14:05,890
+there is a similar method to the call method,
+
+271
+00:14:05,890 --> 00:14:09,530
+which is called the apply method.
+
+272
+00:14:09,530 --> 00:14:13,560
+And the apply method does basically exactly the same thing.
+
+273
+00:14:13,560 --> 00:14:15,720
+The only difference is that apply
+
+274
+00:14:15,720 --> 00:14:18,290
+does not receive a list of arguments
+
+275
+00:14:18,290 --> 00:14:19,723
+after the this keyword,
+
+276
+00:14:20,710 --> 00:14:23,160
+so it doesn't receive this list here
+
+277
+00:14:23,160 --> 00:14:25,300
+but instead, it's gonna take an array
+
+278
+00:14:25,300 --> 00:14:27,697
+of the arguments, okay?
+
+279
+00:14:27,697 --> 00:14:29,970
+And so it will then take the elements
+
+280
+00:14:29,970 --> 00:14:33,670
+from that array and pass it into the function.
+
+281
+00:14:33,670 --> 00:14:34,570
+So let's say
+
+282
+00:14:37,003 --> 00:14:37,920
+flightData,
+
+283
+00:14:39,190 --> 00:14:41,540
+so I'm just gonna create quickly an array here
+
+284
+00:14:41,540 --> 00:14:44,850
+with the flight number and the passenger name.
+
+285
+00:14:44,850 --> 00:14:49,800
+So book on the same flight George Cooper
+
+286
+00:14:50,900 --> 00:14:54,703
+and now we can use apply on the book function.
+
+287
+00:14:55,610 --> 00:14:56,823
+So apply.
+
+288
+00:14:57,870 --> 00:15:00,990
+And then just as here in the call method,
+
+289
+00:15:00,990 --> 00:15:03,783
+the first argument is the this keyword.
+
+290
+00:15:05,200 --> 00:15:06,950
+But now the second argument,
+
+291
+00:15:06,950 --> 00:15:10,333
+it needs to be as I just said an array of data.
+
+292
+00:15:11,180 --> 00:15:13,963
+So let's pass in the flightData array here.
+
+293
+00:15:15,410 --> 00:15:17,010
+But then let's just take a look.
+
+294
+00:15:18,180 --> 00:15:20,313
+I'll just take this one here actually.
+
+295
+00:15:24,200 --> 00:15:27,820
+And so indeed, here it worked again.
+
+296
+00:15:27,820 --> 00:15:29,220
+All right?
+
+297
+00:15:29,220 --> 00:15:32,060
+This apply method is not that used anymore
+
+298
+00:15:32,060 --> 00:15:34,660
+in modern JavaScript because now,
+
+299
+00:15:34,660 --> 00:15:39,130
+we actually have a better way of doing the exact same thing.
+
+300
+00:15:39,130 --> 00:15:41,163
+And do you know what I'm talking about?
+
+301
+00:15:42,120 --> 00:15:44,830
+So let me show it to you.
+
+302
+00:15:44,830 --> 00:15:49,260
+Book.call, so instead of using apply,
+
+303
+00:15:49,260 --> 00:15:51,740
+we can still use call,
+
+304
+00:15:51,740 --> 00:15:53,540
+again with swiss
+
+305
+00:15:53,540 --> 00:15:56,770
+and then we can simply use the spread operator
+
+306
+00:15:56,770 --> 00:15:59,227
+to take the data out of flightData
+
+307
+00:16:00,090 --> 00:16:02,430
+and basically put them here.
+
+308
+00:16:02,430 --> 00:16:06,050
+So this here is the same as this one.
+
+309
+00:16:06,050 --> 00:16:08,780
+And so right now, with modern JavaScript,
+
+310
+00:16:08,780 --> 00:16:12,140
+I prefer to just always use the call method
+
+311
+00:16:12,140 --> 00:16:16,773
+and then spread out the arguments from an array like this.
+
+312
+00:16:18,300 --> 00:16:22,523
+So again, this here is exactly the same as this.
+
+313
+00:16:23,720 --> 00:16:27,260
+So in summary, we now have yet another tool
+
+314
+00:16:27,260 --> 00:16:29,210
+in our toolbox here
+
+315
+00:16:29,210 --> 00:16:31,450
+and this one is one that allows us
+
+316
+00:16:31,450 --> 00:16:34,820
+to explicitly define the this keyword
+
+317
+00:16:34,820 --> 00:16:36,890
+in any function that we want.
+
+318
+00:16:36,890 --> 00:16:39,260
+But there is actually yet another method
+
+319
+00:16:39,260 --> 00:16:41,520
+which allows us to do the same thing
+
+320
+00:16:41,520 --> 00:16:43,530
+and that's the bind method.
+
+321
+00:16:43,530 --> 00:16:44,363
+It's more important actually
+
+322
+00:16:44,363 --> 00:16:46,740
+than the call and apply methods,
+
+323
+00:16:46,740 --> 00:16:49,053
+so I'm gonna leave it for the next lecture.

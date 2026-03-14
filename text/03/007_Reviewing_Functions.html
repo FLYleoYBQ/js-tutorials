@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reviewing Functions</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
+        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
+        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
+        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
+        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; }
+        .btn-run:active { transform: scale(0.95); }
+        .editor-textarea { width: 100%; height: 420px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
+        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: rgba(255,255,255,0.05); }
+        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
+        .quiz-card { background: var(--surface-color); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 16px; }
+        .quiz-question { font-weight: 600; margin-bottom: 12px; }
+        .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+        .quiz-option { padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+        .quiz-option:hover { background: rgba(255,255,255,0.05); }
+        .quiz-option.selected.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--success-color); }
+        .quiz-option.selected.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--danger-color); }
+        .quiz-explanation { display: none; margin-top: 12px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 6px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 同名参数的独立性</a>
+            <a href="#section-2" class="nav-item">2. Return 语句的截断执行特性</a>
+            <a href="#section-3" class="nav-item">3. 函数机制全景总览</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Reviewing Functions</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：007 Reviewing Functions.en.srt</span>
+            <span>📂 章节：第 03 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：三种函数的写法、函数的相互调用。</li>
+                <li><strong>后续扩展</strong>：夯实这些基础之后，你即将面临 JavaScript 基础部分的第一个巅峰挑战（Coding Challenge）。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>为了确保你在进入实战挑战前完全理解，这节课我们总结前两节的内容。我们将探讨为什么两个同名参数在不同函数里不会“打架”，并揭示 <code>return</code> 关键字隐藏的“立即退场”属性。</p>
+
+        <h2 id="section-1">1. 同名参数的独立性</h2>
+        
+        <p>在跨函数调用时，很多人看着同名的 <code>birthYear</code> 变量可能会晕掉。这里有一个核心真相：<strong>参数（Parameters）就像是每个函数自己的“私人局域网”，彼此之间互不干扰。</strong></p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">scope.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+// 第一台机器
+const calcAge = function(birthYear) {
+    return 2037 - birthYear;
+}
+
+// 第二台机器：也包含一个外表叫 birthYear 的参数
+const yearsUntilRetirement = function(birthYear, firstName) {
+    const age = calcAge(birthYear); 
+    const retirement = 65 - age;
+    return `${firstName} 距离退休还有 ${retirement} 年`;
+}
+
+console.log(yearsUntilRetirement(1991, 'Jonas'));
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <p>如上所示，尽管两个函数都有一个名为 <code>birthYear</code> 的变量，但它们就像两座不同写字楼里都叫“会议室A”的房间一样，虽然名字一样，物理上毫不相干。这保证了各函数的自我隔离。</p>
+
+        <h2 id="section-2">2. Return 语句的截断执行特性</h2>
+
+        <p><code>return</code> 不是简单地输出数据那么简单。它还有一个非常霸道的特权：<strong>终止函数</strong>。一旦执行到 <code>return</code> 那一行，函数就像被拉下了电闸，后面的代码将永远不被执行！</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">return-demo.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">'use strict';
+
+const getRetirement = function(birthYear, firstName) {
+    const age = 2037 - birthYear;
+    const retirement = 65 - age;
+    
+    if (retirement > 0) {
+        // 先打印日志，再 return 送客
+        console.log(`${firstName} 还要工作 ${retirement} 年。`);
+        return retirement;
+        console.log("这行代码在 return 之后，它永远像个幽灵，不会被执行到了！");
+    } else {
+        console.log(`${firstName} 早已在悠闲退休了 🏖️`);
+        return -1; // -1 是编程中常用表示无意义或错误的标兵数字
+    }
+}
+
+getRetirement(1991, 'Jonas');
+getRetirement(1950, 'Mike');
+</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+        
+        <p><strong>🔍 执行追踪：</strong><br>
+        如果你把 <code>console.log()</code> 移到了 <code>return</code> 之后，控制台将寂静如迷。因此如果想记录日志，千万记得安排在函数“退场”之前。</p>
+
+        <h2 id="section-3">3. 函数机制全景总览</h2>
+
+        <p>最后，让我们通过图表将所学过的三种函数体系画一张全景鸟瞰图：</p>
+
+        <strong>📊 三大函数体系对比：</strong>
+        <table>
+            <thead>
+                <tr>
+                    <th>函数类型</th>
+                    <th>核心写法</th>
+                    <th>关键区别 / 适用场景</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>函数声明</strong> (Declaration)</td>
+                    <td><code>function myFunc() {...}</code></td>
+                    <td>可以<strong>提前调用</strong>(Hoisting)。经典传统写法。</td>
+                </tr>
+                <tr>
+                    <td><strong>函数表达式</strong> (Expression)</td>
+                    <td><code>const myFunc = function(){...}</code></td>
+                    <td>变量绑定，不可提前调用。逻辑严谨结构清晰推荐。</td>
+                </tr>
+                <tr>
+                    <td><strong>箭头函数</strong> (Arrow)</td>
+                    <td><code>const myFunc = () => {...}</code></td>
+                    <td>省略大量关键字，适合简短单行工具函数，自带隐式返回。由于没有独立的 <code>this</code> 绑定，不可滥用。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <strong>无论是哪一种，它们共有的骨架就是：接收参数（Parameters）作为输入 → 函数体加工计算（Body） → 通过 `return` 抛出返回值输出！</strong>
+
+        <hr>
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>内置特性</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>局部变量 / 参数互不干扰</td>
+                    <td>Local Variables</td>
+                    <td>在函数体 `()` 和 `{}` 内定义的变量，只活在该函数的寿命里。</td>
+                    <td>-</td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Scope" target="_blank" style="color:var(--accent-color);">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>截断返回</td>
+                    <td>Immediate Exit via Return</td>
+                    <td>`return` 会立即切断执行流并退出函数环境。</td>
+                    <td>-</td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/return" target="_blank" style="color:var(--accent-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        
+        <div class="quiz-card" data-correct="C">
+            <div class="quiz-question">1. 下图的代码运行后，会打印字符串 `"我是最后一行"` 吗？
+<pre><code class="language-javascript">function test() {
+    return '完成';
+    console.log('我是最后一行');
+}
+test();
+</code></pre>
+            </div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 会，因为它是写在函数体内的正常语句。</div>
+                <div class="quiz-option" data-value="B">B) 会，甚至会比 '完成' 更早输出。</div>
+                <div class="quiz-option" data-value="C">C) 绝不会。因为代码执行到 return 后会立刻退出该函数，剥夺其后的任何执行权。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>解析：</strong> C 是正确的。Return 是终极大招，一旦执行它，该函数的调用就当场杀青谢幕了，所有后续语句全部变成不会被触碰的空气代码。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const out = document.getElementById(consoleId);
+        out.innerHTML = '';
+        const originalLog = console.log;
+        const originalError = console.error;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push('> ' + args.join(' '));
+            originalLog.apply(console, args);
+        };
+        console.error = function(...args) {
+            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
+            originalError.apply(console, args);
+        };
+        try {
+            new Function(code)();
+            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+        } catch (e) {
+            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+        }
+        console.log = originalLog;
+        console.error = originalError;
+        out.innerHTML = logs.join('<br>');
+    }
+
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            if (card.querySelector('.selected')) return;
+            const correctVal = card.getAttribute('data-correct');
+            const selectedVal = this.getAttribute('data-value');
+            this.classList.add('selected');
+            if (correctVal === selectedVal) {
+                this.classList.add('correct');
+            } else {
+                this.classList.add('wrong');
+                card.querySelector(`[data-value="${correctVal}"]`).classList.add('correct', 'selected');
+            }
+            card.querySelector('.quiz-explanation').style.display = 'block';
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Methods</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
+        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
+        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
+        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
+        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; font-weight: 600;}
+        .btn-run:active { transform: scale(0.95); }
+        .editor-textarea { width: 100%; height: 450px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
+        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: rgba(255,255,255,0.05); }
+        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
+        .code-comparison { display: flex; gap: 24px; margin: 24px 0; }
+        .code-block-wrapper { flex: 1; min-width: 0; background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+        .code-block-header { padding: 8px 16px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-color); }
+        .code-block-header.bad-side { background-color: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
+        .code-block-header.good-side { background-color: rgba(16, 185, 129, 0.1); color: var(--success-color); }
+        pre[class*="language-"] { margin: 0; padding: 16px; border-radius: 0; background: transparent; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-methods" class="nav-item active">方法：当数据成为动词</a>
+            <a href="#section-this" class="nav-item">this 关键词：对象的自我意识</a>
+            <a href="#section-dry" class="nav-item">终极演化：利用 this 实现 DRY 原则</a>
+            <a href="#section-arrays" class="nav-item">大揭秘：数组方法从何而来？</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Object Methods (对象的方法)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：016 Object Methods.en.srt</span>
+            <span>📂 章节：第 03 章</span>
+        </div>
+
+        <h2 id="section-methods">🛠️ 方法：当数据成为动词</h2>
+        <p>如果说 <code>firstName</code> 或者 <code>age</code> 是用来描述一个对象的静态“名词”，那么对象是否能够自己装配能够主动运转的“动词引擎”呢？</p>
+        <p>回忆一下前几节课的宇宙真理：<strong>函数(Function) 本质上也只是一种价值形态 (Value)。</strong>既然它是一个可以随意拿捏的值，这也就意味着任何对象里的键值对，其 Value 的部分完全可以丢一团函数进去！这就是传说中的——<strong>方法 (Method)</strong>。</p>
+
+        <p>任何依附于对象的函数，都被统称为：方法。</p>
+<pre><code class="language-javascript">const jonas = {
+    firstName: 'Jonas',
+    birthYear: 1991,
+    // 看这里！分配了一个完整的函数表达式！
+    calcAge: function(birthYear) {
+        return 2037 - birthYear;
+    }
+};
+
+// 调用的姿势也是我们极其熟悉的：
+console.log(jonas.calcAge(1991)); 
+</code></pre>
+        <p>注意：在这里你必须使用<strong>函数表达式 (function expression)</strong>。如果你胆敢违规使用 <code>function calcAge() {...}</code> 这种带名字的函数声明，将会得到极其严厉的 Syntax 面壁思过红牌大礼包。</p>
+
+        <h2 id="section-this">🤖 this 关键词：对象的自我意识</h2>
+
+        <p>细看上面的代码其实大有毛病：调用计算时，为什么还要一遍遍传入 <code>1991</code> ？Jonas 对象的内部早已白纸黑字写好了属于自己的 `birthYear: 1991`。这违背了极度神圣的 <strong>DRY 原则 (Don't Repeat Yourself)</strong>！万一数据改成了 1992 呢？我们要手动在全宇宙找寻这堆散落的代码吗？</p>
+
+        <p>为解决这等蠢事，JavaScript 特派了一个无敌指针变量进驻所有方法体内：<code><strong>this</strong></code> 关键字。</p>
+        <p><strong><code>this</code> 指针指向什么？永远指向正在召唤这个方法的源头主宰对象 (The object calling the method)。</strong></p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">this-keyword.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行沙盒</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+const jonas = {
+    firstName: 'Jonas',
+    birthYear: 1991,
+    
+    // 进化过的 calcAge 引擎！利用 this 自主读取本体数据！
+    calcAge: function() {
+        console.log("谁在召唤我？(这就是 this)", this);
+        return 2037 - this.birthYear; 
+        // 不再写死 jonas.birthYear。写死了换马甲 Jonas2 就崩了！
+    }
+};
+
+// 看看是谁在调用？点(.) 前面的是 jonas。
+console.log("最终年龄: ", jonas.calcAge());
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-dry">🧬 终极演化：内部缓存的产生</h2>
+
+        <p>如果业务上有三个模块都需要获得 Jonas 的年龄，连续呼叫 `jonas.calcAge()` 三次，就意味着你的电脑必须苦哈哈地反复做 3 次数学减法。</p>
+        <p>更加优雅且节约算力的方法是：<strong>在首次运算结束后，借用伟大的 <code>this</code> 顺手把结果藏到对象的一个全新标签中固化下来！</strong>这也是商业级代码的常见思路：</p>
+
+        <div class="code-comparison">
+            <div class="code-block-wrapper">
+                <div class="code-block-header bad-side">❌ 原始粗暴运算 (反复耗电)</div>
+                <pre><code class="language-javascript">calcAge: function() {
+    return 2037 - this.birthYear; 
+}
+// 连叫三次：
+console.log(jonas.calcAge());
+console.log(jonas.calcAge());
+console.log(jonas.calcAge());</code></pre>
+            </div>
+            <div class="code-block-wrapper">
+                <div class="code-block-header good-side">✅ 终局缓存思维 (计算一次)</div>
+                <pre><code class="language-javascript">calcAge: function() {
+    // 顺手给当前对象烙印一个固化属性 this.age
+    this.age = 2037 - this.birthYear;
+    return this.age;
+}
+// 先驱动一次机器引擎...
+jonas.calcAge();
+// 以后再抓取，全凭顺手拿缓存死数字！极速！
+console.log(jonas.age); 
+console.log(jonas.age); 
+console.log(jonas.age); </code></pre>
+            </div>
+        </div>
+
+        <h2 id="section-arrays">🤫 惊天大揭秘：数组方法从何而来？</h2>
+        <div class="callout">
+            <p>我们上一节课大讲特讲 “数组有专属的 push()、pop() 等神奇的操作方法”……<br>
+            现在你刚学会原来这就是“对象身上的 Method”而已……这就破案了！</p>
+            <p><strong>原来，所谓的数组 (Arrays)，在 JavaScript 最深不见底的底层本质上，不过是一个批着马甲的特殊高阶对象 (Objects)！</strong></p>
+            <p>这也是为何阵列同样配有 <code>.length</code> 属性甚至能挂上千奇百怪方法的终极原因！这个惊人的核心原理我们在课程偏后期的工作原理深入章节中全盘托出。</p>
+        </div>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const out = document.getElementById(consoleId);
+        out.innerHTML = '';
+        const originalLog = console.log;
+        const originalError = console.error;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push('> ' + args.join(' '));
+            originalLog.apply(console, args);
+        };
+        console.error = function(...args) {
+            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
+            originalError.apply(console, args);
+        };
+        try {
+            new Function(code)();
+            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+        } catch (e) {
+            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+        }
+        console.log = originalLog;
+        console.error = originalError;
+        out.innerHTML = logs.join('<br>');
+    }
+</script>
+</body>
+</html>

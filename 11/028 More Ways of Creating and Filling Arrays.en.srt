@@ -1,0 +1,1435 @@
+1
+00:00:01,300 --> 00:00:04,460
+The last thing that we're gonna learn in this section
+
+2
+00:00:04,460 --> 00:00:08,393
+is how to programmatically create and fill arrays.
+
+3
+00:00:10,160 --> 00:00:14,273
+So far we have always simply created arrays like this.
+
+4
+00:00:15,940 --> 00:00:17,220
+Right?
+
+5
+00:00:17,220 --> 00:00:20,623
+So basically writing them out by hand, literally.
+
+6
+00:00:22,960 --> 00:00:24,560
+So just like this,
+
+7
+00:00:24,560 --> 00:00:29,173
+or maybe we might've done it also like this.
+
+8
+00:00:30,700 --> 00:00:35,700
+So using a new Array, a constructor,
+
+9
+00:00:37,160 --> 00:00:40,710
+and then passing in all the numbers here as arguments,
+
+10
+00:00:40,710 --> 00:00:42,953
+and then that also creates this array.
+
+11
+00:00:44,640 --> 00:00:48,970
+Now in this cases we basically already have all data.
+
+12
+00:00:48,970 --> 00:00:53,970
+So for example, one, two, three, four, all the way to seven.
+
+13
+00:00:54,150 --> 00:00:56,480
+So that's the data that we already have.
+
+14
+00:00:56,480 --> 00:01:00,960
+And so therefore we could then manually create these arrays.
+
+15
+00:01:00,960 --> 00:01:03,870
+However, we can actually also generate
+
+16
+00:01:03,870 --> 00:01:06,150
+arrays programmatically,
+
+17
+00:01:06,150 --> 00:01:09,710
+so without having to define all the items manually.
+
+18
+00:01:09,710 --> 00:01:13,070
+And there are many situations in which this is necessary
+
+19
+00:01:13,070 --> 00:01:16,220
+and there are also multiple ways of doing it.
+
+20
+00:01:16,220 --> 00:01:18,560
+And the easiest one is to again,
+
+21
+00:01:18,560 --> 00:01:20,593
+use the Array() constructor function.
+
+22
+00:01:22,050 --> 00:01:25,053
+So let's create a new array here like this,
+
+23
+00:01:26,290 --> 00:01:30,113
+and then I will pass an only one argument seven.
+
+24
+00:01:31,170 --> 00:01:33,183
+So what do you think is gonna happen?
+
+25
+00:01:35,330 --> 00:01:38,580
+Well, we might think that this is going to create an array
+
+26
+00:01:38,580 --> 00:01:41,203
+with only one element number seven.
+
+27
+00:01:42,620 --> 00:01:44,320
+But actually it doesn't,
+
+28
+00:01:44,320 --> 00:01:48,300
+instead it creates a new array with seven empty elements
+
+29
+00:01:48,300 --> 00:01:51,483
+in there and it simply contains nothing.
+
+30
+00:01:53,410 --> 00:01:56,820
+So this output is very weird indeed.
+
+31
+00:01:56,820 --> 00:01:57,990
+And the reason for that
+
+32
+00:01:57,990 --> 00:02:01,650
+is this weird behavior of this Array() function
+
+33
+00:02:01,650 --> 00:02:06,520
+which does it so that whenever we only pass in one argument,
+
+34
+00:02:06,520 --> 00:02:10,660
+then it creates a new empty argument with that length.
+
+35
+00:02:10,660 --> 00:02:14,550
+So if we don't know about this special particularity
+
+36
+00:02:14,550 --> 00:02:16,960
+of the Array() constructor function
+
+37
+00:02:16,960 --> 00:02:19,990
+then this can lead to weird errors.
+
+38
+00:02:19,990 --> 00:02:21,090
+Okay?
+
+39
+00:02:21,090 --> 00:02:26,090
+Now also we cannot really use this X array for anything.
+
+40
+00:02:26,270 --> 00:02:29,600
+For example, we cannot call the map() method on it
+
+41
+00:02:29,600 --> 00:02:31,320
+to now fill it up.
+
+42
+00:02:31,320 --> 00:02:35,530
+For example, we might want to do this map().
+
+43
+00:02:35,530 --> 00:02:37,800
+And then in each element,
+
+44
+00:02:37,800 --> 00:02:42,040
+we might simply want to put something there like a five,
+
+45
+00:02:42,040 --> 00:02:43,930
+but then you will see,
+
+46
+00:02:43,930 --> 00:02:46,330
+well, actually we need to log it to the console.
+
+47
+00:02:49,720 --> 00:02:52,660
+But you will see that nothing happened here.
+
+48
+00:02:52,660 --> 00:02:56,460
+So this is not really useful except for one thing,
+
+49
+00:02:56,460 --> 00:02:59,530
+because there is one method that we can call
+
+50
+00:02:59,530 --> 00:03:03,690
+on this empty array and that is the fill() method.
+
+51
+00:03:03,690 --> 00:03:06,630
+So that's a new method that we haven't studied yet,
+
+52
+00:03:06,630 --> 00:03:08,690
+but it's very straight forward.
+
+53
+00:03:08,690 --> 00:03:11,350
+So let me show it to you.
+
+54
+00:03:11,350 --> 00:03:16,250
+So that's x.fill() and then all we need to do
+
+55
+00:03:16,250 --> 00:03:19,500
+is to pass in a value and it will then fill up
+
+56
+00:03:19,500 --> 00:03:22,503
+the entire array with this specific value.
+
+57
+00:03:24,420 --> 00:03:27,860
+And this does actually mutate the underlying array.
+
+58
+00:03:27,860 --> 00:03:30,120
+so we can just change it there
+
+59
+00:03:31,050 --> 00:03:35,090
+and then simply log the entire thing to the console here.
+
+60
+00:03:35,090 --> 00:03:37,643
+So this doesn't work, let's take it out.
+
+61
+00:03:39,120 --> 00:03:42,573
+And now we get this array full off once.
+
+62
+00:03:43,730 --> 00:03:45,700
+But let's actually turn this off
+
+63
+00:03:45,700 --> 00:03:49,720
+so we can experiment a little bit more with fill().
+
+64
+00:03:49,720 --> 00:03:52,580
+Because this method is actually a little bit similar
+
+65
+00:03:52,580 --> 00:03:54,530
+to the slice() method.
+
+66
+00:03:54,530 --> 00:03:58,230
+So besides this value that we want to fill the array with,
+
+67
+00:03:58,230 --> 00:04:02,200
+we can also specify where we want it to start to fill.
+
+68
+00:04:02,200 --> 00:04:04,553
+So let's say only at index three.
+
+69
+00:04:05,650 --> 00:04:08,640
+And so we also can specify a begin parameter
+
+70
+00:04:08,640 --> 00:04:12,823
+and then it only starts at index three, which is this one.
+
+71
+00:04:14,150 --> 00:04:16,640
+So it will then fill it up until the end,
+
+72
+00:04:16,640 --> 00:04:20,747
+unless we specify an end parameter just like in slice().
+
+73
+00:04:21,630 --> 00:04:23,190
+So let's say five,
+
+74
+00:04:23,190 --> 00:04:25,647
+And also just like in a slice(),
+
+75
+00:04:25,647 --> 00:04:30,180
+the final index here is not gonna be included in the array.
+
+76
+00:04:30,180 --> 00:04:33,090
+So just these two here are filled up.
+
+77
+00:04:33,090 --> 00:04:35,850
+And of course, we can also use the fill() method
+
+78
+00:04:35,850 --> 00:04:37,240
+on other arrays.
+
+79
+00:04:37,240 --> 00:04:39,780
+So it doesn't have to be an empty array.
+
+80
+00:04:39,780 --> 00:04:44,223
+Let's say we actually defined this here as an array,
+
+81
+00:04:47,290 --> 00:04:51,380
+and then we can also fill that array.
+
+82
+00:04:51,380 --> 00:04:56,080
+So let's say arr.fill() and let's fill it with 23
+
+83
+00:04:57,560 --> 00:05:00,713
+at position four to six.
+
+84
+00:05:02,030 --> 00:05:04,263
+And again, it will mutate the original one,
+
+85
+00:05:05,250 --> 00:05:09,100
+and so you'll see that we put these 23s
+
+86
+00:05:09,100 --> 00:05:11,160
+in these two positions.
+
+87
+00:05:11,160 --> 00:05:13,180
+So from four to six.
+
+88
+00:05:13,180 --> 00:05:16,843
+Let's say from two to six to put some more in there.
+
+89
+00:05:18,890 --> 00:05:23,800
+So this is the fill() method + empty arrays.
+
+90
+00:05:23,800 --> 00:05:28,800
+So empty arrays + fill method.
+
+91
+00:05:29,840 --> 00:05:32,750
+And with this, we created an array programmatically,
+
+92
+00:05:32,750 --> 00:05:36,083
+so without actually having to write it down manually.
+
+93
+00:05:38,000 --> 00:05:41,200
+So let's bring this part back also to see it.
+
+94
+00:05:41,200 --> 00:05:43,680
+So it's an entire new array that
+
+95
+00:05:43,680 --> 00:05:46,060
+we here just created with our code.
+
+96
+00:05:46,060 --> 00:05:50,420
+And indeed the fill() method can be very useful sometimes.
+
+97
+00:05:50,420 --> 00:05:53,780
+However, what if we actually wanted to recreate
+
+98
+00:05:53,780 --> 00:05:57,000
+the array from our first example?
+
+99
+00:05:57,000 --> 00:06:00,210
+So what if he wanted to create this arr array
+
+100
+00:06:00,210 --> 00:06:01,560
+programmatically?
+
+101
+00:06:01,560 --> 00:06:05,593
+Well, for that, we could use the Array.from() function.
+
+102
+00:06:07,130 --> 00:06:09,967
+So that's Array.from(),
+
+103
+00:06:11,800 --> 00:06:13,620
+and this is how we use it.
+
+104
+00:06:13,620 --> 00:06:16,700
+And this is actually something completely new.
+
+105
+00:06:16,700 --> 00:06:18,670
+And we didn't see this before.
+
+106
+00:06:18,670 --> 00:06:21,330
+So here we are not using
+
+107
+00:06:21,330 --> 00:06:24,223
+the from here as a method on an array.
+
+108
+00:06:25,490 --> 00:06:29,400
+Instead we are using it on the Array() constructor.
+
+109
+00:06:29,400 --> 00:06:31,980
+So that's why it's Array.from.
+
+110
+00:06:31,980 --> 00:06:35,500
+And this array here is exactly the same as this one.
+
+111
+00:06:35,500 --> 00:06:39,670
+So this function, so again, array here is a function
+
+112
+00:06:39,670 --> 00:06:44,330
+and then on this function object, we call the from() method.
+
+113
+00:06:44,330 --> 00:06:48,160
+So that sounds confusing, but we will make more sense of it
+
+114
+00:06:48,160 --> 00:06:51,140
+in the object oriented programming section.
+
+115
+00:06:51,140 --> 00:06:53,300
+But anyway, into this function here,
+
+116
+00:06:53,300 --> 00:06:57,883
+we can first pass in an object with the length property.
+
+117
+00:06:58,880 --> 00:07:00,920
+So let's set it to seven.
+
+118
+00:07:00,920 --> 00:07:04,430
+And then the second argument is a mapping function.
+
+119
+00:07:04,430 --> 00:07:08,280
+So it is exactly like the callback function that we pass
+
+120
+00:07:08,280 --> 00:07:10,390
+into the map() method.
+
+121
+00:07:10,390 --> 00:07:13,970
+So to start, let's also programmatically recreate
+
+122
+00:07:13,970 --> 00:07:16,920
+this array here of seven ones.
+
+123
+00:07:16,920 --> 00:07:19,470
+And so let's write a callback function here.
+
+124
+00:07:19,470 --> 00:07:22,670
+And in this case we don't even need any arguments,
+
+125
+00:07:22,670 --> 00:07:24,710
+but we still have to write a function.
+
+126
+00:07:24,710 --> 00:07:26,730
+So let's write an arrow function here,
+
+127
+00:07:26,730 --> 00:07:31,170
+which will simply return one in each iteration.
+
+128
+00:07:31,170 --> 00:07:34,120
+So no arguments, no current element,
+
+129
+00:07:34,120 --> 00:07:36,950
+no current index and nothing.
+
+130
+00:07:36,950 --> 00:07:39,080
+So all we want to return is a one
+
+131
+00:07:39,080 --> 00:07:44,080
+and that will then put a one in each of the array positions.
+
+132
+00:07:45,370 --> 00:07:48,560
+So let's call this one here Y
+
+133
+00:07:50,160 --> 00:07:51,993
+and then log it to the console.
+
+134
+00:07:54,770 --> 00:07:57,660
+And indeed we get here the exact same result
+
+135
+00:07:57,660 --> 00:07:59,360
+that we had before.
+
+136
+00:07:59,360 --> 00:08:00,490
+But in my opinion,
+
+137
+00:08:00,490 --> 00:08:04,540
+this is a lot cleaner than using this a weird new array
+
+138
+00:08:04,540 --> 00:08:09,100
+behavior than and together with the fill() method.
+
+139
+00:08:09,100 --> 00:08:12,050
+So in my opinion, this is way nicer.
+
+140
+00:08:12,050 --> 00:08:14,911
+But anyway, let's not take it one step further
+
+141
+00:08:14,911 --> 00:08:19,673
+and actually create this initial array from one to seven.
+
+142
+00:08:21,100 --> 00:08:24,127
+So Array.from{length: 7}
+
+143
+00:08:30,200 --> 00:08:32,040
+and then our callback function,
+
+144
+00:08:32,040 --> 00:08:35,530
+and as always, we get access to the current element.
+
+145
+00:08:35,530 --> 00:08:38,653
+So let's call it current first and then the current index.
+
+146
+00:08:40,570 --> 00:08:44,880
+And so the index will vary between zero and six.
+
+147
+00:08:44,880 --> 00:08:48,390
+And so all we have to return from this function is
+
+148
+00:08:48,390 --> 00:08:49,723
+i + one.
+
+149
+00:08:51,570 --> 00:08:53,470
+So again, this callback function here
+
+150
+00:08:53,470 --> 00:08:57,380
+is exactly like the one in a map() method.
+
+151
+00:08:57,380 --> 00:09:00,300
+So you can simply imagine that you're using this
+
+152
+00:09:00,300 --> 00:09:03,470
+as a callback function in calling the map() method
+
+153
+00:09:03,470 --> 00:09:04,653
+on an empty array.
+
+154
+00:09:05,863 --> 00:09:09,640
+And so as always, we get access to the current element
+
+155
+00:09:09,640 --> 00:09:11,320
+and the index.
+
+156
+00:09:11,320 --> 00:09:15,721
+And so adding one to the index will then give us values
+
+157
+00:09:15,721 --> 00:09:17,423
+from one to seven.
+
+158
+00:09:18,840 --> 00:09:21,350
+So Z meant...
+
+159
+00:09:21,350 --> 00:09:22,863
+Yeah, here we go.
+
+160
+00:09:24,190 --> 00:09:29,090
+Now, remember how earlier I used a variable like this.
+
+161
+00:09:29,090 --> 00:09:32,940
+So an underscore, which means a throwaway variable.
+
+162
+00:09:32,940 --> 00:09:36,590
+And so this is another use case for using this convention
+
+163
+00:09:36,590 --> 00:09:39,650
+because we do not need this current value at all.
+
+164
+00:09:39,650 --> 00:09:42,530
+But we still of course have to define something
+
+165
+00:09:42,530 --> 00:09:46,330
+as the first parameter because the index that we need
+
+166
+00:09:46,330 --> 00:09:48,410
+is only the second parameter.
+
+167
+00:09:48,410 --> 00:09:52,060
+But to denote that we are not using this current element,
+
+168
+00:09:52,060 --> 00:09:54,299
+we simply write an underscore.
+
+169
+00:09:54,299 --> 00:09:56,170
+And then other programmers
+
+170
+00:09:56,170 --> 00:09:58,230
+will also understand this convention
+
+171
+00:09:58,230 --> 00:10:02,863
+and automatically know that we don't use this parameter.
+
+172
+00:10:04,770 --> 00:10:08,300
+So this is how we create an array programmatically.
+
+173
+00:10:08,300 --> 00:10:10,460
+And I hope you can see all kinds of
+
+174
+00:10:10,460 --> 00:10:12,770
+different use cases for this.
+
+175
+00:10:12,770 --> 00:10:14,950
+For example, you could create an array
+
+176
+00:10:14,950 --> 00:10:17,940
+with 100 random dice rolls.
+
+177
+00:10:17,940 --> 00:10:20,800
+So maybe you want to try that out on your own,
+
+178
+00:10:20,800 --> 00:10:23,770
+and that is actually one of the assignments that I have
+
+179
+00:10:23,770 --> 00:10:26,160
+later here for this section.
+
+180
+00:10:26,160 --> 00:10:28,710
+So there's gonna be a couple of exercises
+
+181
+00:10:28,710 --> 00:10:30,700
+and this will be one of them.
+
+182
+00:10:30,700 --> 00:10:34,290
+But you can try it out immediately if you feel like it.
+
+183
+00:10:34,290 --> 00:10:38,340
+So try Array.from() to generate an array
+
+184
+00:10:38,340 --> 00:10:40,713
+with 100 random dice rolls.
+
+185
+00:10:41,880 --> 00:10:45,010
+See if you can do that, but anyway,
+
+186
+00:10:45,010 --> 00:10:48,100
+let's now move on and see a more real use case
+
+187
+00:10:48,100 --> 00:10:51,290
+of the Array.from() function.
+
+188
+00:10:51,290 --> 00:10:53,930
+Now, this Array.from() function
+
+189
+00:10:53,930 --> 00:10:57,030
+was initially introduced into JavaScript
+
+190
+00:10:57,030 --> 00:11:01,460
+in order to create arrays from array like structures.
+
+191
+00:11:01,460 --> 00:11:05,770
+So remember how I talked about so-called Iterables before,
+
+192
+00:11:05,770 --> 00:11:09,770
+so things like Strings, Maps or Sets,
+
+193
+00:11:09,770 --> 00:11:12,530
+they are all Iterables in JavaScript.
+
+194
+00:11:12,530 --> 00:11:15,620
+And so they can be converted to real arrays
+
+195
+00:11:15,620 --> 00:11:17,507
+using Array.from().
+
+196
+00:11:18,570 --> 00:11:21,690
+And that's the reason also for the name of the function,
+
+197
+00:11:21,690 --> 00:11:25,640
+because we can create arrays from other things.
+
+198
+00:11:25,640 --> 00:11:26,940
+All right.
+
+199
+00:11:26,940 --> 00:11:30,820
+Now, besides these obvious Iterables that I just mentioned,
+
+200
+00:11:30,820 --> 00:11:34,050
+like Maps or Sets another great example
+
+201
+00:11:34,050 --> 00:11:36,150
+of an array like structure
+
+202
+00:11:36,150 --> 00:11:38,317
+is the result of using querySelectorAll().
+
+203
+00:11:39,670 --> 00:11:43,570
+So maybe you remember that querySelectorAll() returns,
+
+204
+00:11:43,570 --> 00:11:45,730
+something called a NodeList,
+
+205
+00:11:45,730 --> 00:11:47,740
+which is something like an array,
+
+206
+00:11:47,740 --> 00:11:50,400
+which contains all the selected elements.
+
+207
+00:11:50,400 --> 00:11:52,470
+But it's not a real array,
+
+208
+00:11:52,470 --> 00:11:56,700
+and so it doesn't have methods like map(), for example.
+
+209
+00:11:56,700 --> 00:11:58,550
+But it's not a real array,
+
+210
+00:11:58,550 --> 00:12:01,560
+and so it doesn't have most of the array methods
+
+211
+00:12:01,560 --> 00:12:04,260
+like map() or reduce().
+
+212
+00:12:04,260 --> 00:12:06,350
+So if we actually wanted to use
+
+213
+00:12:06,350 --> 00:12:09,890
+a real array method like that on a NodeList,
+
+214
+00:12:09,890 --> 00:12:13,850
+we would first need to convert the NodeList to an array.
+
+215
+00:12:13,850 --> 00:12:17,320
+And for that Array.from() is perfect.
+
+216
+00:12:17,320 --> 00:12:19,420
+So let's do something here now.
+
+217
+00:12:19,420 --> 00:12:22,320
+And let's say that we do not have the movements
+
+218
+00:12:22,320 --> 00:12:26,370
+or for application here stored in an array.
+
+219
+00:12:26,370 --> 00:12:29,823
+So let me show that real quick.
+
+220
+00:12:31,310 --> 00:12:35,760
+So again, let's pretend that we only have these values,
+
+221
+00:12:35,760 --> 00:12:38,480
+so all of these movements only stored here
+
+222
+00:12:38,480 --> 00:12:40,180
+in the user interface,
+
+223
+00:12:40,180 --> 00:12:43,150
+but we do not have them somewhere in our code.
+
+224
+00:12:43,150 --> 00:12:46,880
+So we don't have an array containing these values.
+
+225
+00:12:46,880 --> 00:12:50,940
+But now let's say we want to calculate their sum.
+
+226
+00:12:50,940 --> 00:12:53,900
+And so therefore we need to somehow get them first
+
+227
+00:12:53,900 --> 00:12:57,550
+from the user interface and then do the calculation
+
+228
+00:12:57,550 --> 00:12:58,523
+based on that.
+
+229
+00:12:59,610 --> 00:13:02,893
+So let's create a variable called movementsUI.
+
+230
+00:13:05,520 --> 00:13:08,820
+So the ones that we get from the user interface.
+
+231
+00:13:08,820 --> 00:13:12,660
+So Array.from() and now here,
+
+232
+00:13:12,660 --> 00:13:15,850
+the elements that we want to convert to an array.
+
+233
+00:13:15,850 --> 00:13:19,213
+And so that's gonna be document.querySelectorAll(),
+
+234
+00:13:22,480 --> 00:13:26,193
+and then it is the movements of value class.
+
+235
+00:13:27,420 --> 00:13:29,190
+I'm gonna show it to you in a second.
+
+236
+00:13:29,190 --> 00:13:30,837
+So movements_value,
+
+237
+00:13:33,690 --> 00:13:37,130
+so in our HTML, we can see that...
+
+238
+00:13:38,940 --> 00:13:42,400
+Exactly, this is where the value itself is stored.
+
+239
+00:13:42,400 --> 00:13:44,370
+And so that's what we want to get.
+
+240
+00:13:44,370 --> 00:13:46,690
+So these numbers, right?
+
+241
+00:13:46,690 --> 00:13:49,400
+And so we are selecting all of the elements
+
+242
+00:13:49,400 --> 00:13:50,893
+that have this class.
+
+243
+00:13:54,450 --> 00:13:58,683
+So let's just start by checking it out, movementsUI,
+
+244
+00:14:01,320 --> 00:14:05,010
+but now we only get two elements here,
+
+245
+00:14:05,010 --> 00:14:07,800
+and so that's the one that by the time we load
+
+246
+00:14:07,800 --> 00:14:11,700
+this script here are already in the user interface.
+
+247
+00:14:11,700 --> 00:14:14,270
+So it's this one here.
+
+248
+00:14:14,270 --> 00:14:19,270
+So not the seven that are loaded from the account object.
+
+249
+00:14:20,890 --> 00:14:25,113
+So it's not gonna be this seven here.
+
+250
+00:14:27,080 --> 00:14:30,690
+So if we wanted to actually select exactly these elements,
+
+251
+00:14:30,690 --> 00:14:34,563
+we would have to do this code here on some event handler.
+
+252
+00:14:35,460 --> 00:14:37,023
+So let's do that, actually.
+
+253
+00:14:38,560 --> 00:14:40,330
+Let's simply perform this action
+
+254
+00:14:40,330 --> 00:14:43,050
+when we click somewhere here.
+
+255
+00:14:43,050 --> 00:14:45,513
+Let's say here on this BalanceLabel.
+
+256
+00:14:46,840 --> 00:14:48,660
+So it doesn't matter where we click,
+
+257
+00:14:48,660 --> 00:14:50,893
+So that is called the Label Balance.
+
+258
+00:14:52,160 --> 00:14:57,160
+So we can attach a EventListeners to every object.
+
+259
+00:14:58,350 --> 00:15:00,723
+It doesn't have to be a button.
+
+260
+00:15:01,780 --> 00:15:04,113
+So I think we never did this actually.
+
+261
+00:15:06,440 --> 00:15:08,193
+But let's see what happens now.
+
+262
+00:15:11,100 --> 00:15:12,763
+So let's login again here.
+
+263
+00:15:13,640 --> 00:15:15,975
+And again, remember that we are doing this
+
+264
+00:15:15,975 --> 00:15:19,510
+so that we can now read these seven movements
+
+265
+00:15:19,510 --> 00:15:21,993
+from the user interface as we click here.
+
+266
+00:15:23,170 --> 00:15:25,260
+And indeed now it worked.
+
+267
+00:15:25,260 --> 00:15:30,063
+So now we get these eight movements here.
+
+268
+00:15:31,030 --> 00:15:32,460
+and you see that indeed,
+
+269
+00:15:32,460 --> 00:15:35,593
+it is these values that we see now on the screen.
+
+270
+00:15:37,735 --> 00:15:38,890
+All right.
+
+271
+00:15:38,890 --> 00:15:41,610
+But now let me also show you that we cannot
+
+272
+00:15:41,610 --> 00:15:43,530
+call the map() method on it
+
+273
+00:15:43,530 --> 00:15:47,051
+because the map() method would be useful to now actually get
+
+274
+00:15:47,051 --> 00:15:48,610
+to adjust the number,
+
+275
+00:15:48,610 --> 00:15:50,841
+because you'll see that here we also have
+
+276
+00:15:50,841 --> 00:15:54,560
+this C or sign and so we need to get rid of that.
+
+277
+00:15:54,560 --> 00:15:57,173
+And so the map() method would be perfect for that.
+
+278
+00:15:58,330 --> 00:16:01,540
+So what we would like to do is,
+
+279
+00:16:01,540 --> 00:16:03,040
+let's just do it here for now.
+
+280
+00:16:03,880 --> 00:16:07,283
+We would love to do take the current movement,
+
+281
+00:16:11,050 --> 00:16:12,830
+and so in this case, the movement here,
+
+282
+00:16:12,830 --> 00:16:14,960
+let's just call it element actually,
+
+283
+00:16:14,960 --> 00:16:17,393
+because right now it is a dumb element.
+
+284
+00:16:18,460 --> 00:16:20,830
+So we would take this movement,
+
+285
+00:16:20,830 --> 00:16:24,410
+which is, remember one of these elements here,
+
+286
+00:16:24,410 --> 00:16:28,173
+and so from this element, we need to take the text content.
+
+287
+00:16:29,780 --> 00:16:33,550
+And then we also want to replace the Euro sign
+
+288
+00:16:33,550 --> 00:16:35,283
+with nothing basically.
+
+289
+00:16:36,250 --> 00:16:40,530
+So I'm using the emoji picker here again on the Mac,
+
+290
+00:16:40,530 --> 00:16:44,790
+but you can just get a symbol from your text up there,
+
+291
+00:16:44,790 --> 00:16:46,533
+so from the code we already wrote.
+
+292
+00:16:47,970 --> 00:16:51,530
+And I want to replace it with nothing,
+
+293
+00:16:51,530 --> 00:16:56,300
+but now you will see as we try this again,
+
+294
+00:16:56,300 --> 00:16:57,573
+that is not gonna work.
+
+295
+00:17:01,170 --> 00:17:04,440
+And in fact it does actually work,
+
+296
+00:17:04,440 --> 00:17:06,780
+and that's because I was saying it wrong.
+
+297
+00:17:06,780 --> 00:17:09,660
+Of course it's gonna work because this one here is
+
+298
+00:17:09,660 --> 00:17:12,490
+already a real array at this point.
+
+299
+00:17:12,490 --> 00:17:17,490
+So we created this movementsUI using Array.from()
+
+300
+00:17:17,600 --> 00:17:20,060
+and so of course it is gonna work already.
+
+301
+00:17:20,060 --> 00:17:24,490
+It would not work if we did it directly on the results
+
+302
+00:17:24,490 --> 00:17:27,550
+of the querySelectorAll().
+
+303
+00:17:27,550 --> 00:17:29,430
+So sorry for that mistake.
+
+304
+00:17:29,430 --> 00:17:32,040
+So it did indeed work already.
+
+305
+00:17:32,040 --> 00:17:33,773
+But we can make this even better.
+
+306
+00:17:34,700 --> 00:17:37,123
+First of course, we need to convert to a number,
+
+307
+00:17:38,950 --> 00:17:41,960
+but that is not the point here, actually.
+
+308
+00:17:41,960 --> 00:17:45,910
+So the point is that we can use now the second argument
+
+309
+00:17:45,910 --> 00:17:48,860
+of the Array.from() a function here,
+
+310
+00:17:48,860 --> 00:17:51,730
+which remember the mapping callback.
+
+311
+00:17:51,730 --> 00:17:56,010
+And so basically we can simply put this entire callback
+
+312
+00:17:57,570 --> 00:18:00,863
+right here as the second argument.
+
+313
+00:18:04,240 --> 00:18:09,240
+And now this movementsUI array is already the final array
+
+314
+00:18:10,410 --> 00:18:11,493
+as we see it here.
+
+315
+00:18:12,760 --> 00:18:14,490
+So let's just check that out
+
+316
+00:18:16,060 --> 00:18:19,193
+and then make really clear what just happened here.
+
+317
+00:18:21,290 --> 00:18:22,273
+So again,
+
+318
+00:18:24,920 --> 00:18:28,470
+and as we click here, we get indeed all the numbers
+
+319
+00:18:28,470 --> 00:18:29,563
+that we have here.
+
+320
+00:18:30,440 --> 00:18:31,960
+So let's recap.
+
+321
+00:18:31,960 --> 00:18:36,210
+We used a Array.from() to create an array from
+
+322
+00:18:36,210 --> 00:18:39,000
+the result of the querySelectorAll()
+
+323
+00:18:39,000 --> 00:18:42,210
+which is a NodeList, which is not really an array,
+
+324
+00:18:42,210 --> 00:18:44,600
+but an array like structure
+
+325
+00:18:44,600 --> 00:18:46,530
+and that array like structure
+
+326
+00:18:46,530 --> 00:18:48,900
+can easily be converted to an array
+
+327
+00:18:48,900 --> 00:18:50,930
+using Array.from().
+
+328
+00:18:50,930 --> 00:18:52,480
+And then as a second step,
+
+329
+00:18:52,480 --> 00:18:54,950
+we even included a mapping function,
+
+330
+00:18:54,950 --> 00:18:57,440
+which then forms that initial array
+
+331
+00:18:57,440 --> 00:19:00,570
+to an array exactly as we want it.
+
+332
+00:19:00,570 --> 00:19:05,570
+So basically converting the raw element to its text content
+
+333
+00:19:06,400 --> 00:19:09,453
+and replacing the Euro sign with nothing.
+
+334
+00:19:10,690 --> 00:19:13,430
+And so then in the end, we end up exactly
+
+335
+00:19:13,430 --> 00:19:16,470
+with the array of numbers that we intended.
+
+336
+00:19:16,470 --> 00:19:20,490
+And by the way, I'm not sure if I mentioned it earlier,
+
+337
+00:19:20,490 --> 00:19:23,110
+but there is another way of converting
+
+338
+00:19:23,110 --> 00:19:24,790
+this here to an array,
+
+339
+00:19:24,790 --> 00:19:26,093
+so let me grab it here.
+
+340
+00:19:28,230 --> 00:19:32,940
+So movementsUI2, and then we can actually
+
+341
+00:19:32,940 --> 00:19:36,590
+spread the results of this querySelectorAll()
+
+342
+00:19:36,590 --> 00:19:38,590
+into a new array as well.
+
+343
+00:19:38,590 --> 00:19:41,500
+So this also creates the array,
+
+344
+00:19:41,500 --> 00:19:44,490
+but then we would have to do the mapping separately.
+
+345
+00:19:44,490 --> 00:19:47,423
+And so actually I prefer this.
+
+346
+00:19:48,500 --> 00:19:52,120
+So to me, the Array.from() function was a great addition
+
+347
+00:19:52,120 --> 00:19:56,420
+to JavaScript in ES6.
+
+348
+00:19:56,420 --> 00:19:58,840
+And that's actually all I had to tell you
+
+349
+00:19:58,840 --> 00:20:00,870
+here in this video.
+
+350
+00:20:00,870 --> 00:20:04,670
+So that was the last couple of methods and functions
+
+351
+00:20:04,670 --> 00:20:07,310
+that we learned about a arrays.
+
+352
+00:20:07,310 --> 00:20:11,930
+And indeed, we learned a lot of methods in the section.
+
+353
+00:20:12,910 --> 00:20:15,050
+Now, keeping all of them in your mind
+
+354
+00:20:15,050 --> 00:20:17,640
+to solve different tasks is of course,
+
+355
+00:20:17,640 --> 00:20:19,970
+a very hard thing to do.
+
+356
+00:20:19,970 --> 00:20:22,462
+And so to make sense of all this mess,
+
+357
+00:20:22,462 --> 00:20:26,350
+in the next video, I will help you decide which array method
+
+358
+00:20:26,350 --> 00:20:29,050
+you should use in each situation
+
+359
+00:20:29,050 --> 00:20:30,833
+to solve different problems.

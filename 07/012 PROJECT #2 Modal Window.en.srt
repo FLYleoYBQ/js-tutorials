@@ -1,0 +1,1067 @@
+1
+00:00:00,567 --> 00:00:02,780
+Welcome back.
+
+2
+00:00:02,780 --> 00:00:05,050
+Let's now start working on project
+
+3
+00:00:05,050 --> 00:00:07,303
+number two of this section.
+
+4
+00:00:08,760 --> 00:00:10,380
+And in this small project,
+
+5
+00:00:10,380 --> 00:00:13,870
+we're gonna build our first UI component.
+
+6
+00:00:13,870 --> 00:00:16,300
+And that is this modal window
+
+7
+00:00:16,300 --> 00:00:17,940
+that we can see here,
+
+8
+00:00:17,940 --> 00:00:21,040
+by opening, or by clicking actually,
+
+9
+00:00:21,040 --> 00:00:23,000
+on one of these buttons.
+
+10
+00:00:23,000 --> 00:00:24,480
+So I'm sure you've seen this kind
+
+11
+00:00:24,480 --> 00:00:28,680
+of component all over the place when visiting webpages.
+
+12
+00:00:28,680 --> 00:00:32,220
+And so it's simply this window here, basically,
+
+13
+00:00:32,220 --> 00:00:35,300
+and this overlay, which gets overlaid
+
+14
+00:00:35,300 --> 00:00:38,550
+over the rest of the page, right.
+
+15
+00:00:38,550 --> 00:00:41,650
+So no matter which of these three buttons we click,
+
+16
+00:00:41,650 --> 00:00:45,070
+it will always open this modal window.
+
+17
+00:00:45,070 --> 00:00:47,860
+And to close this window, as you already saw,
+
+18
+00:00:47,860 --> 00:00:50,519
+we can either click this button here,
+
+19
+00:00:50,519 --> 00:00:53,209
+or we can click outside of the window.
+
+20
+00:00:53,209 --> 00:00:55,780
+So basically, on this overlay,
+
+21
+00:00:55,780 --> 00:00:58,700
+and again, I'm sure that you have seen this functionality
+
+22
+00:00:58,700 --> 00:01:00,603
+when visiting other webpages.
+
+23
+00:01:01,780 --> 00:01:03,268
+So that worked as well.
+
+24
+00:01:03,268 --> 00:01:06,148
+And finally, we can also close this window
+
+25
+00:01:06,148 --> 00:01:10,553
+by hitting the Esc key on our keyboard, like this.
+
+26
+00:01:11,620 --> 00:01:14,770
+Now okay and this is actually very simple
+
+27
+00:01:14,770 --> 00:01:16,710
+and very easy to build,
+
+28
+00:01:16,710 --> 00:01:19,490
+probably way easier than it looks like.
+
+29
+00:01:19,490 --> 00:01:21,860
+But it will still be very useful
+
+30
+00:01:21,860 --> 00:01:24,214
+to learn how to work with classes.
+
+31
+00:01:24,214 --> 00:01:28,348
+And that's super important, because manipulating classes
+
+32
+00:01:28,348 --> 00:01:32,860
+is actually the main way in which we manipulate webpages.
+
+33
+00:01:32,860 --> 00:01:36,700
+Okay, now, here on the left side, I still have to code
+
+34
+00:01:36,700 --> 00:01:38,820
+from the previous project open.
+
+35
+00:01:38,820 --> 00:01:41,340
+And that's because I wanted to show you
+
+36
+00:01:41,340 --> 00:01:44,140
+how to close the live Server.
+
+37
+00:01:44,140 --> 00:01:46,693
+So let's go back to the terminal.
+
+38
+00:01:48,160 --> 00:01:50,190
+And so as we hit new terminal,
+
+39
+00:01:50,190 --> 00:01:52,363
+it actually creates a new terminal.
+
+40
+00:01:53,430 --> 00:01:55,460
+So if we want to go to the first one
+
+41
+00:01:55,460 --> 00:01:57,300
+that was already running, we need
+
+42
+00:01:57,300 --> 00:02:00,356
+to go here to this menu here.
+
+43
+00:02:00,356 --> 00:02:04,200
+And then number one, which is this node.
+
+44
+00:02:04,200 --> 00:02:07,225
+So to change this, now we hit Ctrl C,
+
+45
+00:02:07,225 --> 00:02:09,710
+and that's even control on a Mac.
+
+46
+00:02:09,710 --> 00:02:13,210
+So it's not Command C, it is Ctrl C.
+
+47
+00:02:13,210 --> 00:02:16,590
+And I guess on Windows, it's gonna be the same.
+
+48
+00:02:16,590 --> 00:02:20,130
+But if it's not, you can just click this trash can here.
+
+49
+00:02:20,130 --> 00:02:22,747
+And that will also then kill the terminal.
+
+50
+00:02:22,747 --> 00:02:27,050
+So as I hit Ctrl, C, the process has finished.
+
+51
+00:02:27,050 --> 00:02:30,020
+And so the live Server is no longer running.
+
+52
+00:02:30,020 --> 00:02:32,763
+So if I come here, to this URL,
+
+53
+00:02:33,900 --> 00:02:35,723
+so this local host URL,
+
+54
+00:02:35,723 --> 00:02:39,014
+plus the current port, which is 8080.
+
+55
+00:02:39,014 --> 00:02:42,890
+So if I now reload this page, it will be gone.
+
+56
+00:02:42,890 --> 00:02:45,150
+So there's no connection possible anymore,
+
+57
+00:02:45,150 --> 00:02:49,110
+because I just killed the live Server okay,
+
+58
+00:02:49,110 --> 00:02:51,683
+just wanted to let you know about that.
+
+59
+00:02:51,683 --> 00:02:56,683
+Okay, anyway, let's now close up this folder here
+
+60
+00:02:57,120 --> 00:02:58,763
+and open a new one.
+
+61
+00:03:00,340 --> 00:03:03,690
+And, as always, I already have here the starter files
+
+62
+00:03:03,690 --> 00:03:06,210
+for this modal project.
+
+63
+00:03:06,210 --> 00:03:09,283
+So let's open up a new VS code window.
+
+64
+00:03:13,140 --> 00:03:15,383
+And let's open up this one.
+
+65
+00:03:16,570 --> 00:03:19,810
+And once again, I have the prettier configuration here.
+
+66
+00:03:19,810 --> 00:03:24,810
+And then the index, the JavaScript and the CSS styles.
+
+67
+00:03:26,320 --> 00:03:28,513
+Okay, open up script.
+
+68
+00:03:29,380 --> 00:03:31,350
+And actually, we can open all of them,
+
+69
+00:03:31,350 --> 00:03:35,223
+because we will want to take a look at the three files.
+
+70
+00:03:36,650 --> 00:03:40,333
+Okay. And as before, we still are using strict mode.
+
+71
+00:03:40,333 --> 00:03:42,050
+And so I already included
+
+72
+00:03:42,050 --> 00:03:44,573
+that here at the top of the file.
+
+73
+00:03:44,573 --> 00:03:48,420
+Okay, and now let's get to work actually.
+
+74
+00:03:48,420 --> 00:03:50,490
+Now this time, we will actually start
+
+75
+00:03:50,490 --> 00:03:52,970
+by selecting everything that we're gonna need
+
+76
+00:03:52,970 --> 00:03:55,360
+for this project so that's usually
+
+77
+00:03:55,360 --> 00:03:58,260
+what we do when we build a project like this.
+
+78
+00:03:58,260 --> 00:04:00,369
+So we select the elements that we need,
+
+79
+00:04:00,369 --> 00:04:04,140
+and then we store the selections into variables.
+
+80
+00:04:04,140 --> 00:04:07,580
+Okay, and then we can use them over and over again.
+
+81
+00:04:07,580 --> 00:04:10,550
+So that's way better than selecting the same elements
+
+82
+00:04:10,550 --> 00:04:14,490
+over and over again, like we did in the last project.
+
+83
+00:04:14,490 --> 00:04:16,500
+Alright, but in our last project,
+
+84
+00:04:16,500 --> 00:04:18,610
+I didn't want to overcomplicate stuff
+
+85
+00:04:18,610 --> 00:04:21,105
+and do too many things at the same time.
+
+86
+00:04:21,105 --> 00:04:24,716
+And so I just selected all the stuff multiple times.
+
+87
+00:04:24,716 --> 00:04:26,830
+But again, this time, we will have
+
+88
+00:04:26,830 --> 00:04:28,355
+all the necessary selections.
+
+89
+00:04:28,355 --> 00:04:31,360
+So all the necessary elements that we're gonna need,
+
+90
+00:04:31,360 --> 00:04:34,210
+nicely organized here at the top of the file,
+
+91
+00:04:34,210 --> 00:04:36,840
+each in its own variable.
+
+92
+00:04:36,840 --> 00:04:40,060
+So let's take a look at the HTML.
+
+93
+00:04:40,060 --> 00:04:43,365
+And so here we see the three buttons.
+
+94
+00:04:43,365 --> 00:04:45,994
+So that these three buttons,
+
+95
+00:04:45,994 --> 00:04:49,504
+and then we actually already have the modal window,
+
+96
+00:04:49,504 --> 00:04:50,993
+here in the code.
+
+97
+00:04:52,120 --> 00:04:54,224
+So this div element here.
+
+98
+00:04:54,224 --> 00:04:57,340
+So it's already in the code it's simply hidden.
+
+99
+00:04:57,340 --> 00:04:59,561
+That's why it has this hidden class.
+
+100
+00:04:59,561 --> 00:05:03,150
+And now in the CSS, let's come here
+
+101
+00:05:03,150 --> 00:05:05,700
+to the bottom of the file.
+
+102
+00:05:05,700 --> 00:05:07,360
+And so the hidden class,
+
+103
+00:05:07,360 --> 00:05:10,460
+simply set the display to none.
+
+104
+00:05:10,460 --> 00:05:13,640
+And so that's why the window is currently hidden.
+
+105
+00:05:13,640 --> 00:05:17,040
+All right so again, as I said in the beginning,
+
+106
+00:05:17,040 --> 00:05:19,710
+in this project, we will work with Classes.
+
+107
+00:05:19,710 --> 00:05:22,864
+And so, this hidden class is the main class
+
+108
+00:05:22,864 --> 00:05:24,903
+that we will be concerned with.
+
+109
+00:05:26,610 --> 00:05:29,300
+So, anyway, this means that we will not
+
+110
+00:05:29,300 --> 00:05:31,150
+basically create the HTML
+
+111
+00:05:31,150 --> 00:05:34,060
+for the modal window using JavaScript,
+
+112
+00:05:34,060 --> 00:05:37,220
+it is already there, all we will do is to show it
+
+113
+00:05:37,220 --> 00:05:38,950
+and to hide it, according
+
+114
+00:05:38,950 --> 00:05:40,963
+to the clicks on the buttons.
+
+115
+00:05:42,010 --> 00:05:43,430
+So that's the modal.
+
+116
+00:05:43,430 --> 00:05:46,890
+And that is the overlay.
+
+117
+00:05:46,890 --> 00:05:48,960
+So that's basically this dark part here,
+
+118
+00:05:48,960 --> 00:05:51,081
+which hides the background.
+
+119
+00:05:51,081 --> 00:05:54,180
+And then here, we have this button
+
+120
+00:05:54,180 --> 00:05:56,450
+to close the modal window.
+
+121
+00:05:56,450 --> 00:05:58,450
+And so that's all that we need.
+
+122
+00:05:58,450 --> 00:06:00,846
+So again, we need to select the modal,
+
+123
+00:06:00,846 --> 00:06:04,650
+the overlay, the close modal button,
+
+124
+00:06:04,650 --> 00:06:07,383
+and then of course, the show modal buttons.
+
+125
+00:06:08,710 --> 00:06:11,570
+Okay, so let's do that
+
+126
+00:06:15,170 --> 00:06:20,170
+So const, modal, is document dot query selector.
+
+127
+00:06:22,330 --> 00:06:24,630
+And then just like before, we are looking
+
+128
+00:06:24,630 --> 00:06:28,760
+for the element with the class of modal.
+
+129
+00:06:28,760 --> 00:06:32,750
+Okay so, just like we did in the first project,
+
+130
+00:06:32,750 --> 00:06:35,470
+we select an element using the selector,
+
+131
+00:06:35,470 --> 00:06:38,140
+but then this time, we actually store the results
+
+132
+00:06:38,140 --> 00:06:41,210
+of the selection so the selected element
+
+133
+00:06:41,210 --> 00:06:44,903
+in this variable okay.
+
+134
+00:06:45,860 --> 00:06:48,500
+So that's the element with the class model.
+
+135
+00:06:48,500 --> 00:06:51,673
+Now we want overlay, and then close modal.
+
+136
+00:06:54,710 --> 00:06:57,750
+So overlay, and of course,
+
+137
+00:06:57,750 --> 00:06:59,348
+we could give these any names
+
+138
+00:06:59,348 --> 00:07:00,460
+that we want it.
+
+139
+00:07:00,460 --> 00:07:03,580
+But these names make it easy
+
+140
+00:07:03,580 --> 00:07:05,403
+to understand what they are.
+
+141
+00:07:06,440 --> 00:07:08,410
+So I'm giving them the same names
+
+142
+00:07:08,410 --> 00:07:10,293
+as the class names, basically.
+
+143
+00:07:11,145 --> 00:07:13,290
+So that's the overlay.
+
+144
+00:07:13,290 --> 00:07:15,513
+And now the close modal button.
+
+145
+00:07:17,030 --> 00:07:19,247
+Let's call this one actually a button.
+
+146
+00:07:19,247 --> 00:07:21,920
+So btn, which stands for button,
+
+147
+00:07:21,920 --> 00:07:26,920
+and then close modal document, dot query selector.
+
+148
+00:07:30,280 --> 00:07:35,173
+And then this class is close dash modal.
+
+149
+00:07:36,660 --> 00:07:41,660
+Okay and now finally, we also want the show modal buttons.
+
+150
+00:07:41,875 --> 00:07:46,150
+Now, there are actually three elements with this class name.
+
+151
+00:07:46,150 --> 00:07:47,500
+So let me show you what happens
+
+152
+00:07:47,500 --> 00:07:49,650
+when we simply select in the same way
+
+153
+00:07:49,650 --> 00:07:50,773
+that we did before.
+
+154
+00:07:53,470 --> 00:07:56,915
+So let's say button, or buttons, actually,
+
+155
+00:07:56,915 --> 00:07:59,690
+because we want multiple, openmodal,
+
+156
+00:08:02,502 --> 00:08:07,502
+and then document dot query selector dot openmodal okay.
+
+157
+00:08:12,840 --> 00:08:14,270
+And so what will happens
+
+158
+00:08:14,270 --> 00:08:15,920
+when we lock this to the console.
+
+159
+00:08:17,560 --> 00:08:21,938
+So buttons, openmodel, that's the one.
+
+160
+00:08:21,938 --> 00:08:24,300
+And now to actually see this, we need
+
+161
+00:08:24,300 --> 00:08:26,403
+to again, start the live Server.
+
+162
+00:08:27,290 --> 00:08:31,272
+So new terminal, clear this console.
+
+163
+00:08:31,272 --> 00:08:33,460
+And then all they have to do is
+
+164
+00:08:33,460 --> 00:08:38,270
+to type live-Server hit enter.
+
+165
+00:08:38,270 --> 00:08:40,590
+And here we go.
+
+166
+00:08:40,590 --> 00:08:43,270
+So this is our modal window now.
+
+167
+00:08:43,270 --> 00:08:45,370
+And this one, we can now close.
+
+168
+00:08:45,370 --> 00:08:47,780
+And actually, it has the exact same URL.
+
+169
+00:08:47,780 --> 00:08:52,450
+So it's always this 127 001, which stands
+
+170
+00:08:52,450 --> 00:08:55,430
+for localhost at Port 8080.
+
+171
+00:08:55,430 --> 00:08:57,300
+So if we reloaded this one,
+
+172
+00:08:57,300 --> 00:08:59,145
+it would show us the same thing.
+
+173
+00:08:59,145 --> 00:09:02,600
+Okay, so we can just close one of them.
+
+174
+00:09:02,600 --> 00:09:06,260
+And so it looks exactly the same as the demo.
+
+175
+00:09:06,260 --> 00:09:08,800
+But of course, nothing is gonna happen yet.
+
+176
+00:09:08,800 --> 00:09:12,730
+'Cause as you know, we have no event handlers on any
+
+177
+00:09:12,730 --> 00:09:14,590
+of these buttons yet.
+
+178
+00:09:14,590 --> 00:09:16,993
+But now, I wanted to take a look at the console.
+
+179
+00:09:19,540 --> 00:09:24,080
+And Yep, and now
+
+180
+00:09:24,080 --> 00:09:27,580
+here we get no for some reason.
+
+181
+00:09:27,580 --> 00:09:30,190
+So it means that it could not select anything
+
+182
+00:09:30,190 --> 00:09:32,431
+here for this selector.
+
+183
+00:09:32,431 --> 00:09:36,560
+And so let's take a look yeah,
+
+184
+00:09:36,560 --> 00:09:39,293
+actually it is show modal and not open.
+
+185
+00:09:40,920 --> 00:09:43,300
+Okay, so let's fix that.
+
+186
+00:09:43,300 --> 00:09:46,110
+So it's not open it is show
+
+187
+00:09:46,110 --> 00:09:47,410
+and maybe you have spotted
+
+188
+00:09:47,410 --> 00:09:49,840
+that if you took a more careful look
+
+189
+00:09:49,840 --> 00:09:51,463
+at the HTML than I did.
+
+190
+00:09:52,590 --> 00:09:56,060
+Now Anyway, now we see this button here selected.
+
+191
+00:09:56,060 --> 00:09:57,930
+However, as you can see,
+
+192
+00:09:57,930 --> 00:10:01,060
+it is only the first one okay.
+
+193
+00:10:01,060 --> 00:10:02,930
+And so now we see the limitation
+
+194
+00:10:02,930 --> 00:10:05,560
+of or query selector method here
+
+195
+00:10:05,560 --> 00:10:07,100
+for the first time,
+
+196
+00:10:07,100 --> 00:10:09,360
+so whenever we use query selector
+
+197
+00:10:09,360 --> 00:10:13,580
+with a selector, which actually matches multiple elements,
+
+198
+00:10:13,580 --> 00:10:16,390
+only the first one will get selected.
+
+199
+00:10:16,390 --> 00:10:18,730
+And so here, we need another one.
+
+200
+00:10:18,730 --> 00:10:20,200
+But it's pretty similar.
+
+201
+00:10:20,200 --> 00:10:22,313
+It's called query selectorAll.
+
+202
+00:10:23,550 --> 00:10:25,900
+So that's a pretty obvious name,
+
+203
+00:10:25,900 --> 00:10:27,810
+but it's gonna do the job.
+
+204
+00:10:27,810 --> 00:10:29,576
+So as I save now, now, you see
+
+205
+00:10:29,576 --> 00:10:33,742
+that we get something called a Nodelist here.
+
+206
+00:10:33,742 --> 00:10:35,540
+So let me open that.
+
+207
+00:10:35,540 --> 00:10:37,550
+And now as I hover, you see
+
+208
+00:10:37,550 --> 00:10:41,210
+that these are actually all of our three buttons.
+
+209
+00:10:41,210 --> 00:10:46,100
+Okay, so this NodeList here is a little bit like an array.
+
+210
+00:10:46,100 --> 00:10:48,620
+It's not exactly like an array.
+
+211
+00:10:48,620 --> 00:10:50,530
+But here for now, it works
+
+212
+00:10:50,530 --> 00:10:52,560
+as though it was an array.
+
+213
+00:10:52,560 --> 00:10:55,520
+Okay, and so now, if we want to do something,
+
+214
+00:10:55,520 --> 00:10:57,693
+for example, to all of these buttons,
+
+215
+00:10:57,693 --> 00:11:00,850
+then we can simply loop through this NodeList
+
+216
+00:11:00,850 --> 00:11:02,323
+and do something with them.
+
+217
+00:11:03,530 --> 00:11:05,313
+So let's actually quickly do that.
+
+218
+00:11:07,540 --> 00:11:10,080
+So we will now again, use the for loop.
+
+219
+00:11:12,410 --> 00:11:14,410
+And now, I hope there is no need
+
+220
+00:11:14,410 --> 00:11:17,827
+to explain any more how this one works.
+
+221
+00:11:17,827 --> 00:11:20,570
+So I should stay below the length
+
+222
+00:11:20,570 --> 00:11:22,900
+of this NodeList, which again,
+
+223
+00:11:22,900 --> 00:11:24,590
+for our purposes here works
+
+224
+00:11:24,590 --> 00:11:27,690
+just like an array buttons,
+
+225
+00:11:27,690 --> 00:11:31,870
+open modal dot length, and then at the end
+
+226
+00:11:31,870 --> 00:11:34,890
+of iteration, increase the counter.
+
+227
+00:11:34,890 --> 00:11:36,070
+And so in each iteration,
+
+228
+00:11:36,070 --> 00:11:38,000
+what we want to do is simply
+
+229
+00:11:38,000 --> 00:11:40,820
+to log to the console, the text content
+
+230
+00:11:40,820 --> 00:11:42,933
+of each of them all right,
+
+231
+00:11:42,933 --> 00:11:47,933
+so what we want to do is buttons, open modal.
+
+232
+00:11:49,860 --> 00:11:51,820
+And then we take the current one.
+
+233
+00:11:51,820 --> 00:11:54,970
+And so this here is now an element okay,
+
+234
+00:11:54,970 --> 00:11:57,370
+it's one of these elements.
+
+235
+00:11:57,370 --> 00:11:59,610
+And, well, now it already logged
+
+236
+00:11:59,610 --> 00:12:01,630
+because it saved the file.
+
+237
+00:12:01,630 --> 00:12:03,880
+But yeah, anyway, each
+
+238
+00:12:03,880 --> 00:12:05,630
+of these here is one element.
+
+239
+00:12:05,630 --> 00:12:07,730
+And to now on each of them,
+
+240
+00:12:07,730 --> 00:12:11,040
+we can simply use the text content property,
+
+241
+00:12:11,040 --> 00:12:14,392
+just like we did in the last project all right.
+
+242
+00:12:14,392 --> 00:12:16,360
+So let's save it again.
+
+243
+00:12:16,360 --> 00:12:19,970
+And indeed, now we get to three text contents
+
+244
+00:12:19,970 --> 00:12:22,235
+for all the three buttons.
+
+245
+00:12:22,235 --> 00:12:24,290
+And here, you might have noticed
+
+246
+00:12:24,290 --> 00:12:28,890
+that I didn't even use the curly braces to define a block.
+
+247
+00:12:28,890 --> 00:12:32,060
+And that's because just like an if else statement,
+
+248
+00:12:32,060 --> 00:12:34,000
+if there is only one line of code
+
+249
+00:12:34,000 --> 00:12:36,690
+that I want to execute, I actually don't have
+
+250
+00:12:36,690 --> 00:12:39,530
+to create this block okay, I can
+
+251
+00:12:39,530 --> 00:12:41,992
+just write one line after the for loop.
+
+252
+00:12:41,992 --> 00:12:43,370
+And then that's the one
+
+253
+00:12:43,370 --> 00:12:46,997
+that will be iterated over and over again okay.
+
+254
+00:12:46,997 --> 00:12:48,975
+So again, this works just fine.
+
+255
+00:12:48,975 --> 00:12:52,560
+And now I have a way of selecting multiple elements
+
+256
+00:12:52,560 --> 00:12:54,530
+with the same class and then
+
+257
+00:12:54,530 --> 00:12:56,780
+with the for loop, I can do something
+
+258
+00:12:56,780 --> 00:12:57,822
+for each of them.
+
+259
+00:12:57,822 --> 00:13:02,090
+In this case, all we did was to log their text content
+
+260
+00:13:02,090 --> 00:13:04,020
+through console, but in the future,
+
+261
+00:13:04,020 --> 00:13:04,853
+we will then be able
+
+262
+00:13:04,853 --> 00:13:07,510
+to do real stuff using this technique.
+
+263
+00:13:07,510 --> 00:13:10,210
+Okay, and that's it for this video.
+
+264
+00:13:10,210 --> 00:13:11,660
+In the next one, we will actually
+
+265
+00:13:11,660 --> 00:13:13,940
+already make this model window work.
+
+266
+00:13:13,940 --> 00:13:16,790
+So don't wait and let's move on
+
+267
+00:13:16,790 --> 00:13:18,653
+to the next video right away.

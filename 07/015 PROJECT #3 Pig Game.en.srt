@@ -1,0 +1,1323 @@
+1
+00:00:01,390 --> 00:00:04,650
+Welcome back to project number three
+
+2
+00:00:04,650 --> 00:00:06,590
+of this section,
+
+3
+00:00:06,590 --> 00:00:09,730
+and this project is going to be the most exciting one
+
+4
+00:00:09,730 --> 00:00:12,570
+because now we will take everything that we learned
+
+5
+00:00:12,570 --> 00:00:15,950
+in the first two projects to a whole new level
+
+6
+00:00:15,950 --> 00:00:19,163
+and build a really cool and amazing game.
+
+7
+00:00:20,840 --> 00:00:23,610
+And this is the game that I was talking about
+
+8
+00:00:23,610 --> 00:00:25,730
+and it's called the pick game.
+
+9
+00:00:25,730 --> 00:00:27,160
+Now this project here
+
+10
+00:00:27,160 --> 00:00:30,260
+is really going to be a practice project.
+
+11
+00:00:30,260 --> 00:00:32,170
+So a project where you and me
+
+12
+00:00:32,170 --> 00:00:36,200
+will together reinforce all the skills that you have learned
+
+13
+00:00:36,200 --> 00:00:37,990
+up until this point,
+
+14
+00:00:37,990 --> 00:00:40,750
+because remember from the last section,
+
+15
+00:00:40,750 --> 00:00:44,510
+reinforcing knowledge is one of the most important things
+
+16
+00:00:44,510 --> 00:00:47,170
+that you can do to learn, right?
+
+17
+00:00:47,170 --> 00:00:48,730
+So in this project,
+
+18
+00:00:48,730 --> 00:00:52,450
+I will do a little bit less explaining than before,
+
+19
+00:00:52,450 --> 00:00:55,180
+at least about the stuff that we already learned,
+
+20
+00:00:55,180 --> 00:00:59,030
+because we are really just practicing here. Okay.
+
+21
+00:00:59,030 --> 00:01:02,030
+Now, if you're in a hurry and just want to learn the basics,
+
+22
+00:01:02,030 --> 00:01:04,340
+please feel free to skip this project.
+
+23
+00:01:04,340 --> 00:01:06,950
+But of course, I would still really advise you
+
+24
+00:01:06,950 --> 00:01:08,853
+to code along with me here,
+
+25
+00:01:09,700 --> 00:01:13,270
+but now let's see how this game actually works.
+
+26
+00:01:13,270 --> 00:01:15,810
+And in fact, you can try that along with me
+
+27
+00:01:16,773 --> 00:01:20,860
+because this time I hosted this demo, on a live website.
+
+28
+00:01:20,860 --> 00:01:25,623
+So you can access that by pickgamev2.netlify.app
+
+29
+00:01:26,620 --> 00:01:28,990
+And the link is also in the read me file
+
+30
+00:01:28,990 --> 00:01:33,790
+of the repository for this course on github.com.
+
+31
+00:01:33,790 --> 00:01:36,970
+But anyway, this is more of a real game now
+
+32
+00:01:36,970 --> 00:01:39,630
+because we actually have two players.
+
+33
+00:01:39,630 --> 00:01:42,740
+So you can play this with a friend or something
+
+34
+00:01:42,740 --> 00:01:44,970
+or just against yourself.
+
+35
+00:01:44,970 --> 00:01:47,630
+So the idea is that we roll a dice.
+
+36
+00:01:47,630 --> 00:01:49,830
+And so now I'm playing number one.
+
+37
+00:01:49,830 --> 00:01:52,320
+So this one is now the active player.
+
+38
+00:01:52,320 --> 00:01:54,220
+So I roll a dice,
+
+39
+00:01:54,220 --> 00:01:56,050
+And so you see that I rolled a two.
+
+40
+00:01:56,050 --> 00:02:00,750
+And so this number gets added to my current score down here.
+
+41
+00:02:00,750 --> 00:02:04,090
+Okay. So this is my current score for the current round.
+
+42
+00:02:04,090 --> 00:02:06,000
+And this year is my total score.
+
+43
+00:02:06,000 --> 00:02:08,350
+And so let's see how that's going to work
+
+44
+00:02:08,350 --> 00:02:11,570
+so I can roll the dice again now if I want to,
+
+45
+00:02:11,570 --> 00:02:12,850
+and now I rolled a four
+
+46
+00:02:14,167 --> 00:02:16,720
+and that four got added to the two that it had previously.
+
+47
+00:02:16,720 --> 00:02:21,120
+So now that's six and now I can choose to hold this score.
+
+48
+00:02:21,120 --> 00:02:22,730
+So if I click this button,
+
+49
+00:02:22,730 --> 00:02:24,950
+this score of the current round
+
+50
+00:02:24,950 --> 00:02:26,940
+will get added to my total score,
+
+51
+00:02:26,940 --> 00:02:28,900
+which right now is zero.
+
+52
+00:02:28,900 --> 00:02:33,007
+And so when I hold a den, my score will be zero now.
+
+53
+00:02:33,007 --> 00:02:36,640
+And we switched to player number two,
+
+54
+00:02:36,640 --> 00:02:39,340
+and now I can click roll dice again.
+
+55
+00:02:39,340 --> 00:02:42,800
+So we rolled a two and I can hold again.
+
+56
+00:02:42,800 --> 00:02:45,650
+And so now play it two as two points.
+
+57
+00:02:45,650 --> 00:02:49,260
+Now, the thing here is that whenever we roll a one,
+
+58
+00:02:49,260 --> 00:02:51,320
+we lose all our current score
+
+59
+00:02:51,320 --> 00:02:53,630
+and it's then the next players turn.
+
+60
+00:02:53,630 --> 00:02:57,260
+And so that's why sometimes we need to hold or points.
+
+61
+00:02:57,260 --> 00:02:58,803
+So let me show that to you.
+
+62
+00:02:59,670 --> 00:03:02,580
+And indeed, I rolled a one right away.
+
+63
+00:03:02,580 --> 00:03:04,313
+And so now it's player two again.
+
+64
+00:03:05,710 --> 00:03:07,820
+So let's keep rolling the dice.
+
+65
+00:03:07,820 --> 00:03:09,930
+And I will now again, wait for one
+
+66
+00:03:09,930 --> 00:03:13,463
+so that you can see that all my current score will be lost.
+
+67
+00:03:21,290 --> 00:03:24,180
+So that's a lot of points already there.
+
+68
+00:03:24,180 --> 00:03:28,480
+And now I rolled a one and a player lost all the points.
+
+69
+00:03:28,480 --> 00:03:30,650
+Okay. So I could have hold the points
+
+70
+00:03:30,650 --> 00:03:33,020
+and then I would have added all these points
+
+71
+00:03:33,020 --> 00:03:34,623
+here to my score.
+
+72
+00:03:35,650 --> 00:03:36,770
+So let's do that here
+
+73
+00:03:37,640 --> 00:03:39,650
+and again, a one.
+
+74
+00:03:39,650 --> 00:03:42,890
+And so yeah, now here I hold
+
+75
+00:03:42,890 --> 00:03:45,230
+and I edit them to these points.
+
+76
+00:03:45,230 --> 00:03:49,200
+And I think by now you get how the game works, right?
+
+77
+00:03:49,200 --> 00:03:53,450
+So the first player to reach 100 points then wins the game.
+
+78
+00:03:53,450 --> 00:03:55,490
+But I will now not demonstrate that
+
+79
+00:03:55,490 --> 00:03:58,090
+because that's going to take too long.
+
+80
+00:03:58,090 --> 00:03:59,620
+So we have these two buttons here,
+
+81
+00:03:59,620 --> 00:04:02,490
+and then we also have just like in the previous game,
+
+82
+00:04:02,490 --> 00:04:04,350
+a way of resetting the game.
+
+83
+00:04:04,350 --> 00:04:07,460
+So when I click here, as you might expect,
+
+84
+00:04:07,460 --> 00:04:09,510
+this dice will disappear
+
+85
+00:04:09,510 --> 00:04:12,940
+and all the scores are set back to zero.
+
+86
+00:04:12,940 --> 00:04:15,360
+And to understand this game a little bit better
+
+87
+00:04:15,360 --> 00:04:16,440
+for this application,
+
+88
+00:04:16,440 --> 00:04:19,260
+I designed something called a flow chart.
+
+89
+00:04:19,260 --> 00:04:20,710
+So let's take a look at that.
+
+90
+00:04:21,970 --> 00:04:24,880
+And this is what a flow chart looks like.
+
+91
+00:04:24,880 --> 00:04:27,060
+So basically it's a representation
+
+92
+00:04:27,060 --> 00:04:30,650
+of everything that can happen in the application.
+
+93
+00:04:30,650 --> 00:04:33,640
+So on the left side, we have in yellow,
+
+94
+00:04:33,640 --> 00:04:36,310
+the possible actions that the user can take.
+
+95
+00:04:36,310 --> 00:04:40,040
+And then from there we see what happens in the application.
+
+96
+00:04:40,040 --> 00:04:43,020
+As one of these options is basically chosen.
+
+97
+00:04:43,020 --> 00:04:46,770
+So as one of the actions is executed.
+
+98
+00:04:46,770 --> 00:04:49,370
+So whenever the user rolls to dice,
+
+99
+00:04:49,370 --> 00:04:52,160
+so clicks that roll dice button,
+
+100
+00:04:52,160 --> 00:04:55,030
+then we need to generate a random dice roll.
+
+101
+00:04:55,030 --> 00:04:57,260
+Then we displayed at dice roll,
+
+102
+00:04:57,260 --> 00:04:59,650
+and then we check whether it is a one.
+
+103
+00:04:59,650 --> 00:05:00,940
+If it's not one,
+
+104
+00:05:00,940 --> 00:05:03,920
+then add the dice roll to the current score.
+
+105
+00:05:03,920 --> 00:05:06,440
+And of course this play it, right?
+
+106
+00:05:06,440 --> 00:05:09,010
+So that is exactly the behavior that we saw
+
+107
+00:05:09,010 --> 00:05:12,140
+when we tested out the game earlier. Right?
+
+108
+00:05:12,140 --> 00:05:14,530
+Now, if the dice roll is actually a one,
+
+109
+00:05:14,530 --> 00:05:16,730
+then simply switch the player.
+
+110
+00:05:16,730 --> 00:05:19,400
+And so in this case, the dice roll will not get added
+
+111
+00:05:19,400 --> 00:05:21,070
+to the current score.
+
+112
+00:05:21,070 --> 00:05:22,700
+Next, the other option is that
+
+113
+00:05:22,700 --> 00:05:25,020
+the user wants to hold his score.
+
+114
+00:05:25,020 --> 00:05:28,330
+And then we add the current score to the total score.
+
+115
+00:05:28,330 --> 00:05:29,490
+Once that is done,
+
+116
+00:05:29,490 --> 00:05:33,390
+we must check if the score is above or equal 100,
+
+117
+00:05:33,390 --> 00:05:36,810
+because as I said, the player wins whenever the score
+
+118
+00:05:36,810 --> 00:05:39,980
+is at least 100 points, right?
+
+119
+00:05:39,980 --> 00:05:42,410
+And if it's not, then we just switch the player
+
+120
+00:05:42,410 --> 00:05:44,950
+and the game keeps on running.
+
+121
+00:05:44,950 --> 00:05:47,540
+Finally, when the user chooses to reset the game ,
+
+122
+00:05:47,540 --> 00:05:49,810
+we simply set all scores to zero
+
+123
+00:05:49,810 --> 00:05:51,830
+and set the player number one,
+
+124
+00:05:51,830 --> 00:05:54,040
+back to being the starting player.
+
+125
+00:05:54,040 --> 00:05:57,000
+All right. So this is a very nice way again,
+
+126
+00:05:57,000 --> 00:05:59,790
+to visualize what happens in the application.
+
+127
+00:05:59,790 --> 00:06:02,120
+And it's also a very good guide for us
+
+128
+00:06:02,120 --> 00:06:05,330
+to actually implement the application in coat.
+
+129
+00:06:05,330 --> 00:06:08,640
+So usually whenever I built a project like this one,
+
+130
+00:06:08,640 --> 00:06:11,660
+I like to draw a flow chart like this,
+
+131
+00:06:11,660 --> 00:06:14,020
+and it doesn't need to have all this precision
+
+132
+00:06:14,020 --> 00:06:15,470
+right from the start.
+
+133
+00:06:15,470 --> 00:06:18,320
+So we can just start out with a rough sketch
+
+134
+00:06:18,320 --> 00:06:21,900
+without the complete plan of what we're going to build.
+
+135
+00:06:21,900 --> 00:06:24,170
+But anyway, this is very helpful
+
+136
+00:06:24,170 --> 00:06:26,320
+before we actually start writing code
+
+137
+00:06:26,320 --> 00:06:29,380
+to have a good idea of what we will have to do.
+
+138
+00:06:29,380 --> 00:06:31,780
+And if you want to build your own flow charts
+
+139
+00:06:31,780 --> 00:06:33,340
+that look like this,
+
+140
+00:06:33,340 --> 00:06:36,210
+you can do so on diagrams.net.
+
+141
+00:06:36,210 --> 00:06:38,700
+So that's where I designed this flow chart,
+
+142
+00:06:38,700 --> 00:06:41,900
+and it's a very nice online drawing application
+
+143
+00:06:41,900 --> 00:06:45,873
+that is completely free and really easy and fast to use.
+
+144
+00:06:47,230 --> 00:06:50,770
+Now. Okay. And so now as always let's open up
+
+145
+00:06:50,770 --> 00:06:55,003
+or project folder. So I have to start a files here already,
+
+146
+00:06:55,990 --> 00:06:58,453
+and now I need a new vs code window.
+
+147
+00:07:00,830 --> 00:07:02,823
+And then I just opened a Pitt game.
+
+148
+00:07:05,400 --> 00:07:09,510
+And this time, since the application needs this whole space,
+
+149
+00:07:09,510 --> 00:07:12,543
+let's actually put it here on a separate desktop.
+
+150
+00:07:14,770 --> 00:07:16,390
+And then as we attest out,
+
+151
+00:07:16,390 --> 00:07:19,263
+I will just move here from one desktop to the other.
+
+152
+00:07:20,340 --> 00:07:22,923
+So let's make this bigger this time.
+
+153
+00:07:23,880 --> 00:07:28,330
+And so like always, we already have all our files here,
+
+154
+00:07:28,330 --> 00:07:32,620
+so let's take a look at them and JavaScript.
+
+155
+00:07:32,620 --> 00:07:35,383
+So here as always just the use strict,
+
+156
+00:07:36,520 --> 00:07:38,390
+then here we have all the styles
+
+157
+00:07:38,390 --> 00:07:40,650
+that we need for the application.
+
+158
+00:07:40,650 --> 00:07:42,860
+And we will take a look at them as we go
+
+159
+00:07:42,860 --> 00:07:44,350
+through the project.
+
+160
+00:07:44,350 --> 00:07:46,833
+And then finally the HTML file.
+
+161
+00:07:49,610 --> 00:07:52,170
+Okay, and they also actually included
+
+162
+00:07:52,170 --> 00:07:54,660
+the image of this flow chart here for you,
+
+163
+00:07:54,660 --> 00:07:57,200
+so that you can maybe take a look at it yourself
+
+164
+00:07:57,200 --> 00:08:00,073
+to make sure that you really understand how it works.
+
+165
+00:08:01,000 --> 00:08:05,110
+Okay. So take a minute or two to maybe test the app again
+
+166
+00:08:05,110 --> 00:08:09,113
+and check out this flow chart before we actually start.
+
+167
+00:08:11,200 --> 00:08:15,440
+Alright. Also, I wanted to show you that I have one image
+
+168
+00:08:15,440 --> 00:08:17,550
+here for each of the dices.
+
+169
+00:08:17,550 --> 00:08:19,390
+So dice one looks like this,
+
+170
+00:08:19,390 --> 00:08:22,120
+like two, it looks like this
+
+171
+00:08:22,120 --> 00:08:23,730
+and so on and so forth.
+
+172
+00:08:23,730 --> 00:08:28,730
+So we have one image for each of the possible six numbers.
+
+173
+00:08:28,880 --> 00:08:31,660
+So that's going to be important later,
+
+174
+00:08:31,660 --> 00:08:35,000
+but now let's just start to,
+
+175
+00:08:35,000 --> 00:08:36,603
+write a little bit of code here.
+
+176
+00:08:37,670 --> 00:08:40,370
+Let's get ourselves a new terminal here
+
+177
+00:08:41,620 --> 00:08:45,120
+so that we can take a look at the application
+
+178
+00:08:45,120 --> 00:08:47,280
+as it looks right now.
+
+179
+00:08:47,280 --> 00:08:52,280
+Interior. I like to minimize it a little bit life server.
+
+180
+00:08:56,350 --> 00:09:01,350
+Okay. And so this is our life version of the pic game.
+
+181
+00:09:02,528 --> 00:09:05,960
+So again, we are here at this local host at port 8080.
+
+182
+00:09:05,960 --> 00:09:07,930
+And if you are seeing some other ports,
+
+183
+00:09:07,930 --> 00:09:11,080
+that's no problem at all, as long as it works.
+
+184
+00:09:11,080 --> 00:09:14,470
+So maybe you still have something running on this port,
+
+185
+00:09:14,470 --> 00:09:16,450
+maybe from the previous project.
+
+186
+00:09:16,450 --> 00:09:19,140
+And then this project will run on another port.
+
+187
+00:09:19,140 --> 00:09:20,840
+That doesn't really matter.
+
+188
+00:09:20,840 --> 00:09:22,920
+So right now in the starting point,
+
+189
+00:09:22,920 --> 00:09:25,820
+this is what our application looks like.
+
+190
+00:09:25,820 --> 00:09:27,830
+But of course in the demo,
+
+191
+00:09:27,830 --> 00:09:30,110
+we don't see the dice in the beginning
+
+192
+00:09:30,110 --> 00:09:33,070
+and we don't see any scores here.
+
+193
+00:09:33,070 --> 00:09:36,380
+Okay. And so the first thing that we're going to do
+
+194
+00:09:36,380 --> 00:09:39,040
+is to basically put these scores to zero
+
+195
+00:09:39,040 --> 00:09:40,930
+and make this dice disappear.
+
+196
+00:09:40,930 --> 00:09:42,590
+And so that's going to be basically
+
+197
+00:09:42,590 --> 00:09:44,780
+the starting condition here.
+
+198
+00:09:44,780 --> 00:09:47,690
+So let's go back here to the coat.
+
+199
+00:09:47,690 --> 00:09:48,840
+And let me just tell you where
+
+200
+00:09:48,840 --> 00:09:51,500
+these initial values come from.
+
+201
+00:09:51,500 --> 00:09:54,070
+So this is the 43 score that we just saw,
+
+202
+00:09:54,070 --> 00:09:56,170
+and this is the 24.
+
+203
+00:09:56,170 --> 00:09:58,950
+And so let's take a moment to inspect the code
+
+204
+00:09:58,950 --> 00:10:00,800
+because as you already know,
+
+205
+00:10:00,800 --> 00:10:02,310
+we need the class names.
+
+206
+00:10:02,310 --> 00:10:05,640
+And in this case also the IDs to then identify
+
+207
+00:10:05,640 --> 00:10:07,860
+and select the elements.
+
+208
+00:10:07,860 --> 00:10:11,550
+So basically here we have one of these sections here
+
+209
+00:10:11,550 --> 00:10:13,500
+for each of the players
+
+210
+00:10:13,500 --> 00:10:16,920
+and you see that the first one is player zero.
+
+211
+00:10:16,920 --> 00:10:19,830
+And the second one is player one.
+
+212
+00:10:19,830 --> 00:10:21,700
+And I will explain you why
+
+213
+00:10:21,700 --> 00:10:23,830
+the players are called zero and one
+
+214
+00:10:23,830 --> 00:10:25,350
+instead of one and two,
+
+215
+00:10:25,350 --> 00:10:27,090
+probably in the next lecture.
+
+216
+00:10:27,090 --> 00:10:29,090
+So it will make sense by then.
+
+217
+00:10:29,090 --> 00:10:31,720
+okay. But now about the scores,
+
+218
+00:10:31,720 --> 00:10:34,130
+they are stored in this element
+
+219
+00:10:34,130 --> 00:10:35,850
+and in this one here.
+
+220
+00:10:35,850 --> 00:10:39,160
+And so you'll see both of them have to score class,
+
+221
+00:10:39,160 --> 00:10:42,040
+but then each of them has a different ID.
+
+222
+00:10:42,040 --> 00:10:44,840
+And so this time we need to select these two elements
+
+223
+00:10:44,840 --> 00:10:48,373
+using their unique ID instead of a class name.
+
+224
+00:10:49,290 --> 00:10:52,730
+So that's the idea of score dash dash zero
+
+225
+00:10:52,730 --> 00:10:54,950
+and score dash dash one.
+
+226
+00:10:54,950 --> 00:10:56,783
+So let's do that.
+
+227
+00:10:59,080 --> 00:11:04,080
+So const score one and then document query selector.
+
+228
+00:11:08,560 --> 00:11:11,130
+So this is the way that we learned it before.
+
+229
+00:11:11,130 --> 00:11:15,360
+And now here, we actually need the hash symbol.
+
+230
+00:11:15,360 --> 00:11:20,253
+So score zero. So actually I'm interested in zero here.
+
+231
+00:11:21,390 --> 00:11:24,250
+Okay. And so again, now we used the,
+
+232
+00:11:24,250 --> 00:11:27,890
+this hash because that is the selector for the ID
+
+233
+00:11:29,212 --> 00:11:33,880
+and a dot that we used to use is only four classes. Okay.
+
+234
+00:11:33,880 --> 00:11:36,900
+Now, when we're selecting using an ID.
+
+235
+00:11:36,900 --> 00:11:40,970
+Then there's actually another way of selecting an element.
+
+236
+00:11:40,970 --> 00:11:43,330
+And right now that's exactly what we're doing.
+
+237
+00:11:43,330 --> 00:11:46,377
+So we're interested in IDs, not in classes.
+
+238
+00:11:46,377 --> 00:11:49,730
+And so let me show you that other way of selecting elements
+
+239
+00:11:49,730 --> 00:11:51,283
+that only works by ID.
+
+240
+00:11:52,390 --> 00:11:55,363
+So let's call this one, score one,
+
+241
+00:11:56,230 --> 00:11:58,360
+and then again, we use document,
+
+242
+00:11:58,360 --> 00:12:01,210
+but then we're not calling query selector.
+
+243
+00:12:01,210 --> 00:12:05,783
+Instead we call get element by ID.
+
+244
+00:12:08,780 --> 00:12:11,540
+And then here, we just pass in the name of the ID.
+
+245
+00:12:11,540 --> 00:12:14,080
+So just score one.
+
+246
+00:12:14,080 --> 00:12:16,040
+So without the hash here,
+
+247
+00:12:16,040 --> 00:12:18,490
+because now we're not writing a selector,
+
+248
+00:12:18,490 --> 00:12:21,310
+we are only passing in the name of the ID
+
+249
+00:12:21,310 --> 00:12:23,500
+that we're looking for. Okay?
+
+250
+00:12:23,500 --> 00:12:27,490
+So this works exactly the same as this,
+
+251
+00:12:27,490 --> 00:12:29,900
+but the get element by ID
+
+252
+00:12:29,900 --> 00:12:33,830
+is supposed to be a little bit faster than query selector,
+
+253
+00:12:33,830 --> 00:12:35,900
+but I guess that's only relevant
+
+254
+00:12:35,900 --> 00:12:40,140
+if you're selecting like thousands of elements at once.
+
+255
+00:12:40,140 --> 00:12:43,100
+So usually I like to always use query selector,
+
+256
+00:12:43,100 --> 00:12:46,210
+but I still wanted to show you that there also exists
+
+257
+00:12:46,210 --> 00:12:50,263
+get element by ID. Alright?
+
+258
+00:12:51,130 --> 00:12:55,680
+And actually let's call these two here, score zero L,
+
+259
+00:12:56,540 --> 00:12:58,590
+which stands for element
+
+260
+00:12:58,590 --> 00:13:01,790
+because you might then confuse maybe this variable
+
+261
+00:13:01,790 --> 00:13:06,620
+here for simply the score value of players zero. Right?
+
+262
+00:13:06,620 --> 00:13:07,560
+And so in this case,
+
+263
+00:13:07,560 --> 00:13:11,330
+we are making it really clear that this is a dumb element.
+
+264
+00:13:11,330 --> 00:13:16,000
+So score is zero L all right. Okay.
+
+265
+00:13:16,000 --> 00:13:18,000
+So we're selecting these here
+
+266
+00:13:18,000 --> 00:13:22,020
+and now we can use the variables to do something on them.
+
+267
+00:13:22,020 --> 00:13:23,270
+And again, we do that
+
+268
+00:13:23,270 --> 00:13:26,750
+because probably we will need to do something with
+
+269
+00:13:26,750 --> 00:13:29,220
+these selected elements multiple times
+
+270
+00:13:29,220 --> 00:13:30,780
+throughout the application.
+
+271
+00:13:30,780 --> 00:13:32,680
+And so we just defined them once at the
+
+272
+00:13:32,680 --> 00:13:35,500
+top of our file instead of having to select
+
+273
+00:13:35,500 --> 00:13:38,300
+the same elements over and over again.
+
+274
+00:13:38,300 --> 00:13:40,530
+So let's just add a comment here.
+
+275
+00:13:40,530 --> 00:13:43,940
+And comments are also a good way of structuring the code
+
+276
+00:13:43,940 --> 00:13:47,273
+and also of planning how we will build some features.
+
+277
+00:13:49,620 --> 00:13:53,120
+So selecting elements.
+
+278
+00:13:53,120 --> 00:13:55,036
+And so in this project,
+
+279
+00:13:55,036 --> 00:13:57,330
+we will try to get a little bit more used
+
+280
+00:13:57,330 --> 00:13:59,703
+to actually write in comments. Alright?
+
+281
+00:14:01,300 --> 00:14:04,240
+Anyway, let's now set these initial conditions
+
+282
+00:14:04,240 --> 00:14:06,460
+of score zero element.
+
+283
+00:14:06,460 --> 00:14:09,600
+And then as you know, we use text content
+
+284
+00:14:09,600 --> 00:14:13,830
+and then we set it to zero. Alright?
+
+285
+00:14:13,830 --> 00:14:17,790
+And now the same four score one score,
+
+286
+00:14:17,790 --> 00:14:22,440
+one element.textcontent to zero.
+
+287
+00:14:23,580 --> 00:14:27,150
+And here we are specifying numbers, not strings,
+
+288
+00:14:27,150 --> 00:14:29,470
+but JavaScript will then automatically convert them
+
+289
+00:14:29,470 --> 00:14:33,140
+to strings to actually display them on the page.
+
+290
+00:14:33,140 --> 00:14:35,920
+So if we go now to the application
+
+291
+00:14:35,920 --> 00:14:38,500
+that should already be in effect,
+
+292
+00:14:38,500 --> 00:14:43,240
+and indeed you see that now the scores are actually at zero.
+
+293
+00:14:43,240 --> 00:14:47,780
+Great. Now all we have to do is to hide this dice here.
+
+294
+00:14:47,780 --> 00:14:50,090
+And so let's do that using the technique
+
+295
+00:14:50,090 --> 00:14:52,620
+that we learned in the previous project,
+
+296
+00:14:52,620 --> 00:14:55,420
+which is basically creating a hidden class
+
+297
+00:14:55,420 --> 00:14:58,663
+and then add that hidden class here at the beginning. Okay.
+
+298
+00:14:59,910 --> 00:15:01,890
+So let's go to our style.
+
+299
+00:15:01,890 --> 00:15:04,550
+And right now I don't have that class yet.
+
+300
+00:15:04,550 --> 00:15:05,780
+So that's just created
+
+301
+00:15:06,880 --> 00:15:08,753
+and I can close the terminal here.
+
+302
+00:15:10,240 --> 00:15:12,023
+Let's just do that at the very end.
+
+303
+00:15:15,110 --> 00:15:19,580
+So we create a class like this
+
+304
+00:15:19,580 --> 00:15:23,750
+and then we just set the display to none.
+
+305
+00:15:23,750 --> 00:15:26,510
+So that's exactly the class that we had in the
+
+306
+00:15:26,510 --> 00:15:29,293
+previous project as well. Okay.
+
+307
+00:15:30,780 --> 00:15:32,240
+And so now we can just add that class
+
+308
+00:15:32,240 --> 00:15:34,653
+to the dice at the beginning of the game.
+
+309
+00:15:35,850 --> 00:15:38,110
+So that's easy enough,
+
+310
+00:15:38,110 --> 00:15:39,660
+but first we need to select it.
+
+311
+00:15:42,220 --> 00:15:46,560
+So let's call it dice L for the dice element.
+
+312
+00:15:46,560 --> 00:15:51,560
+Let's check out what the ID or the class of it is.
+
+313
+00:15:52,240 --> 00:15:56,370
+And here we see that it's actually just this dice class.
+
+314
+00:15:56,370 --> 00:15:58,793
+So this image with his class of a dice,
+
+315
+00:16:00,950 --> 00:16:04,600
+so document not query selector dice.
+
+316
+00:16:09,120 --> 00:16:11,050
+And so here we have to start in conditions
+
+317
+00:16:14,940 --> 00:16:19,940
+and now let's simply do dice element.classlist.add.
+
+318
+00:16:23,100 --> 00:16:24,720
+And now simply this string,
+
+319
+00:16:24,720 --> 00:16:27,710
+which contains the name of the class
+
+320
+00:16:27,710 --> 00:16:31,700
+and that's the hidden class, give it a safe,
+
+321
+00:16:31,700 --> 00:16:32,923
+let's check it out.
+
+322
+00:16:33,872 --> 00:16:35,640
+And indeed, now the dice has gone
+
+323
+00:16:35,640 --> 00:16:39,550
+and let's see the HTML here, actually,
+
+324
+00:16:39,550 --> 00:16:42,910
+you now indeed we have the hidden class here,
+
+325
+00:16:42,910 --> 00:16:45,750
+besides the dice class. Great.
+
+326
+00:16:45,750 --> 00:16:49,220
+And then as we implement the roll dice functionality,
+
+327
+00:16:49,220 --> 00:16:52,340
+of course, we will want the dyes to be visible.
+
+328
+00:16:52,340 --> 00:16:56,380
+And then we can simply remove that class
+
+329
+00:16:56,380 --> 00:16:59,410
+again from the dice. Okay.
+
+330
+00:16:59,410 --> 00:17:02,526
+And actually that's exactly what we're going to do
+
+331
+00:17:02,526 --> 00:17:03,426
+in the next video.

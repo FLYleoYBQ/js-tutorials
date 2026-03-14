@@ -1,0 +1,555 @@
+1
+00:00:01,310 --> 00:00:04,240
+Welcome back to your first coding challenge
+
+2
+00:00:04,240 --> 00:00:05,523
+of this section.
+
+3
+00:00:07,170 --> 00:00:10,950
+So now it's time to finally put everything that you learned
+
+4
+00:00:10,950 --> 00:00:14,400
+in the section so far into practice.
+
+5
+00:00:14,400 --> 00:00:15,720
+So in this section,
+
+6
+00:00:15,720 --> 00:00:18,490
+I want you to use a Constructor Function
+
+7
+00:00:18,490 --> 00:00:22,550
+in order to implement a very simple car all right?
+
+8
+00:00:22,550 --> 00:00:26,470
+So for this purpose, a car has just a make
+
+9
+00:00:26,470 --> 00:00:28,530
+and a speed property,
+
+10
+00:00:28,530 --> 00:00:32,080
+and the speed is simply the current speed of the car
+
+11
+00:00:32,080 --> 00:00:35,000
+measured in kilometers per hour,
+
+12
+00:00:35,000 --> 00:00:38,600
+then I want you to implement an accelerate method
+
+13
+00:00:38,600 --> 00:00:41,720
+that will increase the car speed by 10,
+
+14
+00:00:41,720 --> 00:00:45,370
+and it would also log the new speed to the console,
+
+15
+00:00:45,370 --> 00:00:48,100
+then another method called brake,
+
+16
+00:00:48,100 --> 00:00:50,730
+which will then decrease the speed
+
+17
+00:00:50,730 --> 00:00:53,840
+but only by five all right?
+
+18
+00:00:53,840 --> 00:00:58,040
+And finally I want you to use this test data down here
+
+19
+00:00:58,040 --> 00:01:00,470
+to implement these two cars.
+
+20
+00:01:00,470 --> 00:01:03,390
+So basically to create two car objects
+
+21
+00:01:03,390 --> 00:01:06,640
+and then experiment with calling the two methods
+
+22
+00:01:06,640 --> 00:01:10,080
+that we just created on each of the objects.
+
+23
+00:01:10,080 --> 00:01:12,770
+And of course you should use all the knowledge
+
+24
+00:01:12,770 --> 00:01:15,990
+from the previous lectures to doing this.
+
+25
+00:01:15,990 --> 00:01:18,980
+So I hope that this is a fun challenge
+
+26
+00:01:18,980 --> 00:01:20,870
+that's not too hard.
+
+27
+00:01:20,870 --> 00:01:22,860
+So take all the time that you need
+
+28
+00:01:22,860 --> 00:01:26,263
+and I see you back here when you're ready with my solution.
+
+29
+00:01:29,770 --> 00:01:34,610
+All right so hopefully you did that successfully,
+
+30
+00:01:34,610 --> 00:01:36,620
+so let's get started here,
+
+31
+00:01:36,620 --> 00:01:41,050
+so we create the Constructor Function for car
+
+32
+00:01:41,050 --> 00:01:43,490
+and one more time with a capital C
+
+33
+00:01:44,350 --> 00:01:49,110
+and then we want each car object to have a make and a speed
+
+34
+00:01:49,110 --> 00:01:51,090
+and so that's the arguments
+
+35
+00:01:51,090 --> 00:01:53,780
+that we're gonna pass into this function.
+
+36
+00:01:53,780 --> 00:01:56,940
+And then just as before under this property,
+
+37
+00:01:56,940 --> 00:02:00,970
+we will set the make to the make that we receive
+
+38
+00:02:00,970 --> 00:02:01,950
+and the speed,
+
+39
+00:02:01,950 --> 00:02:04,083
+to the speed that we receive as well.
+
+40
+00:02:05,060 --> 00:02:08,493
+And so this is basically always gonna work the same way.
+
+41
+00:02:09,930 --> 00:02:11,160
+So as I mentioned,
+
+42
+00:02:11,160 --> 00:02:14,750
+this is a pattern that developers came up with
+
+43
+00:02:14,750 --> 00:02:16,920
+and so now we just simply follow this
+
+44
+00:02:16,920 --> 00:02:20,200
+like a recipe all right?
+
+45
+00:02:20,200 --> 00:02:23,903
+And with this, we can actually already create our two cars,
+
+46
+00:02:25,180 --> 00:02:30,180
+so let's say the BMW is a new car
+
+47
+00:02:30,290 --> 00:02:33,760
+and so remember this new operator here
+
+48
+00:02:33,760 --> 00:02:36,193
+is what's gonna enable all of this to work.
+
+49
+00:02:37,330 --> 00:02:40,150
+And so here the make is of course BMW
+
+50
+00:02:40,150 --> 00:02:43,820
+and the speed is 120 kilometers per hour,
+
+51
+00:02:43,820 --> 00:02:48,820
+which for my American friends is 75 miles per hour
+
+52
+00:02:49,300 --> 00:02:50,790
+I believe
+
+53
+00:02:50,790 --> 00:02:53,223
+so the next one is gonna be the Mercedes.
+
+54
+00:02:55,800 --> 00:02:57,060
+So that's new car
+
+55
+00:02:58,200 --> 00:03:02,120
+and at speed, 95 kilometers per hour okay?
+
+56
+00:03:05,900 --> 00:03:07,600
+So let's just take a look
+
+57
+00:03:08,970 --> 00:03:09,803
+and so yeah,
+
+58
+00:03:09,803 --> 00:03:12,820
+that appears to be working just fine.
+
+59
+00:03:12,820 --> 00:03:16,730
+And so now let's implement our two methods here,
+
+60
+00:03:16,730 --> 00:03:19,030
+so accelerate and brake
+
+61
+00:03:19,030 --> 00:03:22,833
+and of course we are not going to add the method right here.
+
+62
+00:03:23,750 --> 00:03:26,950
+So we will not do this .accelerate
+
+63
+00:03:26,950 --> 00:03:29,400
+because as we just learned before,
+
+64
+00:03:29,400 --> 00:03:31,760
+that would be terrible for performance,
+
+65
+00:03:31,760 --> 00:03:34,773
+especially if we had many, many car objects.
+
+66
+00:03:35,610 --> 00:03:38,725
+So instead we will of course make use
+
+67
+00:03:38,725 --> 00:03:41,466
+of prototypal inheritance.
+
+68
+00:03:41,466 --> 00:03:44,550
+So we take the prototype property of car
+
+69
+00:03:44,550 --> 00:03:49,550
+and to that, we add the accelerate property accelerate
+
+70
+00:03:52,380 --> 00:03:53,620
+that's correct
+
+71
+00:03:53,620 --> 00:03:57,690
+and we make it a method by passing in a function
+
+72
+00:03:58,610 --> 00:04:01,693
+or actually by specifying a function here.
+
+73
+00:04:03,280 --> 00:04:04,690
+So once again,
+
+74
+00:04:04,690 --> 00:04:06,810
+we can use the This keyword in here
+
+75
+00:04:06,810 --> 00:04:09,360
+because that is simply gonna be the object
+
+76
+00:04:09,360 --> 00:04:12,100
+on which the method will be called
+
+77
+00:04:12,100 --> 00:04:15,080
+and so that object will have the speed property
+
+78
+00:04:15,080 --> 00:04:18,313
+and so here we can then increase that by 10.
+
+79
+00:04:21,470 --> 00:04:24,750
+And then we can also log that to the console
+
+80
+00:04:25,730 --> 00:04:28,403
+and we can even make use of course of the make.
+
+81
+00:04:29,870 --> 00:04:33,220
+So this one wasn't specified in the text,
+
+82
+00:04:33,220 --> 00:04:35,420
+but we can log a nice string, like this
+
+83
+00:04:36,640 --> 00:04:38,130
+is going
+
+84
+00:04:38,130 --> 00:04:42,360
+at this.speed
+
+85
+00:04:43,750 --> 00:04:46,010
+and then kilometers per hour
+
+86
+00:04:46,010 --> 00:04:47,223
+but again this part,
+
+87
+00:04:48,073 --> 00:04:50,223
+you wouldn't have to implement like this.
+
+88
+00:04:51,350 --> 00:04:53,000
+And now let's just take this here
+
+89
+00:04:54,280 --> 00:04:57,553
+for the brake because it's gonna be pretty similar,
+
+90
+00:04:58,630 --> 00:04:59,720
+so brake,
+
+91
+00:04:59,720 --> 00:05:01,710
+and all we do then is to
+
+92
+00:05:01,710 --> 00:05:06,710
+decrease the speed by five all right?
+
+93
+00:05:07,240 --> 00:05:11,053
+And now let's just call this on the BMW a couple of times,
+
+94
+00:05:12,020 --> 00:05:15,223
+so bmw.accelerate,
+
+95
+00:05:16,200 --> 00:05:17,863
+and let's do that three times.
+
+96
+00:05:18,950 --> 00:05:20,380
+And so after three times,
+
+97
+00:05:20,380 --> 00:05:25,230
+the BMW is going at 150 kilometers per hour,
+
+98
+00:05:25,230 --> 00:05:28,320
+so apparently that works just fine.
+
+99
+00:05:28,320 --> 00:05:30,370
+Let's just add a brake here in the middle
+
+100
+00:05:34,890 --> 00:05:37,930
+and so now we reduce the speed a little bit
+
+101
+00:05:37,930 --> 00:05:42,200
+and then back up to 145 now okay?
+
+102
+00:05:42,200 --> 00:05:44,200
+And that's actually it,
+
+103
+00:05:44,200 --> 00:05:47,230
+that's all we had to do in this challenge,
+
+104
+00:05:47,230 --> 00:05:48,800
+and maybe with this example,
+
+105
+00:05:48,800 --> 00:05:51,100
+you can start to see the advantages
+
+106
+00:05:51,100 --> 00:05:54,520
+of object oriented programming in action.
+
+107
+00:05:54,520 --> 00:05:56,910
+So all the advantages that we talked about
+
+108
+00:05:56,910 --> 00:05:59,990
+right in the first lecture of the section,
+
+109
+00:05:59,990 --> 00:06:02,380
+and essentially the part where we learned
+
+110
+00:06:02,380 --> 00:06:04,590
+that in object oriented programming,
+
+111
+00:06:04,590 --> 00:06:09,350
+we pack both the functionality and the data into objects.
+
+112
+00:06:09,350 --> 00:06:12,160
+And so that's exactly what we have here,
+
+113
+00:06:12,160 --> 00:06:14,170
+so each of these objects,
+
+114
+00:06:14,170 --> 00:06:19,170
+so BMW and Mercedes contains the state of the car,
+
+115
+00:06:19,260 --> 00:06:22,350
+so the current speed and the make,
+
+116
+00:06:22,350 --> 00:06:24,780
+and it also contains the functionality
+
+117
+00:06:24,780 --> 00:06:27,420
+to manipulate its own data,
+
+118
+00:06:27,420 --> 00:06:31,010
+so the accelerate and brake methods in this case
+
+119
+00:06:31,010 --> 00:06:34,650
+are able to manipulate the speed, right?
+
+120
+00:06:34,650 --> 00:06:36,160
+And at the same time,
+
+121
+00:06:36,160 --> 00:06:39,560
+these two methods also form the public interface
+
+122
+00:06:39,560 --> 00:06:42,210
+of this object, right?
+
+123
+00:06:42,210 --> 00:06:44,300
+So right now the rest of our code
+
+124
+00:06:44,300 --> 00:06:47,010
+can interact with these objects
+
+125
+00:06:47,010 --> 00:06:50,740
+by calling the brake and the accelerate methods.
+
+126
+00:06:50,740 --> 00:06:52,473
+Now in this case, of course,
+
+127
+00:06:52,473 --> 00:06:55,730
+this is just a very small and isolated example,
+
+128
+00:06:55,730 --> 00:06:59,430
+so it can still be hard to see the advantages of this,
+
+129
+00:06:59,430 --> 00:07:01,920
+but maybe you can take a minute or two
+
+130
+00:07:01,920 --> 00:07:04,180
+and compare this style of coding
+
+131
+00:07:04,180 --> 00:07:07,090
+with the code that we have written up until this point
+
+132
+00:07:07,090 --> 00:07:08,180
+in the course.
+
+133
+00:07:08,180 --> 00:07:11,090
+All right, so at some point you will see
+
+134
+00:07:11,090 --> 00:07:14,650
+that this is really a completely different way of thinking
+
+135
+00:07:14,650 --> 00:07:16,200
+about our code,
+
+136
+00:07:16,200 --> 00:07:19,010
+but anyway that's it for this challenge.
+
+137
+00:07:19,010 --> 00:07:20,060
+In the next video,
+
+138
+00:07:20,060 --> 00:07:23,290
+we are gonna talk about ESX classes,
+
+139
+00:07:23,290 --> 00:07:24,993
+so I hope to see you there soon.

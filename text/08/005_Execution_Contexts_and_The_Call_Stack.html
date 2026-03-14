@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execution Contexts and The Call Stack</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        .mermaid { background: var(--surface-color); padding: 24px; border-radius: var(--radius-lg); display: flex; justify-content: center; margin: 24px 0; border: 1px solid var(--surface-border); }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
+        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        td a { color: var(--info-color); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 08 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-context" class="nav-item">1. 什么是执行上下文 (Execution Contexts)？</a>
+            <a href="#section-stack" class="nav-item">2. 调用栈 (The Call Stack) 是如何运作的？</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Execution Contexts and The Call Stack (执行上下文与调用栈)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：005 Execution Contexts and The Call Stack.en.srt</span>
+            <span>📂 章节：第 08 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>假设你的代码编译完毕准备运行，JS 引擎究竟是如何知道运行到哪一行的？如果出现了函数嵌套调用，引擎是如何保证不迷路的？本节我们将揭晓引擎内部的“行车记录仪”：<strong>执行上下文 (Execution Context)</strong> 与 <strong>调用栈 (Call Stack)</strong>。</p>
+
+        <h2 id="section-context">1. 什么是执行上下文 (Execution Contexts)？</h2>
+        <p>当 JavaScript 代码编译完成后，引擎会立刻为其创建一个 <strong>全局执行上下文 (Global Execution Context)</strong>。它是用来执行代码的环境（你可以把它想象成一个包含了执行代码所需所有材料的包裹或者箱子）。</p>
+
+        <div class="callout analogy">
+            <p>📦 <strong>生活类比</strong>：假设我们要吃比萨。你不能让比萨飘在空中吃，必须找一个“桌子（环境）”，桌子上要有“餐具（变量环境）”，还有“谁买单（<code>this</code> 关键字）”。执行上下文就是这张桌子。</p>
+        </div>
+
+        <p>引擎在运行时的第一法则是这三步：</p>
+        <ol>
+            <li>为不在任何函数内部的顶层代码 (Top-level code) 创建 <strong>全局执行上下文</strong>。</li>
+            <li>执行这段顶层代码。</li>
+            <li><strong>每当调用一个函数时，引擎会立刻为该函数创建一个属于它自己的全新执行上下文。</strong></li>
+        </ol>
+
+        <h3>一个执行上下文里面到底装了什么？</h3>
+        <p>每个上下文包裹里包含三大核心物件（这在随后的几节课会反复考到！）：</p>
+
+        <div class="mermaid">
+        flowchart TD
+            EC["📦 执行上下文 (Execution Context)"]
+            
+            subgraph 内容
+                VE["📝 变量环境 (Variable Environment)\n- 所有的 let/const/var 声明\n- 所有的子函数声明\n- arguments 对象 (箭头函数除外)"]
+                SC["🔗 作用域链 (Scope Chain)\n让当前函数能查找到外部的变量"]
+                TK["👉 this 关键字 (This Keyword)\n(箭头函数除外)"]
+            end
+            
+            EC --> VE & SC & TK
+            
+            style EC fill:#8be9fd,color:#000,stroke:#333
+        </div>
+
+        <div class="callout">
+            <p>🚨 <strong>关键考点（面试常客）</strong>：请死记硬背！<strong>箭头函数 (Arrow Functions) 的执行上下文里，没有自己的 <code>arguments</code> 对象，也没有自己的 <code>this</code> 关键字！</strong> 它们是借用离自己最近的普通父级函数的。这就是箭头函数的命相所在。</p>
+        </div>
+
+        <h2 id="section-stack">2. 调用栈 (The Call Stack) 是如何运作的？</h2>
+        <p>我们讲了每次调用函数就会产生一个上下文包裹。那如果函数 A 调用函数 B，函数 B 又调用函数 C 呢？引擎要如何保证记住执行的顺序，并且在 C 执行完后准确退回到 B？</p>
+        <p>答案是：<strong>调用栈 (Call Stack)</strong>。这是 JS 引擎用来跟踪程序执行状态的数据结构（LIFO：后进先出栈）。<strong>不管什么代码，必须在调用栈的最顶端（Top of the stack）才能被执行。</strong></p>
+
+        <h3>让我们来人肉单步调试一段代码的调用栈变化：</h3>
+        <pre><code class="language-javascript">
+const name = 'Jonas'; // 顶层代码
+
+const first = () => {
+    let a = 1;
+    const b = second(7, 9); // 函数调函数
+    a = a + b;
+    return a;
+};
+
+function second(x, y) {
+    var c = 2;
+    return c;
+}
+
+const x = first(); // 触发全栈！
+        </code></pre>
+
+        <p>不要读字，直接看下方生动的可视化弹栈全过程！⬇️</p>
+
+        <!-- Mermaid 的 Stack 堆叠视角可视化 -->
+        <div class="mermaid">
+        flowchart BT
+            subgraph Step 1: 顶层代码准备就绪
+                G1["Global Execution Context (Active)"]
+            end
+            
+            subgraph Step 2: 遇到 const x = first()
+                F2["first() Execution Context (Active)"]
+                G2["Global Execution Context (Paused)"]
+                G2 -.- F2
+            end
+            
+            subgraph Step 3: first 内部遇到 second()
+                S3["second() Execution Context (Active)"]
+                F3["first() Execution Context (Paused)"]
+                G3["Global Execution Context (Paused)"]
+                G3 -.- F3 -.- S3
+            end
+            
+            subgraph Step 4: second() 跑完 return 弹出
+                F4["first() Execution Context (Active again)"]
+                G4["Global Execution Context (Paused)"]
+                G4 -.- F4
+            end
+            
+            subgraph Step 5: first() 也跑完了，全部退出
+                G5["Global Execution Context (Active again)"]
+            end
+            
+            Step_1 --> Step_2 --> Step_3 --> Step_4 --> Step_5
+            
+            style G1 fill:#f7df1e,color:#000
+            style F2 fill:#8be9fd,color:#000
+            style S3 fill:#50fa7b,color:#000
+            style F4 fill:#8be9fd,color:#000
+            style G5 fill:#f7df1e,color:#000
+        </div>
+
+        <p><strong>原理解析追踪</strong>：</p>
+        <ul style="color:var(--text-secondary); line-height: 1.8;">
+            <li>1. 引擎一启动，先压入<strong>Global（黄底）</strong>。它是万物的基石。</li>
+            <li>2. JS 单线程向下扫描，最后一行发现调用了 <code>first()</code>，立马为它创建崭新的蓝底上下文并<strong>压入栈顶 (Push)</strong>。此时，蓝底是 Active 状态，黄底 Global 被迫暂停 (Paused)。JS 单线程永远只处理栈顶。</li>
+            <li>3. <code>first</code> 运行到一半，惊呼又调用了 <code>second()</code>！引擎立马为其创建绿底的上下文并压栈登顶。此时蓝色和黄色全被封冻暂停。</li>
+            <li>4. 绿色的 <code>second</code> 执行到 <code>return c;</code> 完成任务，绿底上下文瞬间被<strong>弹出栈并销毁 (Popped off)</strong>。控制权完美交还给下方的蓝底 <code>first()</code> 上下文，它苏醒后继续执行剩余加法。</li>
+            <li>5. 蓝底也完成任务 return。整个程序只剩下黄底的 Global，直到你关闭浏览器 Tab 页，连它也被摧毁。</li>
+        </ul>
+
+        <div class="callout info">
+            <p>💡 <strong>总结引申</strong>：这就是为什么很多人说 JS 代码运行在“调用栈”里（确切地说，是运行在位于栈顶的执行上下文里）。由于栈结构永远不会乱，JS 引擎就像拿了一份永不丢失的 <strong>地图 (Map)</strong>，随时知道自己身在何处，该回到哪里。</p>
+        </div>
+
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">1. 下列关于“箭头函数”执行上下文包裹的说法，最致命的（也是最正确的）不同点是什么？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 它没有属于自己的 `arguments` 对象，也没有指向自己的 `this` 关键字。</div>
+                <div class="quiz-option" data-value="B">B) 它无法被推入调用栈 (Call Stack) 中执行。</div>
+                <div class="quiz-option" data-value="C">C) 它没有自身的变量环境 (Variable Environment)，里面的变量全是对外层的引用。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：A</strong>。这是无数面试和复杂 bug 的出处！箭头函数有它自己声明内部变量的 Variable Environment，也能压入调用栈。但它丧失了普通函数拥有的 <code>this</code> 主动权和 <code>arguments</code> 对象特权，只能“啃老”去向它的父级要。
+            </div>
+        </div>
+        
+        <br>
+
+        <div class="quiz-card" data-correct="C">
+            <div class="quiz-question">2. 为什么 JavaScript 被称为“单线程”语言，这与调用栈有什么关系？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为它只能用到 CPU 的一个物理核心。</div>
+                <div class="quiz-option" data-value="B">B) 因为它没有对象，只有一个大包厢存放变量。</div>
+                <div class="quiz-option" data-value="C">C) 因为它的核心只有一个调用栈 (Call Stack)，同一时刻只有栈顶端的那一个上下文 (Context) 在执行，其余都在排队或暂停。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：C</strong>。JS 在运行时只有一个调用栈（主厨），一次只能炒一口锅里的菜（栈顶那个活跃的 Context）。一旦遇到嵌套函数调用，下方的原功能必须乖乖立正暂停，无法“同时处理”。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 简单 Quiz 逻辑
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const opts = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.style.background = 'transparent');
+                if (opt.getAttribute('data-value') === correctVal) {
+                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--success-color)';
+                } else {
+                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--error-color)';
+                }
+                exp.style.display = 'block';
+            });
+        });
+    });
+</script>
+</body>
+</html>

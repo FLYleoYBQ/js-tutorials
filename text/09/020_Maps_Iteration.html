@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maps: Iteration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 二维阵解初始化：告别繁长枯燥的 set()</a>
+            <a href="#section-2" class="nav-item">2. for-of：Map 骨子里的无缝穿梭融合</a>
+            <a href="#section-3" class="nav-item">3. 散架重组回阵列 (Array)</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Maps: Iteration (图集迭代穿梭)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：020 Maps Iteration.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置基础</strong>：上节课我们像个搬砖老伯一样，一口气调了无数个首尾衔接的不断堆叠的庞大 <code>.set().set()</code> 给图集挂挡输入数据，看着让人喘息崩溃。</li>
+                <li><strong>极速穿梭建立法则</strong>：这节课，我们将用二维复合装配式阵法则在一秒钟里建立起 Map 大厦阵线，并且开启 <code>for-of</code> 空间漫游。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述：化身为答题机器的 Map</h2>
+        <p>我们将在这堂课搭建起一个微型的考官答题机，彻底活用 Map 在内部通过 1, 2, 3 等纯净数字控制指纹、以及直接把大盘数据无痛抛进 for 循环洗地切盘等惊魂机制。</p>
+
+        <h2 id="section-1">1. 二维阵解初始化：告别繁长的 set()</h2>
+        <p>与其在代码开头里连写一堆辣眼睛的 <code>.set</code>，我们可以在 <code>new Map()</code> 的出生瞬间就朝它嘴巴里塞入一块<strong>装着无数个微型双核果阵的二维大型集装箱数组</strong>！</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行构建大桥</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 观察这套内部包含着 [key, value] 标准小方块套件的双阶大楼阵：
+const question = new Map([
+  ['question', '请问哪门编程语言是全世界制霸级别的最强语言？'],
+  [1, 'C语言'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3], // 藏在底层抽屉的核心校验标准答案
+  [true, '正确！🎉'],
+  [false, '再想想，请重新再作答！']
+]);
+
+console.log(question);
+
+// 🔍 高智能逆向渗透对象！
+// 之前的课提过：Object.entries(实体) 会生生吐出一个这种二维切割大方块组。
+// 所以！如果哪天想极速强行迫改一个 Object 把它转生为高维的 Map 系统：
+const poorObj = { mon: 10, tue: 12 };
+const fastMap = new Map(Object.entries(poorObj)); // 闪电转账完毕！
+console.log('对象强制引渡转生：', fastMap);</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-2">2. for-of：Map 骨子里的无缝穿梭融合</h2>
+        <p>上一次针对大笨重对象进行 <code>for-of</code> 循环的时侯，对象像只不吃草的牛，我们求爷爷告奶奶硬砸上 <code>Object.entries()</code> 去把它击成碎片数组才硬喂进去。</p>
+        <p>而 <strong>Map 天生骨血就是一头纯正的 Iterable (可迭代生灵)</strong>！它自身长满了可以攀岩吸附的孔洞，直接丢进 <code>for-of</code>，配合极速手术刀 <code>[key, value]</code> 破坏力惊人拉满解爆：</p>
+        
+        <pre><code class="language-javascript">console.log(question.get('question'));
+
+// 天生可以完美对接 for-of 接口！解构小分队冲进去拿人：
+for (const [key, value] of question) {
+  // 只捞出指纹扣是正统“数字”类型的题目选项来展柜示众！
+  if (typeof key === 'number') {
+    console.log(`选项解答号牌 ${key}: ${value}`);
+  }
+}
+
+// 假装用户瞎猜了答案 3 （你可以用 prompt('你猜？') 在浏览器拉出窗口测试）
+const answer = 3;
+
+// 直接把布尔裁决当钥匙抛给锁口！提取神圣回应。
+console.log(question.get(answer === question.get('correct')));</code></pre>
+
+        <h2 id="section-3">3. 逆向拆骨：散架重组回阵列 (Array)</h2>
+        <p>当你拥有了一个精巧的 Map 体系，想把它的血液抽离换回成那副最基础傻瓜易用的工业化阵列数组以用其他杀器。只要掏出 Spread (<code>...</code>) 散弹枪，轰击它重新罩进 <code>[]</code> 骨灰盒中：</p>
+
+        <pre><code class="language-javascript">// 直接全部融毁分解抛回成 Array
+console.log([...question]);
+
+// 甚至在 Map 独有长在自身的特供过滤口器里面打碎单抓：
+console.log([...question.keys()]); // 只要左边那些全套锁扣
+console.log([...question.values()]); // 只要右边那些全是肉质体</code></pre>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 将原始的 Object（对象）投下并融化进入 for-of 循环池和把新世界的 Map 投进 for-of 循环池中，它们各自的操作工序有什么根本体征上的摩擦？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 没分别，它俩都不具备内置步进马达，都必须呼叫顶级法师 Object 给敲碎并进行包办。</div>
+                <div class="quiz-option" data-value="B">B) Map 出生底座就打磨切口抛光兼容挂接了 Iterable (自带可直接走入遍历齿轮的引信)，像进进出出吃面条一样轻松，能够不用套取辅助壳就能被 for(... of MyMap) 直接吸入切片。而 Object 没有引信只能借助外力 Object.entries(OBJ) 碎块化包装借位引渡。</div>
+                <div class="quiz-option" data-value="C">C) Map 根本就进不去 for-of 的管子内部，完全报红色错。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的选项</strong>。Map 是在现代框架和后端数据拼装领域非常强势的数据池，它解决了传统对象的弱弱不规范杂乱感。天生的 Iterable 血统使其可以完美的随时随地进入任何阵列组合车间被重塑翻滚。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => {
+                if (typeof a === 'object' && !(a instanceof Map)) return JSON.stringify(a);
+                if (a instanceof Map) {
+                    let entries = [];
+                    for (let [k,v] of a.entries()) entries.push(`${k} => ${v}`);
+                    return `Map(${a.size}) {${entries.join(', ')}}`;
+                }
+                return a;
+            }).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

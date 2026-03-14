@@ -1,0 +1,79 @@
+1
+00:00:00,360 --> 00:00:01,840
+(soothing music)
+
+2
+00:00:01,840 --> 00:00:05,950
+In modern JavaScript, there are two major paradigms,
+
+3
+00:00:05,950 --> 00:00:10,270
+object-oriented programming and functional programming.
+
+4
+00:00:10,270 --> 00:00:12,970
+And so in this section you're gonna learn
+
+5
+00:00:12,970 --> 00:00:14,720
+everything you need to know
+
+6
+00:00:14,720 --> 00:00:18,890
+about object-oriented programming in JavaScript.
+
+7
+00:00:18,890 --> 00:00:22,760
+And this is absolutely essential if you want to become
+
+8
+00:00:22,760 --> 00:00:25,413
+a professional JavaScript developer.
+
+9
+00:00:26,740 --> 00:00:29,140
+So, we're gonna dive really deep
+
+10
+00:00:29,140 --> 00:00:32,810
+into what object-oriented programming actually is
+
+11
+00:00:32,810 --> 00:00:37,350
+and different ways of implementing it in JavaScript.
+
+12
+00:00:37,350 --> 00:00:40,550
+And we're gonna start with constructor functions,
+
+13
+00:00:40,550 --> 00:00:43,300
+then move to ES6 classes
+
+14
+00:00:43,300 --> 00:00:46,920
+and also talk about object.create.
+
+15
+00:00:46,920 --> 00:00:48,760
+And by the end of the section,
+
+16
+00:00:48,760 --> 00:00:52,770
+we will even implement inheritance between classes
+
+17
+00:00:52,770 --> 00:00:54,943
+using all these different techniques.
+
+18
+00:00:55,840 --> 00:00:59,510
+So, this is gonna be a full packed section
+
+19
+00:00:59,510 --> 00:01:01,943
+and so let's dive right in.
+
+20
+00:01:01,943 --> 00:01:04,526
+(upbeat music)

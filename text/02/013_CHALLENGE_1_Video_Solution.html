@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编程挑战 #1 视频解答 (Challenge #1 Solution)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 250px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 变量命名与默认原则</a>
+            <a href="#section-2" class="nav-item">2. 第一组测试数据</a>
+            <a href="#section-3" class="nav-item">3. 第二组测试数据</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>编程挑战 #1 视频解答</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：013 CHALLENGE #1 Video Solution.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <p>在这个挑战中，我们要比较 Mark 和 John 两个人的 BMI (身体质量指数)。这虽然简单，但它是你自主利用所学知识从零开始编写程序的完美实践。</p>
+
+        <h2 id="section-1">1. 变量命名与默认原则</h2>
+        
+        <div class="callout success">
+            <p><strong>💡 Jonas 的编码哲学：默认使用 const</strong></p>
+            <p>即使你知道某些人的体重 (mass) 可能在未来会发生改变（你可能会想用 `let`），但是由于在本程序运行的生命周期中我们并不会再次修改这些变量值，所以<strong>最安全、最良好的实践是坚定地默认使用 `const`。</strong></p>
+        </div>
+
+        <p>关于变量的命名，只要它们具有明确的描述性（像 <code>massMark</code>、<code>heightJohn</code> 这类可读性强、具有自解释意义的驼峰命名法），我们就能非常清晰地掌控代码。</p>
+
+        <h2 id="section-2">2. 第一组测试数据解决过程</h2>
+        
+        <p>我们采用给出的第一组测试数据，并利用两种分别使用乘法与使用指数计算平方的写法（本质上是同一公式）计算两人的 BMI：<br>BMI = mass / (height * height)</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">test-data-1.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+// 数据宣告
+const massMark = 78;
+const heightMark = 1.69;
+const massJohn = 92;
+const heightJohn = 1.95;
+
+// BMI 公式：质量 / (身高 乘以 身高) 
+// 第一人采用常规括号乘法：
+const BMIMark = massMark / (heightMark * heightMark);
+// 第二人采用指数运算：
+const BMIJohn = massJohn / (heightJohn ** 2);
+
+console.log(BMIMark, BMIJohn);
+
+// 使用比较运算符得出最终答复，将其存储入布尔变量中
+const markHigherBMI = BMIMark > BMIJohn;
+console.log("Mark 的 BMI 比 John 的高吗？", markHigherBMI);</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+        
+        <p>正如上面控制台输出的一样，Mark 获得了 27 点的 BMI，而 John 获得了 24 点的 BMI，这使得变量 <code>markHigherBMI</code> 成为一个返回值为 <code>true</code> 的布尔语句。</p>
+
+        <h2 id="section-3">3. 变量设计的威力：第二组数据</h2>
+        <p>我们为什么不直接将数字写在计算式中呢？因为使用了变量名，我们可以轻而易举地应对新的测试数据，只需在一处更改源头数据，下方的运算逻辑会被无缝复用。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">test-data-2.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
+// 数据宣告（修改数据源）
+const massMark = 95;
+const heightMark = 1.88;
+const massJohn = 85;
+const heightJohn = 1.76;
+
+// 其余逻辑完全无需变动！
+const BMIMark = massMark / (heightMark ** 2);
+const BMIJohn = massJohn / (heightJohn ** 2);
+
+console.log(BMIMark, BMIJohn);
+
+const markHigherBMI = BMIMark > BMIJohn;
+console.log("Mark 的 BMI 比 John 的高吗？", markHigherBMI);</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+        
+        <p>结果反转了。John (27.4) 轻微超越了 Mark (26.8)。布尔结果如期输出了 <code>false</code>。<br>在这个过程里没有唯一的标准答案。正如 Jonas 所说：<strong>不管你用什么方法，只要最终能够跑出一样的计算结果，那就是属于你个人的成功开发时刻。</strong></p>
+
+    </main>
+</div>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n');
+        } catch (e) {
+            outConsole.innerHTML = `<span style="color:var(--error-color)">⚠️ ${e.name} : ${e.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+</script>
+</body>
+</html>

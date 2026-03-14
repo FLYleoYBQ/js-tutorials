@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解构对象 (Destructuring Objects)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: #334155;
+            --code-bg: #1e1e1e;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; min-height: 100vh; }
+        .app-container { display: flex; width: 100%; max-width: 1400px; margin: 0 auto; }
+        
+        .sidebar { width: 280px; background-color: var(--bg-secondary); border-right: 1px solid var(--border-color); padding: 2rem 1.5rem; position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border-color); }
+        .sidebar-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .progress-container { width: 100%; height: 6px; background-color: var(--bg-color); border-radius: 4px; overflow: hidden; margin-top: 10px; }
+        .progress-bar { width: 0%; height: 100%; background-color: var(--accent-color); transition: width 0.3s ease; }
+        
+        #toc { display: flex; flex-direction: column; gap: 0.5rem; }
+        .nav-item { color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; padding: 0.5rem 0.75rem; border-radius: 6px; transition: all 0.2s; }
+        .nav-item:hover, .nav-item.active { color: var(--text-primary); background-color: rgba(59, 130, 246, 0.15); }
+        .nav-item.active { border-left: 3px solid var(--accent-color); font-weight: 500; }
+        
+        .main-content { flex: 1; padding: 3rem 4rem; max-width: 900px; }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; color: #fff; letter-spacing: -0.02em; }
+        h2 { font-size: 1.75rem; margin-top: 3rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--border-color); }
+        h3 { font-size: 1.25rem; margin-top: 2rem; margin-bottom: 1rem; color: #e2e8f0; }
+        p { margin-bottom: 1.5rem; font-size: 1.05rem; }
+        
+        .meta-info { display: flex; gap: 1.5rem; margin-bottom: 2rem; color: var(--text-secondary); font-size: 0.9rem; background: rgba(255, 255, 255, 0.03); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid var(--border-color); }
+        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 1.5rem; border-radius: 0 8px 8px 0; margin: 2rem 0; }
+        
+        .mermaid-wrapper { background: #1e293b; padding: 2rem; border-radius: 12px; margin: 2rem 0; border: 1px solid var(--border-color); text-align: center; }
+        
+        .code-comparison { display: flex; gap: 1.5rem; margin: 2.5rem 0; flex-wrap: wrap; }
+        .code-panel { flex: 1; min-width: 300px; background: var(--code-bg); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+        .panel-header { padding: 0.75rem 1rem; font-weight: 600; font-size: 0.9rem; color: #fff; }
+        .panel-header.method1 { background-color: rgba(239, 68, 68, 0.2); border-bottom: 1px solid rgba(239, 68, 68, 0.4); border-left: 3px solid var(--danger-color); }
+        .panel-header.method2 { background-color: rgba(16, 185, 129, 0.2); border-bottom: 1px solid rgba(16, 185, 129, 0.4); border-left: 3px solid var(--success-color); }
+        
+        .runnable-editor { background: var(--code-bg); border-radius: 8px; overflow: hidden; margin: 2rem 0; border: 1px solid var(--border-color); }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1rem; background: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: var(--text-secondary); }
+        .btn-run { background: var(--accent-color); color: white; border: none; padding: 0.4rem 1rem; border-radius: 4px; cursor: pointer; font-size: 0.85rem; font-weight: 600; transition: background 0.2s; }
+        .btn-run:hover { background: #2563eb; }
+        .editor-container { padding: 1rem; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: #e2e8f0; font-family: 'JetBrains Mono', monospace; font-size: 0.95rem; border: none; outline: none; resize: vertical; line-height: 1.5; }
+        .console-output { background: rgba(0,0,0,0.4); border-top: 1px solid var(--border-color); padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; color: #a3be8c; min-height: 50px; white-space: pre-wrap; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 2rem 0; background: var(--bg-secondary); border-radius: 8px; overflow: hidden; }
+        th, td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        td { font-size: 0.95rem; }
+        
+        .quiz-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; margin: 1.5rem 0; }
+        .quiz-option { background: var(--bg-color); border: 1px solid var(--border-color); padding: 1rem 1.5rem; border-radius: 8px; margin-bottom:0.75rem; cursor: pointer; transition: all 0.2s; }
+        .quiz-option:hover { border-color: var(--accent-color); background: rgba(59, 130, 246, 0.1); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(16, 185, 129, 0.1); }
+        .quiz-option.wrong { border-color: var(--danger-color); background: rgba(239, 68, 68, 0.1); }
+        .quiz-explanation { display: none; margin-top: 1.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.03); border-radius: 8px; border-left: 3px solid var(--accent-color); }
+        .quiz-explanation.show { display: block; }
+        details { background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-color); border-radius: 8px; padding: 1rem; margin-bottom: 1rem; }
+        summary { cursor: pointer; font-weight: 600; color: var(--accent-color); outline: none; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 基础对象解构</a>
+            <a href="#section-2" class="nav-item">2. 变量重命名与默认值</a>
+            <a href="#section-3" class="nav-item">3. ⚠️ 覆盖已有变量的陷阱</a>
+            <a href="#section-4" class="nav-item">4. 嵌套对象解构</a>
+            <a href="#section-5" class="nav-item">5. 🌟 终极绝招：对象传参自动解构</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>解构对象 (Destructuring Objects)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：005 Destructuring Objects.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：解构数组的概念（上一节）</li>
+                <li><strong>后续扩展</strong>：在第三方库（如 React、API 请求）中被高频使用的配置对象传参技巧，一切高级库的基石</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>学完数组解构后，你可能会想：“既然能从数组里掏出东西，那能从对象（Object）里掏吗？” 当然可以！而且对象解构在实际开发中的使用频率比数组还要高得多。</p>
+        <p>提取对象内容的重点在于：<strong>你必须提供与对象属性完全同名的变量名称（无需在意顺序）</strong>。</p>
+        
+        <h2 id="section-1">1. 基础对象解构与重命名</h2>
+        
+        > 🧩 **生活类比**：想象对象是一个带标签的多屉柜，数组解构像“按顺序打开前两个抽屉”，而对象解构则是“直接呼叫名为 'name' 的那个抽屉”。因为我们直接凭名字喊它，所以顺序根本不重要！
+
+        <p>假设我们的餐厅对象有很多属性，我们可以用 <code>{}</code> 将同名属性提出来：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const restaurant = {
+  name: 'Classico Italiano',
+  location: 'Via Angelo Tavanti 23, Firenze, Italy',
+  categories: ['Italian', 'Pizzeria', 'Vegetarian', 'Organic'],
+};
+
+// 基础提取：名字必须完全对应！顺序无所谓
+const { name, categories, location } = restaurant;
+console.log(name, categories);</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-2">2. 变量重命名与默认值</h2>
+        <p>如果你讨厌原属于对象里的名字（也许它是第三方 API 返回的难看属性），你可以用冒号 <code>:</code> 进行<strong>重命名</strong>。同时，你也能够随时防备数据的缺失，用 <code>=</code> 设置<strong>默认值</strong>。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">重命名与默认值.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const restaurant = {
+  name: 'Classico Italiano',
+  openingHours: {
+    thu: { open: 12, close: 22 },
+    fri: { open: 11, close: 23 },
+  }
+};
+
+// 提取并重命名：原名: 新变量名
+const { name: restaurantName, openingHours: hours } = restaurant;
+console.log(`重命名后：${restaurantName}`);
+
+// 默认值 + 重命名：如果 menu 属性不存在则给个空数组
+const { menu = [], starterMenu: starters = [] } = restaurant;
+console.log(`拿到默认值：`, menu, starters);</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+
+        <h2 id="section-3">3. ⚠️ 覆盖已有变量的陷阱 (Mutating Variables)</h2>
+        <p>这里有一个经典的语法坑：当变量此前已经声明过了，你现在只是想给它们重新赋值（覆盖）。如果不小心，JavaScript 引擎会把开头出现的花括号 <code>{</code> 误认为是一个代码块！</p>
+        
+        <div class="callout" style="border-left-color: var(--danger-color); background-color: rgba(239, 68, 68, 0.1);">
+            <strong>🐛 报错实验室</strong>
+            <pre><code class="language-javascript" style="background:transparent; color: #f8fafc;">let a = 111;
+let b = 999;
+const obj = { a: 23, b: 7, c: 14 };
+
+// 这是错的！！会报错 SyntaxError: Unexpected token '='
+// { a, b } = obj; 
+// 💡 JS 把 { a, b } 看成了一个没有 if 的独立代码块 ({...})
+
+// ✅ 正确做法：必须用圆括号包裹整个语句！
+({ a, b } = obj);
+console.log(a, b); // 23 7</code></pre>
+        </div>
+
+        <h2 id="section-4">4. 嵌套对象解构 (Nested Objects)</h2>
+        <p>如果对象里面还套着对象，那我们就在冒号后面再开一个花括号往下钻（解构中的解构）：</p>
+        <pre><code class="language-javascript">const { openingHours } = restaurant; // 前提：先拿到内层
+// 取出 fri 对象里的 open 和 close，顺便把它们重命名为 o 和 c！
+const { fri: { open: o, close: c } } = openingHours;
+console.log(o, c); // 11 23</code></pre>
+
+        <h2 id="section-5">5. 🌟 终极绝招：对象传参自动解构 (The Ultimate Trick)</h2>
+        <p>在开发业务复杂的大型应用或使用外来库时，一个函数可能要接收 5 个、6 个甚至更多的参数。如果按照传统方式，调用者必须<strong>死记硬背参数的顺序</strong>。但这太反人类了！</p>
+        
+        <p>**现代 JavaScript 的破局之法：参数传一个配置对象 (Options Object)，并在函数接收处直接就地解构！**</p>
+
+        <div class="mermaid-wrapper">
+            <div class="mermaid">
+            flowchart LR
+                Obj["传入单个对象<br/>{ time: '22:30', address: 'Via...' }"] --> Function
+                subgraph Function ["JS 引擎自动解构参数"]
+                destruct("function ({ time, address })")
+                end
+                destruct --> use1["console.log(time)"]
+                
+                style Obj fill:#3b82f6,color:#fff
+                style Function fill:#1e293b,stroke:#8b5cf6
+                style destruct fill:#8b5cf6,color:#fff
+            </div>
+        </div>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">绝招实战.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const restaurant = {
+  name: 'Classico Italiano',
+  
+  // 🛎️ 我们将直接在函数的参数列表中展开对象！甚至附带默认值
+  orderDelivery: function({ time = '20:00', address, mainIndex = 0 }) {
+    console.log(`收到订单！晚上 ${time} 将送达到地址: ${address}`);
+  }
+};
+
+// 🚗 调用时：传入"单一"的对象。顺序不重要了！如果缺失 time，它会用默认的 20:00
+restaurant.orderDelivery({
+  address: 'Via del Sole, 21',
+  mainIndex: 2
+});</textarea>
+            </div>
+            <div id="console3" class="console-output"></div>
+        </div>
+
+        <h2>💡 关键要点</h2>
+        <ul style="margin-left: 20px; line-height: 1.8;">
+            <li>✅ 对象解构必须使用同名属性：<code>const { name } = obj;</code>。</li>
+            <li>✅ 重命名语法是 <code>原名: 新名</code>。</li>
+            <li>✅ 当要修改已存在的变量时，整个解构语句必须被小括号包裹 <code>({a,b} = obj)</code> 以防止被词法分析器误判断为代码块。</li>
+            <li>✅ 让函数只接收一个配置对象，并在参数处就地解构，是 React 等现代框架中非常主流的模式。</li>
+        </ul>
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>对象解构</td>
+                    <td>Object Destructuring</td>
+                    <td>通过键名精准"抠出"对象属性的值。</td>
+                    <td><code>const { a } = obj;</code></td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment#object_destructuring" target="_blank" style="color:var(--accent-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>📝 动手练习</h3>
+        <p><strong>练习 1：解构重命名与默认值</strong></p>
+        <div class="runnable-editor" style="margin-top: 5px;">
+            <div class="editor-container">
+                <textarea class="editor-textarea" id="practiceEditor1" spellcheck="false">const apiResponse = {
+  id: 101,
+  user_email: "jonas@example.com"
+  // 注：缺失了 user_phone
+};
+
+// 补全下方代码！
+// 1. 将 user_email 重命名为 email
+// 2. 提取 user_phone，如果不存在，提供默认值 "无电话"
+// const { ____________ } = apiResponse;
+
+// console.log(`邮箱：${email}, 电话：${user_phone}`);</textarea>
+            </div>
+            <button class="btn-run" style="margin: 10px;" onclick="runCode('practiceEditor1', 'practiceConsole1')">▶ 运行测试</button>
+            <div id="practiceConsole1" class="console-output" style="border-radius: 0 0 8px 8px;"></div>
+        </div>
+        <details><summary>💡 参考答案</summary>
+<pre><code class="language-javascript">const { user_email: email, user_phone = "无电话" } = apiResponse;
+console.log(`邮箱：${email}, 电话：${user_phone}`);</code></pre>
+        </details>
+
+        <h3>❓ 理解检测</h3>
+        
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 当我们想要向已声明的变量重新进行对象解构赋值时，为什么必须使用括号包裹 <code>({a, b} = obj)</code>？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为圆括号会提升变量的作用域，保护外层不受影响。</div>
+                <div class="quiz-option" data-value="B">B) 因为当一行代码以左大括号 `{` 开始时，JavaScript 引擎会将其视为代码块（block），而我们不能给代码块赋值。</div>
+                <div class="quiz-option" data-value="C">C) 这是历史遗留 Bug，在较新版本的 ES10 中已经不再需要括号。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>✅ 解析：正确答案是 B。</strong>JavaScript 语法解析器在遇到行首的 <code>{</code> 时默认解析为代码块语句。用括号 <code>()</code> 包裹即可向解析器声明：“这是一个完整的表达式，而非代码块！”。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    window.runCode = function(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const consoleEl = document.getElementById(consoleId);
+        let output = '';
+        
+        const originalLog = console.log;
+        console.log = function(...args) {
+            output += args.map(a => typeof a === 'object' ? JSON.stringify(a) : String(a)).join(' ') + '\n';
+        };
+
+        try {
+            new Function(code)();
+            consoleEl.innerHTML = output || '（执行成功，但控制台没有打印任何内容）';
+            consoleEl.style.color = '#a3be8c';
+        } catch (error) {
+            consoleEl.innerHTML = '🚨 报错 - ' + error.name + ': ' + error.message;
+            consoleEl.style.color = '#ef4444';
+        }
+
+        console.log = originalLog;
+    };
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const options = card.querySelectorAll('.quiz-option');
+        const explanation = card.querySelector('.quiz-explanation');
+
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                if (card.classList.contains('answered')) return;
+                
+                const chosenVal = opt.getAttribute('data-value');
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                
+                if (chosenVal === correctVal) {
+                    opt.classList.add('correct');
+                } else {
+                    opt.classList.add('wrong');
+                    options.forEach(o => {
+                        if (o.getAttribute('data-value') === correctVal) {
+                            o.classList.add('correct');
+                        }
+                    });
+                }
+                
+                card.classList.add('answered');
+                explanation.classList.add('show');
+            });
+        });
+    });
+
+    const progressBar = document.getElementById('progressBar');
+    const scrollHandler = document.getElementById('progressText');
+    window.addEventListener('scroll', () => {
+        const scrollY = window.pageYOffset;
+        const totalHeight = document.body.scrollHeight - window.innerHeight;
+        const progress = totalHeight > 0 ? Math.min(100, Math.max(0, (scrollY / totalHeight) * 100)) : 100;
+        progressBar.style.width = progress + '%';
+        scrollHandler.innerText = Math.round(progress) + '%';
+    });
+</script>
+</body>
+</html>

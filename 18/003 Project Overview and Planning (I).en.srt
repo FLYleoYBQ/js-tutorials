@@ -1,0 +1,1175 @@
+1
+00:00:01,110 --> 00:00:04,010
+Hello, and welcome to the biggest
+
+2
+00:00:04,010 --> 00:00:07,420
+and most complete project of the course.
+
+3
+00:00:07,420 --> 00:00:10,850
+And this is kind of the final project of this course,
+
+4
+00:00:10,850 --> 00:00:13,280
+which brings everything that we have learnt,
+
+5
+00:00:13,280 --> 00:00:14,580
+up until this point,
+
+6
+00:00:14,580 --> 00:00:17,700
+into one big and beautiful project.
+
+7
+00:00:17,700 --> 00:00:20,610
+And so, just like with the Mapty project before,
+
+8
+00:00:20,610 --> 00:00:22,000
+Let's actually start,
+
+9
+00:00:22,000 --> 00:00:24,493
+by taking a look, at this project.
+
+10
+00:00:26,040 --> 00:00:27,980
+And, this is it.
+
+11
+00:00:27,980 --> 00:00:30,573
+So this is the Forkify application,
+
+12
+00:00:30,573 --> 00:00:32,510
+that we will build together
+
+13
+00:00:32,510 --> 00:00:35,090
+over the next couple of hours.
+
+14
+00:00:35,090 --> 00:00:38,620
+So this application is all about searching for recipes
+
+15
+00:00:38,620 --> 00:00:40,003
+and displaying them,
+
+16
+00:00:40,937 --> 00:00:42,290
+here in our user interface.
+
+17
+00:00:42,290 --> 00:00:44,490
+And in order to get a good idea,
+
+18
+00:00:44,490 --> 00:00:46,870
+of how this application actually works,
+
+19
+00:00:46,870 --> 00:00:50,220
+you should probably follow along, this demonstration,
+
+20
+00:00:50,220 --> 00:00:53,537
+by going to this URL, soforkifyv2.netlify.app.
+
+21
+00:00:57,340 --> 00:01:00,663
+And so let's search for pizza here.
+
+22
+00:01:02,100 --> 00:01:03,910
+And so you see, that right away,
+
+23
+00:01:03,910 --> 00:01:06,280
+here on this left sidebar,
+
+24
+00:01:06,280 --> 00:01:08,320
+we get all of these results.
+
+25
+00:01:08,320 --> 00:01:10,530
+And when we have more than ten results,
+
+26
+00:01:10,530 --> 00:01:14,700
+they actually, get divided up on multiple pages.
+
+27
+00:01:14,700 --> 00:01:17,180
+So we have this nice pagination here,
+
+28
+00:01:17,180 --> 00:01:22,180
+which is a very common feature of web applications. Right?
+
+29
+00:01:23,690 --> 00:01:26,350
+So you've seen this all the time probably.
+
+30
+00:01:26,350 --> 00:01:27,940
+And so now in this project,
+
+31
+00:01:27,940 --> 00:01:31,130
+you will learn how to implement this yourself.
+
+32
+00:01:31,130 --> 00:01:33,930
+Now, okay. And now let's actually click
+
+33
+00:01:33,930 --> 00:01:36,230
+on one of these recipes,
+
+34
+00:01:36,230 --> 00:01:37,960
+and you see that then it shows up,
+
+35
+00:01:37,960 --> 00:01:39,890
+here on the right side.
+
+36
+00:01:39,890 --> 00:01:41,310
+So we have the cooking time,
+
+37
+00:01:41,310 --> 00:01:44,150
+the servings, all the ingredients,
+
+38
+00:01:44,150 --> 00:01:46,040
+and then also a link to the page,
+
+39
+00:01:46,040 --> 00:01:48,053
+where the recipe actually comes from.
+
+40
+00:01:49,440 --> 00:01:50,930
+Now here in the servings,
+
+41
+00:01:50,930 --> 00:01:52,670
+we can actually decrease,
+
+42
+00:01:52,670 --> 00:01:56,220
+or also increase the number of servings
+
+43
+00:01:56,220 --> 00:01:58,660
+and as you see down here, the ingredients,
+
+44
+00:01:58,660 --> 00:02:01,483
+will then automatically get updated.
+
+45
+00:02:02,600 --> 00:02:05,860
+Right? Then another cool thing that we can do,
+
+46
+00:02:05,860 --> 00:02:08,550
+is to bookmark recipes.
+
+47
+00:02:08,550 --> 00:02:10,130
+So as we click here,
+
+48
+00:02:10,130 --> 00:02:12,980
+then that button changes,
+
+49
+00:02:12,980 --> 00:02:15,680
+and we also got that recipe bookmark,
+
+50
+00:02:15,680 --> 00:02:18,140
+here in this nice panel now.
+
+51
+00:02:18,140 --> 00:02:21,870
+And here you see, I already had a bookmark before,
+
+52
+00:02:21,870 --> 00:02:23,490
+and as we click that,
+
+53
+00:02:23,490 --> 00:02:26,143
+it will then of course move to that one.
+
+54
+00:02:27,950 --> 00:02:29,690
+Now, if we click here again,
+
+55
+00:02:29,690 --> 00:02:33,300
+then that will basically unbookmark the recipe,
+
+56
+00:02:33,300 --> 00:02:35,063
+and so you see that now it's gone,
+
+57
+00:02:36,690 --> 00:02:38,930
+and let's do the same here
+
+58
+00:02:38,930 --> 00:02:40,450
+and so now it's empty
+
+59
+00:02:40,450 --> 00:02:43,833
+and we get this kind of warning message instead.
+
+60
+00:02:46,240 --> 00:02:50,763
+Now right? Now finally, we can actually also add recipes.
+
+61
+00:02:51,770 --> 00:02:53,873
+So, just click on this button,
+
+62
+00:02:54,870 --> 00:02:58,620
+and then here, we can just fill in this form.
+
+63
+00:02:58,620 --> 00:02:59,890
+Now in this demo version,
+
+64
+00:02:59,890 --> 00:03:01,940
+that's actually not going to work,
+
+65
+00:03:01,940 --> 00:03:04,780
+because that would very quickly clutter,
+
+66
+00:03:04,780 --> 00:03:06,293
+this entire application here.
+
+67
+00:03:07,500 --> 00:03:10,600
+Now, what's special about this recipe upload,
+
+68
+00:03:10,600 --> 00:03:13,740
+is that, all the recipes that you upload yourself,
+
+69
+00:03:13,740 --> 00:03:16,023
+will only be visible for yourself.
+
+70
+00:03:16,920 --> 00:03:20,140
+So, here for example, I have this JS PIZZA,
+
+71
+00:03:20,140 --> 00:03:22,980
+which was done by me.
+
+72
+00:03:22,980 --> 00:03:25,660
+And so therefore, it has this icon here,
+
+73
+00:03:25,660 --> 00:03:27,750
+and also this icon here.
+
+74
+00:03:27,750 --> 00:03:30,550
+So it means that it was the user itself.
+
+75
+00:03:30,550 --> 00:03:32,490
+Now, when you open up this page
+
+76
+00:03:32,490 --> 00:03:36,710
+and search for pizza, then this recipe here,
+
+77
+00:03:36,710 --> 00:03:39,620
+should probably also appear for yourself
+
+78
+00:03:39,620 --> 00:03:40,800
+but that's only because,
+
+79
+00:03:40,800 --> 00:03:45,380
+this version has like a fixed developer API key.
+
+80
+00:03:45,380 --> 00:03:49,900
+And so each recipe is associated to a certain developer key
+
+81
+00:03:49,900 --> 00:03:53,150
+and we will see what that means, by the end of the section,
+
+82
+00:03:53,150 --> 00:03:56,710
+when we actually implement this. Now right?
+
+83
+00:03:56,710 --> 00:03:58,950
+But I think that's actually it.
+
+84
+00:03:58,950 --> 00:04:00,106
+So that's the whole functionality,
+
+85
+00:04:00,106 --> 00:04:04,570
+of the Forkify application, which seems pretty simple
+
+86
+00:04:04,570 --> 00:04:07,260
+but it will actually be a lot of work,
+
+87
+00:04:07,260 --> 00:04:09,200
+to implement all of this.
+
+88
+00:04:09,200 --> 00:04:10,033
+And so hopefully,
+
+89
+00:04:10,033 --> 00:04:13,650
+it's gonna be a great learning experience for you.
+
+90
+00:04:13,650 --> 00:04:17,070
+And once again I tried to design this application,
+
+91
+00:04:17,070 --> 00:04:20,010
+like as modern and beautiful as possible,
+
+92
+00:04:20,010 --> 00:04:22,390
+so that you end up with a real nice application
+
+93
+00:04:22,390 --> 00:04:26,130
+in you portfolio in the end. Now okay.
+
+94
+00:04:26,130 --> 00:04:27,860
+But will all that being said,
+
+95
+00:04:27,860 --> 00:04:30,663
+let's now actually go plan this application.
+
+96
+00:04:32,270 --> 00:04:33,680
+So, now that we know,
+
+97
+00:04:33,680 --> 00:04:37,220
+what the project looks like and also how it works.
+
+98
+00:04:37,220 --> 00:04:39,760
+We need to go through the same planning steps,
+
+99
+00:04:39,760 --> 00:04:42,620
+that we did in the Mapty project.
+
+100
+00:04:42,620 --> 00:04:44,690
+Now in this case, we will actually leave,
+
+101
+00:04:44,690 --> 00:04:47,490
+the architecture for a bit later
+
+102
+00:04:47,490 --> 00:04:49,870
+and only talk about the user stories,
+
+103
+00:04:49,870 --> 00:04:54,360
+features and also about the flow chart for now.
+
+104
+00:04:54,360 --> 00:04:57,700
+And to start, remember that a user story,
+
+105
+00:04:57,700 --> 00:05:01,190
+is a description, of the application's functionality
+
+106
+00:05:01,190 --> 00:05:03,810
+from a user's perspective.
+
+107
+00:05:03,810 --> 00:05:06,870
+So basically, when we write user stories,
+
+108
+00:05:06,870 --> 00:05:10,940
+we need to put ourselves in the shoes of our users.
+
+109
+00:05:10,940 --> 00:05:13,720
+Now, all the user stories, put together,
+
+110
+00:05:13,720 --> 00:05:16,060
+will then provide a clear picture,
+
+111
+00:05:16,060 --> 00:05:19,250
+of how the whole application is gonna work.
+
+112
+00:05:19,250 --> 00:05:21,090
+And so based on these stories,
+
+113
+00:05:21,090 --> 00:05:22,820
+we will then be able to implement,
+
+114
+00:05:22,820 --> 00:05:25,610
+all our application's features.
+
+115
+00:05:25,610 --> 00:05:28,410
+all right, so let's say that we are now,
+
+116
+00:05:28,410 --> 00:05:31,960
+kind of the project manager for Forkify.
+
+117
+00:05:31,960 --> 00:05:33,570
+And let's also pretend,
+
+118
+00:05:33,570 --> 00:05:37,060
+that we didn't see the final version of the project yet.
+
+119
+00:05:37,060 --> 00:05:39,990
+Because of course, we have to write user stories,
+
+120
+00:05:39,990 --> 00:05:44,720
+usually before we implement the project. Right?
+
+121
+00:05:44,720 --> 00:05:45,760
+But in this case,
+
+122
+00:05:45,760 --> 00:05:48,880
+since we are kind of doing it together here in this video,
+
+123
+00:05:48,880 --> 00:05:51,380
+of course it's better when we already know,
+
+124
+00:05:51,380 --> 00:05:53,200
+what the application looks like.
+
+125
+00:05:53,200 --> 00:05:54,430
+But in the real world,
+
+126
+00:05:54,430 --> 00:05:57,203
+this is basically gonna be your starting point.
+
+127
+00:05:58,070 --> 00:06:02,267
+So, for this project, the first user story could be,
+
+128
+00:06:02,267 --> 00:06:05,357
+"As a user, I want to search for recipes,
+
+129
+00:06:05,357 --> 00:06:09,150
+"so that I can find new ideas for meals."
+
+130
+00:06:09,150 --> 00:06:12,667
+And so you see again, we are using the format of,
+
+131
+00:06:12,667 --> 00:06:16,887
+"As a type of user, I want to..." And then an action,
+
+132
+00:06:16,887 --> 00:06:20,080
+"so that..." and then a benefit.
+
+133
+00:06:20,080 --> 00:06:22,850
+So here the user wants to search for recipes,
+
+134
+00:06:22,850 --> 00:06:26,590
+so that they can find new ideas for meals.
+
+135
+00:06:26,590 --> 00:06:28,360
+Then, next up,
+
+136
+00:06:28,360 --> 00:06:29,927
+the next user story is,
+
+137
+00:06:29,927 --> 00:06:32,777
+"As a user, I want to be able to update,
+
+138
+00:06:32,777 --> 00:06:36,307
+"the number of servings, so that I can cook a meal,
+
+139
+00:06:36,307 --> 00:06:38,690
+"for different number of people."
+
+140
+00:06:38,690 --> 00:06:41,240
+And that of course, makes a lot of sense
+
+141
+00:06:41,240 --> 00:06:44,160
+in any application of this kind.
+
+142
+00:06:44,160 --> 00:06:48,497
+Then, next. "As a user, I want to bookmark recipes,
+
+143
+00:06:48,497 --> 00:06:51,060
+"so that I can review them later."
+
+144
+00:06:51,060 --> 00:06:53,330
+And again, this really makes sense
+
+145
+00:06:53,330 --> 00:06:57,170
+in any kind of real world application like this.
+
+146
+00:06:57,170 --> 00:06:58,397
+Then, "As a user,
+
+147
+00:06:58,397 --> 00:07:01,657
+"I want to be able to create my own recipes,
+
+148
+00:07:01,657 --> 00:07:04,577
+"so that I can have all my recipes organized
+
+149
+00:07:04,577 --> 00:07:06,850
+"in the same application."
+
+150
+00:07:06,850 --> 00:07:08,977
+And finally, "As a user,
+
+151
+00:07:08,977 --> 00:07:13,147
+"I want to be able to see my bookmarks and my own recipes,
+
+152
+00:07:13,147 --> 00:07:16,797
+"when I leave the application and come back later.
+
+153
+00:07:16,797 --> 00:07:17,997
+"And so this way,
+
+154
+00:07:17,997 --> 00:07:22,190
+"I can close the application safely, after cooking."
+
+155
+00:07:22,190 --> 00:07:26,330
+All right, and once again, let's kind of pretend,
+
+156
+00:07:26,330 --> 00:07:29,050
+that we came up with all these user stories,
+
+157
+00:07:29,050 --> 00:07:32,900
+while kind of brainstorming for this application.
+
+158
+00:07:32,900 --> 00:07:35,840
+And so now, we can use all these user stories,
+
+159
+00:07:35,840 --> 00:07:39,120
+for our next step and come up with the features,
+
+160
+00:07:39,120 --> 00:07:41,640
+that we need in the application.
+
+161
+00:07:41,640 --> 00:07:45,650
+So first, the user wants to search for recipes.
+
+162
+00:07:45,650 --> 00:07:46,550
+And so therefore,
+
+163
+00:07:46,550 --> 00:07:50,330
+our application should have a search functionality.
+
+164
+00:07:50,330 --> 00:07:52,390
+Which is basically an input field,
+
+165
+00:07:52,390 --> 00:07:53,960
+which will send requests,
+
+166
+00:07:53,960 --> 00:07:57,620
+to an API, with the searched keywords.
+
+167
+00:07:57,620 --> 00:08:01,610
+Then the application, should of course display these results
+
+168
+00:08:01,610 --> 00:08:05,500
+and also with pagination, to make it more user-friendly,
+
+169
+00:08:05,500 --> 00:08:07,513
+in case that there are many results.
+
+170
+00:08:09,866 --> 00:08:11,560
+And then of course, the application, needs to display
+
+171
+00:08:11,560 --> 00:08:14,900
+the selected recipe, with relevant data,
+
+172
+00:08:14,900 --> 00:08:18,763
+such as cooking time, servings and ingredients.
+
+173
+00:08:19,630 --> 00:08:22,930
+Now the next user story is pretty simple,
+
+174
+00:08:22,930 --> 00:08:27,230
+so all we need, is a functionality, to change the servings.
+
+175
+00:08:27,230 --> 00:08:29,600
+So basically updating all ingredients,
+
+176
+00:08:29,600 --> 00:08:32,930
+according to the current number of servings.
+
+177
+00:08:32,930 --> 00:08:35,710
+Then, in order to bookmark recipes,
+
+178
+00:08:35,710 --> 00:08:39,163
+we simply need, a functionality for that.
+
+179
+00:08:40,580 --> 00:08:43,490
+So basically, allowing users to bookmark the recipe
+
+180
+00:08:43,490 --> 00:08:45,860
+and then display a list of all of them,
+
+181
+00:08:45,860 --> 00:08:48,120
+somewhere on the page.
+
+182
+00:08:48,120 --> 00:08:49,980
+Then for the next user story,
+
+183
+00:08:49,980 --> 00:08:52,690
+what we need is basically a feature,
+
+184
+00:08:52,690 --> 00:08:56,410
+that allows users to upload there own recipes.
+
+185
+00:08:56,410 --> 00:08:59,430
+Which should then automatically get bookmarked,
+
+186
+00:08:59,430 --> 00:09:03,823
+so that the user, can easily find all of their own recipes.
+
+187
+00:09:04,850 --> 00:09:07,760
+Now, what's important here, is that each user,
+
+188
+00:09:07,760 --> 00:09:10,310
+can only see their own recipes
+
+189
+00:09:10,310 --> 00:09:13,840
+but not the recipes from other users.
+
+190
+00:09:13,840 --> 00:09:16,160
+And, we could go ahead and implement this
+
+191
+00:09:16,160 --> 00:09:18,350
+in a very complex way, like,
+
+192
+00:09:18,350 --> 00:09:20,770
+for example, creating user accounts,
+
+193
+00:09:20,770 --> 00:09:22,660
+but we will keep it very simple
+
+194
+00:09:22,660 --> 00:09:26,830
+and basically, simply associate uploaded recipes,
+
+195
+00:09:26,830 --> 00:09:28,620
+to an API key.
+
+196
+00:09:28,620 --> 00:09:31,160
+And again, we will see by the end of the section,
+
+197
+00:09:31,160 --> 00:09:33,410
+how that is going to work.
+
+198
+00:09:33,410 --> 00:09:36,233
+Now finally, we are going to need a feature,
+
+199
+00:09:36,233 --> 00:09:38,340
+that will store bookmark data
+
+200
+00:09:38,340 --> 00:09:41,500
+in the browser using local storage.
+
+201
+00:09:41,500 --> 00:09:43,690
+And that we already did before
+
+202
+00:09:43,690 --> 00:09:47,440
+and so this part is gonna be fairly simple.
+
+203
+00:09:47,440 --> 00:09:50,560
+Then to finish, whenever the page loads,
+
+204
+00:09:50,560 --> 00:09:53,670
+we need to then read all the saved bookmarks
+
+205
+00:09:53,670 --> 00:09:56,800
+and display them somewhere on the page.
+
+206
+00:09:56,800 --> 00:09:59,940
+Great, and with this, we now know exactly,
+
+207
+00:09:59,940 --> 00:10:02,140
+what we need to implement.
+
+208
+00:10:02,140 --> 00:10:06,460
+But now, let's take this list, of unstructured features
+
+209
+00:10:06,460 --> 00:10:10,070
+and actually put it, into a nice structured flowchart,
+
+210
+00:10:10,070 --> 00:10:11,710
+which will allow us to plan,
+
+211
+00:10:11,710 --> 00:10:15,063
+how exactly the application, is actually gonna work.
+
+212
+00:10:16,810 --> 00:10:18,150
+So we're going to start,
+
+213
+00:10:18,150 --> 00:10:20,950
+only with these first three features,
+
+214
+00:10:20,950 --> 00:10:23,080
+in order to keep it simple now
+
+215
+00:10:23,080 --> 00:10:26,650
+and not overwhelm you right from the start.
+
+216
+00:10:26,650 --> 00:10:30,110
+So, we're gonna build this flowchart, in three parts
+
+217
+00:10:30,110 --> 00:10:33,230
+and now starting with these three features.
+
+218
+00:10:33,230 --> 00:10:36,450
+And as always, we're going to focus on events
+
+219
+00:10:36,450 --> 00:10:39,270
+and the first event in our web application,
+
+220
+00:10:39,270 --> 00:10:43,370
+should probably be, the user searching for a recipe.
+
+221
+00:10:43,370 --> 00:10:47,200
+And so that's our feature number one, basically.
+
+222
+00:10:47,200 --> 00:10:50,660
+So, when a user searches for a certain recipe,
+
+223
+00:10:50,660 --> 00:10:52,830
+then we need to asynchronously,
+
+224
+00:10:52,830 --> 00:10:56,420
+load the search results from our API,
+
+225
+00:10:56,420 --> 00:10:59,670
+and so of course that happens asynchronously,
+
+226
+00:10:59,670 --> 00:11:01,900
+and then once the results are in,
+
+227
+00:11:01,900 --> 00:11:05,430
+we will simply render them in our application.
+
+228
+00:11:05,430 --> 00:11:08,520
+However, we will not render all the search results,
+
+229
+00:11:08,520 --> 00:11:12,060
+right away, because that would be overwhelming.
+
+230
+00:11:12,060 --> 00:11:16,040
+And so instead, we also render some pagination buttons,
+
+231
+00:11:16,040 --> 00:11:19,780
+in order to hide, basically part of the search results
+
+232
+00:11:19,780 --> 00:11:21,760
+on different pages.
+
+233
+00:11:21,760 --> 00:11:24,550
+So, that makes sense. Right?
+
+234
+00:11:24,550 --> 00:11:28,430
+And then as a user clicks one of the pagination buttons,
+
+235
+00:11:28,430 --> 00:11:30,640
+it will then render the search results,
+
+236
+00:11:30,640 --> 00:11:34,020
+for the new page that was selected basically
+
+237
+00:11:34,020 --> 00:11:37,460
+and it will also render new pagination buttons.
+
+238
+00:11:37,460 --> 00:11:40,030
+So for example, when we're on page two,
+
+239
+00:11:40,030 --> 00:11:43,110
+then there will be a button, to go back to page one
+
+240
+00:11:43,110 --> 00:11:45,890
+and a button to go to page three.
+
+241
+00:11:45,890 --> 00:11:47,810
+But when we're on page three,
+
+242
+00:11:47,810 --> 00:11:50,890
+then the button to go back will point to page two
+
+243
+00:11:50,890 --> 00:11:54,800
+and the button to go forward, will point to page four.
+
+244
+00:11:54,800 --> 00:11:57,090
+And so we need to rerender these buttons,
+
+245
+00:11:57,090 --> 00:11:59,870
+basically, every time that a user clicks
+
+246
+00:11:59,870 --> 00:12:01,793
+on one of them. Right?
+
+247
+00:12:02,820 --> 00:12:05,110
+Then, finally, we also need a logic,
+
+248
+00:12:05,110 --> 00:12:07,453
+to actually display the recipe.
+
+249
+00:12:08,290 --> 00:12:10,940
+So when the user selects a recipe,
+
+250
+00:12:10,940 --> 00:12:13,440
+then, we need to asynchronously load,
+
+251
+00:12:13,440 --> 00:12:16,200
+all the recipe data from the API
+
+252
+00:12:16,200 --> 00:12:18,060
+and then once the data arrived,
+
+253
+00:12:18,060 --> 00:12:21,560
+we render the recipe, to the user interface.
+
+254
+00:12:21,560 --> 00:12:24,100
+And we will actually also do the same,
+
+255
+00:12:24,100 --> 00:12:26,090
+whenever the page loads,
+
+256
+00:12:26,090 --> 00:12:29,260
+with a recipe ID, in the URL.
+
+257
+00:12:29,260 --> 00:12:30,890
+So, I think I showed you that
+
+258
+00:12:30,890 --> 00:12:33,140
+in the beginning of this video.
+
+259
+00:12:33,140 --> 00:12:35,699
+So whenever we click on a recipe,
+
+260
+00:12:35,699 --> 00:12:39,460
+then the URL will change, with the recipe ID.
+
+261
+00:12:39,460 --> 00:12:42,950
+Remember that. And so it's important that,
+
+262
+00:12:42,950 --> 00:12:47,420
+for example, if we take that URL and copy it and paste it,
+
+263
+00:12:47,420 --> 00:12:49,133
+for example, to another browser,
+
+264
+00:12:50,160 --> 00:12:52,350
+that then the recipe corresponding to that ID,
+
+265
+00:12:52,350 --> 00:12:54,750
+should also load right away.
+
+266
+00:12:54,750 --> 00:12:57,150
+And so that's why, here in this flowchart,
+
+267
+00:12:57,150 --> 00:13:00,740
+I have the Load recipe on both events.
+
+268
+00:13:00,740 --> 00:13:04,430
+So, when the user selects a recipe from the user interface,
+
+269
+00:13:04,430 --> 00:13:06,840
+or also when the page loads,
+
+270
+00:13:06,840 --> 00:13:10,760
+with a recipe ID, already in the URL.
+
+271
+00:13:10,760 --> 00:13:12,930
+All right, and that's actually it,
+
+272
+00:13:12,930 --> 00:13:16,200
+for part one, of the flowchart.
+
+273
+00:13:16,200 --> 00:13:18,020
+And in fact, these are basically,
+
+274
+00:13:18,020 --> 00:13:20,380
+already, all core features,
+
+275
+00:13:20,380 --> 00:13:23,570
+so the most important features, of the application
+
+276
+00:13:23,570 --> 00:13:27,640
+So searching for recipes, rendering search results
+
+277
+00:13:27,640 --> 00:13:29,030
+and then also rendering,
+
+278
+00:13:29,030 --> 00:13:32,700
+the individual recipe that was selected.
+
+279
+00:13:32,700 --> 00:13:35,330
+And so all these, will probably take us,
+
+280
+00:13:35,330 --> 00:13:37,890
+half of the section to implement.
+
+281
+00:13:37,890 --> 00:13:40,980
+So there really is, a lot to do.
+
+282
+00:13:40,980 --> 00:13:43,970
+Now, we will start implementing the project,
+
+283
+00:13:43,970 --> 00:13:46,330
+only with the recipe displaying.
+
+284
+00:13:46,330 --> 00:13:48,830
+So only feature number three,
+
+285
+00:13:48,830 --> 00:13:52,960
+which is basically this right part of the flowchart.
+
+286
+00:13:52,960 --> 00:13:54,460
+And this will allow us,
+
+287
+00:13:54,460 --> 00:13:57,470
+to start implementing some functionality
+
+288
+00:13:57,470 --> 00:14:00,660
+and also play around with the application a little bit,
+
+289
+00:14:00,660 --> 00:14:03,920
+but still without thinking, about the architecture.
+
+290
+00:14:03,920 --> 00:14:06,390
+And so without the rigid structure,
+
+291
+00:14:06,390 --> 00:14:09,710
+that might be imposed, by architecture.
+
+292
+00:14:09,710 --> 00:14:11,500
+Great. So with this,
+
+293
+00:14:11,500 --> 00:14:15,160
+we basically have this part of the application planned
+
+294
+00:14:15,160 --> 00:14:18,023
+and so let's now finally get to work.

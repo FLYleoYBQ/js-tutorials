@@ -1,0 +1,891 @@
+1
+00:00:01,200 --> 00:00:04,000
+So, as I just said in the last video,
+
+2
+00:00:04,000 --> 00:00:06,250
+let's now implement the functionality
+
+3
+00:00:06,250 --> 00:00:08,480
+of playing the game again.
+
+4
+00:00:08,480 --> 00:00:11,660
+And actually I will leave that as a challenge for you
+
+5
+00:00:11,660 --> 00:00:15,150
+because this is already a great time for you to practice
+
+6
+00:00:15,150 --> 00:00:17,250
+what you've been learning in this section.
+
+7
+00:00:18,880 --> 00:00:21,150
+Now, before I give you the challenge
+
+8
+00:00:21,150 --> 00:00:23,460
+we first need to fix something here,
+
+9
+00:00:23,460 --> 00:00:27,490
+which is that we should actually hide, of course,
+
+10
+00:00:27,490 --> 00:00:29,370
+the secret number.
+
+11
+00:00:29,370 --> 00:00:33,830
+So right now, as we load the page, the number gets visible.
+
+12
+00:00:33,830 --> 00:00:38,220
+But instead, that should of course not happen.
+
+13
+00:00:38,220 --> 00:00:40,670
+So we don't want this here. Right?
+
+14
+00:00:40,670 --> 00:00:44,000
+So this is where we set the text content of the number
+
+15
+00:00:44,000 --> 00:00:45,610
+to the secret number.
+
+16
+00:00:45,610 --> 00:00:47,510
+Instead, we want this to happen
+
+17
+00:00:47,510 --> 00:00:50,790
+when the player actually guesses the correct number.
+
+18
+00:00:50,790 --> 00:00:52,570
+So let's just cut it from here
+
+19
+00:00:53,620 --> 00:00:57,860
+and to move it to the situation where the player wins,
+
+20
+00:00:57,860 --> 00:00:59,180
+which is here.
+
+21
+00:00:59,180 --> 00:01:01,920
+So we display correct number
+
+22
+00:01:01,920 --> 00:01:05,020
+and then we also display the secret number.
+
+23
+00:01:05,020 --> 00:01:06,700
+And so now you see that we're back
+
+24
+00:01:06,700 --> 00:01:09,000
+to having the question mark.
+
+25
+00:01:09,000 --> 00:01:11,513
+And so let's start guessing.
+
+26
+00:01:12,670 --> 00:01:15,240
+So 10, that's too low.
+
+27
+00:01:15,240 --> 00:01:17,453
+15, that's too high.
+
+28
+00:01:18,680 --> 00:01:22,090
+And now it's a real game because now we no longer know
+
+29
+00:01:22,090 --> 00:01:26,500
+about the secret number and 12 is correct.
+
+30
+00:01:26,500 --> 00:01:30,030
+And so now our 12 is also visible here
+
+31
+00:01:30,030 --> 00:01:33,940
+and the high score, by the way, is also working.
+
+32
+00:01:33,940 --> 00:01:36,883
+Let's just reload the page and do that again.
+
+33
+00:01:37,850 --> 00:01:39,363
+So 10 is too low.
+
+34
+00:01:41,160 --> 00:01:42,453
+15.
+
+35
+00:01:45,650 --> 00:01:48,730
+18 is too high. So, 17 maybe.
+
+36
+00:01:48,730 --> 00:01:50,513
+So it's gotta be 16, right?
+
+37
+00:01:52,600 --> 00:01:53,760
+I thought I'd try it.
+
+38
+00:01:53,760 --> 00:01:55,973
+Oh, okay, I did something wrong.
+
+39
+00:01:57,530 --> 00:02:01,090
+So 13. Ah, so it's gotta be 14.
+
+40
+00:02:01,090 --> 00:02:03,430
+And yes indeed.
+
+41
+00:02:03,430 --> 00:02:05,950
+So the game itself is really working.
+
+42
+00:02:05,950 --> 00:02:08,650
+And so now it's time to implement the functionality
+
+43
+00:02:08,650 --> 00:02:10,340
+of this again button
+
+44
+00:02:10,340 --> 00:02:14,263
+which will basically reset here this entire interface.
+
+45
+00:02:15,250 --> 00:02:18,780
+So let's go to the challenge I have for you here.
+
+46
+00:02:18,780 --> 00:02:20,370
+And so, as I just said
+
+47
+00:02:20,370 --> 00:02:24,510
+the challenge is to implement the game reset functionality
+
+48
+00:02:24,510 --> 00:02:28,060
+so that the player can basically play again.
+
+49
+00:02:28,060 --> 00:02:30,020
+And then here I'm giving you all the steps
+
+50
+00:02:30,020 --> 00:02:32,020
+to implement this functionality
+
+51
+00:02:32,020 --> 00:02:34,600
+in order to make it a little bit easier
+
+52
+00:02:34,600 --> 00:02:36,780
+and not too overwhelming.
+
+53
+00:02:36,780 --> 00:02:38,520
+Now, if you don't want the steps
+
+54
+00:02:38,520 --> 00:02:40,010
+then just pause the video now
+
+55
+00:02:40,010 --> 00:02:42,530
+and try to implement it on your own.
+
+56
+00:02:42,530 --> 00:02:43,990
+But probably at this point
+
+57
+00:02:43,990 --> 00:02:47,050
+it's better to get a step by step recipe
+
+58
+00:02:47,050 --> 00:02:49,090
+of what you need to do.
+
+59
+00:02:49,090 --> 00:02:53,170
+So first select the element with the again class
+
+60
+00:02:53,170 --> 00:02:55,910
+and then attach a click event handler.
+
+61
+00:02:55,910 --> 00:02:59,730
+So that's exactly what we did before with this button.
+
+62
+00:02:59,730 --> 00:03:03,430
+And so now I want you to do the same with the again button.
+
+63
+00:03:03,430 --> 00:03:06,330
+And try to see if you can remember how to do that
+
+64
+00:03:06,330 --> 00:03:10,060
+instead of copying it from this other button.
+
+65
+00:03:10,060 --> 00:03:13,980
+Then once you have that event handler attached,
+
+66
+00:03:13,980 --> 00:03:17,820
+in that function restore the initial values of the score
+
+67
+00:03:17,820 --> 00:03:20,140
+and of the number variables.
+
+68
+00:03:20,140 --> 00:03:23,090
+So that are our two state variables
+
+69
+00:03:23,090 --> 00:03:26,040
+of the application, basically, remember?
+
+70
+00:03:26,040 --> 00:03:28,040
+So the variable that holds the score
+
+71
+00:03:28,040 --> 00:03:31,650
+and the variable that holds the secret number.
+
+72
+00:03:31,650 --> 00:03:36,650
+So this here should actually be secret number. All right?
+
+73
+00:03:37,350 --> 00:03:41,780
+Then also restored the initial conditions of the message,
+
+74
+00:03:41,780 --> 00:03:46,780
+the number and the score and also of the guess input field.
+
+75
+00:03:46,940 --> 00:03:48,930
+So basically when we click here
+
+76
+00:03:48,930 --> 00:03:51,370
+this here should be empty again,
+
+77
+00:03:51,370 --> 00:03:54,690
+here we should see the beginning message,
+
+78
+00:03:54,690 --> 00:03:57,470
+here the score should be back to 20,
+
+79
+00:03:57,470 --> 00:04:02,060
+and here also should be the question mark, as it was before.
+
+80
+00:04:02,060 --> 00:04:03,710
+And then to finish, of course,
+
+81
+00:04:03,710 --> 00:04:07,160
+also restore the original background color
+
+82
+00:04:07,160 --> 00:04:09,763
+and the width of this number here.
+
+83
+00:04:10,890 --> 00:04:12,010
+Okay?
+
+84
+00:04:12,010 --> 00:04:15,130
+So would just take a couple of minutes and try to do this
+
+85
+00:04:15,130 --> 00:04:16,833
+and I see you in a second.
+
+86
+00:04:20,530 --> 00:04:24,870
+All right, so hopefully you managed to do this.
+
+87
+00:04:24,870 --> 00:04:28,120
+Now it's my turn of doing the work.
+
+88
+00:04:28,120 --> 00:04:32,400
+So we start, as I said, with selecting the button.
+
+89
+00:04:32,400 --> 00:04:37,400
+So document.querySelector and the class is again.
+
+90
+00:04:40,410 --> 00:04:42,203
+So just showing that to you.
+
+91
+00:04:44,760 --> 00:04:48,023
+So yeah, here it is. So that is the button.
+
+92
+00:04:49,640 --> 00:04:53,260
+And then addEventListener.
+
+93
+00:04:53,260 --> 00:04:55,310
+And I'm just using auto-complete here
+
+94
+00:04:55,310 --> 00:04:57,303
+'cause that's how developers do it.
+
+95
+00:04:58,420 --> 00:05:02,530
+Then remember the name of the event is a click
+
+96
+00:05:02,530 --> 00:05:05,100
+and then we need to specify a function.
+
+97
+00:05:05,100 --> 00:05:06,883
+So this is our handler function.
+
+98
+00:05:09,340 --> 00:05:10,470
+Right?
+
+99
+00:05:10,470 --> 00:05:11,303
+And by the way,
+
+100
+00:05:11,303 --> 00:05:14,370
+we also say that this is an anonymous function
+
+101
+00:05:14,370 --> 00:05:16,820
+because it doesn't have a name.
+
+102
+00:05:16,820 --> 00:05:18,850
+So remember how I said before
+
+103
+00:05:18,850 --> 00:05:21,950
+that usually we assign these function expressions
+
+104
+00:05:21,950 --> 00:05:23,990
+to a variable, right,
+
+105
+00:05:23,990 --> 00:05:25,890
+and then the function gets a name?
+
+106
+00:05:25,890 --> 00:05:28,700
+But in this case, well, there is really no name
+
+107
+00:05:28,700 --> 00:05:32,030
+for this function, we didn't call it anything, right?
+
+108
+00:05:32,030 --> 00:05:35,260
+And so it's just an anonymous handler function.
+
+109
+00:05:35,260 --> 00:05:40,260
+Anyway, let's not go here to step number two.
+
+110
+00:05:40,550 --> 00:05:41,960
+And so what we need to do here
+
+111
+00:05:41,960 --> 00:05:44,910
+is to restore the initial values of the score
+
+112
+00:05:44,910 --> 00:05:46,023
+and the secret number.
+
+113
+00:05:47,500 --> 00:05:49,850
+So, the score at the beginning of the game
+
+114
+00:05:49,850 --> 00:05:53,540
+should always be 20, right?
+
+115
+00:05:53,540 --> 00:05:57,053
+And then we also need a new secret number.
+
+116
+00:05:58,050 --> 00:06:00,450
+So let's just get that from up here.
+
+117
+00:06:00,450 --> 00:06:03,210
+So we don't need to calculate this over again.
+
+118
+00:06:03,210 --> 00:06:04,370
+So we need just basically
+
+119
+00:06:04,370 --> 00:06:07,920
+to reassign the value to secretNumber.
+
+120
+00:06:07,920 --> 00:06:10,890
+So doing this same calculation here again.
+
+121
+00:06:10,890 --> 00:06:14,260
+Now, if we want to reassign a value to this number,
+
+122
+00:06:14,260 --> 00:06:17,290
+it cannot be a constant, right?
+
+123
+00:06:17,290 --> 00:06:19,493
+And so we need to use a let here.
+
+124
+00:06:20,540 --> 00:06:22,190
+So let's just copy this.
+
+125
+00:06:22,190 --> 00:06:23,820
+And again, without the let,
+
+126
+00:06:23,820 --> 00:06:25,490
+because we don't want to create
+
+127
+00:06:25,490 --> 00:06:28,100
+a new secret number variable.
+
+128
+00:06:28,100 --> 00:06:31,000
+All we want to do when a new game starts
+
+129
+00:06:31,000 --> 00:06:32,950
+is to create a new secret number
+
+130
+00:06:32,950 --> 00:06:35,450
+and then reassign the variable.
+
+131
+00:06:35,450 --> 00:06:37,750
+So I'm just copying what I have selected here.
+
+132
+00:06:39,010 --> 00:06:40,323
+And then,
+
+133
+00:06:41,310 --> 00:06:46,310
+down here is where I reassign this value to secretNumber.
+
+134
+00:06:48,070 --> 00:06:49,160
+Okay.
+
+135
+00:06:49,160 --> 00:06:51,980
+Next up, I want to restore the initial conditions
+
+136
+00:06:51,980 --> 00:06:55,823
+of message, number, score and to guess input field.
+
+137
+00:06:57,490 --> 00:07:00,873
+So that's again copy this.
+
+138
+00:07:03,710 --> 00:07:08,710
+So here, the string is start guessing.
+
+139
+00:07:11,970 --> 00:07:15,640
+And we basically can get this from the HTML if we want.
+
+140
+00:07:15,640 --> 00:07:20,623
+So this is the initial condition of the message, right?
+
+141
+00:07:23,060 --> 00:07:25,350
+Then we also want to change the score.
+
+142
+00:07:25,350 --> 00:07:27,110
+So let's just grab it from here
+
+143
+00:07:29,450 --> 00:07:32,090
+and that should be 20.
+
+144
+00:07:32,090 --> 00:07:35,570
+Or actually we can just set it to score.
+
+145
+00:07:35,570 --> 00:07:37,020
+So to this variable,
+
+146
+00:07:37,020 --> 00:07:40,360
+because that also already holds the number 20.
+
+147
+00:07:40,360 --> 00:07:44,890
+And so that's a bit better than to repeat the same value.
+
+148
+00:07:44,890 --> 00:07:47,680
+So instead, we are just referencing it here.
+
+149
+00:07:47,680 --> 00:07:51,570
+Not 20, of course, it is score.
+
+150
+00:07:51,570 --> 00:07:53,670
+Yeah, that was a silly mistake.
+
+151
+00:07:53,670 --> 00:07:57,620
+Next up, we also want to change the number.
+
+152
+00:07:57,620 --> 00:07:59,113
+So that's going to be this.
+
+153
+00:08:00,040 --> 00:08:05,040
+So, number and set this one to the question mark.
+
+154
+00:08:06,860 --> 00:08:10,350
+And finally, we also want to change the value that's here
+
+155
+00:08:10,350 --> 00:08:11,343
+to empty.
+
+156
+00:08:13,530 --> 00:08:15,543
+So let's copy that as well.
+
+157
+00:08:19,050 --> 00:08:21,790
+So here is where we select that.
+
+158
+00:08:21,790 --> 00:08:22,800
+Or actually even better,
+
+159
+00:08:22,800 --> 00:08:25,723
+because we already set the value before.
+
+160
+00:08:30,710 --> 00:08:33,240
+So, document.querySelector,
+
+161
+00:08:33,240 --> 00:08:36,520
+selecting the element with the guess class
+
+162
+00:08:36,520 --> 00:08:38,710
+and then we can simply set the value
+
+163
+00:08:38,710 --> 00:08:42,210
+just as we did before to anything.
+
+164
+00:08:42,210 --> 00:08:44,440
+And here, what we want to set it to
+
+165
+00:08:44,440 --> 00:08:46,850
+is just to the empty string.
+
+166
+00:08:46,850 --> 00:08:48,510
+So basically to nothing,
+
+167
+00:08:48,510 --> 00:08:51,370
+because that's the empty value here.
+
+168
+00:08:51,370 --> 00:08:54,910
+Remember that's the value of an input is always a string
+
+169
+00:08:54,910 --> 00:08:58,120
+and so the empty string is basically the absence
+
+170
+00:08:58,120 --> 00:08:59,573
+of any value here.
+
+171
+00:09:01,460 --> 00:09:03,440
+Okay, and now to finish,
+
+172
+00:09:03,440 --> 00:09:06,580
+all we need to do is to restore the background
+
+173
+00:09:06,580 --> 00:09:10,030
+and the width of the number.
+
+174
+00:09:10,030 --> 00:09:12,540
+So basically what we did in the last lecture,
+
+175
+00:09:12,540 --> 00:09:16,420
+but redo it once we start a new game.
+
+176
+00:09:16,420 --> 00:09:17,770
+So I'm just copying it here
+
+177
+00:09:21,152 --> 00:09:22,820
+and then paste it down here.
+
+178
+00:09:23,760 --> 00:09:28,290
+Here, the number is 222, so this dark gray.
+
+179
+00:09:28,290 --> 00:09:30,053
+And here, it's 15rem.
+
+180
+00:09:32,310 --> 00:09:35,580
+Okay, and with this we should have restored
+
+181
+00:09:35,580 --> 00:09:39,250
+all the initial conditions which will then make it possible
+
+182
+00:09:39,250 --> 00:09:43,360
+to play the game again without reloading the browser.
+
+183
+00:09:43,360 --> 00:09:45,560
+And that's going to be important later
+
+184
+00:09:45,560 --> 00:09:47,520
+once we implement a high score
+
+185
+00:09:47,520 --> 00:09:50,930
+because then we will be able to play over and over again
+
+186
+00:09:50,930 --> 00:09:52,520
+without reloading the page
+
+187
+00:09:52,520 --> 00:09:55,710
+which will then allow us to preserve this high score here
+
+188
+00:09:55,710 --> 00:09:57,363
+throughout the different rounds.
+
+189
+00:09:58,510 --> 00:09:59,860
+So let's just play the game
+
+190
+00:10:01,580 --> 00:10:03,833
+so that we can finish it and play again.
+
+191
+00:10:05,030 --> 00:10:07,363
+So that's too low, 15.
+
+192
+00:10:09,030 --> 00:10:09,863
+12.
+
+193
+00:10:10,750 --> 00:10:11,583
+13.
+
+194
+00:10:12,806 --> 00:10:15,306
+And we can also use these buttons here by the way.
+
+195
+00:10:16,330 --> 00:10:18,830
+And we get to correct number.
+
+196
+00:10:18,830 --> 00:10:20,330
+So that's nothing new.
+
+197
+00:10:20,330 --> 00:10:23,890
+But now when I click Again, everything should be restored.
+
+198
+00:10:23,890 --> 00:10:24,723
+So let's see.
+
+199
+00:10:25,670 --> 00:10:28,493
+And indeed, everything is back to the same.
+
+200
+00:10:30,620 --> 00:10:32,150
+And of course we can also do that
+
+201
+00:10:32,150 --> 00:10:34,940
+while we are already playing the game.
+
+202
+00:10:34,940 --> 00:10:37,800
+So let's just do this a couple of times.
+
+203
+00:10:37,800 --> 00:10:39,850
+And now when I click Again,
+
+204
+00:10:39,850 --> 00:10:42,750
+this message should go to what it was,
+
+205
+00:10:42,750 --> 00:10:44,110
+this should go back to 20
+
+206
+00:10:44,110 --> 00:10:46,653
+and it should also empty this field.
+
+207
+00:10:47,820 --> 00:10:51,530
+So you see that's exactly what happened.
+
+208
+00:10:51,530 --> 00:10:52,920
+Great.
+
+209
+00:10:52,920 --> 00:10:56,220
+So that was hopefully a lot of fun for you.
+
+210
+00:10:56,220 --> 00:10:59,840
+And even if you did not manage to do all of it on your own
+
+211
+00:10:59,840 --> 00:11:02,990
+it was still important that you tried to do some of this
+
+212
+00:11:02,990 --> 00:11:07,210
+because it actually was kind of just repeating
+
+213
+00:11:07,210 --> 00:11:10,900
+or reinforcing the stuff that we already did before.
+
+214
+00:11:10,900 --> 00:11:14,760
+And hopefully you didn't just copy all of it like I just did
+
+215
+00:11:14,760 --> 00:11:17,690
+because as you're learning, the best thing to do
+
+216
+00:11:17,690 --> 00:11:20,590
+is to really type all the codes on your own
+
+217
+00:11:20,590 --> 00:11:23,670
+because that will then make it stuck in your brain.
+
+218
+00:11:23,670 --> 00:11:26,900
+So in your muscle memory, so to say.
+
+219
+00:11:26,900 --> 00:11:28,030
+Okay?
+
+220
+00:11:28,030 --> 00:11:29,830
+Anyway, now in the next video,
+
+221
+00:11:29,830 --> 00:11:31,753
+we will then finally implement
+
+222
+00:11:31,753 --> 00:11:34,370
+this high score functionality here.
+
+223
+00:11:34,370 --> 00:11:37,663
+And with that, we will then have our game completed.

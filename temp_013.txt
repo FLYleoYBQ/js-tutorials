@@ -1,0 +1,139 @@
+﻿Okay, and I'm gonna start by creating the calcTip function and I'm gonna start doing it with a function expression.
+
+So this one will receive a bill as an input, I believe.
+
+I think, yeah.
+
+So calcTip takes any bill as an input.
+
+So let's simply call it bill.
+
+And then what we want to return is the tip.
+
+And here I'm gonna write the exact same code as we did in the other challenge.
+
+So there's no need to explain it all again.
+
+It would just be a waste of time.
+
+So if the bill value is between 50 and 300, so less or equal than 300, and here we're using the turnary operator, then return the bill value times 0.15.
+
+So that's 15% and otherwise, it should be 20%.
+
+Okay?
+
+So the result of this turnary operator here will be one of these values.
+
+So either bill times 0.15 or times 0.2.
+
+And so that's gonna be the result of this operator.
+
+And so that's what this function will return.
+
+If you prefer the arrow function, we can also do that.
+
+So cons, calcTip equal bill and now we can omit the return keyword and do it all in one nice line.
+
+So now you just have to choose which one you like better.
+
+And I will just for the sake of readability, keep the first one there.
+
+Okay?
+
+But if you prefer the arrow function, you can just use this one.
+
+Great. So number two is to simply create a bills array with these three values.
+
+So bills 125, 555, and 44.
+
+So that was easy.
+
+And now we will create an array tips, which will contain the tip value for each bill.
+
+So let's do that.
+
+And now this is similar to what we did previously with calculating the ages.
+
+So we are going to create an array, and then each position will be the function call to calcTip.
+
+So we wanna calc the tip with bills at position zero.
+
+Then at position one, we want to calculate bills or we actually want to calculate tips based on bills on position one.
+
+And then on position two.
+
+And that's it.
+
+So let's log both the bills and to tips to the console here.
+
+And that gives us tips is not defined.
+
+So here it should be tips.
+
+So usually when I have an array, I like to give it a plural name.
+
+Like here bills and here tips because it's multiple values.
+
+So now that should work.
+
+And yeah, so these were the three tips that were calculated.
+
+And of course, you could have created separate values or actually separate variables for each of these function calls.
+
+Like tip1 equals calcTip with bills zero, something like this.
+
+And then tip2 and tip3.
+
+And then you could have created like an array with tip1, tip2, and tip3.
+
+Okay, so something like this.
+
+But my idea was to actually do it like this because then we don't have to create all these extra variables.
+
+So that's a lot cleaner.
+
+Later on in this section, we will find an even better way of doing this, but with what we know at this point, this is the best that we can do.
+
+So we take the first bill, calculate the tip based on that and put it in position number zero.
+
+Then we take bills at position number one, calculate the tip and put it in position one of this new array.
+
+And then we take bills at position number two calculate the tip and put it at position two of the new array.
+
+And so then, yeah, we end up with this.
+
+Lastly, let's also complete the bonus question, number four here.
+
+And all we have to do here is to create an array, which will have the sum of the bills and the tips.
+
+So that's gonna be totals.
+
+And now you might have tried to do something like this, so like bills plus tips, but as I told you in the previous lecture, this is simply not gonna work.
+
+So we cannot do any operations on arrays like this.
+
+It doesn't work like that.
+
+So let me show you the result that we would get from doing this.
+
+And so basically, each of the arrays would be transformed to a string, and then the two strings would be concatenated.
+
+So that's completely useless.
+
+And so the only thing that we could do is to say that we want bills at position zero plus the tips at position zero.
+
+And now we do this for all the three values.
+
+So at position one as well.
+
+And then at position two.
+
+And so this fixes this error because now in each position, we do actually have a real value because this is an actual value.
+
+And so with that, we can then do calculations.
+
+So yeah, this is correct, looks correct, right?
+
+And yeah, so with that, all of the four points are solved.
+
+And so here we conclude this part about arrays.

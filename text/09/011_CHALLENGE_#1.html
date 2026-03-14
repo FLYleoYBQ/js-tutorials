@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #1: Football Betting App</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */
+    .solution-btn {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 600;
+        margin-top: 15px;
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+    .solution-btn:hover { background-color: var(--primary-color-hover); }
+    .solution-content {
+        margin-top: 15px;
+        padding: 15px;
+        border-left: 3px solid var(--primary-color);
+        background-color: var(--bg-card);
+        display: none;
+    }
+    .solution-content.show { display: block; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">需求描述</a>
+            <a href="#section-test-data" class="nav-item">测试数据储备</a>
+            <a href="#section-code-area" class="nav-item">沙盒试炼</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #1: Football Betting App</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：011 CHALLENGE #1.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout callout-warning">
+            <strong>⚠️ 考验数据解剖力的巅峰决战</strong>
+            <p>这是一个涵盖了“解构赋值、...展开/剩余语法以及短路逻辑”综合素养的测验。别被题目长长的指令吓倒，拆分后它们每一步最多只会花费你两分钟精编时间。</p>
+        </div>
+
+        <h2 id="section-overview">📝 需求描述</h2>
+        <p>我们正在打造一家体育竞猜网站，下面是一个你从接口网络拉取下来的深层嵌套的足球数据对局比赛图谱对象 <code>game</code>。你需要：</p>
+        
+        <ol>
+            <li>抽取分离两支对战球队的首发名单各建成独立的数组 <code>players1</code> 和 <code>players2</code>。</li>
+            <li>通常球队排位里的第一个名额留给守网长，请专门针对 Team 1 也就是伟大的拜仁大军将它的首发抽出一个独立将领变数被封为 <code>gk</code>，且其他参战战士收集进名为被称做 <code>fieldPlayers</code> 的集体队列里。</li>
+            <li>建立一个总兵团：制作个被名为 <code>allPlayers</code> 新巨型数组将两方兵力混编揉杂合并到一块。</li>
+            <li>第一梯队决定进行战术换血使用三名生力军后补力量下半场强攻：利用其初始团队结合三人组（'Thiago', 'Coutinho', 'Perisic'）生成一个名叫 <code>players1Final</code> 的重组后队列。</li>
+            <li>我们需要提取竞猜赔率表里包含的核心属性字段以便分析风向。根据 <code>game.odds</code> 中的 3 枚关键值生成等名被命名叫起外号叫做 <code>team1</code>, <code>draw</code>(替代原本平局小鬼子 x 变量命名丑态), <code>team2</code> 的散落零件提取变数出来。</li>
+            <li>提供了一份超凡记录：搭建名叫 <code>printGoals</code> 的灵活核算战力通报函数机器：允许接收无论是随机投进来的孤勇者们还是结对名单。每投一点就播报一个士兵其伟业大名然后宣布本战合算了多少次斩杀球个数！<br>
+                测试通过如下的投喂：首先塞这四个名单人 ['Davies', 'Muller', 'Lewandowski', 'Kimmich'] 看看是否打平预估，再接着测试一次拿已经储存在了原始母盘里面打好的入球猎手 <code>game.scored</code> 中的成员强塞进去玩玩看。</li>
+            <li>最终智能猜胜负引擎。严禁运用如果（If...Else...）及那套古板带有问号的三元魔法式子判断阵法，采用硬操作逻辑，推算出哪方的胜出希望最大（规则：赔率反倒偏小的那方为最安全保险）且直抛大广播播回显终端屏幕。</li>
+        </ol>
+
+        <h2 id="section-test-data">🧪 测试数据储备</h2>
+
+<pre><code class="language-javascript">const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer',
+      'Pavard',
+      'Martinez',
+      'Alaba',
+      'Davies',
+      'Kimmich',
+      'Goretzka',
+      'Coman',
+      'Muller',
+      'Gnarby',
+      'Lewandowski',
+    ],
+    [
+      'Burki',
+      'Schulz',
+      'Hummels',
+      'Akanji',
+      'Hakimi',
+      'Weigl',
+      'Witsel',
+      'Hazard',
+      'Brandt',
+      'Sancho',
+      'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};</code></pre>
+
+        <h2 id="section-code-area">💻 沙盒试炼</h2>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge.js</span>
+                <button class="btn-run" onclick="runCode('codeEditorChallenge', 'consoleChallenge')">▶ 执行脚本调试检查出入</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditorChallenge" class="editor-textarea" spellcheck="false">const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [['Neuer', 'Pavard', 'Martinez', 'Alaba', 'Davies', 'Kimmich', 'Goretzka', 'Coman', 'Muller', 'Gnarby', 'Lewandowski'],['Burki', 'Schulz', 'Hummels', 'Akanji', 'Hakimi', 'Weigl', 'Witsel', 'Hazard', 'Brandt', 'Sancho', 'Gotze']],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: { team1: 1.33, x: 3.25, team2: 6.5 }
+};
+
+// --- 在此挥洒刀剑劈柴写码 ---
+
+// 1.
+
+
+
+
+
+
+
+</textarea>
+            </div>
+            <div id="consoleChallenge" class="console-output">控制台终端占位区...</div>
+        </div>
+
+        <button class="solution-btn" onclick="document.getElementById('solutionContent').classList.toggle('show')">👁️ 大招解法查勘 - 点击查看 Jonas 切糕手法</button>
+
+        <div id="solutionContent" class="solution-content">
+            <h3>Jonas 的王牌切分实机解</h3>
+            
+<pre><code class="language-javascript">// 1. 利用最基础平铺分解剥开分队：
+const [players1, players2] = game.players;
+
+// 2. 利用数组左边...打包剩余归属：
+const [gk, ...fieldPlayers] = players1;
+
+// 3. 右手大展宏图将包裹暴力泼洒汇聚（Merge合流）：
+const allPlayers = [...players1, ...players2];
+
+// 4. 重复上门道倒接添加散工组人：
+const players1Final = [...players1, 'Thiago', 'Coutinho', 'Perisic'];
+
+// 5. 将属性提取甚至内部改名大魔法：
+// 相当于跳出嵌套，拿了team1, 将 x 的身价赋予给全新名叫 draw 的名下保存！
+const { odds: { team1, x: draw, team2 } } = game;
+console.log(team1, draw, team2); 
+
+// 6. 用上 Rest（函数形参...装水）和 Spread(呼唤调用前喷水解构)
+// 原旨：将打通投下的一百发实心弹珠尽情聚集成名叫玩家兵线的弹药库去遍历和称量！
+const printGoals = function (...players) {
+  console.log(`一共有 ${players.length} 次破阵球！`);
+};
+// 测试 A：随机呼吁。
+printGoals('Davies', 'Muller', 'Lewandowski', 'Kimmich'); 
+// 测试 B：硬灌数组。直接用 ... 发撒
+printGoals(...game.scored); 
+
+// 7. 奇招巧思！巧妙逼死三元公式结构，通过 && 拦截！如果赔率小就代表大火。
+// （这里由于要判断并执行，&& 代表如果前置位达成满足真实通关状态才会让出继续触发下半阕输出播报句子！）
+team1 < team2 && console.log('Team 1 is more likely to win');
+team1 > team2 && console.log('Team 2 is more likely to win');</code></pre>
+            
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

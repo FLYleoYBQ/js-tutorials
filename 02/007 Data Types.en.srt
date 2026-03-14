@@ -1,0 +1,1371 @@
+1
+00:00:01,580 --> 00:00:03,030
+So in the last lecture,
+
+2
+00:00:03,030 --> 00:00:06,170
+we talked about values and variables.
+
+3
+00:00:06,170 --> 00:00:08,830
+Now in every programming language values
+
+4
+00:00:08,830 --> 00:00:10,700
+can have different types.
+
+5
+00:00:10,700 --> 00:00:14,810
+Depending on the type of data that we want them to hold.
+
+6
+00:00:14,810 --> 00:00:17,580
+And we already saw strings and numbers
+
+7
+00:00:17,580 --> 00:00:19,990
+but there are actually more data types.
+
+8
+00:00:19,990 --> 00:00:22,580
+So let's now take a look at all the types
+
+9
+00:00:22,580 --> 00:00:24,533
+that we have in JavaScript.
+
+10
+00:00:25,950 --> 00:00:28,500
+And first of all, in JavaScript,
+
+11
+00:00:28,500 --> 00:00:31,470
+every value is either an object
+
+12
+00:00:31,470 --> 00:00:35,830
+which looks something like this or a primitive value.
+
+13
+00:00:35,830 --> 00:00:40,500
+So a value is only a primitive when it's not an object
+
+14
+00:00:40,500 --> 00:00:42,950
+and we will learn all about objects later
+
+15
+00:00:42,950 --> 00:00:46,943
+but for now let's really focus on primitive data types.
+
+16
+00:00:48,500 --> 00:00:51,290
+So there are seven primitive data types,
+
+17
+00:00:51,290 --> 00:00:55,390
+number, string, bullion, undefined, null,
+
+18
+00:00:55,390 --> 00:00:57,810
+symbol and big int.
+
+19
+00:00:57,810 --> 00:01:00,390
+So let's look at them one by one.
+
+20
+00:01:00,390 --> 00:01:03,320
+First, we have the number of data type
+
+21
+00:01:03,320 --> 00:01:06,760
+and numbers are always so-called floating point numbers
+
+22
+00:01:06,760 --> 00:01:09,630
+which means that they always have decimals
+
+23
+00:01:09,630 --> 00:01:12,950
+even if we don't see them or don't define them.
+
+24
+00:01:12,950 --> 00:01:16,470
+For example, the 23 value debt we have here
+
+25
+00:01:16,470 --> 00:01:20,100
+is exactly like having 23.0.
+
+26
+00:01:20,100 --> 00:01:23,410
+But they are both simply the number data type.
+
+27
+00:01:23,410 --> 00:01:25,410
+In many other programming languages,
+
+28
+00:01:25,410 --> 00:01:28,160
+you will find different data types for integers
+
+29
+00:01:28,160 --> 00:01:31,060
+and for decimals but not in JavaScript.
+
+30
+00:01:31,060 --> 00:01:34,250
+All numbers are simply of the type number.
+
+31
+00:01:34,250 --> 00:01:37,650
+Okay, next up we have strengths
+
+32
+00:01:37,650 --> 00:01:40,770
+which are simply a sequence of characters.
+
+33
+00:01:40,770 --> 00:01:45,210
+And so they're just used for text as we already learned
+
+34
+00:01:45,210 --> 00:01:46,990
+and always put them in quotes,
+
+35
+00:01:46,990 --> 00:01:49,990
+no matter if double quotes or single quotes
+
+36
+00:01:49,990 --> 00:01:52,660
+otherwise JavaScript will actually confuse them
+
+37
+00:01:52,660 --> 00:01:54,203
+with variable names.
+
+38
+00:01:55,110 --> 00:01:59,330
+The Boolean data type is essentially a logical type
+
+39
+00:01:59,330 --> 00:02:03,870
+that can only take one of the logical values true or false.
+
+40
+00:02:03,870 --> 00:02:08,700
+In other words, a Boolean is always either true or false.
+
+41
+00:02:08,700 --> 00:02:12,300
+All right, we use Boolean values to take decisions
+
+42
+00:02:12,300 --> 00:02:15,250
+with code as we will see later.
+
+43
+00:02:15,250 --> 00:02:18,080
+And these are the three most important data types
+
+44
+00:02:18,080 --> 00:02:20,230
+that we will deal with the most
+
+45
+00:02:20,230 --> 00:02:22,330
+but there are still four more
+
+46
+00:02:22,330 --> 00:02:25,010
+which might be a bit more confusing.
+
+47
+00:02:25,010 --> 00:02:29,830
+So first, undefined is the value taken by a variable
+
+48
+00:02:29,830 --> 00:02:31,980
+that is not yet defined.
+
+49
+00:02:31,980 --> 00:02:34,630
+And the variable thats not yet defined
+
+50
+00:02:34,630 --> 00:02:37,300
+is simply just a variable that we declared
+
+51
+00:02:37,300 --> 00:02:39,790
+but without assigning a value
+
+52
+00:02:39,790 --> 00:02:43,200
+for example like this children variable here.
+
+53
+00:02:43,200 --> 00:02:47,920
+So basically we can say that undefined means empty value
+
+54
+00:02:47,920 --> 00:02:51,800
+then there's also null which is actually pretty similar
+
+55
+00:02:51,800 --> 00:02:54,550
+because it also means empty value
+
+56
+00:02:54,550 --> 00:02:57,210
+but it's used in different circumstances.
+
+57
+00:02:57,210 --> 00:02:59,950
+But for now, don't worry about the details.
+
+58
+00:02:59,950 --> 00:03:04,910
+I just want you to know that null also exists for now, okay.
+
+59
+00:03:04,910 --> 00:03:09,833
+Anyway, next we have symbol which was introduced in ES2015
+
+60
+00:03:11,090 --> 00:03:13,960
+and this data type is not really useful for us,
+
+61
+00:03:13,960 --> 00:03:16,840
+it's simply defines a value that is unique
+
+62
+00:03:16,840 --> 00:03:18,620
+and cannot be changed.
+
+63
+00:03:18,620 --> 00:03:20,500
+And we will talk about this briefly
+
+64
+00:03:20,500 --> 00:03:22,890
+by the end of the course.
+
+65
+00:03:22,890 --> 00:03:27,850
+Finally, starting in ES2020 there is also BigInt
+
+66
+00:03:27,850 --> 00:03:30,730
+which is for integers that are too large
+
+67
+00:03:30,730 --> 00:03:33,460
+to be represented by the number type.
+
+68
+00:03:33,460 --> 00:03:37,020
+So basically it's another tire before numbers
+
+69
+00:03:37,020 --> 00:03:40,420
+and we will talk about this one in another section.
+
+70
+00:03:40,420 --> 00:03:45,050
+So these are the seven primitive data types in JavaScript.
+
+71
+00:03:45,050 --> 00:03:49,470
+But there is another fundamental thing to know about types
+
+72
+00:03:49,470 --> 00:03:51,640
+which is the fact that JavaScript
+
+73
+00:03:51,640 --> 00:03:54,790
+has a feature called dynamic typing.
+
+74
+00:03:54,790 --> 00:03:57,810
+This means that when you create a new variable,
+
+75
+00:03:57,810 --> 00:04:01,260
+you do not have to manually define the data type
+
+76
+00:04:01,260 --> 00:04:03,520
+of the value that it contains.
+
+77
+00:04:03,520 --> 00:04:05,205
+In many other programming languages,
+
+78
+00:04:05,205 --> 00:04:09,010
+you actually have to do that but not in JavaScript.
+
+79
+00:04:09,010 --> 00:04:12,020
+Instead, Java script automatically determines
+
+80
+00:04:12,020 --> 00:04:16,660
+the data type of a value when it's stored into a variable.
+
+81
+00:04:16,660 --> 00:04:19,930
+And this distinction between value and variable
+
+82
+00:04:19,930 --> 00:04:22,880
+is pretty important because in JavaScript,
+
+83
+00:04:22,880 --> 00:04:27,130
+it's the value that has a type, not the variable.
+
+84
+00:04:27,130 --> 00:04:31,020
+So variables simply store values that have a type.
+
+85
+00:04:31,020 --> 00:04:35,170
+Many people don't know about this detail or just don't care
+
+86
+00:04:35,170 --> 00:04:37,660
+but this is how it actually works.
+
+87
+00:04:37,660 --> 00:04:41,041
+Now another important application of dynamic typing
+
+88
+00:04:41,041 --> 00:04:44,930
+is that later in our code, we can assign a new value
+
+89
+00:04:44,930 --> 00:04:47,930
+with a different data type to the same variable
+
+90
+00:04:47,930 --> 00:04:49,300
+without a problem.
+
+91
+00:04:49,300 --> 00:04:53,090
+For example, variable x can initially be a number
+
+92
+00:04:53,090 --> 00:04:56,720
+and then later a string, that's not a problem at all.
+
+93
+00:04:56,720 --> 00:04:59,170
+And this can of course be very useful
+
+94
+00:04:59,170 --> 00:05:02,310
+but it can also be the source of some difficult
+
+95
+00:05:02,310 --> 00:05:06,630
+to find books which means errors in our code.
+
+96
+00:05:06,630 --> 00:05:10,643
+All right, so let's not actually see these things in action.
+
+97
+00:05:12,120 --> 00:05:14,550
+But before we talk about data types,
+
+98
+00:05:14,550 --> 00:05:17,670
+let's quickly talk about code commenting.
+
+99
+00:05:17,670 --> 00:05:21,390
+So in programming, we use comments to literally come
+
+100
+00:05:21,390 --> 00:05:25,410
+and code or to deactivate code without deleting it.
+
+101
+00:05:25,410 --> 00:05:29,270
+For example, here, I could write a single line comment
+
+102
+00:05:29,270 --> 00:05:34,270
+using // and then I can describe what this code is doing.
+
+103
+00:05:34,400 --> 00:05:39,400
+For example here, I can say, variable name conventions
+
+104
+00:05:41,340 --> 00:05:44,199
+and JavaScript will completely ignore anything
+
+105
+00:05:44,199 --> 00:05:45,750
+that is a comment.
+
+106
+00:05:45,750 --> 00:05:50,750
+So anything that comes after // like this, okay.
+
+107
+00:05:51,097 --> 00:05:54,260
+And this can be really useful to kind of divide
+
+108
+00:05:54,260 --> 00:05:56,610
+or code into different sections
+
+109
+00:05:56,610 --> 00:05:59,450
+and to explain what different pieces of code
+
+110
+00:05:59,450 --> 00:06:01,590
+are actually doing in our code.
+
+111
+00:06:01,590 --> 00:06:04,460
+So that's a very useful application of comments
+
+112
+00:06:04,460 --> 00:06:07,880
+but another one is to simply comment out code
+
+113
+00:06:07,880 --> 00:06:11,400
+that we don't want to be executed for some reason.
+
+114
+00:06:11,400 --> 00:06:14,170
+For example, let's say we don't want this code here
+
+115
+00:06:14,170 --> 00:06:17,960
+to be executed but we also don't want to delete it.
+
+116
+00:06:17,960 --> 00:06:21,450
+So we can simply comment it out like this.
+
+117
+00:06:21,450 --> 00:06:23,910
+And so if I save it and then
+
+118
+00:06:23,910 --> 00:06:26,513
+when I reload this 61 should be gone.
+
+119
+00:06:27,900 --> 00:06:30,830
+So you see, that's because JavaScript
+
+120
+00:06:30,830 --> 00:06:34,230
+is now ignoring this code, it's just a comment.
+
+121
+00:06:34,230 --> 00:06:35,650
+But since we didn't delete it,
+
+122
+00:06:35,650 --> 00:06:37,840
+we can of course bring it back.
+
+123
+00:06:37,840 --> 00:06:42,020
+So we can just delete it and then it's back to normal.
+
+124
+00:06:42,020 --> 00:06:45,300
+Now in VS code we can also automatically create comments
+
+125
+00:06:45,300 --> 00:06:47,823
+using the command slash shortcut.
+
+126
+00:06:49,010 --> 00:06:52,050
+So that's command or control slash to turn on
+
+127
+00:06:52,050 --> 00:06:54,510
+and then again to turn off.
+
+128
+00:06:54,510 --> 00:06:56,460
+So that single line comments
+
+129
+00:06:56,460 --> 00:06:58,170
+but we can go even further
+
+130
+00:06:58,170 --> 00:07:01,090
+and also create multi line comments.
+
+131
+00:07:01,090 --> 00:07:04,780
+And to do that, we do it like this.
+
+132
+00:07:04,780 --> 00:07:09,560
+We start a multi line comment using slash and an asterisk
+
+133
+00:07:09,560 --> 00:07:13,810
+and then we ended with the asterisk or star
+
+134
+00:07:13,810 --> 00:07:16,710
+and then the slash and whatever comes here
+
+135
+00:07:16,710 --> 00:07:18,910
+is then a normal code.
+
+136
+00:07:18,910 --> 00:07:21,720
+Okay, and with this, I effectively got rid
+
+137
+00:07:21,720 --> 00:07:25,560
+of this first code that we typed in the first lecture
+
+138
+00:07:25,560 --> 00:07:27,380
+but without deleting it.
+
+139
+00:07:27,380 --> 00:07:31,460
+And so I can keep it here basically as a reference.
+
+140
+00:07:31,460 --> 00:07:33,260
+All right, and so that's what I'm gonna do
+
+141
+00:07:33,260 --> 00:07:34,610
+in every lecture now.
+
+142
+00:07:34,610 --> 00:07:38,360
+We'll always kind of get rid of the previous code
+
+143
+00:07:38,360 --> 00:07:41,163
+by using a multi line comment like this.
+
+144
+00:07:42,070 --> 00:07:45,120
+But now let's get back to the topic of this lecture
+
+145
+00:07:45,120 --> 00:07:47,180
+which is data types.
+
+146
+00:07:47,180 --> 00:07:48,660
+So in a previous lecture,
+
+147
+00:07:48,660 --> 00:07:52,640
+we already saw numbers and strengths, right.
+
+148
+00:07:52,640 --> 00:07:56,100
+So here we have a value which has a number
+
+149
+00:07:56,100 --> 00:07:59,540
+and here we have a value which is a string.
+
+150
+00:07:59,540 --> 00:08:02,170
+So nothing new, right.
+
+151
+00:08:02,170 --> 00:08:05,130
+That's will be learned at the beginning of the video
+
+152
+00:08:05,130 --> 00:08:08,230
+but we also talked about booleans, right?
+
+153
+00:08:08,230 --> 00:08:12,760
+And so Boolean is a value that can only be true or false.
+
+154
+00:08:12,760 --> 00:08:14,473
+And so if I write true,
+
+155
+00:08:15,870 --> 00:08:19,180
+that is then automatically a Boolean value
+
+156
+00:08:19,180 --> 00:08:21,133
+which is in this case true.
+
+157
+00:08:22,030 --> 00:08:25,290
+Okay, and actually I can also lock that to the console
+
+158
+00:08:30,153 --> 00:08:31,890
+and then here you get true
+
+159
+00:08:31,890 --> 00:08:33,770
+and you can see that it's not a string
+
+160
+00:08:33,770 --> 00:08:36,250
+because strings are printed in white
+
+161
+00:08:36,250 --> 00:08:39,570
+and this value is printed in this pink.
+
+162
+00:08:39,570 --> 00:08:43,030
+And so it' actually really a Boolean value.
+
+163
+00:08:43,030 --> 00:08:47,780
+And of course we can also store Booleans in variables.
+
+164
+00:08:47,780 --> 00:08:52,780
+So let's say Java script is fun using
+
+165
+00:08:54,440 --> 00:08:57,400
+the camel case notation that we learned about before
+
+166
+00:08:58,370 --> 00:09:00,803
+and done, set it to true.
+
+167
+00:09:03,040 --> 00:09:07,140
+And now we can log JavaScriptIsFun instead
+
+168
+00:09:08,240 --> 00:09:10,700
+but of course the variable declaration here needs
+
+169
+00:09:10,700 --> 00:09:12,860
+to happen before the lock.
+
+170
+00:09:12,860 --> 00:09:15,810
+And that's because JavaScript programs are executed
+
+171
+00:09:15,810 --> 00:09:19,260
+from top to bottom like this
+
+172
+00:09:19,260 --> 00:09:22,030
+and more about that a bit later, okay.
+
+173
+00:09:22,030 --> 00:09:24,630
+What matters is that this need to be at the end.
+
+174
+00:09:24,630 --> 00:09:27,600
+So let's cut it and put it here
+
+175
+00:09:28,620 --> 00:09:31,703
+and also get rid of this one, save it.
+
+176
+00:09:33,400 --> 00:09:35,410
+And here we still get true.
+
+177
+00:09:35,410 --> 00:09:37,590
+And so here we created a nice
+
+178
+00:09:37,590 --> 00:09:42,590
+and descriptive variable name holding a Boolean value.
+
+179
+00:09:43,260 --> 00:09:45,460
+And remember that it's actually the value
+
+180
+00:09:45,460 --> 00:09:49,490
+that holds the data type and not the variable
+
+181
+00:09:49,490 --> 00:09:52,200
+because I could now actually go ahead and change this
+
+182
+00:09:52,200 --> 00:09:54,600
+to a value with another type.
+
+183
+00:09:54,600 --> 00:09:57,000
+And actually I will do that in a second
+
+184
+00:09:57,000 --> 00:09:58,700
+but for now let's take a look
+
+185
+00:09:58,700 --> 00:10:01,920
+at a special operator called type of.
+
+186
+00:10:01,920 --> 00:10:04,989
+So type of it's an operator just like the plus
+
+187
+00:10:04,989 --> 00:10:06,989
+or the minus operator
+
+188
+00:10:06,989 --> 00:10:11,050
+that we can use to show the type of a value.
+
+189
+00:10:11,050 --> 00:10:12,433
+So let me show you how.
+
+190
+00:10:16,680 --> 00:10:20,160
+So again, we use console.log because we actually want to see
+
+191
+00:10:20,160 --> 00:10:23,728
+the result of this operator in the console.
+
+192
+00:10:23,728 --> 00:10:28,728
+So type of and then let's say just true, okay.
+
+193
+00:10:30,050 --> 00:10:32,730
+And more about how operators actually work
+
+194
+00:10:32,730 --> 00:10:35,760
+and what they are a bit later in the section.
+
+195
+00:10:35,760 --> 00:10:39,600
+For now, let's just see what happens when we reload this
+
+196
+00:10:40,640 --> 00:10:43,060
+and we see that it's a Boolean.
+
+197
+00:10:43,060 --> 00:10:47,100
+So just as I said, the result of using this operator here
+
+198
+00:10:47,100 --> 00:10:49,780
+on a value will be a new value
+
+199
+00:10:49,780 --> 00:10:54,780
+which is a string with the type of this value here, okay.
+
+200
+00:10:55,410 --> 00:10:57,143
+So let's do that again here.
+
+201
+00:10:57,143 --> 00:10:59,290
+I will copy it just a couple of times
+
+202
+00:11:02,460 --> 00:11:05,330
+just like this to make it a bit faster.
+
+203
+00:11:05,330 --> 00:11:08,337
+And so here let's use JavaScriptIsFun.
+
+204
+00:11:09,990 --> 00:11:12,270
+And so this should also be a Boolean
+
+205
+00:11:12,270 --> 00:11:15,710
+but just to make sure.
+
+206
+00:11:15,710 --> 00:11:20,710
+Here let's now use a number and finally a string.
+
+207
+00:11:23,030 --> 00:11:24,530
+So just to prove you
+
+208
+00:11:24,530 --> 00:11:28,000
+that these are actually numbers and strings.
+
+209
+00:11:28,000 --> 00:11:32,160
+All right, and indeed we see that JavaScript
+
+210
+00:11:32,160 --> 00:11:37,160
+is fun is a Boolean, 23 is a number and Jonas is a string.
+
+211
+00:11:38,910 --> 00:11:40,890
+And speaking about strings,
+
+212
+00:11:40,890 --> 00:11:44,380
+I just want to quickly emphasize that we really always need
+
+213
+00:11:44,380 --> 00:11:48,961
+to use quotes in order to create a string, okay.
+
+214
+00:11:48,961 --> 00:11:51,660
+Let's actually show that here in the console.
+
+215
+00:11:51,660 --> 00:11:54,540
+So we can use double quotes or single quotes
+
+216
+00:11:54,540 --> 00:11:58,530
+but we really do need quotes in order to create a string.
+
+217
+00:11:58,530 --> 00:12:03,530
+So Jonah's, for example is a string, okay,
+
+218
+00:12:03,640 --> 00:12:06,090
+and so is Jonah's with single quotes
+
+219
+00:12:07,230 --> 00:12:11,280
+but if we do it like this then it's not gonna work.
+
+220
+00:12:11,280 --> 00:12:15,320
+So it needs to be the same at the beginning and the end.
+
+221
+00:12:15,320 --> 00:12:17,340
+but without any quotes at all,
+
+222
+00:12:17,340 --> 00:12:21,230
+JavaScript will see this as a variable.
+
+223
+00:12:21,230 --> 00:12:23,690
+And so then we get this reference error
+
+224
+00:12:23,690 --> 00:12:27,010
+which is saying that Jonah's is not defined.
+
+225
+00:12:27,010 --> 00:12:29,930
+And that's because it's looking for a variable
+
+226
+00:12:29,930 --> 00:12:31,340
+that does not exist.
+
+227
+00:12:31,340 --> 00:12:35,090
+We never declared a variable called Jonas, right.
+
+228
+00:12:35,090 --> 00:12:38,390
+And so that's why we get this error here.
+
+229
+00:12:38,390 --> 00:12:41,600
+So when you need a string, don't forget the quotes.
+
+230
+00:12:41,600 --> 00:12:45,440
+This is a mistake that I see beginners make all the time.
+
+231
+00:12:45,440 --> 00:12:48,890
+And so really be careful about that.
+
+232
+00:12:48,890 --> 00:12:53,890
+Now moving on, let's actually see dynamic typing in action.
+
+233
+00:12:53,940 --> 00:12:56,473
+And remember that dynamic typing simply means
+
+234
+00:12:56,473 --> 00:13:00,003
+that we can easily change the type of a value
+
+235
+00:13:00,003 --> 00:13:02,360
+that is hold by a variable.
+
+236
+00:13:02,360 --> 00:13:05,190
+So that sounds a bit fancy
+
+237
+00:13:05,190 --> 00:13:07,513
+but it's really as simple as this.
+
+238
+00:13:08,760 --> 00:13:13,760
+So we already have a variable called JavaScriptIsFun
+
+239
+00:13:14,270 --> 00:13:17,300
+and so let's now reassign that variable.
+
+240
+00:13:17,300 --> 00:13:20,140
+So we do that like this.
+
+241
+00:13:20,140 --> 00:13:24,452
+So we write the name of the variable then equal
+
+242
+00:13:24,452 --> 00:13:27,270
+and then a new value.
+
+243
+00:13:27,270 --> 00:13:29,830
+And what matters is that we do not write
+
+244
+00:13:29,830 --> 00:13:31,890
+the let here again.
+
+245
+00:13:31,890 --> 00:13:33,570
+So this let keyword.
+
+246
+00:13:33,570 --> 00:13:36,230
+So the first time that we declare a new variable
+
+247
+00:13:36,230 --> 00:13:38,610
+we need to do it using let
+
+248
+00:13:38,610 --> 00:13:42,330
+but then when we want to change the value of the variable,
+
+249
+00:13:42,330 --> 00:13:46,830
+we simply write it again like this but without the let.
+
+250
+00:13:46,830 --> 00:13:49,530
+So we simply assign a new value here
+
+251
+00:13:49,530 --> 00:13:52,050
+to this already existing variable.
+
+252
+00:13:52,050 --> 00:13:55,000
+And this is actually the first time that we did that
+
+253
+00:13:55,000 --> 00:13:58,020
+and so it's important to understand what happened here.
+
+254
+00:13:58,020 --> 00:14:03,020
+Okay, so again, we first declared a new variable
+
+255
+00:14:03,360 --> 00:14:07,240
+with this name and assigned it this true value.
+
+256
+00:14:07,240 --> 00:14:10,690
+And then down here, we changed the value data's
+
+257
+00:14:10,690 --> 00:14:11,883
+in the variable.
+
+258
+00:14:12,720 --> 00:14:15,610
+So using the box analogy from before,
+
+259
+00:14:15,610 --> 00:14:18,980
+it's like initially putting a book in a box
+
+260
+00:14:18,980 --> 00:14:22,100
+and then later taking the book out of the box
+
+261
+00:14:22,100 --> 00:14:25,160
+and instead putting a phone in a box.
+
+262
+00:14:25,160 --> 00:14:29,170
+And so just like here, we changed the content of the box.
+
+263
+00:14:29,170 --> 00:14:32,497
+In our example here, we changed from true
+
+264
+00:14:32,497 --> 00:14:35,663
+to the string of yes.
+
+265
+00:14:36,760 --> 00:14:41,360
+Okay, and now let's just grab this piece of code here
+
+266
+00:14:41,360 --> 00:14:45,560
+so that we can see that dynamic typing actually works.
+
+267
+00:14:45,560 --> 00:14:47,293
+So if I reload now,
+
+268
+00:14:48,520 --> 00:14:50,440
+then let's see.
+
+269
+00:14:50,440 --> 00:14:54,550
+Well, we get here from line 34.
+
+270
+00:14:54,550 --> 00:14:56,823
+Let's actually simplify this a little bit.
+
+271
+00:14:58,170 --> 00:15:01,860
+So commenting out this code and I'm using command
+
+272
+00:15:01,860 --> 00:15:06,860
+or control slash, that's a reload again.
+
+273
+00:15:08,170 --> 00:15:12,040
+And so you'll see that initially the type of JavaScript
+
+274
+00:15:12,040 --> 00:15:15,010
+is fun is a bullion, right.
+
+275
+00:15:15,010 --> 00:15:18,460
+But then we change it to a string down here.
+
+276
+00:15:18,460 --> 00:15:20,920
+And so indeed when we then test the type
+
+277
+00:15:20,920 --> 00:15:24,480
+of the variable again in line 39,
+
+278
+00:15:24,480 --> 00:15:26,810
+then we get the result of a string.
+
+279
+00:15:26,810 --> 00:15:31,020
+All right, and that basically is dynamic typing.
+
+280
+00:15:31,020 --> 00:15:35,000
+Great, and now let's see an example of undefined.
+
+281
+00:15:35,000 --> 00:15:38,560
+So remember that a number string and bullion
+
+282
+00:15:38,560 --> 00:15:40,720
+are the most used data types
+
+283
+00:15:40,720 --> 00:15:43,980
+but there are more like undefined and null
+
+284
+00:15:43,980 --> 00:15:47,250
+and also symbol in BigInt but in this lecture,
+
+285
+00:15:47,250 --> 00:15:51,370
+I'm only gonna talk about the three most important ones
+
+286
+00:15:51,370 --> 00:15:54,290
+and then also undefined and null.
+
+287
+00:15:54,290 --> 00:15:57,410
+So remember that undefined is the value taken
+
+288
+00:15:57,410 --> 00:16:00,600
+by a variable that is not yet defined.
+
+289
+00:16:00,600 --> 00:16:04,430
+So basically undefined means an empty value.
+
+290
+00:16:04,430 --> 00:16:08,490
+So it's perfectly legal in JavaScript to do this.
+
+291
+00:16:08,490 --> 00:16:11,713
+So to define a variable without value.
+
+292
+00:16:12,930 --> 00:16:17,410
+And if we now take a look at this variable,
+
+293
+00:16:18,750 --> 00:16:21,320
+then we should see undefined.
+
+294
+00:16:21,320 --> 00:16:23,230
+And actually let's also check the type
+
+295
+00:16:24,250 --> 00:16:27,623
+so that I can show you something, here.
+
+296
+00:16:33,540 --> 00:16:37,690
+Okay, and so you get both undefined.
+
+297
+00:16:37,690 --> 00:16:40,680
+What this means is that whenever we declare
+
+298
+00:16:40,680 --> 00:16:43,960
+an empty variable, the value of the variable
+
+299
+00:16:43,960 --> 00:16:47,250
+will be undefined, enter type of the variable
+
+300
+00:16:47,250 --> 00:16:49,400
+is also undefined.
+
+301
+00:16:49,400 --> 00:16:53,460
+Now that maybe sounds a bit confusing but it's really not.
+
+302
+00:16:53,460 --> 00:16:57,260
+So simply put undefined is both the value
+
+303
+00:16:57,260 --> 00:17:00,040
+and the type of the value and undefined
+
+304
+00:17:00,040 --> 00:17:03,210
+is different than other types in this way.
+
+305
+00:17:03,210 --> 00:17:05,460
+But this detail is not really important.
+
+306
+00:17:05,460 --> 00:17:07,860
+What matters is that when you declare
+
+307
+00:17:07,860 --> 00:17:10,190
+an empty variable like this
+
+308
+00:17:10,190 --> 00:17:13,190
+it will automatically hold the value of undefined.
+
+309
+00:17:13,190 --> 00:17:16,000
+And that's why we get undefined here.
+
+310
+00:17:16,000 --> 00:17:20,343
+Then just like before, we can also reassign
+
+311
+00:17:20,343 --> 00:17:21,993
+this variable basically.
+
+312
+00:17:23,740 --> 00:17:28,330
+So we can now go ahead and say year 1991.
+
+313
+00:17:28,330 --> 00:17:30,830
+And once more without the let
+
+314
+00:17:30,830 --> 00:17:33,730
+because we are not creating a new variable,
+
+315
+00:17:33,730 --> 00:17:37,350
+we are simply assigning a new value to you.
+
+316
+00:17:37,350 --> 00:17:41,630
+So it used to be undefined, right, as we just discussed
+
+317
+00:17:41,630 --> 00:17:44,820
+and now I'm changing it to 1991.
+
+318
+00:17:44,820 --> 00:17:49,200
+And so if I test for the type now again,
+
+319
+00:17:49,200 --> 00:17:52,470
+it should now be a number, right.
+
+320
+00:17:52,470 --> 00:17:54,050
+So let's check that.
+
+321
+00:17:54,050 --> 00:17:59,050
+And indeed we can again see the effect of dynamic typing.
+
+322
+00:17:59,130 --> 00:18:03,270
+Great, and now finally just to quickly finish,
+
+323
+00:18:03,270 --> 00:18:05,800
+I want to show you an error that exists
+
+324
+00:18:05,800 --> 00:18:08,060
+in the type of operator.
+
+325
+00:18:08,060 --> 00:18:11,010
+So all I'm going to do here is to quickly say,
+
+326
+00:18:11,010 --> 00:18:15,640
+console.log type of null.
+
+327
+00:18:17,120 --> 00:18:21,090
+So remember that null is just another data type
+
+328
+00:18:21,090 --> 00:18:23,010
+and it's similar to undefined.
+
+329
+00:18:23,010 --> 00:18:26,210
+And it's also similar in the fact that both the value
+
+330
+00:18:26,210 --> 00:18:30,330
+and the type of the value are null, okay.
+
+331
+00:18:30,330 --> 00:18:35,330
+Now about this bug, Java script says that a type of null
+
+332
+00:18:35,820 --> 00:18:40,050
+is an object and this doesn't make any sense at all.
+
+333
+00:18:40,050 --> 00:18:45,050
+And so this is regarded as a buck or an error in JavaScript.
+
+334
+00:18:45,140 --> 00:18:49,800
+However, this bug is never corrected for legacy reasons
+
+335
+00:18:49,800 --> 00:18:52,620
+but now it's of course not an object.
+
+336
+00:18:52,620 --> 00:18:54,360
+This should return null
+
+337
+00:18:54,360 --> 00:18:58,230
+just as type of undefined returns undefined.
+
+338
+00:18:58,230 --> 00:19:01,670
+So just keep that in mind when working with type of
+
+339
+00:19:01,670 --> 00:19:04,510
+but we will also come back to this later in the course
+
+340
+00:19:04,510 --> 00:19:08,270
+to make sure that you don't create any accidental bugs
+
+341
+00:19:08,270 --> 00:19:11,130
+because of this weird behavior.
+
+342
+00:19:11,130 --> 00:19:12,730
+Okay, and that's all I had
+
+343
+00:19:12,730 --> 00:19:16,653
+to tell you about data types in JavaScript.

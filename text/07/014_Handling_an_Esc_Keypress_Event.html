@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handling an Esc Keypress Event</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --warning-color: #f1fa8c;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
+        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        td a { color: var(--info-color); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-global-event" class="nav-item">1. 监听全局键盘事件</a>
+            <a href="#section-event-object" class="nav-item">2. 事件对象 (Event Object) 揭秘</a>
+            <a href="#section-contains" class="nav-item">3. 判断包含类名：classList.contains</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Handling an Esc Keypress Event</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：014 Handling an Esc Keypress Event.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>我们的 Modal Window (模态窗口) 已经可以通过鼠标点击关闭了。但在体验优秀的网站上，<strong>按键盘左上角的 `Esc` 键</strong> 也能随时关闭弹窗。要实现这个功能，我们需要监听全局的键盘事件，并学会如何读取事件对象 (Event Object) 中的关键信息。</p>
+
+        <h2 id="section-global-event">1. 监听全局键盘事件</h2>
+        <p>键盘事件大多不特定于某一个具体的按钮或拉框，因此，我们通常把键盘监听器直接挂在<strong>整个文档 (document) 上</strong>。</p>
+        <p>与键盘相关的事件主要有三种：<code>keydown</code>、<code>keypress</code> 和 <code>keyup</code>。最常用的是 <code>keydown</code>，因为只要手指按下键盘，它就会立即触发。</p>
+
+        <pre><code class="language-javascript">
+document.addEventListener('keydown', function () {
+    console.log('有按键被按下了！');
+});
+        </code></pre>
+
+
+        <h2 id="section-event-object">2. 事件对象 (Event Object) 揭秘</h2>
+        <p>当我们按下键盘时，上面代码里的函数确实会被调用。但问题来了：<strong>JavaScript 怎么知道我按的是 Esc 还是回车？</strong></p>
+
+        <p>每当一个事件发生时（无论是点击还是按键），浏览器都会在后台生成一个装满事件信息的<strong>对象 (Object)</strong>。如果我们想读取这些信息，只需要给事件处理函数<strong>留一个形参 (通常命名为 <code>e</code> 也就是 event 的缩写)</strong>，浏览器在调用函数时，就会自动把这个对象塞进去。</p>
+
+        <pre><code class="language-javascript">
+// 在圆括号中传入形参 e 接收事件对象
+document.addEventListener('keydown', function (e) {
+    // e 就是包含按键细节的大字典
+    console.log(e.key); // 如果你按了 Esc，这里会输出 'Escape'
+});
+        </code></pre>
+
+        <div class="callout info">
+            <p>💡 <strong>大一统思维：</strong> 回想一下我们上一节说的，在这个函数里不要加圆括号去“主动调用”它，而是交给 JavaScript 根据事件发生来“被动调度”。正因为如此，JS 引擎在调度它的时候，才能够像发快递一样，把包含着按下什么键的包裹（Event Object）传给你的 <code>e</code> 变量！</p>
+        </div>
+
+
+        <h2 id="section-contains">3. 判断包含类名：classList.contains</h2>
+        <p>仅仅知道按下了 Esc 还不够。如果模态窗口根本没打开，此时按 Esc 就不应该执行任何关窗逻辑（虽然目前代码只是再加一次 hidden 类，不会报错，但做无用功不是好习惯 ）。</p>
+
+        <p>我们可以使用 <code>classList.contains('类名')</code> 来询问元素：“你身上现在有这个类吗？”。它会返回 <code>true</code> 或 <code>false</code>。</p>
+
+        <pre><code class="language-javascript">
+document.addEventListener('keydown', function (e) {
+    // 逻辑：如果按下的键是 'Escape'，并且模态框此时并没有被隐藏（说明它是打开状态的）
+    // 注意这里 ! (NOT) 运算符的运用
+    if (e.key === 'Escape' && !modal.classList.contains('hidden')) {
+        // 由于我们上一节已经写好了 closeModal 函数，这里直接“手动调用”它！
+        closeModal(); 
+    }
+});
+        </code></pre>
+
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 在处理键盘事件的函数中：`document.addEventListener('keydown', function(e) { ... })`，这个小写字母 `e` 到底是由谁赋值传进来的？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 由我们开发者自己使用 document.passEvent(e) 传进去的。</div>
+                <div class="quiz-option" data-value="B">B) 由浏览器的 JS 引擎自动传进去的。当事件触发时，引擎打包好一个记录着该事件（哪种按键、鼠标坐标等）的对象，并把它作为实参传给了我们留好的形参 `e` 坑位。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。这就是事件回调函数的核心工作流。JS 引擎充当了调度员。只要你在参数列表里声明了一个变量（常用 `e` 或 `event`），引擎就会贴心地把事件现场的所有情报送到你手上。
+            </div>
+        </div>
+
+        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>代码</th>
+                    <th>简明释义</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>键盘按下事件</td>
+                    <td><code>keydown</code></td>
+                    <td>当物理键盘上的任意按键被往下按压时触发（最常用的键盘事件）</td>
+                </tr>
+                <tr>
+                    <td>事件对象</td>
+                    <td><code>e (Event Object)</code></td>
+                    <td>一个包含了当前所发生事件所有细节状态（如鼠标 XYZ 坐标、按了哪个 Key 等）的 JS 对象</td>
+                </tr>
+                <tr>
+                    <td>检查类名是否存在</td>
+                    <td><code>.classList.contains('名')</code></td>
+                    <td>询问元素的 class 列表中是否包含指定的类名，返回布尔值</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const opts = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.style.background = 'transparent');
+                if (opt.getAttribute('data-value') === correctVal) {
+                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--success-color)';
+                } else {
+                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--error-color)';
+                }
+                exp.style.display = 'block';
+            });
+        });
+    });
+</script>
+</body>
+</html>

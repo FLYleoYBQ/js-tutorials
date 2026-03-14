@@ -1,0 +1,995 @@
+1
+00:00:01,380 --> 00:00:04,420
+Welcome back to the last coding challenge
+
+2
+00:00:04,420 --> 00:00:05,833
+of this section.
+
+3
+00:00:07,620 --> 00:00:10,530
+And this one is gonna be quite a bit different
+
+4
+00:00:10,530 --> 00:00:12,510
+from the previous ones.
+
+5
+00:00:12,510 --> 00:00:15,600
+So in this one, I want you to write a program
+
+6
+00:00:15,600 --> 00:00:18,610
+that receives a list of variable names,
+
+7
+00:00:18,610 --> 00:00:21,290
+written in the underscore case,
+
+8
+00:00:21,290 --> 00:00:23,700
+and your program should then convert them
+
+9
+00:00:23,700 --> 00:00:26,113
+to camel case like this.
+
+10
+00:00:29,018 --> 00:00:32,090
+Now, the input will come from a text area
+
+11
+00:00:32,090 --> 00:00:34,630
+that was inserted into the DOM,
+
+12
+00:00:34,630 --> 00:00:36,193
+using this code below here.
+
+13
+00:00:38,690 --> 00:00:41,750
+So, this code here created the text area,
+
+14
+00:00:41,750 --> 00:00:46,010
+and this one the button using the createElement function,
+
+15
+00:00:46,010 --> 00:00:48,253
+which you will learn about later.
+
+16
+00:00:51,510 --> 00:00:55,180
+That's where the variable name list will come from,
+
+17
+00:00:55,180 --> 00:00:56,850
+and the conversion will happen
+
+18
+00:00:56,850 --> 00:00:59,543
+when this button here is clicked.
+
+19
+00:01:01,390 --> 00:01:03,810
+And here is the test data.
+
+20
+00:01:03,810 --> 00:01:06,470
+This is what you will take
+
+21
+00:01:06,470 --> 00:01:09,130
+and paste here into this text area,
+
+22
+00:01:09,130 --> 00:01:10,260
+and as you click the button,
+
+23
+00:01:10,260 --> 00:01:12,333
+you should produce this output here.
+
+24
+00:01:15,100 --> 00:01:18,940
+So five separate console dot log outputs.
+
+25
+00:01:18,940 --> 00:01:22,093
+Essentially, five different results.
+
+26
+00:01:24,032 --> 00:01:29,032
+Here are a couple of hints for you to solve this problem.
+
+27
+00:01:29,260 --> 00:01:32,370
+First off, you need to remember which character
+
+28
+00:01:32,370 --> 00:01:36,860
+actually defines a new line in the text area.
+
+29
+00:01:36,860 --> 00:01:38,323
+I hope you can remember that.
+
+30
+00:01:39,270 --> 00:01:40,900
+Then, the second one,
+
+31
+00:01:40,900 --> 00:01:44,160
+the solution only needs to work for a variable
+
+32
+00:01:44,160 --> 00:01:46,510
+made out of two words.
+
+33
+00:01:46,510 --> 00:01:50,710
+For example, in this format, a underscore b.
+
+34
+00:01:50,710 --> 00:01:54,473
+So that's exactly what we have here, right?
+
+35
+00:01:55,570 --> 00:01:59,440
+Then number three, start to solve this challenge
+
+36
+00:01:59,440 --> 00:02:02,793
+without worrying at all about this here.
+
+37
+00:02:03,910 --> 00:02:07,490
+Because this actually is a little bit difficult.
+
+38
+00:02:07,490 --> 00:02:11,790
+And so start by only creating this variable name
+
+39
+00:02:11,790 --> 00:02:14,120
+in the camel case notation.
+
+40
+00:02:14,120 --> 00:02:17,530
+And finally, I also want to let you know that this challenge
+
+41
+00:02:17,530 --> 00:02:20,003
+is quite difficult on purpose.
+
+42
+00:02:20,932 --> 00:02:25,310
+So once again, I really want you to challenge yourself,
+
+43
+00:02:25,310 --> 00:02:26,970
+but in case you're stuck,
+
+44
+00:02:26,970 --> 00:02:29,460
+of course, you should not get frustrated.
+
+45
+00:02:29,460 --> 00:02:33,160
+Instead, you can just start watching the solution,
+
+46
+00:02:33,160 --> 00:02:37,110
+and then if that helps you, you just pause and continue.
+
+47
+00:02:37,110 --> 00:02:40,520
+Then once you made it work with this test data,
+
+48
+00:02:40,520 --> 00:02:42,453
+you can of course, also use your own.
+
+49
+00:02:43,600 --> 00:02:47,170
+So pause the video now and take all the time that you need,
+
+50
+00:02:47,170 --> 00:02:50,063
+and I see you back here as soon as you're ready.
+
+51
+00:02:52,960 --> 00:02:56,483
+And let's start by attaching an event handler to the button.
+
+52
+00:02:58,040 --> 00:03:00,160
+So to this button here.
+
+53
+00:03:00,160 --> 00:03:02,510
+All we have to do is querySelector,
+
+54
+00:03:03,470 --> 00:03:06,023
+actually, document dot querySelector,
+
+55
+00:03:07,490 --> 00:03:09,973
+and then we just select the button element.
+
+56
+00:03:11,670 --> 00:03:16,313
+And then add event listener for a click,
+
+57
+00:03:18,090 --> 00:03:20,770
+and then a certain function.
+
+58
+00:03:20,770 --> 00:03:22,470
+And the first thing that we need to do
+
+59
+00:03:22,470 --> 00:03:25,430
+is to get the value out of the text area.
+
+60
+00:03:25,430 --> 00:03:29,810
+And for that, I already put you this snippet of code here.
+
+61
+00:03:29,810 --> 00:03:34,810
+So let's grab that and just to start,
+
+62
+00:03:35,090 --> 00:03:36,823
+let's log it to the console.
+
+63
+00:03:41,990 --> 00:03:46,240
+Paste that here and indeed,
+
+64
+00:03:46,240 --> 00:03:49,973
+it is basically one big string containing all of this.
+
+65
+00:03:51,630 --> 00:03:56,630
+All right, so how do we now separate this basically,
+
+66
+00:03:56,880 --> 00:03:59,863
+into five different strings to start with?
+
+67
+00:04:00,780 --> 00:04:05,780
+Well, we remember which character defines a new line, right?
+
+68
+00:04:06,330 --> 00:04:09,260
+Because that's gonna be a great starting point
+
+69
+00:04:09,260 --> 00:04:13,300
+to split up this string into multiple pieces.
+
+70
+00:04:13,300 --> 00:04:18,300
+And so that's gonna be, let's say rows,
+
+71
+00:04:19,921 --> 00:04:22,543
+and so that will be text dot split,
+
+72
+00:04:23,550 --> 00:04:27,853
+and that newline character is backslash, n.
+
+73
+00:04:29,640 --> 00:04:31,083
+So let's see.
+
+74
+00:04:31,940 --> 00:04:33,340
+Let's log rows now.
+
+75
+00:04:33,340 --> 00:04:37,393
+And so now we should get an array with five elements.
+
+76
+00:04:38,360 --> 00:04:42,130
+And of course, we need to first paste it back here,
+
+77
+00:04:42,130 --> 00:04:45,010
+click this button, and so indeed,
+
+78
+00:04:45,010 --> 00:04:48,700
+we now have this result here as expected.
+
+79
+00:04:48,700 --> 00:04:52,100
+And now let's just simply loop over this array,
+
+80
+00:04:52,100 --> 00:04:56,400
+and in each iteration, we'll log this variable name here,
+
+81
+00:04:56,400 --> 00:04:58,203
+converted to camel case.
+
+82
+00:04:59,220 --> 00:05:01,930
+So simple enough.
+
+83
+00:05:01,930 --> 00:05:06,453
+For const row in rows.
+
+84
+00:05:08,080 --> 00:05:12,090
+So first off, the first thing that we gonna need to do
+
+85
+00:05:12,090 --> 00:05:15,203
+is to, now I clicked here, now it's gone.
+
+86
+00:05:16,810 --> 00:05:21,810
+But anyway, let's take a look at this case here.
+
+87
+00:05:22,110 --> 00:05:24,230
+And indeed, let me copy it down here,
+
+88
+00:05:24,230 --> 00:05:28,133
+so we can always take a look at it while we are developing.
+
+89
+00:05:30,460 --> 00:05:33,343
+Okay, so we need to,
+
+90
+00:05:34,210 --> 00:05:37,593
+let me also also write result underscoreCase.
+
+91
+00:05:40,472 --> 00:05:41,722
+So it should become this.
+
+92
+00:05:42,610 --> 00:05:47,180
+To do this, we need to first split
+
+93
+00:05:47,180 --> 00:05:50,170
+this variable name here also in its two parts,
+
+94
+00:05:50,170 --> 00:05:54,620
+which are separated by the underscore right now.
+
+95
+00:05:54,620 --> 00:05:58,720
+Each word here is now called row, right?
+
+96
+00:05:58,720 --> 00:06:03,720
+And so we split that by this underscore.
+
+97
+00:06:05,370 --> 00:06:08,700
+But actually, that is not enough because as you know,
+
+98
+00:06:08,700 --> 00:06:11,570
+camel case should be all lowercase,
+
+99
+00:06:11,570 --> 00:06:14,830
+except for this second word here,
+
+100
+00:06:14,830 --> 00:06:17,900
+which should start with an uppercase.
+
+101
+00:06:17,900 --> 00:06:22,310
+However, here actually, we have some uppercase right here,
+
+102
+00:06:22,310 --> 00:06:24,843
+and here even worse is entire word.
+
+103
+00:06:25,820 --> 00:06:28,940
+Also, we have some weird spacing going on.
+
+104
+00:06:28,940 --> 00:06:33,690
+So here we have this space, here have even two spaces,
+
+105
+00:06:33,690 --> 00:06:36,733
+and so we need to get rid of both of these.
+
+106
+00:06:37,830 --> 00:06:39,950
+And so just like before,
+
+107
+00:06:39,950 --> 00:06:41,680
+we can use toLowercase
+
+108
+00:06:45,050 --> 00:06:48,823
+and then we can also use the trim method on that.
+
+109
+00:06:49,870 --> 00:06:52,810
+And then we can even chain a third method,
+
+110
+00:06:52,810 --> 00:06:56,823
+which is then that result of splitting it into words.
+
+111
+00:06:59,610 --> 00:07:03,370
+So we end up with an array with two words,
+
+112
+00:07:03,370 --> 00:07:06,193
+and so let's destructure that into two variables,
+
+113
+00:07:07,270 --> 00:07:11,730
+the first and second, okay?
+
+114
+00:07:11,730 --> 00:07:14,140
+And then we are already well on our way
+
+115
+00:07:14,140 --> 00:07:15,883
+to building the output here.
+
+116
+00:07:18,360 --> 00:07:22,330
+Let's call it output and it's gonna be this string
+
+117
+00:07:22,330 --> 00:07:24,640
+with simply the first word,
+
+118
+00:07:24,640 --> 00:07:27,090
+because that's already good enough.
+
+119
+00:07:27,090 --> 00:07:30,660
+And now we just need the second word capitalized.
+
+120
+00:07:30,660 --> 00:07:33,400
+And we already did that a couple of times
+
+121
+00:07:33,400 --> 00:07:37,030
+and so let me show the second version that I showed you
+
+122
+00:07:37,030 --> 00:07:40,040
+which is simply well,
+
+123
+00:07:40,040 --> 00:07:44,423
+second dot replace.
+
+124
+00:07:46,830 --> 00:07:50,900
+And what we want to replace is second zero,
+
+125
+00:07:50,900 --> 00:07:55,900
+so the first character with second zero to uppercase.
+
+126
+00:08:00,922 --> 00:08:04,050
+And then logging it to the console,
+
+127
+00:08:04,050 --> 00:08:05,673
+and I think that's already it.
+
+128
+00:08:08,490 --> 00:08:10,830
+So I wrote this here quite fast,
+
+129
+00:08:10,830 --> 00:08:13,740
+because I already explained everything before.
+
+130
+00:08:13,740 --> 00:08:16,340
+But of course, you can keep pausing the video
+
+131
+00:08:16,340 --> 00:08:21,340
+to take a look at what I'm doing even more closer.
+
+132
+00:08:21,430 --> 00:08:23,883
+And maybe also really analyze what I'm doing.
+
+133
+00:08:27,020 --> 00:08:32,020
+Now we get, "Cannot read property replace of undefined."
+
+134
+00:08:32,630 --> 00:08:36,460
+So what it means is that, second, is undefined.
+
+135
+00:08:36,460 --> 00:08:40,940
+And so therefore, we are getting a weird result
+
+136
+00:08:40,940 --> 00:08:43,543
+from this here basically.
+
+137
+00:08:44,470 --> 00:08:47,753
+So let's use some console dot logs here.
+
+138
+00:08:49,590 --> 00:08:54,590
+So let's log the row first and second,
+
+139
+00:08:54,810 --> 00:08:59,670
+just to make sure or just to see what's happening.
+
+140
+00:08:59,670 --> 00:09:01,750
+And we can get rid of this console dot log,
+
+141
+00:09:01,750 --> 00:09:03,223
+so it doesn't get in our way.
+
+142
+00:09:04,220 --> 00:09:07,950
+Then paste that here, run it and we get,
+
+143
+00:09:07,950 --> 00:09:10,330
+zero, zero undefined.
+
+144
+00:09:10,330 --> 00:09:11,443
+Well, that's weird.
+
+145
+00:09:13,770 --> 00:09:15,113
+Everything looks correct.
+
+146
+00:09:16,140 --> 00:09:19,513
+Oh here, this should actually be of, not in.
+
+147
+00:09:20,350 --> 00:09:24,330
+And actually there is an older loop called the for in loop,
+
+148
+00:09:24,330 --> 00:09:27,570
+which I didn't show you because it doesn't matter anymore.
+
+149
+00:09:27,570 --> 00:09:30,120
+But that's why we didn't get an error
+
+150
+00:09:30,120 --> 00:09:32,490
+as I wrote the in here.
+
+151
+00:09:32,490 --> 00:09:34,423
+So let's see if now it works.
+
+152
+00:09:35,780 --> 00:09:39,003
+And now at least this result here makes sense.
+
+153
+00:09:39,870 --> 00:09:42,190
+This is indeed the row, this is the first
+
+154
+00:09:42,190 --> 00:09:43,890
+and this is the second,
+
+155
+00:09:43,890 --> 00:09:48,890
+but now we get some other error here, so the toUpperCase.
+
+156
+00:09:49,110 --> 00:09:54,110
+And yeah, that's here because I didn't actually call it.
+
+157
+00:09:54,270 --> 00:09:57,253
+I just wrote the name of the method without calling it.
+
+158
+00:09:58,810 --> 00:10:00,490
+That was another bug.
+
+159
+00:10:00,490 --> 00:10:02,840
+But this is one more time good to show you
+
+160
+00:10:02,840 --> 00:10:05,130
+that bugs are actually a common thing
+
+161
+00:10:05,130 --> 00:10:06,763
+in software development.
+
+162
+00:10:08,230 --> 00:10:11,280
+Anyway, we see that actually, our variable names
+
+163
+00:10:11,280 --> 00:10:12,643
+are already correct.
+
+164
+00:10:14,320 --> 00:10:17,963
+All of them are converted to camel case.
+
+165
+00:10:19,350 --> 00:10:22,070
+So let's get rid of that console dot log here,
+
+166
+00:10:22,070 --> 00:10:25,020
+and now let's tackle this last part here,
+
+167
+00:10:25,020 --> 00:10:28,580
+with these emojis here.
+
+168
+00:10:28,580 --> 00:10:31,500
+But you could of course, use any other sign.
+
+169
+00:10:31,500 --> 00:10:33,700
+So two things to notice here.
+
+170
+00:10:33,700 --> 00:10:37,430
+The first word has one check mark,
+
+171
+00:10:37,430 --> 00:10:39,300
+the second one has two check marks,
+
+172
+00:10:39,300 --> 00:10:41,810
+then three, four, five.
+
+173
+00:10:41,810 --> 00:10:43,400
+So that's the first thing.
+
+174
+00:10:43,400 --> 00:10:46,210
+And the second thing is that they all start
+
+175
+00:10:46,210 --> 00:10:47,443
+at the same position.
+
+176
+00:10:48,380 --> 00:10:53,310
+So this means that all of these strings here basically
+
+177
+00:10:53,310 --> 00:10:54,773
+should have the same length.
+
+178
+00:10:56,400 --> 00:10:58,040
+And how do we do that?
+
+179
+00:10:58,040 --> 00:11:00,970
+How do we give all of them the same length?
+
+180
+00:11:00,970 --> 00:11:04,300
+Well, we can use padding, right?
+
+181
+00:11:04,300 --> 00:11:06,740
+In this case, we use pad end,
+
+182
+00:11:06,740 --> 00:11:09,093
+and set them all to a fixed length.
+
+183
+00:11:14,270 --> 00:11:16,363
+Let's do that here first.
+
+184
+00:11:17,500 --> 00:11:22,493
+So, padEnd, with a length of 20,
+
+185
+00:11:23,420 --> 00:11:27,643
+and the string to pad should be simply an empty string.
+
+186
+00:11:28,970 --> 00:11:29,950
+So let's see.
+
+187
+00:11:29,950 --> 00:11:32,970
+And it will look the same, but as we select,
+
+188
+00:11:32,970 --> 00:11:37,080
+we see that actually, now the selection continues.
+
+189
+00:11:37,080 --> 00:11:40,433
+Which means that there is indeed some empty spaces there.
+
+190
+00:11:41,460 --> 00:11:45,420
+And in fact, when we want just empty spaces,
+
+191
+00:11:45,420 --> 00:11:49,540
+we can actually omit this second argument,
+
+192
+00:11:49,540 --> 00:11:51,210
+and just call with 20,
+
+193
+00:11:51,210 --> 00:11:54,180
+and then the result is gonna to be the same.
+
+194
+00:11:54,180 --> 00:11:57,433
+So then after that, let's just add the check mark.
+
+195
+00:11:58,600 --> 00:12:00,820
+And so here, we now need to return
+
+196
+00:12:00,820 --> 00:12:05,703
+or to log a template string, which will contain all of that.
+
+197
+00:12:06,660 --> 00:12:11,660
+So here's the emoji, and yeah, okay, is the way to go here.
+
+198
+00:12:13,830 --> 00:12:18,253
+And so this should be almost now the correct solution.
+
+199
+00:12:19,560 --> 00:12:22,440
+Let's see, okay.
+
+200
+00:12:22,440 --> 00:12:27,090
+So all the emojis now start at the same place,
+
+201
+00:12:27,090 --> 00:12:30,050
+but now, all we have to do is to add to here,
+
+202
+00:12:30,050 --> 00:12:32,840
+three, four, and five.
+
+203
+00:12:32,840 --> 00:12:33,700
+And for that,
+
+204
+00:12:33,700 --> 00:12:37,253
+we are going to use the current index in each iteration.
+
+205
+00:12:39,300 --> 00:12:41,610
+Now remember how we can get access
+
+206
+00:12:41,610 --> 00:12:45,110
+to the current index in the for of loop.
+
+207
+00:12:45,110 --> 00:12:47,960
+So we're looping over an array here,
+
+208
+00:12:47,960 --> 00:12:49,890
+and so to get the current index,
+
+209
+00:12:49,890 --> 00:12:52,090
+we need to actually use the entries
+
+210
+00:12:52,090 --> 00:12:54,863
+of the array, remember that?
+
+211
+00:12:56,010 --> 00:12:58,920
+So we say, entries, and then here,
+
+212
+00:12:58,920 --> 00:13:03,250
+the row is now actually an array with first the index,
+
+213
+00:13:03,250 --> 00:13:06,060
+and then second, the actual element.
+
+214
+00:13:06,060 --> 00:13:09,620
+And so let's destructure that here, right away,
+
+215
+00:13:09,620 --> 00:13:11,600
+where I is the index,
+
+216
+00:13:11,600 --> 00:13:15,510
+and row is then the actual element itself.
+
+217
+00:13:15,510 --> 00:13:18,480
+And then here, we can use that index
+
+218
+00:13:18,480 --> 00:13:20,823
+to basically repeat this string.
+
+219
+00:13:22,670 --> 00:13:25,130
+So you see, this is a lot of work
+
+220
+00:13:25,130 --> 00:13:27,920
+and it's quite a challenge again.
+
+221
+00:13:27,920 --> 00:13:31,513
+So I didn't expect you to really make this on your own,
+
+222
+00:13:33,410 --> 00:13:36,110
+at least not in a very fast way.
+
+223
+00:13:36,110 --> 00:13:38,340
+Maybe you took some time, and then you made it,
+
+224
+00:13:38,340 --> 00:13:40,893
+and so then that's really great.
+
+225
+00:13:42,640 --> 00:13:45,200
+But anyway, it's very good to challenge yourself
+
+226
+00:13:45,200 --> 00:13:47,423
+and bring yourself to the limit too.
+
+227
+00:13:49,280 --> 00:13:52,200
+Anyway, here, we now took this string,
+
+228
+00:13:52,200 --> 00:13:54,630
+and then on that string we called repeat,
+
+229
+00:13:54,630 --> 00:13:57,460
+just like we did before with the airplanes.
+
+230
+00:13:57,460 --> 00:14:01,980
+And then we want in the first iteration one,
+
+231
+00:14:01,980 --> 00:14:04,733
+and so that's gonna be your zero plus one,
+
+232
+00:14:05,690 --> 00:14:09,433
+because we always need to add one because it starts at zero.
+
+233
+00:14:10,390 --> 00:14:15,390
+So give it a save, paste all variable here.
+
+234
+00:14:16,600 --> 00:14:20,933
+And yes, that is the solution, that's amazing.
+
+235
+00:14:21,770 --> 00:14:23,423
+Let's add another one here.
+
+236
+00:14:24,870 --> 00:14:29,870
+Showing us S-C-H, and let's see.
+
+237
+00:14:30,830 --> 00:14:34,350
+And indeed, it now is also in camel case,
+
+238
+00:14:34,350 --> 00:14:39,043
+and with six okay emojis here.
+
+239
+00:14:40,344 --> 00:14:42,600
+So this one here is from the previous time,
+
+240
+00:14:42,600 --> 00:14:44,690
+so each time we click the button,
+
+241
+00:14:44,690 --> 00:14:46,663
+of course, this will get logged here.
+
+242
+00:14:48,400 --> 00:14:51,323
+Okay, so that's it here.
+
+243
+00:14:52,750 --> 00:14:54,770
+Make sure that you really understand
+
+244
+00:14:54,770 --> 00:14:57,620
+how strings work in JavaScript.
+
+245
+00:14:57,620 --> 00:15:01,250
+You can review this lecture and the last three lectures,
+
+246
+00:15:01,250 --> 00:15:04,150
+and if you want even more string exercises,
+
+247
+00:15:04,150 --> 00:15:06,850
+you can let me know in the Q and A section,
+
+248
+00:15:06,850 --> 00:15:08,910
+and I can then give them to you.
+
+249
+00:15:08,910 --> 00:15:12,423
+Anyway, that's it for now I see you in the next one.

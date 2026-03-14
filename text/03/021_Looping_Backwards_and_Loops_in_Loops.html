@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Looping Backwards and Loops in Loops</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
+        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
+        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
+        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
+        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; font-weight: 600;}
+        .btn-run:active { transform: scale(0.95); }
+        .editor-textarea { width: 100%; height: 350px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
+        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
+        pre[class*="language-"] { margin: 0; padding: 16px; border-radius: 0; background: transparent; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-backwards" class="nav-item active">逆流而上：倒序循环</a>
+            <a href="#section-nested" class="nav-item">宇宙套娃：嵌套循环 (Loops in Loops)</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Looping Backwards and Loops in Loops</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：021 Looping Backwards and Loops in Loops.en.srt</span>
+            <span>📂 章节：第 03 章</span>
+        </div>
+
+        <h2 id="section-backwards">⏪ 逆流而上：倒序循环</h2>
+        <p>很多时候我们需要以倒序的方式读取数组。比如数组元素长度如果是 5，那么起跑线（索引值）就不再是 0，而是 <strong>4、3、2、1、0</strong>！</p>
+        <p>这意味着我们的 For 循环三要素需要全体大换血：</p>
+        <ul>
+            <li><strong>起点</strong>：不再是 0，而是 <code>array.length - 1</code>。</li>
+            <li><strong>限界</strong>：不再是小于长度，而是只要 <code>i >= 0</code> 就要继续跑！</li>
+            <li><strong>齿轮</strong>：不再是累加向上 <code>i++</code>，而是递减退档的 <code>i--</code>！</li>
+        </ul>
+
+<pre><code class="language-javascript">const jonas = [
+    'Jonas',
+    'Schmedtmann',
+    2037 - 1991,
+    'teacher',
+    ['Michael', 'Peter', 'Steven']
+];
+
+// 向后递减打印 4, 3, 2, 1, 0
+for (let i = jonas.length - 1; i >= 0; i--) {
+    console.log(i, jonas[i]);
+}
+</code></pre>
+
+        <h2 id="section-nested">🌌 宇宙套娃：嵌套循环 (Nested Loops)</h2>
+        <p>你以为一个循环就完事了吗？如果有3组不同的肌肉训练，每1组动作要做5次呢？那意味着一共要做 15 次！这就是<strong>循环嵌套循环</strong>的世界。</p>
+
+        <p><strong>底层规律：外层循环(Outer) 每前进一步，内层循环(Inner) 的机器必须完整地从头轰鸣到尾！</strong></p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">nested-loops.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 开启疯狂特训</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+// 外层循环：切换大组 (3 个练习)
+for (let exercise = 1; exercise <= 3; exercise++) {
+    console.log(`\n========== 开始练习 ${exercise} ==========`);
+
+    // 内层循环：每一个大组里面疯狂敲打 5 次
+    for (let rep = 1; rep <= 5; rep++) {
+        console.log(`练习 ${exercise}的进程: 举铁第 ${rep} 下 🏋️`);
+    }
+}
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <div class="callout">
+            <p><strong>🔥 解析机器节奏：</strong><br>
+            当 <code>exercise = 1</code> 时，内部的 <code>rep</code> 会完整执行 1~5。等全部打碎完毕执行结束后，外部机器才跳表到 <code>exercise = 2</code>，内部 <code>rep</code> 重置为 1，进行新一轮从头计算。在嵌套渲染网格、处理二维数组时这将发挥核爆级威力！</p>
+        </div>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const out = document.getElementById(consoleId);
+        out.innerHTML = '';
+        const originalLog = console.log;
+        const originalError = console.error;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push('> ' + args.join(' '));
+            originalLog.apply(console, args);
+        };
+        console.error = function(...args) {
+            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
+            originalError.apply(console, args);
+        };
+        try {
+            new Function(code)();
+            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+        } catch (e) {
+            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+        }
+        console.log = originalLog;
+        console.error = originalError;
+        out.innerHTML = logs.join('<br>');
+    }
+</script>
+</body>
+</html>

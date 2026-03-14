@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #3</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-challenge" class="nav-item active">挑战内容</a>
+            <a href="#section-solution" class="nav-item">导师拆解思路</a>
+            <a href="#section-code" class="nav-item">最终通关代码</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #3 (足球博彩大挑战)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：022 CHALLENGE #3.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <h2 id="section-challenge">⚔️ 任务总览</h2>
+        <p>欢迎回到我们的足球博彩数据解析系统！这次的数据库源头不再是对阵对象，而是一张囊括了整场比赛 90 分钟内发生所有事件的极密 <code>Map</code> 表。其中<strong>「键 (Key)」代表发生时间的分钟数，「值 (Value)」代表发生的动作（进球、换人、红黄牌等）。</strong></p>
+
+        <div class="callout callout-important">
+            <strong>📋 你的 4 项核心指控任务：</strong>
+            <ol style="margin-top: 8px; margin-left: 20px; line-height: 1.6;">
+                <li>建立一个名为 <code>events</code> 的数组，要求提取出本场比赛中出现过的<strong>所有不重复动作种类</strong> (例如只允许存在一个提取词 '进球')。</li>
+                <li>经VAR录像仲裁：第 64 分钟的黄牌纯属黑哨误判。你的任务是直接从总事件 Map 表里<strong>永久销毁</strong>该时间点的事件记录。</li>
+                <li>计算平均事件爆发间隔，并在控制台无情打出这句宣告：<code>"An event happened, on average, every X minutes"</code> (假设常规比赛总时间刚好是 90 分钟，算出其中的 X)。</li>
+                <li>将整个 Map 表全部打印出来，但要求在每条事件前标注它是发生在哪个半场：<br>
+                <code>[FIRST HALF] 17: ⚽ GOAL</code> <br>
+                <code>[SECOND HALF] 69: 🔴 RED CARD</code></li>
+            </ol>
+        </div>
+
+        <h2 id="section-solution">🧠 导师拆解思路</h2>
+        
+        <ul style="line-height: 1.8;">
+            <li><strong>任务1「剔除提取」</strong>：Map 长有能够直接掏出右侧资料肉体的方法 <code>.values()</code>。你拿出一堆有很多重复进球的肉堆后，毫不犹豫地把它扔进拥有绞碎去重能力的 <code>new Set()</code> 中洗涤。最后别忘了要拿散装 Spread <code>...</code> 把洗干净的东西给它披上数组的 <code>[]</code> 外套。</li>
+            <li><strong>任务2「销毁指控」</strong>：Map 自带斩杀指令 <code>.delete(key)</code>。传参要消灭的回合（64）即可。</li>
+            <li><strong>任务3「频率算法」</strong>：Map 长有能直接显示里面藏了多少条目大关的 <code>.size</code> 属性。拿总时间（90）一除便可得出答案。</li>
+            <li><strong>任务4「巡检遍历」</strong>：上节课讲了 Map 如何完美的丝滑融入 <code>for-of</code>。解构出 <code>[min, event]</code>，拿分钟数跟 45 判断，大于 45 那肯定只能是属于下半场。</li>
+        </ul>
+
+        <h2 id="section-code">💻 最终通关执行</h2>
+        <p>在此沙盒内点击运行，观看代码执行反馈阵列。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge3.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行通关代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// --- 我们假设从后台传来的数据 Map 如下： ---
+const gameEvents = new Map([
+  [17, '⚽ GOAL'],
+  [36, '🔁 Substitution'],
+  [47, '⚽ GOAL'],
+  [61, '🔁 Substitution'],
+  [64, '🔶 Yellow card'],
+  [69, '🔴 Red card'],
+  [70, '🔁 Substitution'],
+  [72, '🔁 Substitution'],
+  [76, '⚽ GOAL'],
+  [80, '⚽ GOAL'],
+  [92, '🔶 Yellow card'],
+]);
+
+// 🏆 任务 1：提取全场仅有发生了哪几类事件 (剔除重复)
+// 1. 获取所有的动作体 values()
+// 2. 扔入 Set 去除重复进球/换人
+// 3. 用 ... 炸开塞入新数组
+const events = [...new Set(gameEvents.values())];
+console.log('1. 全场发生的独特事件列表：', events);
+
+// 🏆 任务 2：无情抹除 VAR 取消的第 64 分钟黑哨事件
+gameEvents.delete(64);
+console.log('2. 删减第64分事件后，看看还剩没：', gameEvents.has(64));
+
+// 🏆 任务 3：统计赛事爆发几率及进阶尾盘读取
+// 基础算法：90分钟 / 事件总发生数(经过刚刚删除少了一个)
+console.log(`3. An event happened, on average, every ${90 / gameEvents.size} minutes`);
+
+// [高阶彩蛋装X写法👇]：我们怎么做到不写死除以 90，而是算出游戏最后停止的极限真实时间 92 ？
+// 逻辑：把 Map 仅剩的分钟数钥匙 .keys() 全拔出来放进数组，由于它长在末尾，拿 .pop() 直接斩下末尾钥匙就是真实时长！
+const timeArr = [...gameEvents.keys()];
+const realTime = timeArr.pop(); 
+console.log(`彩蛋真实算法：平均每 ${realTime / gameEvents.size} 分钟爆一次点！`);
+
+// 🏆 任务 4：标注上下半场清算图谱
+console.log('\n4. ===== 最终全场战报推演 =====');
+for (const [min, event] of gameEvents) {
+  const halfLabel = min <= 45 ? '[FIRST HALF]' : '[SECOND HALF]';
+  console.log(`${halfLabel} ${min}: ${event}`);
+}</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' && !Array.isArray(a) ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

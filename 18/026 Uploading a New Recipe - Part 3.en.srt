@@ -1,0 +1,1287 @@
+1
+00:00:01,360 --> 00:00:02,193
+All right.
+
+2
+00:00:02,193 --> 00:00:05,570
+So this is the third and final part
+
+3
+00:00:05,570 --> 00:00:10,543
+of implementing the functionality of uploading or recipes.
+
+4
+00:00:12,100 --> 00:00:15,920
+And let's start by adding yet another recipe
+
+5
+00:00:15,920 --> 00:00:18,810
+so that I can show you something that is still missing
+
+6
+00:00:18,810 --> 00:00:20,740
+from our controller.
+
+7
+00:00:20,740 --> 00:00:23,360
+So actually, two things.
+
+8
+00:00:23,360 --> 00:00:28,360
+So, let's say this one here, test avocado.
+
+9
+00:00:28,820 --> 00:00:29,653
+Okay.
+
+10
+00:00:29,653 --> 00:00:34,350
+Just so we have a different name and watch what happens here
+
+11
+00:00:34,350 --> 00:00:38,480
+to the URL as we upload this recipe.
+
+12
+00:00:38,480 --> 00:00:40,810
+So actually nothing will change.
+
+13
+00:00:40,810 --> 00:00:42,563
+So, take a look at that.
+
+14
+00:00:44,660 --> 00:00:45,493
+Okay.
+
+15
+00:00:45,493 --> 00:00:48,000
+So recipe was successfully uploaded
+
+16
+00:00:48,000 --> 00:00:51,163
+and we also still need to remove this window.
+
+17
+00:00:52,510 --> 00:00:53,440
+Right?
+
+18
+00:00:53,440 --> 00:00:56,470
+But anyway, here is the recipe that we just uploaded
+
+19
+00:00:57,330 --> 00:00:59,940
+but the URL did not change.
+
+20
+00:00:59,940 --> 00:01:04,430
+And also it did not yet add this new recipe
+
+21
+00:01:04,430 --> 00:01:07,120
+to our bookmarks, okay?
+
+22
+00:01:07,120 --> 00:01:08,993
+So of course it is bookmarked,
+
+23
+00:01:10,338 --> 00:01:11,960
+all right, as you see here
+
+24
+00:01:11,960 --> 00:01:14,583
+and as you can also see down here.
+
+25
+00:01:15,950 --> 00:01:20,707
+But we didn't yet rerender this bookmarks panel, right?
+
+26
+00:01:22,200 --> 00:01:25,230
+So there are two things that we need to fix.
+
+27
+00:01:25,230 --> 00:01:28,720
+So we need to rerender this bookmarks view
+
+28
+00:01:28,720 --> 00:01:32,910
+and we also need to change the ID here in the URL
+
+29
+00:01:32,910 --> 00:01:36,543
+because watch what happens if I reload this page now.
+
+30
+00:01:37,780 --> 00:01:42,110
+So then we are back to the old recipe that was there before.
+
+31
+00:01:42,110 --> 00:01:46,223
+So, because that's the recipe that is associated to this ID.
+
+32
+00:01:47,300 --> 00:01:51,590
+So let's go back to our controller and fix these things
+
+33
+00:01:51,590 --> 00:01:55,023
+and also put back here, toggling the window.
+
+34
+00:01:55,860 --> 00:01:59,210
+So, let's do that right here
+
+35
+00:01:59,210 --> 00:02:02,800
+after displaying the success message we also want to render
+
+36
+00:02:05,470 --> 00:02:07,543
+the bookmark view.
+
+37
+00:02:09,520 --> 00:02:12,670
+And so that will then basically add this new element
+
+38
+00:02:12,670 --> 00:02:17,210
+to the bookmarksView.render.
+
+39
+00:02:17,210 --> 00:02:21,533
+So model.state.bookmarks.
+
+40
+00:02:22,890 --> 00:02:23,780
+Okay.
+
+41
+00:02:23,780 --> 00:02:25,750
+And we are not using update here
+
+42
+00:02:25,750 --> 00:02:28,660
+because we really want to insert a new element.
+
+43
+00:02:28,660 --> 00:02:33,660
+And for that we use always render and not the update method.
+
+44
+00:02:33,690 --> 00:02:36,110
+Now, the second thing that we wanted to do
+
+45
+00:02:36,110 --> 00:02:39,620
+is to change the ID into URL and for that,
+
+46
+00:02:39,620 --> 00:02:41,843
+we can use the history API.
+
+47
+00:02:45,080 --> 00:02:50,080
+So let's say change ID in the URL.
+
+48
+00:02:52,380 --> 00:02:56,470
+So we can say window.history.
+
+49
+00:02:56,470 --> 00:02:59,880
+So that is the history API of the browsers.
+
+50
+00:02:59,880 --> 00:03:01,890
+And then on this history object,
+
+51
+00:03:01,890 --> 00:03:05,417
+we can call the pushState method.
+
+52
+00:03:05,417 --> 00:03:08,890
+And so this will basically allow us to change the URL
+
+53
+00:03:08,890 --> 00:03:11,220
+without reloading the page.
+
+54
+00:03:11,220 --> 00:03:13,840
+Now, pushState takes three arguments.
+
+55
+00:03:13,840 --> 00:03:16,380
+And this first one here is called a state
+
+56
+00:03:16,380 --> 00:03:18,290
+which doesn't really matter.
+
+57
+00:03:18,290 --> 00:03:19,613
+You can just specify null.
+
+58
+00:03:20,460 --> 00:03:22,760
+Then the second one is the title
+
+59
+00:03:22,760 --> 00:03:25,370
+which is actually also not relevant.
+
+60
+00:03:25,370 --> 00:03:27,570
+So we can just use an empty string.
+
+61
+00:03:27,570 --> 00:03:30,310
+And then the one that actually is important
+
+62
+00:03:30,310 --> 00:03:33,473
+is the third one, because this one is actually the URL.
+
+63
+00:03:34,800 --> 00:03:37,810
+And so here we can simply put the hash
+
+64
+00:03:37,810 --> 00:03:41,623
+and then the ID that we want to put onto the URL.
+
+65
+00:03:43,370 --> 00:03:48,163
+So that is @model.state.recipe.id.
+
+66
+00:03:49,630 --> 00:03:51,690
+And that's actually it.
+
+67
+00:03:51,690 --> 00:03:54,760
+And we could also do all kinds of other stuff
+
+68
+00:03:54,760 --> 00:03:59,480
+with the history API, like for example going back and forth
+
+69
+00:03:59,480 --> 00:04:02,420
+just as if we were clicking the forward
+
+70
+00:04:02,420 --> 00:04:04,800
+and back buttons in the browser.
+
+71
+00:04:04,800 --> 00:04:07,313
+So we could do like this.
+
+72
+00:04:08,240 --> 00:04:10,993
+Of course, it doesn't make sense in this situation,
+
+73
+00:04:12,020 --> 00:04:13,650
+but maybe in some other situation you
+
+74
+00:04:13,650 --> 00:04:16,110
+might find this one helpful.
+
+75
+00:04:16,110 --> 00:04:19,743
+So automatically going back to the last page.
+
+76
+00:04:20,620 --> 00:04:24,300
+So that should work now but let's not test it yet
+
+77
+00:04:24,300 --> 00:04:26,760
+because the next thing that we want to do
+
+78
+00:04:26,760 --> 00:04:30,320
+is to refactor these to our methods here,
+
+79
+00:04:30,320 --> 00:04:31,930
+these two functions.
+
+80
+00:04:31,930 --> 00:04:36,040
+So getJSON and sendJSON are almost the same right now.
+
+81
+00:04:36,040 --> 00:04:39,950
+And so we can basically put them together just
+
+82
+00:04:39,950 --> 00:04:43,160
+in one function called AJAX,
+
+83
+00:04:43,160 --> 00:04:46,030
+because both of them are being done
+
+84
+00:04:46,030 --> 00:04:48,533
+for doing an AJAX request.
+
+85
+00:04:51,280 --> 00:04:52,523
+So just like this.
+
+86
+00:04:55,450 --> 00:04:59,060
+And in this one we'll receive the URL
+
+87
+00:04:59,060 --> 00:05:00,850
+and also the upload data
+
+88
+00:05:00,850 --> 00:05:04,760
+but we will set this one to undefined by default.
+
+89
+00:05:04,760 --> 00:05:08,280
+And so with this, when we call this AJAX function
+
+90
+00:05:08,280 --> 00:05:13,060
+with only the URL, then of course there is no upload data.
+
+91
+00:05:13,060 --> 00:05:14,233
+And then in that case,
+
+92
+00:05:15,140 --> 00:05:19,023
+we can simply define the fetchPro as only this.
+
+93
+00:05:20,030 --> 00:05:21,880
+So let's actually do that.
+
+94
+00:05:21,880 --> 00:05:25,963
+So conditionally defining this fetchPro variable.
+
+95
+00:05:27,460 --> 00:05:32,460
+So fetchPro and let's test if uploadData does exist.
+
+96
+00:05:35,350 --> 00:05:40,023
+So if it does exist, then fetchPro should become this.
+
+97
+00:05:42,440 --> 00:05:45,063
+So lets grab that, put that here.
+
+98
+00:05:50,190 --> 00:05:52,443
+And otherwise, it will simply be this.
+
+99
+00:05:55,830 --> 00:05:57,210
+And that's it.
+
+100
+00:05:57,210 --> 00:06:00,680
+Now of course I could have used an if else statement,
+
+101
+00:06:00,680 --> 00:06:04,330
+but then I would have had to declare this here
+
+102
+00:06:04,330 --> 00:06:06,430
+as a, let variable outside
+
+103
+00:06:06,430 --> 00:06:09,570
+and then change that variable in both the blocks.
+
+104
+00:06:09,570 --> 00:06:11,113
+And that's not really nice.
+
+105
+00:06:12,429 --> 00:06:15,940
+And so now we can, basically copy everything else here.
+
+106
+00:06:20,036 --> 00:06:21,860
+And we don't need this one anymore
+
+107
+00:06:21,860 --> 00:06:23,960
+and this should go all the way to the top.
+
+108
+00:06:25,850 --> 00:06:27,223
+And that's actually it.
+
+109
+00:06:29,120 --> 00:06:31,723
+So lets comment this one out.
+
+110
+00:06:36,260 --> 00:06:40,053
+Just one final look, but everything looks good here.
+
+111
+00:06:41,070 --> 00:06:46,070
+And so here now we can no longer import this one.
+
+112
+00:06:47,275 --> 00:06:48,725
+But let's just keep it there.
+
+113
+00:06:50,700 --> 00:06:52,553
+And we simply import AJAX.
+
+114
+00:06:57,060 --> 00:07:00,323
+So here and here,
+
+115
+00:07:01,220 --> 00:07:04,133
+and then down here for upload the recipe,
+
+116
+00:07:06,830 --> 00:07:07,663
+the same thing.
+
+117
+00:07:09,610 --> 00:07:11,323
+Okay, so let's try that.
+
+118
+00:07:12,890 --> 00:07:15,033
+And we see that we still get the recipe.
+
+119
+00:07:17,050 --> 00:07:18,610
+We also get to search.
+
+120
+00:07:18,610 --> 00:07:23,610
+And now finally, let's add another test23 recipe here.
+
+121
+00:07:24,380 --> 00:07:26,550
+Let's just change it up a little bit.
+
+122
+00:07:26,550 --> 00:07:29,893
+And now again, take a look what happens to the ID here.
+
+123
+00:07:32,100 --> 00:07:35,760
+So, you saw that it actually changed.
+
+124
+00:07:35,760 --> 00:07:38,280
+And so, now the idea for new recipe
+
+125
+00:07:38,280 --> 00:07:40,483
+is exactly that one that we have here.
+
+126
+00:07:41,350 --> 00:07:45,430
+And also, it should now be in your bookmark
+
+127
+00:07:45,430 --> 00:07:46,913
+and indeed it is.
+
+128
+00:07:48,350 --> 00:07:53,350
+Okay, and so now if we reload this page, then you see
+
+129
+00:07:54,310 --> 00:07:57,933
+that we are back at this recipe that we just created.
+
+130
+00:07:58,920 --> 00:07:59,840
+Great.
+
+131
+00:07:59,840 --> 00:08:02,950
+But now finally, let's use our keys
+
+132
+00:08:02,950 --> 00:08:07,950
+or key in order to actually mark this recipe here
+
+133
+00:08:08,480 --> 00:08:12,890
+as our own recipe by displaying like a small icon here.
+
+134
+00:08:12,890 --> 00:08:14,640
+And so for that, we need to attach
+
+135
+00:08:14,640 --> 00:08:17,993
+our key to all the API queries.
+
+136
+00:08:19,370 --> 00:08:22,890
+So, we can add the key to this one here,
+
+137
+00:08:22,890 --> 00:08:27,210
+simply by adding the key and of course also to this one.
+
+138
+00:08:27,210 --> 00:08:28,783
+So the one which has the ID.
+
+139
+00:08:29,840 --> 00:08:32,953
+So again at the end, question mark and then the key.
+
+140
+00:08:34,800 --> 00:08:38,313
+Okay, so let's simply get this one here.
+
+141
+00:08:41,030 --> 00:08:42,160
+So...
+
+142
+00:08:45,219 --> 00:08:47,300
+This one is for the search results.
+
+143
+00:08:47,300 --> 00:08:49,630
+Let's add this here.
+
+144
+00:08:49,630 --> 00:08:51,670
+And here we already have a parameter.
+
+145
+00:08:51,670 --> 00:08:54,840
+So here, it is then and.
+
+146
+00:08:54,840 --> 00:08:57,950
+So, search &amp;key, but then
+
+147
+00:09:01,320 --> 00:09:02,260
+Yeah, for this one.
+
+148
+00:09:02,260 --> 00:09:05,813
+So for loading the recipe, there is nothing yet there.
+
+149
+00:09:07,500 --> 00:09:10,123
+And so we can simply add our KEY like this.
+
+150
+00:09:11,520 --> 00:09:13,910
+And so now by adding this KEY,
+
+151
+00:09:13,910 --> 00:09:16,170
+especially in the search results,
+
+152
+00:09:16,170 --> 00:09:19,770
+it will then load all the recipes including the ones
+
+153
+00:09:19,770 --> 00:09:22,470
+that contain or own key.
+
+154
+00:09:22,470 --> 00:09:25,210
+So if I search for avocado now
+
+155
+00:09:25,210 --> 00:09:30,160
+because I have, well not here in the demo, but in this one.
+
+156
+00:09:30,160 --> 00:09:33,950
+So I created a recipe which contains avocado.
+
+157
+00:09:33,950 --> 00:09:36,220
+And so if I search for avocado now
+
+158
+00:09:37,464 --> 00:09:41,610
+that should then contain this recipe that I just created.
+
+159
+00:09:42,760 --> 00:09:46,120
+All right, now we now want to mark this
+
+160
+00:09:46,120 --> 00:09:48,620
+as our own recipe again,
+
+161
+00:09:48,620 --> 00:09:51,713
+here in the search results and also here.
+
+162
+00:09:53,460 --> 00:09:55,400
+And so let's do that.
+
+163
+00:09:55,400 --> 00:09:58,110
+And just as a side note again,
+
+164
+00:09:58,110 --> 00:10:00,690
+if you're using your own API key
+
+165
+00:10:00,690 --> 00:10:03,950
+then of course you will not see this recipe here
+
+166
+00:10:03,950 --> 00:10:08,110
+because this recipe is linked to my API key.
+
+167
+00:10:08,110 --> 00:10:12,370
+So as we see right here.
+
+168
+00:10:12,370 --> 00:10:14,120
+So this is the key that I am using.
+
+169
+00:10:17,140 --> 00:10:20,410
+All right, and the same hear in the results.
+
+170
+00:10:20,410 --> 00:10:22,230
+So here in all the results you will see
+
+171
+00:10:22,230 --> 00:10:26,120
+that my own one has the key.
+
+172
+00:10:26,120 --> 00:10:27,253
+So this first one,
+
+173
+00:10:28,570 --> 00:10:31,550
+right, so TEST AVOCADO, it has my key,
+
+174
+00:10:31,550 --> 00:10:33,823
+but the other ones of course do not.
+
+175
+00:10:36,470 --> 00:10:39,350
+But anyway, let's noW go to the recipe view
+
+176
+00:10:39,350 --> 00:10:41,450
+and also the preview view.
+
+177
+00:10:41,450 --> 00:10:43,810
+So the one responsible for these results
+
+178
+00:10:43,810 --> 00:10:46,860
+and add the logic there to actually display
+
+179
+00:10:48,280 --> 00:10:49,763
+that small icon there.
+
+180
+00:10:51,270 --> 00:10:55,423
+So, we don't need this one anymore and neither this one.
+
+181
+00:10:59,800 --> 00:11:02,233
+So recipeView and PreviewView.
+
+182
+00:11:04,370 --> 00:11:09,370
+So the code for that is somewhere there at the top.
+
+183
+00:11:12,000 --> 00:11:12,833
+Here it is.
+
+184
+00:11:12,833 --> 00:11:14,123
+So user generated.
+
+185
+00:11:15,310 --> 00:11:19,120
+And I guess, I wrongly deleted some code here earlier.
+
+186
+00:11:19,120 --> 00:11:21,860
+So let's go back to the HTML
+
+187
+00:11:23,900 --> 00:11:27,283
+and copy it back like this.
+
+188
+00:11:35,320 --> 00:11:37,603
+And now the indentation is messed up.
+
+189
+00:11:40,260 --> 00:11:44,533
+Then here, we need to replace that with icons once again.
+
+190
+00:11:46,470 --> 00:11:49,800
+And so now, all we will do with this element here
+
+191
+00:11:49,800 --> 00:11:52,270
+is to basically add the hidden class
+
+192
+00:11:52,270 --> 00:11:55,070
+if there is no key on the recipe,
+
+193
+00:11:55,070 --> 00:11:58,730
+but if there is a key then we will add no class.
+
+194
+00:11:58,730 --> 00:12:00,480
+And so then it will become visible.
+
+195
+00:12:02,450 --> 00:12:03,520
+Okay.
+
+196
+00:12:03,520 --> 00:12:07,667
+So that's simply, this.data.key.
+
+197
+00:12:10,030 --> 00:12:14,023
+So if there is a key, then we want to add no class at all.
+
+198
+00:12:15,010 --> 00:12:19,930
+But if there is no key, then we add the hidden class.
+
+199
+00:12:19,930 --> 00:12:23,413
+Okay, and now the same here in the previewView,
+
+200
+00:12:24,900 --> 00:12:27,250
+and actually here, we don't even have that yet.
+
+201
+00:12:29,180 --> 00:12:32,210
+So, let's actually grab the same code
+
+202
+00:12:32,210 --> 00:12:37,210
+from the recipeView because it is almost the same.
+
+203
+00:12:39,020 --> 00:12:41,140
+And let's just see that here to see
+
+204
+00:12:41,140 --> 00:12:42,543
+where we have to paste it.
+
+205
+00:12:43,880 --> 00:12:47,833
+Well, it's not here, so let's just paste it anywhere.
+
+206
+00:12:51,560 --> 00:12:54,020
+So let's put it right here.
+
+207
+00:12:54,020 --> 00:12:56,430
+And then it's probably gonna called
+
+208
+00:12:57,860 --> 00:13:00,173
+the preview user generated.
+
+209
+00:13:01,330 --> 00:13:03,653
+All right, or actually,
+
+210
+00:13:04,670 --> 00:13:07,313
+I think that it is inside of this div here.
+
+211
+00:13:08,240 --> 00:13:10,973
+So let's move that down a little bit.
+
+212
+00:13:12,440 --> 00:13:14,810
+Fix the indentation here once again
+
+213
+00:13:14,810 --> 00:13:16,210
+to make it easier to see
+
+214
+00:13:21,010 --> 00:13:22,303
+just like this.
+
+215
+00:13:24,270 --> 00:13:26,883
+All right, and so let's now try it out.
+
+216
+00:13:28,900 --> 00:13:32,603
+So, let's search for avocado here again,
+
+217
+00:13:33,740 --> 00:13:36,180
+and then here it is.
+
+218
+00:13:36,180 --> 00:13:39,610
+And you see that now we have this icon here.
+
+219
+00:13:39,610 --> 00:13:43,623
+While if we click some other recipe then, it's not there.
+
+220
+00:13:45,080 --> 00:13:46,240
+All right.
+
+221
+00:13:46,240 --> 00:13:49,120
+Now it's only still missing here,
+
+222
+00:13:49,120 --> 00:13:53,170
+but that is because we actually never added this key
+
+223
+00:13:53,170 --> 00:13:54,453
+to the search data.
+
+224
+00:13:55,580 --> 00:13:57,403
+So let's go back to our model.
+
+225
+00:13:58,530 --> 00:14:01,293
+And so here in the load search results,
+
+226
+00:14:02,780 --> 00:14:04,450
+this is where we create the data
+
+227
+00:14:04,450 --> 00:14:06,833
+that will then be put in the state.
+
+228
+00:14:07,700 --> 00:14:11,480
+Right, so state.search.results will become
+
+229
+00:14:11,480 --> 00:14:13,010
+these objects here.
+
+230
+00:14:13,010 --> 00:14:16,470
+And so that only contains ID, title, publisher
+
+231
+00:14:16,470 --> 00:14:19,350
+and image, but not the key.
+
+232
+00:14:19,350 --> 00:14:21,230
+And so let's grab this code
+
+233
+00:14:21,230 --> 00:14:23,890
+that we used here in order to add the key
+
+234
+00:14:23,890 --> 00:14:28,173
+to the recipe object and do that here as well.
+
+235
+00:14:30,750 --> 00:14:35,450
+Right, then here, we just have to change this to rec,
+
+236
+00:14:35,450 --> 00:14:37,623
+just like all the others here.
+
+237
+00:14:38,490 --> 00:14:41,083
+And then with that, we should be good to go.
+
+238
+00:14:42,440 --> 00:14:43,563
+So let's see.
+
+239
+00:14:46,000 --> 00:14:48,880
+Search for avocado one more time.
+
+240
+00:14:48,880 --> 00:14:50,363
+And now it is there.
+
+241
+00:14:51,602 --> 00:14:52,435
+Do you see?
+
+242
+00:14:53,300 --> 00:14:54,133
+Great.
+
+243
+00:14:55,460 --> 00:14:58,070
+So again, this one does not have the icon
+
+244
+00:14:58,070 --> 00:15:00,980
+while this one here, of course now has.
+
+245
+00:15:00,980 --> 00:15:01,883
+So right here.
+
+246
+00:15:02,960 --> 00:15:04,410
+Beautiful.
+
+247
+00:15:04,410 --> 00:15:06,530
+So this is just great.
+
+248
+00:15:06,530 --> 00:15:10,500
+Let me know close this here and create one final,
+
+249
+00:15:10,500 --> 00:15:15,290
+more real recipe here for pizza that we have been using
+
+250
+00:15:15,290 --> 00:15:16,123
+all the time.
+
+251
+00:15:17,100 --> 00:15:21,460
+So let me get rid of all of these weird bookmarks.
+
+252
+00:15:21,460 --> 00:15:23,580
+Oh, and you see that also here,
+
+253
+00:15:23,580 --> 00:15:26,690
+we now have this icon, right?
+
+254
+00:15:26,690 --> 00:15:30,820
+And so that's the beauty of using the same preview here
+
+255
+00:15:30,820 --> 00:15:33,453
+in the results and also for the bookmarks.
+
+256
+00:15:34,610 --> 00:15:35,630
+Right?
+
+257
+00:15:35,630 --> 00:15:38,893
+So that makes everything really more reusable.
+
+258
+00:15:42,790 --> 00:15:43,943
+What's happening here?
+
+259
+00:15:46,210 --> 00:15:47,263
+Okay.
+
+260
+00:15:49,360 --> 00:15:51,180
+Just getting rid of all of them
+
+261
+00:15:51,180 --> 00:15:55,173
+because these recipes are not really that interesting.
+
+262
+00:15:56,490 --> 00:16:01,490
+So let's now add a super pizza.
+
+263
+00:16:01,750 --> 00:16:04,973
+Then the URL, let's make it jonas.io.
+
+264
+00:16:06,160 --> 00:16:10,333
+So that's HTTPS, jonas.io.
+
+265
+00:16:11,230 --> 00:16:14,763
+Then let's go to Unsplash and grab some image from there.
+
+266
+00:16:16,440 --> 00:16:21,163
+Just to make this again, a little bit more real world.
+
+267
+00:16:22,150 --> 00:16:24,893
+So this one here looks quite nice.
+
+268
+00:16:26,320 --> 00:16:29,573
+So let's right click and copy image address.
+
+269
+00:16:31,544 --> 00:16:32,773
+Okay.
+
+270
+00:16:38,310 --> 00:16:41,513
+Then here, Jonas Schmedtmann,
+
+271
+00:16:43,000 --> 00:16:48,000
+prep time 75 minutes, two servings.
+
+272
+00:16:48,130 --> 00:16:52,343
+And here let's just use one kilogram of flour.
+
+273
+00:16:54,780 --> 00:16:59,250
+Then some tomato sauce and the rest doesn't really matter.
+
+274
+00:17:02,900 --> 00:17:05,500
+Okay, so it looks correct.
+
+275
+00:17:05,500 --> 00:17:08,803
+Let's upload it and it was successful.
+
+276
+00:17:09,860 --> 00:17:12,123
+And here we get the super pizza.
+
+277
+00:17:14,290 --> 00:17:19,290
+Let's see here, and indeed we can update our servings here.
+
+278
+00:17:20,340 --> 00:17:23,040
+We are in the Bookmarks.
+
+279
+00:17:23,040 --> 00:17:27,810
+And if I now search for pizza, then here, it appears right
+
+280
+00:17:27,810 --> 00:17:31,280
+at the first position with this beautiful image.
+
+281
+00:17:31,280 --> 00:17:33,860
+And so, that means that our application
+
+282
+00:17:33,860 --> 00:17:35,683
+is now basically finished.
+
+283
+00:17:36,690 --> 00:17:40,150
+I just spotted a small bug here.
+
+284
+00:17:40,150 --> 00:17:42,620
+So in this ingredient description,
+
+285
+00:17:42,620 --> 00:17:45,530
+remember that we replaced all the spaces.
+
+286
+00:17:45,530 --> 00:17:49,730
+And so with that we lost the space between tomato sauce.
+
+287
+00:17:49,730 --> 00:17:51,940
+So let's quickly go fix that
+
+288
+00:17:51,940 --> 00:17:54,490
+but I will not add another recipe.
+
+289
+00:17:54,490 --> 00:17:56,680
+So we're not going to test this.
+
+290
+00:17:56,680 --> 00:18:01,113
+All I will do is to fix this problem down here.
+
+291
+00:18:02,400 --> 00:18:06,703
+So instead of this replaceAll here, let's do it differently.
+
+292
+00:18:08,130 --> 00:18:11,740
+So I will split the string into multiple parts,
+
+293
+00:18:11,740 --> 00:18:13,770
+which will then return an array.
+
+294
+00:18:13,770 --> 00:18:15,840
+And then I will loop over that array
+
+295
+00:18:15,840 --> 00:18:17,683
+and trim each of the elements.
+
+296
+00:18:18,690 --> 00:18:20,763
+So map to create a new array.
+
+297
+00:18:21,760 --> 00:18:23,730
+Let's just call it element here
+
+298
+00:18:23,730 --> 00:18:28,730
+and then just return element.trim, just like this.
+
+299
+00:18:29,370 --> 00:18:33,683
+Okay, and so now if we add just something to test here.
+
+300
+00:18:34,940 --> 00:18:38,557
+So adding some spaces here and maybe here, and here.
+
+301
+00:18:44,720 --> 00:18:47,820
+And so you see this work just fine now.
+
+302
+00:18:47,820 --> 00:18:52,820
+Oh, now we have two recipes for some reason.
+
+303
+00:18:52,860 --> 00:18:55,140
+Not sure why that was, but you see
+
+304
+00:18:55,140 --> 00:18:58,393
+that the spaces that are inserted there, they are gone.
+
+305
+00:18:59,740 --> 00:19:02,360
+Okay, let's remove this one here.
+
+306
+00:19:02,360 --> 00:19:04,493
+I don't want to see that again.
+
+307
+00:19:05,570 --> 00:19:10,470
+And so, yeah, our application is now feature complete.
+
+308
+00:19:10,470 --> 00:19:13,690
+So if we check out our flowchart's part three,
+
+309
+00:19:13,690 --> 00:19:18,690
+everything here is now implemented and that's just awesome.
+
+310
+00:19:19,270 --> 00:19:23,010
+So congratulations for going through this huge,
+
+311
+00:19:23,010 --> 00:19:27,040
+huge project together with me and making it all the way
+
+312
+00:19:27,040 --> 00:19:27,923
+to the end.
+
+313
+00:19:28,760 --> 00:19:32,320
+And now in the next final lecture of the section,
+
+314
+00:19:32,320 --> 00:19:35,840
+I will just quickly show you how we can write documentations
+
+315
+00:19:35,840 --> 00:19:39,810
+for functions in order to make other people understand
+
+316
+00:19:39,810 --> 00:19:41,750
+our code a little bit better,
+
+317
+00:19:41,750 --> 00:19:43,860
+and then and just like before,
+
+318
+00:19:43,860 --> 00:19:46,240
+I have some final suggestions for you.
+
+319
+00:19:46,240 --> 00:19:48,490
+So like, features and improvements
+
+320
+00:19:48,490 --> 00:19:50,040
+that you will be able to implement
+
+321
+00:19:50,040 --> 00:19:53,970
+on yourself if you want to practice your skills.
+
+322
+00:19:53,970 --> 00:19:55,903
+So I hope to see you there soon.

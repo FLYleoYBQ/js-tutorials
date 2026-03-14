@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sets</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. Set 的基础操作与本质</a>
+            <a href="#section-2" class="nav-item">2. 核心实战：给数组剔除雷同去重</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Sets (集合)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：017 Sets.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置基础</strong>：过去你只知道数组 (Array) 作为排队容器。它允许元素重复、依赖索引拿取。</li>
+                <li><strong>ES6 新增核武</strong>：<code>Set</code> 集合天生自带“高度洁癖”。它里面绝对不存在任何互相重复的克隆体元素，并且打碎了有序数字首尾排列。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>很多语言里早就存在 Set 这种数据结构（例如 Python）。在 JS ES6 之前我们一直用残缺的笨重方法去数组里比对去重。Set 的使命只有两条：<br>
+        1. 它的数据元素<strong>永远必须独一无二 (Unique)</strong>。<br>
+        2. 它<strong>没有下标索引</strong>机制（你无法像 <code>set[0]</code> 这样掏东西）。</p>
+
+        <h2 id="section-1">1. Set 的基础魔法操作与本质</h2>
+        <p>我们通常把一个 <code>Iterable</code>（例如数组或字符串）直接喂进 <code>new Set()</code>，它就像一台极其精密的剔骨机，会在吞噬的过程中把所有互相重复雷同的杂质全部碾碎剔除，只留下唯一单体：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行剔除测试</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 喂入五花八门有重复现象的订单阵列：
+const ordersSet = new Set(['Pasta', 'Pizza', 'Pizza', 'Risotto', 'Pasta', 'Pizza']);
+
+// 1. 无情粉碎去重：
+console.log(ordersSet); 
+
+// 2. 查看队伍人数 (注意：长官，在 Set 里称呼人数叫做 size 而非 length)
+console.log(`去重后共有 ${ordersSet.size} 道独立餐品！`);
+
+// 3. 询问是否存在某菜 (极其高频极速的雷达)：
+console.log('有定披萨吗？', ordersSet.has('Pizza'));
+console.log('有定烤面包吗？', ordersSet.has('Bread'));
+
+// 4. 新增和删除
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread'); // 喂第二遍？它会默默吃进后无视，因为不允许重复。
+ordersSet.delete('Risotto');
+
+console.log('历经操作后的最终单体团：', ordersSet);</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <div class="callout callout-warning">
+            <strong>⚠️ 死亡隔离：别试着取数据</strong>
+            <p>不要在 Set 里尝试：<code>ordersSet[0]</code>！会返回 <code>undefined</code>。<br>
+            <strong>如果你真的需要有顺序提取东西，请滚回去用数组。</strong> Set 仅仅被用来询问 <strong>“这个玩意儿在不在你的地盘内？” (has)</strong> 以及 <strong>清洗掉重复病毒</strong>。</p>
+        </div>
+
+        <h2 id="section-2">2. 核心工业实战：结合 Spread 给普通数组去杂</h2>
+        <p>我们在工程里其实很少把 Set 独自挂在那里常驻。最经典的史诗级一行流操作：我们把一个感染了重复数据的数组转化成 Set 后，再利用 Spread 炸弹 <code>...</code> 把洁净的数据炸回一个崭新数组壳子里！</p>
+        
+        <pre><code class="language-javascript">const staff = ['Waiter', 'Chef', 'Waiter', 'Manager', 'Chef', 'Waiter'];
+
+// 连招拆解：
+// 1. new Set(staff) 变成洁净 Set { 'Waiter', 'Chef', 'Manager' }
+// 2. ... 把它外壳炸碎成散落个体
+// 3. [] 在外围把它重新接住封装回数组
+const staffUnique = [...new Set(staff)];
+
+console.log(staffUnique);
+// 完美得到没有任何挂职复数闲人的职业名单：[ 'Waiter', 'Chef', 'Manager' ]
+
+// 如果仅仅是要算有多少种职业而不需要数组？直接：
+console.log(new Set(staff).size); // 3
+console.log(new Set('jonasschmedtmann').size); // 算出一个长串单词里有多少个毫无重复的英文字母</code></pre>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">1. 关于 Set（集合）这种数据结构的定性，哪句总结最为狠辣准确？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 它是去重过滤洗碗机和存在性雷达（用 has）。它彻底剥去了数组那套下标排队提取系统，并且计算容量使用 `.size` 代替 `.length`。</div>
+                <div class="quiz-option" data-value="B">B) 它意图在未来两年内彻底封杀数组（Array），因为去重后的世界才是纯净安全的。以后不再使用由方括号 [] 定义的数组。</div>
+                <div class="quiz-option" data-value="C">C) 它是一种能包含键值对的对象升级版，跟 Object 差不多，靠 Key 查找。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>A 是正确的选项</strong>。Set 的业务场景极其收敛专一：就是洗掉重复数据和最高速检索 <code>has()</code> 。当我们需要按顺序排序展示花名册乃至重度运用 <code>.map()</code> 和 <code>.filter()</code> 加工数据时，大统领依然是永不没落的 Array。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' && !(a instanceof Set) ? JSON.stringify(a) : (a instanceof Set ? `Set(${a.size}) {${[...a].join(', ')}}` : a)).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

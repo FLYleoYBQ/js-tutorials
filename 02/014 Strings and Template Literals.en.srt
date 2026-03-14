@@ -1,0 +1,963 @@
+1
+00:00:01,020 --> 00:00:04,840
+Strings are a very important part of programming.
+
+2
+00:00:04,840 --> 00:00:07,350
+And so let's now learn about an easy way
+
+3
+00:00:07,350 --> 00:00:08,930
+to build strings,
+
+4
+00:00:08,930 --> 00:00:11,603
+using something called template literals.
+
+5
+00:00:12,980 --> 00:00:14,480
+And let's start by creating
+
+6
+00:00:14,480 --> 00:00:17,630
+some new variables here about a person,
+
+7
+00:00:17,630 --> 00:00:19,593
+and in this case, about me,
+
+8
+00:00:20,620 --> 00:00:23,228
+so that we can then concatenate them
+
+9
+00:00:23,228 --> 00:00:25,536
+into one big string.
+
+10
+00:00:25,536 --> 00:00:27,619
+(typing)
+
+11
+00:00:32,700 --> 00:00:33,653
+And the,
+
+12
+00:00:35,140 --> 00:00:36,080
+birth year.
+
+13
+00:00:39,410 --> 00:00:41,460
+Okay, and so let's now use
+
+14
+00:00:41,460 --> 00:00:44,080
+these variables to build a string,
+
+15
+00:00:44,080 --> 00:00:46,230
+something like, I'm Jonas,
+
+16
+00:00:46,230 --> 00:00:49,930
+a 40 or 30 year old teacher.
+
+17
+00:00:49,930 --> 00:00:52,380
+So we're going to then use this birth year
+
+18
+00:00:52,380 --> 00:00:54,433
+to calculate the age of course.
+
+19
+00:00:56,020 --> 00:00:57,780
+So let's call that one,
+
+20
+00:00:57,780 --> 00:00:59,580
+simply, Jonas.
+
+21
+00:00:59,580 --> 00:01:00,900
+And as we already learned
+
+22
+00:01:00,900 --> 00:01:02,920
+in one of the previous lectures,
+
+23
+00:01:02,920 --> 00:01:04,330
+we can use the plus sign
+
+24
+00:01:04,330 --> 00:01:06,110
+to concatenate strings.
+
+25
+00:01:06,110 --> 00:01:08,940
+And so let's now start by doing that.
+
+26
+00:01:08,940 --> 00:01:10,180
+So, I want to write,
+
+27
+00:01:10,180 --> 00:01:12,944
+I'm, and here I'm seeing a problem.
+
+28
+00:01:12,944 --> 00:01:15,710
+So when I want to use this single quote here
+
+29
+00:01:15,710 --> 00:01:19,100
+for writing something like I'm, or isn't,
+
+30
+00:01:19,100 --> 00:01:21,950
+so basically when I need this symbol here
+
+31
+00:01:22,910 --> 00:01:25,320
+then I need to write the string itself,
+
+32
+00:01:25,320 --> 00:01:27,830
+using double quotes, okay,
+
+33
+00:01:27,830 --> 00:01:29,900
+because otherwise the single quote
+
+34
+00:01:29,900 --> 00:01:32,933
+that I'm using here for I'm will finish the string.
+
+35
+00:01:33,890 --> 00:01:37,400
+So, I'm, and then I need a space,
+
+36
+00:01:37,400 --> 00:01:38,233
+then the plus.
+
+37
+00:01:39,080 --> 00:01:41,273
+And so here I'm saying, I'm Jonas,
+
+38
+00:01:44,350 --> 00:01:47,130
+and now I can actually use the single quotes.
+
+39
+00:01:47,130 --> 00:01:49,390
+So what matters is that in each string,
+
+40
+00:01:49,390 --> 00:01:53,780
+we start and finish with the same symbol,
+
+41
+00:01:53,780 --> 00:01:54,613
+right.
+
+42
+00:01:54,613 --> 00:01:57,003
+But both just create strings, the same way.
+
+43
+00:01:57,880 --> 00:02:02,290
+So right now we have, I'm Jonas, comma, A,
+
+44
+00:02:02,290 --> 00:02:03,700
+and now we want the age,
+
+45
+00:02:03,700 --> 00:02:06,870
+so let's say, a 30 year old teacher.
+
+46
+00:02:06,870 --> 00:02:08,370
+So we need another space here,
+
+47
+00:02:10,820 --> 00:02:13,210
+and then let's actually calculate the age.
+
+48
+00:02:13,210 --> 00:02:15,450
+So that's the current year
+
+49
+00:02:15,450 --> 00:02:17,053
+so let's put that here as well,
+
+50
+00:02:18,770 --> 00:02:23,373
+and let's again say that the year is 2037.
+
+51
+00:02:24,480 --> 00:02:26,890
+So plus year,
+
+52
+00:02:26,890 --> 00:02:30,410
+minus the birth year.
+
+53
+00:02:30,410 --> 00:02:32,380
+Now in order to make this work,
+
+54
+00:02:32,380 --> 00:02:34,760
+we actually need to put this operation
+
+55
+00:02:34,760 --> 00:02:36,063
+between parenthesis.
+
+56
+00:02:38,450 --> 00:02:39,350
+Like this.
+
+57
+00:02:39,350 --> 00:02:41,350
+And so it will do the calculation first,
+
+58
+00:02:41,350 --> 00:02:43,260
+and then the concatenation.
+
+59
+00:02:43,260 --> 00:02:44,640
+But you might be wondering,
+
+60
+00:02:44,640 --> 00:02:48,100
+well the result of this is going to be a number.
+
+61
+00:02:48,100 --> 00:02:49,070
+Right?
+
+62
+00:02:49,070 --> 00:02:50,140
+But the rest of the things
+
+63
+00:02:50,140 --> 00:02:52,150
+that we're adding here are strings.
+
+64
+00:02:52,150 --> 00:02:53,990
+So how is this gonna work?
+
+65
+00:02:53,990 --> 00:02:55,600
+Well, this has to do with something
+
+66
+00:02:55,600 --> 00:02:56,996
+called type coercion,
+
+67
+00:02:56,996 --> 00:02:58,330
+which is something that we're going
+
+68
+00:02:58,330 --> 00:03:01,170
+to talk about a little bit later in the section.
+
+69
+00:03:01,170 --> 00:03:03,210
+But basically JavaScript will simply
+
+70
+00:03:03,210 --> 00:03:05,530
+convert this number to a string,
+
+71
+00:03:05,530 --> 00:03:07,600
+so that it can concatenate them
+
+72
+00:03:07,600 --> 00:03:08,980
+so that it can join them
+
+73
+00:03:08,980 --> 00:03:10,760
+with the rest of the strings.
+
+74
+00:03:10,760 --> 00:03:12,080
+So you will see that it's going
+
+75
+00:03:12,080 --> 00:03:13,203
+to work just fine.
+
+76
+00:03:16,160 --> 00:03:18,273
+Okay, years old.
+
+77
+00:03:20,150 --> 00:03:20,983
+And then,
+
+78
+00:03:20,983 --> 00:03:22,193
+the job.
+
+79
+00:03:24,490 --> 00:03:26,610
+Then we can finish with
+
+80
+00:03:26,610 --> 00:03:29,593
+an exclamation mark or something like that.
+
+81
+00:03:30,650 --> 00:03:32,220
+Now right, and then,
+
+82
+00:03:32,220 --> 00:03:34,607
+let's also log this to the console
+
+83
+00:03:34,607 --> 00:03:37,053
+so we can take a look at it.
+
+84
+00:03:39,090 --> 00:03:40,660
+Okay,
+
+85
+00:03:40,660 --> 00:03:45,100
+so, I'm Jonas a 46 years old teacher,
+
+86
+00:03:45,100 --> 00:03:46,913
+and we're missing some spaces here.
+
+87
+00:03:47,870 --> 00:03:49,623
+So that's around the years old,
+
+88
+00:03:50,970 --> 00:03:52,870
+and you see that this is kind of a pain
+
+89
+00:03:52,870 --> 00:03:54,450
+to manage these spaces
+
+90
+00:03:54,450 --> 00:03:58,500
+and what to keep track kind of,
+
+91
+00:03:58,500 --> 00:04:00,563
+of how the sentence is structured.
+
+92
+00:04:02,140 --> 00:04:04,940
+And so we will see a great solution to that in a second.
+
+93
+00:04:05,890 --> 00:04:07,400
+So now it works.
+
+94
+00:04:07,400 --> 00:04:10,720
+And, yeah, just as expected.
+
+95
+00:04:10,720 --> 00:04:11,960
+So as I was saying,
+
+96
+00:04:11,960 --> 00:04:14,490
+for a complex string like this one,
+
+97
+00:04:14,490 --> 00:04:16,230
+this can be kind of a pain.
+
+98
+00:04:16,230 --> 00:04:18,510
+And so that's why starting with ESXi,
+
+99
+00:04:18,510 --> 00:04:20,140
+we have a much better tool
+
+100
+00:04:20,140 --> 00:04:22,140
+for doing this kind of stuff now,
+
+101
+00:04:22,140 --> 00:04:24,930
+which is called, Template literals.
+
+102
+00:04:24,930 --> 00:04:26,230
+So with template literals,
+
+103
+00:04:26,230 --> 00:04:29,140
+we can write a string in a more normal way,
+
+104
+00:04:29,140 --> 00:04:31,840
+and then basically insert the variables
+
+105
+00:04:31,840 --> 00:04:33,540
+directly into the string
+
+106
+00:04:33,540 --> 00:04:36,320
+and then they will simply be replaced.
+
+107
+00:04:36,320 --> 00:04:38,470
+So basically a template literal
+
+108
+00:04:38,470 --> 00:04:42,710
+can assemble multiple pieces into one final string.
+
+109
+00:04:42,710 --> 00:04:44,410
+So let me show you how that works.
+
+110
+00:04:47,110 --> 00:04:48,350
+So let's call this one,
+
+111
+00:04:48,350 --> 00:04:49,950
+Jonas
+
+112
+00:04:49,950 --> 00:04:50,783
+new.
+
+113
+00:04:53,340 --> 00:04:55,280
+And now to write a template literal,
+
+114
+00:04:55,280 --> 00:04:57,550
+we need to use backticks.
+
+115
+00:04:57,550 --> 00:04:59,900
+So that's this symbol here.
+
+116
+00:04:59,900 --> 00:05:01,080
+And on the English keyboard,
+
+117
+00:05:01,080 --> 00:05:03,403
+you will find this one above the tab key.
+
+118
+00:05:06,340 --> 00:05:09,650
+So again, we really need to use these backticks
+
+119
+00:05:09,650 --> 00:05:12,880
+to tell JavaScript that we're writing a template string,
+
+120
+00:05:12,880 --> 00:05:15,860
+the single quotes or double quotes won't work
+
+121
+00:05:15,860 --> 00:05:17,760
+for what we're going to do now.
+
+122
+00:05:17,760 --> 00:05:20,640
+So now, as I said, we simply write a string
+
+123
+00:05:20,640 --> 00:05:23,170
+and insert the variables in there.
+
+124
+00:05:23,170 --> 00:05:24,570
+So I'm.
+
+125
+00:05:24,570 --> 00:05:28,370
+And then we use the dollar sign, curly braces,
+
+126
+00:05:28,370 --> 00:05:31,490
+and then the variable name.
+
+127
+00:05:31,490 --> 00:05:33,890
+So, I'm, first name,
+
+128
+00:05:33,890 --> 00:05:36,550
+and just to see if this actually works
+
+129
+00:05:36,550 --> 00:05:38,393
+let's log it to a console.
+
+130
+00:05:40,960 --> 00:05:42,453
+So that's Jonas new.
+
+131
+00:05:45,480 --> 00:05:47,523
+And indeed, I'm Jonas.
+
+132
+00:05:48,360 --> 00:05:50,290
+So you see that this is much easier,
+
+133
+00:05:50,290 --> 00:05:52,407
+because all we have is this one string,
+
+134
+00:05:52,407 --> 00:05:55,210
+and then here we used this syntax
+
+135
+00:05:55,210 --> 00:05:57,820
+to insert the first name variable.
+
+136
+00:05:57,820 --> 00:05:59,260
+And now we can continue this
+
+137
+00:05:59,260 --> 00:06:01,570
+and it's going to be a lot easier.
+
+138
+00:06:01,570 --> 00:06:02,403
+A,
+
+139
+00:06:04,050 --> 00:06:06,210
+and then again, a variable.
+
+140
+00:06:06,210 --> 00:06:08,860
+Now in this case, we actually need a calculation,
+
+141
+00:06:08,860 --> 00:06:10,490
+and that's no problem at all.
+
+142
+00:06:10,490 --> 00:06:13,530
+We can basically write any JavaScript here
+
+143
+00:06:13,530 --> 00:06:15,780
+inside of these curly braces.
+
+144
+00:06:15,780 --> 00:06:17,040
+All right.
+
+145
+00:06:17,040 --> 00:06:19,230
+Technically, we can write any expressions,
+
+146
+00:06:19,230 --> 00:06:22,673
+but more about expressions in one of the later lectures.
+
+147
+00:06:23,990 --> 00:06:26,820
+So year, minus birth year,
+
+148
+00:06:26,820 --> 00:06:28,950
+just as we did above,
+
+149
+00:06:28,950 --> 00:06:30,610
+year
+
+150
+00:06:30,610 --> 00:06:31,443
+old,
+
+151
+00:06:33,860 --> 00:06:36,023
+and then, teacher.
+
+152
+00:06:37,370 --> 00:06:38,870
+So no plus signs.
+
+153
+00:06:38,870 --> 00:06:41,970
+No, thinking where we should put the spaces
+
+154
+00:06:41,970 --> 00:06:42,973
+like we did here.
+
+155
+00:06:44,550 --> 00:06:47,000
+And so this is a lot easier,
+
+156
+00:06:47,000 --> 00:06:47,893
+let's reload.
+
+157
+00:06:48,890 --> 00:06:51,440
+Oh, and indeed there is a bug here
+
+158
+00:06:51,440 --> 00:06:54,120
+so of course that's not teacher.
+
+159
+00:06:54,120 --> 00:06:57,200
+That's actually the value of the variable, job,
+
+160
+00:06:57,200 --> 00:06:58,850
+that we're interested in here.
+
+161
+00:06:58,850 --> 00:07:01,710
+But once again, we found this bug,
+
+162
+00:07:01,710 --> 00:07:04,780
+because we simply read the error message.
+
+163
+00:07:04,780 --> 00:07:07,520
+So get into this habit of always reading
+
+164
+00:07:07,520 --> 00:07:09,560
+the error message to try to figure out
+
+165
+00:07:09,560 --> 00:07:11,623
+where you are wrong. All right.
+
+166
+00:07:12,580 --> 00:07:14,310
+And now of course it works
+
+167
+00:07:14,310 --> 00:07:16,250
+and I hope that you can see
+
+168
+00:07:16,250 --> 00:07:20,280
+that this is a way easier way of writing this string.
+
+169
+00:07:20,280 --> 00:07:22,860
+This really kind of assembles the string
+
+170
+00:07:22,860 --> 00:07:25,480
+using the pieces that we give it.
+
+171
+00:07:25,480 --> 00:07:28,120
+For example this variable here
+
+172
+00:07:28,120 --> 00:07:31,673
+or this value that is produced by the minus operator.
+
+173
+00:07:32,520 --> 00:07:33,353
+Great.
+
+174
+00:07:33,353 --> 00:07:37,070
+So now you know how template strings work in JavaScript,
+
+175
+00:07:37,070 --> 00:07:39,230
+and in particular in ESXi.
+
+176
+00:07:39,230 --> 00:07:42,910
+And actually it's one of the most used ESXi features
+
+177
+00:07:42,910 --> 00:07:47,330
+it's really amazing and really useful in many situations.
+
+178
+00:07:47,330 --> 00:07:49,380
+Now I just wanted to let you know
+
+179
+00:07:49,380 --> 00:07:51,910
+that we can actually also use backticks
+
+180
+00:07:51,910 --> 00:07:53,650
+to write all strings.
+
+181
+00:07:53,650 --> 00:07:55,760
+So strings, where we do not,
+
+182
+00:07:55,760 --> 00:07:59,703
+insert any of these kind of placeholders here, like this.
+
+183
+00:08:01,220 --> 00:08:03,743
+So, we just demonstrated to you.
+
+184
+00:08:05,290 --> 00:08:08,473
+So we can use backticks for any irregular string.
+
+185
+00:08:13,430 --> 00:08:16,773
+So, you see that it works here just the same.
+
+186
+00:08:18,180 --> 00:08:21,440
+And many developers actually started using backticks
+
+187
+00:08:21,440 --> 00:08:22,690
+for all strings,
+
+188
+00:08:22,690 --> 00:08:24,340
+because then you don't have to think
+
+189
+00:08:24,340 --> 00:08:27,000
+about which quotation marks you should use,
+
+190
+00:08:27,000 --> 00:08:29,460
+you just use backticks, always.
+
+191
+00:08:29,460 --> 00:08:31,783
+And then in case you need to insert a variable,
+
+192
+00:08:31,783 --> 00:08:34,290
+then it's much easier than to go back
+
+193
+00:08:34,290 --> 00:08:36,950
+and switch out the regular quotes.
+
+194
+00:08:36,950 --> 00:08:38,710
+So that's a choice that you can make.
+
+195
+00:08:38,710 --> 00:08:41,097
+I actually don't do that myself,
+
+196
+00:08:41,097 --> 00:08:44,063
+but I can see that it actually makes sense.
+
+197
+00:08:45,200 --> 00:08:46,033
+All right.
+
+198
+00:08:46,033 --> 00:08:49,180
+Now another great use case of template literals
+
+199
+00:08:49,180 --> 00:08:51,670
+is to create multiline strings.
+
+200
+00:08:51,670 --> 00:08:53,100
+So that's something that,
+
+201
+00:08:53,100 --> 00:08:56,660
+before template strings was a bit cumbersome to write.
+
+202
+00:08:56,660 --> 00:08:59,596
+So let me just show that to you.
+
+203
+00:08:59,596 --> 00:09:04,280
+So if you wanted a multiline string before ESXi,
+
+204
+00:09:04,280 --> 00:09:08,317
+you would have to write, string, with,
+
+205
+00:09:08,317 --> 00:09:11,280
+and then you needed this backslash, n,
+
+206
+00:09:11,280 --> 00:09:14,690
+which in many programming languages means new line.
+
+207
+00:09:14,690 --> 00:09:15,523
+All right.
+
+208
+00:09:15,523 --> 00:09:18,710
+So basically this is like a special character in
+
+209
+00:09:18,710 --> 00:09:20,780
+programming, which in strings,
+
+210
+00:09:20,780 --> 00:09:23,890
+always means that a new line should be created.
+
+211
+00:09:23,890 --> 00:09:24,970
+And then in JavaScript,
+
+212
+00:09:24,970 --> 00:09:28,140
+we would need another backslash like this,
+
+213
+00:09:28,140 --> 00:09:31,883
+and then we could move to the next line and continue here.
+
+214
+00:09:33,380 --> 00:09:36,563
+Multiple, let's create a new one,
+
+215
+00:09:37,800 --> 00:09:39,083
+and then the lines.
+
+216
+00:09:40,430 --> 00:09:43,460
+And this actually only works because of a bug,
+
+217
+00:09:43,460 --> 00:09:44,633
+that's in the language.
+
+218
+00:09:45,600 --> 00:09:46,593
+But let's see.
+
+219
+00:09:48,050 --> 00:09:50,560
+So we get string with multiple lines,
+
+220
+00:09:50,560 --> 00:09:52,830
+and you see that it's all the same string
+
+221
+00:09:53,730 --> 00:09:57,120
+but yeah, spread across multiple lines.
+
+222
+00:09:57,120 --> 00:09:59,639
+But indeed now with template strings,
+
+223
+00:09:59,639 --> 00:10:02,070
+there is an easier way of doing this.
+
+224
+00:10:02,070 --> 00:10:06,360
+So all we have to do is simply hit return,
+
+225
+00:10:06,360 --> 00:10:09,653
+and it will create a new line for us.
+
+226
+00:10:11,470 --> 00:10:13,920
+And this is actually going to be immensely useful
+
+227
+00:10:13,920 --> 00:10:18,220
+later when we start building HTML from JavaScript.
+
+228
+00:10:18,220 --> 00:10:21,300
+So by then we will be able to use these backticks
+
+229
+00:10:21,300 --> 00:10:23,800
+to create multiline HTML elements
+
+230
+00:10:23,800 --> 00:10:27,060
+to insert them onto a page, dynamically.
+
+231
+00:10:27,060 --> 00:10:28,810
+So that's going to be a lot of fun.
+
+232
+00:10:30,930 --> 00:10:32,470
+Let's just see if this works,
+
+233
+00:10:32,470 --> 00:10:34,990
+and indeed it does.
+
+234
+00:10:34,990 --> 00:10:37,170
+So whenever you need a multiline string,
+
+235
+00:10:37,170 --> 00:10:41,170
+you always make sure to use this template literal
+
+236
+00:10:41,170 --> 00:10:43,590
+because it's a lot cleaner.
+
+237
+00:10:43,590 --> 00:10:47,660
+Alright, and that's actually it about template literals.
+
+238
+00:10:47,660 --> 00:10:48,493
+In the next lecture,
+
+239
+00:10:48,493 --> 00:10:50,540
+we will finally start to make or code,
+
+240
+00:10:50,540 --> 00:10:52,220
+a lot more fun
+
+241
+00:10:52,220 --> 00:10:55,593
+and take it to the next level by taking decisions.

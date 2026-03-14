@@ -1,0 +1,1387 @@
+1
+00:00:01,130 --> 00:00:04,550
+So far, we have only used comparison operators
+
+2
+00:00:04,550 --> 00:00:08,610
+to take decisions with if else statements, right?
+
+3
+00:00:08,610 --> 00:00:10,530
+But let's suppose we want to check
+
+4
+00:00:10,530 --> 00:00:13,070
+if two values are actually equal,
+
+5
+00:00:13,070 --> 00:00:14,830
+instead of one being greater
+
+6
+00:00:14,830 --> 00:00:16,670
+or less than the other.
+
+7
+00:00:16,670 --> 00:00:19,763
+And for that we have different equality operators.
+
+8
+00:00:21,260 --> 00:00:25,280
+So let's start again with an eight variable
+
+9
+00:00:25,280 --> 00:00:28,000
+and set it equal to 18.
+
+10
+00:00:28,000 --> 00:00:29,960
+And I'm using age all the time,
+
+11
+00:00:29,960 --> 00:00:31,230
+because it's so easy
+
+12
+00:00:31,230 --> 00:00:34,540
+to make simple calculations with it.
+
+13
+00:00:34,540 --> 00:00:36,900
+So let's now create an if statement,
+
+14
+00:00:36,900 --> 00:00:38,610
+which will log to the console,
+
+15
+00:00:38,610 --> 00:00:40,790
+that the person just became an adult,
+
+16
+00:00:40,790 --> 00:00:43,840
+only if the age is exactly 18.
+
+17
+00:00:43,840 --> 00:00:45,980
+So we can use an if statement,
+
+18
+00:00:45,980 --> 00:00:47,500
+as you already know.
+
+19
+00:00:47,500 --> 00:00:51,220
+And now to check if the age is exactly 18,
+
+20
+00:00:51,220 --> 00:00:56,170
+We use the triple equal. Okay?
+
+21
+00:00:56,170 --> 00:00:57,500
+And that's it.
+
+22
+00:00:57,500 --> 00:00:58,550
+Let's not write a block
+
+23
+00:00:58,550 --> 00:01:00,070
+of this if statement
+
+24
+00:01:00,070 --> 00:01:01,320
+and then execute it.
+
+25
+00:01:01,320 --> 00:01:02,300
+And then I will explain
+
+26
+00:01:02,300 --> 00:01:04,970
+what happened here a little bit better.
+
+27
+00:01:04,970 --> 00:01:08,180
+Now, whenever or if block only has one line,
+
+28
+00:01:08,180 --> 00:01:11,140
+we actually don't need two curly braces. Okay?
+
+29
+00:01:11,140 --> 00:01:14,060
+so we don't need to create this block
+
+30
+00:01:14,060 --> 00:01:15,830
+if we only have one line.
+
+31
+00:01:15,830 --> 00:01:17,690
+So we can omit this
+
+32
+00:01:17,690 --> 00:01:20,423
+and only write this one line of code.
+
+33
+00:01:21,740 --> 00:01:22,603
+In this case,
+
+34
+00:01:24,560 --> 00:01:29,543
+you just became an adult.
+
+35
+00:01:30,600 --> 00:01:32,303
+So let's test this.
+
+36
+00:01:33,230 --> 00:01:34,437
+And indeed, the result is
+
+37
+00:01:34,437 --> 00:01:37,930
+that we see the string locked to the console.
+
+38
+00:01:37,930 --> 00:01:40,300
+And if the value would be something else
+
+39
+00:01:40,300 --> 00:01:44,620
+for example 19, then 8 is no longer equal to 18.
+
+40
+00:01:44,620 --> 00:01:48,893
+And so we shouldn't see this result. And indeed,
+
+41
+00:01:49,970 --> 00:01:51,603
+but let's put it back to 18.
+
+42
+00:01:52,760 --> 00:01:57,760
+Okay, so how does this equality operator here actually work?
+
+43
+00:01:57,900 --> 00:02:00,470
+Well, just like the comparison operators,
+
+44
+00:02:00,470 --> 00:02:03,990
+this operator will return a true or a false value.
+
+45
+00:02:03,990 --> 00:02:05,770
+So a boolean value,
+
+46
+00:02:05,770 --> 00:02:07,110
+only that in this case,
+
+47
+00:02:07,110 --> 00:02:09,910
+true will only be the result of this operator
+
+48
+00:02:09,910 --> 00:02:14,730
+in case that both sides are exactly the same. All right?
+
+49
+00:02:14,730 --> 00:02:16,930
+let's actually show
+
+50
+00:02:16,930 --> 00:02:19,180
+that result to you.
+
+51
+00:02:19,180 --> 00:02:20,013
+And actually we can do
+
+52
+00:02:20,013 --> 00:02:22,150
+that right here in the console.
+
+53
+00:02:22,150 --> 00:02:23,765
+So if I see 18,
+
+54
+00:02:23,765 --> 00:02:26,930
+equal equal equal to 18,
+
+55
+00:02:26,930 --> 00:02:28,500
+this will be true.
+
+56
+00:02:28,500 --> 00:02:29,720
+But if I say 18,
+
+57
+00:02:29,720 --> 00:02:32,250
+equal equal equal to 19,
+
+58
+00:02:32,250 --> 00:02:33,870
+it will be false.
+
+59
+00:02:33,870 --> 00:02:36,140
+And so that's exactly what we used here,
+
+60
+00:02:36,140 --> 00:02:38,633
+as a condition in this if block.
+
+61
+00:02:39,490 --> 00:02:41,830
+So don't confuse the assignment
+
+62
+00:02:41,830 --> 00:02:44,050
+which is just a single equal
+
+63
+00:02:44,050 --> 00:02:46,340
+with the comparison operator,
+
+64
+00:02:46,340 --> 00:02:48,490
+which is this triple equal.
+
+65
+00:02:48,490 --> 00:02:50,670
+Now, besides this triple equal,
+
+66
+00:02:50,670 --> 00:02:52,870
+we also have a double equal.
+
+67
+00:02:52,870 --> 00:02:53,780
+So the difference is
+
+68
+00:02:53,780 --> 00:02:56,200
+that this one here with the three equals
+
+69
+00:02:56,200 --> 00:02:59,050
+is called the strict equality operator.
+
+70
+00:02:59,050 --> 00:03:00,000
+It's strict,
+
+71
+00:03:00,000 --> 00:03:02,830
+because it does not perform type coercion.
+
+72
+00:03:02,830 --> 00:03:04,150
+And so it only returns
+
+73
+00:03:04,150 --> 00:03:07,870
+to when both values are exactly the same.
+
+74
+00:03:07,870 --> 00:03:08,703
+On the other hand,
+
+75
+00:03:08,703 --> 00:03:11,240
+there's also the loose equality operator,
+
+76
+00:03:11,240 --> 00:03:12,930
+which is only two equals,
+
+77
+00:03:12,930 --> 00:03:14,530
+and the loose equality operator
+
+78
+00:03:14,530 --> 00:03:17,070
+actually does type coercion.
+
+79
+00:03:17,070 --> 00:03:19,690
+So let's see that here in the console again,
+
+80
+00:03:19,690 --> 00:03:20,523
+so in this case,
+
+81
+00:03:20,523 --> 00:03:25,490
+I can do 18, the string equal equal 18 the number,
+
+82
+00:03:26,550 --> 00:03:28,730
+and it will still give me true.
+
+83
+00:03:28,730 --> 00:03:32,170
+So again, the double equal does type coercion.
+
+84
+00:03:32,170 --> 00:03:33,450
+So what this means is
+
+85
+00:03:33,450 --> 00:03:36,080
+that this string here is 18
+
+86
+00:03:36,080 --> 00:03:37,560
+will be converted to a number
+
+87
+00:03:37,560 --> 00:03:38,830
+and then the number 18
+
+88
+00:03:38,830 --> 00:03:40,623
+is the same as this number 18.
+
+89
+00:03:41,570 --> 00:03:43,010
+Now, as I mentioned,
+
+90
+00:03:43,010 --> 00:03:46,460
+the triple equals does not perform type coercion.
+
+91
+00:03:46,460 --> 00:03:48,910
+And so let me show that to you.
+
+92
+00:03:48,910 --> 00:03:50,250
+And so it's false.
+
+93
+00:03:50,250 --> 00:03:51,606
+Because 18, the string
+
+94
+00:03:51,606 --> 00:03:55,240
+is of course different than 18, the number,
+
+95
+00:03:55,240 --> 00:03:56,460
+so it's not the same
+
+96
+00:03:56,460 --> 00:03:59,650
+and JavaScript does not convert them for us.
+
+97
+00:03:59,650 --> 00:04:01,923
+So let's try that also here in our code.
+
+98
+00:04:02,840 --> 00:04:04,440
+I'm just going to copy this one.
+
+99
+00:04:06,580 --> 00:04:09,963
+And then this, and let's say here,
+
+100
+00:04:11,660 --> 00:04:14,603
+lose and here strict.
+
+101
+00:04:17,010 --> 00:04:18,120
+So if I run this now,
+
+102
+00:04:18,120 --> 00:04:20,183
+both these conditions should be true.
+
+103
+00:04:21,270 --> 00:04:22,960
+So 18, the number,
+
+104
+00:04:22,960 --> 00:04:24,170
+which is the age right now
+
+105
+00:04:24,170 --> 00:04:27,130
+is equal to this 18 the number, right?
+
+106
+00:04:27,130 --> 00:04:29,050
+It's strictly equal,
+
+107
+00:04:29,050 --> 00:04:31,230
+but it's also loosely equal.
+
+108
+00:04:31,230 --> 00:04:32,150
+So 18 the number is,
+
+109
+00:04:32,150 --> 00:04:35,380
+of course also loosely equal to this 18.
+
+110
+00:04:35,380 --> 00:04:36,730
+So let's run that.
+
+111
+00:04:36,730 --> 00:04:38,440
+And indeed, we get a strict
+
+112
+00:04:38,440 --> 00:04:41,600
+and the loose string printed to the console.
+
+113
+00:04:41,600 --> 00:04:43,120
+But now if we change this
+
+114
+00:04:43,120 --> 00:04:45,120
+to 18 the string
+
+115
+00:04:46,100 --> 00:04:48,050
+Well, what do we expect to happen then?
+
+116
+00:04:50,220 --> 00:04:54,150
+And indeed, only this line of code here is executed.
+
+117
+00:04:54,150 --> 00:04:57,110
+So this one which says loose here,
+
+118
+00:04:57,110 --> 00:04:58,480
+as we see here,
+
+119
+00:04:58,480 --> 00:04:59,313
+and so that's
+
+120
+00:04:59,313 --> 00:05:00,146
+because of the results
+
+121
+00:05:00,146 --> 00:05:01,430
+that I showed you earlier,
+
+122
+00:05:01,430 --> 00:05:02,263
+which is that
+
+123
+00:05:02,263 --> 00:05:05,260
+with the loose equality operator 18 to string
+
+124
+00:05:05,260 --> 00:05:07,750
+is the same as 18 the number
+
+125
+00:05:07,750 --> 00:05:09,160
+because 18 to string
+
+126
+00:05:09,160 --> 00:05:12,290
+will be converted to 18 the number.
+
+127
+00:05:12,290 --> 00:05:16,290
+So I hope that's not too confusing for you,
+
+128
+00:05:16,290 --> 00:05:20,340
+it is actually quite a confusing topic in JavaScript,
+
+129
+00:05:20,340 --> 00:05:22,710
+because this loose equality operator.
+
+130
+00:05:22,710 --> 00:05:23,970
+So this one here,
+
+131
+00:05:23,970 --> 00:05:28,340
+is full of really weird rules and behaviors.
+
+132
+00:05:28,340 --> 00:05:30,620
+This means that if we use this one here,
+
+133
+00:05:30,620 --> 00:05:32,130
+this can introduce many hard
+
+134
+00:05:32,130 --> 00:05:34,690
+to find bugs into our code.
+
+135
+00:05:34,690 --> 00:05:37,110
+So as a general rule for clean code,
+
+136
+00:05:37,110 --> 00:05:39,030
+avoid the loose equality operator
+
+137
+00:05:39,030 --> 00:05:40,880
+as much as you can.
+
+138
+00:05:40,880 --> 00:05:42,430
+So when comparing values,
+
+139
+00:05:42,430 --> 00:05:44,680
+always use strict equality
+
+140
+00:05:44,680 --> 00:05:47,610
+with the three equal signs,
+
+141
+00:05:47,610 --> 00:05:48,870
+as I showed you here.
+
+142
+00:05:48,870 --> 00:05:51,690
+And that's the reason why I showed you this one first.
+
+143
+00:05:51,690 --> 00:05:52,523
+This is something
+
+144
+00:05:52,523 --> 00:05:56,010
+that actually most JavaScript developers advise you to do.
+
+145
+00:05:56,010 --> 00:05:58,150
+So it's a good rule for sure.
+
+146
+00:05:58,150 --> 00:06:00,880
+Even if we actually need type conversion.
+
+147
+00:06:00,880 --> 00:06:01,713
+In that case,
+
+148
+00:06:01,713 --> 00:06:04,250
+it's better to convert the value manually
+
+149
+00:06:04,250 --> 00:06:05,620
+before the comparison
+
+150
+00:06:05,620 --> 00:06:08,560
+than relying on the double equal operator.
+
+151
+00:06:08,560 --> 00:06:11,500
+Some always default to the triple equal operator
+
+152
+00:06:11,500 --> 00:06:15,450
+and pretend that this one doesn't even exist. Okay?
+
+153
+00:06:15,450 --> 00:06:17,660
+of course, I still needed to show it to you.
+
+154
+00:06:17,660 --> 00:06:18,493
+But from now on,
+
+155
+00:06:18,493 --> 00:06:21,950
+we will assume that it doesn't even exist.
+
+156
+00:06:21,950 --> 00:06:24,480
+Great. So let's do another example here,
+
+157
+00:06:24,480 --> 00:06:28,320
+because I actually have some more great stuff to show you.
+
+158
+00:06:28,320 --> 00:06:29,550
+And the first thing
+
+159
+00:06:29,550 --> 00:06:30,513
+that I want to show you is
+
+160
+00:06:30,513 --> 00:06:32,770
+that there is a pretty simple way
+
+161
+00:06:32,770 --> 00:06:35,890
+of getting a value from any webpage,
+
+162
+00:06:35,890 --> 00:06:39,210
+we can do that by using the prompt function.
+
+163
+00:06:39,210 --> 00:06:41,070
+And again, we will learn what functions are
+
+164
+00:06:41,070 --> 00:06:42,055
+in the next section.
+
+165
+00:06:42,055 --> 00:06:44,290
+But this is how it works.
+
+166
+00:06:44,290 --> 00:06:46,500
+So we just write prompt,
+
+167
+00:06:46,500 --> 00:06:48,180
+and then a string.
+
+168
+00:06:48,180 --> 00:06:49,930
+And let's ask the user
+
+169
+00:06:49,930 --> 00:06:53,090
+for his favorite number.
+
+170
+00:06:53,090 --> 00:06:56,907
+So what's your favorite number.
+
+171
+00:06:59,960 --> 00:07:02,593
+So let's see what happens when we load this now.
+
+172
+00:07:03,660 --> 00:07:05,930
+So we get this prompt window.
+
+173
+00:07:05,930 --> 00:07:07,960
+And here, we can input something,
+
+174
+00:07:07,960 --> 00:07:09,980
+and then hit return.
+
+175
+00:07:09,980 --> 00:07:11,630
+So basically, all this here
+
+176
+00:07:11,630 --> 00:07:13,260
+will create a value,
+
+177
+00:07:13,260 --> 00:07:16,320
+in this case, the number that i just input it.
+
+178
+00:07:16,320 --> 00:07:18,660
+But we need to store this value somewhere.
+
+179
+00:07:18,660 --> 00:07:23,303
+So let's create a variable called favorite.
+
+180
+00:07:25,910 --> 00:07:28,570
+So it's in this favorite variable,
+
+181
+00:07:28,570 --> 00:07:30,960
+where the value that we put into that form
+
+182
+00:07:30,960 --> 00:07:32,310
+will be stored.
+
+183
+00:07:32,310 --> 00:07:35,100
+So let's take a look at that console.log
+
+184
+00:07:36,870 --> 00:07:41,870
+favorite. So 23.
+
+185
+00:07:43,360 --> 00:07:44,193
+And you'll see
+
+186
+00:07:44,193 --> 00:07:46,170
+that it now locks the value.
+
+187
+00:07:46,170 --> 00:07:47,930
+But it's printed here in white.
+
+188
+00:07:47,930 --> 00:07:52,330
+So remember, that means that it is a string.
+
+189
+00:07:52,330 --> 00:07:55,463
+Let me prove that to you by checking the type.
+
+190
+00:07:57,370 --> 00:07:58,650
+So by now we know how
+
+191
+00:07:58,650 --> 00:08:01,130
+to always check the type, right?
+
+192
+00:08:01,130 --> 00:08:02,360
+Pretty simple.
+
+193
+00:08:02,360 --> 00:08:04,093
+And so now we should see string.
+
+194
+00:08:05,200 --> 00:08:07,880
+Now, of course, we have to give the number again.
+
+195
+00:08:07,880 --> 00:08:09,860
+So 23 is the result.
+
+196
+00:08:09,860 --> 00:08:11,713
+And it is indeed a string.
+
+197
+00:08:12,760 --> 00:08:16,690
+So now let's write some logic here
+
+198
+00:08:16,690 --> 00:08:20,340
+to check if this is a great number, basically.
+
+199
+00:08:20,340 --> 00:08:25,340
+So let's say if the favorite number is equal.
+
+200
+00:08:26,420 --> 00:08:28,083
+And let's use this one first.
+
+201
+00:08:29,470 --> 00:08:31,703
+So if the number is equal to 23,
+
+202
+00:08:34,320 --> 00:08:36,333
+then let's log to the console.
+
+203
+00:08:38,180 --> 00:08:43,180
+Cool. 23 is an amazing number.
+
+204
+00:08:45,590 --> 00:08:49,543
+Okay. And so now this should actually work, shouldn't it?
+
+205
+00:08:51,920 --> 00:08:56,560
+So 23, and we get this result.
+
+206
+00:08:56,560 --> 00:08:58,830
+So again, why is that?
+
+207
+00:08:58,830 --> 00:09:01,500
+Well, because we used the double equals here,
+
+208
+00:09:01,500 --> 00:09:03,577
+which is the loose equality operator
+
+209
+00:09:03,577 --> 00:09:07,250
+and this one will do type coercion, right?
+
+210
+00:09:07,250 --> 00:09:08,800
+So right now, what we have here
+
+211
+00:09:08,800 --> 00:09:12,260
+is basically 23 the string
+
+212
+00:09:12,260 --> 00:09:13,410
+which is this one here
+
+213
+00:09:14,600 --> 00:09:16,820
+equal equal 23.
+
+214
+00:09:16,820 --> 00:09:19,160
+And so this one will be converted to a number
+
+215
+00:09:19,160 --> 00:09:20,900
+and then the number 23 is
+
+216
+00:09:20,900 --> 00:09:23,340
+of course equal to 23.
+
+217
+00:09:23,340 --> 00:09:25,950
+However, if we use the triple equals,
+
+218
+00:09:25,950 --> 00:09:27,373
+so the strict operator,
+
+219
+00:09:28,228 --> 00:09:30,310
+then it should not work.
+
+220
+00:09:30,310 --> 00:09:34,600
+So 23 again, but we do not get that log.
+
+221
+00:09:34,600 --> 00:09:39,600
+And by now you already understand why that is. Right?
+
+222
+00:09:39,850 --> 00:09:41,200
+So remember how I said
+
+223
+00:09:41,200 --> 00:09:44,210
+that we should always use this one.
+
+224
+00:09:44,210 --> 00:09:48,070
+And so we now have to convert this string to a number.
+
+225
+00:09:48,070 --> 00:09:50,510
+And we can actually wrap all of this
+
+226
+00:09:50,510 --> 00:09:52,260
+into that number function
+
+227
+00:09:52,260 --> 00:09:54,093
+that we used to convert.
+
+228
+00:09:55,350 --> 00:09:56,580
+So number
+
+229
+00:09:56,580 --> 00:09:58,670
+and then we put all of this here
+
+230
+00:09:58,670 --> 00:10:01,990
+which is the one that will generate the String 23.
+
+231
+00:10:01,990 --> 00:10:05,550
+And then we wrap that into the parenthesis
+
+232
+00:10:05,550 --> 00:10:08,020
+to execute the number converter.
+
+233
+00:10:08,020 --> 00:10:10,340
+And so right now favorite is gonna be a number.
+
+234
+00:10:10,340 --> 00:10:12,960
+And so then this should be back to working.
+
+235
+00:10:12,960 --> 00:10:15,030
+Because then at this point,
+
+236
+00:10:15,030 --> 00:10:18,310
+we have 23, equal 23.
+
+237
+00:10:18,310 --> 00:10:20,240
+And so that, of course,
+
+238
+00:10:20,240 --> 00:10:21,840
+is true here.
+
+239
+00:10:21,840 --> 00:10:24,163
+And so then this line of code will run.
+
+240
+00:10:27,040 --> 00:10:30,470
+So 23, and indeed it does.
+
+241
+00:10:30,470 --> 00:10:32,420
+And you see that it's also now pink,
+
+242
+00:10:32,420 --> 00:10:33,773
+meaning that it's a number.
+
+243
+00:10:33,773 --> 00:10:35,363
+Now, if I use something else,
+
+244
+00:10:36,450 --> 00:10:37,740
+then of course,
+
+245
+00:10:37,740 --> 00:10:39,920
+this here is also false.
+
+246
+00:10:39,920 --> 00:10:42,010
+So if I have 22 here,
+
+247
+00:10:42,010 --> 00:10:44,410
+then this will, of course,
+
+248
+00:10:44,410 --> 00:10:47,490
+be false, because they are different.
+
+249
+00:10:47,490 --> 00:10:50,520
+But this actually brings me to my next point,
+
+250
+00:10:50,520 --> 00:10:51,970
+which is the next cool thing
+
+251
+00:10:51,970 --> 00:10:53,680
+that I wanted to show you.
+
+252
+00:10:53,680 --> 00:10:57,100
+And that is that we can actually add more condition
+
+253
+00:10:57,100 --> 00:10:59,270
+to an if else statement.
+
+254
+00:10:59,270 --> 00:11:02,830
+So, so far, we have only used if else.
+
+255
+00:11:02,830 --> 00:11:06,330
+However, we can also add an else if block
+
+256
+00:11:06,330 --> 00:11:08,380
+that works like this.
+
+257
+00:11:08,380 --> 00:11:10,620
+So else, and then a new if
+
+258
+00:11:11,770 --> 00:11:14,690
+so, let's not do favorites,
+
+259
+00:11:14,690 --> 00:11:15,603
+equal to seven,
+
+260
+00:11:22,690 --> 00:11:27,387
+let's say seven is also a cool number.
+
+261
+00:11:28,940 --> 00:11:30,500
+And so what this will do,
+
+262
+00:11:30,500 --> 00:11:33,850
+is to first check if the number is 23 here,
+
+263
+00:11:33,850 --> 00:11:35,390
+then if it's not, it will,
+
+264
+00:11:35,390 --> 00:11:37,600
+of course, go to the next block,
+
+265
+00:11:37,600 --> 00:11:38,630
+which is this one,
+
+266
+00:11:38,630 --> 00:11:40,920
+and then it will check this condition.
+
+267
+00:11:40,920 --> 00:11:43,890
+Well, if the number is seven now,
+
+268
+00:11:43,890 --> 00:11:45,590
+then run this code.
+
+269
+00:11:45,590 --> 00:11:46,900
+And then at the end,
+
+270
+00:11:46,900 --> 00:11:49,913
+we can also add an else block.
+
+271
+00:11:55,070 --> 00:12:00,070
+So let's say number is not 23 or seven.
+
+272
+00:12:02,790 --> 00:12:04,203
+So let's test that.
+
+273
+00:12:06,310 --> 00:12:08,520
+So if I put seven now,
+
+274
+00:12:08,520 --> 00:12:11,220
+we get seven is also a cool number.
+
+275
+00:12:11,220 --> 00:12:13,300
+And so that's our else if block here.
+
+276
+00:12:13,300 --> 00:12:15,690
+So this second one here running.
+
+277
+00:12:15,690 --> 00:12:17,600
+But now if I do something else,
+
+278
+00:12:17,600 --> 00:12:20,743
+that is neither 23 nor seven,
+
+279
+00:12:21,840 --> 00:12:25,623
+then we go to that last else block here.
+
+280
+00:12:26,860 --> 00:12:30,603
+Okay, and we can actually keep adding more and more.
+
+281
+00:12:31,470 --> 00:12:34,460
+So we can do this as long as we want.
+
+282
+00:12:34,460 --> 00:12:37,793
+So we can do else if favorite,
+
+283
+00:12:39,130 --> 00:12:41,913
+triple equal nine, for example.
+
+284
+00:12:43,960 --> 00:12:47,800
+Let's simply grab this one here,
+
+285
+00:12:47,800 --> 00:12:50,073
+say nine is also a cool number.
+
+286
+00:12:53,411 --> 00:12:56,770
+And then number is not 23 or seven or nine,
+
+287
+00:12:57,950 --> 00:13:00,090
+just to make it really complete.
+
+288
+00:13:00,090 --> 00:13:02,003
+And so now if we use the nine,
+
+289
+00:13:03,540 --> 00:13:06,460
+then nine is also a cool number.
+
+290
+00:13:06,460 --> 00:13:07,950
+So we now have a way
+
+291
+00:13:07,950 --> 00:13:09,810
+of not going immediately
+
+292
+00:13:09,810 --> 00:13:10,970
+into the else block
+
+293
+00:13:11,930 --> 00:13:14,640
+once the initial condition is false.
+
+294
+00:13:14,640 --> 00:13:15,800
+So if this one is false,
+
+295
+00:13:15,800 --> 00:13:18,260
+it doesn't immediately go into the else block.
+
+296
+00:13:18,260 --> 00:13:19,750
+There are now other conditions
+
+297
+00:13:19,750 --> 00:13:22,300
+that can be checked one after the other.
+
+298
+00:13:22,300 --> 00:13:24,430
+First, we check for 23.
+
+299
+00:13:24,430 --> 00:13:25,860
+But if it's not 23,
+
+300
+00:13:25,860 --> 00:13:27,440
+we check if it's seven.
+
+301
+00:13:27,440 --> 00:13:28,273
+If it's not seven,
+
+302
+00:13:28,273 --> 00:13:29,740
+we check if it's nine.
+
+303
+00:13:29,740 --> 00:13:31,180
+And if it's not nine,
+
+304
+00:13:31,180 --> 00:13:36,180
+well, then the final else block will be executed. Okay?
+
+305
+00:13:36,210 --> 00:13:37,920
+I hope that makes sense.
+
+306
+00:13:37,920 --> 00:13:40,683
+And we actually use this from time to time.
+
+307
+00:13:41,570 --> 00:13:43,810
+Okay, and now to finish there's also
+
+308
+00:13:43,810 --> 00:13:46,160
+an operator for different.
+
+309
+00:13:46,160 --> 00:13:48,060
+So we talked about equal.
+
+310
+00:13:48,060 --> 00:13:51,000
+But of course, there must also be an operator
+
+311
+00:13:51,000 --> 00:13:52,400
+which does the opposite.
+
+312
+00:13:52,400 --> 00:13:55,350
+And so that's the different operator.
+
+313
+00:13:55,350 --> 00:13:56,830
+And so Let's now check
+
+314
+00:13:57,890 --> 00:14:01,500
+if the favorite is different from 23.
+
+315
+00:14:01,500 --> 00:14:03,870
+So we use the exclamation mark
+
+316
+00:14:03,870 --> 00:14:06,410
+and then the double equal
+
+317
+00:14:06,410 --> 00:14:07,860
+which is the strict version.
+
+318
+00:14:07,860 --> 00:14:09,670
+And then there's also the loose version,
+
+319
+00:14:09,670 --> 00:14:10,890
+which is this one.
+
+320
+00:14:10,890 --> 00:14:12,710
+So with just one equal
+
+321
+00:14:12,710 --> 00:14:15,743
+but just as before always use the strict version.
+
+322
+00:14:16,820 --> 00:14:19,215
+So if the number is not 23,
+
+323
+00:14:19,215 --> 00:14:23,277
+we can lock something like saying why not the 23. Okay?
+
+324
+00:14:32,420 --> 00:14:34,210
+let's try that.
+
+325
+00:14:34,210 --> 00:14:36,180
+And let's use nine.
+
+326
+00:14:36,180 --> 00:14:37,580
+So what do you think will happen
+
+327
+00:14:37,580 --> 00:14:39,203
+when we use the number nine.
+
+328
+00:14:40,820 --> 00:14:43,870
+So we get first this lock here
+
+329
+00:14:43,870 --> 00:14:48,433
+from this else if block, right?
+
+330
+00:14:49,720 --> 00:14:52,950
+But then we also get this why not 23 message
+
+331
+00:14:52,950 --> 00:14:54,470
+and that's of course coming
+
+332
+00:14:54,470 --> 00:14:57,390
+from this if block here.
+
+333
+00:14:57,390 --> 00:15:00,400
+So nine is of course different from 23
+
+334
+00:15:00,400 --> 00:15:04,600
+And so a this code here is being executed.
+
+335
+00:15:04,600 --> 00:15:08,333
+But now if we actually use the 23,
+
+336
+00:15:09,280 --> 00:15:12,660
+then only this line of code is executed.
+
+337
+00:15:12,660 --> 00:15:14,130
+And this one here isn't
+
+338
+00:15:14,130 --> 00:15:16,470
+because the favorite number
+
+339
+00:15:16,470 --> 00:15:18,790
+is now equal to 23.
+
+340
+00:15:18,790 --> 00:15:20,760
+And so of course, it doesn't make sense
+
+341
+00:15:20,760 --> 00:15:23,110
+to then execute this one here.
+
+342
+00:15:23,110 --> 00:15:26,410
+So sometimes we need the different operator
+
+343
+00:15:26,410 --> 00:15:29,270
+and sometimes we need the equality operator.
+
+344
+00:15:29,270 --> 00:15:30,850
+Just choose whatever you need
+
+345
+00:15:30,850 --> 00:15:33,500
+to solve any particular problem.
+
+346
+00:15:33,500 --> 00:15:35,660
+In both cases, just make sure
+
+347
+00:15:35,660 --> 00:15:38,490
+to use the strict version of the operator

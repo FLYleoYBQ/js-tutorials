@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Summary: Which Data Structure to Use</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        /* 增加高逼格表格对照系统 CSS */
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: var(--bg-card);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .comparison-table th, .comparison-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .comparison-table th {
+            background-color: var(--primary-color);
+            color: #fff;
+            font-weight: 600;
+        }
+        .comparison-table td:first-child {
+            font-weight: 600;
+            color: var(--text-primary);
+            border-right: 1px solid var(--border-color);
+            width: 30%;
+        }
+        .highlight-red { color: #ff5555; }
+        .highlight-green { color: #50fa7b; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">选择指南决战图</a>
+            <a href="#section-list" class="nav-item">简单的列表类 (List) 决断</a>
+            <a href="#section-keyvalue" class="nav-item">键值对查询类 (Key-Value) 决断</a>
+            <a href="#section-json" class="nav-item">Web API / JSON 归宿</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Summary: Which Data Structure to Use?</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：021 Summary Which Data Structure to Use.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 终点回顾之巅</strong>
+            <p>我们手上已囊括 JavaScript 里的四大基本核弹器：<strong>大组 (Array)</strong>，<strong>对象 (Object)</strong>，以及刚入库收割的高精端 <strong>图集 (Map)</strong> 与 <strong>去重洗涤器 (Set)</strong>。面对海量奔涌而来的代码业务情境，什么阶段拔什么尺寸的剑，在这里将获得终极梳理。</p>
+        </div>
+
+        <h2 id="section-overview">🎯 数据集的第一岔路口抉择图</h2>
+        <p>每次遇到需要存放一大堆数据的地步，请脑内浮起这个问题：<br>
+        <strong>我是仅仅需要存放一排纯粹孤立的数值连成的线索？ 还是需要把每一根数值旁边都挂靠着有极强描述性意味的文字标牌（挂门牌）？</strong></p>
+
+        <ul style="line-height: 1.8; color: var(--text-secondary);">
+            <li>👉 只是单纯首尾堆砌的值排列 (Simple List)：往左边走进入 <strong>Arrays（大组）与 Sets（集合）</strong> 阵痛选择台。</li>
+            <li>👉 带有严格上下溯源名字标牌的抽屉 (Key/Value pairs)：往右走来到 <strong>Objects（对象）与 Maps（哈希表图集）</strong> 的战场中心。</li>
+        </ul>
+
+        <h2 id="section-list">⚔️ 阵列队列赛道：Array 🆚 Set</h2>
+        
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>选择阵列利刃</th>
+                    <th>使用心法与特性</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>🗂️ <strong>Array (数组大组)</strong> <br><span style="font-size: 12px; font-weight: normal; color: var(--text-secondary);">最泛滥最中坚主力存在</span></td>
+                    <td>
+                        • 当你必须必须维持数据被送入时的<strong>先后顺序不容乱动打散</strong>！<br>
+                        • 当数据列表里允许并需要收纳<strong>多个并排行走的无耻克隆复制体数据</strong>。<br>
+                        • 当你后续还要对它施展<strong>天花乱坠的大改操盘变形法术</strong> (后面大篇幅学习的一堆 Array 方法)。
+                    </td>
+                </tr>
+                <tr>
+                    <td>🧼 <strong>Set (去重洗碗池)</strong> <br><span style="font-size: 12px; font-weight: normal; color: var(--text-secondary);">专情纯粹的高速杀器</span></td>
+                    <td>
+                        • 当你<strong>绝无法容忍</strong>一丁点重复病菌残体存在于系统时！<br>
+                        • 当你要最极速压榨性能。在极其厚重的巨海数据里，要删除某个东西、搜索是否存在它，Set 会比 Array 甚至狂甩出 <strong>10 倍的光速响应断层差</strong>。
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="section-keyvalue">⚔️ 保险箱键值抽屉赛道：Object 🆚 Map</h2>
+        
+        <p>这绝对是重头戏。由于 JS 前十多年的发展历史只有畸形霸场的 Object，所以一直拿它疯狂客串键值缓存库。但是在拥有 Map 后的新纪元，天枰被血腥逆转。</p>
+
+        <table class="comparison-table">
+            <thead>
+                <tr>
+                    <th>柜体选型决战</th>
+                    <th>统治与退场理由</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>📦 <strong>Object (古老地基霸主)</strong></td>
+                    <td>
+                        <span class="highlight-green">继续留用的护体金牌：</span><br>
+                        • 写起来写烂了闭着眼都会，就是简单粗暴直接点出 <code>obj.name</code> 与 <code>obj['age']</code> 的极速穿透提取快感。<br>
+                        • <strong>必须内挂捆绑各种活动功能函数方法 (Methods) 时！</strong> Object 内带天生 <code>this</code> 光环机制指路自己，但 Map 直接断代此能力。<br>
+                        • 与大后端 API 传输返回 JSON 的天然适配转换（后续会提）。
+                    </td>
+                </tr>
+                <tr>
+                    <td>🗺️ <strong>Map (全能超维图解柜)</strong></td>
+                    <td>
+                        <span class="highlight-green">夺权上位的顶级理由：</span><br>
+                        • 完全不受制于只许传字符串拉胯当 Key 钥匙的诅咒约束锁链！<strong>万物皆可为键</strong>！<br>
+                        • 自生骨血兼容 Iterable，自带 <code>for-of</code> 和 <code>.size</code>。而笨重的 Object 每一次都要靠别人破相借尸还魂去转。<br>
+                        • 极端大型并极度频繁挂拆门牌与加进加出 Key 时候，引擎底下有着远高于对象的底层狂暴加速优越感性能。
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="section-json">🔌 彩蛋扩展认知：Web API 与 JSON 的绝对领海归宿</h2>
+        <p>几乎 99% 从后场外部真实世界上获取的天外飞仙 Web 数据请求，砸扁到我们前端机器里时都是长成一幅 <strong>阵列列车厢内部包裹着无数只小对象盒子的 <code>JSON 格式体 (Array of Objects)</code> </strong>的混合拼接骨架。</p>
+        <p>比如 <code>[ {name:'Pizza', price:10}, {name:'Pasta', price:15} ]</code>。虽然我们知道 Map 性能狂霸，但<strong>我们极少吃饱了撑了费力气手操把这种飞来的天然 JSON 客船全给拆装倒腾改写为 Map 挂载架构</strong>。依然还是大面积使用传统天生相合贴合的 Object 骨架作为承接器去消化它。只有极其复杂的偏方黑科技功能模块内，才会专程调用建图。</p>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+</body>
+</html>

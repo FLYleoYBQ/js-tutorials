@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The call and apply Methods</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --border-color: #2b3040;
+            --text-primary: #e0e6f8;
+            --text-secondary: #8b94b0;
+            --accent-color: #00ff9d;
+            --accent-hover: #00e68d;
+            --danger-color: #ff4d4d;
+            --info-color: #4da6ff;
+            --warning-color: #ffaa00;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 16px; color: var(--text-primary); }
+        .progress-container { width: 100%; height: 6px; background-color: var(--border-color); border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: var(--accent-color); width: 0%; transition: width 0.3s ease; }
+        .nav-item { display: block; padding: 10px 16px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: var(--border-color); color: var(--text-primary); }
+        .main-content { margin-left: 280px; padding: 64px 80px; max-width: 1000px; width: 100%; }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; color: #fff; letter-spacing: -0.02em; }
+        h2 { font-size: 1.8rem; font-weight: 600; margin: 48px 0 24px; color: #fff; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        h3 { font-size: 1.4rem; font-weight: 600; margin: 32px 0 16px; color: #e0e6f8; }
+        p { margin-bottom: 24px; font-size: 1.1rem; color: #a4adc5; }
+        .meta-info { display: flex; gap: 24px; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 40px; }
+        .callout { background-color: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--info-color); padding: 24px; border-radius: 0 8px 8px 0; margin: 32px 0; }
+        .code-comparison { display: flex; gap: 24px; margin: 32px 0; }
+        .code-panel { flex: 1; min-width: 0; background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
+        .panel-header { padding: 12px 16px; font-size: 0.9rem; font-weight: 600; color: #fff; }
+        .panel-header.method1 { background-color: rgba(255, 77, 77, 0.2); border-bottom: 1px solid rgba(255, 77, 77, 0.3); }
+        .panel-header.method2 { background-color: rgba(0, 255, 157, 0.2); border-bottom: 1px solid rgba(0, 255, 157, 0.3); }
+        .runnable-editor { background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); margin: 32px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+        .btn-run { background-color: var(--accent-color); color: #000; border: none; padding: 6px 16px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-run:hover { opacity: 0.9; }
+        .editor-textarea { width: 100%; height: 350px; background: transparent; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 16px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background-color: #000; color: #00ff9d; font-family: 'JetBrains Mono', monospace; padding: 16px; font-size: 14px; min-height: 50px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        .quiz-card { background-color: var(--surface-color); border-radius: 8px; padding: 24px; border: 1px solid var(--border-color); margin-bottom: 24px; }
+        .quiz-question { font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; color: #fff; }
+        .quiz-option { padding: 12px 16px; background-color: rgba(255,255,255,0.05); border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; }
+        .quiz-option:hover { background-color: rgba(255,255,255,0.1); }
+        .quiz-explanation { margin-top: 16px; padding: 16px; background-color: rgba(77, 166, 255, 0.1); border-radius: 4px; display: none; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 32px 0; background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
+        th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        code { font-family: 'JetBrains Mono', monospace; background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 10 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. this 丢失之谜：提取方法陷阱</a>
+            <a href="#section-2" class="nav-item">2. 拯救 this: call() 方法</a>
+            <a href="#section-3" class="nav-item">3. 历史遗留的 apply() 及现代解法</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>手动绑定 this：call 与 apply 回调方法</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：008 The call and apply Methods.en.srt</span>
+            <span>📂 章节：第 10 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：<code>this</code> 关键字的基础工作原理（特别是方法调用与常规函数调用的差异）</li>
+                <li><strong>后续扩展</strong>：<code>bind</code> 方法（为 React 类组件和高级 DOM 操作打下基石）</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>当对象内部的方法被单独提取提取出来变成普通函数时，它原有的 <code>this</code> 光环就会惨遭剥夺。如何强制让游离在外的函数识别它真正的“主子”？答案就是利用 JavaScript 所有函数对象都自带的 <code>.call()</code> 和 <code>.apply()</code> 附魔大招！</p>
+
+        <h2 id="section-1">1. this 丢失之谜：提取方法的陷阱</h2>
+        
+        <p>假设我们有一个汉莎航空(Lufthansa)的对象，里面有一个预订航班的方法 <code>book</code>。为了不重复写代码，我们想把这个方法提取出来，给其他子航司（比如欧洲之翼 Eurowings）复用。但直接提取会导致灾难：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const lufthansa = {
+  airline: 'Lufthansa',
+  iataCode: 'LH',
+  bookings: [],
+  book(flightNum, name) {
+    console.log(`${name} 预订了 ${this.airline} 的航班 ${this.iataCode}${flightNum}`);
+    this.bookings.push({ flight: `${this.iataCode}${flightNum}`, name });
+  }
+};
+
+const eurowings = {
+  airline: 'Eurowings',
+  iataCode: 'EW',
+  bookings: [],
+};
+
+// 提取方法赋值给外部变量
+const book = lufthansa.book;
+
+// 尝试执行：报错弹脸！
+try {
+  book(23, 'Sarah Williams');
+} catch (err) {
+  console.log('🚨 灾难发生了:', err.message);
+}
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <div class="callout" style="border-color: var(--danger-color);">
+            > 🐛 **报错原因实验室**：<br>
+            当 <code>book</code> 成为外部的独立变量后，<code>book(23, 'Sarah')</code> 变成了一个**普通函数调用（Regular function call）**。在严格模式下，普通函数里的 <code>this</code> 永远是 <code>undefined</code>。它不再是汉莎对象里的方法，所以也找不到 <code>this.airline</code>。
+        </div>
+
+
+        <h2 id="section-2">2. 拯救 this: call() 方法强制指派</h2>
+        <p>我们需要明确、强硬地告诉 JavaScript 引擎：“我要你在这个函数执行的瞬间，把 <code>this</code> 指向我给你的目标对象！”——这就是 <code>call()</code> 第一参数发挥作用的地方。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 沿用上面的航空对象设定
+const lufthansa = { airline: 'Lufthansa', iataCode: 'LH', bookings: [], book: function(num, name) { console.log(`${name} 预订了 ${this.airline} 航班`); this.bookings.push({num, name}); } };
+const eurowings = { airline: 'Eurowings', iataCode: 'EW', bookings: [] };
+const swiss = { airline: 'Swiss Air Lines', iataCode: 'LX', bookings: [] };
+
+const book = lufthansa.book;
+
+// 不直接使用 book()。而是调用 book 身上的 call 方法
+// 第一参数：你想要让 this 指向哪个对象
+// 后续参数：原函数的对应参数
+
+// 1. 让它作为欧洲之翼去执行！
+book.call(eurowings, 23, 'Sarah Williams');
+
+// 2. 让它作为汉莎去执行！
+book.call(lufthansa, 239, 'Mary Cooper');
+
+// 3. 让它作为瑞士航空执行！
+book.call(swiss, 583, 'Mary Cooper');
+
+console.log('瑞士航空成功录入预订表：', swiss.bookings);
+</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+
+
+        <h2 id="section-3">3. 历史遗留的 apply() 及现代解法</h2>
+        <p>除了 <code>.call()</code>，还有一个孪生兄弟叫做 <code>.apply()</code>。它们的作用一模一样（指定 <code>this</code>），唯一的区别在于它们接收原函数参数的形式：</p>
+        
+        <ul>
+            <li><code>call()</code>：逐个列出传参（像是点名）。</li>
+            <li><code>apply()</code>：只收一个载满参数的**数组**。</li>
+        </ul>
+
+        <div class="code-comparison">
+            <div class="code-panel">
+                <div class="panel-header method1">🚨 ES5 时代的 apply (The Apply Way)</div>
+                <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">const flightData = [583, 'George Cooper'];
+
+// 第一参数是目标对象，第二参数是数组
+book.apply(swiss, flightData);
+</code></pre>
+            </div>
+            <div class="code-panel">
+                <div class="panel-header method2">✨ ES6 现代重构写法 (Call + Spread)</div>
+                <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">const flightData = [583, 'George Cooper'];
+
+// 配合展开语法(...)，彻底抛弃 apply()
+book.call(swiss, ...flightData);
+</code></pre>
+            </div>
+        </div>
+
+        <p>在现代 JavaScript 开发中，<code>apply()</code> 已经用得非常少了，大家更倾向于永远使用 <code>call()</code>，并用 <code>...</code> 展开操作符处理数组数据，读起来更顺畅连贯。</p>
+
+        <br>
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 我们为什么能对一个函数写出类似 `.call()` 或 `.apply()` 这样的调用？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为那是浏览器的 DOM API 特供方法。</div>
+                <div class="quiz-option" data-value="B">B) 因为函数在 JavaScript 中实质上就是 Object（头等函数），而只要是对象就能继承和拥有自己的方法属性。</div>
+                <div class="quiz-option" data-value="C">C) 这是因为编译器的语法糖自动转换的。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案: B。</strong>这是呼应上一节课“函数也是一种值/对象”最生动的实例。
+            </div>
+        </div>
+
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">2. 阅读以下代码：<br><br><code>const obj = { val: 100 };<br>function logger(a, b) { console.log(this.val + a + b); }<br>logger.call(obj, 10, 20);</code><br><br>最终输出结果是多少？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 130</div>
+                <div class="quiz-option" data-value="B">B) 30</div>
+                <div class="quiz-option" data-value="C">C) NaN (报错)</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案: A。</strong>`call` 把函数内的 `this` 指向了 `obj`，所以 `this.val` 解析为 `100`。随后的传参分别是 10 和 20。加在一起为 130。
+            </div>
+        </div>
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>强制调用</td>
+                    <td><code>Function.prototype.call()</code></td>
+                    <td>调用一个函数，并在调用时显式指定它的 <code>this</code> 值及各自独立的惨数项。</td>
+                    <td><code>fn.call(obj, a, b)</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/call" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>数组借用调用</td>
+                    <td><code>Function.prototype.apply()</code></td>
+                    <td>类似 call()，但只接收一个参数数组，现常被 <code>call(...arr)</code> 替代。</td>
+                    <td><code>fn.apply(obj, [a,b])</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Function/apply" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    // 执行代码功能
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const consoleOut = document.getElementById(consoleId);
+        consoleOut.innerHTML = ''; 
+
+        const proxyLog = console.log;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            proxyLog.apply(console, args);
+        };
+
+        try {
+            const executable = new Function(code);
+            executable();
+            consoleOut.innerHTML = logs.join('\n') || '代码执行成功，无输出。';
+        } catch (err) {
+            consoleOut.innerHTML = `<span style="color:var(--danger-color)">Error: ${err.message}</span>`;
+        } finally {
+            console.log = proxyLog;
+        }
+    }
+
+    // Quiz 验证脚本
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.dataset.correct;
+            const selectedAnswer = this.dataset.value;
+            const explanation = card.querySelector('.quiz-explanation');
+
+            card.querySelectorAll('.quiz-option').forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (selectedAnswer === correctAnswer) {
+                this.style.backgroundColor = 'rgba(0, 255, 157, 0.2)';
+                this.style.border = '1px solid var(--accent-color)';
+            } else {
+                this.style.backgroundColor = 'rgba(255, 77, 77, 0.2)';
+                this.style.border = '1px solid var(--danger-color)';
+                card.querySelector(`.quiz-option[data-value="${correctAnswer}"]`).style.backgroundColor = 'rgba(0, 255, 157, 0.2)';
+            }
+            
+            explanation.style.display = 'block';
+        });
+    });
+
+    // 目录高亮联动
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('h2, h3');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        let currentSectionId = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${currentSectionId}`) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>

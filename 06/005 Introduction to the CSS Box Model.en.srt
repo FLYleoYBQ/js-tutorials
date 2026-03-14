@@ -1,0 +1,1663 @@
+1
+00:00:01,590 --> 00:00:02,960
+The box model is one
+
+2
+00:00:02,960 --> 00:00:06,310
+of the most fundamental parts of CSS.
+
+3
+00:00:06,310 --> 00:00:09,470
+That's because it's the main factor that defines
+
+4
+00:00:09,470 --> 00:00:12,680
+how elements are displayed on a webpage
+
+5
+00:00:12,680 --> 00:00:14,823
+and also how they are sized.
+
+6
+00:00:16,340 --> 00:00:18,810
+So according to the box model,
+
+7
+00:00:18,810 --> 00:00:21,980
+each and every element on a webpage can be seen
+
+8
+00:00:21,980 --> 00:00:26,370
+as a rectangular box and each box can have a width,
+
+9
+00:00:26,370 --> 00:00:30,560
+a height, padding, margins and a border.
+
+10
+00:00:30,560 --> 00:00:34,750
+And we can specify all these using CSS properties,
+
+11
+00:00:34,750 --> 00:00:37,080
+but note that they are all optional.
+
+12
+00:00:37,080 --> 00:00:39,680
+So there can be boxes with no margins
+
+13
+00:00:39,680 --> 00:00:43,470
+or no paddings or no border at all.
+
+14
+00:00:43,470 --> 00:00:47,220
+Now this image here shows us how the box model works.
+
+15
+00:00:47,220 --> 00:00:51,290
+And so let's break it down, first the content of a box
+
+16
+00:00:51,290 --> 00:00:53,830
+is where all the text images
+
+17
+00:00:53,830 --> 00:00:56,760
+and other content that we specify goes.
+
+18
+00:00:56,760 --> 00:01:00,000
+We can easily define its height and with using
+
+19
+00:01:00,000 --> 00:01:02,600
+the corresponding CSS properties.
+
+20
+00:01:02,600 --> 00:01:05,600
+Next, the padding is a transparent area
+
+21
+00:01:05,600 --> 00:01:10,010
+around the content but still inside of the box.
+
+22
+00:01:10,010 --> 00:01:13,700
+And we use paddings to create white space inside of a box.
+
+23
+00:01:13,700 --> 00:01:15,070
+And we can define the padding
+
+24
+00:01:15,070 --> 00:01:19,250
+by specifying the padding property in CSS.
+
+25
+00:01:19,250 --> 00:01:22,910
+Next, we can specify a border for any box
+
+26
+00:01:22,910 --> 00:01:24,650
+and that border then goes around
+
+27
+00:01:24,650 --> 00:01:26,830
+the padding and the content.
+
+28
+00:01:26,830 --> 00:01:31,140
+And this actually we already did in the last lecture, right?
+
+29
+00:01:31,140 --> 00:01:34,870
+Then similar to the padding, we have the margin,
+
+30
+00:01:34,870 --> 00:01:37,550
+but instead of being inside the box,
+
+31
+00:01:37,550 --> 00:01:39,540
+the margin is white space
+
+32
+00:01:39,540 --> 00:01:43,150
+that's actually outside of the box itself.
+
+33
+00:01:43,150 --> 00:01:47,440
+So we can think of margin as the space between boxes.
+
+34
+00:01:47,440 --> 00:01:48,690
+So for instance,
+
+35
+00:01:48,690 --> 00:01:51,980
+if we want to create some space between two elements,
+
+36
+00:01:51,980 --> 00:01:55,950
+we will simply use their margin properties and CSS.
+
+37
+00:01:55,950 --> 00:02:00,020
+And finally, there is something called the fill area.
+
+38
+00:02:00,020 --> 00:02:02,150
+So remember how the text content
+
+39
+00:02:02,150 --> 00:02:05,630
+and images go inside the content box,
+
+40
+00:02:05,630 --> 00:02:09,030
+well, the same does not apply for background images
+
+41
+00:02:09,030 --> 00:02:12,030
+or the background color of a box.
+
+42
+00:02:12,030 --> 00:02:14,920
+These properties will actually be applied not only
+
+43
+00:02:14,920 --> 00:02:18,830
+to the content box, but to the entire fill area,
+
+44
+00:02:18,830 --> 00:02:21,920
+which also includes the padding and the border,
+
+45
+00:02:21,920 --> 00:02:24,450
+but not the margin, okay?
+
+46
+00:02:24,450 --> 00:02:27,050
+Alright, so let's go back to our code
+
+47
+00:02:27,050 --> 00:02:29,333
+and implement some of these properties.
+
+48
+00:02:30,600 --> 00:02:32,950
+Now, if we take a look at our page here,
+
+49
+00:02:32,950 --> 00:02:35,210
+we will see that actually there's already
+
+50
+00:02:35,210 --> 00:02:37,700
+a lot of space here, right?
+
+51
+00:02:37,700 --> 00:02:41,890
+For example, between this heading and this paragraph,
+
+52
+00:02:41,890 --> 00:02:44,650
+and here is space and here,
+
+53
+00:02:44,650 --> 00:02:46,820
+and there's also a lot of space
+
+54
+00:02:46,820 --> 00:02:49,250
+around this h2 element here.
+
+55
+00:02:49,250 --> 00:02:50,940
+And that's because by default,
+
+56
+00:02:50,940 --> 00:02:53,730
+some elements get some margin automatically
+
+57
+00:02:53,730 --> 00:02:56,470
+if we don't define them, okay.
+
+58
+00:02:56,470 --> 00:02:58,160
+Now that can create some problems
+
+59
+00:02:58,160 --> 00:03:00,320
+when we're trying to style our page.
+
+60
+00:03:00,320 --> 00:03:02,670
+And so usually what we do is that
+
+61
+00:03:02,670 --> 00:03:05,960
+we reset all of the margins and all of the paddings
+
+62
+00:03:05,960 --> 00:03:09,300
+on all elements before doing anything else.
+
+63
+00:03:09,300 --> 00:03:12,460
+So this is called a global reset.
+
+64
+00:03:12,460 --> 00:03:16,080
+And so to do that, we need to select all the elements.
+
+65
+00:03:16,080 --> 00:03:18,700
+And for that, we have a special selector
+
+66
+00:03:18,700 --> 00:03:23,640
+and that is a star selector, okay?
+
+67
+00:03:23,640 --> 00:03:24,670
+So again, with this,
+
+68
+00:03:24,670 --> 00:03:29,140
+we can select all the elements on the page.
+
+69
+00:03:29,140 --> 00:03:33,723
+So what we do then is to set the margin to zero pixels.
+
+70
+00:03:34,570 --> 00:03:35,720
+And when we use zero,
+
+71
+00:03:35,720 --> 00:03:38,300
+we don't even need to specify the unit.
+
+72
+00:03:38,300 --> 00:03:40,963
+So just a zero like this,
+
+73
+00:03:43,040 --> 00:03:48,040
+and the same for padding set to zero as well.
+
+74
+00:03:48,730 --> 00:03:52,950
+If I give it a save now, it looks like this.
+
+75
+00:03:52,950 --> 00:03:55,630
+So all the paddings and all the margins
+
+76
+00:03:55,630 --> 00:03:57,120
+are effectively gone.
+
+77
+00:03:57,120 --> 00:03:59,810
+And that's exactly what we wanted.
+
+78
+00:03:59,810 --> 00:04:03,013
+Now, we also need to add another property here.
+
+79
+00:04:04,220 --> 00:04:07,750
+I mean, we do not have to, but we usually always do,
+
+80
+00:04:07,750 --> 00:04:12,750
+which is the box sizing property set to border box, okay.
+
+81
+00:04:13,530 --> 00:04:15,480
+Now this will not change anything here,
+
+82
+00:04:15,480 --> 00:04:18,870
+and I'm not gonna go into detail what this does.
+
+83
+00:04:18,870 --> 00:04:20,503
+I'm just putting it here so that you know,
+
+84
+00:04:20,503 --> 00:04:23,650
+that we always use it, okay.
+
+85
+00:04:23,650 --> 00:04:25,490
+So essentially what this does is that
+
+86
+00:04:25,490 --> 00:04:28,870
+it will include paddings and borders into the width
+
+87
+00:04:28,870 --> 00:04:32,270
+or the height that we specify for an element.
+
+88
+00:04:32,270 --> 00:04:34,950
+So for example, if we specify the width of an element
+
+89
+00:04:34,950 --> 00:04:38,870
+to 100 pixels, and then add a padding of 20 pixels
+
+90
+00:04:38,870 --> 00:04:42,130
+on each side, then 100 plus 20 plus 20
+
+91
+00:04:42,130 --> 00:04:45,710
+would be a total width of 140 pixels,
+
+92
+00:04:45,710 --> 00:04:47,110
+which could create problems,
+
+93
+00:04:47,110 --> 00:04:50,420
+if all we wanted was a width of 100 pixels.
+
+94
+00:04:50,420 --> 00:04:54,460
+And so to fix this, we use box sizing set to border box.
+
+95
+00:04:54,460 --> 00:04:58,260
+And so in this case, if we specify the width to 100 pixels,
+
+96
+00:04:58,260 --> 00:05:00,430
+it will always be 100 pixels,
+
+97
+00:05:00,430 --> 00:05:03,210
+no matter how much the padding, okay.
+
+98
+00:05:03,210 --> 00:05:05,140
+And if that doesn't make a lot of sense
+
+99
+00:05:05,140 --> 00:05:08,460
+to you at this point, then you can always Google around
+
+100
+00:05:08,460 --> 00:05:11,250
+how it works, if you want to go into more detail.
+
+101
+00:05:11,250 --> 00:05:13,580
+But since this is just a crash course,
+
+102
+00:05:13,580 --> 00:05:16,540
+I'm not gonna go into a lot more detail.
+
+103
+00:05:16,540 --> 00:05:19,310
+So now what I want to do is to add back some margins
+
+104
+00:05:19,310 --> 00:05:23,650
+and some paddings so that you can see how exactly they work.
+
+105
+00:05:23,650 --> 00:05:25,940
+And let's actually add with the body
+
+106
+00:05:25,940 --> 00:05:29,060
+and here we will set some padding, okay.
+
+107
+00:05:29,060 --> 00:05:30,533
+And why do we use padding?
+
+108
+00:05:31,370 --> 00:05:34,390
+Well, it's because we want to add some space
+
+109
+00:05:34,390 --> 00:05:37,270
+inside of this body element.
+
+110
+00:05:37,270 --> 00:05:38,900
+So basically to create some space
+
+111
+00:05:38,900 --> 00:05:41,280
+between the border of the browser,
+
+112
+00:05:41,280 --> 00:05:43,853
+so of this view part and the content.
+
+113
+00:05:44,910 --> 00:05:47,560
+So let's set it to 75 pixels.
+
+114
+00:05:47,560 --> 00:05:50,780
+And by the way, there are also other units in CSS.
+
+115
+00:05:50,780 --> 00:05:52,800
+We don't always have to use pixels.
+
+116
+00:05:52,800 --> 00:05:57,480
+We can use percentages or other more weird units like em
+
+117
+00:05:57,480 --> 00:06:01,150
+or rem or points or anything like that.
+
+118
+00:06:01,150 --> 00:06:02,620
+But to start out it's easier
+
+119
+00:06:02,620 --> 00:06:05,770
+to just understand with pixels, okay.
+
+120
+00:06:05,770 --> 00:06:07,090
+So give it a save.
+
+121
+00:06:07,090 --> 00:06:10,460
+And so now you see that it added this nice space
+
+122
+00:06:10,460 --> 00:06:13,000
+between the sides, okay.
+
+123
+00:06:13,000 --> 00:06:17,920
+It's maybe a bit too much, put it back to a 50, okay.
+
+124
+00:06:17,920 --> 00:06:20,000
+And now let's move on and add some space
+
+125
+00:06:20,000 --> 00:06:23,400
+between this heading here and this paragraph.
+
+126
+00:06:23,400 --> 00:06:25,570
+And to do that, we can simply add some margin
+
+127
+00:06:25,570 --> 00:06:29,630
+to the bottom of this h1, okay.
+
+128
+00:06:29,630 --> 00:06:33,806
+So we can specify paddings and margins like this.
+
+129
+00:06:33,806 --> 00:06:35,680
+Or as we did here margin and padding
+
+130
+00:06:35,680 --> 00:06:37,240
+and that will then apply them
+
+131
+00:06:37,240 --> 00:06:39,840
+to the four sides of the element,
+
+132
+00:06:39,840 --> 00:06:42,090
+but we can also do that selectively
+
+133
+00:06:42,090 --> 00:06:44,260
+to only the left side or the right side
+
+134
+00:06:44,260 --> 00:06:47,800
+or the top side or the bottom side.
+
+135
+00:06:47,800 --> 00:06:51,840
+And so let's now add margin to the bottom of each one.
+
+136
+00:06:51,840 --> 00:06:56,840
+So margin and then bottom, and I'd say 25 pixels,
+
+137
+00:06:57,150 --> 00:06:58,120
+give it a save.
+
+138
+00:06:58,120 --> 00:07:00,930
+And here we have, okay.
+
+139
+00:07:00,930 --> 00:07:02,690
+Now, if we did padding here,
+
+140
+00:07:02,690 --> 00:07:05,053
+it would actually look the exact same way.
+
+141
+00:07:06,110 --> 00:07:08,000
+Let me show that to you.
+
+142
+00:07:08,000 --> 00:07:10,040
+And indeed it works the same way,
+
+143
+00:07:10,040 --> 00:07:13,860
+but now this space is inside of the h1.
+
+144
+00:07:13,860 --> 00:07:16,623
+Let me show that to you using the inspector.
+
+145
+00:07:20,950 --> 00:07:24,343
+So this is the h1 and two green part is the padding.
+
+146
+00:07:25,349 --> 00:07:27,360
+You can also see that here.
+
+147
+00:07:27,360 --> 00:07:29,390
+So this is the content,
+
+148
+00:07:29,390 --> 00:07:32,100
+and then we have 25 of padding
+
+149
+00:07:32,100 --> 00:07:33,850
+and here you also have to border
+
+150
+00:07:33,850 --> 00:07:36,480
+and then the margin outside of the border.
+
+151
+00:07:36,480 --> 00:07:38,200
+So outside of the element.
+
+152
+00:07:38,200 --> 00:07:39,600
+And essentially this is what we learned
+
+153
+00:07:39,600 --> 00:07:42,600
+at the beginning of this video, right?
+
+154
+00:07:42,600 --> 00:07:45,030
+But it makes more sense for this space actually
+
+155
+00:07:45,030 --> 00:07:47,400
+to be outside of the element.
+
+156
+00:07:47,400 --> 00:07:51,380
+And so a margin in this case makes more sense.
+
+157
+00:07:51,380 --> 00:07:53,040
+And so you see that now this 25
+
+158
+00:07:53,040 --> 00:07:56,430
+is here painted in red, right?
+
+159
+00:07:56,430 --> 00:08:00,040
+And so it's now outside of the element, okay.
+
+160
+00:08:00,040 --> 00:08:03,310
+So this elements tab here in the developer tools
+
+161
+00:08:03,310 --> 00:08:07,530
+is pretty useful to inspect the styles
+
+162
+00:08:07,530 --> 00:08:10,710
+of all the elements and also to check out the markup.
+
+163
+00:08:10,710 --> 00:08:12,620
+So the HTML in here.
+
+164
+00:08:12,620 --> 00:08:17,390
+We can turn on and off these different properties.
+
+165
+00:08:17,390 --> 00:08:21,490
+And in general, this is really helpful to work
+
+166
+00:08:21,490 --> 00:08:24,003
+with HTML and CSS in the browser.
+
+167
+00:08:25,530 --> 00:08:28,280
+Next up, we should probably also add some spacing
+
+168
+00:08:28,280 --> 00:08:30,163
+after the h2 elements.
+
+169
+00:08:35,080 --> 00:08:39,553
+So let's say margin bottom 20 pixel, okay.
+
+170
+00:08:40,530 --> 00:08:41,910
+And we can also do another thing
+
+171
+00:08:41,910 --> 00:08:43,440
+that I didn't show you before,
+
+172
+00:08:43,440 --> 00:08:46,440
+which is to set the text-align property.
+
+173
+00:08:46,440 --> 00:08:48,140
+So text-align,
+
+174
+00:08:48,140 --> 00:08:51,490
+and now we can set it to a left right or center.
+
+175
+00:08:51,490 --> 00:08:53,193
+And I wanna set it to center here.
+
+176
+00:08:54,367 --> 00:08:58,650
+And then as you expect the text will get centered here.
+
+177
+00:08:58,650 --> 00:09:01,993
+So basically centered inside this whole box.
+
+178
+00:09:03,280 --> 00:09:05,200
+So the h2 box, and again,
+
+179
+00:09:05,200 --> 00:09:08,900
+we can see the box using the inspector, okay.
+
+180
+00:09:08,900 --> 00:09:11,950
+So the box itself is this whole blue space
+
+181
+00:09:11,950 --> 00:09:13,610
+that we can see up there.
+
+182
+00:09:13,610 --> 00:09:16,550
+And so the text of the h2 is then centered
+
+183
+00:09:16,550 --> 00:09:19,250
+inside the h2 box, okay.
+
+184
+00:09:19,250 --> 00:09:21,480
+And remember that this is a block element.
+
+185
+00:09:21,480 --> 00:09:24,490
+And so that's why it creates a box basically.
+
+186
+00:09:24,490 --> 00:09:26,300
+So block elements are the elements
+
+187
+00:09:26,300 --> 00:09:29,130
+that create their own line and inline elements.
+
+188
+00:09:29,130 --> 00:09:31,303
+Remember, it's like the link here.
+
+189
+00:09:32,240 --> 00:09:34,230
+So if we inspect this one,
+
+190
+00:09:34,230 --> 00:09:37,110
+you see that the box only occupies the space
+
+191
+00:09:37,110 --> 00:09:39,320
+of the text itself, right?
+
+192
+00:09:39,320 --> 00:09:41,903
+It doesn't create a whole box on a whole line.
+
+193
+00:09:42,940 --> 00:09:45,090
+So that's the big difference between inline
+
+194
+00:09:45,090 --> 00:09:47,463
+and block elements now, right?
+
+195
+00:09:49,090 --> 00:09:50,390
+Okay.
+
+196
+00:09:50,390 --> 00:09:54,060
+So this form here, of course is also a block element.
+
+197
+00:09:54,060 --> 00:09:57,590
+And so let's make it a little bit more narrow.
+
+198
+00:09:57,590 --> 00:10:00,600
+And so, as we learned, by the beginning of the lecture,
+
+199
+00:10:00,600 --> 00:10:03,003
+we can do that using the width property.
+
+200
+00:10:04,670 --> 00:10:07,790
+So let's set it to 400 pixels
+
+201
+00:10:08,700 --> 00:10:12,840
+and that looks a lot nicer, okay.
+
+202
+00:10:12,840 --> 00:10:14,610
+Now we also want to create some space
+
+203
+00:10:14,610 --> 00:10:17,310
+between all this content and the border.
+
+204
+00:10:17,310 --> 00:10:19,610
+And so how do we do that?
+
+205
+00:10:19,610 --> 00:10:21,200
+Well, that's right.
+
+206
+00:10:21,200 --> 00:10:24,590
+We have to use padding because padding creates space
+
+207
+00:10:24,590 --> 00:10:29,590
+inside of the box and yes, indeed it does.
+
+208
+00:10:30,870 --> 00:10:33,720
+And now let's also create some space between the image
+
+209
+00:10:33,720 --> 00:10:36,640
+and this form here, okay.
+
+210
+00:10:36,640 --> 00:10:39,203
+And so here we can add some margin to the top.
+
+211
+00:10:41,280 --> 00:10:46,280
+So margin top, and let's say, well, 50 pixels.
+
+212
+00:10:47,870 --> 00:10:51,550
+Might be a bit too much now let's just edit to a 30,
+
+213
+00:10:51,550 --> 00:10:53,300
+so we can see it.
+
+214
+00:10:53,300 --> 00:10:55,770
+And now let me actually just show you what happens
+
+215
+00:10:55,770 --> 00:11:00,310
+if we take out this property here, okay.
+
+216
+00:11:00,310 --> 00:11:01,740
+So we comment it out,
+
+217
+00:11:01,740 --> 00:11:04,630
+just like we comment out code in JavaScript.
+
+218
+00:11:04,630 --> 00:11:06,910
+So let's hit Comment slash.
+
+219
+00:11:06,910 --> 00:11:11,760
+And so you see in CSS, the comments are like this.
+
+220
+00:11:11,760 --> 00:11:16,460
+So slash star star slash and not slash slash, okay.
+
+221
+00:11:16,460 --> 00:11:17,390
+And so as I save now,
+
+222
+00:11:17,390 --> 00:11:19,310
+take a close look here at this form
+
+223
+00:11:20,710 --> 00:11:23,623
+and you see that it now get wider.
+
+224
+00:11:24,970 --> 00:11:26,373
+So let's inspected here.
+
+225
+00:11:29,270 --> 00:11:31,607
+So the form, we need to select the form here
+
+226
+00:11:31,607 --> 00:11:32,943
+and then scroll down.
+
+227
+00:11:34,020 --> 00:11:37,090
+And so now you see what I explained earlier.
+
+228
+00:11:37,090 --> 00:11:39,830
+So we define the width as 400,
+
+229
+00:11:39,830 --> 00:11:43,580
+but then we have a padding of 25 here, right?
+
+230
+00:11:43,580 --> 00:11:45,820
+And so that gets added
+
+231
+00:11:45,820 --> 00:11:48,170
+to the total width of the element.
+
+232
+00:11:48,170 --> 00:11:51,800
+So we have 400 plus 25 plus here 25 here,
+
+233
+00:11:51,800 --> 00:11:54,890
+and then also five pixels border on each side.
+
+234
+00:11:54,890 --> 00:11:56,897
+So five here and five here.
+
+235
+00:11:56,897 --> 00:11:59,830
+And so that makes it then that the whole element,
+
+236
+00:11:59,830 --> 00:12:03,223
+adds up to 460 pixels, I would guess.
+
+237
+00:12:04,230 --> 00:12:06,390
+So you can see that here on the screen.
+
+238
+00:12:06,390 --> 00:12:09,600
+So up here that it says that the width
+
+239
+00:12:09,600 --> 00:12:12,120
+is actually 460, okay.
+
+240
+00:12:12,120 --> 00:12:14,740
+And so again, that's because it adds up all the borders
+
+241
+00:12:14,740 --> 00:12:16,793
+and the paddings to the width.
+
+242
+00:12:17,710 --> 00:12:20,700
+And that's what happens without box sizing to border box.
+
+243
+00:12:20,700 --> 00:12:25,700
+But as I put it back on, so again, comment slash.
+
+244
+00:12:25,870 --> 00:12:27,050
+If I save it now,
+
+245
+00:12:27,050 --> 00:12:29,700
+now we are back to what we expected.
+
+246
+00:12:29,700 --> 00:12:33,360
+So 400, so we set it here to 400.
+
+247
+00:12:33,360 --> 00:12:35,903
+And so we wanted it to be exactly 400
+
+248
+00:12:35,903 --> 00:12:39,090
+and not for all the other stuff to be added.
+
+249
+00:12:39,090 --> 00:12:41,533
+And so now, as you see here, it says 400.
+
+250
+00:12:42,410 --> 00:12:45,640
+And so automatically CSS then changed the width
+
+251
+00:12:45,640 --> 00:12:48,830
+of the content here to just 340
+
+252
+00:12:48,830 --> 00:12:52,290
+to accommodate the rest of the width.
+
+253
+00:12:52,290 --> 00:12:54,310
+Basically that's needed for the padding
+
+254
+00:12:54,310 --> 00:12:57,410
+and the border, okay.
+
+255
+00:12:57,410 --> 00:12:59,793
+So I said, I wouldn't go into a lot of detail,
+
+256
+00:12:59,793 --> 00:13:00,626
+(instructor laughs)
+
+257
+00:13:00,626 --> 00:13:02,133
+but I guess I just did anyway.
+
+258
+00:13:04,460 --> 00:13:07,200
+But anyway, let's now also add some margin
+
+259
+00:13:07,200 --> 00:13:09,573
+to these paragraphs here.
+
+260
+00:13:11,250 --> 00:13:15,070
+So I used the first class to select
+
+261
+00:13:15,070 --> 00:13:17,860
+this paragraph and this paragraph,
+
+262
+00:13:17,860 --> 00:13:20,450
+but now we want to select all three paragraphs.
+
+263
+00:13:20,450 --> 00:13:23,780
+And so for that, we can simply use the P selector
+
+264
+00:13:23,780 --> 00:13:26,220
+and that will then select all of them,
+
+265
+00:13:26,220 --> 00:13:30,800
+regardless of any class names, okay.
+
+266
+00:13:30,800 --> 00:13:35,750
+So margin bottom, and let's set it to 10 pixels or 20,
+
+267
+00:13:35,750 --> 00:13:37,653
+so we can see it a little bit better.
+
+268
+00:13:38,620 --> 00:13:40,340
+And so you'll see that, in fact,
+
+269
+00:13:40,340 --> 00:13:41,910
+the margin now got applied
+
+270
+00:13:41,910 --> 00:13:45,393
+to all three of these paragraphs, just as we wanted.
+
+271
+00:13:46,380 --> 00:13:50,063
+Next up, we can also select the input and the button.
+
+272
+00:13:51,350 --> 00:13:53,730
+So here we have to input and button elements
+
+273
+00:13:53,730 --> 00:13:56,850
+and we can also style them a little bit too.
+
+274
+00:13:56,850 --> 00:13:59,653
+So let me actually show you another cool thing.
+
+275
+00:14:00,700 --> 00:14:02,393
+So we have the input selector,
+
+276
+00:14:03,280 --> 00:14:06,210
+but now we want these rules that we're gonna write here
+
+277
+00:14:06,210 --> 00:14:09,020
+to apply to both the input and the button.
+
+278
+00:14:09,020 --> 00:14:13,310
+And so we can write input, comma, button.
+
+279
+00:14:13,310 --> 00:14:15,160
+And so this rule here will then apply
+
+280
+00:14:15,160 --> 00:14:17,493
+to both of these selectors.
+
+281
+00:14:19,150 --> 00:14:22,070
+So let's add a padding of 10 pixels
+
+282
+00:14:22,070 --> 00:14:24,190
+and increase the font size.
+
+283
+00:14:24,190 --> 00:14:26,690
+Let's say two 16 pixels.
+
+284
+00:14:26,690 --> 00:14:28,173
+So look at them now.
+
+285
+00:14:29,460 --> 00:14:31,080
+And indeed they got bigger
+
+286
+00:14:31,080 --> 00:14:33,803
+and they got this nice padding in there now.
+
+287
+00:14:34,780 --> 00:14:38,320
+And once more, you can see it that these two elements,
+
+288
+00:14:38,320 --> 00:14:41,450
+so input and button are inline elements.
+
+289
+00:14:41,450 --> 00:14:43,070
+So this one and this one,
+
+290
+00:14:43,070 --> 00:14:46,900
+they both don't create a box that occupies the whole line.
+
+291
+00:14:46,900 --> 00:14:49,010
+So again, just like the link
+
+292
+00:14:49,010 --> 00:14:52,040
+and I can actually show that to you
+
+293
+00:14:52,040 --> 00:14:55,340
+by styling just this link.
+
+294
+00:14:55,340 --> 00:15:00,083
+So let's say, a background color,
+
+295
+00:15:01,970 --> 00:15:04,063
+and set it to yellow.
+
+296
+00:15:04,960 --> 00:15:08,193
+And then here you see, and at least I hope you can see it.
+
+297
+00:15:09,539 --> 00:15:10,950
+Or let's actually set it to yellow green,
+
+298
+00:15:10,950 --> 00:15:12,163
+I think that's another.
+
+299
+00:15:13,480 --> 00:15:14,680
+Yes.
+
+300
+00:15:14,680 --> 00:15:16,210
+And so now you can see it.
+
+301
+00:15:16,210 --> 00:15:19,860
+And so the box now is only this element itself,
+
+302
+00:15:19,860 --> 00:15:22,703
+but not the whole width of the screen, okay.
+
+303
+00:15:24,040 --> 00:15:26,780
+So actually, yeah, let's leave it like this.
+
+304
+00:15:26,780 --> 00:15:30,250
+So you can have this as a reference and now to finish,
+
+305
+00:15:30,250 --> 00:15:32,210
+I just want to show you one final,
+
+306
+00:15:32,210 --> 00:15:34,830
+but very important selector.
+
+307
+00:15:34,830 --> 00:15:37,420
+And this one is actually pretty important for you to know,
+
+308
+00:15:37,420 --> 00:15:40,210
+because we're also gonna use this all the time
+
+309
+00:15:40,210 --> 00:15:42,430
+in JavaScript to select elements
+
+310
+00:15:42,430 --> 00:15:44,460
+when we do DOM manipulation,
+
+311
+00:15:44,460 --> 00:15:46,490
+because in fact, all the selectors,
+
+312
+00:15:46,490 --> 00:15:48,920
+the way they work in CSS, for example,
+
+313
+00:15:48,920 --> 00:15:52,250
+the dot first or here, the ID selector,
+
+314
+00:15:52,250 --> 00:15:53,550
+they're gonna work just the same
+
+315
+00:15:53,550 --> 00:15:55,820
+to select elements in JavaScript.
+
+316
+00:15:55,820 --> 00:15:58,830
+And so that's one of the reasons why it's very important
+
+317
+00:15:58,830 --> 00:16:00,913
+to learn how these selectors work.
+
+318
+00:16:02,100 --> 00:16:04,500
+So anyway, the selector that I wanted to show you
+
+319
+00:16:04,500 --> 00:16:06,470
+is the child selector.
+
+320
+00:16:06,470 --> 00:16:08,770
+So the example I have here
+
+321
+00:16:08,770 --> 00:16:12,120
+is that we have these two h2 headings.
+
+322
+00:16:12,120 --> 00:16:14,820
+So this one and this one.
+
+323
+00:16:14,820 --> 00:16:18,310
+But let's say I only wanted to select the h2 elements
+
+324
+00:16:18,310 --> 00:16:22,960
+that are inside of this form here, okay.
+
+325
+00:16:22,960 --> 00:16:25,790
+So of course I could go ahead and add an ID
+
+326
+00:16:25,790 --> 00:16:27,363
+or a class to this one.
+
+327
+00:16:28,290 --> 00:16:31,860
+So here I could add an ID or a class,
+
+328
+00:16:31,860 --> 00:16:36,050
+but I could also tell CSS to simply select this h1
+
+329
+00:16:36,050 --> 00:16:40,133
+that is inside of the element with the ID of your name.
+
+330
+00:16:41,160 --> 00:16:42,723
+And so this is how it works.
+
+331
+00:16:43,560 --> 00:16:46,043
+So again, we use the ID, your name,
+
+332
+00:16:47,380 --> 00:16:51,053
+so in just what we have here, and then a simple space,
+
+333
+00:16:51,950 --> 00:16:54,090
+and then another selector.
+
+334
+00:16:54,090 --> 00:16:57,210
+So in this case, that's simply the h2 selector,
+
+335
+00:16:57,210 --> 00:16:59,540
+but it could be any other selector.
+
+336
+00:16:59,540 --> 00:17:01,880
+So this here could also be a class selector
+
+337
+00:17:01,880 --> 00:17:04,720
+or another ID selector, alright?
+
+338
+00:17:04,720 --> 00:17:07,910
+But in this case, I just want to select the h2.
+
+339
+00:17:07,910 --> 00:17:10,250
+And so let's change the color of this one
+
+340
+00:17:10,250 --> 00:17:14,420
+and let's change it to, I think there's one called olive
+
+341
+00:17:15,260 --> 00:17:17,420
+or let's use this one, olive drab
+
+342
+00:17:18,440 --> 00:17:20,840
+and yeah, indeed.
+
+343
+00:17:20,840 --> 00:17:23,830
+Now this one is green and this one is not
+
+344
+00:17:23,830 --> 00:17:26,550
+because this one is not inside the element
+
+345
+00:17:26,550 --> 00:17:29,497
+with the ID of your name, right?
+
+346
+00:17:29,497 --> 00:17:32,580
+And so this one here is very useful
+
+347
+00:17:32,580 --> 00:17:35,770
+and we use it all the time in CSS.
+
+348
+00:17:35,770 --> 00:17:37,640
+And so that's why I wanted to show you
+
+349
+00:17:37,640 --> 00:17:39,390
+this one here as well.
+
+350
+00:17:39,390 --> 00:17:44,390
+Finally, just to make this a little bit smaller,
+
+351
+00:17:44,530 --> 00:17:46,720
+let's also change the size of the image
+
+352
+00:17:46,720 --> 00:17:49,420
+because that's also something very important.
+
+353
+00:17:49,420 --> 00:17:52,910
+So if we do not specify any sizes on the image,
+
+354
+00:17:52,910 --> 00:17:56,780
+it will simply be as large as it can, okay.
+
+355
+00:17:56,780 --> 00:18:00,200
+Or as large as the source image really is.
+
+356
+00:18:00,200 --> 00:18:01,690
+But usually we don't want that.
+
+357
+00:18:01,690 --> 00:18:04,750
+So on the image, it's pretty common to always set
+
+358
+00:18:04,750 --> 00:18:07,610
+either a height or a width attribute.
+
+359
+00:18:07,610 --> 00:18:09,203
+So let's do that here.
+
+360
+00:18:11,356 --> 00:18:15,130
+So this one doesn't have, or maybe it does have a class.
+
+361
+00:18:15,130 --> 00:18:18,630
+So, or actually, it has an ID, okay.
+
+362
+00:18:18,630 --> 00:18:21,680
+So we can of course use the image selector,
+
+363
+00:18:21,680 --> 00:18:24,980
+like I was just writing, but we can also use the ID.
+
+364
+00:18:24,980 --> 00:18:27,490
+So the difference is that with the ID,
+
+365
+00:18:27,490 --> 00:18:28,930
+if we add multiple images
+
+366
+00:18:28,930 --> 00:18:31,240
+then we would only select this one.
+
+367
+00:18:31,240 --> 00:18:33,823
+So let's actually copy this one and use this.
+
+368
+00:18:35,600 --> 00:18:39,380
+So ID, and then the name of the ID.
+
+369
+00:18:39,380 --> 00:18:43,723
+And let's set the width here to 200 pixels.
+
+370
+00:18:44,690 --> 00:18:47,800
+So what do you think will happen then to the height?
+
+371
+00:18:47,800 --> 00:18:52,060
+Well, it scaled proportionally, okay.
+
+372
+00:18:52,060 --> 00:18:53,500
+So that's very nice.
+
+373
+00:18:53,500 --> 00:18:56,760
+Let's make it a bit bigger 300 pixels.
+
+374
+00:18:56,760 --> 00:18:59,090
+And so we don't have to worry about the height.
+
+375
+00:18:59,090 --> 00:19:01,680
+We can still set it, but with that,
+
+376
+00:19:01,680 --> 00:19:04,520
+we will then change the aspect ratio.
+
+377
+00:19:04,520 --> 00:19:07,590
+So if we set the height to also 300 pixels,
+
+378
+00:19:07,590 --> 00:19:09,320
+it would then become a square (laughs).
+
+379
+00:19:09,320 --> 00:19:10,333
+Yeah, that's right.
+
+380
+00:19:11,610 --> 00:19:12,550
+Okay?
+
+381
+00:19:12,550 --> 00:19:15,200
+And if we now turned off the width,
+
+382
+00:19:15,200 --> 00:19:16,820
+so let's comment it out
+
+383
+00:19:16,820 --> 00:19:19,880
+then it will again scale proportionately.
+
+384
+00:19:19,880 --> 00:19:21,610
+So the height is now 300
+
+385
+00:19:21,610 --> 00:19:24,273
+and then the width is calculated automatically.
+
+386
+00:19:25,470 --> 00:19:26,620
+Let's set it back.
+
+387
+00:19:26,620 --> 00:19:30,563
+And usually it's easier to simply specify the width, okay.
+
+388
+00:19:32,520 --> 00:19:33,440
+That looks nice.
+
+389
+00:19:33,440 --> 00:19:36,640
+Let's change the h1 a little bit to 35
+
+390
+00:19:38,540 --> 00:19:40,473
+to make it fit all in one line.
+
+391
+00:19:43,440 --> 00:19:47,490
+And yeah, we have a nice little page here.
+
+392
+00:19:47,490 --> 00:19:49,260
+It's not the best looking,
+
+393
+00:19:49,260 --> 00:19:53,170
+but I think it taught you some things about HTML and CSS,
+
+394
+00:19:53,170 --> 00:19:55,230
+at least to the very fundamentals.
+
+395
+00:19:55,230 --> 00:19:58,210
+So of course we only scratched the surface here.
+
+396
+00:19:58,210 --> 00:20:02,030
+So probably this is less than like 5%
+
+397
+00:20:02,030 --> 00:20:05,830
+of everything that there is to learn about CSS.
+
+398
+00:20:05,830 --> 00:20:08,800
+So we didn't really talk about positioning.
+
+399
+00:20:08,800 --> 00:20:11,850
+We didn't talk about flexbox or CSS grid
+
+400
+00:20:11,850 --> 00:20:14,210
+or many other important topics,
+
+401
+00:20:14,210 --> 00:20:16,250
+but it wasn't also really the goal here.
+
+402
+00:20:16,250 --> 00:20:17,910
+I just wanted to get you up to speed
+
+403
+00:20:17,910 --> 00:20:20,730
+with the fundamentals of HTML and CSS
+
+404
+00:20:20,730 --> 00:20:23,510
+so that you can understand a little bit of the code
+
+405
+00:20:23,510 --> 00:20:25,707
+of projects that are included here in the course,
+
+406
+00:20:25,707 --> 00:20:29,370
+and also so that you can learn how these selectors work,
+
+407
+00:20:29,370 --> 00:20:30,720
+because as I mentioned,
+
+408
+00:20:30,720 --> 00:20:35,070
+we will use them in JavaScript to select elements as well.
+
+409
+00:20:35,070 --> 00:20:37,710
+So I hope you liked this small crash course.
+
+410
+00:20:37,710 --> 00:20:41,750
+And I also hope I got you interested in HTML and CSS
+
+411
+00:20:41,750 --> 00:20:43,780
+so that you now go ahead and research
+
+412
+00:20:43,780 --> 00:20:46,160
+maybe a little bit more about it.
+
+413
+00:20:46,160 --> 00:20:48,050
+Anyway, and with that being said,
+
+414
+00:20:48,050 --> 00:20:50,820
+let's now go straight into DOM manipulation
+
+415
+00:20:50,820 --> 00:20:52,240
+in the next section,
+
+416
+00:20:52,240 --> 00:20:55,253
+because that's really exciting and really cool.

@@ -1,0 +1,1119 @@
+1
+00:00:01,310 --> 00:00:02,320
+In this video,
+
+2
+00:00:02,320 --> 00:00:06,820
+we will actually start implementing our games functionality,
+
+3
+00:00:06,820 --> 00:00:09,990
+and we will start with the most important functionality,
+
+4
+00:00:09,990 --> 00:00:11,913
+which is rolling the dice.
+
+5
+00:00:13,500 --> 00:00:18,370
+And let's start with another look at our flowchart here.
+
+6
+00:00:18,370 --> 00:00:22,260
+So that's why I included it in the starter files.
+
+7
+00:00:22,260 --> 00:00:24,530
+So when the user roles a dice,
+
+8
+00:00:24,530 --> 00:00:28,150
+we want to first generate a random dice roll,
+
+9
+00:00:28,150 --> 00:00:32,730
+then display it and then check whether it is a one or not.
+
+10
+00:00:32,730 --> 00:00:36,880
+And if it's not, we add that dice roll to the current score,
+
+11
+00:00:36,880 --> 00:00:40,580
+and if it is a one we go to the next player.
+
+12
+00:00:40,580 --> 00:00:41,900
+And maybe you're noticing
+
+13
+00:00:41,900 --> 00:00:45,830
+that having or building a flow chart like this
+
+14
+00:00:45,830 --> 00:00:50,010
+is pretty similar to actually dividing the big problem down
+
+15
+00:00:50,010 --> 00:00:52,580
+into smaller sub problems.
+
+16
+00:00:52,580 --> 00:00:55,250
+So essentially, all these squares that we have here
+
+17
+00:00:55,250 --> 00:00:57,010
+on the flow chart are like
+
+18
+00:00:57,010 --> 00:00:59,240
+the sub problems that we now need to go
+
+19
+00:00:59,240 --> 00:01:01,180
+ahead and implement.
+
+20
+00:01:01,180 --> 00:01:04,570
+So again, for a bigger application like this one,
+
+21
+00:01:04,570 --> 00:01:08,590
+it's a very good idea to draw a flow chart like this,
+
+22
+00:01:08,590 --> 00:01:12,460
+along with the process of solving problems that I taught you
+
+23
+00:01:12,460 --> 00:01:14,210
+in the previous section.
+
+24
+00:01:14,210 --> 00:01:17,020
+So use all of these methods that I showed you together
+
+25
+00:01:17,020 --> 00:01:19,100
+whenever you need to solve a problem,
+
+26
+00:01:19,100 --> 00:01:23,530
+because in the end, building a project like this is also
+
+27
+00:01:23,530 --> 00:01:25,290
+simply solving a problem.
+
+28
+00:01:25,290 --> 00:01:27,970
+So you know how the project is supposed to work,
+
+29
+00:01:27,970 --> 00:01:29,620
+but then the problem is
+
+30
+00:01:29,620 --> 00:01:32,620
+to essentially implement it yourself.
+
+31
+00:01:32,620 --> 00:01:35,240
+And so you need to divide that big problem
+
+32
+00:01:35,240 --> 00:01:37,100
+that can seem very scary
+
+33
+00:01:37,100 --> 00:01:38,960
+into smaller problems that will then
+
+34
+00:01:38,960 --> 00:01:41,090
+be easy to implement.
+
+35
+00:01:41,090 --> 00:01:43,220
+And as we move through this project,
+
+36
+00:01:43,220 --> 00:01:47,230
+you will see that it's not so scary after all.
+
+37
+00:01:47,230 --> 00:01:48,690
+And with that being said,
+
+38
+00:01:48,690 --> 00:01:52,580
+let's now also see this part of the flowchart in action
+
+39
+00:01:52,580 --> 00:01:54,880
+in the real application.
+
+40
+00:01:54,880 --> 00:01:58,130
+So this is a little bit less abstract.
+
+41
+00:01:58,130 --> 00:02:01,880
+So we roll the dice and now we rolled a one.
+
+42
+00:02:01,880 --> 00:02:03,720
+So let's just do it again.
+
+43
+00:02:03,720 --> 00:02:07,260
+Let me reload the game as if it was a new game.
+
+44
+00:02:07,260 --> 00:02:10,300
+So we roll the dice, we roll a number.
+
+45
+00:02:10,300 --> 00:02:12,290
+So we generate a random number
+
+46
+00:02:12,290 --> 00:02:15,460
+and then display the dice accordingly,
+
+47
+00:02:15,460 --> 00:02:18,193
+and then we add that score down here.
+
+48
+00:02:19,570 --> 00:02:22,460
+Again, and now we actually rolled a one.
+
+49
+00:02:22,460 --> 00:02:25,600
+And so we moved on to the next player.
+
+50
+00:02:25,600 --> 00:02:26,433
+Okay.
+
+51
+00:02:27,450 --> 00:02:31,340
+So that's what I just explained before using the flowchart,
+
+52
+00:02:31,340 --> 00:02:34,610
+but seeing it in action is a bit easier.
+
+53
+00:02:34,610 --> 00:02:38,800
+So we want to react to clicking that roll button.
+
+54
+00:02:38,800 --> 00:02:42,440
+So we need to select that button element and then
+
+55
+00:02:42,440 --> 00:02:45,683
+add an event listener or an event handler.
+
+56
+00:02:48,220 --> 00:02:52,360
+So here we have our three buttons and actually
+
+57
+00:02:52,360 --> 00:02:54,720
+let's select all of them.
+
+58
+00:02:54,720 --> 00:02:57,310
+So we will need them anyway later.
+
+59
+00:02:57,310 --> 00:03:02,310
+So that's button new, button roll and button--hold.
+
+60
+00:03:06,210 --> 00:03:10,020
+So const button new
+
+61
+00:03:11,210 --> 00:03:14,847
+is document.querySelector.btn,
+
+62
+00:03:18,976 --> 00:03:21,163
+and then two dashes new.
+
+63
+00:03:22,680 --> 00:03:24,993
+And now I will just duplicate this line here.
+
+64
+00:03:28,570 --> 00:03:32,060
+So that's button roll
+
+65
+00:03:33,690 --> 00:03:36,493
+and here also roll and then hold.
+
+66
+00:03:42,400 --> 00:03:45,830
+So let's just confirm new roll and hold
+
+67
+00:03:45,830 --> 00:03:48,833
+and indeed new roll and hold.
+
+68
+00:03:50,000 --> 00:03:52,270
+So that's gonna work just fine.
+
+69
+00:03:52,270 --> 00:03:54,398
+And now let's implement here
+
+70
+00:03:54,398 --> 00:03:56,981
+the rolling dice functionality.
+
+71
+00:04:02,547 --> 00:04:05,890
+So for that we take the roll button.
+
+72
+00:04:05,890 --> 00:04:08,110
+So that's button roll.
+
+73
+00:04:08,110 --> 00:04:12,990
+And then as always, when we want to react to an event,
+
+74
+00:04:12,990 --> 00:04:15,210
+which in this case is going to be a click,
+
+75
+00:04:15,210 --> 00:04:17,713
+we use the add event listener method.
+
+76
+00:04:19,130 --> 00:04:21,582
+Then the name of the event, and then,
+
+77
+00:04:21,582 --> 00:04:23,773
+our handler function right here.
+
+78
+00:04:24,640 --> 00:04:27,090
+And since we will not reuse this function,
+
+79
+00:04:27,090 --> 00:04:30,390
+I can simply write it here directly.
+
+80
+00:04:30,390 --> 00:04:32,820
+So let's now write some comments before
+
+81
+00:04:32,820 --> 00:04:34,250
+we actually write the code,
+
+82
+00:04:34,250 --> 00:04:38,090
+because that is very helpful in knowing what we should do.
+
+83
+00:04:38,090 --> 00:04:41,920
+So we already know that we need to start by generating
+
+84
+00:04:41,920 --> 00:04:46,093
+a random dice roll.
+
+85
+00:04:47,380 --> 00:04:50,740
+Then we display the dice
+
+86
+00:04:53,022 --> 00:04:57,623
+and then we check for a roll to one basically,
+
+87
+00:04:58,710 --> 00:04:59,673
+and if true,
+
+88
+00:05:01,740 --> 00:05:06,660
+switch to next player now.
+
+89
+00:05:06,660 --> 00:05:10,943
+So that's exactly what we have in the flowchart as well.
+
+90
+00:05:12,200 --> 00:05:14,210
+So let's start here.
+
+91
+00:05:14,210 --> 00:05:17,440
+So let's create simply a dice variable.
+
+92
+00:05:17,440 --> 00:05:21,530
+And so that's why now we have dice L here for the element
+
+93
+00:05:21,530 --> 00:05:24,320
+and then dice for the number itself.
+
+94
+00:05:24,320 --> 00:05:28,160
+And this variable here needs to be not a global variable.
+
+95
+00:05:28,160 --> 00:05:30,290
+So not a variable outside here,
+
+96
+00:05:30,290 --> 00:05:33,010
+because each time that we roll the dice,
+
+97
+00:05:33,010 --> 00:05:35,300
+we want to generate a new number.
+
+98
+00:05:35,300 --> 00:05:37,803
+And so let's simply define that variable here.
+
+99
+00:05:39,150 --> 00:05:43,170
+And now we create this random dice roll just as before.
+
+100
+00:05:43,170 --> 00:05:46,570
+So math.random,
+
+101
+00:05:46,570 --> 00:05:50,990
+which creates a number between zero and 0.9999.
+
+102
+00:05:52,050 --> 00:05:55,423
+So almost one, multiply that by six.
+
+103
+00:05:56,900 --> 00:05:58,870
+Then we truncate all of this.
+
+104
+00:05:58,870 --> 00:06:01,560
+So we removed the decimal part.
+
+105
+00:06:01,560 --> 00:06:03,993
+So that's math.trunc.
+
+106
+00:06:06,030 --> 00:06:09,960
+So basically we pass in the results of all of this,
+
+107
+00:06:09,960 --> 00:06:12,390
+into this math.trunc function.
+
+108
+00:06:12,390 --> 00:06:13,800
+And so this will then give us a number
+
+109
+00:06:13,800 --> 00:06:15,780
+between zero and five.
+
+110
+00:06:15,780 --> 00:06:20,650
+And so we just add one to elevate that to one to six.
+
+111
+00:06:20,650 --> 00:06:23,440
+So that's similar to what we did before
+
+112
+00:06:23,440 --> 00:06:26,323
+and now we just need to display this dice.
+
+113
+00:06:27,200 --> 00:06:29,080
+Now, the first thing that we need to do
+
+114
+00:06:29,080 --> 00:06:30,900
+is to actually remove
+
+115
+00:06:30,900 --> 00:06:34,280
+the hidden class. So remember in the starting conditions,
+
+116
+00:06:34,280 --> 00:06:38,220
+we hit the dice by adding the hidden class.
+
+117
+00:06:38,220 --> 00:06:41,230
+And so now the first thing is to remove that.
+
+118
+00:06:41,230 --> 00:06:46,230
+So the diceEl.classList.remove.
+
+119
+00:06:49,660 --> 00:06:53,340
+So just like in the last project and now comes
+
+120
+00:06:53,340 --> 00:06:55,330
+the interesting part.
+
+121
+00:06:55,330 --> 00:06:58,120
+So we know that the dice will be a number
+
+122
+00:06:58,120 --> 00:07:00,363
+between one and six.
+
+123
+00:07:01,380 --> 00:07:03,220
+And now, according to these numbers,
+
+124
+00:07:03,220 --> 00:07:07,060
+we want to display one of these images that we have here.
+
+125
+00:07:07,060 --> 00:07:10,530
+So you see that we have dice dash one dash two, three, four,
+
+126
+00:07:10,530 --> 00:07:12,230
+five and six.
+
+127
+00:07:12,230 --> 00:07:15,920
+And so now we want to use this dice number here, two,
+
+128
+00:07:15,920 --> 00:07:18,830
+according to that number display one of the images
+
+129
+00:07:19,680 --> 00:07:22,540
+and that's actually not hard to do.
+
+130
+00:07:22,540 --> 00:07:26,193
+So let me show you how it looks like in the HTML now.
+
+131
+00:07:27,656 --> 00:07:30,950
+So you'll see that right now,
+
+132
+00:07:30,950 --> 00:07:35,570
+the source of the image is dice-5.png.
+
+133
+00:07:35,570 --> 00:07:37,450
+And if you know some HTML, you know
+
+134
+00:07:37,450 --> 00:07:41,930
+that the source attribute here is how we define which image
+
+135
+00:07:41,930 --> 00:07:43,730
+should be displayed.
+
+136
+00:07:43,730 --> 00:07:45,520
+And we can now actually change.
+
+137
+00:07:45,520 --> 00:07:50,150
+We can manipulate this source attribute from our JavaScript.
+
+138
+00:07:50,150 --> 00:07:52,670
+And so that's the trick that we will use to display
+
+139
+00:07:52,670 --> 00:07:56,233
+the image, according to the rolled dice number.
+
+140
+00:07:57,750 --> 00:08:01,490
+So let's again, take the dice element.
+
+141
+00:08:01,490 --> 00:08:03,700
+And then here, there is a new thing.
+
+142
+00:08:03,700 --> 00:08:06,400
+So now we can use the source property.
+
+143
+00:08:06,400 --> 00:08:11,060
+So SRC just like it is called in the HTML,
+
+144
+00:08:11,060 --> 00:08:14,430
+and now we can set it to a string and that string will then
+
+145
+00:08:14,430 --> 00:08:16,860
+be the name of the image displayed.
+
+146
+00:08:16,860 --> 00:08:19,070
+So let's use a template literal,
+
+147
+00:08:19,070 --> 00:08:23,130
+and then we write, dice dash
+
+148
+00:08:23,130 --> 00:08:24,390
+because that's basically
+
+149
+00:08:24,390 --> 00:08:28,610
+the common name in all of these image names.
+
+150
+00:08:28,610 --> 00:08:33,610
+And then here we use the dicenumber.png.
+
+151
+00:08:35,950 --> 00:08:36,970
+And so with this,
+
+152
+00:08:36,970 --> 00:08:40,610
+we can dynamically load one of these six images here,
+
+153
+00:08:40,610 --> 00:08:43,590
+depending on the random rolled dice.
+
+154
+00:08:43,590 --> 00:08:46,660
+So let's give it a safe and let's give it a try
+
+155
+00:08:46,660 --> 00:08:49,233
+because this part should already be working now.
+
+156
+00:08:50,710 --> 00:08:51,733
+So let's see.
+
+157
+00:08:53,520 --> 00:08:55,770
+And indeed, we get this three.
+
+158
+00:08:55,770 --> 00:08:58,930
+Let's actually also look to the console for now,
+
+159
+00:08:58,930 --> 00:09:00,560
+this random number, just so
+
+160
+00:09:00,560 --> 00:09:02,880
+we see that the dice is actually
+
+161
+00:09:02,880 --> 00:09:05,543
+the corresponding one to the number.
+
+162
+00:09:08,120 --> 00:09:09,090
+So let's go back
+
+163
+00:09:12,680 --> 00:09:14,240
+here to the console,
+
+164
+00:09:14,240 --> 00:09:15,310
+make it a bit smaller
+
+165
+00:09:18,120 --> 00:09:22,720
+and now let's roll the dice and it works, great.
+
+166
+00:09:22,720 --> 00:09:24,370
+So we get a two.
+
+167
+00:09:24,370 --> 00:09:27,680
+And so indeed a two is also displayed here.
+
+168
+00:09:27,680 --> 00:09:29,940
+Now six and six here.
+
+169
+00:09:31,010 --> 00:09:34,170
+And let's just see if we get all the numbers, but yeah,
+
+170
+00:09:34,170 --> 00:09:37,923
+we get the one and we already saw the six happening as well.
+
+171
+00:09:39,110 --> 00:09:43,450
+So that means that our code is correct. Great.
+
+172
+00:09:43,450 --> 00:09:44,283
+And now all that we have to do is to keep adding
+
+173
+00:09:44,283 --> 00:09:49,103
+to roll dice to the current score.
+
+174
+00:09:51,040 --> 00:09:52,910
+And so that's what we will do here
+
+175
+00:09:54,000 --> 00:09:56,703
+in this case where we check for the rolled one.
+
+176
+00:09:58,170 --> 00:10:03,170
+So remember that only happens when the number is not a one.
+
+177
+00:10:03,430 --> 00:10:07,380
+So again, if it's a one, switch player, if no,
+
+178
+00:10:07,380 --> 00:10:10,373
+then add the dice roll to the current score.
+
+179
+00:10:12,370 --> 00:10:14,510
+So basically let's test here.
+
+180
+00:10:14,510 --> 00:10:16,420
+If the dice
+
+181
+00:10:17,470 --> 00:10:19,653
+is not one,
+
+182
+00:10:22,210 --> 00:10:25,500
+because this is our main case.
+
+183
+00:10:25,500 --> 00:10:27,650
+So the one that we're mostly interested in,
+
+184
+00:10:29,320 --> 00:10:30,690
+and then, our else block,
+
+185
+00:10:30,690 --> 00:10:34,520
+which will be basically in case that dice is a one.
+
+186
+00:10:34,520 --> 00:10:37,853
+So let's just grab that here.
+
+187
+00:10:43,270 --> 00:10:45,520
+So here we want to switch to the next player,
+
+188
+00:10:46,720 --> 00:10:47,950
+but if it's not one,
+
+189
+00:10:47,950 --> 00:10:49,570
+then we want to add
+
+190
+00:10:51,306 --> 00:10:55,043
+the dice to the current score.
+
+191
+00:10:57,090 --> 00:10:59,450
+So let's do this part here.
+
+192
+00:10:59,450 --> 00:11:03,230
+And in order to actually be able to add the current dice
+
+193
+00:11:03,230 --> 00:11:04,570
+to the current score,
+
+194
+00:11:04,570 --> 00:11:08,083
+we need a way of saving that current score somewhere.
+
+195
+00:11:09,280 --> 00:11:12,470
+So remember from the first project that we should not just
+
+196
+00:11:12,470 --> 00:11:15,113
+store any data only in the dumb.
+
+197
+00:11:16,090 --> 00:11:17,820
+So in this particular case,
+
+198
+00:11:17,820 --> 00:11:20,880
+we should not only display this current score
+
+199
+00:11:20,880 --> 00:11:22,700
+on the user interface.
+
+200
+00:11:22,700 --> 00:11:25,350
+Instead, we also want the variable in our code,
+
+201
+00:11:25,350 --> 00:11:29,203
+which always holds the current score of this current round.
+
+202
+00:11:30,447 --> 00:11:33,980
+So we need to define a variable for that.
+
+203
+00:11:33,980 --> 00:11:36,850
+And where do you think we should do that?
+
+204
+00:11:36,850 --> 00:11:40,300
+Well, it is certainly not in this function,
+
+205
+00:11:40,300 --> 00:11:43,700
+so not in this handler function, because if we did that,
+
+206
+00:11:43,700 --> 00:11:46,690
+then each time that we roll a dice,
+
+207
+00:11:46,690 --> 00:11:48,620
+the current score would be reset it.
+
+208
+00:11:48,620 --> 00:11:51,320
+So it would be redefined because this function here
+
+209
+00:11:51,320 --> 00:11:53,480
+is called over and over again,
+
+210
+00:11:53,480 --> 00:11:56,110
+each time that the button is clicked.
+
+211
+00:11:56,110 --> 00:12:01,110
+So if we wanted to basically persist that value,
+
+212
+00:12:01,120 --> 00:12:03,060
+so if it should keep existing,
+
+213
+00:12:03,060 --> 00:12:06,850
+then it needs to be outside here in the main program.
+
+214
+00:12:06,850 --> 00:12:08,713
+So let's call this one current score.
+
+215
+00:12:11,150 --> 00:12:15,090
+And we started at zero and it needs to be a let
+
+216
+00:12:15,090 --> 00:12:17,403
+because we will keep updating it.
+
+217
+00:12:18,480 --> 00:12:21,670
+So again, this cannot be inside
+
+218
+00:12:21,670 --> 00:12:24,060
+of this function because then it would
+
+219
+00:12:24,060 --> 00:12:27,760
+be set to zero each time that we clicked the button.
+
+220
+00:12:27,760 --> 00:12:30,163
+And so therefore it needs to be outside.
+
+221
+00:12:32,000 --> 00:12:34,600
+Okay. And now we say,
+
+222
+00:12:34,600 --> 00:12:37,360
+current score is equal
+
+223
+00:12:37,360 --> 00:12:42,360
+to current score plus the dice.
+
+224
+00:12:42,550 --> 00:12:46,284
+And once again, there is a shortcut operator,
+
+225
+00:12:46,284 --> 00:12:49,880
+for repeating this variable here. So instead of this,
+
+226
+00:12:49,880 --> 00:12:54,603
+we can just write, current score plus equal the dice.
+
+227
+00:12:55,710 --> 00:12:57,390
+So that's exactly the same,
+
+228
+00:12:57,390 --> 00:13:00,420
+but it's a little bit faster to write.
+
+229
+00:13:00,420 --> 00:13:03,440
+And now all we need to do is to display the score
+
+230
+00:13:03,440 --> 00:13:05,490
+on the current player.
+
+231
+00:13:05,490 --> 00:13:06,470
+Now, at this point,
+
+232
+00:13:06,470 --> 00:13:09,140
+we will just display it on player one to make it
+
+233
+00:13:09,140 --> 00:13:11,180
+a little bit simpler, but in the future,
+
+234
+00:13:11,180 --> 00:13:12,810
+we will need to keep track
+
+235
+00:13:12,810 --> 00:13:15,510
+of which player is the active player.
+
+236
+00:13:15,510 --> 00:13:18,460
+So that we will do in the next lecture. But again,
+
+237
+00:13:18,460 --> 00:13:22,163
+for now, let's just display the score on player one.
+
+238
+00:13:23,190 --> 00:13:25,980
+So let's select the score
+
+239
+00:13:25,980 --> 00:13:27,933
+or the current score for player one.
+
+240
+00:13:28,810 --> 00:13:31,420
+So let's check where that is scored,
+
+241
+00:13:31,420 --> 00:13:36,420
+and it is right here with this ID, dash dash one
+
+242
+00:13:36,510 --> 00:13:37,963
+and dash dash zero.
+
+243
+00:13:39,000 --> 00:13:41,020
+So let's actually copy that
+
+244
+00:13:41,020 --> 00:13:45,490
+and then I will select both of these elements up here.
+
+245
+00:13:48,810 --> 00:13:51,270
+So let's do that below this one.
+
+246
+00:13:51,270 --> 00:13:54,403
+And actually I will keep using get element by ID now.
+
+247
+00:13:55,980 --> 00:14:00,463
+So current zero, and then again, element,
+
+248
+00:14:03,530 --> 00:14:06,790
+get element by ID and then
+
+249
+00:14:06,790 --> 00:14:10,500
+just the class name again
+
+250
+00:14:10,500 --> 00:14:13,480
+without the hash symbol there.
+
+251
+00:14:13,480 --> 00:14:15,120
+And then current
+
+252
+00:14:17,070 --> 00:14:21,580
+one element is document.getElement,
+
+253
+00:14:23,730 --> 00:14:26,523
+and then current one.
+
+254
+00:14:27,910 --> 00:14:31,080
+Okay. And so now let's use this one.
+
+255
+00:14:31,080 --> 00:14:33,105
+So let me copy it,
+
+256
+00:14:33,105 --> 00:14:38,105
+.textcontent equals of course
+
+257
+00:14:40,030 --> 00:14:43,163
+the current score that we just defined previously.
+
+258
+00:14:45,000 --> 00:14:49,510
+And let me just add a note here, change later,
+
+259
+00:14:49,510 --> 00:14:50,840
+because in the future,
+
+260
+00:14:50,840 --> 00:14:53,930
+we will need to display this current score
+
+261
+00:14:53,930 --> 00:14:55,400
+at the current player
+
+262
+00:14:55,400 --> 00:14:58,500
+and to not always add player number zero
+
+263
+00:14:58,500 --> 00:14:59,733
+or player number one.
+
+264
+00:15:00,750 --> 00:15:04,480
+But for now, we just want to make this functionality work.
+
+265
+00:15:04,480 --> 00:15:07,180
+So let's just test it out for now.
+
+266
+00:15:07,180 --> 00:15:08,900
+So roll dice four,
+
+267
+00:15:08,900 --> 00:15:12,650
+and you'll see that it added the four to the zero,
+
+268
+00:15:12,650 --> 00:15:15,410
+and now three plus four is seven.
+
+269
+00:15:15,410 --> 00:15:16,863
+And so it works.
+
+270
+00:15:23,800 --> 00:15:26,950
+And now that we rolled a one, nothing happened.
+
+271
+00:15:26,950 --> 00:15:30,580
+So in this situation, we want to move to the next player.
+
+272
+00:15:30,580 --> 00:15:32,860
+So basically switching the player.
+
+273
+00:15:32,860 --> 00:15:36,590
+And so that's gonna be this else branch, but this one,
+
+274
+00:15:36,590 --> 00:15:39,230
+I will leave for the next lecture because
+
+275
+00:15:39,230 --> 00:15:41,540
+this involves doing a lot of stuff.
+
+276
+00:15:41,540 --> 00:15:43,980
+So maybe you can think about what we need to do,
+
+277
+00:15:43,980 --> 00:15:46,610
+because that would be a good opportunity for you
+
+278
+00:15:46,610 --> 00:15:48,850
+to start thinking by yourself,
+
+279
+00:15:48,850 --> 00:15:52,090
+how to implement this kind of functionality.
+
+280
+00:15:52,090 --> 00:15:55,893
+So try that out and then let's move on to the next video.

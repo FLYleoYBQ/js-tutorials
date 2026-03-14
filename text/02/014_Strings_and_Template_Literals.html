@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>字符串与模板字面量 (Strings and Template Literals)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 250px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        
+        .code-comparison { display: flex; gap: 24px; margin: 24px 0; }
+        .code-block-wrapper { flex: 1; min-width: 0; background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        .code-header { background: rgba(255,255,255,0.05); padding: 8px 16px; font-size: 12px; font-family: var(--font-mono); color: var(--text-secondary); border-bottom: 1px solid var(--surface-border); }
+        .code-block-wrapper pre { margin: 0; padding: 16px; overflow-x: auto; background: transparent; font-size: 13px; line-height: 1.6; }
+        
+        @media (max-width: 768px) {
+            .code-comparison { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 痛苦的传统拼接法</a>
+            <a href="#section-2" class="nav-item">2. 救星降临：反引号 (Backticks)</a>
+            <a href="#section-3" class="nav-item">3. 多行字符串革命</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>字符串与模板字面量</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：014 Strings and Template Literals.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <p>组装由文字和变量构成的信息，是前端开发中最繁重且频繁的任务之一。如何优雅地写出 "我是某某某，我今年几岁了" 的一句话呢？</p>
+
+        <h2 id="section-1">1. 痛苦的传统拼接法 (The Old Way)</h2>
+        <p>在过去，我们只能用加号 <code>+</code> 强行去缝合字符串和变量的每一寸关节，并且还要像扫雷一样处处小心空格是否加够了、引号是否冲突了。</p>
+
+        <div class="callout warning">
+            <p><strong>🚨 单双引号冲突问题</strong></p>
+            <p>当你想写 <code>I'm</code> 时，如果你最外层用的也是单引号 <code>let sentence = 'I'm...';</code>，程序在第二个单引号那里就会提早认为字符串结束了，瞬间报错！解决办法是：如果是英文中带有缩写单引号的句子，最外层必须包一层 <strong>双引号 <code>""</code></strong> 以避开冲突。</p>
+        </div>
+
+        <h2 id="section-2">2. 救星降临：Template Literals（模板字面量）</h2>
+        <p>从 ES6 (JavaScript 的一次大版本跳跃) 开始，我们得到了神级武器——<strong>模板字面量 (Template Literals)</strong>。它的做法非常简单：只用一组特殊的引号包围整句话，需要塞入变量或者运算的地方，我们用 <code>${}</code> 挖个洞直接嵌进去！</p>
+        <p>这组特殊引号叫做 <strong>反引号 (Backticks : <code>`</code> )</strong>，它通常在键盘左上角，Tab键上方。</p>
+
+        <div class="code-comparison">
+            <div class="code-block-wrapper">
+                <div class="code-header">❌ 传统加号拼接 (极易出错、可读性地狱)</div>
+                <pre><code class="language-javascript">const jonasOld = "I'm " + firstName + ", a " + 
+(year - birthYear) + " years old " + job + "!";</code></pre>
+            </div>
+            <div class="code-block-wrapper">
+                <div class="code-header">✅ ES6 模板字面量拼接 (直白如白话文)</div>
+                <pre><code class="language-javascript">const jonasNew = `I'm ${firstName}, a ${year - birthYear} years old ${job}!`;</code></pre>
+            </div>
+        </div>
+
+        <p>你会发现，在 <code>${}</code> 的大括号内部不仅仅可以放原始的变量，还能够放诸如 <code>year - birthYear</code> 的数学运算。模板引擎会先计算减法，然后再将算出的年龄数字强制转为字符串塞进去。</p>
+
+        <h2 id="section-3">3. 多行字符串革命</h2>
+        <p>在写网页或者做文本换行的时候，老版代码想要换行，只能加入古老的编程特殊转义字符 <code>\n\</code>：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">multiline.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+// 以前由于没有多行字符串的语法允许，只能这样：
+console.log('String with \n\
+multiple \n\
+lines (old way)');
+
+console.log('--- 华丽分割线 ---');
+
+// 使用反引号 ` ` 的终极多行解决方案（真的只需要按回车即可）：
+console.log(`String
+multiple
+lines (ES6 Template Literal!)`);</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+        
+        <p>别小看这个多行字符串的功能。在后续章节中，当我们需要在 JavaScript 当中动态组态 HTML 的 DOM 元素并插入到网页中时，这个<strong>直接按回车换行而不用塞满恶心转义符</strong>的特性能节省你成倍的时间！以至于很多现代开发者养成了一个习惯：只要是写字符串，一律默认就用反引号。</p>
+
+    </main>
+</div>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n');
+        } catch (e) {
+            outConsole.innerHTML = `<span style="color:var(--error-color)">⚠️ ${e.name} : ${e.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+</script>
+</body>
+</html>

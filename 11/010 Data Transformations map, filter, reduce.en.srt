@@ -1,0 +1,375 @@
+1
+00:00:01,230 --> 00:00:02,480
+In JavaScript,
+
+2
+00:00:02,480 --> 00:00:05,640
+there are three big and important array methods
+
+3
+00:00:05,640 --> 00:00:10,270
+that we use all the time to perform data transformations.
+
+4
+00:00:10,270 --> 00:00:11,340
+So basically,
+
+5
+00:00:11,340 --> 00:00:12,940
+these are methods that we use
+
+6
+00:00:12,940 --> 00:00:15,120
+to create new arrays based
+
+7
+00:00:15,120 --> 00:00:18,490
+on transforming data from other arrays.
+
+8
+00:00:18,490 --> 00:00:19,890
+And in recent years,
+
+9
+00:00:19,890 --> 00:00:24,640
+these tools have become really popular and for good reasons
+
+10
+00:00:24,640 --> 00:00:27,810
+and therefore you'll see them everywhere you look
+
+11
+00:00:27,810 --> 00:00:29,513
+in Modern JavaScript.
+
+12
+00:00:31,230 --> 00:00:36,230
+And the tools I'm talking about are; map, filter and reduce.
+
+13
+00:00:36,750 --> 00:00:39,080
+So these are three array methods
+
+14
+00:00:39,080 --> 00:00:40,160
+and in this lecture,
+
+15
+00:00:40,160 --> 00:00:43,390
+I'm gonna give you a quick overview of them.
+
+16
+00:00:43,390 --> 00:00:45,780
+Then over the next couple of lectures,
+
+17
+00:00:45,780 --> 00:00:48,720
+we're gonna dive deep into these three methods
+
+18
+00:00:48,720 --> 00:00:51,410
+in practice so that we can use them
+
+19
+00:00:51,410 --> 00:00:53,233
+throughout the rest of the course.
+
+20
+00:00:54,070 --> 00:00:58,250
+First the map method is yet another method that we can use
+
+21
+00:00:58,250 --> 00:01:00,670
+to loop over arrays.
+
+22
+00:01:00,670 --> 00:01:02,850
+So, map is actually similar
+
+23
+00:01:02,850 --> 00:01:06,000
+to the forEach method that we studied before
+
+24
+00:01:06,000 --> 00:01:09,830
+but with the difference that map creates a brand new array
+
+25
+00:01:09,830 --> 00:01:12,600
+based on the original array.
+
+26
+00:01:12,600 --> 00:01:16,500
+So essentially the map method takes an array,
+
+27
+00:01:16,500 --> 00:01:18,450
+loops over that array
+
+28
+00:01:18,450 --> 00:01:20,050
+and in each alteration,
+
+29
+00:01:20,050 --> 00:01:22,060
+it applies a covic function
+
+30
+00:01:22,060 --> 00:01:24,220
+that we specify on our code
+
+31
+00:01:24,220 --> 00:01:26,780
+to the current array element.
+
+32
+00:01:26,780 --> 00:01:29,990
+So in this example we say that each element
+
+33
+00:01:29,990 --> 00:01:31,583
+shall be multiplied by two.
+
+34
+00:01:32,420 --> 00:01:34,400
+And with this covic in place,
+
+35
+00:01:34,400 --> 00:01:38,410
+the map method multiplies every single element by two
+
+36
+00:01:38,410 --> 00:01:40,853
+and puts it into a new array.
+
+37
+00:01:42,790 --> 00:01:46,650
+We say that it maps the values of the original array
+
+38
+00:01:46,650 --> 00:01:51,120
+to a new array and that's why this method is called map.
+
+39
+00:01:51,120 --> 00:01:53,360
+And it is extremely useful.
+
+40
+00:01:53,360 --> 00:01:57,000
+Usually way more useful than in forEach method
+
+41
+00:01:57,000 --> 00:02:00,590
+because forEach simply allows us to do some work
+
+42
+00:02:00,590 --> 00:02:02,820
+with each array element.
+
+43
+00:02:02,820 --> 00:02:04,820
+But map on the other hand,
+
+44
+00:02:04,820 --> 00:02:06,910
+builds us a brand new array
+
+45
+00:02:06,910 --> 00:02:10,270
+containing the results of applying an operation
+
+46
+00:02:10,270 --> 00:02:11,803
+to the original array,
+
+47
+00:02:12,860 --> 00:02:13,700
+all right?
+
+48
+00:02:13,700 --> 00:02:15,180
+And we will use the map method
+
+49
+00:02:15,180 --> 00:02:17,723
+in practice right in the next video.
+
+50
+00:02:18,630 --> 00:02:19,463
+Anyway,
+
+51
+00:02:19,463 --> 00:02:21,990
+next up we have the filter method,
+
+52
+00:02:21,990 --> 00:02:25,960
+which as the name says, is used to filter for elements
+
+53
+00:02:25,960 --> 00:02:30,960
+in the original array which satisfy a certain condition.
+
+54
+00:02:31,060 --> 00:02:33,160
+So in this example we are only looking
+
+55
+00:02:33,160 --> 00:02:36,090
+for elements greater than two.
+
+56
+00:02:36,090 --> 00:02:39,360
+So all the elements that pass the test
+
+57
+00:02:39,360 --> 00:02:43,683
+that we specified will make it into a new filtered array.
+
+58
+00:02:44,570 --> 00:02:48,770
+Or in other words elements for which the condition is true
+
+59
+00:02:48,770 --> 00:02:50,540
+will be included in a new array
+
+60
+00:02:50,540 --> 00:02:53,380
+that the filter method returns.
+
+61
+00:02:53,380 --> 00:02:56,410
+All other elements will get filtered out
+
+62
+00:02:56,410 --> 00:02:59,563
+so they will not be included in the new array.
+
+63
+00:03:00,870 --> 00:03:04,360
+And finally there is also the reduce method
+
+64
+00:03:04,360 --> 00:03:07,320
+which we use to boil down all the elements
+
+65
+00:03:07,320 --> 00:03:11,490
+of the original array into one single value.
+
+66
+00:03:11,490 --> 00:03:14,700
+And an example of this can be to add all the elements
+
+67
+00:03:14,700 --> 00:03:16,340
+of an array together.
+
+68
+00:03:16,340 --> 00:03:19,233
+But we can also do many other interesting things.
+
+69
+00:03:20,130 --> 00:03:24,170
+So for the example of adding up all numbers in the array,
+
+70
+00:03:24,170 --> 00:03:27,570
+we need to specify an operation like this one
+
+71
+00:03:27,570 --> 00:03:30,003
+where we have an accumulator variable.
+
+72
+00:03:30,880 --> 00:03:34,230
+Then as the reduce method loops over the array,
+
+73
+00:03:34,230 --> 00:03:37,890
+it keeps adding the current element onto the accumulator
+
+74
+00:03:37,890 --> 00:03:40,450
+until at the end of the loop we have
+
+75
+00:03:40,450 --> 00:03:43,540
+to total sum of all the elements.
+
+76
+00:03:43,540 --> 00:03:46,370
+So you can imagine this as a snowball,
+
+77
+00:03:46,370 --> 00:03:48,300
+it keeps getting bigger and bigger
+
+78
+00:03:48,300 --> 00:03:50,690
+as it rolls down a hill.
+
+79
+00:03:50,690 --> 00:03:54,210
+And so this is known as the snowball effect
+
+80
+00:03:54,210 --> 00:03:57,610
+and reduce is pretty similar to that,
+
+81
+00:03:57,610 --> 00:03:58,630
+okay?
+
+82
+00:03:58,630 --> 00:04:01,920
+So keep that in mind as a nice analogy.
+
+83
+00:04:01,920 --> 00:04:04,670
+Now we also said that this whole process
+
+84
+00:04:04,670 --> 00:04:09,320
+has now reduced the original array to one single value
+
+85
+00:04:09,320 --> 00:04:12,900
+which in this case is the sum of all the elements
+
+86
+00:04:12,900 --> 00:04:16,670
+but it can of course be many other operations.
+
+87
+00:04:16,670 --> 00:04:20,380
+Now it's this value that then actually gets returned
+
+88
+00:04:20,380 --> 00:04:23,420
+from the reduce method in the end.
+
+89
+00:04:23,420 --> 00:04:26,290
+So there is no new array in this case
+
+90
+00:04:26,290 --> 00:04:28,323
+but only the reduced value.
+
+91
+00:04:29,180 --> 00:04:31,910
+Now this probably sounds more complicated
+
+92
+00:04:31,910 --> 00:04:33,420
+than it actually is.
+
+93
+00:04:33,420 --> 00:04:34,830
+And so let's start to put it
+
+94
+00:04:34,830 --> 00:04:37,393
+into practice right in the next video.

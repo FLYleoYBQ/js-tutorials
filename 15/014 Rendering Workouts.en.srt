@@ -1,0 +1,1807 @@
+1
+00:00:01,470 --> 00:00:03,482
+So let's now render new workouts
+
+2
+00:00:03,482 --> 00:00:06,853
+in the sidebar of our user interface.
+
+3
+00:00:08,610 --> 00:00:11,120
+And so what I mean with rendering
+
+4
+00:00:11,120 --> 00:00:14,980
+is to basically create a list item like this
+
+5
+00:00:14,980 --> 00:00:17,010
+for each workout.
+
+6
+00:00:17,010 --> 00:00:18,160
+All right?
+
+7
+00:00:18,160 --> 00:00:23,040
+So each workout here contains this like short description,
+
+8
+00:00:23,040 --> 00:00:26,760
+containing the type of the workout and then the date
+
+9
+00:00:26,760 --> 00:00:28,860
+and actually that's also exactly
+
+10
+00:00:28,860 --> 00:00:30,823
+what we get here in the popup.
+
+11
+00:00:31,770 --> 00:00:35,087
+And then, of course, we have all the relevant data
+
+12
+00:00:35,087 --> 00:00:37,053
+of the workout in case.
+
+13
+00:00:38,097 --> 00:00:40,100
+And so let's now go back and do that
+
+14
+00:00:40,100 --> 00:00:43,503
+and here we are still in the newWorkout method.
+
+15
+00:00:44,420 --> 00:00:48,560
+And so down here is where we're gonna render the workout.
+
+16
+00:00:48,560 --> 00:00:50,670
+However, just like before,
+
+17
+00:00:50,670 --> 00:00:53,870
+we are actually gonna create a new method,
+
+18
+00:00:53,870 --> 00:00:56,250
+which is gonna be called renderWorkout.
+
+19
+00:00:57,280 --> 00:01:00,143
+And here I'm seeing that I forgot the underscore.
+
+20
+00:01:02,460 --> 00:01:03,403
+Like this.
+
+21
+00:01:05,110 --> 00:01:07,407
+And so now let's create renderWorkout
+
+22
+00:01:09,888 --> 00:01:12,455
+and so this function will also take in an object
+
+23
+00:01:12,455 --> 00:01:14,053
+of a workout.
+
+24
+00:01:14,990 --> 00:01:16,600
+All right, and so here,
+
+25
+00:01:16,600 --> 00:01:19,853
+all we have to do now is to call this method.
+
+26
+00:01:21,540 --> 00:01:26,370
+So renderWorkout and then pass in the workout
+
+27
+00:01:26,370 --> 00:01:29,990
+and so with this, we delegated this functionality
+
+28
+00:01:29,990 --> 00:01:34,100
+to this method and so let's now start working on it.
+
+29
+00:01:34,100 --> 00:01:35,700
+And so what we're gonna do here
+
+30
+00:01:35,700 --> 00:01:38,390
+is basically some DOM manipulation.
+
+31
+00:01:38,390 --> 00:01:40,740
+So we're gonna create some markup.
+
+32
+00:01:40,740 --> 00:01:42,780
+So basically some HTML
+
+33
+00:01:42,780 --> 00:01:45,170
+and then we will insert that into the DOM
+
+34
+00:01:45,170 --> 00:01:47,393
+whenever there is a new workout.
+
+35
+00:01:49,940 --> 00:01:52,990
+And so let's actually get the code right here
+
+36
+00:01:52,990 --> 00:01:57,740
+from the HTML and I already have it here commented out.
+
+37
+00:01:57,740 --> 00:02:01,003
+So let's actually go up a little bit more.
+
+38
+00:02:02,690 --> 00:02:06,040
+So you see that we actually have a ul,
+
+39
+00:02:06,040 --> 00:02:10,020
+which stands for unordered list called workout.
+
+40
+00:02:10,020 --> 00:02:12,993
+Then in there, the first child is actually a form.
+
+41
+00:02:14,480 --> 00:02:16,310
+Okay, and only after that,
+
+42
+00:02:16,310 --> 00:02:19,380
+we then start adding these list items
+
+43
+00:02:19,380 --> 00:02:21,263
+with the class of workout.
+
+44
+00:02:22,180 --> 00:02:25,800
+Now, the first one here is a workout for running.
+
+45
+00:02:25,800 --> 00:02:29,253
+And then the second one is a workout for cycling.
+
+46
+00:02:30,170 --> 00:02:31,460
+All right?
+
+47
+00:02:31,460 --> 00:02:35,340
+So let's basically take what both of them have in common,
+
+48
+00:02:35,340 --> 00:02:39,360
+which is basically this first part here,
+
+49
+00:02:39,360 --> 00:02:41,460
+which is the distance in kilometers
+
+50
+00:02:41,460 --> 00:02:43,400
+and also the duration.
+
+51
+00:02:43,400 --> 00:02:45,080
+So these are the same
+
+52
+00:02:45,080 --> 00:02:47,420
+but then on running, here we have the pace
+
+53
+00:02:47,420 --> 00:02:49,260
+in minutes per kilometer,
+
+54
+00:02:49,260 --> 00:02:51,480
+while here, we have kilometers per hour,
+
+55
+00:02:51,480 --> 00:02:52,780
+which is the speed
+
+56
+00:02:52,780 --> 00:02:56,010
+and here, of course, we have the elevation gain,
+
+57
+00:02:56,010 --> 00:02:57,970
+which has this emoji here,
+
+58
+00:02:57,970 --> 00:03:01,100
+while here we have these steps per minute.
+
+59
+00:03:01,100 --> 00:03:04,350
+And so let's start by taking the HTML here
+
+60
+00:03:04,350 --> 00:03:06,830
+that is common to both workouts
+
+61
+00:03:06,830 --> 00:03:10,440
+and then after that, we will implement this remaining part
+
+62
+00:03:10,440 --> 00:03:12,830
+of both running and cycling.
+
+63
+00:03:12,830 --> 00:03:14,800
+So I'm copying it
+
+64
+00:03:14,800 --> 00:03:19,097
+and so then here, let's create const html
+
+65
+00:03:20,930 --> 00:03:22,180
+and then as always,
+
+66
+00:03:22,180 --> 00:03:26,300
+we are gonna use a template literal for this
+
+67
+00:03:26,300 --> 00:03:28,340
+because they're really amazing,
+
+68
+00:03:28,340 --> 00:03:30,210
+they're really actually perfect
+
+69
+00:03:30,210 --> 00:03:31,803
+for doing this kind of stuff.
+
+70
+00:03:33,890 --> 00:03:34,723
+Okay.
+
+71
+00:03:34,723 --> 00:03:38,070
+So this indentation looks about right.
+
+72
+00:03:38,070 --> 00:03:40,210
+Of course, it would work just the same
+
+73
+00:03:40,210 --> 00:03:43,610
+as it was before but this then looks a bit nicer
+
+74
+00:03:43,610 --> 00:03:47,860
+because it follows the natural structure of HTML.
+
+75
+00:03:47,860 --> 00:03:52,040
+Okay, and now all we have to is to replace everything here
+
+76
+00:03:52,040 --> 00:03:53,930
+with the real data.
+
+77
+00:03:53,930 --> 00:03:56,320
+And let's start with the easy parts.
+
+78
+00:03:56,320 --> 00:03:59,980
+So this one here is, of course, the distance.
+
+79
+00:03:59,980 --> 00:04:04,003
+And so let's add workout.distance.
+
+80
+00:04:05,580 --> 00:04:08,663
+And then down here, we have workout.duration.
+
+81
+00:04:12,080 --> 00:04:13,463
+Dot duration.
+
+82
+00:04:15,570 --> 00:04:19,650
+Then up here, we actually also have the id
+
+83
+00:04:19,650 --> 00:04:24,350
+and so here we once again have this custom data attribute,
+
+84
+00:04:24,350 --> 00:04:27,240
+which in this case, I called data-id.
+
+85
+00:04:27,240 --> 00:04:31,470
+And remember that we use data properties like this one
+
+86
+00:04:31,470 --> 00:04:32,900
+to usually build a bridge
+
+87
+00:04:32,900 --> 00:04:36,120
+between the user interface and the data that we have
+
+88
+00:04:36,120 --> 00:04:37,590
+in our application.
+
+89
+00:04:37,590 --> 00:04:39,480
+And so in a future video,
+
+90
+00:04:39,480 --> 00:04:42,300
+this one here will become very important.
+
+91
+00:04:42,300 --> 00:04:45,750
+But for now, let's simply add the id here,
+
+92
+00:04:45,750 --> 00:04:50,750
+just like before, so workout.id.
+
+93
+00:04:52,320 --> 00:04:56,540
+Then next up, here we need to specify whether the workout
+
+94
+00:04:56,540 --> 00:04:59,500
+is a running or a cycling workout
+
+95
+00:04:59,500 --> 00:05:01,283
+because it's this class here
+
+96
+00:05:01,283 --> 00:05:04,710
+that will then give the list item that green
+
+97
+00:05:04,710 --> 00:05:06,573
+or that orange border.
+
+98
+00:05:07,610 --> 00:05:11,323
+So remember, that is stored at workout.name.
+
+99
+00:05:12,970 --> 00:05:16,980
+Then here, we have this emoji here, which is for running
+
+100
+00:05:16,980 --> 00:05:19,640
+but for cycling, we have this other one.
+
+101
+00:05:19,640 --> 00:05:21,900
+So this guy on the bicycle.
+
+102
+00:05:21,900 --> 00:05:24,410
+And I hope that you can see these emojis
+
+103
+00:05:24,410 --> 00:05:27,920
+just as well as I can here in the video
+
+104
+00:05:27,920 --> 00:05:30,710
+because I know that, I think on some systems,
+
+105
+00:05:30,710 --> 00:05:32,500
+this doesn't really work.
+
+106
+00:05:32,500 --> 00:05:35,400
+But in that case, that's of course, no problem.
+
+107
+00:05:35,400 --> 00:05:39,350
+It doesn't really matter if you can see the emoji or not.
+
+108
+00:05:39,350 --> 00:05:41,210
+But anyway, what I'm gonna do here
+
+109
+00:05:41,210 --> 00:05:43,270
+is to use the turnary operator
+
+110
+00:05:43,270 --> 00:05:46,410
+to check whatever the runner here
+
+111
+00:05:46,410 --> 00:05:49,280
+should be displayed or the cycler.
+
+112
+00:05:49,280 --> 00:05:51,040
+So that's easy.
+
+113
+00:05:51,040 --> 00:05:54,370
+Workout.name and then we just need to test
+
+114
+00:05:54,370 --> 00:05:55,653
+if it is running.
+
+115
+00:05:57,550 --> 00:06:02,550
+So if it is, then we want basically this to be the output
+
+116
+00:06:03,240 --> 00:06:06,770
+and otherwise, this cycler.
+
+117
+00:06:06,770 --> 00:06:08,230
+And here I need to close that
+
+118
+00:06:09,810 --> 00:06:11,523
+and that's actually it.
+
+119
+00:06:12,670 --> 00:06:14,650
+So one more time, the turnary operator
+
+120
+00:06:14,650 --> 00:06:16,921
+is super important.
+
+121
+00:06:16,921 --> 00:06:19,690
+So as you see, we are still using the fundamentals
+
+122
+00:06:19,690 --> 00:06:23,023
+that we learned right in the very, very first section.
+
+123
+00:06:24,200 --> 00:06:26,830
+So I said back then that they were important
+
+124
+00:06:26,830 --> 00:06:28,253
+and indeed, they were.
+
+125
+00:06:29,970 --> 00:06:33,270
+Now, finally, here we have basically this description
+
+126
+00:06:33,270 --> 00:06:34,610
+of the workout.
+
+127
+00:06:34,610 --> 00:06:38,150
+And it is composed of the workout.name essentially
+
+128
+00:06:38,150 --> 00:06:41,820
+and then also the date but nicely formatted.
+
+129
+00:06:41,820 --> 00:06:44,990
+And the way that we're gonna generate this description
+
+130
+00:06:44,990 --> 00:06:47,890
+is by adding a new method on the workout,
+
+131
+00:06:47,890 --> 00:06:49,640
+which will then create a description
+
+132
+00:06:49,640 --> 00:06:51,420
+like this one immediately
+
+133
+00:06:51,420 --> 00:06:55,233
+when the workout gets actually generated.
+
+134
+00:06:56,600 --> 00:06:57,920
+Okay?
+
+135
+00:06:57,920 --> 00:07:01,250
+So as I was just saying, here in the workout,
+
+136
+00:07:01,250 --> 00:07:03,503
+I will create setDescription.
+
+137
+00:07:10,436 --> 00:07:12,720
+And so this is where we now need this array
+
+138
+00:07:12,720 --> 00:07:14,060
+that I gave you in the beginning
+
+139
+00:07:14,060 --> 00:07:15,053
+with these months.
+
+140
+00:07:16,460 --> 00:07:19,040
+So I didn't feel like writing it all out.
+
+141
+00:07:19,040 --> 00:07:20,790
+And so here it is.
+
+142
+00:07:20,790 --> 00:07:23,750
+And by the way, I have this comment here,
+
+143
+00:07:23,750 --> 00:07:25,610
+which is something that we can use
+
+144
+00:07:25,610 --> 00:07:28,760
+to tell Prettier, so that Prettier extension
+
+145
+00:07:28,760 --> 00:07:31,390
+that we are using to format our code,
+
+146
+00:07:31,390 --> 00:07:34,320
+so this comment here we can use whenever we want
+
+147
+00:07:34,320 --> 00:07:37,950
+to tell prettier to ignore the next line.
+
+148
+00:07:37,950 --> 00:07:40,250
+So let me see what happens if I take this out.
+
+149
+00:07:41,830 --> 00:07:45,480
+So then you see I have everything here line by line
+
+150
+00:07:45,480 --> 00:07:46,803
+and I don't like that.
+
+151
+00:07:47,880 --> 00:07:50,623
+And so this is much nicer in this case.
+
+152
+00:07:51,650 --> 00:07:53,010
+Okay.
+
+153
+00:07:53,010 --> 00:07:55,850
+But anyway, let's now set the description.
+
+154
+00:07:55,850 --> 00:07:58,733
+So this.description.
+
+155
+00:07:59,570 --> 00:08:02,220
+So the description will be based on the name
+
+156
+00:08:02,220 --> 00:08:03,400
+of the activity
+
+157
+00:08:04,310 --> 00:08:08,400
+and actually, I don't mean name, I mean type here.
+
+158
+00:08:08,400 --> 00:08:10,980
+And I believe that down there,
+
+159
+00:08:10,980 --> 00:08:13,033
+I used name instead of type.
+
+160
+00:08:14,150 --> 00:08:16,230
+So let's check that.
+
+161
+00:08:16,230 --> 00:08:18,920
+And ja, for some reason, I used name.
+
+162
+00:08:18,920 --> 00:08:22,470
+Hopefully, you didn't get too confused by that.
+
+163
+00:08:22,470 --> 00:08:27,140
+So of course, that is workout.type and not .name.
+
+164
+00:08:27,140 --> 00:08:30,343
+So it's the type that can be either running or cycling.
+
+165
+00:08:31,450 --> 00:08:32,290
+All right?
+
+166
+00:08:32,290 --> 00:08:34,950
+And so that's what we will use now here
+
+167
+00:08:34,950 --> 00:08:37,120
+to create the description.
+
+168
+00:08:37,120 --> 00:08:39,410
+So a new template literal
+
+169
+00:08:39,410 --> 00:08:40,590
+and then here we actually want
+
+170
+00:08:40,590 --> 00:08:44,070
+to make this type here uppercase.
+
+171
+00:08:44,070 --> 00:08:45,490
+So the first letter
+
+172
+00:08:45,490 --> 00:08:50,490
+and so we can take this.type,
+
+173
+00:08:50,690 --> 00:08:51,880
+the first character
+
+174
+00:08:52,970 --> 00:08:54,320
+and then toUppercase
+
+175
+00:08:55,922 --> 00:08:56,860
+and so this is nothing new.
+
+176
+00:08:56,860 --> 00:08:58,823
+We have done this many times before.
+
+177
+00:09:00,216 --> 00:09:02,630
+And then simply the rest
+
+178
+00:09:04,150 --> 00:09:05,203
+of this type.
+
+179
+00:09:06,870 --> 00:09:10,920
+So slice starting from position one.
+
+180
+00:09:10,920 --> 00:09:15,570
+So that is the type of the activity in uppercase on
+
+181
+00:09:17,420 --> 00:09:19,700
+and so now we want basically the month
+
+182
+00:09:19,700 --> 00:09:20,973
+and also the day.
+
+183
+00:09:22,210 --> 00:09:24,360
+So we know already that we have the date
+
+184
+00:09:24,360 --> 00:09:27,930
+of the workout in this.date
+
+185
+00:09:27,930 --> 00:09:32,930
+and then we can use getMonth on that.
+
+186
+00:09:33,350 --> 00:09:36,270
+And so remember that this will be here,
+
+187
+00:09:36,270 --> 00:09:39,090
+a number between zero and 11.
+
+188
+00:09:39,090 --> 00:09:42,310
+And so that's very nice for a zero-based array
+
+189
+00:09:42,310 --> 00:09:45,920
+because we can now essentially use this number here
+
+190
+00:09:45,920 --> 00:09:50,430
+to retrieve any value out of our month array.
+
+191
+00:09:50,430 --> 00:09:53,130
+So if getMonth returns zero,
+
+192
+00:09:53,130 --> 00:09:56,420
+then month at position zero is gonna be January
+
+193
+00:09:56,420 --> 00:09:59,363
+and the same is, of course, true for all the other months.
+
+194
+00:10:01,000 --> 00:10:03,270
+So this one here will give us the month
+
+195
+00:10:04,460 --> 00:10:07,530
+and then all we need is the day.
+
+196
+00:10:07,530 --> 00:10:08,843
+And so this.date.getDate.
+
+197
+00:10:16,050 --> 00:10:17,980
+And that should be it.
+
+198
+00:10:17,980 --> 00:10:20,870
+So now whenever a new object is created,
+
+199
+00:10:20,870 --> 00:10:25,015
+then automatically the description should be set.
+
+200
+00:10:25,015 --> 00:10:26,958
+And so here we now need to do, of course,
+
+201
+00:10:26,958 --> 00:10:28,625
+this.setDescription.
+
+202
+00:10:32,388 --> 00:10:33,320
+Now, right?
+
+203
+00:10:33,320 --> 00:10:35,540
+And in fact, it should not be here
+
+204
+00:10:35,540 --> 00:10:40,540
+but it should be down here in each of the child classes.
+
+205
+00:10:40,840 --> 00:10:43,760
+So why is that you might be asking?
+
+206
+00:10:43,760 --> 00:10:46,030
+Well, that's because that's the class
+
+207
+00:10:46,030 --> 00:10:50,170
+that contains the type that we need for this calculation.
+
+208
+00:10:50,170 --> 00:10:51,140
+Okay?
+
+209
+00:10:51,140 --> 00:10:53,173
+So we need to cut that from here
+
+210
+00:10:53,173 --> 00:10:56,743
+and actually calculate it in each of these.
+
+211
+00:10:58,330 --> 00:11:01,450
+And of course, this will work perfectly fine
+
+212
+00:11:01,450 --> 00:11:03,230
+because through the scope chain,
+
+213
+00:11:03,230 --> 00:11:06,080
+this constructor method will get access
+
+214
+00:11:06,080 --> 00:11:09,350
+to all the methods of the parent class.
+
+215
+00:11:09,350 --> 00:11:12,730
+And so, of course, that includes this one here.
+
+216
+00:11:12,730 --> 00:11:15,740
+And so then as the method is executed here,
+
+217
+00:11:15,740 --> 00:11:18,630
+it will also get access to the type.
+
+218
+00:11:18,630 --> 00:11:22,780
+And so this is the reason why we can use the type here,
+
+219
+00:11:22,780 --> 00:11:25,570
+even though it is not defined in this class
+
+220
+00:11:25,570 --> 00:11:28,065
+but only in the child class.
+
+221
+00:11:28,065 --> 00:11:30,950
+So again, we could not call this method
+
+222
+00:11:30,950 --> 00:11:32,730
+on a workout object
+
+223
+00:11:32,730 --> 00:11:35,120
+because that doesn't have a type.
+
+224
+00:11:35,120 --> 00:11:36,890
+But that's no problem anyway
+
+225
+00:11:36,890 --> 00:11:40,423
+because we never actually create new workout objects.
+
+226
+00:11:42,250 --> 00:11:44,620
+Now, all right, but with all that being said,
+
+227
+00:11:44,620 --> 00:11:46,651
+let's now come back here
+
+228
+00:11:46,651 --> 00:11:48,433
+and use this here.
+
+229
+00:11:51,020 --> 00:11:52,993
+So workout.description.
+
+230
+00:11:54,630 --> 00:11:57,290
+So that's the part that is common to both.
+
+231
+00:11:57,290 --> 00:12:00,290
+Now let's get the rest of it.
+
+232
+00:12:00,290 --> 00:12:04,430
+So all of this but this one is only for running.
+
+233
+00:12:04,430 --> 00:12:06,130
+So let's copy it
+
+234
+00:12:06,130 --> 00:12:08,520
+and now here after this part,
+
+235
+00:12:08,520 --> 00:12:11,680
+or actually here, we can now say if
+
+236
+00:12:13,410 --> 00:12:16,080
+workout.type
+
+237
+00:12:17,290 --> 00:12:20,880
+equals running,
+
+238
+00:12:20,880 --> 00:12:23,853
+then we want to add something to the HTML.
+
+239
+00:12:25,500 --> 00:12:30,500
+So html plus equal and then this code right here.
+
+240
+00:12:32,800 --> 00:12:33,993
+So give it a save.
+
+241
+00:12:34,997 --> 00:12:36,930
+Then here let's fix the indentation
+
+242
+00:12:36,930 --> 00:12:38,603
+or actually, it's good like this.
+
+243
+00:12:39,658 --> 00:12:41,103
+Well, actually it isn't.
+
+244
+00:12:43,860 --> 00:12:45,840
+So I'm just using multiple cursors
+
+245
+00:12:46,890 --> 00:12:50,130
+and yeah, that's better.
+
+246
+00:12:50,130 --> 00:12:51,673
+Just do the same thing here.
+
+247
+00:12:54,340 --> 00:12:55,200
+Okay.
+
+248
+00:12:55,200 --> 00:12:57,680
+And so now here, of course, we need to change it
+
+249
+00:12:57,680 --> 00:12:59,610
+to a let variable
+
+250
+00:12:59,610 --> 00:13:01,360
+because otherwise, we will not be able
+
+251
+00:13:01,360 --> 00:13:03,943
+to add anything to that string.
+
+252
+00:13:07,060 --> 00:13:11,897
+And so here, let's now write workout.pace
+
+253
+00:13:15,040 --> 00:13:16,173
+and then down here,
+
+254
+00:13:17,390 --> 00:13:21,523
+so that's workout.cadence.
+
+255
+00:13:23,610 --> 00:13:27,850
+Now, this value here is actually calculated by JavaScript.
+
+256
+00:13:27,850 --> 00:13:30,200
+And so the result of this calculation
+
+257
+00:13:30,200 --> 00:13:32,570
+might be some very weird number
+
+258
+00:13:32,570 --> 00:13:35,773
+and so let's simply round that to one decimal place.
+
+259
+00:13:37,260 --> 00:13:38,370
+So toFixed
+
+260
+00:13:39,890 --> 00:13:42,470
+and with just one decimal place.
+
+261
+00:13:42,470 --> 00:13:43,800
+Okay.
+
+262
+00:13:43,800 --> 00:13:46,143
+And now just copying this part.
+
+263
+00:13:51,690 --> 00:13:56,690
+So if it's cycling, then we want to get just this part.
+
+264
+00:13:57,430 --> 00:13:59,430
+So again, this is the common part.
+
+265
+00:13:59,430 --> 00:14:01,853
+This is the one that is different.
+
+266
+00:14:06,210 --> 00:14:10,373
+So again, add on to the already existing HTML string.
+
+267
+00:14:14,080 --> 00:14:17,390
+And then each time the indentation is a bit different,
+
+268
+00:14:17,390 --> 00:14:19,653
+don't have any idea why that is.
+
+269
+00:14:22,010 --> 00:14:23,563
+But now it is correct.
+
+270
+00:14:24,910 --> 00:14:27,860
+And here, this is probably the speed
+
+271
+00:14:33,110 --> 00:14:35,687
+and then here it is the elevationGain
+
+272
+00:14:39,470 --> 00:14:42,840
+so I guess that's just called elevation
+
+273
+00:14:42,840 --> 00:14:43,853
+but I'm not sure.
+
+274
+00:14:46,520 --> 00:14:48,133
+Let's just go back there.
+
+275
+00:14:51,420 --> 00:14:54,520
+So yeah, it's called elevationGain here.
+
+276
+00:14:54,520 --> 00:14:56,710
+We could have just called it elevation
+
+277
+00:14:56,710 --> 00:14:59,630
+because that's how it's called in other parts
+
+278
+00:14:59,630 --> 00:15:01,060
+of the application.
+
+279
+00:15:01,060 --> 00:15:04,153
+But nevermind, let's just leave it like this for now.
+
+280
+00:15:04,990 --> 00:15:09,320
+And here, this speed is also calculated by JavaScript.
+
+281
+00:15:09,320 --> 00:15:11,870
+So let's round this one as well.
+
+282
+00:15:11,870 --> 00:15:14,990
+And with this, we actually have the HTML generated.
+
+283
+00:15:14,990 --> 00:15:18,690
+Now all we need to do is to insert that HTML
+
+284
+00:15:18,690 --> 00:15:20,550
+into our DOM.
+
+285
+00:15:20,550 --> 00:15:24,493
+So where will we inject this HTML?
+
+286
+00:15:25,340 --> 00:15:28,760
+Well, let's take a look here at the parent element
+
+287
+00:15:28,760 --> 00:15:30,473
+and that is workouts.
+
+288
+00:15:31,410 --> 00:15:33,180
+However, as I mentioned before,
+
+289
+00:15:33,180 --> 00:15:35,690
+the first child of the workouts
+
+290
+00:15:35,690 --> 00:15:37,680
+is actually this form
+
+291
+00:15:37,680 --> 00:15:39,280
+and only the second element
+
+292
+00:15:39,280 --> 00:15:42,460
+should then become the first activity.
+
+293
+00:15:42,460 --> 00:15:45,630
+And therefore, we cannot simply attach
+
+294
+00:15:45,630 --> 00:15:48,180
+the new workout element
+
+295
+00:15:48,180 --> 00:15:50,120
+to this ul element
+
+296
+00:15:50,120 --> 00:15:53,210
+because we could either insert it as a first child
+
+297
+00:15:53,210 --> 00:15:54,840
+or as a last child.
+
+298
+00:15:54,840 --> 00:15:57,620
+But we don't want any of those options.
+
+299
+00:15:57,620 --> 00:16:02,220
+So instead, we will insert it close to this form
+
+300
+00:16:02,220 --> 00:16:05,453
+but basically insert it as a sibling element.
+
+301
+00:16:07,080 --> 00:16:08,270
+All right?
+
+302
+00:16:08,270 --> 00:16:10,300
+So again, I will take the form
+
+303
+00:16:10,300 --> 00:16:13,000
+and then that is where I'm gonna call
+
+304
+00:16:13,000 --> 00:16:15,423
+the insertAdjacentHTML method.
+
+305
+00:16:17,150 --> 00:16:18,490
+So form.insertAdjacentHTML
+
+306
+00:16:21,940 --> 00:16:22,950
+and then here, remember,
+
+307
+00:16:22,950 --> 00:16:25,600
+I have to choose between four strings
+
+308
+00:16:25,600 --> 00:16:28,160
+and so that's these four here.
+
+309
+00:16:28,160 --> 00:16:31,430
+And so the one I'm gonna choose is afterend
+
+310
+00:16:31,430 --> 00:16:34,320
+because this one will basically add the new element
+
+311
+00:16:34,320 --> 00:16:38,460
+as a sibling element at the end of the form.
+
+312
+00:16:38,460 --> 00:16:41,930
+So we discussed these strings before already.
+
+313
+00:16:41,930 --> 00:16:44,853
+So you can always go back there if necessary.
+
+314
+00:16:46,960 --> 00:16:47,793
+Okay.
+
+315
+00:16:49,040 --> 00:16:52,590
+And with this, I think we should be complete.
+
+316
+00:16:52,590 --> 00:16:54,483
+We already called it up here.
+
+317
+00:16:55,980 --> 00:16:56,930
+Right?
+
+318
+00:16:56,930 --> 00:16:59,133
+And so let's now actually try it.
+
+319
+00:17:00,640 --> 00:17:02,723
+So let's just reload here manually.
+
+320
+00:17:06,907 --> 00:17:08,010
+Okay.
+
+321
+00:17:08,010 --> 00:17:10,810
+And now let's just add a simple running
+
+322
+00:17:13,410 --> 00:17:15,751
+and now we get a problem.
+
+323
+00:17:15,751 --> 00:17:18,879
+So toUppercase is not a function.
+
+324
+00:17:18,879 --> 00:17:21,249
+And indeed, it isn't.
+
+325
+00:17:21,249 --> 00:17:25,166
+So it has to be UpperCase with the C uppercase.
+
+326
+00:17:26,350 --> 00:17:27,733
+So let's see now.
+
+327
+00:17:29,830 --> 00:17:31,830
+And again, just putting any numbers here
+
+328
+00:17:32,750 --> 00:17:34,750
+and there it is.
+
+329
+00:17:34,750 --> 00:17:38,170
+So here is our very first workout rendered
+
+330
+00:17:38,170 --> 00:17:40,310
+to the user interface.
+
+331
+00:17:40,310 --> 00:17:43,640
+So that's beautiful, really cool.
+
+332
+00:17:43,640 --> 00:17:46,453
+Let's now try this with cycling as well.
+
+333
+00:17:48,390 --> 00:17:50,760
+And yeah, it does appear here
+
+334
+00:17:50,760 --> 00:17:53,610
+and also it appears before the one
+
+335
+00:17:53,610 --> 00:17:55,620
+that we had previously.
+
+336
+00:17:55,620 --> 00:17:59,630
+And so that is the effect of choosing the afterend string
+
+337
+00:17:59,630 --> 00:18:03,190
+in the insertAdjacentHTML method.
+
+338
+00:18:03,190 --> 00:18:05,670
+All right, so that's amazing
+
+339
+00:18:05,670 --> 00:18:07,380
+but what we need to do next
+
+340
+00:18:07,380 --> 00:18:09,820
+is to then actually hide this form
+
+341
+00:18:09,820 --> 00:18:12,910
+whenever a new input here happens.
+
+342
+00:18:12,910 --> 00:18:14,102
+Right?
+
+343
+00:18:14,102 --> 00:18:17,113
+And so let's go do that now.
+
+344
+00:18:18,940 --> 00:18:23,723
+And so we need to go back here to our, well, where is that?
+
+345
+00:18:26,180 --> 00:18:27,990
+Here in the new workout.
+
+346
+00:18:27,990 --> 00:18:30,620
+So here we want to hide the form.
+
+347
+00:18:30,620 --> 00:18:32,900
+And so let's create yet another method,
+
+348
+00:18:32,900 --> 00:18:35,003
+which is gonna be called hide form.
+
+349
+00:18:36,260 --> 00:18:40,140
+So I can already copy or actually cut this one here
+
+350
+00:18:40,140 --> 00:18:42,930
+and call the method before I've written it.
+
+351
+00:18:42,930 --> 00:18:44,970
+So that's no problem.
+
+352
+00:18:44,970 --> 00:18:48,963
+So hideMap will be the name of this method.
+
+353
+00:18:50,180 --> 00:18:53,020
+And now let's actually create that.
+
+354
+00:18:53,020 --> 00:18:55,370
+And of course, it's not hideMap, it's hideForm.
+
+355
+00:18:58,060 --> 00:19:01,273
+So let's do it here right after showForm.
+
+356
+00:19:02,390 --> 00:19:04,710
+So that makes sense, right.
+
+357
+00:19:04,710 --> 00:19:06,013
+So hideForm.
+
+358
+00:19:08,960 --> 00:19:10,960
+So the first thing that we need to do
+
+359
+00:19:10,960 --> 00:19:12,830
+is to empty the inputs
+
+360
+00:19:16,410 --> 00:19:20,123
+and then we need to add this hidden class back on.
+
+361
+00:19:23,950 --> 00:19:26,730
+Now, right, so that's add
+
+362
+00:19:26,730 --> 00:19:28,303
+but as we will see in a second,
+
+363
+00:19:28,303 --> 00:19:31,070
+this is not yet gonna be enough.
+
+364
+00:19:31,070 --> 00:19:33,403
+But let's actually see what I mean here.
+
+365
+00:19:37,760 --> 00:19:39,490
+So did you see this animation here
+
+366
+00:19:39,490 --> 00:19:41,063
+that happened in the beginning?
+
+367
+00:19:42,130 --> 00:19:45,163
+Well, we will need to undo that here in a second.
+
+368
+00:19:47,220 --> 00:19:48,850
+So you see that this one here,
+
+369
+00:19:48,850 --> 00:19:51,453
+basically did slide up a little bit.
+
+370
+00:19:52,497 --> 00:19:53,330
+All right?
+
+371
+00:19:53,330 --> 00:19:54,860
+But that's not what we want.
+
+372
+00:19:54,860 --> 00:19:56,980
+So here in this version of the app,
+
+373
+00:19:56,980 --> 00:19:58,233
+let's see what happens.
+
+374
+00:19:59,310 --> 00:20:03,020
+So as the form appears, everything slides down here.
+
+375
+00:20:03,020 --> 00:20:05,733
+And now watch what happens as I hit Enter.
+
+376
+00:20:07,650 --> 00:20:08,930
+So you saw that?
+
+377
+00:20:08,930 --> 00:20:11,670
+Basically it looked as if that form
+
+378
+00:20:11,670 --> 00:20:14,820
+was replaced with this new activity here.
+
+379
+00:20:14,820 --> 00:20:16,280
+And so to do that,
+
+380
+00:20:16,280 --> 00:20:21,240
+it's not enough to simply add back the hidden class here
+
+381
+00:20:21,240 --> 00:20:23,923
+because that will then also trigger the animation.
+
+382
+00:20:24,790 --> 00:20:29,620
+So instead, we need to hide the form immediately first.
+
+383
+00:20:29,620 --> 00:20:33,100
+So form.style.display.
+
+384
+00:20:35,790 --> 00:20:40,700
+So we immediately need to set the display to none.
+
+385
+00:20:40,700 --> 00:20:43,450
+But then we will actually have to put it back
+
+386
+00:20:43,450 --> 00:20:45,563
+after the animation had finished.
+
+387
+00:20:46,940 --> 00:20:48,330
+So let's take a look here
+
+388
+00:20:48,330 --> 00:20:50,570
+at the form style actually
+
+389
+00:20:50,570 --> 00:20:52,070
+so I can show you what I mean.
+
+390
+00:20:55,020 --> 00:20:56,320
+Okay.
+
+391
+00:20:56,320 --> 00:20:58,590
+So this is the transition that I mean
+
+392
+00:20:58,590 --> 00:21:00,870
+and it is because of this one
+
+393
+00:21:00,870 --> 00:21:04,990
+that the hidden class has that animation of sliding.
+
+394
+00:21:04,990 --> 00:21:08,273
+So that's this transform here, all right?
+
+395
+00:21:09,440 --> 00:21:13,120
+So this animations happens over one second.
+
+396
+00:21:13,120 --> 00:21:16,913
+And the original value of the display property is grid.
+
+397
+00:21:18,030 --> 00:21:19,480
+And so what we will do now
+
+398
+00:21:19,480 --> 00:21:23,200
+is to basically after one second set this display
+
+399
+00:21:23,200 --> 00:21:24,443
+back to grid.
+
+400
+00:21:25,740 --> 00:21:28,250
+So that's kind of a dirty trick here
+
+401
+00:21:28,250 --> 00:21:30,563
+but in order to build the layout like this,
+
+402
+00:21:30,563 --> 00:21:32,670
+this is what we have to do.
+
+403
+00:21:32,670 --> 00:21:34,577
+And it's also a good time
+
+404
+00:21:34,577 --> 00:21:37,723
+to bring back or setTimeout function.
+
+405
+00:21:39,320 --> 00:21:42,490
+And remember that all that setTimeout does
+
+406
+00:21:42,490 --> 00:21:44,780
+is to call a certain callback function
+
+407
+00:21:44,780 --> 00:21:46,323
+after a certain time.
+
+408
+00:21:48,760 --> 00:21:50,650
+So let's use a simple arrow function here
+
+409
+00:21:50,650 --> 00:21:52,670
+to make it really simple.
+
+410
+00:21:52,670 --> 00:21:57,670
+So form.style.display
+
+411
+00:21:57,670 --> 00:22:01,440
+should be set to grid.
+
+412
+00:22:01,440 --> 00:22:04,690
+And this should happen after one second.
+
+413
+00:22:04,690 --> 00:22:06,960
+So 1,000 milliseconds
+
+414
+00:22:06,960 --> 00:22:10,137
+and so yeah, let's see now.
+
+415
+00:22:15,540 --> 00:22:17,040
+All right, so again you saw
+
+416
+00:22:17,040 --> 00:22:19,370
+that animation happening there
+
+417
+00:22:19,370 --> 00:22:22,080
+but now let's see if we get our desired result
+
+418
+00:22:23,260 --> 00:22:25,623
+and yes, there it is.
+
+419
+00:22:26,480 --> 00:22:29,650
+So indeed, we did now immediately hide the form
+
+420
+00:22:29,650 --> 00:22:31,390
+and then after one second,
+
+421
+00:22:31,390 --> 00:22:34,710
+we brought back the original display property.
+
+422
+00:22:34,710 --> 00:22:37,030
+And so all that's really left to do
+
+423
+00:22:37,030 --> 00:22:39,580
+is to basically add the same description
+
+424
+00:22:39,580 --> 00:22:40,880
+that we have here
+
+425
+00:22:40,880 --> 00:22:41,753
+to this popup.
+
+426
+00:22:42,810 --> 00:22:45,160
+And we will also add a nice emoji,
+
+427
+00:22:45,160 --> 00:22:48,410
+so this running guy for running
+
+428
+00:22:48,410 --> 00:22:52,633
+and then cycling, as you see here, for the cycling workouts.
+
+429
+00:22:54,260 --> 00:22:58,373
+Okay, and this code we can actually get from here.
+
+430
+00:22:59,800 --> 00:23:03,023
+So from renderWorkout, we already have this.
+
+431
+00:23:06,090 --> 00:23:07,683
+So where is the marker?
+
+432
+00:23:09,600 --> 00:23:11,120
+Ah, here it is.
+
+433
+00:23:11,120 --> 00:23:13,200
+So here is where we set the content
+
+434
+00:23:14,250 --> 00:23:16,663
+and so again, a template literal.
+
+435
+00:23:19,910 --> 00:23:22,950
+All right, so this is how we set the emoji
+
+436
+00:23:22,950 --> 00:23:25,730
+and then all we need now is the description
+
+437
+00:23:25,730 --> 00:23:26,563
+of the workout.
+
+438
+00:23:30,187 --> 00:23:33,713
+.description and that should be it.
+
+439
+00:23:38,790 --> 00:23:41,620
+All right, so that works beautifully
+
+440
+00:23:41,620 --> 00:23:43,493
+and now just for cycling,
+
+441
+00:23:46,430 --> 00:23:47,713
+and yes.
+
+442
+00:23:49,270 --> 00:23:50,880
+So here's the cycling emoji,
+
+443
+00:23:50,880 --> 00:23:52,350
+here's the description
+
+444
+00:23:52,350 --> 00:23:56,940
+and so this now works exactly as it does in our demo.
+
+445
+00:23:56,940 --> 00:23:59,620
+Great, so we are almost finished actually
+
+446
+00:23:59,620 --> 00:24:00,863
+with our application.
+
+447
+00:24:02,040 --> 00:24:05,120
+So let's take a look at our flowchart here.
+
+448
+00:24:05,120 --> 00:24:06,810
+And so what we're missing now
+
+449
+00:24:06,810 --> 00:24:09,940
+is to move the map to the workout location
+
+450
+00:24:09,940 --> 00:24:12,490
+whenever we click on one of the workouts
+
+451
+00:24:12,490 --> 00:24:14,070
+that we just created.
+
+452
+00:24:14,070 --> 00:24:16,963
+And so that's gonna be the topic of the next video.

@@ -1,0 +1,851 @@
+1
+00:00:01,430 --> 00:00:02,430
+And this lecture,
+
+2
+00:00:02,430 --> 00:00:04,530
+we're gonna talk about the precedence
+
+3
+00:00:04,530 --> 00:00:06,253
+of different operators.
+
+4
+00:00:07,990 --> 00:00:11,700
+So I already commented out the code from the last lecture,
+
+5
+00:00:11,700 --> 00:00:14,730
+but let's actually bring some of it back here.
+
+6
+00:00:14,730 --> 00:00:18,543
+And in particular, the calculation of this ages.
+
+7
+00:00:21,090 --> 00:00:22,480
+So like this.
+
+8
+00:00:22,480 --> 00:00:25,580
+And then also this code that we discussed
+
+9
+00:00:25,580 --> 00:00:28,310
+by the end of the last video.
+
+10
+00:00:28,310 --> 00:00:29,690
+Remember that?
+
+11
+00:00:29,690 --> 00:00:33,450
+So the question that I asked by the end of the last video
+
+12
+00:00:33,450 --> 00:00:38,040
+was why these two subtractions here so this one,
+
+13
+00:00:38,040 --> 00:00:42,403
+and this one are executed before this comparison operator.
+
+14
+00:00:43,440 --> 00:00:46,763
+So basically the question is why does this work?
+
+15
+00:00:48,470 --> 00:00:51,683
+Okay, because we see that it does actually work.
+
+16
+00:00:52,800 --> 00:00:56,390
+So this number here is clearly gonna be higher
+
+17
+00:00:56,390 --> 00:00:57,373
+than this one.
+
+18
+00:00:58,230 --> 00:01:01,300
+Well, it works this way because JavaScript
+
+19
+00:01:01,300 --> 00:01:05,490
+has a well-defined order of operator precedence.
+
+20
+00:01:05,490 --> 00:01:10,180
+So basically the order in which operators are executed.
+
+21
+00:01:10,180 --> 00:01:12,930
+And to actually see the precedence of all the different
+
+22
+00:01:12,930 --> 00:01:17,433
+operators, let's check out a very handy precedence table.
+
+23
+00:01:18,330 --> 00:01:21,150
+So let's Google MDN.
+
+24
+00:01:21,150 --> 00:01:23,610
+Which stands for Mozilla Developer Network
+
+25
+00:01:23,610 --> 00:01:27,893
+and then operator precedence.
+
+26
+00:01:29,420 --> 00:01:31,690
+And so the one you're looking for is this one.
+
+27
+00:01:31,690 --> 00:01:35,633
+So the one that starts with developer.mozilla.org.
+
+28
+00:01:36,970 --> 00:01:39,370
+So MDN is a very well known
+
+29
+00:01:39,370 --> 00:01:42,080
+and widely used documentation site.
+
+30
+00:01:42,080 --> 00:01:45,400
+And we will actually use MDN a lot throughout the course.
+
+31
+00:01:45,400 --> 00:01:47,490
+And in one of the future sections,
+
+32
+00:01:47,490 --> 00:01:50,460
+I will show you a bit better how to use this site.
+
+33
+00:01:50,460 --> 00:01:53,610
+But for now we're looking for a table that is here
+
+34
+00:01:53,610 --> 00:01:56,560
+on this page and it's this one.
+
+35
+00:01:56,560 --> 00:02:00,500
+So here we can see that grouping using parenthesis here,
+
+36
+00:02:00,500 --> 00:02:03,428
+has the highest precedence of 21.
+
+37
+00:02:03,428 --> 00:02:07,640
+And then we have all the operators that we already saw.
+
+38
+00:02:07,640 --> 00:02:11,210
+So here plus minus, plus plus,
+
+39
+00:02:11,210 --> 00:02:14,160
+so they have a precedence of 17.
+
+40
+00:02:14,160 --> 00:02:16,820
+Then we have a bunch of other stuff here that we don't know
+
+41
+00:02:16,820 --> 00:02:20,523
+yet, but here is also type of, that we already do know.
+
+42
+00:02:21,360 --> 00:02:24,430
+We have the exponentiation operator that I showed you.
+
+43
+00:02:24,430 --> 00:02:27,000
+We have all these math operators here.
+
+44
+00:02:27,000 --> 00:02:31,430
+We have all comparison operators, right?
+
+45
+00:02:31,430 --> 00:02:35,970
+We have some well, some other equality operators here,
+
+46
+00:02:35,970 --> 00:02:39,110
+and a bunch of other operators.
+
+47
+00:02:39,110 --> 00:02:41,750
+And this is actually a nice reference where you can see all
+
+48
+00:02:41,750 --> 00:02:46,040
+the operators that exist in JavaScript in one handy table.
+
+49
+00:02:46,040 --> 00:02:49,410
+But let's not stay in the context of our current example
+
+50
+00:02:49,410 --> 00:02:50,870
+which is this one here.
+
+51
+00:02:50,870 --> 00:02:53,850
+And let's understand what exactly happens here,
+
+52
+00:02:53,850 --> 00:02:56,800
+in terms of operator precedence.
+
+53
+00:02:56,800 --> 00:03:01,310
+So we already know that these two calculations here are done
+
+54
+00:03:01,310 --> 00:03:02,950
+before the comparison.
+
+55
+00:03:02,950 --> 00:03:05,623
+And so let's actually see that in the table.
+
+56
+00:03:06,730 --> 00:03:09,020
+So here we have the comparison.
+
+57
+00:03:09,020 --> 00:03:12,330
+So this greater than and you see that it has a lower
+
+58
+00:03:12,330 --> 00:03:15,890
+precedence than the subtraction here.
+
+59
+00:03:15,890 --> 00:03:19,330
+So this has 14 and this has 12, right?
+
+60
+00:03:19,330 --> 00:03:21,060
+And of course you don't need to know any
+
+61
+00:03:21,060 --> 00:03:23,170
+of these precedence numbers.
+
+62
+00:03:23,170 --> 00:03:24,510
+Okay, don't worry about that.
+
+63
+00:03:24,510 --> 00:03:27,260
+It doesn't matter, no one knows these.
+
+64
+00:03:27,260 --> 00:03:30,514
+You just have to have a general idea of which operators
+
+65
+00:03:30,514 --> 00:03:32,743
+are executed first.
+
+66
+00:03:33,700 --> 00:03:36,156
+So usually all the math operators are executed
+
+67
+00:03:36,156 --> 00:03:39,630
+before the comparison operators for example,
+
+68
+00:03:39,630 --> 00:03:41,200
+because that makes sense.
+
+69
+00:03:41,200 --> 00:03:44,480
+And so with this, we explain why this kind of comparison
+
+70
+00:03:44,480 --> 00:03:46,177
+that we have here works.
+
+71
+00:03:46,177 --> 00:03:47,630
+Now in this table,
+
+72
+00:03:47,630 --> 00:03:51,130
+we can also see which operators are executed from left
+
+73
+00:03:51,130 --> 00:03:54,230
+to right and which one from right to left.
+
+74
+00:03:54,230 --> 00:03:55,063
+Like for example,
+
+75
+00:03:55,063 --> 00:03:58,820
+the exponentiation operator is executed from right to left.
+
+76
+00:03:58,820 --> 00:04:01,870
+While most operators especially the mathematical ones
+
+77
+00:04:01,870 --> 00:04:04,600
+are executed from left to right.
+
+78
+00:04:04,600 --> 00:04:05,453
+For example,
+
+79
+00:04:07,950 --> 00:04:12,950
+let's say we wanted to calculate 25 minus 10 minus five.
+
+80
+00:04:14,770 --> 00:04:18,623
+And so this one should be 10, right?
+
+81
+00:04:19,630 --> 00:04:21,033
+So let's check that.
+
+82
+00:04:21,900 --> 00:04:23,780
+And indeed we get 10.
+
+83
+00:04:23,780 --> 00:04:26,630
+But if it was right to left,
+
+84
+00:04:26,630 --> 00:04:29,330
+then it would be five minus 10 minus 25
+
+85
+00:04:29,330 --> 00:04:32,690
+which would then be something completely different.
+
+86
+00:04:32,690 --> 00:04:36,020
+So this is an example of left to right operation.
+
+87
+00:04:36,020 --> 00:04:37,620
+But assignment, for example,
+
+88
+00:04:37,620 --> 00:04:40,723
+is a good example of right to left execution.
+
+89
+00:04:41,650 --> 00:04:44,293
+So let's see where we actually have assignment here.
+
+90
+00:04:45,550 --> 00:04:49,080
+So it should be one of the lowest ones.
+
+91
+00:04:49,080 --> 00:04:50,830
+And indeed it is.
+
+92
+00:04:50,830 --> 00:04:52,063
+So it's number three.
+
+93
+00:04:53,750 --> 00:04:57,450
+And so as I said, this one is right to left.
+
+94
+00:04:57,450 --> 00:04:59,130
+And so let me show you a nice example
+
+95
+00:04:59,130 --> 00:05:01,510
+of why this is important.
+
+96
+00:05:01,510 --> 00:05:03,940
+So let's declare two variables,
+
+97
+00:05:03,940 --> 00:05:08,210
+let X and Y and here's something new.
+
+98
+00:05:08,210 --> 00:05:12,433
+So we can define two variables at the same time like this.
+
+99
+00:05:13,470 --> 00:05:16,730
+So now in one line we declared two empty values.
+
+100
+00:05:16,730 --> 00:05:19,810
+So two values which are gonna hold for now
+
+101
+00:05:19,810 --> 00:05:22,310
+the value of undefined, right?
+
+102
+00:05:22,310 --> 00:05:24,860
+So that's X and Y.
+
+103
+00:05:24,860 --> 00:05:26,950
+And now, we can do this.
+
+104
+00:05:26,950 --> 00:05:31,020
+We can say that X should be equal to Y should be equal
+
+105
+00:05:31,020 --> 00:05:36,020
+to 25 minus 10, minus five which we already know is 10.
+
+106
+00:05:38,210 --> 00:05:41,623
+And so let's now log both of these values to the console.
+
+107
+00:05:42,520 --> 00:05:45,133
+And what do you think will happen?
+
+108
+00:05:46,800 --> 00:05:48,680
+You can really try to think about this
+
+109
+00:05:48,680 --> 00:05:50,163
+before checking the result.
+
+110
+00:05:51,860 --> 00:05:54,570
+And so what is it gonna be?
+
+111
+00:05:54,570 --> 00:05:56,810
+And actually let's delete this one first,
+
+112
+00:05:56,810 --> 00:05:58,833
+so to avoid some confusion there.
+
+113
+00:05:59,710 --> 00:06:00,543
+And.
+
+114
+00:06:01,760 --> 00:06:05,570
+So, we see that X and Y are both 10.
+
+115
+00:06:05,570 --> 00:06:08,120
+And so let's analyze why that happens.
+
+116
+00:06:08,120 --> 00:06:11,140
+So when JavaScript first finds this line of code
+
+117
+00:06:11,140 --> 00:06:12,480
+here to execute.
+
+118
+00:06:12,480 --> 00:06:15,090
+It will look at all the operators that are present
+
+119
+00:06:15,090 --> 00:06:17,760
+and it will see the minus operators.
+
+120
+00:06:17,760 --> 00:06:19,610
+And so it will start with these,
+
+121
+00:06:19,610 --> 00:06:23,310
+because they have a higher precedence, right?
+
+122
+00:06:23,310 --> 00:06:27,457
+So assignment has only three, but the,
+
+123
+00:06:30,680 --> 00:06:32,390
+where is it?
+
+124
+00:06:32,390 --> 00:06:33,223
+Here it is.
+
+125
+00:06:33,223 --> 00:06:35,920
+So the subtraction has a 14.
+
+126
+00:06:35,920 --> 00:06:38,230
+And so of course it's gonna be executed first
+
+127
+00:06:38,230 --> 00:06:39,600
+and left to right.
+
+128
+00:06:39,600 --> 00:06:41,110
+And so, as we already know,
+
+129
+00:06:41,110 --> 00:06:43,363
+this year will turn out to be 10.
+
+130
+00:06:45,090 --> 00:06:46,950
+And so let's just write that here.
+
+131
+00:06:46,950 --> 00:06:48,830
+So after these minus operations
+
+132
+00:06:48,830 --> 00:06:52,420
+we end up with this code basically.
+
+133
+00:06:52,420 --> 00:06:57,420
+So X equals Y equals 10, right?
+
+134
+00:06:57,540 --> 00:07:01,720
+Because again, 10 is the result of doing these operations.
+
+135
+00:07:01,720 --> 00:07:04,200
+And so now we only have two operators left
+
+136
+00:07:04,200 --> 00:07:06,430
+which are the equal operators.
+
+137
+00:07:06,430 --> 00:07:08,470
+And so now they are executed
+
+138
+00:07:08,470 --> 00:07:12,950
+but as I showed you before they are executed right to left.
+
+139
+00:07:12,950 --> 00:07:17,950
+So from this side here, starting from the 10 to this side.
+
+140
+00:07:17,950 --> 00:07:22,950
+And so what happens is that we will have Y equals 10.
+
+141
+00:07:23,570 --> 00:07:26,290
+And so at this point, Y is equal to 10.
+
+142
+00:07:26,290 --> 00:07:31,290
+And so what we have then is X equal to 10, okay.
+
+143
+00:07:31,290 --> 00:07:34,770
+And then after that, we're only left with X equal 10.
+
+144
+00:07:34,770 --> 00:07:39,410
+And so at the end, both X and Y are gonna be 10.
+
+145
+00:07:39,410 --> 00:07:41,660
+Okay, maybe that sounded a bit confusing,
+
+146
+00:07:41,660 --> 00:07:43,060
+but that's just how it works
+
+147
+00:07:43,060 --> 00:07:46,310
+when you evaluate from right to left.
+
+148
+00:07:46,310 --> 00:07:48,510
+And actually that's the way it has to be,
+
+149
+00:07:48,510 --> 00:07:51,770
+because if it was the other way around this wouldn't work.
+
+150
+00:07:51,770 --> 00:07:54,010
+Just imagine if we had this assignment
+
+151
+00:07:54,010 --> 00:07:56,070
+working from left to right.
+
+152
+00:07:56,070 --> 00:07:58,840
+Then X would be equal to Y
+
+153
+00:07:58,840 --> 00:08:01,390
+and Y is undefined at this point.
+
+154
+00:08:01,390 --> 00:08:06,200
+Remember, because we declared it here as an empty variable.
+
+155
+00:08:06,200 --> 00:08:07,230
+And so again,
+
+156
+00:08:07,230 --> 00:08:10,286
+if assignment would be from left to right then first
+
+157
+00:08:10,286 --> 00:08:13,450
+X would be equal to Y which would be undefined
+
+158
+00:08:13,450 --> 00:08:16,660
+and then Y would be equal to 10.
+
+159
+00:08:16,660 --> 00:08:19,497
+And so that's not the result that we expect here.
+
+160
+00:08:19,497 --> 00:08:22,060
+And so once more, the way this works
+
+161
+00:08:22,060 --> 00:08:25,750
+is actually very logical and makes a lot of sense.
+
+162
+00:08:25,750 --> 00:08:27,670
+So I hope that made sense.
+
+163
+00:08:27,670 --> 00:08:28,503
+And now to finish,
+
+164
+00:08:28,503 --> 00:08:33,430
+let's just check out the one with the highest precedence,
+
+165
+00:08:33,430 --> 00:08:35,230
+which is just grouping.
+
+166
+00:08:35,230 --> 00:08:37,380
+So basically using parenthesis.
+
+167
+00:08:37,380 --> 00:08:40,910
+And that actually works just like in mathematics
+
+168
+00:08:40,910 --> 00:08:44,884
+where operations within parenthesis are also executed first.
+
+169
+00:08:44,884 --> 00:08:48,300
+So I hope you remember that from school.
+
+170
+00:08:48,300 --> 00:08:50,770
+And the great example is to calculate
+
+171
+00:08:50,770 --> 00:08:53,300
+the average of two values.
+
+172
+00:08:53,300 --> 00:08:56,700
+So we have age Jonas and age Sarah.
+
+173
+00:08:56,700 --> 00:09:00,353
+And so let's calculate the average age of these two people.
+
+174
+00:09:02,120 --> 00:09:04,380
+So let's actually start by logging their ages
+
+175
+00:09:04,380 --> 00:09:07,183
+to the console, just so we see.
+
+176
+00:09:10,850 --> 00:09:14,950
+So age Jonas and age Sarah.
+
+177
+00:09:14,950 --> 00:09:17,330
+And now I want to calculate the average.
+
+178
+00:09:17,330 --> 00:09:19,530
+And actually that stood out here above that.
+
+179
+00:09:20,440 --> 00:09:23,400
+So let's say average age.
+
+180
+00:09:23,400 --> 00:09:28,090
+And once more, don't forget the descriptive variable names.
+
+181
+00:09:28,090 --> 00:09:31,340
+So average age describes exactly what this variable
+
+182
+00:09:31,340 --> 00:09:33,210
+is going to hold.
+
+183
+00:09:33,210 --> 00:09:36,300
+So to calculate an average, we need to add two values
+
+184
+00:09:36,300 --> 00:09:38,930
+together and then divide them by two.
+
+185
+00:09:38,930 --> 00:09:41,760
+At least that's when we have just two values.
+
+186
+00:09:41,760 --> 00:09:43,050
+So let's say,
+
+187
+00:09:43,050 --> 00:09:48,010
+age Jonas plus age Sarah.
+
+188
+00:09:48,010 --> 00:09:52,230
+So that's the addition and then divided by two.
+
+189
+00:09:52,230 --> 00:09:54,750
+But now what is going to happen?
+
+190
+00:09:54,750 --> 00:09:57,073
+Well, according to our precedence table,
+
+191
+00:09:57,930 --> 00:10:02,930
+we have the division here happening before the subtraction.
+
+192
+00:10:03,360 --> 00:10:06,740
+So this is 15 and this is 14.
+
+193
+00:10:06,740 --> 00:10:10,360
+And so what happens first is age Sarah is gonna be divided
+
+194
+00:10:10,360 --> 00:10:13,473
+by two and then the age of Jonas is gonna be added.
+
+195
+00:10:14,940 --> 00:10:18,893
+So let's actually log that results here as well.
+
+196
+00:10:21,560 --> 00:10:25,510
+And so here the average age is now 55.5.
+
+197
+00:10:25,510 --> 00:10:28,560
+Which really doesn't make any sense because how can
+
+198
+00:10:28,560 --> 00:10:33,130
+the average be larger than one of the two ages, right?
+
+199
+00:10:33,130 --> 00:10:35,430
+And so that's where the parenthesis come in.
+
+200
+00:10:35,430 --> 00:10:39,010
+So by using parenthesis, once more,
+
+201
+00:10:39,010 --> 00:10:41,170
+just like in mathematics,
+
+202
+00:10:41,170 --> 00:10:44,050
+we can make it so that this operation here,
+
+203
+00:10:44,050 --> 00:10:46,270
+is executed first.
+
+204
+00:10:46,270 --> 00:10:48,910
+Okay, so basically everything that is within
+
+205
+00:10:48,910 --> 00:10:53,910
+the parenthesis which have the precedence of 21, right?
+
+206
+00:10:54,472 --> 00:10:59,472
+So now this one is executed first and then the division.
+
+207
+00:11:00,160 --> 00:11:04,280
+And so yeah, now it makes sense.
+
+208
+00:11:04,280 --> 00:11:05,113
+Okay.
+
+209
+00:11:05,113 --> 00:11:07,720
+I hope that wasn't too confusing.
+
+210
+00:11:07,720 --> 00:11:09,230
+And now you're actually ready
+
+211
+00:11:09,230 --> 00:11:11,620
+for your first coding challenge.
+
+212
+00:11:11,620 --> 00:11:14,230
+So I hope to see you soon in the next video
+
+213
+00:11:14,230 --> 00:11:15,943
+for your first challenge.

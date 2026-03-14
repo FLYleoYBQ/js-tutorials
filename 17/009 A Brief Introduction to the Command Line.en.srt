@@ -1,0 +1,947 @@
+1
+00:00:01,350 --> 00:00:04,410
+Now before we can use a tool like parcel,
+
+2
+00:00:04,410 --> 00:00:08,420
+we first need to learn a little bit about the Command Line.
+
+3
+00:00:08,420 --> 00:00:10,670
+Yeah, you heard that right.
+
+4
+00:00:10,670 --> 00:00:12,870
+All of these build tools that are available
+
+5
+00:00:12,870 --> 00:00:16,060
+on NPM only work in the Command Line.
+
+6
+00:00:16,060 --> 00:00:18,380
+And so now comes that time
+
+7
+00:00:18,380 --> 00:00:20,730
+where you finally have to learn a little bit
+
+8
+00:00:20,730 --> 00:00:24,390
+about the basics at least of the Command Line.
+
+9
+00:00:24,390 --> 00:00:26,760
+Now, if you already know this stuff,
+
+10
+00:00:26,760 --> 00:00:29,990
+then please move on to the next lecture right away
+
+11
+00:00:29,990 --> 00:00:33,360
+because you will probably not learn anything new here
+
+12
+00:00:33,360 --> 00:00:36,273
+but for the rest of us, let's get started.
+
+13
+00:00:37,860 --> 00:00:39,170
+So in this short video,
+
+14
+00:00:39,170 --> 00:00:41,930
+all I want to do is to give you the foundation
+
+15
+00:00:41,930 --> 00:00:43,490
+of the Command Line.
+
+16
+00:00:43,490 --> 00:00:46,670
+So stuff like moving around in the file system,
+
+17
+00:00:46,670 --> 00:00:50,230
+creating files and folders, copying files
+
+18
+00:00:50,230 --> 00:00:52,200
+and so on and so forth.
+
+19
+00:00:52,200 --> 00:00:55,940
+Because as a web developer, it's really quite important
+
+20
+00:00:55,940 --> 00:00:57,870
+that, you know, at least how to do
+
+21
+00:00:57,870 --> 00:01:02,870
+these basic things using a terminal or a command prompt.
+
+22
+00:01:02,910 --> 00:01:06,412
+Now I know that many, many people are afraid
+
+23
+00:01:06,412 --> 00:01:09,580
+of the Command Line for some reason.
+
+24
+00:01:09,580 --> 00:01:12,240
+And actually I'm the first to admit
+
+25
+00:01:12,240 --> 00:01:15,750
+that I was afraid myself a long time ago
+
+26
+00:01:15,750 --> 00:01:18,730
+and I was always trying to just avoid it,
+
+27
+00:01:18,730 --> 00:01:20,320
+but now I look back
+
+28
+00:01:20,320 --> 00:01:25,320
+and well, that's just silly because it's not hard at all,
+
+29
+00:01:25,550 --> 00:01:28,620
+and now I can't live without the Command Line,
+
+30
+00:01:28,620 --> 00:01:31,930
+and in fact, no serious web developer can live
+
+31
+00:01:31,930 --> 00:01:33,760
+without the command line either.
+
+32
+00:01:33,760 --> 00:01:37,160
+It's just part of the job, all right?
+
+33
+00:01:37,160 --> 00:01:40,900
+But enough talk, let's now actually do something
+
+34
+00:01:40,900 --> 00:01:43,690
+and we can go about this in different ways.
+
+35
+00:01:43,690 --> 00:01:45,750
+So we can use a separate window.
+
+36
+00:01:45,750 --> 00:01:48,253
+So on the Mac, I'm gonna open up Terminal,
+
+37
+00:01:50,240 --> 00:01:52,860
+All right, now, if you're on windows,
+
+38
+00:01:52,860 --> 00:01:55,490
+you can just right click on the Start button,
+
+39
+00:01:55,490 --> 00:01:58,270
+and from there select the command prompt.
+
+40
+00:01:58,270 --> 00:02:01,340
+So that's how the terminal is called on Windows.
+
+41
+00:02:01,340 --> 00:02:04,880
+And if you're using Linux, well, then, I'm pretty sure
+
+42
+00:02:04,880 --> 00:02:07,770
+that you already know how to use the terminal
+
+43
+00:02:07,770 --> 00:02:10,230
+and how to do all of this stuff.
+
+44
+00:02:10,230 --> 00:02:14,100
+But anyways, this is only one of the ways of doing it,
+
+45
+00:02:14,100 --> 00:02:16,270
+and many times as a web developer,
+
+46
+00:02:16,270 --> 00:02:18,300
+you will use a separate Window
+
+47
+00:02:18,300 --> 00:02:21,970
+like this one, but since we're using VS Code already
+
+48
+00:02:21,970 --> 00:02:25,250
+and VS Code does have an integrated terminal,
+
+49
+00:02:25,250 --> 00:02:26,793
+we can simply use that.
+
+50
+00:02:27,770 --> 00:02:32,483
+So I will close that now and open up the terminal like this.
+
+51
+00:02:33,560 --> 00:02:35,183
+And so here we go.
+
+52
+00:02:36,290 --> 00:02:39,680
+Now here we see that we already have one terminal running,
+
+53
+00:02:39,680 --> 00:02:43,610
+and so that's the one that is looking for changes here.
+
+54
+00:02:43,610 --> 00:02:45,830
+So it's that note process,
+
+55
+00:02:45,830 --> 00:02:50,830
+so that life server tool that we have been using, okay?
+
+56
+00:02:51,380 --> 00:02:55,430
+Now on windows, it's not going to say bash here probably,
+
+57
+00:02:55,430 --> 00:02:57,270
+and that's because the command line works
+
+58
+00:02:57,270 --> 00:02:59,860
+a little bit different on windows than it does
+
+59
+00:02:59,860 --> 00:03:04,310
+on Unix based systems like the Mac or Linux.
+
+60
+00:03:04,310 --> 00:03:06,910
+But anyway, most commands are the same
+
+61
+00:03:06,910 --> 00:03:11,520
+and whenever one is different, I will let you know, okay?
+
+62
+00:03:11,520 --> 00:03:13,380
+Now the first thing that you need to know
+
+63
+00:03:13,380 --> 00:03:17,870
+about any Command Line is that you are always in a folder.
+
+64
+00:03:17,870 --> 00:03:20,420
+So right now we are in this project folder,
+
+65
+00:03:20,420 --> 00:03:23,080
+and so that's the beauty of VS Code.
+
+66
+00:03:23,080 --> 00:03:24,940
+So whenever we open a terminal
+
+67
+00:03:24,940 --> 00:03:29,940
+in VS Code, we are always in this project folder itself,
+
+68
+00:03:30,340 --> 00:03:31,660
+and then from this location
+
+69
+00:03:31,660 --> 00:03:35,810
+in the file system, we can move up and down using commands.
+
+70
+00:03:35,810 --> 00:03:37,760
+Now, the first command that I'm going to show you
+
+71
+00:03:37,760 --> 00:03:41,217
+is LS which on Windows is called DIR,
+
+72
+00:03:42,080 --> 00:03:44,000
+which stands for Directory.
+
+73
+00:03:44,000 --> 00:03:45,350
+So on Windows type DIR
+
+74
+00:03:46,210 --> 00:03:49,580
+and on a Unix based system, LS,
+
+75
+00:03:49,580 --> 00:03:51,710
+and so this will then show you the contents
+
+76
+00:03:51,710 --> 00:03:54,060
+of the current folder, all right?
+
+77
+00:03:54,060 --> 00:03:56,480
+And so indeed, that's exactly the files
+
+78
+00:03:56,480 --> 00:03:59,210
+that we have here except for this one here,
+
+79
+00:03:59,210 --> 00:04:01,470
+which starts with a dot,
+
+80
+00:04:01,470 --> 00:04:04,113
+and so that's different but nevermind.
+
+81
+00:04:04,960 --> 00:04:06,650
+Then the next command is CD
+
+82
+00:04:06,650 --> 00:04:09,230
+which stands for Change Directory,
+
+83
+00:04:09,230 --> 00:04:12,370
+and with this, we can go up and down the file tree.
+
+84
+00:04:12,370 --> 00:04:16,167
+For now, let's just go up, and for that, we use dot dot.
+
+85
+00:04:17,040 --> 00:04:20,320
+And so with this, we are now in the desktop.
+
+86
+00:04:20,320 --> 00:04:22,500
+So let's take a look here as well,
+
+87
+00:04:22,500 --> 00:04:24,780
+and so here we see all of the folders
+
+88
+00:04:24,780 --> 00:04:27,850
+that we created before, okay?
+
+89
+00:04:27,850 --> 00:04:30,870
+And so let's now move into one of them,
+
+90
+00:04:30,870 --> 00:04:34,380
+so I can write again CD, and then let's say,
+
+91
+00:04:34,380 --> 00:04:37,170
+I want to move into folder 13.
+
+92
+00:04:37,170 --> 00:04:39,760
+So 13-advanced,
+
+93
+00:04:39,760 --> 00:04:42,690
+but I actually don't have to type all of it.
+
+94
+00:04:42,690 --> 00:04:46,290
+So instead I can just hit the tab key
+
+95
+00:04:46,290 --> 00:04:49,730
+and it will then auto complete this path for me.
+
+96
+00:04:49,730 --> 00:04:52,140
+So that's very handy whenever we don't want
+
+97
+00:04:52,140 --> 00:04:54,240
+to write everything by hand.
+
+98
+00:04:54,240 --> 00:04:59,240
+So hit Enter one more time, then LS or DIR on windows,
+
+99
+00:05:00,240 --> 00:05:03,000
+and so with this, we can check out all the files
+
+100
+00:05:03,000 --> 00:05:04,832
+that are in there.
+
+101
+00:05:04,832 --> 00:05:08,470
+So again, three files, and then we also have a folder.
+
+102
+00:05:08,470 --> 00:05:10,940
+So let's go there as well.
+
+103
+00:05:10,940 --> 00:05:15,940
+So CD IMG, and again, let's check out what we have in there.
+
+104
+00:05:17,400 --> 00:05:20,740
+So all of these images, all right?
+
+105
+00:05:20,740 --> 00:05:22,640
+So let's move up.
+
+106
+00:05:22,640 --> 00:05:24,500
+So that's dot dot again.
+
+107
+00:05:24,500 --> 00:05:27,260
+And actually we want to move up two levels.
+
+108
+00:05:27,260 --> 00:05:32,260
+And so here we can then add a slash and then again, dot dot.
+
+109
+00:05:32,330 --> 00:05:36,340
+And so this will move up two levels back to the desktop.
+
+110
+00:05:36,340 --> 00:05:40,690
+So here you see that we are at the desktop, okay?
+
+111
+00:05:40,690 --> 00:05:44,023
+Then we can also clear the console like this,
+
+112
+00:05:45,240 --> 00:05:47,343
+and so then everything disappears.
+
+113
+00:05:49,211 --> 00:05:52,924
+Okay, let's take a look again and as remember one more time,
+
+114
+00:05:52,924 --> 00:05:54,103
+it is DIR on Windows.
+
+115
+00:05:55,000 --> 00:05:58,350
+And so now let's actually go back to our project folder.
+
+116
+00:05:58,350 --> 00:06:01,170
+And again, now I can already auto complete
+
+117
+00:06:01,170 --> 00:06:04,990
+because this part of the string is already unique.
+
+118
+00:06:04,990 --> 00:06:08,490
+So I hit Tab, Enter, and then we are back
+
+119
+00:06:08,490 --> 00:06:10,700
+in our project folder.
+
+120
+00:06:10,700 --> 00:06:14,090
+So to clear this, I can again write clear,
+
+121
+00:06:14,090 --> 00:06:16,903
+but in VS Code, I can also hit Command key,
+
+122
+00:06:18,050 --> 00:06:19,280
+like this.
+
+123
+00:06:19,280 --> 00:06:21,600
+Well, at least it works on Mac.
+
+124
+00:06:21,600 --> 00:06:23,750
+I'm not sure about Windows.
+
+125
+00:06:23,750 --> 00:06:28,260
+So you can also type clear like this.
+
+126
+00:06:28,260 --> 00:06:31,860
+And so now let's actually here create a folder,
+
+127
+00:06:31,860 --> 00:06:36,860
+so that's MKDIR and then let's simply call this Test.
+
+128
+00:06:37,570 --> 00:06:39,690
+And so if we check this out now,
+
+129
+00:06:39,690 --> 00:06:42,600
+then here we have a new folder and you can see
+
+130
+00:06:42,600 --> 00:06:44,380
+that here as well,
+
+131
+00:06:44,380 --> 00:06:47,510
+and of course, I could also see it here
+
+132
+00:06:47,510 --> 00:06:48,623
+in the file system,
+
+133
+00:06:50,130 --> 00:06:50,963
+right?
+
+134
+00:06:50,963 --> 00:06:51,796
+So there it is.
+
+135
+00:06:55,480 --> 00:06:58,680
+And now back to VS Code actually
+
+136
+00:06:59,580 --> 00:07:01,223
+and let's move there now,
+
+137
+00:07:03,140 --> 00:07:04,620
+clear it again.
+
+138
+00:07:04,620 --> 00:07:07,740
+And now here let's just create some files.
+
+139
+00:07:07,740 --> 00:07:10,600
+So for that, I'm using Touch on the Mac
+
+140
+00:07:10,600 --> 00:07:14,023
+and on windows, it is Edit like this.
+
+141
+00:07:15,430 --> 00:07:19,300
+So let's say touch and then index.html,
+
+142
+00:07:19,300 --> 00:07:23,940
+and then let's also say script.js.
+
+143
+00:07:23,940 --> 00:07:26,420
+Now these are empty files now
+
+144
+00:07:26,420 --> 00:07:28,760
+but we can still check them out here,
+
+145
+00:07:28,760 --> 00:07:33,210
+and we could actually also call or live server here now.
+
+146
+00:07:33,210 --> 00:07:37,460
+So we can say live server and as always I can auto complete,
+
+147
+00:07:37,460 --> 00:07:42,460
+hit Enter and then it will open up in your browser tab,
+
+148
+00:07:43,270 --> 00:07:45,050
+and in this case, it didn't
+
+149
+00:07:45,050 --> 00:07:47,290
+because I'm using another browser.
+
+150
+00:07:47,290 --> 00:07:50,680
+So let me finish this by writing Ctrl+C,
+
+151
+00:07:50,680 --> 00:07:54,270
+then clicking here and doing it again.
+
+152
+00:07:54,270 --> 00:07:57,140
+And so I opened up this command again
+
+153
+00:07:57,140 --> 00:07:59,833
+by clicking the up arrow, okay?
+
+154
+00:08:01,040 --> 00:08:04,450
+And so now here it is, but let's cancel it again
+
+155
+00:08:04,450 --> 00:08:06,230
+because we're not really interested
+
+156
+00:08:06,230 --> 00:08:08,820
+in seeing this empty page.
+
+157
+00:08:08,820 --> 00:08:11,060
+And so again, that is Ctrl+ C,
+
+158
+00:08:11,060 --> 00:08:12,300
+even on the Mac,
+
+159
+00:08:12,300 --> 00:08:13,553
+so not command C.
+
+160
+00:08:14,790 --> 00:08:17,720
+And here I can actually use the arrow key
+
+161
+00:08:17,720 --> 00:08:21,830
+as many times as I want to see my past commands,
+
+162
+00:08:21,830 --> 00:08:25,100
+and I can also go back down like this.
+
+163
+00:08:25,100 --> 00:08:28,100
+So let's take a look again at the files we have
+
+164
+00:08:28,100 --> 00:08:31,430
+and we could also add multiple files all at once.
+
+165
+00:08:31,430 --> 00:08:33,790
+And this is actually something pretty useful,
+
+166
+00:08:33,790 --> 00:08:36,830
+and that I do all the time when I need to create
+
+167
+00:08:36,830 --> 00:08:39,690
+like multiple modules at once.
+
+168
+00:08:39,690 --> 00:08:41,033
+So let's say Jonas.js.
+
+169
+00:08:43,883 --> 00:08:45,923
+let's say bankers.JS,
+
+170
+00:08:46,770 --> 00:08:48,963
+and mapt.js.
+
+171
+00:08:49,960 --> 00:08:54,040
+And so now it created these three files all at once.
+
+172
+00:08:54,040 --> 00:08:57,000
+I'm not sure why I wrote JS there
+
+173
+00:08:57,000 --> 00:09:00,370
+but nevermind, of course, JS does not exist
+
+174
+00:09:00,370 --> 00:09:02,290
+but here we now have all these files
+
+175
+00:09:02,290 --> 00:09:04,384
+that we created previously,
+
+176
+00:09:04,384 --> 00:09:05,323
+okay?
+
+177
+00:09:06,200 --> 00:09:08,150
+So we have all these files now
+
+178
+00:09:08,150 --> 00:09:10,360
+but we're not really interested in them,
+
+179
+00:09:10,360 --> 00:09:12,480
+and so let's delete them,
+
+180
+00:09:12,480 --> 00:09:17,480
+and for that, we can use RM on the Mac and DEL on Windows.
+
+181
+00:09:20,120 --> 00:09:24,903
+So script JS for example, and let's say also jonas.js.
+
+182
+00:09:26,420 --> 00:09:27,870
+Let's take a look.
+
+183
+00:09:27,870 --> 00:09:30,530
+And now we only have these three left
+
+184
+00:09:30,530 --> 00:09:33,240
+and let's say that we actually wanted to move one
+
+185
+00:09:33,240 --> 00:09:35,460
+of them to the parent folder.
+
+186
+00:09:35,460 --> 00:09:38,100
+So for that, we can use MV,
+
+187
+00:09:38,100 --> 00:09:39,560
+let's say we want Map T
+
+188
+00:09:40,420 --> 00:09:42,650
+and once again, I hit Tab,
+
+189
+00:09:42,650 --> 00:09:45,580
+and so we need to specify first the name
+
+190
+00:09:45,580 --> 00:09:47,290
+of the file that should be moved,
+
+191
+00:09:47,290 --> 00:09:51,380
+and then the location into which that file should be moved.
+
+192
+00:09:51,380 --> 00:09:54,150
+So what is that location?
+
+193
+00:09:54,150 --> 00:09:58,010
+Well, in this case, we want to move it to the parent folder.
+
+194
+00:09:58,010 --> 00:10:02,893
+And so that is dot dot like this, and then the dash,
+
+195
+00:10:04,360 --> 00:10:05,400
+okay?
+
+196
+00:10:05,400 --> 00:10:09,163
+And you actually already saw it appear here, right?
+
+197
+00:10:11,320 --> 00:10:14,850
+And if we take a look here again, then there it is.
+
+198
+00:10:14,850 --> 00:10:17,010
+If we move to that parent folder
+
+199
+00:10:17,010 --> 00:10:21,303
+and check it out here as well, then there is mapt.js.
+
+200
+00:10:23,720 --> 00:10:24,780
+All right?
+
+201
+00:10:24,780 --> 00:10:28,520
+And so now we really don't need that test folder anymore.
+
+202
+00:10:28,520 --> 00:10:30,710
+So let's delete that as well,
+
+203
+00:10:30,710 --> 00:10:32,583
+and for that, we can use RMDIR.
+
+204
+00:10:34,180 --> 00:10:36,670
+So this stands for Remove Directory
+
+205
+00:10:36,670 --> 00:10:39,973
+while the opposite of that remember was MKDAR.
+
+206
+00:10:41,040 --> 00:10:42,833
+So Make a Directory.
+
+207
+00:10:43,950 --> 00:10:45,890
+And so now we just need to specify
+
+208
+00:10:45,890 --> 00:10:50,660
+that test and the directory is not empty.
+
+209
+00:10:50,660 --> 00:10:54,630
+So RMDIR only works for empty directories,
+
+210
+00:10:54,630 --> 00:10:56,790
+at least on the Mac.
+
+211
+00:10:56,790 --> 00:10:59,480
+On windows, I'm not sure how it works,
+
+212
+00:10:59,480 --> 00:11:04,280
+but apparently on the Mac only four empty directories.
+
+213
+00:11:04,280 --> 00:11:06,300
+However, at least on a Mac,
+
+214
+00:11:06,300 --> 00:11:09,770
+we can use another trick to remove a directory.
+
+215
+00:11:09,770 --> 00:11:13,010
+So we can use again RM which we also used
+
+216
+00:11:13,010 --> 00:11:17,010
+to remove files and then we can specify a Fleck.
+
+217
+00:11:17,010 --> 00:11:19,440
+So that's basically an option, which we write
+
+218
+00:11:19,440 --> 00:11:22,950
+with a dash and then a specific symbol or a letter.
+
+219
+00:11:22,950 --> 00:11:25,967
+So in this case, that's R which stands
+
+220
+00:11:25,967 --> 00:11:29,910
+for Recursive and then the name of the directory,
+
+221
+00:11:29,910 --> 00:11:33,540
+and so now it recursively basically deleted all
+
+222
+00:11:33,540 --> 00:11:35,440
+the files that are in here
+
+223
+00:11:35,440 --> 00:11:37,583
+and then also the directory itself.
+
+224
+00:11:39,590 --> 00:11:44,590
+And so as you see that folder is now gone, all right?
+
+225
+00:11:44,890 --> 00:11:48,213
+And again, on Windows, I'm not really sure about this one,
+
+226
+00:11:49,060 --> 00:11:52,410
+maybe RMDIR just worked,
+
+227
+00:11:52,410 --> 00:11:55,620
+but if not, well, if you really need it,
+
+228
+00:11:55,620 --> 00:11:57,200
+then of course you can always go ahead
+
+229
+00:11:57,200 --> 00:12:00,610
+and Google how it works on Windows as well.
+
+230
+00:12:00,610 --> 00:12:03,270
+But with this, I think we actually covered everything
+
+231
+00:12:03,270 --> 00:12:04,430
+that we needed.
+
+232
+00:12:04,430 --> 00:12:08,393
+Let's just get rid of that mapt.js.
+
+233
+00:12:09,570 --> 00:12:12,850
+So mapt.js, and again on Windows,
+
+234
+00:12:12,850 --> 00:12:17,083
+that would be DEL for delete, okay?
+
+235
+00:12:18,530 --> 00:12:20,300
+And so with this, we are back
+
+236
+00:12:20,300 --> 00:12:22,680
+to our initial working directory
+
+237
+00:12:22,680 --> 00:12:24,963
+and can now keep going into section.

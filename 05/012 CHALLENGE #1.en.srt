@@ -1,0 +1,1107 @@
+1
+00:00:01,350 --> 00:00:03,100
+So I showed you some ideas
+
+2
+00:00:03,100 --> 00:00:05,730
+and some tools to solve problems
+
+3
+00:00:05,730 --> 00:00:08,560
+and to debug your applications.
+
+4
+00:00:08,560 --> 00:00:10,330
+And so now it's your turn
+
+5
+00:00:10,330 --> 00:00:13,563
+to put all of that into practice on your own.
+
+6
+00:00:15,280 --> 00:00:19,150
+And so here is your coding challenge for this section.
+
+7
+00:00:19,150 --> 00:00:23,670
+So given an array of forecast at maximum temperatures,
+
+8
+00:00:23,670 --> 00:00:26,370
+to thermometer that we've been working about
+
+9
+00:00:26,370 --> 00:00:28,900
+throughout this section should display
+
+10
+00:00:28,900 --> 00:00:32,240
+a string with these forecasted temperatures.
+
+11
+00:00:32,240 --> 00:00:35,820
+So for example, if we have this array,
+
+12
+00:00:35,820 --> 00:00:38,270
+which is our first test data here,
+
+13
+00:00:38,270 --> 00:00:41,380
+then the string that it will print should be this.
+
+14
+00:00:41,380 --> 00:00:46,380
+So three dots, 10, 17 degrees Celsius in one days.
+
+15
+00:00:46,870 --> 00:00:48,620
+So that's the 17 here.
+
+16
+00:00:48,620 --> 00:00:53,620
+Then again, three dots then 21 degrees Celsius in two days.
+
+17
+00:00:54,040 --> 00:00:57,690
+So this 21, is this 21 and then three dots,
+
+18
+00:00:57,690 --> 00:01:00,311
+23 degrees in three days.
+
+19
+00:01:00,311 --> 00:01:05,022
+So in one, two and three days at 10, again, three dots.
+
+20
+00:01:05,022 --> 00:01:05,855
+Okay.
+
+21
+00:01:05,855 --> 00:01:09,070
+And here, you don't need to use this exact sign,
+
+22
+00:01:09,070 --> 00:01:11,100
+if you can find it on your keyboard.
+
+23
+00:01:11,100 --> 00:01:13,453
+I know it was a bit hard to find for me.
+
+24
+00:01:14,360 --> 00:01:17,120
+So what you should do is to create a function
+
+25
+00:01:17,120 --> 00:01:22,120
+called "printForecast," which takes in an array called 'arr'
+
+26
+00:01:22,300 --> 00:01:23,940
+and then locks the string,
+
+27
+00:01:23,940 --> 00:01:27,630
+just like this one here to the console.
+
+28
+00:01:27,630 --> 00:01:28,780
+Okay.
+
+29
+00:01:28,780 --> 00:01:33,090
+And call this function for these two test values.
+
+30
+00:01:33,090 --> 00:01:37,130
+And to softwares, you can use the problem solving framework
+
+31
+00:01:37,130 --> 00:01:40,780
+that we have just been talking about in the section.
+
+32
+00:01:40,780 --> 00:01:43,420
+So try to understand the problem first
+
+33
+00:01:43,420 --> 00:01:45,410
+by asking the right questions
+
+34
+00:01:45,410 --> 00:01:48,360
+and then break it into sub-problems.
+
+35
+00:01:48,360 --> 00:01:51,560
+And I'm not saying that this is gonna be easy.
+
+36
+00:01:51,560 --> 00:01:52,760
+And for me the main goal
+
+37
+00:01:52,760 --> 00:01:55,830
+is not even that you achieve the result,
+
+38
+00:01:55,830 --> 00:01:59,140
+but really that you start thinking about the problem
+
+39
+00:01:59,140 --> 00:02:01,430
+and that you try as good as possible
+
+40
+00:02:01,430 --> 00:02:04,170
+to break it up into sub-problems.
+
+41
+00:02:04,170 --> 00:02:05,940
+And of course there are many ways
+
+42
+00:02:05,940 --> 00:02:08,070
+of asking the right questions
+
+43
+00:02:08,070 --> 00:02:10,980
+and of breaking this up into sub problems.
+
+44
+00:02:10,980 --> 00:02:14,170
+So there is no hard ways of doing this stuff.
+
+45
+00:02:14,170 --> 00:02:17,150
+So just try your best to take all the time that you need.
+
+46
+00:02:17,150 --> 00:02:19,433
+And I will see you here once you are ready.
+
+47
+00:02:23,290 --> 00:02:24,730
+Okay.
+
+48
+00:02:24,730 --> 00:02:28,410
+So let me show you how I would have done it.
+
+49
+00:02:28,410 --> 00:02:30,523
+And let's just close this terminal here.
+
+50
+00:02:31,560 --> 00:02:34,150
+Because remember that this live connection
+
+51
+00:02:34,150 --> 00:02:37,760
+actually keeps running without the terminal opened.
+
+52
+00:02:37,760 --> 00:02:39,843
+So let's just grab from up here,
+
+53
+00:02:42,860 --> 00:02:44,223
+this here.
+
+54
+00:02:45,090 --> 00:02:47,620
+So as you see, I'm a little bit lazy.
+
+55
+00:02:47,620 --> 00:02:49,743
+I don't like to type so much,
+
+56
+00:02:50,780 --> 00:02:52,563
+so I'd just keep reusing stuff.
+
+57
+00:02:53,780 --> 00:02:56,910
+So we need to understand the problem first.
+
+58
+00:02:56,910 --> 00:03:01,300
+So let's look at that example string here.
+
+59
+00:03:01,300 --> 00:03:03,060
+And so one part of the problem
+
+60
+00:03:03,060 --> 00:03:06,030
+is definitely that this array here,
+
+61
+00:03:06,030 --> 00:03:09,090
+was basically broken up in three pieces
+
+62
+00:03:09,090 --> 00:03:13,053
+and then the separator is these three dots.
+
+63
+00:03:13,910 --> 00:03:16,180
+Let's write that here.
+
+64
+00:03:16,180 --> 00:03:20,467
+Array, transformed to string,
+
+65
+00:03:23,960 --> 00:03:27,823
+separated by three dots.
+
+66
+00:03:29,300 --> 00:03:33,310
+Then we can also ask what these numbers here are.
+
+67
+00:03:33,310 --> 00:03:34,400
+So we already know that
+
+68
+00:03:34,400 --> 00:03:37,780
+these here are of course coming from the array,
+
+69
+00:03:37,780 --> 00:03:39,030
+but what is this?
+
+70
+00:03:39,030 --> 00:03:42,233
+So one days, two days and three days.
+
+71
+00:03:43,900 --> 00:03:48,073
+So what is the X days?
+
+72
+00:03:48,980 --> 00:03:51,660
+And the answer to that is basically
+
+73
+00:03:51,660 --> 00:03:55,700
+it is the current index of the array plus one.
+
+74
+00:03:55,700 --> 00:03:58,700
+So it would be weird to say that 17 degrees
+
+75
+00:03:58,700 --> 00:04:01,320
+in zero days, because this is the forecast.
+
+76
+00:04:01,320 --> 00:04:03,810
+And so this is for the next day
+
+77
+00:04:03,810 --> 00:04:06,083
+and then in two days and in three days.
+
+78
+00:04:08,290 --> 00:04:12,243
+So answer index plus one.
+
+79
+00:04:13,970 --> 00:04:14,803
+Okay.
+
+80
+00:04:14,803 --> 00:04:17,550
+So I think we understood the problem now,
+
+81
+00:04:17,550 --> 00:04:21,640
+because I think that it's quite simple in this case.
+
+82
+00:04:21,640 --> 00:04:25,930
+So let's now break this up into sub-problems.
+
+83
+00:04:25,930 --> 00:04:28,270
+And I would say that the main problem here,
+
+84
+00:04:28,270 --> 00:04:31,403
+will be to transform this array into a string.
+
+85
+00:04:36,000 --> 00:04:39,720
+Because that's essentially what we will have to do.
+
+86
+00:04:39,720 --> 00:04:43,190
+Also, each of these elements here will be transformed
+
+87
+00:04:43,190 --> 00:04:46,890
+to a string with these degrees Celsius.
+
+88
+00:04:46,890 --> 00:04:51,890
+So let's just transform each element
+
+89
+00:04:52,180 --> 00:04:55,740
+to string with Celsius.
+
+90
+00:04:55,740 --> 00:04:58,350
+And I don't even remember where this is,
+
+91
+00:04:58,350 --> 00:04:59,833
+so I'm just copying it here.
+
+92
+00:05:04,520 --> 00:05:07,950
+Then we also need to account for the current day.
+
+93
+00:05:07,950 --> 00:05:12,847
+So string needs to contain day.
+
+94
+00:05:14,750 --> 00:05:19,000
+And again, that is the index plus one.
+
+95
+00:05:19,000 --> 00:05:22,980
+And finally, we also need to add the three dots
+
+96
+00:05:22,980 --> 00:05:27,980
+between elements and start and end of string.
+
+97
+00:05:32,260 --> 00:05:35,490
+So that looks like a lot of work,
+
+98
+00:05:35,490 --> 00:05:40,330
+but actually it is not as hard as it looks from here.
+
+99
+00:05:40,330 --> 00:05:44,800
+So let's start by creating two arrays here.
+
+100
+00:05:44,800 --> 00:05:47,900
+So for test data one and two.
+
+101
+00:05:47,900 --> 00:05:50,163
+Actually grab all of this in one go.
+
+102
+00:05:57,430 --> 00:05:58,393
+Data two.
+
+103
+00:05:59,560 --> 00:06:00,690
+All right.
+
+104
+00:06:00,690 --> 00:06:03,680
+And now let's tackle these problems here.
+
+105
+00:06:03,680 --> 00:06:04,870
+Okay.
+
+106
+00:06:04,870 --> 00:06:08,350
+So if the string would always have the same length,
+
+107
+00:06:08,350 --> 00:06:11,210
+so if it was always just be three days,
+
+108
+00:06:11,210 --> 00:06:12,570
+then it would be very simple.
+
+109
+00:06:12,570 --> 00:06:16,890
+We could just basically hard coat the string, right?
+
+110
+00:06:16,890 --> 00:06:20,913
+We could just do something like data one,
+
+111
+00:06:21,800 --> 00:06:26,403
+at position zero, and then the degrees Celsius,
+
+112
+00:06:29,960 --> 00:06:33,760
+then dot, dot, dot, and so on and so forth.
+
+113
+00:06:33,760 --> 00:06:35,350
+Right?
+
+114
+00:06:35,350 --> 00:06:37,443
+So here I'm missing this, of course.
+
+115
+00:06:42,420 --> 00:06:45,430
+So we could do this and there's still some value
+
+116
+00:06:45,430 --> 00:06:49,253
+in first actually trying to write this.
+
+117
+00:06:50,620 --> 00:06:55,620
+So this is how it would look like data zero and one and two,
+
+118
+00:06:56,750 --> 00:06:59,963
+and let's indeed lock this to the console,
+
+119
+00:07:03,320 --> 00:07:04,620
+give it a safe.
+
+120
+00:07:04,620 --> 00:07:07,270
+And so actually already the string
+
+121
+00:07:07,270 --> 00:07:11,230
+looks exactly what we had here, right?
+
+122
+00:07:11,230 --> 00:07:13,363
+But of course, this is not the way to go.
+
+123
+00:07:14,570 --> 00:07:16,610
+Because then here in data two,
+
+124
+00:07:16,610 --> 00:07:20,830
+we have a longer array.
+
+125
+00:07:20,830 --> 00:07:22,760
+And we want to write one function
+
+126
+00:07:22,760 --> 00:07:24,673
+that works for all the arrays.
+
+127
+00:07:25,530 --> 00:07:27,303
+So that print forecast.
+
+128
+00:07:28,700 --> 00:07:31,090
+And so of course we need a more dynamic way
+
+129
+00:07:31,090 --> 00:07:33,000
+of creating this string.
+
+130
+00:07:33,000 --> 00:07:34,260
+But still, as I said,
+
+131
+00:07:34,260 --> 00:07:36,820
+there is some value in having done that
+
+132
+00:07:36,820 --> 00:07:38,520
+because it will help us figure out
+
+133
+00:07:38,520 --> 00:07:41,200
+how we can arrive at a solution.
+
+134
+00:07:41,200 --> 00:07:44,470
+So print forecast is a function
+
+135
+00:07:44,470 --> 00:07:46,460
+which takes in an array 'arr'
+
+136
+00:07:49,030 --> 00:07:50,933
+and now let's see what we have to do.
+
+137
+00:07:52,500 --> 00:07:54,730
+So if we have an array
+
+138
+00:07:54,730 --> 00:07:57,590
+and we have to do multiple operations on it,
+
+139
+00:07:57,590 --> 00:07:59,760
+we will as always use a loop.
+
+140
+00:07:59,760 --> 00:08:02,143
+So let's start with that baseline.
+
+141
+00:08:03,470 --> 00:08:06,730
+So let i equals zero.
+
+142
+00:08:06,730 --> 00:08:09,480
+And this part is not always the same,
+
+143
+00:08:09,480 --> 00:08:13,720
+so i less than arr dot length
+
+144
+00:08:14,670 --> 00:08:16,623
+and i plus, plus.
+
+145
+00:08:17,960 --> 00:08:20,830
+Okay, but now what are we gonna do?
+
+146
+00:08:20,830 --> 00:08:25,800
+So how will we basically transform the array into a string?
+
+147
+00:08:25,800 --> 00:08:27,310
+And there are so many ways
+
+148
+00:08:27,310 --> 00:08:29,150
+in which we could achieve this
+
+149
+00:08:29,150 --> 00:08:30,940
+and actually in which we could solve
+
+150
+00:08:30,940 --> 00:08:32,470
+this whole problem here,
+
+151
+00:08:32,470 --> 00:08:34,450
+especially if you did some research
+
+152
+00:08:34,450 --> 00:08:36,410
+to arrive at a solution here,
+
+153
+00:08:36,410 --> 00:08:39,210
+but I will just go with a solution
+
+154
+00:08:39,210 --> 00:08:41,830
+using the tools that we already used.
+
+155
+00:08:41,830 --> 00:08:43,330
+So remember what we did,
+
+156
+00:08:43,330 --> 00:08:46,320
+when we calculated the average of a number.
+
+157
+00:08:46,320 --> 00:08:48,190
+We started by adding all the values
+
+158
+00:08:48,190 --> 00:08:50,850
+of the array using a loop, right.
+
+159
+00:08:50,850 --> 00:08:52,330
+And we kept adding them,
+
+160
+00:08:52,330 --> 00:08:56,780
+to an accumulator variable that was called sum, right.
+
+161
+00:08:56,780 --> 00:09:00,150
+So just to illustrate that sum started at zero,
+
+162
+00:09:00,150 --> 00:09:04,270
+and let's say we had an array of two, three, four.
+
+163
+00:09:04,270 --> 00:09:05,600
+And so in the first iteration,
+
+164
+00:09:05,600 --> 00:09:08,220
+that sum was then updated to two.
+
+165
+00:09:08,220 --> 00:09:09,480
+Then in the second iteration,
+
+166
+00:09:09,480 --> 00:09:14,080
+it was updated to two plus three equals five.
+
+167
+00:09:14,080 --> 00:09:18,100
+And then in the last iteration, it was updated to five,
+
+168
+00:09:18,100 --> 00:09:23,100
+which was the current sum plus four equal nine.
+
+169
+00:09:23,170 --> 00:09:25,430
+And so that's how we end up with the sum
+
+170
+00:09:25,430 --> 00:09:27,290
+of all of these values.
+
+171
+00:09:27,290 --> 00:09:29,080
+And now with the string,
+
+172
+00:09:29,080 --> 00:09:32,400
+we can actually do the exact same thing.
+
+173
+00:09:32,400 --> 00:09:34,940
+So here we will also have an accumulator,
+
+174
+00:09:34,940 --> 00:09:38,743
+a variable essentially, which is gonna be called string.
+
+175
+00:09:39,810 --> 00:09:41,400
+So let string.
+
+176
+00:09:41,400 --> 00:09:43,720
+And instead of starting with zero,
+
+177
+00:09:43,720 --> 00:09:46,220
+we will start with the equivalent of zero,
+
+178
+00:09:46,220 --> 00:09:49,900
+but for strings, which is the empty string.
+
+179
+00:09:49,900 --> 00:09:52,430
+So empty string has nothing.
+
+180
+00:09:52,430 --> 00:09:54,260
+And then in each iteration,
+
+181
+00:09:54,260 --> 00:09:57,140
+we will simply add to that string,
+
+182
+00:09:57,140 --> 00:10:00,020
+the current value of the array.
+
+183
+00:10:00,020 --> 00:10:01,840
+So let's do that.
+
+184
+00:10:01,840 --> 00:10:03,693
+String equals,
+
+185
+00:10:05,660 --> 00:10:07,660
+the current value of string,
+
+186
+00:10:07,660 --> 00:10:12,660
+plus array at the current position.
+
+187
+00:10:13,100 --> 00:10:17,430
+And also let's already add this symbol here
+
+188
+00:10:17,430 --> 00:10:21,310
+and for that let's wrap this here into a template literal.
+
+189
+00:10:21,310 --> 00:10:22,720
+And so I'm selecting this
+
+190
+00:10:22,720 --> 00:10:27,060
+and then I can just hit the template literal diabetic once
+
+191
+00:10:27,060 --> 00:10:28,573
+and it will wrap all of that.
+
+192
+00:10:30,000 --> 00:10:35,000
+So then this and this, and then the degrees Celsius.
+
+193
+00:10:37,200 --> 00:10:39,760
+And now all we need to do is to log that string
+
+194
+00:10:40,830 --> 00:10:41,890
+to the console.
+
+195
+00:10:41,890 --> 00:10:44,223
+So just as was asked.
+
+196
+00:10:45,810 --> 00:10:49,760
+Which takes in and logs the string to the console.
+
+197
+00:10:49,760 --> 00:10:53,720
+So we could have added that actually as one sub problem,
+
+198
+00:10:53,720 --> 00:10:56,660
+even though it's a really small one.
+
+199
+00:10:56,660 --> 00:11:00,413
+Log string to console.
+
+200
+00:11:01,300 --> 00:11:04,580
+And so let's give it a try now.
+
+201
+00:11:04,580 --> 00:11:09,580
+I'm saving and nothing happened.
+
+202
+00:11:09,680 --> 00:11:13,763
+And that's because we didn't call the function.
+
+203
+00:11:14,660 --> 00:11:18,863
+So let's print forecast with data one,
+
+204
+00:11:20,950 --> 00:11:23,840
+and here we go.
+
+205
+00:11:23,840 --> 00:11:28,360
+So 70 in degrees, 21 degrees, 23 degrees.
+
+206
+00:11:28,360 --> 00:11:32,690
+And that already starts looking like what we have here.
+
+207
+00:11:32,690 --> 00:11:37,000
+So essentially we already completed the most difficult part,
+
+208
+00:11:37,000 --> 00:11:40,630
+so of transforming the array into a string.
+
+209
+00:11:40,630 --> 00:11:43,270
+And again, this was similar to adding multiple numbers
+
+210
+00:11:43,270 --> 00:11:44,820
+into one bigger number.
+
+211
+00:11:44,820 --> 00:11:47,850
+Here what we did was to add multiple strings
+
+212
+00:11:47,850 --> 00:11:52,070
+to a bigger string that kept growing after each iteration.
+
+213
+00:11:52,070 --> 00:11:54,353
+And if you want to make sure to really understand this,
+
+214
+00:11:54,353 --> 00:11:56,680
+then you can always use the debugger
+
+215
+00:11:56,680 --> 00:11:58,860
+and go through this loop step by step
+
+216
+00:11:58,860 --> 00:12:02,360
+and see this string variable here are growing
+
+217
+00:12:02,360 --> 00:12:04,393
+as the loop goes on and on.
+
+218
+00:12:05,450 --> 00:12:09,740
+So we already did this part also and this part.
+
+219
+00:12:09,740 --> 00:12:12,210
+Now let's tackle this one.
+
+220
+00:12:12,210 --> 00:12:15,590
+So it needs to also contain the day.
+
+221
+00:12:15,590 --> 00:12:17,823
+So what does that look like?
+
+222
+00:12:19,130 --> 00:12:22,440
+So 23 degrees in three days.
+
+223
+00:12:22,440 --> 00:12:25,610
+So in one days, two days and three days,
+
+224
+00:12:25,610 --> 00:12:27,733
+so that's not too hard.
+
+225
+00:12:30,670 --> 00:12:33,330
+And now we already understood
+
+226
+00:12:33,330 --> 00:12:36,163
+that this had to be the current index plus one.
+
+227
+00:12:37,050 --> 00:12:41,253
+So the current index is i plus one.
+
+228
+00:12:42,280 --> 00:12:44,710
+So in one days.
+
+229
+00:12:44,710 --> 00:12:47,740
+So in the first iteration is gonna be zero plus one,
+
+230
+00:12:47,740 --> 00:12:52,740
+then one plus one, and then two plus one, give it a safe.
+
+231
+00:12:54,140 --> 00:12:56,790
+And that starting to look really close
+
+232
+00:12:56,790 --> 00:12:59,010
+to what we need in the end.
+
+233
+00:12:59,010 --> 00:13:01,960
+but now we are missing the separator dots.
+
+234
+00:13:01,960 --> 00:13:05,040
+So how do you think we can achieve those?
+
+235
+00:13:05,040 --> 00:13:09,740
+Well, in fact, these dots are simply something that repeat
+
+236
+00:13:09,740 --> 00:13:12,943
+after each of these strings here, right?
+
+237
+00:13:13,860 --> 00:13:17,243
+So we have this value and then dot dot dot.
+
+238
+00:13:18,630 --> 00:13:21,343
+So we have to value dot, dot, dot.
+
+239
+00:13:23,130 --> 00:13:25,240
+We just need one more space here,
+
+240
+00:13:25,240 --> 00:13:29,403
+to create this nice separation that we have.
+
+241
+00:13:30,690 --> 00:13:34,750
+And so now we're almost done, okay.
+
+242
+00:13:34,750 --> 00:13:37,410
+So actually this is not correct here,
+
+243
+00:13:37,410 --> 00:13:40,010
+because it's missing the, in one days in two days
+
+244
+00:13:40,010 --> 00:13:41,363
+and so on and so forth.
+
+245
+00:13:42,250 --> 00:13:46,253
+But let's just compare it here with the original.
+
+246
+00:13:47,820 --> 00:13:49,820
+And so all that is left
+
+247
+00:13:49,820 --> 00:13:52,253
+is these three dots at the beginning.
+
+248
+00:13:53,120 --> 00:13:57,930
+And so, we can just add them at the end.
+
+249
+00:13:57,930 --> 00:14:00,210
+So we cannot put them here, right?
+
+250
+00:14:00,210 --> 00:14:02,890
+Because then we would have too many dots.
+
+251
+00:14:02,890 --> 00:14:05,250
+So that's a lot of dots
+
+252
+00:14:05,250 --> 00:14:08,480
+and that's not what we were looking for.
+
+253
+00:14:08,480 --> 00:14:10,710
+So instead we keep it like this
+
+254
+00:14:10,710 --> 00:14:13,410
+and then as we log it to the console,
+
+255
+00:14:13,410 --> 00:14:16,380
+we simply add the dots here at the beginning.
+
+256
+00:14:16,380 --> 00:14:17,453
+So dot, dot, dot,
+
+257
+00:14:18,560 --> 00:14:21,890
+plus the string, give it a safe
+
+258
+00:14:21,890 --> 00:14:26,260
+and yes, that's the solution of our problem.
+
+259
+00:14:26,260 --> 00:14:27,470
+Great.
+
+260
+00:14:27,470 --> 00:14:29,770
+Can just improve this here a little bit again,
+
+261
+00:14:29,770 --> 00:14:32,420
+by using the plus equal operator
+
+262
+00:14:32,420 --> 00:14:34,530
+and then get rid of this part,
+
+263
+00:14:34,530 --> 00:14:38,223
+make it a little bit more short and more efficient maybe.
+
+264
+00:14:39,160 --> 00:14:43,220
+And so, yeah, that's it.
+
+265
+00:14:43,220 --> 00:14:46,690
+That's the result of this coding challenge.
+
+266
+00:14:46,690 --> 00:14:50,070
+And again, you could have done it in so many different ways,
+
+267
+00:14:50,070 --> 00:14:53,690
+but what I really wanted you to achieve was to understand
+
+268
+00:14:53,690 --> 00:14:57,630
+the problem and to break it up into small sub-problems.
+
+269
+00:14:57,630 --> 00:15:00,040
+if you did that, well, then my goal
+
+270
+00:15:00,040 --> 00:15:04,000
+with this whole section I would say is achieved.
+
+271
+00:15:04,000 --> 00:15:05,960
+So hope you liked this one,
+
+272
+00:15:05,960 --> 00:15:08,680
+even though it was a little bit more theoretical,
+
+273
+00:15:08,680 --> 00:15:11,250
+but I think it's important to also have a section
+
+274
+00:15:11,250 --> 00:15:14,420
+like this in a big web development course
+
+275
+00:15:14,420 --> 00:15:15,580
+because soft skills,
+
+276
+00:15:15,580 --> 00:15:18,590
+like the ones that I just showed you
+
+277
+00:15:18,590 --> 00:15:21,773
+are also very important for your success.

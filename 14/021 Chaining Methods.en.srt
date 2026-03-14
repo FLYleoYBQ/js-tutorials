@@ -1,0 +1,559 @@
+1
+00:00:01,080 --> 00:00:03,630
+Remember how we chained array methods
+
+2
+00:00:03,630 --> 00:00:05,160
+one after another,
+
+3
+00:00:05,160 --> 00:00:08,700
+for example, a filter, map and reduce.
+
+4
+00:00:08,700 --> 00:00:10,560
+Now by chaining these methods,
+
+5
+00:00:10,560 --> 00:00:14,550
+we could first filter an array, then map the result,
+
+6
+00:00:14,550 --> 00:00:16,410
+and then reduce the results
+
+7
+00:00:16,410 --> 00:00:19,800
+of the map all in one line of code.
+
+8
+00:00:19,800 --> 00:00:21,690
+And we can actually implement
+
+9
+00:00:21,690 --> 00:00:25,380
+this exact same ability of chaining methods one
+
+10
+00:00:25,380 --> 00:00:28,683
+after another in the methods of our classes.
+
+11
+00:00:29,820 --> 00:00:34,820
+So let's say that instead of doing this,
+
+12
+00:00:35,100 --> 00:00:38,925
+so always acc1.deposit and then .withdraw,
+
+13
+00:00:38,925 --> 00:00:41,793
+and then whatever we want to do next.
+
+14
+00:00:43,920 --> 00:00:48,720
+So let's say that we just wanted to do it like this.
+
+15
+00:00:48,720 --> 00:00:53,720
+So deposit the 300, then .withdraw the 100.
+
+16
+00:00:56,760 --> 00:01:00,573
+Then let's say we want to withdraw another 50,
+
+17
+00:01:02,790 --> 00:01:06,760
+then maybe request a loan of 2,500
+
+18
+00:01:08,010 --> 00:01:09,327
+or 25,000.
+
+19
+00:01:09,327 --> 00:01:14,327
+And then let's say we want to withdraw another 4,000.
+
+20
+00:01:14,400 --> 00:01:17,580
+And here in the middle we might even want
+
+21
+00:01:17,580 --> 00:01:21,033
+to check our movements to get movements.
+
+22
+00:01:22,710 --> 00:01:25,410
+And again, doing all this in one go.
+
+23
+00:01:25,410 --> 00:01:28,020
+And this is actually a very common pattern
+
+24
+00:01:28,020 --> 00:01:30,780
+that you will see in object oriented programming,
+
+25
+00:01:30,780 --> 00:01:33,840
+for example, when you use some external libraries
+
+26
+00:01:33,840 --> 00:01:36,240
+as we're gonna do in the next section.
+
+27
+00:01:36,240 --> 00:01:38,490
+So again, this kind of thing is
+
+28
+00:01:38,490 --> 00:01:41,550
+what you will many times see in JavaScript
+
+29
+00:01:41,550 --> 00:01:44,370
+whenever you work with object oriented programming
+
+30
+00:01:44,370 --> 00:01:45,780
+in some sort.
+
+31
+00:01:45,780 --> 00:01:48,960
+So basically just starting with the object here,
+
+32
+00:01:48,960 --> 00:01:51,360
+then deposit, and then immediately on the
+
+33
+00:01:51,360 --> 00:01:53,130
+result you want to withdraw.
+
+34
+00:01:53,130 --> 00:01:55,380
+And then immediately on that result, you want
+
+35
+00:01:55,380 --> 00:01:59,790
+to withdraw again and so on until the end of the chain.
+
+36
+00:01:59,790 --> 00:02:02,310
+So how could we implement this?
+
+37
+00:02:02,310 --> 00:02:05,280
+Well, let's actually think about it.
+
+38
+00:02:05,280 --> 00:02:07,890
+So again, what we want to do in this line
+
+39
+00:02:07,890 --> 00:02:12,000
+of code is withdraw on the result of this.
+
+40
+00:02:12,000 --> 00:02:16,320
+Now we can only call these methods on an account object like
+
+41
+00:02:16,320 --> 00:02:17,850
+this, right?
+
+42
+00:02:17,850 --> 00:02:21,483
+So basically in order to be able to run this line of code,
+
+43
+00:02:22,830 --> 00:02:26,340
+this here needs to become an account object as well.
+
+44
+00:02:26,340 --> 00:02:28,290
+And the same for this one
+
+45
+00:02:28,290 --> 00:02:31,650
+and all the other methods here, right?
+
+46
+00:02:31,650 --> 00:02:34,020
+Now if that sounds confusing, don't worry
+
+47
+00:02:34,020 --> 00:02:37,350
+because it's actually extremely easy to do this.
+
+48
+00:02:37,350 --> 00:02:38,700
+So all we have to do is
+
+49
+00:02:38,700 --> 00:02:42,030
+to return the object itself at the end of each
+
+50
+00:02:42,030 --> 00:02:44,673
+of the methods that we want to be chainable.
+
+51
+00:02:45,510 --> 00:02:47,733
+So let's just do that on all of them.
+
+52
+00:02:48,870 --> 00:02:51,480
+And so let's start here.
+
+53
+00:02:51,480 --> 00:02:54,000
+Well actually this is not a good place to do so.
+
+54
+00:02:54,000 --> 00:02:57,420
+So let's leave this one here to the end.
+
+55
+00:02:57,420 --> 00:03:02,420
+So yeah, let's take this one out of the chain.
+
+56
+00:03:02,460 --> 00:03:05,040
+Let's just work with the other ones for now.
+
+57
+00:03:05,040 --> 00:03:09,720
+And so yeah, what I just said is that all we need to do is
+
+58
+00:03:09,720 --> 00:03:13,260
+to return the object again.
+
+59
+00:03:13,260 --> 00:03:15,423
+So that's just this, return this.
+
+60
+00:03:17,610 --> 00:03:20,040
+So return this.
+
+61
+00:03:20,040 --> 00:03:24,210
+Then here, this one isn't even part of the public API.
+
+62
+00:03:24,210 --> 00:03:25,980
+So no need there.
+
+63
+00:03:25,980 --> 00:03:29,580
+And then also return this here.
+
+64
+00:03:29,580 --> 00:03:34,140
+And of course, outside of the if, so, always at the end.
+
+65
+00:03:34,140 --> 00:03:35,850
+So the very last operation
+
+66
+00:03:35,850 --> 00:03:38,103
+inside the method needs to be this.
+
+67
+00:03:40,980 --> 00:03:42,570
+Now here we get this error.
+
+68
+00:03:42,570 --> 00:03:45,840
+this.approveLoan is not a function.
+
+69
+00:03:45,840 --> 00:03:49,620
+So this is a bug from the last lecture still.
+
+70
+00:03:49,620 --> 00:03:53,670
+So here, of course, we made this approved loan method
+
+71
+00:03:53,670 --> 00:03:56,815
+private, and so we need to change the name
+
+72
+00:03:56,815 --> 00:03:57,965
+of it now here as well.
+
+73
+00:03:59,130 --> 00:04:00,810
+All right? But now it worked.
+
+74
+00:04:00,810 --> 00:04:03,090
+And so let's check our movements here.
+
+75
+00:04:03,090 --> 00:04:06,240
+And indeed everything works correct.
+
+76
+00:04:06,240 --> 00:04:08,550
+So all these five movements are indeed now
+
+77
+00:04:08,550 --> 00:04:11,040
+represented right here.
+
+78
+00:04:11,040 --> 00:04:14,850
+So let's just quickly recap why this actually works.
+
+79
+00:04:14,850 --> 00:04:18,090
+So as we said in the beginning, these methods here,
+
+80
+00:04:18,090 --> 00:04:22,200
+all of them of course need to be called on
+
+81
+00:04:22,200 --> 00:04:23,760
+an instance of this class.
+
+82
+00:04:23,760 --> 00:04:27,030
+So in this case, this acc1 right here.
+
+83
+00:04:27,030 --> 00:04:29,827
+So in order for this one and this one and this one
+
+84
+00:04:29,827 --> 00:04:31,860
+and this one to work, they need
+
+85
+00:04:31,860 --> 00:04:35,670
+to be called also on an account object.
+
+86
+00:04:35,670 --> 00:04:38,460
+And what is this account object.
+
+87
+00:04:38,460 --> 00:04:41,910
+Well, inside these methods, it is just this.
+
+88
+00:04:41,910 --> 00:04:43,080
+And so if
+
+89
+00:04:43,080 --> 00:04:48,080
+after this first reposit here, we just return this, then all
+
+90
+00:04:48,090 --> 00:04:52,020
+of the thing here just becomes the account object again.
+
+91
+00:04:52,020 --> 00:04:53,820
+So after this method here,
+
+92
+00:04:53,820 --> 00:04:57,270
+this whole part becomes just acc1 again.
+
+93
+00:04:57,270 --> 00:05:00,270
+And so then on that we can call the withdraw function.
+
+94
+00:05:00,270 --> 00:05:01,770
+And after that finishes,
+
+95
+00:05:01,770 --> 00:05:04,830
+then this whole thing here acc1 again.
+
+96
+00:05:04,830 --> 00:05:07,680
+And then on that the withdraw function can be called
+
+97
+00:05:07,680 --> 00:05:09,360
+and so on and so forth.
+
+98
+00:05:09,360 --> 00:05:11,670
+So all the way until the end.
+
+99
+00:05:11,670 --> 00:05:14,220
+Now here in the middle, we just have this problem
+
+100
+00:05:14,220 --> 00:05:19,200
+that get movements actually also returns the
+
+101
+00:05:19,200 --> 00:05:20,790
+movements themselves.
+
+102
+00:05:20,790 --> 00:05:24,420
+So we cannot, of course return two things here.
+
+103
+00:05:24,420 --> 00:05:27,210
+So we cannot return the movements array
+
+104
+00:05:27,210 --> 00:05:31,170
+and then also this in order to make this method chainable.
+
+105
+00:05:31,170 --> 00:05:33,750
+And so if we want to keep this here
+
+106
+00:05:33,750 --> 00:05:36,660
+and we do want that, then this means
+
+107
+00:05:36,660 --> 00:05:39,540
+that this method here is not chainable.
+
+108
+00:05:39,540 --> 00:05:44,540
+Let's just write that here as a comment,
+
+109
+00:05:44,550 --> 00:05:47,550
+not chainable, meaning
+
+110
+00:05:47,550 --> 00:05:49,849
+that we cannot call the other
+
+111
+00:05:49,849 --> 00:05:54,330
+methods on it afterwards, like these other ones.
+
+112
+00:05:54,330 --> 00:05:57,432
+So it will work of course at the end.
+
+113
+00:05:57,432 --> 00:06:01,350
+So if we place this here, then it will work because
+
+114
+00:06:01,350 --> 00:06:03,420
+after this last withdraw, then all
+
+115
+00:06:03,420 --> 00:06:05,490
+of this here will be the acc1.
+
+116
+00:06:05,490 --> 00:06:08,697
+And then on that, of course we can call get movements.
+
+117
+00:06:08,697 --> 00:06:10,740
+Now we cannot see that here anywhere,
+
+118
+00:06:10,740 --> 00:06:15,120
+but if we just store that, so we could do that.
+
+119
+00:06:15,120 --> 00:06:18,300
+So for example, movements.
+
+120
+00:06:18,300 --> 00:06:23,300
+And then the result of that would just be
+
+121
+00:06:23,460 --> 00:06:25,710
+the movements array at the end
+
+122
+00:06:25,710 --> 00:06:30,710
+of all these operations like this.
+
+123
+00:06:30,750 --> 00:06:33,780
+And indeed here they are, so the first deposit,
+
+124
+00:06:33,780 --> 00:06:36,330
+then the two withdrawals, then the loan,
+
+125
+00:06:36,330 --> 00:06:38,790
+and then the last withdrawal.
+
+126
+00:06:38,790 --> 00:06:39,750
+Beautiful.
+
+127
+00:06:39,750 --> 00:06:42,870
+So this is really extremely simple to implement
+
+128
+00:06:42,870 --> 00:06:46,980
+as you just saw, but it can be very useful in some cases.
+
+129
+00:06:46,980 --> 00:06:50,850
+So just experiment around with this in your own classes.
+
+130
+00:06:50,850 --> 00:06:53,250
+Now this makes most sense in methods
+
+131
+00:06:53,250 --> 00:06:55,290
+that actually set a property.
+
+132
+00:06:55,290 --> 00:06:58,050
+And so this way you can then set them all together.
+
+133
+00:06:58,050 --> 00:07:00,630
+So just like we did here.
+
+134
+00:07:00,630 --> 00:07:04,830
+So all of these do set properties while this one here reads
+
+135
+00:07:04,830 --> 00:07:07,920
+a property or actually a class field,
+
+136
+00:07:07,920 --> 00:07:09,630
+but that's really the same.
+
+137
+00:07:09,630 --> 00:07:11,100
+And so that's also one
+
+138
+00:07:11,100 --> 00:07:15,120
+of the reasons why we didn't make this one here chainable.
+
+139
+00:07:15,120 --> 00:07:18,570
+So this is yet another really nice tool in your
+
+140
+00:07:18,570 --> 00:07:21,033
+object-oriented programming toolbox.

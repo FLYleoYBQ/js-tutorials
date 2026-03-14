@@ -1,0 +1,255 @@
+1
+00:00:01,150 --> 00:00:03,770
+Let's now learn about the new operator
+
+2
+00:00:03,770 --> 00:00:07,763
+with the funny name of nullish coalescing operator.
+
+3
+00:00:09,120 --> 00:00:11,810
+So in the last video, we used the OR operator
+
+4
+00:00:11,810 --> 00:00:13,850
+to set a default value
+
+5
+00:00:13,850 --> 00:00:18,320
+in case that the first value was a falsy value.
+
+6
+00:00:18,320 --> 00:00:20,833
+So let me bring back that code here, actually.
+
+7
+00:00:23,450 --> 00:00:24,593
+So this one,
+
+8
+00:00:25,890 --> 00:00:30,403
+but we're only interested in the OR operator here.
+
+9
+00:00:33,620 --> 00:00:36,270
+So let's call this one simply guests.
+
+10
+00:00:36,270 --> 00:00:39,390
+And so let's again remember what happens here,
+
+11
+00:00:39,390 --> 00:00:42,310
+which is when we set numGuests to zero,
+
+12
+00:00:42,310 --> 00:00:46,130
+then JavaScript will still take this default value here
+
+13
+00:00:46,130 --> 00:00:50,810
+and assign it to guests because zero is a falsy value now,
+
+14
+00:00:50,810 --> 00:00:54,340
+and so therefore, we go to the second operand.
+
+15
+00:00:54,340 --> 00:00:56,290
+However, fortunately for us,
+
+16
+00:00:56,290 --> 00:00:58,950
+there is a very good solution to this,
+
+17
+00:00:58,950 --> 00:01:01,820
+and that's the new operator with the very weird name
+
+18
+00:01:01,820 --> 00:01:04,460
+of nullish coalescing operator.
+
+19
+00:01:04,460 --> 00:01:07,840
+It's an operator that was introduced in ES2020,
+
+20
+00:01:07,840 --> 00:01:10,290
+and it works like this.
+
+21
+00:01:10,290 --> 00:01:13,973
+So guests, let's call this one Correct now.
+
+22
+00:01:15,210 --> 00:01:20,020
+And so it works almost the same way as the OR operator,
+
+23
+00:01:20,020 --> 00:01:25,020
+really almost the same, but it will fix or error here.
+
+24
+00:01:25,080 --> 00:01:27,260
+So let's see that it does,
+
+25
+00:01:27,260 --> 00:01:29,310
+and then I'll explain to you why that is.
+
+26
+00:01:30,190 --> 00:01:33,160
+All right, and now indeed, we get zero.
+
+27
+00:01:33,160 --> 00:01:36,360
+So we get the real value that is actually here.
+
+28
+00:01:36,360 --> 00:01:39,830
+And now if we take it off, only then we get 10,
+
+29
+00:01:39,830 --> 00:01:43,130
+which is the default value that we want.
+
+30
+00:01:43,130 --> 00:01:45,230
+So why does this work?
+
+31
+00:01:45,230 --> 00:01:48,630
+Well, it is because the nullish coalescing operator
+
+32
+00:01:48,630 --> 00:01:51,450
+works with the idea or with the concept
+
+33
+00:01:51,450 --> 00:01:54,823
+of nullish values instead of falsy values.
+
+34
+00:01:57,700 --> 00:02:00,100
+And nullish values are null
+
+35
+00:02:01,700 --> 00:02:04,660
+and undefined.
+
+36
+00:02:04,660 --> 00:02:05,580
+That's it.
+
+37
+00:02:05,580 --> 00:02:09,690
+It does not include a zero
+
+38
+00:02:09,690 --> 00:02:10,983
+or the empty string.
+
+39
+00:02:12,080 --> 00:02:15,150
+So basically, for the nullish coalescing operator,
+
+40
+00:02:15,150 --> 00:02:19,610
+it is as if the zero and the empty string
+
+41
+00:02:19,610 --> 00:02:21,580
+were not falsy values
+
+42
+00:02:21,580 --> 00:02:24,580
+and were instead truthy values as well.
+
+43
+00:02:24,580 --> 00:02:27,290
+But again, this operator does work
+
+44
+00:02:27,290 --> 00:02:30,260
+with the principle of nullish values.
+
+45
+00:02:30,260 --> 00:02:32,040
+And so all the nullish values
+
+46
+00:02:32,040 --> 00:02:34,313
+will short circuit the evaluation here.
+
+47
+00:02:35,660 --> 00:02:39,260
+Okay, so only if this was null or undefined,
+
+48
+00:02:39,260 --> 00:02:41,880
+only then the second operand here
+
+49
+00:02:41,880 --> 00:02:44,640
+would be executed and returned.
+
+50
+00:02:44,640 --> 00:02:46,690
+And so right now, that's the case
+
+51
+00:02:46,690 --> 00:02:49,210
+as number of guests does not exist,
+
+52
+00:02:49,210 --> 00:02:51,300
+so we commented it out here.
+
+53
+00:02:51,300 --> 00:02:52,950
+And so now it is undefined,
+
+54
+00:02:52,950 --> 00:02:56,623
+and so only then the evaluation continues.
+
+55
+00:02:57,630 --> 00:03:01,630
+But again, as we put it back, it now is zero,
+
+56
+00:03:01,630 --> 00:03:04,410
+and zero is not a nullish value.
+
+57
+00:03:04,410 --> 00:03:07,900
+And therefore, the evaluation here is short circuited,
+
+58
+00:03:07,900 --> 00:03:12,313
+and immediately, this first non-nullish value is returned.
+
+59
+00:03:13,840 --> 00:03:16,240
+All right, and that's actually all for now
+
+60
+00:03:16,240 --> 00:03:19,040
+about this nullish coalescing operator.
+
+61
+00:03:19,040 --> 00:03:22,210
+It's a really great and really useful operator,
+
+62
+00:03:22,210 --> 00:03:26,050
+even though right now, it might not seem that useful,
+
+63
+00:03:26,050 --> 00:03:27,990
+but as we go through the project,
+
+64
+00:03:27,990 --> 00:03:29,633
+you will see that it really is.

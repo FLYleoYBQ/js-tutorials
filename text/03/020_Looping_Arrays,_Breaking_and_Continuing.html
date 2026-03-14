@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Looping Arrays, Breaking and Continuing</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
+        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
+        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
+        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
+        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; font-weight: 600;}
+        .btn-run:active { transform: scale(0.95); }
+        .editor-textarea { width: 100%; height: 350px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
+        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
+        .code-comparison { display: flex; gap: 24px; margin: 24px 0; }
+        .code-block-wrapper { flex: 1; min-width: 0; background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+        .code-block-header { padding: 8px 16px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-color); }
+        pre[class*="language-"] { margin: 0; padding: 16px; border-radius: 0; background: transparent; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-looping" class="nav-item active">循环遍历数组的核心绝技</a>
+            <a href="#section-dynamic" class="nav-item">动态创建新数组 (Push模式)</a>
+            <a href="#section-control" class="nav-item">控制流中断指令：Continue 与 Break</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Looping Arrays, Breaking and Continuing</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：020 Looping Arrays, Breaking and Continuing.en.srt</span>
+            <span>📂 章节：第 03 章</span>
+        </div>
+
+        <h2 id="section-looping">🎯 循环遍历数组的核心绝技</h2>
+        <p>上节课学会的 For 循环最致命的使用场景，绝对非<strong>遍历数组 (Looping Arrays)</strong>莫属。因为数组里面堆叠了大量的同类数据，而人力的复制粘贴是有限的。</p>
+
+        <p>如果你有一个装满 5 个人生元素的数组 <code>jonasArray</code>，如何全自动读取它？</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>For 循环要素</th>
+                    <th>数组专属配置方案</th>
+                    <th>原理解析</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1. 初始变量</td>
+                    <td><code>let i = 0;</code></td>
+                    <td><strong>零号起跑线！</strong> 数组永远是 `Zero-based` （从0索引开始）。因此循环计数器 <code>i</code> (传统的 index 代称) 必须从 0 启动，而不是 1。</td>
+                </tr>
+                <tr>
+                    <td>2. 极限条件</td>
+                    <td><code>i &lt; jonasArray.length;</code></td>
+                    <td>绝世杀招！绝不写死 <code>i &lt; 5</code>。通过 <code>.length</code> 动态抓取长度，即便数组未来变长，这里永远精确防爆。如果是 5 长度，那么索引是 0~4，恰好 <code>&lt; 5</code>。</td>
+                </tr>
+                <tr>
+                    <td>3. 递增齿轮</td>
+                    <td><code>i++</code></td>
+                    <td>老规矩，一步一步稳步读取。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="section-dynamic">🏭 动态创建新数组 (Push模式)</h2>
+
+        <p>我们不仅仅可以读取旧数组，我们还能同时在这条“传送带”旁边，组装一条全新的数组。例如，把出身年份阵列 <code>years</code>，批量转换成 <code>ages</code> 年龄阵列！</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">push_array.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 启动数组加工厂</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+const years = [1991, 2007, 1969, 2020];
+const ages = []; // 准备一个空数组篮子
+
+for (let i = 0; i < years.length; i++) {
+    // 方法一：手动指定坑位
+    // ages[i] = 2037 - years[i];
+    
+    // 方法二：使用更干净的 push 大法！永远挤在队尾
+    ages.push(2037 - years[i]);
+}
+
+console.log("最终打包出炉的年龄大军:", ages);
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-control">🛑 控制流中断指令：Continue 与 Break</h2>
+
+        <p>有时候在这条履带传输带上，我们碰到了不想要的零件，甚至想要立刻终结这条产线。这就需要两颗物理按钮：</p>
+
+        <ul>
+            <li><code><strong>continue</strong></code>：跳过指令！立刻终止<strong>当前这一圈</strong>代码的执行，跳回到 <code>++</code> 齿轮步入下一圈！</li>
+            <li><code><strong>break</strong></code>：终结毁灭指令！不仅终止当前圈，<strong>并且彻底撕碎整个 Loop 机器</strong>，立刻宣告停工！</li>
+        </ul>
+
+<pre><code class="language-javascript">const jonas = ['Jonas', 46, 'teacher', ['Michael']];
+
+console.log("--- 只要字串，其他免谈 (CONTINUE) ---");
+for (let i = 0; i < jonas.length; i++) {
+    // 如果碰到了非字符串的东西，立刻跳过！
+    if (typeof jonas[i] !== 'string') continue;
+    
+    // 数字和数组会被跳过，完全轮不到下面这行打印
+    console.log(jonas[i], typeof jonas[i]); 
+}
+
+console.log("--- 发现数字，立刻关停机器 (BREAK) ---");
+for (let i = 0; i < jonas.length; i++) {
+    if (typeof jonas[i] === 'number') break; // 彻底毁灭停机
+    console.log(jonas[i], typeof jonas[i]);
+}
+</code></pre>
+
+        <div class="callout">
+            <p><strong>💡 总结：</strong><br>
+            For 循环与数组的结合，是 JavaScript 这套工业革命系统里最大的产能引擎。掌握 `i = 0` 和 `i < array.length` 这个固定肌肉记忆手势，你将会战无不胜！</p>
+        </div>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const out = document.getElementById(consoleId);
+        out.innerHTML = '';
+        const originalLog = console.log;
+        const originalError = console.error;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push('> ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            originalLog.apply(console, args);
+        };
+        console.error = function(...args) {
+            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
+            originalError.apply(console, args);
+        };
+        try {
+            new Function(code)();
+            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+        } catch (e) {
+            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+        }
+        console.log = originalLog;
+        console.error = originalError;
+        out.innerHTML = logs.join('<br>');
+    }
+</script>
+</body>
+</html>

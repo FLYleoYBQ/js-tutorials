@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数据类型 (Data Types)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; border-bottom: 1px solid var(--surface-border); padding: 20px; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">🎯 概述</a>
+            <a href="#section-1" class="nav-item">1. 七大基础数据类型</a>
+            <a href="#section-2" class="nav-item">2. 动态类型 (Dynamic Typing)</a>
+            <a href="#section-3" class="nav-item">3. typeof 操作符与历史遗留 Bug</a>
+            <a href="#section-cheat" class="nav-item">📖 速查表</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>数据类型 (Data Types)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：007 Data Types.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>每个值都必须拥有一个“类型”，这样计算机才知道如何处理它（比如数字能相加，文字则不能进行数学相加）。在 JavaScript 中，所有的值被分为两派：<strong>对象 (Object)</strong> 和 <strong>原始值 (Primitive Value)</strong>。今天我们只探讨最核心的原始数据类型。</p>
+
+        <h2 id="section-1">1. 七大基础数据类型</h2>
+        <p>JavaScript 中有 7 种原始数据类型，这里我们重点掌握前 5 种：</p>
+        <ol>
+            <li><strong>Number (数字)：</strong> 包含整数和浮点数（带小数点的数）。<br><code>let age = 23;</code></li>
+            <li><strong>String (字符串)：</strong> 一串排成序列的文本字符，<strong>必须用单引号或双引号包裹</strong>。<br><code>let firstName = "Jonas";</code></li>
+            <li><strong>Boolean (布尔值)：</strong> 只有两个永恒的状态：<code>true</code> (真) 或 <code>false</code> (假)。这在逻辑判断时极其重要。<br><code>let isFullAge = true;</code></li>
+            <li><strong>Undefined (未定义)：</strong> 当你声明了一个变量，但却完全没往里面塞任何值时，它的状态和类型就是 undefined。<br><code>let children;</code></li>
+            <li><strong>Null (空)：</strong> 同样意为“空”，但用于有意识地赋值代表“此地无银”。</li>
+            <li><em>Symbol (符号，ES2015 引入)：</em> 用于定义不可被改变、独一无二的标识。</li>
+            <li><em>BigInt (大整数，ES2020 引入)：</em> 当数字达到极大突破 Number 限制时使用。</li>
+        </ol>
+
+        <div class="callout warning">
+            <p><strong>🚨 致命新人错误：忘写引号的字符串</strong></p>
+            <p>当你写出 <code>let name = Jonas;</code> 时，JavaScript 引擎会发疯！因为它认为你试图把一个名为 <code>Jonas</code> 的变量赋给 <code>name</code>，但你根本没定义过 <code>Jonas</code> 变量！<br>
+            正确的写法永远是：<code>let name = 'Jonas';</code></p>
+        </div>
+
+        <h2 id="section-2">2. 动态类型 (Dynamic Typing)</h2>
+        <p>JavaScript 是一门神奇的语言。<strong>拥有数据类型的，是值（包裹里的东西），而不是变量本身（箱子外壳）！</strong>这意味着你可以在运行中途，随意更换不同类型的内容进入同一个变量中，这被称为<strong>动态类型</strong>。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">dynamic.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+let javascriptIsFun = true;
+console.log(javascriptIsFun); // true
+
+// 魔法时刻：中途把箱子里的 布尔值 倒掉，装进 字符串！
+// ⚠️ 注意：不要再写 let！我们是在对现存变量重新赋值。
+javascriptIsFun = "YES!";
+console.log(javascriptIsFun); // 变成了 YES!</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-3">3. typeof 操作符与历史遗留 Bug</h2>
+        <p>如果你想让程序告诉你当前变量里到底装的是什么类型，可以使用类似雷达一样的内部探针：<code>typeof</code>。</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">typeof.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
+console.log(typeof true);          // 回报 "boolean"
+console.log(typeof 23);            // 回报 "number"
+console.log(typeof "Jonas");       // 回报 "string"
+
+let year;
+console.log(typeof year);          // 回报 "undefined"，空箱子
+
+// 🚨 惊人的历史遗留 Bug (千年老虫)
+console.log(typeof null);          // 回报 "object"？！</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+        
+        <p>为什么 <code>typeof null</code> 会返回 <code>"object"</code>（对象）呢？难道 null 不是独立的数据类型吗？<br>
+        实际上，<strong>这是一个存在于 JavaScript 核心引擎里的历史设计 Bug</strong>。由于为了维持地球上上千万依赖此设定的旧网站的正常运转，官方决定永不修复这个 Bug。这是所有 JS 工程师的冷知识共识。</p>
+
+        <h2 id="section-cheat">📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>测试代码</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>数据类型侦测</td>
+                    <td><code>typeof</code></td>
+                    <td>查看值的数据类型，返回类型字符串。</td>
+                    <td><code>typeof true</code> 返回 <code>"boolean"</code></td>
+                </tr>
+                <tr>
+                    <td>未定义</td>
+                    <td><code>undefined</code></td>
+                    <td>只声明未赋值的变量自动持有的默认幽灵状态。</td>
+                    <td><code>let a; console.log(a);</code></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(执行成功无输出)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+</script>
+</body>
+</html>

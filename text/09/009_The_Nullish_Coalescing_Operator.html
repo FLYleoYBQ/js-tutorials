@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Nullish Coalescing Operator (??)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. OR 短路的致命隐患：0 被误杀</a>
+            <a href="#section-2" class="nav-item">2. 救星降临：概念切换为 Nullish (空值)</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>The Nullish Coalescing Operator (??)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：009 The Nullish Coalescing Operator ().en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置基础</strong>：短路求值 (Short Circuiting) 尤其是 <code>||</code>。</li>
+                <li><strong>全新心智范式模型</strong>：学习区分 <strong>Falsy (虚值)</strong> 与 <strong>Nullish (空值)</strong> 两套在底层评判逻辑上差异巨大的生态概念。它是 2020 现代版 ES 标准的重要地基。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>上节课我们见识到了 <code>|| (OR)</code> 短路赋予了我们多爽的默认备胎填充能力。但那是一个沾有巨毒苹果糖！在真实的软件系统中，当你的应用合法地吐出数字 <code>0</code> 甚至是空白字符串 <code>''</code> 时，一概把它们当 Falsy 轰炸的 <code>||</code> 将产生灾难级踩坑。于是，新版 JavaScript 派出拥有着冗长滑稽名字的猛将 —— <strong>Nullish Coalescing Operator（空值合并运算符 `??`）</strong> 来拯救世界。</p>
+
+        <h2 id="section-1">1. OR 短路的致命隐患：数字 0 被无辜“误杀”</h2>
+        <p>上一次，我们的问题悬念结冰于这行代码片段：客座预定人数刚好当天是冷清的 <strong>0</strong> 人。</p>
+
+        <pre><code class="language-javascript">const restaurant = {
+    numGuests: 0
+};
+
+// 我们本意想要捕获出真实当晚的数字 0
+// 但 0 触发了 falsy 原罪，被直接判定为不存在，误被顶成了兜底的大额假数字 10！
+const guestsFallbackError = restaurant.numGuests || 10;
+console.log(guestsFallbackError); // 10 💣</code></pre>
+
+        <h2 id="section-2">2. 救星降临：评判标准切换为 Nullish (空值)</h2>
+        <p>遇到这种情况，把原来的大黑棍 <code>||</code> 直接无缝切换为两枚神秘优雅的问号 <strong><code>??</code></strong>。灾难瞬间解除：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const restaurant = {
+    numGuests: 0
+};
+
+// 使用现代 ?? 操作符
+const guestsCorrect = restaurant.numGuests ?? 10;
+console.log(`今晚预定正确的客座： ${guestsCorrect} 位`); // 完美输出真实的 0</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <p><strong>底层逻辑哲学探究 - 为什么会这样？</strong><br>
+        <code>??</code> 就像是一个瞎子版、极其宽容且豁达的老好人 <code>||</code>。<br>
+        在之前的 OR 眼里，它的击杀追捕名单叫：<strong>Falsy</strong>。它痛恨包含（<code>undefined</code>, <code>null</code>, <code>0</code>, <code>''</code>, <code>NaN</code>）内的所有元素。<br><br>
+        而在 <code>??</code> 眼里，它的击杀追捕名单更换成了一份严苛的小册子：<strong>Nullish 值</strong>。这个崭新的阵营里面仅仅孤单地躺着两位老大哥 —— <strong>只有极其严重的空洞本体 <code>null</code> 和 <code>undefined</code> </strong>才算是空值。至于数字 <code>0</code> 和空字符串 <code>''</code>，被当成了正常的平民 <strong>Truthy</strong>，受到保护而被拦截短路。</p>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 彻底辨析：在 `??` 这个运算符的内部逻辑世界里，下列哪些元素会像引发短路跳开的墙壁防线（即具有类同 Truthy 的防御权）？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 只有像 true, 23, "Jonas" 这些实实在在包含大实体的丰满结构。</div>
+                <div class="quiz-option" data-value="B">B) 除了 null 和 undefined 会导致它直接穿过并取默认值，其它你丢的诸如 数字 0 甚至是 空串（""） 都一律被视作坚固存在并受保护返回！</div>
+                <div class="quiz-option" data-value="C">C) 它防范所有错误，NaN 和 null 等都会被当作是 Falsy，返回后面的后备数据。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的选项</strong>。这也是 ES2020 增加它以弥补早期 <code>||</code> 的过于一刀切霸道带来的填坑操作。在未来应对数据 API 表单时，你会天天使用它的！
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

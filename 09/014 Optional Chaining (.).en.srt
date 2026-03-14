@@ -1,0 +1,1243 @@
+1
+00:00:01,160 --> 00:00:02,480
+Let's learn about
+
+2
+00:00:02,480 --> 00:00:07,010
+an even newer feature of objects and also of arrays
+
+3
+00:00:07,010 --> 00:00:09,630
+which is called optional chaining.
+
+4
+00:00:09,630 --> 00:00:11,973
+And this one is really amazing.
+
+5
+00:00:13,290 --> 00:00:16,510
+So, let's say that we wanted to get the opening hours
+
+6
+00:00:16,510 --> 00:00:19,163
+of our restaurant for Monday.
+
+7
+00:00:20,160 --> 00:00:22,860
+So let's quickly check that.
+
+8
+00:00:22,860 --> 00:00:25,077
+So restaurant.openingHours,
+
+9
+00:00:26,510 --> 00:00:30,430
+and then since we are checking for Monday,
+
+10
+00:00:30,430 --> 00:00:32,600
+let's try .mon.
+
+11
+00:00:32,600 --> 00:00:35,470
+So which could stand for Monday.
+
+12
+00:00:35,470 --> 00:00:38,840
+Now, actually this property doesn't exist.
+
+13
+00:00:38,840 --> 00:00:42,840
+So you see that this is undefined, right?
+
+14
+00:00:42,840 --> 00:00:45,890
+But let's pretend that we do not know
+
+15
+00:00:45,890 --> 00:00:49,353
+whether this restaurant opens on Monday or not.
+
+16
+00:00:50,220 --> 00:00:51,280
+And that could be the case.
+
+17
+00:00:51,280 --> 00:00:55,350
+For example if this data came from a real web service.
+
+18
+00:00:55,350 --> 00:00:57,120
+So a web API.
+
+19
+00:00:57,120 --> 00:01:00,170
+And in their service there could be multiple restaurants
+
+20
+00:01:00,170 --> 00:01:03,020
+and not all of them would open on Monday.
+
+21
+00:01:03,020 --> 00:01:05,220
+And so we had no way of knowing
+
+22
+00:01:05,220 --> 00:01:07,530
+if this particular restaurant
+
+23
+00:01:07,530 --> 00:01:10,030
+would open on Monday or not.
+
+24
+00:01:10,030 --> 00:01:12,320
+But now let's go even further
+
+25
+00:01:12,320 --> 00:01:15,620
+because we actually want to know exactly the hour
+
+26
+00:01:15,620 --> 00:01:19,040
+on which the restaurant opens on Monday.
+
+27
+00:01:19,040 --> 00:01:20,690
+So let's see what we get.
+
+28
+00:01:20,690 --> 00:01:24,220
+And now we do actually get an error
+
+29
+00:01:24,220 --> 00:01:27,640
+because the results of this was undefined.
+
+30
+00:01:27,640 --> 00:01:31,760
+And then undefined.open is really an error.
+
+31
+00:01:31,760 --> 00:01:34,330
+So that's the error that we get here.
+
+32
+00:01:34,330 --> 00:01:36,820
+So in order to avoid this error,
+
+33
+00:01:36,820 --> 00:01:40,930
+we would first have to check if this here actually exists.
+
+34
+00:01:40,930 --> 00:01:44,653
+So we could do something like this.
+
+35
+00:01:45,530 --> 00:01:49,563
+If this property exists, basically then do this.
+
+36
+00:01:50,560 --> 00:01:52,730
+Or we could also use a logical operator
+
+37
+00:01:52,730 --> 00:01:54,650
+as we already learned
+
+38
+00:01:54,650 --> 00:01:57,563
+but this here is a bit more readable, all right?
+
+39
+00:01:58,970 --> 00:02:01,380
+So if we did the same for
+
+40
+00:02:02,240 --> 00:02:04,160
+let's say Friday,
+
+41
+00:02:04,160 --> 00:02:06,150
+then we already know that Friday exists.
+
+42
+00:02:06,150 --> 00:02:07,600
+And so this would then work
+
+43
+00:02:08,440 --> 00:02:09,493
+and it would be 11.
+
+44
+00:02:10,930 --> 00:02:12,880
+But let's focus here on Monday,
+
+45
+00:02:12,880 --> 00:02:15,640
+which is the day that doesn't exist.
+
+46
+00:02:15,640 --> 00:02:19,220
+And so now at least we got rid of our error here.
+
+47
+00:02:19,220 --> 00:02:23,770
+So it's not a big deal to having to add this logic here
+
+48
+00:02:23,770 --> 00:02:27,190
+but it does make our code a little bit more unreadable
+
+49
+00:02:27,190 --> 00:02:28,630
+and more messy.
+
+50
+00:02:28,630 --> 00:02:31,960
+However, this is checking just for one property.
+
+51
+00:02:31,960 --> 00:02:33,950
+So just for Monday.
+
+52
+00:02:33,950 --> 00:02:36,650
+But now imagine that opening hours here
+
+53
+00:02:36,650 --> 00:02:38,530
+would also be optional.
+
+54
+00:02:38,530 --> 00:02:42,220
+Or in other words that maybe the restaurant object
+
+55
+00:02:42,220 --> 00:02:44,870
+can also not have opening hours.
+
+56
+00:02:44,870 --> 00:02:48,600
+So, in this case, we would have to check for both, right?
+
+57
+00:02:48,600 --> 00:02:49,860
+So we would have to do
+
+58
+00:02:51,570 --> 00:02:55,467
+if restaurant.openingHours exists
+
+59
+00:02:58,630 --> 00:03:02,920
+and if restaurants.openingHours.mon exists
+
+60
+00:03:02,920 --> 00:03:07,450
+while only then unlock the opening hours to the console.
+
+61
+00:03:07,450 --> 00:03:10,230
+And this can get out of hand pretty quickly
+
+62
+00:03:10,230 --> 00:03:12,560
+when we have deeply nested objects
+
+63
+00:03:12,560 --> 00:03:15,290
+with lots of optional properties.
+
+64
+00:03:15,290 --> 00:03:18,470
+And sometimes that happens in the real world.
+
+65
+00:03:18,470 --> 00:03:19,990
+And so therefore ES2020
+
+66
+00:03:20,990 --> 00:03:23,600
+introduced a great solution for this,
+
+67
+00:03:23,600 --> 00:03:27,390
+which is a feature called optional chaining.
+
+68
+00:03:27,390 --> 00:03:29,060
+And with optional chaining,
+
+69
+00:03:29,060 --> 00:03:31,710
+if a certain property does not exist,
+
+70
+00:03:31,710 --> 00:03:34,530
+then undefined is returned immediately.
+
+71
+00:03:34,530 --> 00:03:35,990
+And so that will then avoid
+
+72
+00:03:35,990 --> 00:03:39,110
+that kind of error that we saw earlier.
+
+73
+00:03:39,110 --> 00:03:41,270
+And this is how it works.
+
+74
+00:03:41,270 --> 00:03:44,343
+So let's recreate it now with optional chaining.
+
+75
+00:03:47,397 --> 00:03:50,290
+(keyboard clunking)
+
+76
+00:03:50,290 --> 00:03:54,297
+So now we can say restaurant.openingHours.mon
+
+77
+00:03:58,460 --> 00:04:01,800
+and now here is the optional chaining operator.
+
+78
+00:04:01,800 --> 00:04:03,350
+So instead of just a dot,
+
+79
+00:04:03,350 --> 00:04:07,820
+we use question mark, dot and then open.
+
+80
+00:04:07,820 --> 00:04:12,290
+Okay? So here is how optional chaining works.
+
+81
+00:04:12,290 --> 00:04:13,970
+So only if the property
+
+82
+00:04:13,970 --> 00:04:17,040
+that is before this question mark here.
+
+83
+00:04:17,040 --> 00:04:19,670
+So only if Monday exists,
+
+84
+00:04:19,670 --> 00:04:23,940
+then this open property will be read from there.
+
+85
+00:04:23,940 --> 00:04:24,773
+All right?
+
+86
+00:04:24,773 --> 00:04:29,240
+But if not, then immediately undefined will be returned.
+
+87
+00:04:29,240 --> 00:04:32,740
+And exists here actually means the nullish concept
+
+88
+00:04:32,740 --> 00:04:34,600
+that we already talked before.
+
+89
+00:04:34,600 --> 00:04:39,600
+So, a property exists if it's not null and not undefined.
+
+90
+00:04:39,880 --> 00:04:40,713
+Okay?
+
+91
+00:04:40,713 --> 00:04:43,120
+So if it's zero or the empty string,
+
+92
+00:04:43,120 --> 00:04:45,600
+then it still exists of course.
+
+93
+00:04:45,600 --> 00:04:49,300
+So if we try this now, then we get undefined.
+
+94
+00:04:49,300 --> 00:04:51,760
+So that's exactly what I was saying.
+
+95
+00:04:51,760 --> 00:04:55,530
+Let's just, again, recreate it here
+
+96
+00:04:55,530 --> 00:04:57,323
+without the optional chaining.
+
+97
+00:04:58,330 --> 00:05:00,573
+Just to see the error again.
+
+98
+00:05:02,430 --> 00:05:05,210
+And so here we would indeed get the error.
+
+99
+00:05:05,210 --> 00:05:07,890
+Again because all of this here is undefined,
+
+100
+00:05:07,890 --> 00:05:11,350
+and then we read open here from undefined,
+
+101
+00:05:11,350 --> 00:05:12,750
+which doesn't work.
+
+102
+00:05:12,750 --> 00:05:17,750
+But here this next operation of trying to read open
+
+103
+00:05:17,820 --> 00:05:22,610
+only happens if all of this here actually exists.
+
+104
+00:05:22,610 --> 00:05:26,390
+So if it's not null and not undefined.
+
+105
+00:05:26,390 --> 00:05:28,820
+But if it is undefined or null,
+
+106
+00:05:28,820 --> 00:05:31,283
+then the result will be undefined immediately.
+
+107
+00:05:32,770 --> 00:05:34,710
+So let's take this out again.
+
+108
+00:05:34,710 --> 00:05:38,223
+And so that is why we get undefined right now.
+
+109
+00:05:39,720 --> 00:05:42,563
+And of course we can have multiple optional chainings.
+
+110
+00:05:43,420 --> 00:05:46,703
+So let's basically recreate what we have here.
+
+111
+00:05:47,660 --> 00:05:49,120
+So in this example,
+
+112
+00:05:49,120 --> 00:05:52,020
+so here we are testing for both opening hours
+
+113
+00:05:52,020 --> 00:05:54,130
+and for Monday.
+
+114
+00:05:54,130 --> 00:05:57,600
+So these are essentially the two optional properties
+
+115
+00:05:57,600 --> 00:06:00,743
+that we do not know beforehand if they exist.
+
+116
+00:06:01,920 --> 00:06:03,180
+So Monday is optional,
+
+117
+00:06:03,180 --> 00:06:06,390
+and that's why we have the question mark here basically,
+
+118
+00:06:06,390 --> 00:06:08,460
+asking if it exists
+
+119
+00:06:08,460 --> 00:06:11,540
+and now we can do the same for opening hours.
+
+120
+00:06:11,540 --> 00:06:16,180
+And now if restaurant.openingHours does not even exist,
+
+121
+00:06:16,180 --> 00:06:19,790
+well, then the Monday property will not even be read
+
+122
+00:06:19,790 --> 00:06:23,300
+and so therefore we don't get that error.
+
+123
+00:06:23,300 --> 00:06:24,180
+All right?
+
+124
+00:06:24,180 --> 00:06:25,960
+And so this makes it really easy
+
+125
+00:06:25,960 --> 00:06:28,170
+to prevent all kinds of bugs
+
+126
+00:06:28,170 --> 00:06:32,290
+that sometimes we might not even expect.
+
+127
+00:06:32,290 --> 00:06:33,520
+All right?
+
+128
+00:06:33,520 --> 00:06:37,020
+So, it also takes away all this work of doing this
+
+129
+00:06:38,500 --> 00:06:41,700
+simply by adding this simple question mark in there.
+
+130
+00:06:41,700 --> 00:06:45,660
+But now let's see a little bit more real world example.
+
+131
+00:06:45,660 --> 00:06:48,150
+And for that, let me grab this
+
+132
+00:06:49,400 --> 00:06:51,003
+weekdays array and put it here.
+
+133
+00:06:53,685 --> 00:06:56,685
+(keyboard clunking)
+
+134
+00:06:58,060 --> 00:06:59,730
+Let's just call it days here
+
+135
+00:06:59,730 --> 00:07:01,720
+so it's not the same variable.
+
+136
+00:07:01,720 --> 00:07:05,530
+And now what I want to do is to loop over this array
+
+137
+00:07:05,530 --> 00:07:06,990
+and then lock to the console,
+
+138
+00:07:06,990 --> 00:07:09,970
+whether the restaurant is open or closed
+
+139
+00:07:09,970 --> 00:07:11,871
+on each of the days.
+
+140
+00:07:11,871 --> 00:07:14,570
+(keyboard clunking)
+
+141
+00:07:14,570 --> 00:07:17,860
+So, that's a good application
+
+142
+00:07:17,860 --> 00:07:20,877
+of optional chaining right there.
+
+143
+00:07:20,877 --> 00:07:23,780
+(keyboard clunking)
+
+144
+00:07:23,780 --> 00:07:26,380
+So let's start just by logging here today
+
+145
+00:07:26,380 --> 00:07:29,693
+just so that you can remember how this loop works.
+
+146
+00:07:31,080 --> 00:07:34,070
+And so indeed now we can do some code
+
+147
+00:07:34,070 --> 00:07:36,960
+with each of these days here.
+
+148
+00:07:36,960 --> 00:07:41,653
+So, let's now essentially do the same as we did up here.
+
+149
+00:07:42,960 --> 00:07:45,093
+So restaurant.openingHours
+
+150
+00:07:47,280 --> 00:07:51,120
+but now we cannot do this, right?
+
+151
+00:07:51,120 --> 00:07:54,880
+Because this is not an actual property name of the object.
+
+152
+00:07:54,880 --> 00:07:58,230
+And so remember if we want to use a variable name
+
+153
+00:07:58,230 --> 00:08:00,090
+as the property name,
+
+154
+00:08:00,090 --> 00:08:03,620
+basically, we need to use the brackets notation.
+
+155
+00:08:03,620 --> 00:08:05,640
+So we learned about this way back
+
+156
+00:08:05,640 --> 00:08:07,290
+in the fundamental section.
+
+157
+00:08:07,290 --> 00:08:09,953
+And so make sure to remember that.
+
+158
+00:08:11,090 --> 00:08:12,230
+Okay?
+
+159
+00:08:12,230 --> 00:08:15,630
+So, basically this would be the same in the first day
+
+160
+00:08:18,717 --> 00:08:23,717
+.mon and then .tue and so on and so forth.
+
+161
+00:08:23,980 --> 00:08:28,973
+But the day here is coming dynamically from this array.
+
+162
+00:08:30,080 --> 00:08:30,913
+Okay?
+
+163
+00:08:33,780 --> 00:08:38,030
+But optional chaining of course also works with that.
+
+164
+00:08:38,030 --> 00:08:42,820
+And so now we can ask if open exists, basically.
+
+165
+00:08:42,820 --> 00:08:45,470
+And now let's save this to a variable
+
+166
+00:08:47,440 --> 00:08:50,370
+and then let's log to the console.
+
+167
+00:08:50,370 --> 00:08:52,230
+And this is not yet complete
+
+168
+00:08:52,230 --> 00:08:54,830
+but for now, let's see what's gonna happen.
+
+169
+00:08:54,830 --> 00:08:59,260
+So, on day and then whatever is the current day
+
+170
+00:08:59,260 --> 00:09:01,523
+we open at,
+
+171
+00:09:02,830 --> 00:09:06,293
+and in here we use the open variable that we just created.
+
+172
+00:09:07,930 --> 00:09:10,173
+Let's get rid of this console.log here.
+
+173
+00:09:12,610 --> 00:09:13,690
+Okay.
+
+174
+00:09:13,690 --> 00:09:16,500
+So, we get on Monday we open at undefined,
+
+175
+00:09:16,500 --> 00:09:18,730
+undefined, undefined,
+
+176
+00:09:18,730 --> 00:09:21,300
+and then indeed on Thursday, Friday and Saturday,
+
+177
+00:09:21,300 --> 00:09:22,530
+we are open.
+
+178
+00:09:22,530 --> 00:09:24,930
+And so then we get the opening hour
+
+179
+00:09:24,930 --> 00:09:27,250
+that is actually also in the object.
+
+180
+00:09:27,250 --> 00:09:28,720
+Let's just make sure.
+
+181
+00:09:28,720 --> 00:09:33,610
+So this one is open 12, 11 and zero.
+
+182
+00:09:33,610 --> 00:09:36,310
+So essentially it's open 24 hours.
+
+183
+00:09:36,310 --> 00:09:40,050
+It opens at 12 and closes at 24.
+
+184
+00:09:40,050 --> 00:09:41,383
+So at midnight again.
+
+185
+00:09:42,540 --> 00:09:44,570
+All right? So that's working.
+
+186
+00:09:44,570 --> 00:09:48,240
+But now we don't want this undefined here. Okay?
+
+187
+00:09:48,240 --> 00:09:49,940
+And so just like before
+
+188
+00:09:49,940 --> 00:09:52,300
+let's set a default value.
+
+189
+00:09:52,300 --> 00:09:53,323
+So let's use or,
+
+190
+00:09:57,468 --> 00:10:00,767
+and so as a default, we want to say closed.
+
+191
+00:10:01,690 --> 00:10:03,210
+So we are open at closed.
+
+192
+00:10:03,210 --> 00:10:05,510
+So that doesn't make a lot of sense.
+
+193
+00:10:05,510 --> 00:10:07,890
+So we could create a better sentence there
+
+194
+00:10:07,890 --> 00:10:10,300
+but let's leave it like this.
+
+195
+00:10:10,300 --> 00:10:13,620
+But maybe you're noticing that now we have a problem
+
+196
+00:10:13,620 --> 00:10:17,200
+which is that on Saturday it says that we are closed.
+
+197
+00:10:17,200 --> 00:10:19,880
+Although actually we open
+
+198
+00:10:19,880 --> 00:10:21,730
+or the restaurant opens.
+
+199
+00:10:21,730 --> 00:10:24,210
+So here on Saturday which is this one,
+
+200
+00:10:24,210 --> 00:10:26,700
+indeed, this property exists.
+
+201
+00:10:26,700 --> 00:10:29,263
+So there is a property called Saturday.
+
+202
+00:10:30,290 --> 00:10:32,460
+And so we have a problem here.
+
+203
+00:10:32,460 --> 00:10:35,980
+And the problem is that the restaurant opens at zero.
+
+204
+00:10:35,980 --> 00:10:38,840
+And so here we have the same problem as before
+
+205
+00:10:38,840 --> 00:10:41,010
+where zero is a falsy value.
+
+206
+00:10:41,010 --> 00:10:44,470
+And so therefore it will then trigger this second part
+
+207
+00:10:44,470 --> 00:10:46,030
+of the operator.
+
+208
+00:10:46,030 --> 00:10:48,640
+But we also saw the solution to this,
+
+209
+00:10:48,640 --> 00:10:52,050
+which is to use the nullish coalescing operator.
+
+210
+00:10:52,050 --> 00:10:54,190
+And so that's what we do now.
+
+211
+00:10:54,190 --> 00:10:57,720
+And now we get back to open at zero.
+
+212
+00:10:57,720 --> 00:10:58,553
+Great.
+
+213
+00:10:58,553 --> 00:11:00,990
+So, this is an amazing use case
+
+214
+00:11:00,990 --> 00:11:03,160
+of the optional chaining operator
+
+215
+00:11:03,160 --> 00:11:06,920
+and the nullish coalescing operator working together.
+
+216
+00:11:06,920 --> 00:11:09,600
+And in fact, they were introduced into the language
+
+217
+00:11:09,600 --> 00:11:11,320
+at the same time in ES2020
+
+218
+00:11:12,240 --> 00:11:13,920
+because they were really designed
+
+219
+00:11:13,920 --> 00:11:16,300
+to work well with each other.
+
+220
+00:11:16,300 --> 00:11:20,870
+So again, both of them rely on this new concept of nullish
+
+221
+00:11:20,870 --> 00:11:24,850
+and so nullish values are null and undefined.
+
+222
+00:11:24,850 --> 00:11:25,890
+And that's it.
+
+223
+00:11:25,890 --> 00:11:30,230
+And so that's true both for this nullish coalescing operator
+
+224
+00:11:30,230 --> 00:11:32,393
+and also for optional chaining.
+
+225
+00:11:34,510 --> 00:11:36,380
+Okay. Great.
+
+226
+00:11:36,380 --> 00:11:38,860
+Now that you understand how it works,
+
+227
+00:11:38,860 --> 00:11:42,720
+let's move to the next topic, which is on methods.
+
+228
+00:11:42,720 --> 00:11:45,330
+So optional chaining does indeed also work
+
+229
+00:11:45,330 --> 00:11:46,950
+for calling methods.
+
+230
+00:11:46,950 --> 00:11:48,980
+So, essentially we can check
+
+231
+00:11:48,980 --> 00:11:52,453
+if a method actually exists before we call it.
+
+232
+00:11:53,490 --> 00:11:57,740
+So, restaurant.order,
+
+233
+00:11:57,740 --> 00:12:00,540
+and now we can check if it exists.
+
+234
+00:12:00,540 --> 00:12:04,800
+So we use the question mark, dot, and if it does exist,
+
+235
+00:12:04,800 --> 00:12:06,860
+then we can call it.
+
+236
+00:12:06,860 --> 00:12:08,913
+So let's just pass zero and one here.
+
+237
+00:12:09,980 --> 00:12:12,560
+And then we should always use together
+
+238
+00:12:12,560 --> 00:12:14,620
+the nullish coalescing operator.
+
+239
+00:12:14,620 --> 00:12:19,620
+And so, method does not exist.
+
+240
+00:12:20,290 --> 00:12:21,770
+So let's run this
+
+241
+00:12:21,770 --> 00:12:25,040
+but in this case, the method does actually exist.
+
+242
+00:12:25,040 --> 00:12:27,403
+And so here we get the expected result.
+
+243
+00:12:29,740 --> 00:12:33,430
+When we try to call a method that doesn't exist.
+
+244
+00:12:33,430 --> 00:12:35,197
+So let's say orderRisotto,
+
+245
+00:12:36,820 --> 00:12:40,410
+and so we never wrote a method for that.
+
+246
+00:12:40,410 --> 00:12:42,003
+And so, let's see.
+
+247
+00:12:43,200 --> 00:12:46,770
+And yeah, now we get method does not exist.
+
+248
+00:12:46,770 --> 00:12:48,530
+And so just like before
+
+249
+00:12:48,530 --> 00:12:50,380
+this optional chaining operator
+
+250
+00:12:50,380 --> 00:12:54,100
+will check if orderRisotto actually exists.
+
+251
+00:12:54,100 --> 00:12:55,260
+And if it doesn't,
+
+252
+00:12:55,260 --> 00:12:58,630
+well then it will immediately return undefined.
+
+253
+00:12:58,630 --> 00:13:01,550
+And so all of this then returns undefined.
+
+254
+00:13:01,550 --> 00:13:05,050
+And so here in the nullish coalescing operator,
+
+255
+00:13:05,050 --> 00:13:08,240
+we immediately go to that second operant.
+
+256
+00:13:08,240 --> 00:13:09,513
+So that's this one here.
+
+257
+00:13:10,600 --> 00:13:14,630
+And yeah, then that's the result of this whole operation.
+
+258
+00:13:14,630 --> 00:13:17,100
+So of course, if we hadn't this,
+
+259
+00:13:17,100 --> 00:13:19,170
+then we were trying to attempt
+
+260
+00:13:19,170 --> 00:13:21,200
+something that is not a function.
+
+261
+00:13:21,200 --> 00:13:23,940
+So really useful on methods as well.
+
+262
+00:13:23,940 --> 00:13:27,433
+And finally, optional chaining even works on arrays.
+
+263
+00:13:29,876 --> 00:13:32,250
+(keyboard clunking)
+
+264
+00:13:32,250 --> 00:13:36,210
+So basically we can use it to check if an array is empty.
+
+265
+00:13:36,210 --> 00:13:40,880
+So let's simply create a users array
+
+266
+00:13:40,880 --> 00:13:43,453
+in which we can put a couple of user objects.
+
+267
+00:13:45,280 --> 00:13:47,440
+So name Jonas
+
+268
+00:13:49,569 --> 00:13:50,763
+and email,
+
+269
+00:13:52,550 --> 00:13:56,053
+hello@Jonas.io.
+
+270
+00:13:57,977 --> 00:13:58,810
+(murmurs)
+
+271
+00:13:58,810 --> 00:14:00,040
+This is just for demonstration.
+
+272
+00:14:00,040 --> 00:14:03,120
+So let's just put one object here
+
+273
+00:14:05,340 --> 00:14:10,330
+and now to get the name of the first element of this array,
+
+274
+00:14:10,330 --> 00:14:12,680
+we can do this.
+
+275
+00:14:12,680 --> 00:14:16,750
+We can write users, element number zero
+
+276
+00:14:16,750 --> 00:14:18,930
+and only if it exists.
+
+277
+00:14:18,930 --> 00:14:23,930
+So, optional chaining only then take its name.
+
+278
+00:14:24,320 --> 00:14:25,420
+Okay?
+
+279
+00:14:25,420 --> 00:14:30,420
+And otherwise we want to log user array empty.
+
+280
+00:14:32,470 --> 00:14:33,740
+So let's see.
+
+281
+00:14:33,740 --> 00:14:36,450
+And indeed we get Jonas.
+
+282
+00:14:36,450 --> 00:14:39,190
+And so again, this optional chaining here
+
+283
+00:14:39,190 --> 00:14:43,230
+tests if the value on the left does exist.
+
+284
+00:14:43,230 --> 00:14:44,973
+So users zero.
+
+285
+00:14:47,040 --> 00:14:47,873
+Okay?
+
+286
+00:14:47,873 --> 00:14:48,943
+So if it was empty,
+
+287
+00:14:50,440 --> 00:14:51,563
+so users,
+
+288
+00:14:52,460 --> 00:14:53,870
+so like this,
+
+289
+00:14:53,870 --> 00:14:56,433
+then we get user array empty.
+
+290
+00:14:57,520 --> 00:14:59,120
+And without optional chaining,
+
+291
+00:14:59,120 --> 00:15:02,290
+we would have to write something like this.
+
+292
+00:15:02,290 --> 00:15:06,070
+So if users.length
+
+293
+00:15:06,070 --> 00:15:07,540
+greater equals zero
+
+294
+00:15:08,750 --> 00:15:10,290
+then console.log
+
+295
+00:15:11,196 --> 00:15:12,340
+and this here
+
+296
+00:15:19,407 --> 00:15:22,893
+and else console.log,
+
+297
+00:15:24,850 --> 00:15:27,163
+user array empty.
+
+298
+00:15:28,290 --> 00:15:29,840
+All right?
+
+299
+00:15:29,840 --> 00:15:32,810
+And so that looks like a lot more work
+
+300
+00:15:32,810 --> 00:15:34,920
+than what we just have up there.
+
+301
+00:15:34,920 --> 00:15:37,760
+So, here we don't need to do any check
+
+302
+00:15:37,760 --> 00:15:40,053
+so that's a lot better.
+
+303
+00:15:41,460 --> 00:15:44,433
+And so now in both cases, we get Jonas.
+
+304
+00:15:45,690 --> 00:15:48,920
+So, get used to this optional chaining operator,
+
+305
+00:15:48,920 --> 00:15:50,180
+which almost always,
+
+306
+00:15:50,180 --> 00:15:54,030
+we use them together with the nullish coalescing operator
+
+307
+00:15:54,030 --> 00:15:56,090
+so that we can actually do something
+
+308
+00:15:56,090 --> 00:15:59,560
+in case we don't get a result from the object
+
+309
+00:15:59,560 --> 00:16:02,433
+or from the array that's here on the left hand side.
+
+310
+00:16:03,860 --> 00:16:04,693
+All right.
+
+311
+00:16:04,693 --> 00:16:07,803
+And with that being said, I see you in the next video.

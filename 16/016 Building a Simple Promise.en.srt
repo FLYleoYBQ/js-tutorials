@@ -1,0 +1,1527 @@
+1
+00:00:01,350 --> 00:00:03,570
+So, at this point of the section,
+
+2
+00:00:03,570 --> 00:00:06,330
+you know all about consuming promises,
+
+3
+00:00:06,330 --> 00:00:10,140
+but we have never actually built our own promise.
+
+4
+00:00:10,140 --> 00:00:12,633
+And so, let's do that in this lecture.
+
+5
+00:00:14,340 --> 00:00:18,750
+And let's go back to our lottery example from the slides,
+
+6
+00:00:18,750 --> 00:00:23,280
+and basically simulate a lottery using a promise here.
+
+7
+00:00:23,280 --> 00:00:26,010
+And remember that, in that example,
+
+8
+00:00:26,010 --> 00:00:29,370
+a fulfilled promise means to win the lottery,
+
+9
+00:00:29,370 --> 00:00:32,850
+while a rejected promise means to lose.
+
+10
+00:00:32,850 --> 00:00:34,680
+So, let's get to work,
+
+11
+00:00:34,680 --> 00:00:39,480
+and we create a new promise, using the promise constructor.
+
+12
+00:00:39,480 --> 00:00:42,963
+So that's new Promise, like this.
+
+13
+00:00:44,212 --> 00:00:46,560
+So, just like many other built-in objects.
+
+14
+00:00:46,560 --> 00:00:48,982
+And so, what this means,
+
+15
+00:00:48,982 --> 00:00:50,730
+is that promises are essentially,
+
+16
+00:00:50,730 --> 00:00:54,780
+just a special kind of object in JavaScript.
+
+17
+00:00:54,780 --> 00:00:59,280
+Now, the promise constructor takes exactly one argument,
+
+18
+00:00:59,280 --> 00:01:02,163
+and that is the so-called executor function.
+
+19
+00:01:04,560 --> 00:01:07,263
+So, we need to pass in a function here.
+
+20
+00:01:08,130 --> 00:01:11,700
+And so again, this one is called executor.
+
+21
+00:01:11,700 --> 00:01:15,000
+Now, as soon as the promise constructor runs,
+
+22
+00:01:15,000 --> 00:01:18,930
+it will automatically execute this executor function,
+
+23
+00:01:18,930 --> 00:01:20,520
+that we pass in.
+
+24
+00:01:20,520 --> 00:01:23,610
+And as it executes this function here,
+
+25
+00:01:23,610 --> 00:01:27,420
+it will do so, by passing in two other arguments.
+
+26
+00:01:27,420 --> 00:01:29,943
+And those arguments are the resolve,
+
+27
+00:01:31,333 --> 00:01:34,020
+and the reject functions.
+
+28
+00:01:34,020 --> 00:01:36,903
+So reject, like this.
+
+29
+00:01:37,800 --> 00:01:40,260
+So, we will use them here in a second,
+
+30
+00:01:40,260 --> 00:01:43,953
+but for now, let's actually build this executor function.
+
+31
+00:01:45,030 --> 00:01:47,913
+And also, we should probably store the results.
+
+32
+00:01:49,098 --> 00:01:51,393
+So this new promise in some variable,
+
+33
+00:01:53,311 --> 00:01:56,647
+so, lotteryPromise,
+
+34
+00:01:56,647 --> 00:01:57,480
+okay?
+
+35
+00:01:57,480 --> 00:01:59,850
+So all of this here will create a new promise,
+
+36
+00:01:59,850 --> 00:02:02,730
+that we're gonna store into this variable.
+
+37
+00:02:02,730 --> 00:02:05,580
+So, it's just like, for example, the fetch function,
+
+38
+00:02:05,580 --> 00:02:07,743
+which also creates a new promise.
+
+39
+00:02:08,610 --> 00:02:12,330
+Now, this executor function that we specified here,
+
+40
+00:02:12,330 --> 00:02:16,200
+is the function which will contain the asynchronous behavior
+
+41
+00:02:16,200 --> 00:02:19,020
+that we are trying to handle with the promise.
+
+42
+00:02:19,020 --> 00:02:20,760
+So, this executor function
+
+43
+00:02:20,760 --> 00:02:24,300
+should eventually produce a result value.
+
+44
+00:02:24,300 --> 00:02:26,610
+So, the value that's basically gonna be
+
+45
+00:02:26,610 --> 00:02:29,460
+the future value of the promise.
+
+46
+00:02:29,460 --> 00:02:31,410
+And so, let's do exactly that,
+
+47
+00:02:31,410 --> 00:02:33,780
+right here in the executor function,
+
+48
+00:02:33,780 --> 00:02:36,960
+and starting with a simplified version.
+
+49
+00:02:36,960 --> 00:02:39,210
+Now, in our lottery example,
+
+50
+00:02:39,210 --> 00:02:43,770
+let's say that we actually win in 50% of the cases,
+
+51
+00:02:43,770 --> 00:02:46,800
+and lose in the other 50%.
+
+52
+00:02:46,800 --> 00:02:49,470
+So, very simplified example,
+
+53
+00:02:49,470 --> 00:02:51,990
+just to make this a bit more fun.
+
+54
+00:02:51,990 --> 00:02:53,010
+And so, what I'm gonna do,
+
+55
+00:02:53,010 --> 00:02:55,740
+is to simply generate a random number,
+
+56
+00:02:55,740 --> 00:02:59,820
+which remember is gonna be between 0 and 1.
+
+57
+00:02:59,820 --> 00:03:02,970
+And so, I can simply say, if this number here,
+
+58
+00:03:02,970 --> 00:03:05,643
+is greater or equal, than 0.5,
+
+59
+00:03:07,320 --> 00:03:11,460
+then, I want to call the resolve function.
+
+60
+00:03:11,460 --> 00:03:14,820
+And so now, this is where this resolve function,
+
+61
+00:03:14,820 --> 00:03:19,053
+that was passed into the executor function, comes into play.
+
+62
+00:03:19,890 --> 00:03:21,180
+Alright?
+
+63
+00:03:21,180 --> 00:03:23,490
+So, in this situation here,
+
+64
+00:03:23,490 --> 00:03:26,040
+we say that we win the lottery,
+
+65
+00:03:26,040 --> 00:03:29,790
+and so therefore, that means a fulfilled promise.
+
+66
+00:03:29,790 --> 00:03:33,240
+And in order to set the promise as fulfilled,
+
+67
+00:03:33,240 --> 00:03:36,000
+we use the resolve function.
+
+68
+00:03:36,000 --> 00:03:39,000
+So, basically calling the resolve function like this,
+
+69
+00:03:39,000 --> 00:03:42,780
+will mark this promise as a fulfilled promise,
+
+70
+00:03:42,780 --> 00:03:45,930
+which we can also say a resolved promise,
+
+71
+00:03:45,930 --> 00:03:47,970
+and that's the reason why this method here,
+
+72
+00:03:47,970 --> 00:03:49,980
+is called resolve.
+
+73
+00:03:49,980 --> 00:03:52,113
+Now, into the resolve function here,
+
+74
+00:03:52,970 --> 00:03:55,440
+we pass the fulfilled value of the promise,
+
+75
+00:03:55,440 --> 00:03:59,730
+so that it can later be consumed with the then method,
+
+76
+00:03:59,730 --> 00:04:00,563
+right?
+
+77
+00:04:01,524 --> 00:04:02,357
+So of course, we are going to handle
+
+78
+00:04:02,357 --> 00:04:03,990
+the result of this promise,
+
+79
+00:04:03,990 --> 00:04:06,390
+just like we handled any other promise
+
+80
+00:04:06,390 --> 00:04:08,490
+with the then method.
+
+81
+00:04:08,490 --> 00:04:11,250
+So again, whatever value we pass
+
+82
+00:04:11,250 --> 00:04:13,290
+into the resolve function here,
+
+83
+00:04:13,290 --> 00:04:15,693
+is gonna be the result of the promise
+
+84
+00:04:15,693 --> 00:04:19,350
+that will be available in the then handler.
+
+85
+00:04:19,350 --> 00:04:24,350
+And so in this case, let's simply pass in a string here,
+
+86
+00:04:24,510 --> 00:04:27,243
+and let's use some emoji,
+
+87
+00:04:28,200 --> 00:04:30,660
+again to make it a bit more fun.
+
+88
+00:04:30,660 --> 00:04:33,630
+And so, now let's handle the opposite case.
+
+89
+00:04:33,630 --> 00:04:36,300
+So where, we basically want to mark
+
+90
+00:04:36,300 --> 00:04:38,640
+this promise as rejected.
+
+91
+00:04:38,640 --> 00:04:41,040
+And so, as you can imagine for that,
+
+92
+00:04:41,040 --> 00:04:44,730
+we can call the reject function.
+
+93
+00:04:44,730 --> 00:04:47,314
+Then into the reject function,
+
+94
+00:04:47,314 --> 00:04:48,450
+we pass in the error message,
+
+95
+00:04:48,450 --> 00:04:51,753
+that we later want to be able in the catch handler.
+
+96
+00:04:52,837 --> 00:04:53,933
+So, in the catch method,
+
+97
+00:04:55,380 --> 00:04:56,550
+right?
+
+98
+00:04:56,550 --> 00:05:00,990
+So here, let's just say you lost your money,
+
+99
+00:05:00,990 --> 00:05:04,473
+and then, just some poop emoji.
+
+100
+00:05:07,200 --> 00:05:08,529
+Alright?
+
+101
+00:05:08,529 --> 00:05:09,843
+So, give this a save here.
+
+102
+00:05:11,310 --> 00:05:12,900
+So just to quickly recap,
+
+103
+00:05:12,900 --> 00:05:15,030
+before we consume this promise,
+
+104
+00:05:15,030 --> 00:05:17,970
+here, we created an executor function,
+
+105
+00:05:17,970 --> 00:05:21,570
+which is gonna be called by this promise constructor,
+
+106
+00:05:21,570 --> 00:05:23,550
+as soon as it runs.
+
+107
+00:05:23,550 --> 00:05:26,073
+So, basically immediately, right?
+
+108
+00:05:27,459 --> 00:05:29,340
+Then, the promise calls this function,
+
+109
+00:05:29,340 --> 00:05:32,940
+and passes in the resolve and reject functions,
+
+110
+00:05:32,940 --> 00:05:34,920
+so that we can then use them,
+
+111
+00:05:34,920 --> 00:05:38,130
+to mark the promise as either resolved,
+
+112
+00:05:38,130 --> 00:05:42,000
+so, as fulfilled, or as rejected.
+
+113
+00:05:42,000 --> 00:05:44,010
+And so, you see that this promise
+
+114
+00:05:44,010 --> 00:05:48,210
+is eventually going to move to either the fulfilled state,
+
+115
+00:05:48,210 --> 00:05:50,460
+or the rejected state.
+
+116
+00:05:50,460 --> 00:05:51,990
+So, we always need to make sure
+
+117
+00:05:51,990 --> 00:05:56,100
+that the promise ends up in one of these two states.
+
+118
+00:05:56,100 --> 00:05:59,760
+Alright, and so now it's time to actually try this out,
+
+119
+00:05:59,760 --> 00:06:02,583
+by consuming this promise that we just built.
+
+120
+00:06:05,070 --> 00:06:08,730
+So, lottery promise, is going to be a promise object
+
+121
+00:06:08,730 --> 00:06:09,693
+at this point.
+
+122
+00:06:10,929 --> 00:06:14,580
+And so then as always, we can call the then method.
+
+123
+00:06:14,580 --> 00:06:16,380
+And then, just like before,
+
+124
+00:06:16,380 --> 00:06:19,320
+the then method needs a callback function,
+
+125
+00:06:19,320 --> 00:06:22,320
+that is going to be called with the resolved value
+
+126
+00:06:22,320 --> 00:06:24,120
+of the promise.
+
+127
+00:06:24,120 --> 00:06:25,920
+So, let's call this res here,
+
+128
+00:06:28,464 --> 00:06:30,714
+and then, let's simply log it to the console.
+
+129
+00:06:31,967 --> 00:06:32,800
+Okay?
+
+130
+00:06:32,800 --> 00:06:36,270
+And of course, once again, this could be any name here,
+
+131
+00:06:36,270 --> 00:06:37,103
+right?
+
+132
+00:06:38,460 --> 00:06:40,983
+And now, let's also catch any errors.
+
+133
+00:06:44,221 --> 00:06:46,050
+And so here also, as always,
+
+134
+00:06:46,050 --> 00:06:49,863
+we will simply log it to the console as an error.
+
+135
+00:06:51,489 --> 00:06:55,350
+Now okay, and so that's actually it already.
+
+136
+00:06:55,350 --> 00:06:59,733
+So what do you think this res value here is going to be,
+
+137
+00:07:00,745 --> 00:07:02,280
+or this error is going to be?
+
+138
+00:07:02,280 --> 00:07:05,103
+Well, as I just explained before,
+
+139
+00:07:05,952 --> 00:07:07,740
+the resolved value of the promise,
+
+140
+00:07:07,740 --> 00:07:10,863
+is going to be this one, that we passed in here.
+
+141
+00:07:12,240 --> 00:07:14,010
+And so therefore, the value that we're gonna log,
+
+142
+00:07:14,010 --> 00:07:16,620
+in the case that the promise is successful,
+
+143
+00:07:16,620 --> 00:07:19,290
+is going to be exactly this string
+
+144
+00:07:19,290 --> 00:07:21,720
+that we passed into the resolve function,
+
+145
+00:07:21,720 --> 00:07:24,240
+and the same is true with the error.
+
+146
+00:07:24,240 --> 00:07:27,963
+So the error here is going to be, simply this one.
+
+147
+00:07:29,115 --> 00:07:29,970
+Because that's the string,
+
+148
+00:07:29,970 --> 00:07:32,913
+that we passed into the reject function.
+
+149
+00:07:34,240 --> 00:07:35,073
+Okay?
+
+150
+00:07:35,073 --> 00:07:38,133
+So let's see, and indeed we get our error.
+
+151
+00:07:39,277 --> 00:07:41,040
+So, you lost your money.
+
+152
+00:07:41,040 --> 00:07:43,536
+And so, as we keep reloading,
+
+153
+00:07:43,536 --> 00:07:45,150
+we should then see these different states,
+
+154
+00:07:45,150 --> 00:07:48,813
+according to this random number that was generated here.
+
+155
+00:07:50,190 --> 00:07:52,383
+Great, so now we won.
+
+156
+00:07:54,494 --> 00:07:56,108
+And so, as we keep doing this,
+
+157
+00:07:56,108 --> 00:07:59,610
+we can see the different states that the promise will take.
+
+158
+00:07:59,610 --> 00:08:02,490
+So that's amazing, but however,
+
+159
+00:08:02,490 --> 00:08:07,350
+right now, this is not really a synchronous yet, right?
+
+160
+00:08:07,350 --> 00:08:10,470
+So, let's actually simulate this lottery draw
+
+161
+00:08:10,470 --> 00:08:12,540
+by adding a simple timer.
+
+162
+00:08:12,540 --> 00:08:15,120
+And so, this timer will then simulate
+
+163
+00:08:15,120 --> 00:08:18,810
+the time that is passed between buying the lottery ticket
+
+164
+00:08:18,810 --> 00:08:21,510
+and actually getting the result.
+
+165
+00:08:21,510 --> 00:08:23,973
+So, let's add a setTimeout here.
+
+166
+00:08:29,104 --> 00:08:30,840
+So with a simple callback function,
+
+167
+00:08:30,840 --> 00:08:33,780
+and let's run it for two seconds.
+
+168
+00:08:33,780 --> 00:08:38,343
+And here, we will simply take this code and put it here,
+
+169
+00:08:39,180 --> 00:08:41,460
+and then we can also immediately
+
+170
+00:08:41,460 --> 00:08:43,113
+lock something to the console,
+
+171
+00:08:45,329 --> 00:08:48,357
+like, lottery draw is happening.
+
+172
+00:08:51,068 --> 00:08:53,303
+And then, let's add like a crystal ball here.
+
+173
+00:08:55,140 --> 00:08:57,663
+So, that's exactly also what we had in the slides.
+
+174
+00:08:58,740 --> 00:09:00,000
+Alright?
+
+175
+00:09:00,000 --> 00:09:03,033
+And now, another thing that we can do is to,
+
+176
+00:09:04,064 --> 00:09:06,335
+instead of passing just a string here,
+
+177
+00:09:06,335 --> 00:09:08,235
+we can also create a new error object.
+
+178
+00:09:09,232 --> 00:09:10,982
+So basically creating a real error,
+
+179
+00:09:12,544 --> 00:09:14,294
+and so, that's a little bit better.
+
+180
+00:09:17,366 --> 00:09:19,072
+So, just like this.
+
+181
+00:09:19,072 --> 00:09:21,420
+And so with this, we made this whole promise here,
+
+182
+00:09:21,420 --> 00:09:23,163
+make a little bit more sense,
+
+183
+00:09:24,134 --> 00:09:27,600
+because now by using this timer, we did actually encapsulate
+
+184
+00:09:27,600 --> 00:09:30,633
+some asynchronous behavior into this promise.
+
+185
+00:09:31,750 --> 00:09:33,180
+And so, that's the whole point of promises
+
+186
+00:09:33,180 --> 00:09:35,880
+in the first place, right?
+
+187
+00:09:35,880 --> 00:09:38,820
+So let's give it a save to see what happens.
+
+188
+00:09:38,820 --> 00:09:41,010
+So immediately, we get this here,
+
+189
+00:09:41,010 --> 00:09:44,643
+and then, after two seconds the promise was resolved.
+
+190
+00:09:46,070 --> 00:09:48,450
+And so then here, we handled that result,
+
+191
+00:09:48,450 --> 00:09:50,013
+and logged it to the console.
+
+192
+00:09:51,180 --> 00:09:53,280
+Let's try again, and of course,
+
+193
+00:09:53,280 --> 00:09:57,453
+again, this one comes immediately, and we win again.
+
+194
+00:09:58,298 --> 00:09:59,543
+Let's see if we can lose.
+
+195
+00:10:00,752 --> 00:10:03,480
+Apparently we can only ever win.
+
+196
+00:10:03,480 --> 00:10:04,833
+Nah, but here you go.
+
+197
+00:10:05,700 --> 00:10:09,810
+So, now we get the error message just like before,
+
+198
+00:10:09,810 --> 00:10:12,570
+but we also now see that it's an error,
+
+199
+00:10:12,570 --> 00:10:15,513
+and it also tells us where this error is coming from.
+
+200
+00:10:16,598 --> 00:10:17,853
+So, right at line 292.
+
+201
+00:10:18,840 --> 00:10:20,790
+So, that's right here.
+
+202
+00:10:20,790 --> 00:10:25,140
+And so indeed, actually creating a new error object,
+
+203
+00:10:25,140 --> 00:10:27,570
+is actually a bit better.
+
+204
+00:10:27,570 --> 00:10:28,403
+Great.
+
+205
+00:10:29,399 --> 00:10:32,430
+So, this is how we encapsulate any asynchronous behavior,
+
+206
+00:10:32,430 --> 00:10:33,723
+into a promise.
+
+207
+00:10:34,817 --> 00:10:38,010
+So, how we abstract it away in a very nice way,
+
+208
+00:10:38,010 --> 00:10:41,610
+just like we did here, right?
+
+209
+00:10:41,610 --> 00:10:43,230
+And then, all we have to do,
+
+210
+00:10:43,230 --> 00:10:45,903
+is to consume that promise like this.
+
+211
+00:10:47,105 --> 00:10:49,920
+And so this is a really nice and helpful pattern.
+
+212
+00:10:49,920 --> 00:10:52,350
+Now, in practice, most of the time,
+
+213
+00:10:52,350 --> 00:10:55,800
+all we actually do, is to consume promises.
+
+214
+00:10:55,800 --> 00:10:58,410
+And, we usually only build promises,
+
+215
+00:10:58,410 --> 00:11:01,800
+to basically wrap old callback based functions,
+
+216
+00:11:01,800 --> 00:11:03,390
+into promises.
+
+217
+00:11:03,390 --> 00:11:06,960
+And this is a process that we call promisifying.
+
+218
+00:11:06,960 --> 00:11:08,910
+So, basically promisifying,
+
+219
+00:11:08,910 --> 00:11:12,660
+means to convert callback based asynchronous behavior,
+
+220
+00:11:12,660 --> 00:11:14,163
+to promise based.
+
+221
+00:11:15,270 --> 00:11:16,103
+Alright?
+
+222
+00:11:16,103 --> 00:11:20,190
+So, let's see that in action a little bit.
+
+223
+00:11:20,190 --> 00:11:21,690
+And so, what we're gonna do,
+
+224
+00:11:21,690 --> 00:11:25,440
+is to actually promisifying the setTimeout function,
+
+225
+00:11:25,440 --> 00:11:27,303
+and create a wait function.
+
+226
+00:11:28,950 --> 00:11:30,210
+Okay?
+
+227
+00:11:30,210 --> 00:11:32,703
+So, let's create a function called wait,
+
+228
+00:11:35,495 --> 00:11:37,942
+and this function is going to take in
+
+229
+00:11:37,942 --> 00:11:38,942
+a number of seconds.
+
+230
+00:11:41,460 --> 00:11:42,630
+Okay?
+
+231
+00:11:42,630 --> 00:11:45,520
+And so now inside of this function,
+
+232
+00:11:45,520 --> 00:11:47,870
+we will actually create and return the promise.
+
+233
+00:11:48,909 --> 00:11:50,880
+So, usually that's always what we do.
+
+234
+00:11:50,880 --> 00:11:53,160
+So creating a function, and then from there,
+
+235
+00:11:53,160 --> 00:11:54,483
+returning a promise.
+
+236
+00:11:55,591 --> 00:11:56,550
+And so this will then encapsulate
+
+237
+00:11:56,550 --> 00:11:59,610
+the asynchronous operation even further.
+
+238
+00:11:59,610 --> 00:12:03,153
+So, essentially that's also what the fetch function does,
+
+239
+00:12:04,336 --> 00:12:05,169
+right?
+
+240
+00:12:05,169 --> 00:12:07,320
+So, it's a function that returns a promise,
+
+241
+00:12:07,320 --> 00:12:09,630
+and so, that is exactly what we will do,
+
+242
+00:12:09,630 --> 00:12:11,373
+here with this wait function.
+
+243
+00:12:12,550 --> 00:12:15,693
+So, in a sense, this here is a more real world example.
+
+244
+00:12:17,777 --> 00:12:19,110
+So, promisifying
+
+245
+00:12:21,554 --> 00:12:22,471
+setTimeout.
+
+246
+00:12:25,062 --> 00:12:28,113
+So, as I was saying, we are going to return a new promise,
+
+247
+00:12:31,769 --> 00:12:36,540
+and then, our executer function as always, and then resolve.
+
+248
+00:12:36,540 --> 00:12:38,213
+And in this case,
+
+249
+00:12:38,213 --> 00:12:40,830
+we actually don't even need the reject function.
+
+250
+00:12:40,830 --> 00:12:42,666
+And that's because,
+
+251
+00:12:42,666 --> 00:12:45,870
+it's actually impossible for the timer to fail.
+
+252
+00:12:45,870 --> 00:12:47,664
+And so therefore,
+
+253
+00:12:47,664 --> 00:12:50,163
+we will never mark this promise as rejected.
+
+254
+00:12:51,180 --> 00:12:54,120
+And so, here we don't even need to specify
+
+255
+00:12:54,120 --> 00:12:55,743
+that reject parameter.
+
+256
+00:12:58,629 --> 00:12:59,843
+Alright?
+
+257
+00:12:59,843 --> 00:13:03,013
+So, it's just like the array methods, like map,
+
+258
+00:13:03,013 --> 00:13:04,620
+which always receive three arguments,
+
+259
+00:13:04,620 --> 00:13:09,063
+but most of the time, we just use one or two of them, right?
+
+260
+00:13:09,935 --> 00:13:11,135
+And so, this is similar.
+
+261
+00:13:12,018 --> 00:13:15,543
+But anyway, all we have to do now, is to use setTimeout.
+
+262
+00:13:16,650 --> 00:13:19,039
+And then here the callback function,
+
+263
+00:13:19,039 --> 00:13:21,540
+that we want to be called after a certain time,
+
+264
+00:13:21,540 --> 00:13:24,003
+is exactly the resolve function.
+
+265
+00:13:25,196 --> 00:13:26,820
+So we can simply do this,
+
+266
+00:13:26,820 --> 00:13:29,910
+and in this case, we're actually not even going to pass,
+
+267
+00:13:29,910 --> 00:13:33,270
+any resolved value into the resolve function,
+
+268
+00:13:33,270 --> 00:13:36,003
+because, that's actually not mandatory.
+
+269
+00:13:37,220 --> 00:13:38,730
+And so, in the case of this timer,
+
+270
+00:13:38,730 --> 00:13:41,130
+it's also not really necessary.
+
+271
+00:13:41,130 --> 00:13:43,200
+And so, in the case of a timer,
+
+272
+00:13:43,200 --> 00:13:47,670
+it's also not really necessary to wait for some value,
+
+273
+00:13:47,670 --> 00:13:48,750
+right?
+
+274
+00:13:48,750 --> 00:13:50,760
+So in this case, all we want to do,
+
+275
+00:13:50,760 --> 00:13:53,400
+is to basically make our code wait,
+
+276
+00:13:53,400 --> 00:13:56,793
+and so, no resolved values are needed.
+
+277
+00:13:57,810 --> 00:13:59,700
+Now here we want to run that timer
+
+278
+00:13:59,700 --> 00:14:01,653
+for a certain amount of seconds,
+
+279
+00:14:03,342 --> 00:14:05,142
+so we need to multiply that by 1000.
+
+280
+00:14:06,564 --> 00:14:08,314
+And so, that's actually already it.
+
+281
+00:14:10,470 --> 00:14:14,100
+Now, we could improve this even further here,
+
+282
+00:14:14,100 --> 00:14:18,003
+or I mean, just make it smaller by using arrow functions,
+
+283
+00:14:19,169 --> 00:14:22,080
+and you can do that if you want to have some fun with that.
+
+284
+00:14:22,080 --> 00:14:25,713
+But for now, I will simply now consume this promise.
+
+285
+00:14:27,368 --> 00:14:30,270
+So, let's call our wait function.
+
+286
+00:14:30,270 --> 00:14:31,103
+Alright.
+
+287
+00:14:32,305 --> 00:14:34,271
+And so, this will now create a promise,
+
+288
+00:14:34,271 --> 00:14:35,550
+that will wait for 2 seconds,
+
+289
+00:14:35,550 --> 00:14:38,643
+and after these 2 seconds, it will resolve.
+
+290
+00:14:40,202 --> 00:14:41,802
+And so, we can then handle that.
+
+291
+00:14:42,720 --> 00:14:45,774
+And then, here in our callback function,
+
+292
+00:14:45,774 --> 00:14:49,350
+remember we are not going to receive any resolved value,
+
+293
+00:14:49,350 --> 00:14:51,333
+so we just leave this empty.
+
+294
+00:14:55,624 --> 00:15:00,130
+And then, I will simply log, I waited for 2 seconds.
+
+295
+00:15:01,110 --> 00:15:04,740
+And so, here in this callback, we could now run any code,
+
+296
+00:15:04,740 --> 00:15:08,913
+that we wanted to be executed after 2 seconds, right?
+
+297
+00:15:09,864 --> 00:15:12,840
+And then, let's actually wait 1 more second,
+
+298
+00:15:12,840 --> 00:15:14,460
+and so just like before,
+
+299
+00:15:14,460 --> 00:15:16,833
+we now have to return a new promise here.
+
+300
+00:15:18,934 --> 00:15:20,760
+So, return wait
+
+301
+00:15:20,760 --> 00:15:24,030
+and this time, just 1 second.
+
+302
+00:15:24,030 --> 00:15:26,700
+And so, this is exactly what we did before,
+
+303
+00:15:26,700 --> 00:15:30,570
+when we wanted to chain two sequential AJAX calls,
+
+304
+00:15:30,570 --> 00:15:33,510
+using the fetch function, right?
+
+305
+00:15:33,510 --> 00:15:35,850
+So, in the result of the first fetch,
+
+306
+00:15:35,850 --> 00:15:39,270
+we would create a new fetch and return it.
+
+307
+00:15:39,270 --> 00:15:41,430
+And so, that's what we're doing here.
+
+308
+00:15:41,430 --> 00:15:45,093
+And so then therefore, all of this returns a new promise,
+
+309
+00:15:46,575 --> 00:15:48,725
+and then, we can one more time handle that.
+
+310
+00:15:52,920 --> 00:15:57,780
+And let's just say again, I waited for 1 second.
+
+311
+00:15:57,780 --> 00:16:00,363
+Alright, so give it a save.
+
+312
+00:16:01,680 --> 00:16:03,960
+So, this one waited for 2 seconds,
+
+313
+00:16:03,960 --> 00:16:06,750
+and this one for 1 second.
+
+314
+00:16:06,750 --> 00:16:09,000
+And of course, we also still get the result
+
+315
+00:16:09,000 --> 00:16:10,353
+from the previous one,
+
+316
+00:16:11,250 --> 00:16:14,910
+but for now, this is here, what we are interested in.
+
+317
+00:16:14,910 --> 00:16:18,900
+And so now with this, we have once again a nice chain
+
+318
+00:16:18,900 --> 00:16:23,520
+of asynchronous behavior that happens nicely in a sequence,
+
+319
+00:16:23,520 --> 00:16:26,070
+and all without the callback hell.
+
+320
+00:16:26,070 --> 00:16:29,473
+So before, I actually showed you what happened,
+
+321
+00:16:29,473 --> 00:16:32,550
+when we had multiple timers,
+
+322
+00:16:32,550 --> 00:16:35,853
+and so basically, we could do now this same thing,
+
+323
+00:16:38,580 --> 00:16:39,413
+like this.
+
+324
+00:16:43,667 --> 00:16:46,353
+So, let's just copy it here as a reference.
+
+325
+00:16:53,539 --> 00:16:57,810
+And so, this example here would be this.
+
+326
+00:16:57,810 --> 00:16:58,643
+So,
+
+327
+00:17:00,503 --> 00:17:01,336
+1 second passed.
+
+328
+00:17:02,470 --> 00:17:04,163
+So, let's just override this one here,
+
+329
+00:17:07,682 --> 00:17:09,427
+and then here we can simply,
+
+330
+00:17:09,427 --> 00:17:10,913
+duplicate this a couple of times.
+
+331
+00:17:13,713 --> 00:17:14,763
+So, 2 seconds passed,
+
+332
+00:17:17,516 --> 00:17:18,884
+3 seconds,
+
+333
+00:17:18,884 --> 00:17:19,717
+and here,
+
+334
+00:17:23,530 --> 00:17:24,363
+4 second passed.
+
+335
+00:17:25,500 --> 00:17:26,333
+Alright?
+
+336
+00:17:27,252 --> 00:17:29,400
+And so, that's going to be exactly the same result,
+
+337
+00:17:29,400 --> 00:17:30,453
+as we had here.
+
+338
+00:17:33,083 --> 00:17:34,776
+Of course here it's 4,
+
+339
+00:17:34,776 --> 00:17:36,390
+but nevermind, that doesn't really matter.
+
+340
+00:17:36,390 --> 00:17:38,795
+What matters, is that now,
+
+341
+00:17:38,795 --> 00:17:40,380
+we no longer have this ugly,
+
+342
+00:17:40,380 --> 00:17:43,050
+and difficult to understand callback hell,
+
+343
+00:17:43,050 --> 00:17:45,360
+but instead, we have this nice sequence
+
+344
+00:17:45,360 --> 00:17:47,880
+of asynchronous behavior.
+
+345
+00:17:47,880 --> 00:17:52,260
+Now finally, there also actually a way, to very easy,
+
+346
+00:17:52,260 --> 00:17:56,193
+create a fulfilled, or a rejected promise immediately.
+
+347
+00:17:57,030 --> 00:17:59,700
+And we had actually already done that
+
+348
+00:17:59,700 --> 00:18:01,263
+in the previous lecture,
+
+349
+00:18:02,723 --> 00:18:04,560
+but it's always good to know that we can do this.
+
+350
+00:18:04,560 --> 00:18:06,160
+So, let me show it to you again,
+
+351
+00:18:07,567 --> 00:18:09,273
+so we can use, Promise.resolve,
+
+352
+00:18:10,549 --> 00:18:12,720
+And so, basically this is a static method
+
+353
+00:18:12,720 --> 00:18:16,230
+on the promise constructor, right?
+
+354
+00:18:16,230 --> 00:18:19,563
+And so here, we can then pass in the resolved value.
+
+355
+00:18:20,661 --> 00:18:24,603
+So, just like we would pass the resolved value, right here.
+
+356
+00:18:26,010 --> 00:18:26,843
+Okay?
+
+357
+00:18:28,177 --> 00:18:29,698
+So, again the difference,
+
+358
+00:18:29,698 --> 00:18:32,048
+is that this one here will resolve immediately.
+
+359
+00:18:33,603 --> 00:18:34,860
+So here, it doesn't matter.
+
+360
+00:18:34,860 --> 00:18:37,983
+So just abc, and then we can handle that.
+
+361
+00:18:42,581 --> 00:18:44,731
+And so again, the values here don't matter.
+
+362
+00:18:46,469 --> 00:18:50,280
+And then, we can also do the same with reject.
+
+363
+00:18:50,280 --> 00:18:52,773
+Let's just duplicate this here actually.
+
+364
+00:18:54,570 --> 00:18:57,753
+So reject, and here the then is not necessary,
+
+365
+00:18:58,693 --> 00:19:01,083
+because there will be no resolved value anyway.
+
+366
+00:19:02,496 --> 00:19:04,446
+And so, we can just catch it like this.
+
+367
+00:19:07,893 --> 00:19:09,824
+And so, these two here should now appear
+
+368
+00:19:09,824 --> 00:19:11,133
+at the very beginning.
+
+369
+00:19:13,968 --> 00:19:15,023
+Well actually they don't.
+
+370
+00:19:17,674 --> 00:19:18,507
+So, let's see.
+
+371
+00:19:19,510 --> 00:19:20,962
+Oh, actually here they are.
+
+372
+00:19:20,962 --> 00:19:22,083
+So here is abc,
+
+373
+00:19:22,083 --> 00:19:25,413
+and then abc, here let's just create a new error.
+
+374
+00:19:31,770 --> 00:19:33,304
+Alright?
+
+375
+00:19:33,304 --> 00:19:37,518
+And so indeed, here we got, lottery draws happening,
+
+376
+00:19:37,518 --> 00:19:39,203
+which comes from the previous promise.
+
+377
+00:19:40,205 --> 00:19:41,633
+And then after this we have abc,
+
+378
+00:19:42,658 --> 00:19:45,210
+and then the problem that we created here in the end.
+
+379
+00:19:45,210 --> 00:19:48,720
+Alright, so this is how we built our own promises,
+
+380
+00:19:48,720 --> 00:19:51,003
+and how we promisify,
+
+381
+00:19:51,003 --> 00:19:54,960
+a very simple callback based asynchronous behavior function,
+
+382
+00:19:54,960 --> 00:19:56,750
+such as setTimeout.

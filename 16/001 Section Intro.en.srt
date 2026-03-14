@@ -1,0 +1,63 @@
+1
+00:00:01,790 --> 00:00:05,700
+Let's now continue learning important JavaScript features.
+
+2
+00:00:05,700 --> 00:00:08,670
+And one topic that we haven't touched yet
+
+3
+00:00:08,670 --> 00:00:10,863
+is asynchronous JavaScript.
+
+4
+00:00:11,780 --> 00:00:14,960
+So, the goal of asynchronous JavaScript
+
+5
+00:00:14,960 --> 00:00:18,860
+is basically to deal with long-running tasks,
+
+6
+00:00:18,860 --> 00:00:21,690
+that basically run in the background.
+
+7
+00:00:21,690 --> 00:00:25,830
+And the most common use case of asynchronous JavaScript
+
+8
+00:00:25,830 --> 00:00:28,970
+is to fetch data from remote servers,
+
+9
+00:00:28,970 --> 00:00:32,040
+in so-called AJAX calls.
+
+10
+00:00:32,040 --> 00:00:35,290
+And so, that's what we will do in this section,
+
+11
+00:00:35,290 --> 00:00:37,980
+while learning everything there is to learn
+
+12
+00:00:37,980 --> 00:00:42,820
+about Promises, the fetch function, async await,
+
+13
+00:00:42,820 --> 00:00:44,123
+and error handling.
+
+14
+00:00:44,990 --> 00:00:48,550
+So this is yet another really exciting section,
+
+15
+00:00:48,550 --> 00:00:50,215
+and so let's get started.
+
+16
+00:00:50,215 --> 00:00:52,798
+(gentle music)

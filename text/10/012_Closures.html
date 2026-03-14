@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Closures (闭包)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --border-color: #2b3040;
+            --text-primary: #e0e6f8;
+            --text-secondary: #8b94b0;
+            --accent-color: #00ff9d;
+            --accent-hover: #00e68d;
+            --danger-color: #ff4d4d;
+            --info-color: #4da6ff;
+            --warning-color: #ffaa00;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 16px; color: var(--text-primary); }
+        .progress-container { width: 100%; height: 6px; background-color: var(--border-color); border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: var(--accent-color); width: 0%; transition: width 0.3s ease; }
+        .nav-item { display: block; padding: 10px 16px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: var(--border-color); color: var(--text-primary); }
+        .main-content { margin-left: 280px; padding: 64px 80px; max-width: 1000px; width: 100%; }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; color: #fff; letter-spacing: -0.02em; }
+        h2 { font-size: 1.8rem; font-weight: 600; margin: 48px 0 24px; color: #fff; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        h3 { font-size: 1.4rem; font-weight: 600; margin: 32px 0 16px; color: #e0e6f8; }
+        p { margin-bottom: 24px; font-size: 1.1rem; color: #a4adc5; }
+        .meta-info { display: flex; gap: 24px; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 40px; }
+        .callout { background-color: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--info-color); padding: 24px; border-radius: 0 8px 8px 0; margin: 32px 0; }
+        .analogy-box { background-color: var(--surface-color); padding: 24px; border-radius: 8px; border: 1px solid var(--accent-color); margin: 24px 0; display: flex; gap: 20px; align-items: flex-start; }
+        .analogy-icon { font-size: 2.5rem; }
+        .runnable-editor { background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); margin: 32px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+        .btn-run { background-color: var(--accent-color); color: #000; border: none; padding: 6px 16px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-run:hover { opacity: 0.9; }
+        .editor-textarea { width: 100%; height: 350px; background: transparent; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 16px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background-color: #000; color: #00ff9d; font-family: 'JetBrains Mono', monospace; padding: 16px; font-size: 14px; min-height: 50px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        .quiz-card { background-color: var(--surface-color); border-radius: 8px; padding: 24px; border: 1px solid var(--border-color); margin-bottom: 24px; }
+        .quiz-question { font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; color: #fff; }
+        .quiz-option { padding: 12px 16px; background-color: rgba(255,255,255,0.05); border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; }
+        .quiz-option:hover { background-color: rgba(255,255,255,0.1); }
+        .quiz-explanation { margin-top: 16px; padding: 16px; background-color: rgba(77, 166, 255, 0.1); border-radius: 4px; display: none; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 32px 0; background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
+        th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 10 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 什么是闭包？底层魔法拆解</a>
+            <a href="#section-2" class="nav-item">2. 两个直观类比打通任督二脉</a>
+            <a href="#section-3" class="nav-item">3. 闭包的三个绝对原则</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>揭开魔法面纱：深入理解闭包 (Closures)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：012 Closures.en.srt</span>
+            <span>📂 章节：第 10 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>基石支持</strong>：第八章 执行栈 (Execution Stack) 与变量环境 (Variable Environment)。</li>
+                <li><strong>场景关联</strong>：上节课我们提到函数返回函数时，内层函数能神奇地记住外层函数的变量，这就是依靠闭包。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>闭包被公认为是 JavaScript 中最被人难以理解、误解最深，却又最核心、最常考的机制。如果没有它，JavaScript 中的高阶函数、回调、React Hooks 等架构将全部崩塌。今天我们不看长篇代码，只看核心概念和底层运作原理。</p>
+
+        <h2 id="section-1">1. 什么是闭包？底层魔法拆解</h2>
+        
+        <p>在早前的课程中我们了解到，一个函数执行完毕并 `return` 之后，它的<strong>执行上下文（Execution Context）</strong>就会从调用栈里弹出并被销毁。理所应当的，存在于这个环境里的所有变量理论上也该灰飞烟灭了。</p>
+
+        <p>但是！由于我们在外层函数里返回了一个<strong>内层函数</strong>，魔法就此发生：</p>
+
+        <div class="callout" style="border-color: var(--accent-color); background-color: rgba(0, 255, 157, 0.05);">
+            <h3 style="margin-top:0; color: var(--accent-color);">📚 闭包的终极定义</h3>
+            <p><strong>一个函数总是能访问它被“创建”时的那个执行上下文的变量环境（Variable Environment），即使创建它的那个执行上下文已经消亡了。</strong></p>
+        </div>
+
+        <p>也就是说，即便外层函数死去了，“变量环境”并没有随之陪葬。它的幽灵依然存活于 JS 引擎的某个角落。内层函数在诞生之初，就悄悄地将这个“幽灵环境变量”跟自己绑定在了一起。当它发现自己在自己的小层级里找不到需要的变量时，JS 不会立刻报错，而是会顺藤摸瓜去它身上的幽灵环境（也就是<strong>闭包</strong>）里拿。</p>
+
+        <h2 id="section-2">2. 两个直观类比打通任督二脉</h2>
+        <p>如果上面的执行栈原理解释听得人头大，Jonas 给你准备了两个绝妙的类比：</p>
+
+        <div class="analogy-box">
+            <div class="analogy-icon">🎒</div>
+            <div>
+                <h4 style="margin-bottom:8px; font-size:1.1rem; color:#fff;">类比一：随身携带的记忆背包 (The Backpack Analogy)</h4>
+                <p style="margin:0;">把函数想象成一个人。当他在某个密室（外层函数环境）出生时，他把屋子里所有眼前能看到的变量统统塞进了一个<strong>背包</strong>里。随后密室坍塌了，他走了出去。但在他漫长的一生中，无论走到哪，那个装着故乡变量的背包永远背在他的身上。这就是闭包。</p>
+            </div>
+        </div>
+
+        <div class="analogy-box">
+            <div class="analogy-icon">🏡</div>
+            <div>
+                <h4 style="margin-bottom:8px; font-size:1.1rem; color:#fff;">类比二：永远不忘故乡的人 (The Hometown Analogy)</h4>
+                <p style="margin:0;">闭包就像一个永远不会忘记出生地风月的人。一个人离开了故乡前往大城市打拼（函数被提升或返回到全局被调用），但他依然能随时想起故乡房子的布置（能访问诞生时的那个词法作用域链）。</p>
+            </div>
+        </div>
+
+
+        <h2 id="section-3">3. 闭包的三个绝对原则 (你无权干涉的黑暗魔法)</h2>
+        
+        <p>虽然理解了闭包是什么，但是要注意以下三个开发原则：</p>
+
+        <ol style="margin-left: 24px; color: #a4adc5;">
+            <li style="margin-bottom: 12px;"><strong style="color:#fff;">它是自动发生的：</strong>我们绝不需要手动去 <code>createClosure()</code>。它是语言核心机制，每次函数套函数时它在你根本没察觉时就已经发生了。</li>
+            <li style="margin-bottom: 12px;"><strong style="color:#fff;">它是隐身的：</strong>闭包是一个内部对象。在你的代码中，**没有任何直接的 API** 能够把手伸进背包里提取闭包内的变量。你无法写 <code>console.log(func.closure.count);</code>。你能做的就是通过内部函数运行时的表现间接感受到它的存在。</li>
+            <li style="margin-bottom: 12px;"><strong style="color:#fff;">你可以通过特殊手段窥探它：</strong>我们可以利用浏览器开发者工具（或在 Chrome 使用 <code>console.dir(func)</code>）。如果展开方法自带的 <code>[[Scopes]]</code> 内部属性标签，由于这是 V8 引擎底层暴露的信息，你就能亲眼看到一个名为 <code>Closure (...)</code> 的对象，以及它抓在手里的那些变量值！</li>
+        </ol>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 经典闭包展示
+const secureBooking = function() {
+  let passengerCount = 0; // 这就是马上要被装进背包的变量
+  
+  return function() {
+    passengerCount++;
+    console.log(`现在的乘客数是：${passengerCount}`);
+  };
+};
+
+// 1. secureBooking() 运行完毕，执行堆栈弹出。
+// 但内层函数把 passengerCount 塞进随身背包，带了出来赋值给了 booker。
+const booker = secureBooking();
+
+// 2. booker 在全局运行。它自己没有 passengerCount 这个变量，
+// 于是它拉开背包拉链（闭包），找到它并 +1。
+booker(); 
+booker();
+booker();
+
+// 3. 窥探魔法底裤（注意：如果在某些浏览器控制台执行，你可以点开看到 [[Scopes]] 属性里的 Closure）
+console.dir(booker);
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <br>
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 为什么我们说闭包是一个 “背包 (Backpack)”？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为 JavaScript 会把文件里所有的变量都打包压缩，从而提升运行速度。</div>
+                <div class="quiz-option" data-value="B">B) 因为当函数在特定的作用域被创建（出生）时，它会牢牢“抓住”那个作用域里的变量，并且无论这个函数走到哪（在哪被最终调用），它都能从背包里掏出当初抓到的变量来用。</div>
+                <div class="quiz-option" data-value="C">C) 因为闭包就是一个特殊类型的数组，可以用来存放很多临时数据。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案: B。</strong>这是理解闭包最形象的思维模型。它携带了它出生时的外围环境变量。
+            </div>
+        </div>
+
+        <div class="quiz-card" data-correct="C">
+            <div class="quiz-question">2. 我该如何通过代码显式地（Explicitly）在闭包里获取或者修改某个变量呢？（比如获取上面例子里的 passengerCount 数值进行赋值修改）</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 可以通过 `booker.closure.passengerCount` 访问。</div>
+                <div class="quiz-option" data-value="B">B) 可以使用 `window.passengerCount = 0;` 来重置覆盖它。</div>
+                <div class="quiz-option" data-value="C">C) 我们根本无法显式地从外部代码直接触碰闭包里的变量。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案: C。</strong>闭包是属于 JS 引擎内部属性。它是“数据隐私（Data Privacy）”之所以能实现的关键，因为外部任何代码都绝对摸不到闭包里的值。唯一能修改它的，只有持有该背包的函数自己。
+            </div>
+        </div>
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>闭包</td>
+                    <td><code>Closure</code></td>
+                    <td>使内部函数能够访问外部函数的变量的一个机制。在函数创建的瞬间同时被创建。可以简单理解为函数随身携带的包含创建时环境状态的“背包”。</td>
+                </tr>
+                <tr>
+                    <td>内部属性</td>
+                    <td><code>[[Scopes]]</code></td>
+                    <td>在 JS 规范中用双括号包裹的标记，表示这是引擎内部专用属性，开发人员不能从普通代码调用。浏览器控制台中常借由 <code>console.dir()</code> 暴露供人调试闭包。</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    // 执行代码功能
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const consoleOut = document.getElementById(consoleId);
+        consoleOut.innerHTML = ''; 
+
+        const proxyLog = console.log;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push(args.map(a => typeof a === 'object' ? JSON.parse(JSON.stringify(a)) : a).join(' '));
+            proxyLog.apply(console, args);
+        };
+        const proxyDir = console.dir;
+        console.dir = function(arg) {
+            logs.push(`[Console.dir 指示]: 请打开浏览器开发者工具 (F12) 的 Console 面板查看函数对象展开详情。`);
+            proxyDir.apply(console, [arg]);
+        }
+
+        try {
+            const executable = new Function(code);
+            executable();
+            consoleOut.innerHTML = logs.join('\n') || '代码执行成功，无输出。';
+        } catch (err) {
+            consoleOut.innerHTML = `<span style="color:var(--danger-color)">Error: ${err.message}</span>`;
+        } finally {
+            console.log = proxyLog;
+            console.dir = proxyDir;
+        }
+    }
+
+    // Quiz 验证脚本
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.dataset.correct;
+            const selectedAnswer = this.dataset.value;
+            const explanation = card.querySelector('.quiz-explanation');
+
+            card.querySelectorAll('.quiz-option').forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (selectedAnswer === correctAnswer) {
+                this.style.backgroundColor = 'rgba(0, 255, 157, 0.2)';
+                this.style.border = '1px solid var(--accent-color)';
+            } else {
+                this.style.backgroundColor = 'rgba(255, 77, 77, 0.2)';
+                this.style.border = '1px solid var(--danger-color)';
+                card.querySelector(`.quiz-option[data-value="${correctAnswer}"]`).style.backgroundColor = 'rgba(0, 255, 157, 0.2)';
+            }
+            
+            explanation.style.display = 'block';
+        });
+    });
+
+    // 目录高亮联动
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('h2, h3');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        let currentSectionId = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${currentSectionId}`) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>

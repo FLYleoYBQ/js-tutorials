@@ -1,0 +1,1723 @@
+1
+00:00:01,290 --> 00:00:03,750
+Let's keep exploring objects
+
+2
+00:00:03,750 --> 00:00:07,473
+and this lecture will bring us to object methods.
+
+3
+00:00:08,950 --> 00:00:11,900
+So we learned that objects just like arrays
+
+4
+00:00:11,900 --> 00:00:14,230
+can hold different types of data.
+
+5
+00:00:14,230 --> 00:00:16,220
+And they can hold even arrays,
+
+6
+00:00:16,220 --> 00:00:20,400
+and in fact, they could even hold objects inside objects.
+
+7
+00:00:20,400 --> 00:00:23,340
+But now we can take it even further.
+
+8
+00:00:23,340 --> 00:00:25,600
+And for that, remember how I said
+
+9
+00:00:25,600 --> 00:00:29,630
+that functions are really just another type of value.
+
+10
+00:00:29,630 --> 00:00:31,950
+And if a function is just a value
+
+11
+00:00:31,950 --> 00:00:35,370
+then that means that we can create a key value pair
+
+12
+00:00:35,370 --> 00:00:37,820
+in which the value is a function.
+
+13
+00:00:37,820 --> 00:00:40,660
+And that then means that we can in fact,
+
+14
+00:00:40,660 --> 00:00:43,280
+add functions to objects.
+
+15
+00:00:43,280 --> 00:00:45,750
+And so let's now see how.
+
+16
+00:00:45,750 --> 00:00:49,030
+And once more, I will get back this object here
+
+17
+00:00:50,010 --> 00:00:55,010
+but we will change it up a little bit this time around.
+
+18
+00:00:55,020 --> 00:00:59,387
+So here let's simplify and just put the birthYear.
+
+19
+00:01:00,540 --> 00:01:02,293
+So just 1991.
+
+20
+00:01:03,150 --> 00:01:07,007
+And I also want to add a Boolean here, hasDriversLicense.
+
+21
+00:01:10,760 --> 00:01:14,010
+Just to show you that we can hold all kinds
+
+22
+00:01:14,010 --> 00:01:17,650
+of different data types in one object.
+
+23
+00:01:17,650 --> 00:01:22,650
+But now let's also add a function here as a key value pair.
+
+24
+00:01:22,780 --> 00:01:27,420
+So to do that, all we have to do is to add another key here.
+
+25
+00:01:27,420 --> 00:01:29,970
+And the function that we want to add is again,
+
+26
+00:01:29,970 --> 00:01:32,500
+the calcAge function.
+
+27
+00:01:32,500 --> 00:01:35,600
+So that's one of the favorites, as you can see,
+
+28
+00:01:35,600 --> 00:01:38,560
+but it is because it's a very simple calculation
+
+29
+00:01:38,560 --> 00:01:41,010
+that we can do with the birth year.
+
+30
+00:01:41,010 --> 00:01:43,870
+So to do that, let's simply add the name
+
+31
+00:01:43,870 --> 00:01:47,060
+basically off the function here as a key.
+
+32
+00:01:47,060 --> 00:01:48,770
+So as a property,
+
+33
+00:01:48,770 --> 00:01:53,330
+so calcAge and then the colon, and now here
+
+34
+00:01:53,330 --> 00:01:56,970
+we simply specify the function as an expression
+
+35
+00:01:56,970 --> 00:02:00,327
+and that works because the expression produces the value.
+
+36
+00:02:00,327 --> 00:02:02,423
+And so we can just do this,
+
+37
+00:02:03,850 --> 00:02:06,810
+so function, and just like before ,
+
+38
+00:02:06,810 --> 00:02:08,430
+we pass in the birth year
+
+39
+00:02:10,800 --> 00:02:15,800
+and we return 2037 minus the birth year that was passed in.
+
+40
+00:02:19,410 --> 00:02:24,410
+So this is pretty similar to simply writing this, right?
+
+41
+00:02:24,690 --> 00:02:27,110
+So a regular function expression.
+
+42
+00:02:27,110 --> 00:02:30,283
+So const calcAge like this,
+
+43
+00:02:30,283 --> 00:02:32,680
+this is how we used to do it before.
+
+44
+00:02:32,680 --> 00:02:34,920
+And so you see that this is pretty similar.
+
+45
+00:02:34,920 --> 00:02:36,880
+The difference is just in the syntax
+
+46
+00:02:36,880 --> 00:02:41,070
+because now calcAge is not a regular variable like here,
+
+47
+00:02:41,070 --> 00:02:43,970
+but it's a property of the Jonas object.
+
+48
+00:02:43,970 --> 00:02:46,020
+And so therefore we use the colon here
+
+49
+00:02:46,020 --> 00:02:48,720
+but the rest here is exactly the same.
+
+50
+00:02:48,720 --> 00:02:50,800
+And so that's why it was very important
+
+51
+00:02:50,800 --> 00:02:54,870
+that you understood what a function expression actually is
+
+52
+00:02:54,870 --> 00:02:57,150
+because here we need to function expression
+
+53
+00:02:57,150 --> 00:02:59,230
+to create this method.
+
+54
+00:02:59,230 --> 00:03:02,210
+And that's what this function is called.
+
+55
+00:03:02,210 --> 00:03:04,040
+So any function that is attached
+
+56
+00:03:04,040 --> 00:03:06,643
+to an object is called a method.
+
+57
+00:03:07,940 --> 00:03:10,750
+So of course we could have not used
+
+58
+00:03:10,750 --> 00:03:12,790
+a function declaration here.
+
+59
+00:03:12,790 --> 00:03:14,223
+So something like this,
+
+60
+00:03:15,060 --> 00:03:20,060
+so function calcAge, for example, that would not work,
+
+61
+00:03:20,830 --> 00:03:23,610
+we would certainly get an error here.
+
+62
+00:03:23,610 --> 00:03:26,090
+So unexpected token function,
+
+63
+00:03:26,090 --> 00:03:27,940
+because this is a declaration.
+
+64
+00:03:27,940 --> 00:03:29,620
+And so it doesn't work here,
+
+65
+00:03:29,620 --> 00:03:31,880
+here, we need an expression.
+
+66
+00:03:31,880 --> 00:03:34,530
+And so this will work indeed.
+
+67
+00:03:34,530 --> 00:03:36,870
+Okay? Does this make sense?
+
+68
+00:03:36,870 --> 00:03:41,200
+So if you can think of functions as simply being values
+
+69
+00:03:41,200 --> 00:03:46,010
+then you can see that a method is actually also a property.
+
+70
+00:03:46,010 --> 00:03:47,920
+It just happens to be a property
+
+71
+00:03:47,920 --> 00:03:50,280
+that holds a function value.
+
+72
+00:03:50,280 --> 00:03:52,820
+So here we have a string value,
+
+73
+00:03:52,820 --> 00:03:55,210
+here we have an array value,
+
+74
+00:03:55,210 --> 00:03:56,937
+here we have a Boolean value,
+
+75
+00:03:56,937 --> 00:03:58,693
+and here we have a function value.
+
+76
+00:04:00,200 --> 00:04:01,640
+All right.
+
+77
+00:04:01,640 --> 00:04:04,740
+So, I hope that's logical.
+
+78
+00:04:04,740 --> 00:04:08,120
+And now just like we can access any other property,
+
+79
+00:04:08,120 --> 00:04:12,143
+we can also access the calcAge property or method.
+
+80
+00:04:13,410 --> 00:04:18,410
+So jonas.calcAge and so calcAge is now the function value,
+
+81
+00:04:19,520 --> 00:04:22,680
+and just like any other function in order to call it,
+
+82
+00:04:22,680 --> 00:04:24,800
+we use the parenthesis.
+
+83
+00:04:24,800 --> 00:04:27,860
+And now we can pass in the year here.
+
+84
+00:04:27,860 --> 00:04:29,960
+And so that should then calculate our age.
+
+85
+00:04:31,550 --> 00:04:36,223
+And let's just unlock this result to the console here,
+
+86
+00:04:38,980 --> 00:04:40,763
+just to see if everything works.
+
+87
+00:04:41,950 --> 00:04:44,280
+And it does indeed.
+
+88
+00:04:44,280 --> 00:04:48,640
+Okay. And you could also have access
+
+89
+00:04:48,640 --> 00:04:51,683
+to this method using the bracket notation,
+
+90
+00:04:52,730 --> 00:04:57,080
+because again, it's just as if it was a normal property
+
+91
+00:04:57,950 --> 00:05:01,180
+and the brackets would actually be necessary here
+
+92
+00:05:01,180 --> 00:05:03,930
+so that this then here is the function
+
+93
+00:05:03,930 --> 00:05:06,923
+and then we call the function using the parenthesis.
+
+94
+00:05:08,080 --> 00:05:09,293
+So let's try that.
+
+95
+00:05:10,720 --> 00:05:13,683
+And, yeah, here this needs to be a string.
+
+96
+00:05:16,350 --> 00:05:19,140
+So like I showed you in the last lecture,
+
+97
+00:05:19,140 --> 00:05:22,560
+and now here we get 46 as well.
+
+98
+00:05:22,560 --> 00:05:26,060
+Okay. So just like I showed you in the last video
+
+99
+00:05:26,060 --> 00:05:28,380
+with the operator proceedings table,
+
+100
+00:05:28,380 --> 00:05:30,360
+the first thing that happens here,
+
+101
+00:05:30,360 --> 00:05:33,720
+is that jonas.calcAge is computed.
+
+102
+00:05:33,720 --> 00:05:36,320
+And so this here will become the function value.
+
+103
+00:05:36,320 --> 00:05:38,210
+And then with the parenthesis,
+
+104
+00:05:38,210 --> 00:05:42,567
+we call that function value here and passed in 1991.
+
+105
+00:05:42,567 --> 00:05:44,290
+And the same thing here,
+
+106
+00:05:44,290 --> 00:05:48,110
+so here we access the property calcAge using the brackets
+
+107
+00:05:48,110 --> 00:05:51,040
+and then this here will basically be replaced
+
+108
+00:05:51,040 --> 00:05:52,187
+with the function,
+
+109
+00:05:52,187 --> 00:05:57,123
+and then we call the function right here, just like before.
+
+110
+00:05:58,840 --> 00:06:01,720
+All right, now you might have noticed
+
+111
+00:06:01,720 --> 00:06:05,090
+that the birth year 1991,
+
+112
+00:06:05,090 --> 00:06:07,840
+that we passed here as an argument to the method
+
+113
+00:06:07,840 --> 00:06:09,880
+is actually already defined
+
+114
+00:06:09,880 --> 00:06:14,400
+in the Jonas object itself up here, right?
+
+115
+00:06:14,400 --> 00:06:18,180
+So we already have this information in the Jonas object.
+
+116
+00:06:18,180 --> 00:06:22,840
+And so writing the same number here and here is not ideal
+
+117
+00:06:22,840 --> 00:06:26,510
+because we might make a mistake and pass in the wrong year.
+
+118
+00:06:26,510 --> 00:06:28,510
+For example, right here.
+
+119
+00:06:28,510 --> 00:06:31,290
+So Jonas' birth year is 91
+
+120
+00:06:31,290 --> 00:06:35,570
+but here, we could, for some reason accidentally do 92
+
+121
+00:06:35,570 --> 00:06:37,180
+and then it would be wrong.
+
+122
+00:06:37,180 --> 00:06:40,280
+And even if we do not make any mistake,
+
+123
+00:06:40,280 --> 00:06:42,130
+this is still not ideal
+
+124
+00:06:42,130 --> 00:06:45,090
+because we are not keeping the code dry.
+
+125
+00:06:45,090 --> 00:06:49,170
+So we're violating the don't repeat yourself principle.
+
+126
+00:06:49,170 --> 00:06:51,680
+So if we know the birth year of Jonas,
+
+127
+00:06:51,680 --> 00:06:54,320
+it would only be written in one place,
+
+128
+00:06:54,320 --> 00:06:55,970
+not in multiple places,
+
+129
+00:06:55,970 --> 00:06:57,490
+because if that might change,
+
+130
+00:06:57,490 --> 00:06:59,440
+then we have to change it everywhere.
+
+131
+00:06:59,440 --> 00:07:03,290
+That's always the philosophy that we need to keep in mind.
+
+132
+00:07:03,290 --> 00:07:07,650
+So what if we could actually access this birth year property
+
+133
+00:07:07,650 --> 00:07:10,190
+directly from the Jonas object
+
+134
+00:07:10,190 --> 00:07:12,890
+instead of having to pass it in?
+
+135
+00:07:12,890 --> 00:07:16,370
+Well, it turns out that we actually can,
+
+136
+00:07:16,370 --> 00:07:18,500
+and that's because in every method,
+
+137
+00:07:18,500 --> 00:07:20,810
+JavaScript gives us access
+
+138
+00:07:20,810 --> 00:07:24,110
+to a special variable called this.
+
+139
+00:07:24,110 --> 00:07:28,230
+And so what we can do now is in this calcAge function,
+
+140
+00:07:28,230 --> 00:07:30,210
+we can read the birth year directly
+
+141
+00:07:30,210 --> 00:07:33,940
+from this object itself without having to pass it in
+
+142
+00:07:33,940 --> 00:07:36,993
+as a parameter here into this function.
+
+143
+00:07:38,130 --> 00:07:42,680
+Alright, so let me copy this and comment this one out
+
+144
+00:07:42,680 --> 00:07:46,560
+just so that we keep a record of what we did
+
+145
+00:07:46,560 --> 00:07:48,683
+but this here will be the new version.
+
+146
+00:07:50,360 --> 00:07:53,900
+So now we no longer need this parameter
+
+147
+00:07:53,900 --> 00:07:58,370
+and we will read the birth year directly from the object.
+
+148
+00:07:58,370 --> 00:08:02,290
+And for that again, we will use the this keyword.
+
+149
+00:08:02,290 --> 00:08:03,930
+So the this key word
+
+150
+00:08:03,930 --> 00:08:08,190
+or the this variable is basically equal to the object
+
+151
+00:08:08,190 --> 00:08:10,930
+on which the method is called,
+
+152
+00:08:10,930 --> 00:08:12,260
+or in other words,
+
+153
+00:08:12,260 --> 00:08:15,750
+it is equal to the object calling the method.
+
+154
+00:08:15,750 --> 00:08:18,103
+So, let's see who is calling the method.
+
+155
+00:08:19,260 --> 00:08:22,518
+So down here, here is calcAge,
+
+156
+00:08:22,518 --> 00:08:26,620
+and the object that is calling the method is Jonas,
+
+157
+00:08:26,620 --> 00:08:28,960
+because that's where the dot is.
+
+158
+00:08:28,960 --> 00:08:30,650
+And let's forget about this one,
+
+159
+00:08:30,650 --> 00:08:32,860
+actually comment it out here.
+
+160
+00:08:32,860 --> 00:08:34,310
+And so again
+
+161
+00:08:34,310 --> 00:08:38,970
+the object that is calling the calcAge method here is Jonas.
+
+162
+00:08:38,970 --> 00:08:42,130
+And so that means that inside this method
+
+163
+00:08:42,130 --> 00:08:47,130
+the this variable or the this keyword will point to Jonas.
+
+164
+00:08:47,360 --> 00:08:51,370
+And so let me just write this.birthYear here
+
+165
+00:08:51,370 --> 00:08:54,723
+and then I can explain it even a little bit better.
+
+166
+00:08:55,580 --> 00:09:00,010
+So, here we don't need to pass the 1991 here
+
+167
+00:09:00,940 --> 00:09:05,260
+and I will run this now and we still get the correct result.
+
+168
+00:09:05,260 --> 00:09:07,140
+So, great.
+
+169
+00:09:07,140 --> 00:09:09,593
+And to make this even more clear here,
+
+170
+00:09:11,090 --> 00:09:14,563
+let's also log this to the console,
+
+171
+00:09:17,660 --> 00:09:21,860
+and indeed, this is the whole Jonas object.
+
+172
+00:09:21,860 --> 00:09:25,030
+And so again, that's because the Jonas object
+
+173
+00:09:25,030 --> 00:09:27,950
+is the one who is calling this method,
+
+174
+00:09:27,950 --> 00:09:29,920
+so this function,
+
+175
+00:09:29,920 --> 00:09:33,290
+see here, it's jonas.calcAge
+
+176
+00:09:33,290 --> 00:09:35,940
+and so whatever appears before the dot
+
+177
+00:09:35,940 --> 00:09:37,920
+is the one who is calling the method.
+
+178
+00:09:37,920 --> 00:09:40,200
+And so therefore, in the method,
+
+179
+00:09:40,200 --> 00:09:43,280
+this points to Jonas now,
+
+180
+00:09:43,280 --> 00:09:45,430
+and if this points to Jonas,
+
+181
+00:09:45,430 --> 00:09:48,420
+then this.birthYear is of course
+
+182
+00:09:48,420 --> 00:09:51,520
+this value that we have right here.
+
+183
+00:09:51,520 --> 00:09:52,370
+Great.
+
+184
+00:09:52,370 --> 00:09:54,260
+So you see that the this keyword
+
+185
+00:09:54,260 --> 00:09:56,870
+is something really, really useful
+
+186
+00:09:56,870 --> 00:09:59,670
+and we will learn even more about the this keyword
+
+187
+00:09:59,670 --> 00:10:02,680
+in greater detail in a later section.
+
+188
+00:10:02,680 --> 00:10:06,380
+For now, I just wanted to introduce you to this concept
+
+189
+00:10:06,380 --> 00:10:09,760
+and I noticed can be a bit confusing.
+
+190
+00:10:09,760 --> 00:10:12,540
+So really make sure to maybe pause the video
+
+191
+00:10:12,540 --> 00:10:16,120
+and really analyze what's happening here.
+
+192
+00:10:16,120 --> 00:10:18,090
+Maybe you can even rewind a little bit
+
+193
+00:10:18,090 --> 00:10:20,100
+and hear my explanation again,
+
+194
+00:10:20,100 --> 00:10:22,210
+that might be useful too.
+
+195
+00:10:22,210 --> 00:10:25,380
+Now you might argue that maybe we don't even need
+
+196
+00:10:25,380 --> 00:10:27,360
+this confusing this keywords.
+
+197
+00:10:27,360 --> 00:10:31,363
+Why not just do jonas.birthYear, here instead?
+
+198
+00:10:32,300 --> 00:10:35,520
+Well, because that would actually still violate
+
+199
+00:10:35,520 --> 00:10:38,320
+the don't repeat yourself principle.
+
+200
+00:10:38,320 --> 00:10:40,830
+It would work just the same here now,
+
+201
+00:10:40,830 --> 00:10:41,930
+but then let's say
+
+202
+00:10:41,930 --> 00:10:44,690
+that we need to change the name of the object.
+
+203
+00:10:44,690 --> 00:10:47,150
+So we change it here to Jonas2
+
+204
+00:10:47,150 --> 00:10:49,580
+and then we call Jonas2 down here,
+
+205
+00:10:49,580 --> 00:10:52,683
+and then the code will no longer automatically work,
+
+206
+00:10:53,630 --> 00:10:57,010
+because now Jonas is not defined of course.
+
+207
+00:10:57,010 --> 00:10:59,540
+And so we would have to keep that in mind
+
+208
+00:10:59,540 --> 00:11:02,870
+and then come here and manually change this as well,
+
+209
+00:11:02,870 --> 00:11:05,780
+while if we had the this keyword,
+
+210
+00:11:05,780 --> 00:11:07,910
+then everything will keep working
+
+211
+00:11:07,910 --> 00:11:09,980
+without us having to change it there,
+
+212
+00:11:09,980 --> 00:11:13,490
+because now this will simply point to Jonas2,
+
+213
+00:11:13,490 --> 00:11:16,320
+because that is the object calling the method.
+
+214
+00:11:16,320 --> 00:11:19,540
+And so therefore it's always a good idea
+
+215
+00:11:19,540 --> 00:11:22,090
+to reference the object itself
+
+216
+00:11:22,090 --> 00:11:24,553
+and not hard-code the name of the object.
+
+217
+00:11:25,920 --> 00:11:30,920
+So let's put it back to Jonas and yeah, much better.
+
+218
+00:11:33,130 --> 00:11:35,170
+So this works great already,
+
+219
+00:11:35,170 --> 00:11:36,340
+and we're really going
+
+220
+00:11:36,340 --> 00:11:39,450
+into some more advanced territory here.
+
+221
+00:11:39,450 --> 00:11:41,330
+So I hope you're still following me
+
+222
+00:11:41,330 --> 00:11:44,610
+and you're still making sense of everything.
+
+223
+00:11:44,610 --> 00:11:48,320
+However, we can actually even take this a little bit further
+
+224
+00:11:49,230 --> 00:11:53,000
+but don't worry, it's not going to get a lot more confusing,
+
+225
+00:11:53,000 --> 00:11:55,560
+just a small variation of this,
+
+226
+00:11:55,560 --> 00:11:57,850
+because let's say that we need to access
+
+227
+00:11:57,850 --> 00:12:01,383
+the age multiple times throughout our program.
+
+228
+00:12:02,390 --> 00:12:06,723
+So that would be like calling this a couple of times.
+
+229
+00:12:07,940 --> 00:12:10,700
+So let's say in three places of our application,
+
+230
+00:12:10,700 --> 00:12:12,690
+we need to access the age,
+
+231
+00:12:12,690 --> 00:12:15,103
+and so, of course this will work,
+
+232
+00:12:16,510 --> 00:12:18,260
+and indeed it does.
+
+233
+00:12:18,260 --> 00:12:21,350
+And it always locks the Jonas object
+
+234
+00:12:21,350 --> 00:12:22,950
+because we still have this here.
+
+235
+00:12:24,280 --> 00:12:26,963
+So this makes it a bit easier to view.
+
+236
+00:12:27,860 --> 00:12:29,380
+And so what happens here
+
+237
+00:12:29,380 --> 00:12:33,360
+is that a function will get called a total of four times.
+
+238
+00:12:33,360 --> 00:12:37,730
+And so this computation here will be done four times.
+
+239
+00:12:37,730 --> 00:12:39,870
+And in this case that's not a big deal
+
+240
+00:12:39,870 --> 00:12:42,830
+but it might be a like a heavier computation
+
+241
+00:12:42,830 --> 00:12:45,160
+that actually takes some more time,
+
+242
+00:12:45,160 --> 00:12:49,560
+and so it would be a bad practice to do this multiple times.
+
+243
+00:12:49,560 --> 00:12:53,300
+Instead, what we can do is to just calculate the age once,
+
+244
+00:12:53,300 --> 00:12:55,610
+then store it in the object,
+
+245
+00:12:55,610 --> 00:12:58,050
+and then when we need it at a later point,
+
+246
+00:12:58,050 --> 00:13:00,090
+we can then just retrieve the age
+
+247
+00:13:00,090 --> 00:13:02,900
+as a property from the object.
+
+248
+00:13:02,900 --> 00:13:05,213
+So, I hope you're following me here.
+
+249
+00:13:07,170 --> 00:13:10,090
+So I will again copy this and comment it out
+
+250
+00:13:10,090 --> 00:13:14,790
+so that we keep all the three versions that we did here.
+
+251
+00:13:14,790 --> 00:13:16,770
+So, what I was trying to say
+
+252
+00:13:16,770 --> 00:13:19,780
+is that we can now use the this keyword
+
+253
+00:13:19,780 --> 00:13:22,023
+also to store a new property.
+
+254
+00:13:22,860 --> 00:13:27,860
+So, we can say this.age is equal to this here.
+
+255
+00:13:31,694 --> 00:13:33,490
+So we calculate the age,
+
+256
+00:13:33,490 --> 00:13:37,280
+and then we create a new property on the current object.
+
+257
+00:13:37,280 --> 00:13:40,450
+So in this case, on the Jonas object,
+
+258
+00:13:40,450 --> 00:13:43,830
+and remember that we can use the dot notation like this
+
+259
+00:13:43,830 --> 00:13:46,320
+to create new properties.
+
+260
+00:13:46,320 --> 00:13:48,723
+So we did that in a previous lecture as well.
+
+261
+00:13:51,130 --> 00:13:53,030
+Where was that?
+
+262
+00:13:53,030 --> 00:13:54,180
+Yeah, right here.
+
+263
+00:13:54,180 --> 00:13:56,600
+So here we created jonas.location
+
+264
+00:13:56,600 --> 00:13:58,290
+and set it to Portugal.
+
+265
+00:13:58,290 --> 00:14:02,430
+And so here we are essentially creating jonas.age
+
+266
+00:14:02,430 --> 00:14:06,360
+and setting it to this age that we just calculated.
+
+267
+00:14:06,360 --> 00:14:09,930
+And then we can simply return this age.
+
+268
+00:14:09,930 --> 00:14:13,150
+And of course we don't even need to return anything
+
+269
+00:14:13,150 --> 00:14:14,580
+if we didn't want to.
+
+270
+00:14:14,580 --> 00:14:17,720
+We could make this method only calculate the age
+
+271
+00:14:17,720 --> 00:14:19,550
+but not even return it,
+
+272
+00:14:19,550 --> 00:14:21,160
+but I think it's a good practice
+
+273
+00:14:21,160 --> 00:14:22,973
+to actually also return it.
+
+274
+00:14:23,992 --> 00:14:26,650
+And so now here we can replace the function call
+
+275
+00:14:26,650 --> 00:14:28,620
+with simply a request
+
+276
+00:14:28,620 --> 00:14:31,000
+for the age property,
+
+277
+00:14:31,000 --> 00:14:33,810
+and notice this trick that I did here again
+
+278
+00:14:33,810 --> 00:14:35,920
+with the command D, right,
+
+279
+00:14:35,920 --> 00:14:38,150
+So this gives me multiple cursors
+
+280
+00:14:38,150 --> 00:14:40,270
+and then I can do one operation
+
+281
+00:14:40,270 --> 00:14:42,830
+in multiple places at the same time.
+
+282
+00:14:42,830 --> 00:14:44,570
+So that's a really handy shortcut.
+
+283
+00:14:44,570 --> 00:14:48,000
+So, again, command D, or control D
+
+284
+00:14:48,000 --> 00:14:52,433
+and in the menu bar that means add next occurrence.
+
+285
+00:14:53,780 --> 00:14:57,053
+So let's test this and the results should be the same,
+
+286
+00:14:58,410 --> 00:15:02,940
+and it is, but we only needed to calculate the age once
+
+287
+00:15:02,940 --> 00:15:04,060
+then from here,
+
+288
+00:15:04,060 --> 00:15:05,833
+we simply retrieve the property
+
+289
+00:15:05,833 --> 00:15:08,470
+that we had already calculated before.
+
+290
+00:15:08,470 --> 00:15:11,973
+And so this is the most efficient solution let's say.
+
+291
+00:15:13,130 --> 00:15:15,880
+All right, and now I actually have another,
+
+292
+00:15:15,880 --> 00:15:17,680
+a small challenge for you
+
+293
+00:15:17,680 --> 00:15:20,260
+that you can do just in this video.
+
+294
+00:15:20,260 --> 00:15:24,302
+So I want you to write a method called getSummary
+
+295
+00:15:24,302 --> 00:15:26,720
+and this method should return a string
+
+296
+00:15:26,720 --> 00:15:30,640
+which should kind of summarize the data about Jonas,
+
+297
+00:15:30,640 --> 00:15:33,130
+or, of course, any other person data
+
+298
+00:15:33,130 --> 00:15:34,583
+that you might have used.
+
+299
+00:15:36,340 --> 00:15:37,423
+For example,
+
+300
+00:15:38,760 --> 00:15:39,593
+let me again,
+
+301
+00:15:41,090 --> 00:15:43,550
+actually we can get rid of this.
+
+302
+00:15:43,550 --> 00:15:46,370
+So let me write Challenge here again
+
+303
+00:15:46,370 --> 00:15:48,193
+and then do an example string.
+
+304
+00:15:49,850 --> 00:15:52,400
+So I want you to write for example this,
+
+305
+00:15:52,400 --> 00:15:57,400
+Jonas is a 46 year old teacher.
+
+306
+00:16:01,010 --> 00:16:03,710
+And we now could actually add all the data here
+
+307
+00:16:03,710 --> 00:16:04,800
+to the string,
+
+308
+00:16:04,800 --> 00:16:07,150
+but that would be too much work
+
+309
+00:16:07,150 --> 00:16:08,670
+and I'm a bit lazy now.
+
+310
+00:16:08,670 --> 00:16:13,670
+So let's just also say if I have a driver's license or not.
+
+311
+00:16:13,710 --> 00:16:16,890
+So Jonas is a 40 year old teacher
+
+312
+00:16:16,890 --> 00:16:21,680
+and he has a driver's license.
+
+313
+00:16:23,040 --> 00:16:26,480
+And it says that I have a driver's license
+
+314
+00:16:26,480 --> 00:16:30,300
+because it hasDriversLicense is true
+
+315
+00:16:30,300 --> 00:16:33,640
+but if it was false, then here, it should say
+
+316
+00:16:33,640 --> 00:16:37,010
+and he has no driver's license.
+
+317
+00:16:37,010 --> 00:16:40,290
+So it's either a or no.
+
+318
+00:16:40,290 --> 00:16:42,820
+So figure out how you can do that,
+
+319
+00:16:42,820 --> 00:16:45,310
+and so I hope you manage to do it.
+
+320
+00:16:45,310 --> 00:16:48,370
+It's a bit similar to what we did in the previous lecture
+
+321
+00:16:48,370 --> 00:16:51,540
+but this time I want you to actually write a method
+
+322
+00:16:51,540 --> 00:16:52,620
+on your own.
+
+323
+00:16:52,620 --> 00:16:55,733
+So give this a try and I see you here in a second.
+
+324
+00:16:58,770 --> 00:17:01,797
+Okay. So let's add getSummary
+
+325
+00:17:05,050 --> 00:17:07,850
+and remember that you to a need to have a comma
+
+326
+00:17:07,850 --> 00:17:09,520
+between the properties.
+
+327
+00:17:09,520 --> 00:17:11,940
+And so that's true also with methods,
+
+328
+00:17:11,940 --> 00:17:13,283
+so here we need a comma,
+
+329
+00:17:14,970 --> 00:17:17,580
+and then just a function
+
+330
+00:17:19,490 --> 00:17:21,930
+and it will then get all this data of course,
+
+331
+00:17:21,930 --> 00:17:24,300
+from the current object.
+
+332
+00:17:24,300 --> 00:17:27,653
+So actually let's first call this method,
+
+333
+00:17:28,900 --> 00:17:31,930
+so, and we're doing it inside of console log,
+
+334
+00:17:31,930 --> 00:17:33,330
+log because of course,
+
+335
+00:17:33,330 --> 00:17:36,660
+we want to be able to see the summary string
+
+336
+00:17:36,660 --> 00:17:38,690
+as a message in the console.
+
+337
+00:17:38,690 --> 00:17:40,560
+So jonas.getSummary.
+
+338
+00:17:44,220 --> 00:17:48,820
+Okay. So, which is the object calling the method?
+
+339
+00:17:48,820 --> 00:17:50,130
+It is Jonas.
+
+340
+00:17:50,130 --> 00:17:54,180
+And so therefore, the this keyword inside of getSummary
+
+341
+00:17:54,180 --> 00:17:55,930
+will be Jonas.
+
+342
+00:17:55,930 --> 00:17:59,433
+So I hope that this one is clear at this point.
+
+343
+00:18:00,270 --> 00:18:03,630
+So let's now build a string here,
+
+344
+00:18:03,630 --> 00:18:05,270
+and starting with the name,
+
+345
+00:18:05,270 --> 00:18:07,950
+it is at this.firstName is a,
+
+346
+00:18:14,250 --> 00:18:15,233
+and now the age,
+
+347
+00:18:16,800 --> 00:18:20,363
+so this, and now what do we do here?
+
+348
+00:18:21,343 --> 00:18:26,300
+Should we use the age property, or should we do calcAge?
+
+349
+00:18:26,300 --> 00:18:29,200
+Well, I would say that we should do calcAge
+
+350
+00:18:29,200 --> 00:18:31,930
+because we cannot assume that calcAge
+
+351
+00:18:31,930 --> 00:18:33,823
+was already called before.
+
+352
+00:18:35,010 --> 00:18:35,843
+Okay.
+
+353
+00:18:35,843 --> 00:18:38,140
+And if we don't call calcAge before we call getSummary
+
+354
+00:18:39,830 --> 00:18:43,230
+then the age property would not exist.
+
+355
+00:18:43,230 --> 00:18:44,063
+And so,
+
+356
+00:18:45,690 --> 00:18:50,323
+and so it's, it's better to actually do calcAge here.
+
+357
+00:18:52,270 --> 00:18:55,070
+And so I think we did this before,
+
+358
+00:18:55,070 --> 00:18:59,240
+so in a template string, we can easily do a function call.
+
+359
+00:18:59,240 --> 00:19:01,300
+That's not a problem at all.
+
+360
+00:19:01,300 --> 00:19:05,700
+So this.calcAge will call this other method
+
+361
+00:19:05,700 --> 00:19:07,423
+and this will then return the age.
+
+362
+00:19:11,520 --> 00:19:14,650
+Alright. And maybe it might be strange for you
+
+363
+00:19:14,650 --> 00:19:17,510
+to call the function also on this,
+
+364
+00:19:17,510 --> 00:19:20,760
+but well, the rule is just exactly the same.
+
+365
+00:19:20,760 --> 00:19:23,700
+This is Jonas in this object,
+
+366
+00:19:23,700 --> 00:19:27,683
+and so this is essentially the same as writing it here.
+
+367
+00:19:29,220 --> 00:19:31,800
+Alright. So this will become the age
+
+368
+00:19:32,980 --> 00:19:37,550
+and so, year old,
+
+369
+00:19:37,550 --> 00:19:41,160
+and now the job, jonas.job,
+
+370
+00:19:41,160 --> 00:19:43,820
+and he has,
+
+371
+00:19:43,820 --> 00:19:47,460
+and now we need to decide between a and no.
+
+372
+00:19:47,460 --> 00:19:50,730
+So let's do a turnery operator here.
+
+373
+00:19:50,730 --> 00:19:53,943
+So we get this.DriversLicense,
+
+374
+00:19:56,490 --> 00:19:58,810
+and basically if it's true
+
+375
+00:19:58,810 --> 00:20:03,380
+then we want the results of this operator to be a,
+
+376
+00:20:03,380 --> 00:20:06,143
+and if not, we want it to be no.
+
+377
+00:20:07,940 --> 00:20:10,350
+And then driver's license.
+
+378
+00:20:12,730 --> 00:20:14,950
+Okay? Makes sense?
+
+379
+00:20:14,950 --> 00:20:19,250
+So again, here we want either a or no,
+
+380
+00:20:19,250 --> 00:20:24,250
+depending on the state of the hasDriversLicense property.
+
+381
+00:20:24,460 --> 00:20:26,180
+So we get that property
+
+382
+00:20:26,180 --> 00:20:27,830
+by calling this.hasDriversLicense
+
+383
+00:20:29,468 --> 00:20:32,130
+and here we're using the turnery operator.
+
+384
+00:20:32,130 --> 00:20:34,863
+And so if this first part is true
+
+385
+00:20:34,863 --> 00:20:37,877
+then the result of the operator will be a,
+
+386
+00:20:37,877 --> 00:20:40,799
+and otherwise the result will be no.
+
+387
+00:20:40,799 --> 00:20:42,997
+And so that's what will then be put
+
+388
+00:20:42,997 --> 00:20:45,664
+into this place of the sentence.
+
+389
+00:20:46,921 --> 00:20:51,373
+Okay. And we already called the method down here
+
+390
+00:20:51,373 --> 00:20:53,373
+and we logged it to the console,
+
+391
+00:20:53,373 --> 00:20:56,725
+and so I think this should work now.
+
+392
+00:20:56,725 --> 00:20:58,217
+And it does.
+
+393
+00:20:58,217 --> 00:21:01,147
+So Jonas is a 46 year old teacher
+
+394
+00:21:01,147 --> 00:21:03,688
+and he has a driver's license.
+
+395
+00:21:03,688 --> 00:21:07,605
+Now just to test, let's set it to false and no,
+
+396
+00:21:09,569 --> 00:21:12,470
+and he has no driver's license.
+
+397
+00:21:12,470 --> 00:21:13,303
+Beautiful.
+
+398
+00:21:16,590 --> 00:21:17,423
+Okay.
+
+399
+00:21:19,000 --> 00:21:21,550
+And yeah, that's all the code
+
+400
+00:21:21,550 --> 00:21:24,670
+that I had to show you in this video.
+
+401
+00:21:24,670 --> 00:21:26,370
+And now just to finish the lecture,
+
+402
+00:21:26,370 --> 00:21:29,610
+which I know is already running quite long,
+
+403
+00:21:29,610 --> 00:21:31,820
+but I want to basically build a bridge
+
+404
+00:21:31,820 --> 00:21:36,060
+between this method and the array method lecture.
+
+405
+00:21:36,060 --> 00:21:39,883
+So remember that we used methods on arrays previously,
+
+406
+00:21:40,870 --> 00:21:42,683
+so we can quickly go there.
+
+407
+00:21:43,720 --> 00:21:47,750
+So it was before this challenge.
+
+408
+00:21:47,750 --> 00:21:49,080
+Yes, indeed.
+
+409
+00:21:49,080 --> 00:21:52,550
+So for example here we have friends.push.
+
+410
+00:21:52,550 --> 00:21:56,940
+And so we have an array and on there we call a method.
+
+411
+00:21:56,940 --> 00:21:59,750
+So just like we did in this video,
+
+412
+00:21:59,750 --> 00:22:01,450
+now what this means is
+
+413
+00:22:01,450 --> 00:22:04,770
+that arrays are actually also objects,
+
+414
+00:22:04,770 --> 00:22:07,460
+they are just a special kind of object.
+
+415
+00:22:07,460 --> 00:22:09,880
+And so they have functions, or in other words
+
+416
+00:22:09,880 --> 00:22:13,380
+they have methods that we can use to manipulate them
+
+417
+00:22:13,380 --> 00:22:18,380
+like push, pop, shift and unshift and many more.
+
+418
+00:22:19,390 --> 00:22:21,120
+All right? So in this lecture,
+
+419
+00:22:21,120 --> 00:22:24,610
+we created our own methods on our own objects.
+
+420
+00:22:24,610 --> 00:22:28,780
+But here we basically used built-in methods on arrays.
+
+421
+00:22:28,780 --> 00:22:30,900
+And so once again that means
+
+422
+00:22:30,900 --> 00:22:34,540
+that arrays are actually also objects,
+
+423
+00:22:34,540 --> 00:22:38,360
+that's why they can have methods as well.
+
+424
+00:22:38,360 --> 00:22:42,230
+And we will dive deeper into why things work like this,
+
+425
+00:22:42,230 --> 00:22:46,290
+but I wanted you to realize this early on in the course,
+
+426
+00:22:46,290 --> 00:22:48,610
+this is quite a complex topic,
+
+427
+00:22:48,610 --> 00:22:52,120
+and so there is really a very exciting journey
+
+428
+00:22:52,120 --> 00:22:53,940
+still ahead of you.
+
+429
+00:22:53,940 --> 00:22:56,890
+So I hope you're enjoying this journey so far.
+
+430
+00:22:56,890 --> 00:22:58,250
+And now to test your knowledge,
+
+431
+00:22:58,250 --> 00:23:02,503
+there is coding challenge number three, coming up next.

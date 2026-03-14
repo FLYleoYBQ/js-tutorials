@@ -1,0 +1,507 @@
+1
+00:00:01,160 --> 00:00:02,580
+So in this section,
+
+2
+00:00:02,580 --> 00:00:04,870
+we're going to make JavaScript interact
+
+3
+00:00:04,870 --> 00:00:08,320
+with a webpage for the very first time.
+
+4
+00:00:08,320 --> 00:00:12,710
+And the technical term for that is doing DOM Manipulation.
+
+5
+00:00:12,710 --> 00:00:14,090
+Now, in the last lecture,
+
+6
+00:00:14,090 --> 00:00:17,580
+you already selected an element from a page.
+
+7
+00:00:17,580 --> 00:00:19,970
+And what that means is that you, kind of,
+
+8
+00:00:19,970 --> 00:00:23,180
+interacted with the DOM already.
+
+9
+00:00:23,180 --> 00:00:24,450
+So in this lecture,
+
+10
+00:00:24,450 --> 00:00:28,203
+let's learn what the DOM actually is and how it works.
+
+11
+00:00:30,040 --> 00:00:33,010
+So what is the DOM actually?
+
+12
+00:00:33,010 --> 00:00:37,310
+Well, DOM stands for Document Object Model, and it is,
+
+13
+00:00:37,310 --> 00:00:42,310
+basically, a structured representation of HTML documents.
+
+14
+00:00:42,490 --> 00:00:46,480
+The DOM allows us to use JavaScript to access HTML elements
+
+15
+00:00:46,480 --> 00:00:50,000
+and styles in order to manipulate them.
+
+16
+00:00:50,000 --> 00:00:53,280
+For example, we will be able to change text,
+
+17
+00:00:53,280 --> 00:00:56,650
+to change HTML attributes and also to change
+
+18
+00:00:56,650 --> 00:00:59,870
+CSS styles from our JavaScript.
+
+19
+00:00:59,870 --> 00:01:04,000
+So we can say that DOM is basically a connection point
+
+20
+00:01:04,000 --> 00:01:07,453
+between HTML documents and JavaScript code.
+
+21
+00:01:08,290 --> 00:01:10,800
+Now, the DOM is automatically created
+
+22
+00:01:10,800 --> 00:01:14,680
+by the browser as soon as the HTML page loads.
+
+23
+00:01:14,680 --> 00:01:18,840
+And it's stored in a tree structure like this one.
+
+24
+00:01:18,840 --> 00:01:23,090
+In this tree, each HTML element is one object.
+
+25
+00:01:23,090 --> 00:01:26,360
+And so let's now take a look at this DOM structure
+
+26
+00:01:26,360 --> 00:01:28,273
+in a little bit more detail.
+
+27
+00:01:29,700 --> 00:01:34,630
+And to illustrate this here is a very simple HTML document,
+
+28
+00:01:34,630 --> 00:01:36,890
+and here is what a DOM tree
+
+29
+00:01:36,890 --> 00:01:40,053
+corresponding to this HTML looks like.
+
+30
+00:01:41,090 --> 00:01:45,290
+So, as I already mentioned, this is a tree structure,
+
+31
+00:01:45,290 --> 00:01:49,110
+which looks a bit like a family tree, right?
+
+32
+00:01:49,110 --> 00:01:52,070
+And actually we used the terms, child element,
+
+33
+00:01:52,070 --> 00:01:55,740
+parent element, sibling element and so on,
+
+34
+00:01:55,740 --> 00:01:59,013
+when we talk about the DOM tree and DOM manipulation.
+
+35
+00:01:59,850 --> 00:02:04,070
+Anyway, as you can see for each element in the HTML,
+
+36
+00:02:04,070 --> 00:02:07,120
+there is one element node and the DOM tree,
+
+37
+00:02:07,120 --> 00:02:08,910
+and we can access and interact
+
+38
+00:02:08,910 --> 00:02:12,440
+with each of these nodes using JavaScript.
+
+39
+00:02:12,440 --> 00:02:16,920
+Okay, so the DOM always starts with the document object,
+
+40
+00:02:16,920 --> 00:02:18,740
+right at the very top.
+
+41
+00:02:18,740 --> 00:02:21,230
+And document is a special object
+
+42
+00:02:21,230 --> 00:02:23,420
+that we have access to in JavaScript.
+
+43
+00:02:23,420 --> 00:02:27,860
+And this object serves as an entry point into the DOM.
+
+44
+00:02:27,860 --> 00:02:30,880
+Remember how you used document dot query selector
+
+45
+00:02:30,880 --> 00:02:34,140
+in the last lecture to select an element.
+
+46
+00:02:34,140 --> 00:02:37,380
+So that means that the query selector method
+
+47
+00:02:37,380 --> 00:02:40,400
+is available on the document object.
+
+48
+00:02:40,400 --> 00:02:42,890
+And so that's why we say that document
+
+49
+00:02:42,890 --> 00:02:45,140
+is the entry point to the DOM,
+
+50
+00:02:45,140 --> 00:02:48,143
+because we need it to start selecting elements.
+
+51
+00:02:49,110 --> 00:02:53,260
+All right, then the first child element of document
+
+52
+00:02:53,260 --> 00:02:57,220
+is usually the HTML element, because that's usually
+
+53
+00:02:57,220 --> 00:03:00,550
+the root element in all HTML documents.
+
+54
+00:03:00,550 --> 00:03:05,550
+Next, HTML usually has two child elements, head and body.
+
+55
+00:03:05,950 --> 00:03:07,950
+And so of course you can also
+
+56
+00:03:07,950 --> 00:03:10,836
+find them here in the DOM tree.
+
+57
+00:03:10,836 --> 00:03:13,640
+In the HTML, they are adjacent elements,
+
+58
+00:03:13,640 --> 00:03:17,310
+and so they are siblings in our DOM as well.
+
+59
+00:03:17,310 --> 00:03:19,330
+Then, as we keep going deeper
+
+60
+00:03:19,330 --> 00:03:21,920
+into the nested HTML structure,
+
+61
+00:03:21,920 --> 00:03:26,000
+we keep adding more and more children to the DOM tree.
+
+62
+00:03:26,000 --> 00:03:30,150
+So inside head and body, you have more child elements,
+
+63
+00:03:30,150 --> 00:03:32,410
+and the two sections and the body,
+
+64
+00:03:32,410 --> 00:03:35,370
+even have child elements themselves.
+
+65
+00:03:35,370 --> 00:03:37,830
+And from there, it goes even deeper
+
+66
+00:03:37,830 --> 00:03:41,440
+because the first paragraph also has a child,
+
+67
+00:03:41,440 --> 00:03:43,193
+which is this link element here.
+
+68
+00:03:44,160 --> 00:03:45,740
+And with that, finally,
+
+69
+00:03:45,740 --> 00:03:49,660
+we have all our HTML elements in the DOM tree.
+
+70
+00:03:49,660 --> 00:03:54,150
+But a Dom tree actually has more than just element nodes.
+
+71
+00:03:54,150 --> 00:03:57,250
+It also has nodes for all the text itself,
+
+72
+00:03:57,250 --> 00:03:59,930
+comments and other stuff,
+
+73
+00:03:59,930 --> 00:04:02,470
+because basically the rule is that
+
+74
+00:04:02,470 --> 00:04:07,470
+whatever is in the HTML document also has to be in the DOM.
+
+75
+00:04:07,540 --> 00:04:10,300
+And so, as you see, the DOM really is
+
+76
+00:04:10,300 --> 00:04:13,970
+a complete representation of the HTML document,
+
+77
+00:04:13,970 --> 00:04:17,480
+so that we can manipulate it in complex ways.
+
+78
+00:04:17,480 --> 00:04:20,310
+And with this, you should now have a good overview
+
+79
+00:04:20,310 --> 00:04:23,423
+of how the DOM works and what it looks like.
+
+80
+00:04:24,750 --> 00:04:27,920
+But before we finish, I need to clarify something
+
+81
+00:04:27,920 --> 00:04:31,360
+that many beginners find confusing.
+
+82
+00:04:31,360 --> 00:04:34,560
+So, many people believe that the DOM
+
+83
+00:04:34,560 --> 00:04:36,870
+and all the methods and properties
+
+84
+00:04:36,870 --> 00:04:39,660
+that we can use to manipulate the DOM,
+
+85
+00:04:39,660 --> 00:04:42,420
+such as documented or the query selector
+
+86
+00:04:42,420 --> 00:04:47,310
+and lots of other stuff are actually part of JavaScript.
+
+87
+00:04:47,310 --> 00:04:50,420
+However, this is not the case.
+
+88
+00:04:50,420 --> 00:04:54,490
+Remember that JavaScript is actually just a dialect
+
+89
+00:04:54,490 --> 00:04:57,100
+of the ECMAScript specification,
+
+90
+00:04:57,100 --> 00:05:01,940
+and all this DOM related stuff is simply not in there.
+
+91
+00:05:01,940 --> 00:05:03,450
+So up until this point,
+
+92
+00:05:03,450 --> 00:05:06,630
+we have only used the JavaScript language itself.
+
+93
+00:05:06,630 --> 00:05:08,730
+But starting in this section,
+
+94
+00:05:08,730 --> 00:05:12,060
+we will also use JavaScript in a browser.
+
+95
+00:05:12,060 --> 00:05:14,720
+I mean, sure, we have used Google Chrome
+
+96
+00:05:14,720 --> 00:05:17,750
+to run our code in the developer console,
+
+97
+00:05:17,750 --> 00:05:19,890
+but that's not what I mean here.
+
+98
+00:05:19,890 --> 00:05:22,320
+What I mean is to manipulate webpages
+
+99
+00:05:22,320 --> 00:05:26,170
+that are actually displayed and rendered in the browser,
+
+100
+00:05:26,170 --> 00:05:28,793
+just like any normal website that you know.
+
+101
+00:05:29,650 --> 00:05:30,483
+Okay.
+
+102
+00:05:30,483 --> 00:05:32,167
+But, now you might ask,
+
+103
+00:05:32,167 --> 00:05:35,940
+"If the DOM is not a part of the JavaScript language,
+
+104
+00:05:35,940 --> 00:05:38,370
+then how does this all work?"
+
+105
+00:05:38,370 --> 00:05:41,130
+Well, the DOM and DOM methods
+
+106
+00:05:41,130 --> 00:05:45,440
+are actually part of something called the web APIs.
+
+107
+00:05:45,440 --> 00:05:48,120
+So the web API APIs are like libraries
+
+108
+00:05:48,120 --> 00:05:49,970
+that browsers implement
+
+109
+00:05:49,970 --> 00:05:53,490
+and that we can access from our JavaScript code.
+
+110
+00:05:53,490 --> 00:05:57,410
+And API stands for Application Programming Interface.
+
+111
+00:05:57,410 --> 00:05:59,460
+But more about that later.
+
+112
+00:05:59,460 --> 00:06:01,540
+For now, what you need to know
+
+113
+00:06:01,540 --> 00:06:03,530
+is that a web APIs are, basically,
+
+114
+00:06:03,530 --> 00:06:07,120
+libraries that are also written in JavaScript
+
+115
+00:06:07,120 --> 00:06:10,930
+and that are automatically available for us to use.
+
+116
+00:06:10,930 --> 00:06:13,320
+So all this happens behind the scenes,
+
+117
+00:06:13,320 --> 00:06:17,810
+we don't have to import or do anything, okay?
+
+118
+00:06:17,810 --> 00:06:20,820
+And there is actually an official DOM specification
+
+119
+00:06:20,820 --> 00:06:22,530
+that browsers implement,
+
+120
+00:06:22,530 --> 00:06:24,920
+which is the reason why DOM manipulation
+
+121
+00:06:24,920 --> 00:06:26,853
+works the same in all browsers.
+
+122
+00:06:27,750 --> 00:06:29,370
+Now, besides the DOM,
+
+123
+00:06:29,370 --> 00:06:32,290
+there are actually a ton more web APIs,
+
+124
+00:06:32,290 --> 00:06:36,770
+such as timers, the fetch API, and many more.
+
+125
+00:06:36,770 --> 00:06:40,370
+Again, we will learn a lot more about this later on.
+
+126
+00:06:40,370 --> 00:06:43,290
+For now, let's finally start our project
+
+127
+00:06:43,290 --> 00:06:46,073
+and do some DOM manipulation in practice.

@@ -1,0 +1,235 @@
+1
+00:00:01,180 --> 00:00:04,130
+So we have been making a lot of progress
+
+2
+00:00:04,130 --> 00:00:06,470
+in building our application.
+
+3
+00:00:06,470 --> 00:00:10,640
+That we can actually say already that the core functionality
+
+4
+00:00:10,640 --> 00:00:14,610
+of the app is in fact already working.
+
+5
+00:00:14,610 --> 00:00:18,340
+So now let's take a breath and think a little bit
+
+6
+00:00:18,340 --> 00:00:21,393
+about our next step in this short lecture.
+
+7
+00:00:23,340 --> 00:00:27,440
+So again, the core functionality is what we see here
+
+8
+00:00:27,440 --> 00:00:29,010
+in this flow chart.
+
+9
+00:00:29,010 --> 00:00:32,340
+And so that is basically the search functionality,
+
+10
+00:00:32,340 --> 00:00:35,340
+then also displaying the pagination
+
+11
+00:00:35,340 --> 00:00:39,180
+and then displaying any recipe that was selected.
+
+12
+00:00:39,180 --> 00:00:42,700
+And so that we already have working at this point.
+
+13
+00:00:42,700 --> 00:00:45,610
+And so that is really great progress,
+
+14
+00:00:45,610 --> 00:00:48,460
+but now let's take it to the next level
+
+15
+00:00:48,460 --> 00:00:51,800
+and think a little bit about how we will implement
+
+16
+00:00:51,800 --> 00:00:53,800
+our next features here.
+
+17
+00:00:53,800 --> 00:00:55,850
+So based on the user stories
+
+18
+00:00:55,850 --> 00:00:59,230
+that we outlined in the beginning of this project,
+
+19
+00:00:59,230 --> 00:01:02,200
+our next feature was a functionality
+
+20
+00:01:02,200 --> 00:01:05,980
+for changing the servings of the displayed recipe.
+
+21
+00:01:05,980 --> 00:01:07,900
+And that's going to be quite easy.
+
+22
+00:01:07,900 --> 00:01:10,540
+All we will have to do is to listen
+
+23
+00:01:10,540 --> 00:01:15,270
+and to handle events on the change servings buttons
+
+24
+00:01:15,270 --> 00:01:19,870
+and then basically update the recipe and render it again.
+
+25
+00:01:19,870 --> 00:01:23,720
+Then the next feature is the bookmarking functionality.
+
+26
+00:01:23,720 --> 00:01:26,980
+And this is going to be yet another one
+
+27
+00:01:26,980 --> 00:01:30,160
+that will be a little bit complex to implement.
+
+28
+00:01:30,160 --> 00:01:32,520
+So let's see what we have here.
+
+29
+00:01:32,520 --> 00:01:36,170
+So starting with the event here more on the left side,
+
+30
+00:01:36,170 --> 00:01:39,630
+whenever the user bookmarks a certain recipe
+
+31
+00:01:39,630 --> 00:01:42,290
+then we want to render that bookmarks
+
+32
+00:01:42,290 --> 00:01:44,710
+in the special bookmarks panel,
+
+33
+00:01:44,710 --> 00:01:48,640
+and we also want to update the button in the recipe.
+
+34
+00:01:48,640 --> 00:01:52,880
+And so basically we will then rerender the recipe.
+
+35
+00:01:52,880 --> 00:01:56,830
+Now then whenever the user clicks one of the bookmarks,
+
+36
+00:01:56,830 --> 00:01:59,940
+and so that's the other event down there
+
+37
+00:01:59,940 --> 00:02:03,670
+then we want to render exactly that a recipe
+
+38
+00:02:03,670 --> 00:02:05,990
+that was clicked, okay?
+
+39
+00:02:05,990 --> 00:02:08,220
+So here we will need two events
+
+40
+00:02:08,220 --> 00:02:11,420
+and by the time we reach this functionality
+
+41
+00:02:11,420 --> 00:02:14,713
+we will, of course seen more detail how it's gonna work.
+
+42
+00:02:15,740 --> 00:02:18,960
+Then next up, we want to be able to store
+
+43
+00:02:18,960 --> 00:02:22,690
+this personalized bookmark data in the browser
+
+44
+00:02:22,690 --> 00:02:26,410
+and also a read it back when the page is loaded
+
+45
+00:02:26,410 --> 00:02:28,270
+for the next time.
+
+46
+00:02:28,270 --> 00:02:31,830
+And so that's exactly what is here on this diagram.
+
+47
+00:02:31,830 --> 00:02:34,300
+So whenever there is a new bookmark,
+
+48
+00:02:34,300 --> 00:02:37,920
+we basically store all the bookmarks to local storage.
+
+49
+00:02:37,920 --> 00:02:39,890
+And then when the page loads
+
+50
+00:02:39,890 --> 00:02:43,330
+then we load all the bookmarks back
+
+51
+00:02:43,330 --> 00:02:47,530
+from the local storage and render them, all right?
+
+52
+00:02:47,530 --> 00:02:49,850
+And so that's actually it.
+
+53
+00:02:49,850 --> 00:02:53,920
+So this is what we will do over the next couple of lectures.
+
+54
+00:02:53,920 --> 00:02:55,600
+And once we're done with that,
+
+55
+00:02:55,600 --> 00:02:59,300
+the application will actually almost be finished.
+
+56
+00:02:59,300 --> 00:03:03,510
+Okay, so that is our plan for the next couple of lectures.
+
+57
+00:03:03,510 --> 00:03:05,550
+And so let's now go back to code
+
+58
+00:03:05,550 --> 00:03:08,010
+and implement the functionality
+
+59
+00:03:08,010 --> 00:03:11,433
+of changing the servings right in the next lecture.

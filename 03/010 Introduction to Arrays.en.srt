@@ -1,0 +1,1827 @@
+1
+00:00:01,330 --> 00:00:02,870
+Welcome back.
+
+2
+00:00:02,870 --> 00:00:06,140
+Let's now talk about our first data structure.
+
+3
+00:00:06,140 --> 00:00:07,703
+And that's gonna be Arrays.
+
+4
+00:00:09,740 --> 00:00:12,690
+And let's say, I want it to store my friends' names
+
+5
+00:00:12,690 --> 00:00:17,120
+in variables so that I could use them later in my program.
+
+6
+00:00:17,120 --> 00:00:19,660
+And so with the knowledge that we have so far
+
+7
+00:00:19,660 --> 00:00:21,710
+this is how we would do it.
+
+8
+00:00:21,710 --> 00:00:22,840
+So const
+
+9
+00:00:25,170 --> 00:00:27,120
+friend one
+
+10
+00:00:27,120 --> 00:00:30,668
+let's say Michael,
+
+11
+00:00:30,668 --> 00:00:33,170
+and let's spell this correct.
+
+12
+00:00:33,170 --> 00:00:34,580
+Then friend two
+
+13
+00:00:39,530 --> 00:00:40,730
+Steven and then
+
+14
+00:00:43,240 --> 00:00:46,570
+friend three
+
+15
+00:00:46,570 --> 00:00:48,350
+let's say Peter.
+
+16
+00:00:48,350 --> 00:00:51,910
+Now this isn't really fun to do, right?
+
+17
+00:00:51,910 --> 00:00:53,580
+Because imagine that
+
+18
+00:00:53,580 --> 00:00:56,620
+we actually wanted to represent 10 friends
+
+19
+00:00:56,620 --> 00:00:59,870
+and then we would have to create 10 variables.
+
+20
+00:00:59,870 --> 00:01:02,530
+So that doesn't sound like fun.
+
+21
+00:01:02,530 --> 00:01:04,440
+Instead, wouldn't it be great
+
+22
+00:01:04,440 --> 00:01:08,180
+to essentially bundle all of these values together
+
+23
+00:01:08,180 --> 00:01:11,270
+into some bigger container?
+
+24
+00:01:11,270 --> 00:01:15,550
+Well, that's why we have data structures in JavaScript.
+
+25
+00:01:15,550 --> 00:01:18,870
+And Arrays are such a data structure.
+
+26
+00:01:18,870 --> 00:01:21,770
+So an Array is like a big container
+
+27
+00:01:21,770 --> 00:01:24,090
+into which we can throw variables
+
+28
+00:01:24,090 --> 00:01:26,510
+and then later reference them.
+
+29
+00:01:26,510 --> 00:01:28,050
+And that's super important.
+
+30
+00:01:28,050 --> 00:01:30,860
+Because programming is most of the time,
+
+31
+00:01:30,860 --> 00:01:32,620
+all about data.
+
+32
+00:01:32,620 --> 00:01:37,050
+So we get data from somewhere we store and process data
+
+33
+00:01:37,050 --> 00:01:39,390
+and then we give some data back.
+
+34
+00:01:39,390 --> 00:01:42,060
+And that data, it has to go somewhere.
+
+35
+00:01:42,060 --> 00:01:44,800
+So it has to be stored in some place.
+
+36
+00:01:44,800 --> 00:01:48,700
+And for that, we use data structures, just like Arrays.
+
+37
+00:01:48,700 --> 00:01:52,410
+So in case we have more, than just a single value.
+
+38
+00:01:52,410 --> 00:01:54,790
+The two most important data structures
+
+39
+00:01:54,790 --> 00:01:58,970
+at least in JavaScript, are Arrays and Objects.
+
+40
+00:01:58,970 --> 00:02:02,003
+And so now let's learn all about Arrays.
+
+41
+00:02:02,880 --> 00:02:04,940
+So instead of doing this
+
+42
+00:02:04,940 --> 00:02:06,140
+let's create a variable,
+
+43
+00:02:07,680 --> 00:02:09,290
+which I'm gonna call a friends
+
+44
+00:02:10,550 --> 00:02:13,740
+and then we use the brackets, to create a new Array.
+
+45
+00:02:13,740 --> 00:02:17,260
+And then in there, we can put different values,
+
+46
+00:02:17,260 --> 00:02:19,270
+separated by commas.
+
+47
+00:02:19,270 --> 00:02:21,913
+And so let's now use the exact same friends.
+
+48
+00:02:23,220 --> 00:02:25,723
+So Michael comma,
+
+49
+00:02:26,800 --> 00:02:30,250
+then Steven comma
+
+50
+00:02:30,250 --> 00:02:33,460
+and Peter.
+
+51
+00:02:33,460 --> 00:02:35,860
+And make sure that these commas here
+
+52
+00:02:35,860 --> 00:02:37,730
+are outside of the string.
+
+53
+00:02:37,730 --> 00:02:40,330
+So that's an error I see people do.
+
+54
+00:02:40,330 --> 00:02:42,860
+And so this needs to be one string.
+
+55
+00:02:42,860 --> 00:02:44,860
+So you need to start and finish it,
+
+56
+00:02:44,860 --> 00:02:48,330
+then the comma and then another value then another comma
+
+57
+00:02:48,330 --> 00:02:50,183
+and then another value.
+
+58
+00:02:52,840 --> 00:02:53,673
+Okay.
+
+59
+00:02:53,673 --> 00:02:57,773
+And now let's take a look at it in the console.
+
+60
+00:02:59,800 --> 00:03:00,930
+Okay.
+
+61
+00:03:00,930 --> 00:03:04,980
+And so this is what the Array looks like, in the console.
+
+62
+00:03:04,980 --> 00:03:09,240
+So basically just as we wrote it in our code.
+
+63
+00:03:09,240 --> 00:03:12,980
+And that is the absolute basics about Arrays.
+
+64
+00:03:12,980 --> 00:03:14,720
+So that's how we create one.
+
+65
+00:03:14,720 --> 00:03:17,440
+At least that's the way that we use the most
+
+66
+00:03:17,440 --> 00:03:19,860
+but there's actually another way.
+
+67
+00:03:19,860 --> 00:03:21,743
+So let me show that to you as well.
+
+68
+00:03:22,870 --> 00:03:26,093
+So let's say we wanted an Array of years.
+
+69
+00:03:27,070 --> 00:03:29,000
+And so instead of the brackets,
+
+70
+00:03:29,000 --> 00:03:30,410
+we could also write
+
+71
+00:03:30,410 --> 00:03:34,460
+new, Array and then parenthesis.
+
+72
+00:03:34,460 --> 00:03:37,730
+And in there we would then specify all our values.
+
+73
+00:03:37,730 --> 00:03:40,100
+Let's say 1991,
+
+74
+00:03:40,100 --> 00:03:41,950
+1984,
+
+75
+00:03:41,950 --> 00:03:42,783
+2008,
+
+76
+00:03:43,620 --> 00:03:46,520
+and let's say 2020.
+
+77
+00:03:46,520 --> 00:03:50,130
+So on the rate can hold as many values as we want.
+
+78
+00:03:50,130 --> 00:03:53,870
+And also values of any type that we'd like.
+
+79
+00:03:53,870 --> 00:03:56,090
+So it doesn't have to be strings like here,
+
+80
+00:03:56,090 --> 00:03:58,403
+of course, numbers work just the same.
+
+81
+00:03:59,340 --> 00:04:02,670
+And so here we used a different way of creating the Array,
+
+82
+00:04:02,670 --> 00:04:05,060
+which was using this Array function.
+
+83
+00:04:05,060 --> 00:04:08,350
+So you see that it's a function because we called it here
+
+84
+00:04:08,350 --> 00:04:10,050
+basically using these parenthesis.
+
+85
+00:04:11,150 --> 00:04:14,120
+And we also needed to use the new keyword
+
+86
+00:04:14,120 --> 00:04:16,710
+because otherwise it's not gonna work.
+
+87
+00:04:16,710 --> 00:04:20,240
+But anyway, it's way more usual to just use the brackets
+
+88
+00:04:20,240 --> 00:04:24,173
+like I did up here, which is called the a literal syntax.
+
+89
+00:04:26,210 --> 00:04:27,043
+Great.
+
+90
+00:04:27,043 --> 00:04:29,270
+So now we know how to create Arrays.
+
+91
+00:04:29,270 --> 00:04:32,660
+So basically how to put elements into an Array,
+
+92
+00:04:32,660 --> 00:04:36,290
+but of course we need to have a way to get them out.
+
+93
+00:04:36,290 --> 00:04:39,393
+And for that, we use the square bracket syntax again.
+
+94
+00:04:40,390 --> 00:04:43,140
+So let's say that we want to log to the console,
+
+95
+00:04:43,140 --> 00:04:46,250
+the first element of this friend's Array.
+
+96
+00:04:46,250 --> 00:04:47,583
+So that would be Michael.
+
+97
+00:04:48,520 --> 00:04:51,230
+So console.log,
+
+98
+00:04:51,230 --> 00:04:53,913
+and now we write friends.
+
+99
+00:04:54,870 --> 00:04:56,537
+So that's the name of the Array.
+
+100
+00:04:56,537 --> 00:04:58,510
+And then we use the square brackets
+
+101
+00:04:58,510 --> 00:05:01,090
+and then the number zero.
+
+102
+00:05:01,090 --> 00:05:03,900
+That's because Arrays are zero-based,
+
+103
+00:05:03,900 --> 00:05:06,380
+which means that this first element
+
+104
+00:05:06,380 --> 00:05:08,210
+is the element number zero.
+
+105
+00:05:08,210 --> 00:05:10,570
+Then this one is element number one
+
+106
+00:05:10,570 --> 00:05:13,750
+number two, and so on and so forth.
+
+107
+00:05:13,750 --> 00:05:17,230
+And so if we want the element at position zero,
+
+108
+00:05:17,230 --> 00:05:18,940
+so this first one,
+
+109
+00:05:18,940 --> 00:05:22,623
+then we write friends square bracket zero.
+
+110
+00:05:23,510 --> 00:05:24,343
+And that's it.
+
+111
+00:05:25,200 --> 00:05:27,980
+And now let's say we wanted Peter here as well.
+
+112
+00:05:27,980 --> 00:05:30,963
+So that would be element zero, one, two.
+
+113
+00:05:32,240 --> 00:05:35,113
+And so, let's just write two.
+
+114
+00:05:36,010 --> 00:05:37,950
+And check it out.
+
+115
+00:05:37,950 --> 00:05:40,950
+And indeed we get Michael and Peter.
+
+116
+00:05:40,950 --> 00:05:41,783
+Cool.
+
+117
+00:05:42,660 --> 00:05:46,170
+Now we can also get the actual number of elements
+
+118
+00:05:46,170 --> 00:05:47,477
+that is in the Array.
+
+119
+00:05:48,980 --> 00:05:52,490
+So let's also log that one to the console.
+
+120
+00:05:52,490 --> 00:05:54,460
+And this one works by saying,
+
+121
+00:05:54,460 --> 00:05:58,350
+friends.length.
+
+122
+00:05:58,350 --> 00:05:59,350
+Okay.
+
+123
+00:05:59,350 --> 00:06:03,310
+And this dot length is something called a property
+
+124
+00:06:03,310 --> 00:06:05,320
+which we're gonna talk about a little bit later
+
+125
+00:06:05,320 --> 00:06:08,190
+in the section when we talk about objects.
+
+126
+00:06:08,190 --> 00:06:11,470
+Anyway what matters, is that this is gonna be the exact
+
+127
+00:06:11,470 --> 00:06:14,270
+amount of elements that is in the Array.
+
+128
+00:06:14,270 --> 00:06:15,980
+And it's not zero based.
+
+129
+00:06:15,980 --> 00:06:17,390
+So it will not be two,
+
+130
+00:06:17,390 --> 00:06:21,130
+even though the last one here is element number two.
+
+131
+00:06:21,130 --> 00:06:23,050
+Instead it really gives us the number
+
+132
+00:06:23,050 --> 00:06:24,890
+of elements in the Array.
+
+133
+00:06:24,890 --> 00:06:27,550
+So we should expect this to log three
+
+134
+00:06:28,560 --> 00:06:30,820
+and yeah, here we go.
+
+135
+00:06:30,820 --> 00:06:32,540
+Now we can use this to
+
+136
+00:06:32,540 --> 00:06:36,110
+automatically get the last element of any Array.
+
+137
+00:06:36,110 --> 00:06:38,860
+And that is useful so that we don't have to count
+
+138
+00:06:38,860 --> 00:06:41,820
+how many elements are in the Array.
+
+139
+00:06:41,820 --> 00:06:44,533
+So let me show you how we could do that.
+
+140
+00:06:46,250 --> 00:06:47,630
+Friends,
+
+141
+00:06:47,630 --> 00:06:51,150
+and then remember to retrieve an element from the Array,
+
+142
+00:06:51,150 --> 00:06:53,250
+we need to square brackets.
+
+143
+00:06:53,250 --> 00:06:54,890
+So just like this.
+
+144
+00:06:54,890 --> 00:06:58,020
+And then to get the index of the last element in the Array
+
+145
+00:06:58,020 --> 00:07:01,343
+all we need to do, is friends.length minus one.
+
+146
+00:07:02,640 --> 00:07:05,400
+So friends.length
+
+147
+00:07:06,300 --> 00:07:08,300
+minus one.
+
+148
+00:07:08,300 --> 00:07:10,250
+And that's because again,
+
+149
+00:07:10,250 --> 00:07:12,860
+friends.length is not zero based.
+
+150
+00:07:12,860 --> 00:07:14,850
+So this is three I remember,
+
+151
+00:07:14,850 --> 00:07:16,940
+but this last element is two.
+
+152
+00:07:16,940 --> 00:07:21,593
+And so we always need to subtract one from this number here.
+
+153
+00:07:22,770 --> 00:07:23,790
+Okay.
+
+154
+00:07:23,790 --> 00:07:25,240
+So what this also means,
+
+155
+00:07:25,240 --> 00:07:29,270
+is that inside of these brackets, we can put any expression.
+
+156
+00:07:29,270 --> 00:07:31,790
+It doesn't just have to be a number
+
+157
+00:07:31,790 --> 00:07:34,173
+literally like we did here and here.
+
+158
+00:07:35,330 --> 00:07:37,700
+So here we have this expression
+
+159
+00:07:37,700 --> 00:07:39,190
+and remember that an expression
+
+160
+00:07:39,190 --> 00:07:41,970
+is something that produces a value.
+
+161
+00:07:41,970 --> 00:07:45,420
+And so this one here is gonna be calculated first.
+
+162
+00:07:45,420 --> 00:07:48,080
+So it will compute friends.length
+
+163
+00:07:48,080 --> 00:07:50,550
+which is three minus one is two,
+
+164
+00:07:50,550 --> 00:07:53,223
+and then it will get friends at position two.
+
+165
+00:07:54,530 --> 00:07:57,000
+And that's also one of the reasons
+
+166
+00:07:57,000 --> 00:07:58,540
+why it's important that you know
+
+167
+00:07:58,540 --> 00:08:02,290
+what is an expression and what is a statement.
+
+168
+00:08:02,290 --> 00:08:06,200
+Because once again, we could not put a statement in here.
+
+169
+00:08:06,200 --> 00:08:08,160
+So inside of these square brackets,
+
+170
+00:08:08,160 --> 00:08:11,713
+JavaScript expects an expression, not a statement.
+
+171
+00:08:12,800 --> 00:08:16,090
+Anyway, we got to the correct element from the Array,
+
+172
+00:08:16,090 --> 00:08:17,607
+which is the element number two.
+
+173
+00:08:17,607 --> 00:08:21,270
+And so that means that this automatic retrieval
+
+174
+00:08:21,270 --> 00:08:23,893
+of the last element works just fine.
+
+175
+00:08:24,840 --> 00:08:26,210
+All right.
+
+176
+00:08:26,210 --> 00:08:29,850
+And moving on, there is more stuff that we can do.
+
+177
+00:08:29,850 --> 00:08:33,720
+So this square bracket syntax, that we used here
+
+178
+00:08:33,720 --> 00:08:37,350
+is not only for retrieving elements from the Array
+
+179
+00:08:37,350 --> 00:08:41,610
+but we can also change it to add elements to the Array.
+
+180
+00:08:41,610 --> 00:08:44,040
+So let's say that for some reason,
+
+181
+00:08:44,040 --> 00:08:46,330
+I'm no longer friends with Peter
+
+182
+00:08:46,330 --> 00:08:49,930
+and that I want to replace him with some other friends.
+
+183
+00:08:49,930 --> 00:08:53,740
+And so now we can change or mutate the Array
+
+184
+00:08:53,740 --> 00:08:54,783
+in the same way.
+
+185
+00:08:55,770 --> 00:08:57,210
+So we can say
+
+186
+00:08:57,210 --> 00:09:00,920
+friends at position number two
+
+187
+00:09:00,920 --> 00:09:03,380
+and I'm doing it manually here again.
+
+188
+00:09:03,380 --> 00:09:06,890
+So we can say that this should be equal to, something else.
+
+189
+00:09:06,890 --> 00:09:08,800
+And let's say Jay.
+
+190
+00:09:08,800 --> 00:09:12,860
+And if we now log this friends Array to the console,
+
+191
+00:09:12,860 --> 00:09:15,353
+then we should already see the new Array.
+
+192
+00:09:17,110 --> 00:09:17,943
+So,
+
+193
+00:09:19,160 --> 00:09:22,593
+friends and let's see,
+
+194
+00:09:23,490 --> 00:09:26,360
+and indeed the element number two.
+
+195
+00:09:26,360 --> 00:09:30,103
+So this one here, is now replaced with Jay,
+
+196
+00:09:32,480 --> 00:09:33,360
+okay.
+
+197
+00:09:33,360 --> 00:09:35,930
+So in the beginning, when we first logged
+
+198
+00:09:35,930 --> 00:09:38,440
+the friends Array to the console,
+
+199
+00:09:38,440 --> 00:09:39,990
+it was still in this state.
+
+200
+00:09:39,990 --> 00:09:41,540
+So it still had Peter.
+
+201
+00:09:41,540 --> 00:09:42,960
+And that's why here in the beginning,
+
+202
+00:09:42,960 --> 00:09:45,720
+we still see that original state.
+
+203
+00:09:45,720 --> 00:09:48,730
+But then as we move on through the code,
+
+204
+00:09:48,730 --> 00:09:51,980
+at some point here, we changed that Array.
+
+205
+00:09:51,980 --> 00:09:54,920
+And so when we then log the Array again
+
+206
+00:09:54,920 --> 00:09:58,993
+that change is of course reflected here in the output.
+
+207
+00:09:59,870 --> 00:10:00,920
+But wait!
+
+208
+00:10:00,920 --> 00:10:03,170
+Didn't I say in the last section,
+
+209
+00:10:03,170 --> 00:10:07,620
+that variables declared with const, cannot be changed.
+
+210
+00:10:07,620 --> 00:10:11,140
+And we did in fact declare the friends variable
+
+211
+00:10:11,140 --> 00:10:13,540
+here with const, right?
+
+212
+00:10:13,540 --> 00:10:16,500
+But I was still able to change one element
+
+213
+00:10:16,500 --> 00:10:19,910
+of the Array here from Peter to Jay, right?
+
+214
+00:10:19,910 --> 00:10:22,380
+So isn't that a contradiction?
+
+215
+00:10:22,380 --> 00:10:24,750
+Well what I didn't tell you at the time,
+
+216
+00:10:24,750 --> 00:10:28,330
+is that only primitive values, are immutable.
+
+217
+00:10:28,330 --> 00:10:31,350
+But an Array is not a primitive value.
+
+218
+00:10:31,350 --> 00:10:35,780
+And so we can actually always change it so we can mutate it.
+
+219
+00:10:35,780 --> 00:10:36,920
+And it works this way
+
+220
+00:10:36,920 --> 00:10:41,830
+because of the way that JavaScript stores things in memory.
+
+221
+00:10:41,830 --> 00:10:44,640
+And once more we will have a whole lecture
+
+222
+00:10:44,640 --> 00:10:46,250
+just on that topic alone,
+
+223
+00:10:46,250 --> 00:10:49,720
+in a special section about how JavaScript works
+
+224
+00:10:49,720 --> 00:10:51,370
+behind the scenes.
+
+225
+00:10:51,370 --> 00:10:53,010
+So what you need to know for now
+
+226
+00:10:53,010 --> 00:10:56,158
+is that we can actually mutate Arrays
+
+227
+00:10:56,158 --> 00:10:59,210
+even though they were declared with const.
+
+228
+00:10:59,210 --> 00:11:00,610
+Now what we can not do
+
+229
+00:11:00,610 --> 00:11:03,780
+is to actually replace the entire Array.
+
+230
+00:11:03,780 --> 00:11:06,270
+So we cannot do this.
+
+231
+00:11:06,270 --> 00:11:10,400
+We cannot say that the entire friends' Array should now be
+
+232
+00:11:11,630 --> 00:11:15,570
+Bob and Ellis.
+
+233
+00:11:15,570 --> 00:11:17,940
+That would be illegal.
+
+234
+00:11:17,940 --> 00:11:19,470
+So let's see.
+
+235
+00:11:19,470 --> 00:11:22,800
+And now we get assignment to constant variable.
+
+236
+00:11:22,800 --> 00:11:24,760
+And so that's why
+
+237
+00:11:24,760 --> 00:11:25,940
+that we can not do.
+
+238
+00:11:25,940 --> 00:11:27,790
+But let's just keep it here anyway.
+
+239
+00:11:27,790 --> 00:11:30,503
+So you get this as a reference.
+
+240
+00:11:31,480 --> 00:11:34,430
+Next up, I want to show you that an Array
+
+241
+00:11:34,430 --> 00:11:37,410
+can actually hold values with different types
+
+242
+00:11:37,410 --> 00:11:39,330
+all at the same time.
+
+243
+00:11:39,330 --> 00:11:42,780
+So let's experiment with that.
+
+244
+00:11:42,780 --> 00:11:45,230
+So let's create an Array which holds
+
+245
+00:11:45,230 --> 00:11:47,483
+all kinds of information about me.
+
+246
+00:11:48,750 --> 00:11:52,490
+So let's say Jonas, so that would be the first name
+
+247
+00:11:54,050 --> 00:11:57,260
+then the last name, then the age.
+
+248
+00:11:57,260 --> 00:11:59,520
+And here we can actually calculate the age
+
+249
+00:11:59,520 --> 00:12:01,320
+from other values.
+
+250
+00:12:01,320 --> 00:12:03,550
+And that works because in each position,
+
+251
+00:12:03,550 --> 00:12:06,470
+JavaScript simply expects an expression.
+
+252
+00:12:06,470 --> 00:12:07,883
+And so if we do this,
+
+253
+00:12:09,040 --> 00:12:12,570
+then this is perfectly fine.
+
+254
+00:12:12,570 --> 00:12:13,500
+Okay.
+
+255
+00:12:13,500 --> 00:12:15,950
+So this will here produce a value.
+
+256
+00:12:15,950 --> 00:12:18,680
+And so that's the value that will then be stored
+
+257
+00:12:18,680 --> 00:12:21,780
+at position number two of the new Array.
+
+258
+00:12:21,780 --> 00:12:24,380
+And that also works for variables.
+
+259
+00:12:24,380 --> 00:12:25,830
+So we could, for example do
+
+260
+00:12:26,840 --> 00:12:31,400
+first name equal Jonas.
+
+261
+00:12:31,400 --> 00:12:32,420
+And then
+
+262
+00:12:32,420 --> 00:12:35,170
+here instead of literally writing that,
+
+263
+00:12:35,170 --> 00:12:37,810
+we could use this variable name.
+
+264
+00:12:37,810 --> 00:12:41,003
+And so this would then be replaced, with the actual string.
+
+265
+00:12:43,450 --> 00:12:45,300
+So let's put some more data
+
+266
+00:12:45,300 --> 00:12:47,960
+and actually we could even put other Arrays
+
+267
+00:12:47,960 --> 00:12:49,220
+inside of an Array.
+
+268
+00:12:49,220 --> 00:12:51,200
+So that's really cool.
+
+269
+00:12:51,200 --> 00:12:54,730
+So let's put the friends Array here,
+
+270
+00:12:54,730 --> 00:12:56,810
+in the Jonas Array.
+
+271
+00:12:56,810 --> 00:12:57,990
+And then with this,
+
+272
+00:12:57,990 --> 00:13:01,640
+we have all the relevant data about Jonas
+
+273
+00:13:01,640 --> 00:13:04,150
+in one handy data structure.
+
+274
+00:13:04,150 --> 00:13:06,230
+And that's really convenient because
+
+275
+00:13:06,230 --> 00:13:08,550
+then we don't have to create one variable
+
+276
+00:13:08,550 --> 00:13:10,163
+for each of the data points.
+
+277
+00:13:11,520 --> 00:13:13,080
+So let's,
+
+278
+00:13:13,080 --> 00:13:15,430
+of course, inspect is now in the console
+
+279
+00:13:15,430 --> 00:13:16,780
+so that you can see
+
+280
+00:13:16,780 --> 00:13:19,790
+that all of these expressions here basically.
+
+281
+00:13:19,790 --> 00:13:21,150
+So this
+
+282
+00:13:21,150 --> 00:13:22,700
+and this here
+
+283
+00:13:23,600 --> 00:13:24,950
+and this,
+
+284
+00:13:24,950 --> 00:13:26,950
+so all of them are gonna be replaced
+
+285
+00:13:26,950 --> 00:13:29,103
+with the values that they produce.
+
+286
+00:13:30,110 --> 00:13:30,943
+And so
+
+287
+00:13:31,990 --> 00:13:33,660
+indeed, we now get Jonas.
+
+288
+00:13:33,660 --> 00:13:35,600
+We have to calculate at age,
+
+289
+00:13:35,600 --> 00:13:38,130
+and here have the Array at three.
+
+290
+00:13:38,130 --> 00:13:39,210
+And we can expand that
+
+291
+00:13:39,210 --> 00:13:41,790
+by clicking on this small triangle here
+
+292
+00:13:41,790 --> 00:13:45,670
+and then we can see the actual Array in here.
+
+293
+00:13:45,670 --> 00:13:47,200
+We also have the length.
+
+294
+00:13:47,200 --> 00:13:48,890
+So length is five.
+
+295
+00:13:48,890 --> 00:13:50,720
+And so that's where JavaScript
+
+296
+00:13:50,720 --> 00:13:54,223
+gets this friends.length from.
+
+297
+00:13:57,490 --> 00:13:58,960
+Jonas.length,
+
+298
+00:13:58,960 --> 00:14:00,390
+would of course also work.
+
+299
+00:14:00,390 --> 00:14:02,583
+And it would be this five that we see here.
+
+300
+00:14:04,920 --> 00:14:05,753
+Okay.
+
+301
+00:14:05,753 --> 00:14:06,853
+So that's the one.
+
+302
+00:14:07,700 --> 00:14:08,533
+Great.
+
+303
+00:14:08,533 --> 00:14:12,870
+So these are the very fundamentals of Arrays in JavaScript.
+
+304
+00:14:12,870 --> 00:14:14,660
+And now just to finish this video,
+
+305
+00:14:14,660 --> 00:14:18,030
+let's work on a very small Array exercise.
+
+306
+00:14:18,030 --> 00:14:22,620
+So that we can see why Arrays are actually so useful.
+
+307
+00:14:22,620 --> 00:14:26,783
+And to do that, let's bring back our old calcAge function.
+
+308
+00:14:28,550 --> 00:14:29,700
+So
+
+309
+00:14:30,960 --> 00:14:33,010
+it's gotta be somewhere here.
+
+310
+00:14:33,010 --> 00:14:34,320
+Yes.
+
+311
+00:14:34,320 --> 00:14:36,010
+Let's use this one.
+
+312
+00:14:36,010 --> 00:14:37,700
+We've coded this so many times
+
+313
+00:14:37,700 --> 00:14:39,493
+that I don't want to repeat it.
+
+314
+00:14:41,990 --> 00:14:43,333
+So exercise.
+
+315
+00:14:46,360 --> 00:14:48,210
+So calcAge.
+
+316
+00:14:48,210 --> 00:14:52,200
+And now let's say that we have an Array of birth years.
+
+317
+00:14:52,200 --> 00:14:56,440
+And then we want to calculate the ages for some of them.
+
+318
+00:14:56,440 --> 00:14:57,560
+So,
+
+319
+00:14:57,560 --> 00:14:59,390
+a new Array
+
+320
+00:15:00,610 --> 00:15:02,990
+and let's say 1990,
+
+321
+00:15:02,990 --> 00:15:04,763
+1967,
+
+322
+00:15:05,600 --> 00:15:06,643
+2002,
+
+323
+00:15:08,282 --> 00:15:12,250
+2010 and 2018.
+
+324
+00:15:12,250 --> 00:15:15,300
+And now we will be able to use the calcAge function
+
+325
+00:15:15,300 --> 00:15:19,060
+and then store the results of calculating the ages
+
+326
+00:15:19,060 --> 00:15:22,880
+for some of these years into a new Array.
+
+327
+00:15:22,880 --> 00:15:24,490
+So let's see how
+
+328
+00:15:24,490 --> 00:15:27,880
+and let's see first how we could not do it.
+
+329
+00:15:27,880 --> 00:15:28,920
+Okay.
+
+330
+00:15:28,920 --> 00:15:32,680
+So for example, if we wanted to use the calcAge function
+
+331
+00:15:32,680 --> 00:15:35,110
+for all of the elements in this Array,
+
+332
+00:15:35,110 --> 00:15:37,033
+we could not do this.
+
+333
+00:15:39,310 --> 00:15:40,910
+This would be
+
+334
+00:15:40,910 --> 00:15:42,680
+not illegal, I would say
+
+335
+00:15:42,680 --> 00:15:44,670
+but it's not gonna work
+
+336
+00:15:44,670 --> 00:15:47,570
+because this years is an Array.
+
+337
+00:15:47,570 --> 00:15:51,090
+And if we pass this years' Array as an argument
+
+338
+00:15:51,090 --> 00:15:52,800
+to the calcAge function,
+
+339
+00:15:52,800 --> 00:15:54,660
+it doesn't know what to do with it.
+
+340
+00:15:54,660 --> 00:15:59,420
+Because this operation here expects a single value
+
+341
+00:15:59,420 --> 00:16:01,810
+and we cannot do a number
+
+342
+00:16:01,810 --> 00:16:03,183
+minus and array.
+
+343
+00:16:04,720 --> 00:16:06,610
+So let me actually show you what's gonna happen
+
+344
+00:16:06,610 --> 00:16:08,240
+if we run this,
+
+345
+00:16:08,240 --> 00:16:13,240
+and well that's not the error I wanted to show you.
+
+346
+00:16:13,270 --> 00:16:14,103
+So what we get is,
+
+347
+00:16:14,103 --> 00:16:17,390
+"identifier 'years' has already been declared."
+
+348
+00:16:17,390 --> 00:16:20,240
+So this means that somewhere in the code, we already have
+
+349
+00:16:21,470 --> 00:16:25,140
+an Array called years and yeah, here it is.
+
+350
+00:16:25,140 --> 00:16:28,403
+So that's changed the name of this one to just Y.
+
+351
+00:16:29,780 --> 00:16:32,750
+So that one doesn't really matter anyway
+
+352
+00:16:32,750 --> 00:16:35,210
+but now let's see what happens
+
+353
+00:16:35,210 --> 00:16:37,500
+and well
+
+354
+00:16:37,500 --> 00:16:39,870
+not much did happen.
+
+355
+00:16:39,870 --> 00:16:44,870
+So we actually need to inspect the result, of this.
+
+356
+00:16:46,430 --> 00:16:48,490
+So console.log,
+
+357
+00:16:48,490 --> 00:16:50,203
+and then the result of this.
+
+358
+00:16:51,320 --> 00:16:56,090
+So let's see, and now we get the result, "not a number."
+
+359
+00:16:56,090 --> 00:16:57,240
+And so that's the result
+
+360
+00:16:57,240 --> 00:17:00,660
+of attempting to subtract a whole Array
+
+361
+00:17:00,660 --> 00:17:03,603
+which would be this year's Array, from a number.
+
+362
+00:17:04,620 --> 00:17:05,810
+Okay.
+
+363
+00:17:05,810 --> 00:17:08,820
+So let's actually do that here as well.
+
+364
+00:17:08,820 --> 00:17:11,080
+Remember that we have access to all the variables
+
+365
+00:17:11,080 --> 00:17:12,860
+that we declare in the script,
+
+366
+00:17:12,860 --> 00:17:14,640
+also in the console.
+
+367
+00:17:14,640 --> 00:17:18,240
+So that's the years Array, that we just declared.
+
+368
+00:17:18,240 --> 00:17:21,770
+But years, for example, plus 10
+
+369
+00:17:21,770 --> 00:17:23,110
+does not work.
+
+370
+00:17:23,110 --> 00:17:26,220
+At least not in a way that we expected it.
+
+371
+00:17:26,220 --> 00:17:28,330
+So the plus operator what it does here,
+
+372
+00:17:28,330 --> 00:17:30,750
+is to convert everything to a string,
+
+373
+00:17:30,750 --> 00:17:32,440
+just like I showed you before.
+
+374
+00:17:32,440 --> 00:17:33,970
+And so the string here,
+
+375
+00:17:33,970 --> 00:17:36,780
+is then basically this Array as a string,
+
+376
+00:17:36,780 --> 00:17:39,160
+and then it adds the 10 here.
+
+377
+00:17:39,160 --> 00:17:41,290
+So that's not meaningful at all.
+
+378
+00:17:41,290 --> 00:17:45,030
+And if we use it with minus 10, then it's even weirder.
+
+379
+00:17:45,030 --> 00:17:47,040
+So we get not a number.
+
+380
+00:17:47,040 --> 00:17:48,530
+So all of this is to say
+
+381
+00:17:48,530 --> 00:17:52,150
+that we cannot do operations with Arrays.
+
+382
+00:17:52,150 --> 00:17:55,020
+But we can still use the calcAge function
+
+383
+00:17:55,020 --> 00:17:58,463
+on individual elements of the Array of course.
+
+384
+00:17:59,780 --> 00:18:01,870
+So let's do that.
+
+385
+00:18:01,870 --> 00:18:04,990
+And we will assume that I want to calculate the ages
+
+386
+00:18:04,990 --> 00:18:08,830
+for the first, the second and the last Array element.
+
+387
+00:18:08,830 --> 00:18:09,996
+So this one, this one
+
+388
+00:18:09,996 --> 00:18:11,423
+and this one.
+
+389
+00:18:12,620 --> 00:18:15,180
+So let's
+
+390
+00:18:16,450 --> 00:18:17,930
+calculate this
+
+391
+00:18:17,930 --> 00:18:21,320
+and then store the result into a variable called age one
+
+392
+00:18:23,200 --> 00:18:26,150
+and we need to get rid of this parenthesis.
+
+393
+00:18:26,150 --> 00:18:27,350
+And so, as I said
+
+394
+00:18:27,350 --> 00:18:31,680
+I want to calculate the age for this first element.
+
+395
+00:18:31,680 --> 00:18:33,320
+And so what we do,
+
+396
+00:18:33,320 --> 00:18:36,590
+is to take years at position zero.
+
+397
+00:18:36,590 --> 00:18:40,600
+And so this year will then basically be replaced with 1990.
+
+398
+00:18:40,600 --> 00:18:43,810
+And then calcAge is called with 1990,
+
+399
+00:18:43,810 --> 00:18:45,963
+and to resolve the stores to age one.
+
+400
+00:18:47,050 --> 00:18:49,650
+Now let's do this some more times
+
+401
+00:18:53,680 --> 00:18:57,090
+and say, age two age three.
+
+402
+00:18:57,090 --> 00:18:59,700
+And here I'm using one.
+
+403
+00:18:59,700 --> 00:19:03,580
+So remember I want this, this and the last one.
+
+404
+00:19:03,580 --> 00:19:05,710
+But I don't want to count
+
+405
+00:19:05,710 --> 00:19:07,850
+the number of elements in the Array.
+
+406
+00:19:07,850 --> 00:19:10,000
+And so I used that trick, that I just showed you
+
+407
+00:19:10,000 --> 00:19:11,250
+in the beginning
+
+408
+00:19:11,250 --> 00:19:14,930
+which is to first compute the length of the Array.
+
+409
+00:19:14,930 --> 00:19:17,770
+So years.length,
+
+410
+00:19:17,770 --> 00:19:20,323
+and then minus one to account for the fact
+
+411
+00:19:20,323 --> 00:19:22,803
+that the index of the Array is zero based.
+
+412
+00:19:23,810 --> 00:19:28,810
+And now we can quickly check out if this actually worked.
+
+413
+00:19:28,970 --> 00:19:31,520
+So age one, age two,
+
+414
+00:19:31,520 --> 00:19:32,683
+age three.
+
+415
+00:19:37,370 --> 00:19:38,203
+And yeah.
+
+416
+00:19:38,203 --> 00:19:40,170
+So we got three values here,
+
+417
+00:19:40,170 --> 00:19:42,330
+which are these three ages.
+
+418
+00:19:42,330 --> 00:19:46,160
+But we can take this even a little bit further.
+
+419
+00:19:46,160 --> 00:19:48,500
+So since we started with an Array,
+
+420
+00:19:48,500 --> 00:19:53,070
+it's usually a good idea, to also end up with a new Array.
+
+421
+00:19:53,070 --> 00:19:55,319
+So let's create an Array
+
+422
+00:19:55,319 --> 00:19:57,923
+const ages,
+
+423
+00:19:59,340 --> 00:20:01,890
+and now what should I put in here?
+
+424
+00:20:01,890 --> 00:20:04,940
+Well, remember how I said up here
+
+425
+00:20:04,940 --> 00:20:07,400
+that any position of the Array
+
+426
+00:20:07,400 --> 00:20:09,220
+simply needs to be an expression.
+
+427
+00:20:09,220 --> 00:20:11,690
+So something that produces a value.
+
+428
+00:20:11,690 --> 00:20:13,250
+And as we already know,
+
+429
+00:20:13,250 --> 00:20:16,280
+this here produces a value as well, right?
+
+430
+00:20:16,280 --> 00:20:17,830
+It is an expression.
+
+431
+00:20:17,830 --> 00:20:19,540
+And so I can take this
+
+432
+00:20:19,540 --> 00:20:22,663
+and simply put it as a position in this Array.
+
+433
+00:20:23,600 --> 00:20:25,670
+And so JavaScript will then go ahead
+
+434
+00:20:25,670 --> 00:20:29,313
+compute this value and place it in the Array.
+
+435
+00:20:30,260 --> 00:20:33,440
+So basically we can place function calls
+
+436
+00:20:33,440 --> 00:20:35,440
+into an Array just fine,
+
+437
+00:20:35,440 --> 00:20:37,140
+because they will produce a value.
+
+438
+00:20:38,040 --> 00:20:39,420
+And now here.
+
+439
+00:20:39,420 --> 00:20:40,660
+We need to again,
+
+440
+00:20:40,660 --> 00:20:45,660
+do years.length minus one.
+
+441
+00:20:49,581 --> 00:20:54,180
+And now finally logging it to the console
+
+442
+00:20:54,180 --> 00:20:55,343
+and then we're done.
+
+443
+00:20:57,200 --> 00:20:59,980
+And indeed we get the three same values,
+
+444
+00:20:59,980 --> 00:21:02,140
+that we had up here separately.
+
+445
+00:21:02,140 --> 00:21:05,610
+Now, all nicely placed into this Array.
+
+446
+00:21:05,610 --> 00:21:06,910
+And this of course works
+
+447
+00:21:06,910 --> 00:21:09,770
+because JavaScript will start by
+
+448
+00:21:09,770 --> 00:21:11,260
+running these function calls,
+
+449
+00:21:11,260 --> 00:21:13,570
+these three function calls here
+
+450
+00:21:13,570 --> 00:21:16,963
+and then place all the results in an Array afterwards.
+
+451
+00:21:17,830 --> 00:21:18,760
+Nice.
+
+452
+00:21:18,760 --> 00:21:22,000
+And I think that should be enough for one video.
+
+453
+00:21:22,000 --> 00:21:24,920
+I hope that you see how fun Arrays can be,
+
+454
+00:21:24,920 --> 00:21:27,060
+and how useful they can be.
+
+455
+00:21:27,060 --> 00:21:28,100
+And in the next lecture,
+
+456
+00:21:28,100 --> 00:21:30,170
+we will make them even more useful
+
+457
+00:21:30,170 --> 00:21:32,333
+by doing some operations with them.

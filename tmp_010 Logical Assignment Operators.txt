@@ -1,0 +1,207 @@
+﻿Now, even more modern that the nullish coalescing operator that we just talked about are three new so-called logical assignment operators that were introduced in ES 2021.
+
+So let's see how they work.
+
+And in order to do that in an effective way, let's quickly start by creating two new restaurant object.
+
+So I'm gonna call then restaurant one and restaurant two.
+
+And they are extremely simple.
+
+They just have a name and then this one has a property, number of guests, and let's set it to 20 here.
+
+And then there will also be a restaurant two.
+
+And, in fact, let's just duplicate this one here.
+
+Restaurant two.
+
+Call this on La Piazza.
+
+And this one actually doesn't have the number of guests property but it has an owner.
+
+So Giovanni Rossi, or whatever.
+
+Okay, and the first thing that we want to do now is to set a default number of guests for all the restaurant objects that do not have that property.
+
+So in this case, it is just this restaurant here but let's pretend that we got them so that we got these restaurants from some kind of API, and now we want to apply something to all of them.
+
+So in this case, basically adding the number of guests property to the objects that do not have them.
+
+And let's start by using the tool that we already know about to do this.
+
+And so that is the or operator.
+
+So we already know how we can do this using the or operator, right?
+
+So let's say rest2 .number of guests should be equal to rest1.numGuests or 10.
+
+So let's quickly remember that this works because of short circuiting.
+
+So in the or operator, if the first value is truthy, so this one here, then that first value will immediately be returned and the second value will not even be evaluated.
+
+So that's this one here.
+
+And so by doing this, and here actually should be numGuests, so again by doing this, here we are returning the number of guests if it does exist, so if it's not falsy, and otherwise, the 10 is going to be returned.
+
+Okay?
+
+And in fact, let's duplicate this line here.
+
+But first, I should fix it because, of course, the number of guests in restaurant two should be set based on the number of guests that are in restaurant two or not.
+
+But anyway, duplicating this now and then doing it for both restaurants here so that we can see the result here for both objects.
+
+So let's see.
+
+And here we go.
+
+So the second one here didn't have a number of guests and so now numGuests is 10.
+
+And again, that is because of short circuiting.
+
+So this here returned undefined and so then the second one got returned, while here in this one, this value was 20 and so it is this 20 that immediately got returned.
+
+So nothing new up until this point but now let me introduce the very first logical assignment operator, which is the or assignment operator.
+
+So with that operator, we will be able to write the same thing basically in a more concise way.
+
+So rest1.numGuests, and now instead of repeating the same thing again like I did here, I can simply write or equal and then 10.
+
+And that's it.
+
+So this here is exactly the same as this one but in a more concise way.
+
+Okay?
+
+Let's do the same for restaurant two.
+
+And if we comment out these two now, then as you see the result is exactly the same.
+
+Great.
+
+So let's write here the OR assignment operator.
+
+And basically, this operator assigns a variable to a variable if that variable is currently falsy.
+
+So again, exactly what's happening here because this variable is currently falsy and so it will be assigned the value of 10.
+
+Great, so that works beautifully, except in one situation.
+
+That actually we already encountered before in the previous lecture.
+
+So let's actually duplicate this here.
+
+Comment out this one.
+
+And now setting the number of guests to zero, which is a perfectly reasonable number, right?
+
+But look what happens if I then run this code again.
+
+As we can see here, it is back to being 10, even though we set it to zero here.
+
+So can you guess why that is happening based on what we learned in the last lecture?
+
+Well, zero is actually a falsy value, and so this OR assignment operator is actually working just fine.
+
+So this here right now is falsy and so therefore, it will then be assigned this value of 10, which is exactly what this operator does.
+
+So again, the logical OR assignment operator will assign a value to a variable if that exact variable is falsy right now.
+
+However, fortunately, we have a good way of solving this.
+
+So let's copy all of this, put it here, comment out these two because they don't really work.
+
+And so here we actually do also have the logical nullish assignment operator.
+
+Sounds a bit complicated but really all it is is to change the or for the nullish coalescing operator.
+
+So let's actually write that also here.
+
+Nullish assignment operator.
+
+So if I save it now, then it is back to zero here.
+
+And that is exactly the correct result here.
+
+Let's just remember here that nullish basically means null or undefined, and right here in restaurant two, the number of guests is undefined and so therefore, then the 10 will be assigned to that variable.
+
+And so in a nutshell, the nullish assignment operator will assign a value to a variable if that exact variable is currently nullish.
+
+So again, that is the case in restaurant number two.
+
+Okay.
+
+And as you can probably guess, we do also have the logical and assignment operator.
+
+And to learn about that one, let's say that we want to anonymize the names of the restaurant owners.
+
+So when there currently is an owner, like here in this object, we want to basically replace this string here with the string anonymous.
+
+So how could we do that again using the tools that we already know?
+
+Well, let's say rest2.owner and now let's use for now just an and operator.
+
+So we can say rest2.owner and then let's write it like this.
+
+Anonymous, okay?
+
+Let's see for now if this worked.
+
+And indeed, it did.
+
+So it replaced the string that we had here before with this anonymous.
+
+And so let's remember why this works.
+
+Well, once again, it is because of short circuiting.
+
+And in the particular case of the and operator, it short circuits when the first value is falsy, and then immediately returns that falsy value.
+
+So in this case, that's not what happening.
+
+So this is truthy right now and so therefore, the second value will then actually be evaluated and returned.
+
+So if we duplicated this, like this, then you see that it's now actually being set to undefined because well, the restaurant1.owner does not exist.
+
+So that property is not here and so this value is undefined.
+
+And since the and operator short circuits when the first value is falsy, well, then that is the value that is immediately returned.
+
+So again, we already learned about that a little bit earlier in the section, and so that's why I'm not going really deep into the details here once again.
+
+What I will go into detail is that we can now replace once again this duplicate variable here.
+
+So basically replacing it with the and assignment operator.
+
+So for doing that, I can write rest1 &amp;&amp; equal, and then here let's just copy this string.
+
+All right, and copying it for restaurant two.
+
+And I can then comment these two out and just for the sake of completeness, let's also write it here.
+
+Now, and we get an error here and that's, of course, because I forget the number of guests, and actually, it is .owner, of course.
+
+So .owner.
+
+Let's see, and there we go.
+
+So the owner has been replaced with anonymous in this case, and here in the case of the first restaurant, the result is even better now than what we had before because with this code here, we actually had the owner then set to undefined, which was not really what we wanted.
+
+Now it is simply not here.
+
+And so basically, what the logical and assignment operator does is to assign a value to a variable if it is currently truthy.
+
+All right.
+
+So clearly, this here was falsy because it didn't exist.
+
+And so then nothing happened.
+
+So the object stayed exactly the same.
+
+Then here this here was indeed truthy, so it was Giovanni before.
+
+And so it was replaced now with this other string.
+
+And so again, if you ever need to assign a value to a variable that is already defined, so that has a value that is currently truthy, then you can use this and assignment operator.

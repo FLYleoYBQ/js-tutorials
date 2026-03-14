@@ -1,0 +1,1171 @@
+1
+00:00:01,260 --> 00:00:02,400
+So JavaScript
+
+2
+00:00:02,400 --> 00:00:05,970
+has a new Internationalization API.
+
+3
+00:00:05,970 --> 00:00:08,350
+Now that sounds very fancy,
+
+4
+00:00:08,350 --> 00:00:10,530
+but all it does is to allow us
+
+5
+00:00:10,530 --> 00:00:13,400
+to easily format numbers and strings
+
+6
+00:00:13,400 --> 00:00:15,970
+according to different languages.
+
+7
+00:00:15,970 --> 00:00:17,980
+So with this new API,
+
+8
+00:00:17,980 --> 00:00:21,440
+we can make our applications support different languages
+
+9
+00:00:21,440 --> 00:00:23,440
+for users around the world
+
+10
+00:00:23,440 --> 00:00:25,290
+which is pretty important.
+
+11
+00:00:25,290 --> 00:00:28,960
+For example, currencies or dates are represented
+
+12
+00:00:28,960 --> 00:00:31,350
+in a completely different way in Europe
+
+13
+00:00:31,350 --> 00:00:35,240
+or in the U.S or in Asia for example.
+
+14
+00:00:35,240 --> 00:00:38,450
+Now there is a lot of language specific things
+
+15
+00:00:38,450 --> 00:00:42,070
+that we can do with the Internationalization API.
+
+16
+00:00:42,070 --> 00:00:45,590
+But in this section, we're just briefly gonna talk about
+
+17
+00:00:45,590 --> 00:00:48,370
+formatting dates and numbers.
+
+18
+00:00:48,370 --> 00:00:51,363
+And starting with dates in this video.
+
+19
+00:00:53,040 --> 00:00:56,740
+So in our application, we have dates in two places.
+
+20
+00:00:56,740 --> 00:00:59,170
+First, right here, and then second here
+
+21
+00:00:59,170 --> 00:01:01,640
+in each of these movements.
+
+22
+00:01:01,640 --> 00:01:04,300
+Now, in case you're wondering why these labels
+
+23
+00:01:04,300 --> 00:01:08,460
+like today or yesterday or five days ago,
+
+24
+00:01:08,460 --> 00:01:10,900
+are gone here from my application,
+
+25
+00:01:10,900 --> 00:01:13,030
+it's just because I'm recording this video
+
+26
+00:01:13,030 --> 00:01:14,373
+a couple of days later.
+
+27
+00:01:16,241 --> 00:01:20,800
+But anyway, let's go to the place in our code
+
+28
+00:01:20,800 --> 00:01:23,863
+which displays this first date here,
+
+29
+00:01:24,990 --> 00:01:28,130
+so that we can format that according to different languages
+
+30
+00:01:28,130 --> 00:01:29,533
+and see what it looks like.
+
+31
+00:01:30,840 --> 00:01:34,063
+And so that is right here in the login handler function.
+
+32
+00:01:34,960 --> 00:01:38,923
+And in particular, this is the code that we have currently.
+
+33
+00:01:39,890 --> 00:01:43,250
+Remember doing this, but now we will actually be able
+
+34
+00:01:43,250 --> 00:01:45,880
+to get rid of all of this
+
+35
+00:01:45,880 --> 00:01:49,630
+and simply replace it with the Internationalization API.
+
+36
+00:01:49,630 --> 00:01:52,823
+So it will do this kind of formatting for us automatically.
+
+37
+00:01:53,740 --> 00:01:56,982
+But for now, let's actually display this date here
+
+38
+00:01:56,982 --> 00:01:58,880
+outside of the login
+
+39
+00:01:58,880 --> 00:02:02,230
+so that we can experiment a little bit with this API
+
+40
+00:02:02,230 --> 00:02:04,263
+without having to log in all the time.
+
+41
+00:02:06,100 --> 00:02:08,823
+So I will grab the current date.
+
+42
+00:02:14,150 --> 00:02:16,523
+Experimenting with the API.
+
+43
+00:02:19,351 --> 00:02:23,350
+Now then we also need to get just this part
+
+44
+00:02:23,350 --> 00:02:28,350
+where we do then actually display something in the DAM.
+
+45
+00:02:31,230 --> 00:02:34,390
+So we want to set this text content property here
+
+46
+00:02:34,390 --> 00:02:35,223
+to something.
+
+47
+00:02:36,900 --> 00:02:40,400
+And we want to set it to a formatted state.
+
+48
+00:02:40,400 --> 00:02:44,510
+And so let's now use the Internationalization API for that.
+
+49
+00:02:44,510 --> 00:02:46,140
+So that's new.
+
+50
+00:02:46,140 --> 00:02:48,600
+And then Intl,
+
+51
+00:02:48,600 --> 00:02:51,250
+and so that's basically the namespace
+
+52
+00:02:51,250 --> 00:02:53,393
+for the Internationalization API.
+
+53
+00:02:54,230 --> 00:02:56,340
+And then for times and dates,
+
+54
+00:02:56,340 --> 00:03:00,003
+we use the dot DateTimeFormat function.
+
+55
+00:03:05,490 --> 00:03:08,740
+Now all that we need to pass into this function here
+
+56
+00:03:08,740 --> 00:03:11,710
+is a so-called locale string.
+
+57
+00:03:11,710 --> 00:03:14,880
+And this locale is usually the language
+
+58
+00:03:14,880 --> 00:03:17,010
+and then dash the country.
+
+59
+00:03:17,010 --> 00:03:19,230
+So something like this.
+
+60
+00:03:19,230 --> 00:03:23,333
+So English and then dash U.S for example.
+
+61
+00:03:25,105 --> 00:03:27,100
+And so this, all of this here
+
+62
+00:03:27,100 --> 00:03:31,370
+will create a so-called formatter for this language
+
+63
+00:03:31,370 --> 00:03:32,490
+in this country.
+
+64
+00:03:32,490 --> 00:03:34,420
+So English dot U.S.
+
+65
+00:03:34,420 --> 00:03:36,420
+And I will show you a list of many
+
+66
+00:03:36,420 --> 00:03:38,630
+different locales here in a second,
+
+67
+00:03:38,630 --> 00:03:41,550
+but for now let's get started with this one.
+
+68
+00:03:41,550 --> 00:03:43,800
+So all of this creates a new formatter.
+
+69
+00:03:43,800 --> 00:03:47,433
+And then on that formatter, we can call dot format.
+
+70
+00:03:50,793 --> 00:03:53,640
+And then here, we actually pass in the date
+
+71
+00:03:53,640 --> 00:03:55,210
+that we want to format.
+
+72
+00:03:55,210 --> 00:03:58,513
+So that's now, and that's actually it.
+
+73
+00:03:59,810 --> 00:04:01,113
+So let's reload here.
+
+74
+00:04:02,670 --> 00:04:06,520
+Now you see that now the date is actually formatted,
+
+75
+00:04:06,520 --> 00:04:09,590
+and just like it is usually formatted in the U.S
+
+76
+00:04:09,590 --> 00:04:12,747
+with the month first and then the day.
+
+77
+00:04:13,840 --> 00:04:17,170
+Now English is also spoken in other languages.
+
+78
+00:04:17,170 --> 00:04:21,150
+Also let's try the UK now or the Great Britain.
+
+79
+00:04:21,150 --> 00:04:24,143
+So for the UK, we have to use this one.
+
+80
+00:04:25,400 --> 00:04:28,240
+And now you see that it is different.
+
+81
+00:04:28,240 --> 00:04:30,660
+So you have the day first, then the month.
+
+82
+00:04:30,660 --> 00:04:33,290
+And it also has this leading zero here.
+
+83
+00:04:33,290 --> 00:04:37,610
+And so you see that now it is actually formatting this date
+
+84
+00:04:37,610 --> 00:04:41,820
+for this exact locale date we specified here.
+
+85
+00:04:41,820 --> 00:04:44,120
+And so just with this one line of code,
+
+86
+00:04:44,120 --> 00:04:46,380
+we have correctly formatted the date
+
+87
+00:04:46,380 --> 00:04:48,950
+for any user around the world.
+
+88
+00:04:48,950 --> 00:04:51,900
+And let's try some other countries here as well.
+
+89
+00:04:51,900 --> 00:04:56,900
+For example, we could try Arabic for Syria.
+
+90
+00:04:57,020 --> 00:04:58,593
+So that would look like this.
+
+91
+00:05:00,600 --> 00:05:04,770
+So in the symbols that I cannot really understand,
+
+92
+00:05:04,770 --> 00:05:09,530
+but what matters is that it is indeed formatted correctly.
+
+93
+00:05:09,530 --> 00:05:10,930
+Let's just put it back here.
+
+94
+00:05:13,761 --> 00:05:17,260
+And to get these different codes,
+
+95
+00:05:17,260 --> 00:05:22,260
+let's just Google ISO language code table.
+
+96
+00:05:24,940 --> 00:05:28,170
+And then the one that's easiest to understand
+
+97
+00:05:28,170 --> 00:05:29,690
+is this one here.
+
+98
+00:05:29,690 --> 00:05:32,730
+So go to the one that has lingos.net,
+
+99
+00:05:32,730 --> 00:05:35,740
+and then from there you can find your own code
+
+100
+00:05:35,740 --> 00:05:37,450
+and then experiment with that
+
+101
+00:05:37,450 --> 00:05:39,393
+and see if it's also correct.
+
+102
+00:05:43,958 --> 00:05:46,690
+Now this is the most straightforward way
+
+103
+00:05:46,690 --> 00:05:48,810
+of formatting dates and times,
+
+104
+00:05:48,810 --> 00:05:51,270
+but we can actually take it to the next level
+
+105
+00:05:51,270 --> 00:05:55,010
+and add some options to also customize this a little bit.
+
+106
+00:05:55,010 --> 00:05:57,310
+For example, you see that right now,
+
+107
+00:05:57,310 --> 00:06:01,033
+it only displays the date here, but not any time.
+
+108
+00:06:02,170 --> 00:06:06,580
+And so we can change that by providing an options object
+
+109
+00:06:06,580 --> 00:06:08,193
+to this function here.
+
+110
+00:06:09,320 --> 00:06:12,973
+So let's define that options object outside here.
+
+111
+00:06:16,490 --> 00:06:19,313
+And I'm simply calling it options.
+
+112
+00:06:20,240 --> 00:06:23,780
+And so all we have to do is to specify the hours property
+
+113
+00:06:24,900 --> 00:06:28,883
+or hour and set it to numeric.
+
+114
+00:06:30,290 --> 00:06:35,290
+And the same for the minute, set it to numeric as well.
+
+115
+00:06:37,240 --> 00:06:40,920
+And now we have to then provide this object here
+
+116
+00:06:40,920 --> 00:06:44,733
+as a second argument into the DateTimeFormat function.
+
+117
+00:06:45,920 --> 00:06:47,680
+So options.
+
+118
+00:06:47,680 --> 00:06:50,870
+And of course, we could have written this object right here,
+
+119
+00:06:50,870 --> 00:06:54,290
+but I will add some more stuff to it in a second.
+
+120
+00:06:54,290 --> 00:06:57,730
+And then this line of code here becomes a little bit messy.
+
+121
+00:06:57,730 --> 00:07:01,220
+So it's quite usual to have a configuration object
+
+122
+00:07:01,220 --> 00:07:03,563
+like this one here, defined outside.
+
+123
+00:07:04,890 --> 00:07:09,400
+So as you see, now we get indeed the time.
+
+124
+00:07:09,400 --> 00:07:13,320
+But on the other hand, now the date is gone.
+
+125
+00:07:13,320 --> 00:07:15,830
+So let's get that back as well.
+
+126
+00:07:15,830 --> 00:07:18,740
+And here we can specify properties for each
+
+127
+00:07:18,740 --> 00:07:22,327
+of weekday, year, month, and day.
+
+128
+00:07:23,370 --> 00:07:25,060
+So let's start with the day
+
+129
+00:07:26,000 --> 00:07:29,550
+and I will set it to numeric as well.
+
+130
+00:07:29,550 --> 00:07:31,100
+So let's see what happens then.
+
+131
+00:07:32,308 --> 00:07:34,123
+And so now we only get the day.
+
+132
+00:07:37,430 --> 00:07:42,430
+Let's add the month as well, numeric again.
+
+133
+00:07:43,710 --> 00:07:47,133
+And so now we get the month here as eight.
+
+134
+00:07:48,900 --> 00:07:52,010
+And that's because we specified it as numeric.
+
+135
+00:07:52,010 --> 00:07:54,913
+But for month we can also write long.
+
+136
+00:07:55,900 --> 00:07:58,090
+So let's see what happens then.
+
+137
+00:07:58,090 --> 00:08:00,690
+And so now we get August.
+
+138
+00:08:00,690 --> 00:08:02,820
+And so not just the number.
+
+139
+00:08:02,820 --> 00:08:06,090
+And for the month, there is even another option,
+
+140
+00:08:06,090 --> 00:08:08,293
+which is two digit.
+
+141
+00:08:09,550 --> 00:08:11,350
+And so then it would be zero, eight.
+
+142
+00:08:12,320 --> 00:08:14,293
+But let's leave it at long.
+
+143
+00:08:15,260 --> 00:08:17,593
+And now the year as well,
+
+144
+00:08:19,060 --> 00:08:21,143
+let's set it to numeric.
+
+145
+00:08:22,910 --> 00:08:24,223
+And of course in quotes.
+
+146
+00:08:28,630 --> 00:08:30,610
+So that's 2020.
+
+147
+00:08:30,610 --> 00:08:34,520
+But we could also say just two digit.
+
+148
+00:08:34,520 --> 00:08:36,540
+And so then it would be 20.
+
+149
+00:08:36,540 --> 00:08:39,220
+But again, let's leave it as numeric.
+
+150
+00:08:39,220 --> 00:08:42,463
+And finally we can even specify the weekday.
+
+151
+00:08:46,550 --> 00:08:48,750
+And here I'm using long again.
+
+152
+00:08:48,750 --> 00:08:53,130
+And so then it will write out the day completely.
+
+153
+00:08:53,130 --> 00:08:56,200
+So Wednesday, August 12, 2020
+
+154
+00:08:56,200 --> 00:08:58,700
+and all of this nicely formatted,
+
+155
+00:08:58,700 --> 00:09:01,893
+just like people in the U.S do it.
+
+156
+00:09:04,070 --> 00:09:07,310
+Now here, we can also say short or narrow,
+
+157
+00:09:07,310 --> 00:09:09,223
+and you can experiment with that.
+
+158
+00:09:12,040 --> 00:09:14,573
+So let's see what it would look like in the UK.
+
+159
+00:09:16,050 --> 00:09:19,210
+So that's pretty similar, but now let's see
+
+160
+00:09:19,210 --> 00:09:21,900
+for example, Portugal.
+
+161
+00:09:21,900 --> 00:09:24,960
+So PT dash PT.
+
+162
+00:09:24,960 --> 00:09:26,960
+And so now you will see this here,
+
+163
+00:09:26,960 --> 00:09:30,420
+of course written all in Portuguese.
+
+164
+00:09:30,420 --> 00:09:33,490
+And the same, of course, for other locales
+
+165
+00:09:33,490 --> 00:09:35,700
+so for other languages.
+
+166
+00:09:35,700 --> 00:09:39,010
+Now in many situations, it actually makes more sense
+
+167
+00:09:39,010 --> 00:09:42,000
+to not define the locale manually,
+
+168
+00:09:42,000 --> 00:09:45,600
+but instead to simply get it from the user's browser.
+
+169
+00:09:45,600 --> 00:09:47,693
+And so that's pretty easy to do as well.
+
+170
+00:09:50,700 --> 00:09:54,090
+So let's define another variable here outside,
+
+171
+00:09:54,090 --> 00:09:59,090
+so locale, and then that simply navigator dot language.
+
+172
+00:10:04,330 --> 00:10:07,283
+So let's log it here to the console first.
+
+173
+00:10:10,320 --> 00:10:14,293
+So you see that mine here is set to English, Great Britain.
+
+174
+00:10:15,520 --> 00:10:17,433
+And so if I replace this here now,
+
+175
+00:10:18,950 --> 00:10:21,710
+then you will see that it will go back here
+
+176
+00:10:21,710 --> 00:10:23,493
+to displaying it in English.
+
+177
+00:10:25,400 --> 00:10:27,693
+And so if you do this yourself now,
+
+178
+00:10:27,693 --> 00:10:29,880
+then your date should be displayed
+
+179
+00:10:29,880 --> 00:10:32,713
+to whatever language you have in your browser.
+
+180
+00:10:34,790 --> 00:10:38,380
+Anyway, let's now take this and actually put it here
+
+181
+00:10:38,380 --> 00:10:39,923
+into our login.
+
+182
+00:10:41,080 --> 00:10:43,410
+So replacing all of this,
+
+183
+00:10:43,410 --> 00:10:45,610
+I will just comment it out to leave it here.
+
+184
+00:10:50,360 --> 00:10:53,480
+And now we have a duplicate here,
+
+185
+00:10:53,480 --> 00:10:54,613
+let's get rid of that.
+
+186
+00:10:55,940 --> 00:10:58,410
+So now the date will only get formatted
+
+187
+00:10:58,410 --> 00:11:00,393
+when the user actually logs in.
+
+188
+00:11:02,940 --> 00:11:07,940
+But now let's take a look at our account objects here.
+
+189
+00:11:08,150 --> 00:11:11,000
+And so you'll see that now in each of the accounts,
+
+190
+00:11:11,000 --> 00:11:12,863
+I defined a locale.
+
+191
+00:11:14,160 --> 00:11:17,660
+So account one is Portuguese
+
+192
+00:11:17,660 --> 00:11:19,533
+and the other one is in English.
+
+193
+00:11:20,600 --> 00:11:23,770
+And so let's now actually use these locales
+
+194
+00:11:23,770 --> 00:11:28,090
+to display Jonas state here in the Portuguese format
+
+195
+00:11:28,090 --> 00:11:31,593
+and Jessica state in the American format.
+
+196
+00:11:34,930 --> 00:11:37,093
+So that's easy enough.
+
+197
+00:11:38,070 --> 00:11:40,763
+We just have to find the correct place in our code.
+
+198
+00:11:41,770 --> 00:11:44,350
+So, yeah, that's right here.
+
+199
+00:11:44,350 --> 00:11:46,280
+And remember that we have the account
+
+200
+00:11:46,280 --> 00:11:49,050
+in the current account variable.
+
+201
+00:11:49,050 --> 00:11:51,600
+And so here, instead of using this locale,
+
+202
+00:11:51,600 --> 00:11:53,150
+that's coming from the browser,
+
+203
+00:11:54,520 --> 00:11:59,520
+so instead of using this, we use current account dot locale.
+
+204
+00:12:01,930 --> 00:12:06,580
+So let's give it a safe and now I will log in as Jonas.
+
+205
+00:12:06,580 --> 00:12:10,920
+And remember that should now display in a Portuguese format
+
+206
+00:12:10,920 --> 00:12:13,190
+and indeed it does.
+
+207
+00:12:13,190 --> 00:12:16,890
+Now the problem here is that our entire user interface
+
+208
+00:12:16,890 --> 00:12:18,180
+is in English,
+
+209
+00:12:18,180 --> 00:12:21,870
+but now I have this weekday here in Portuguese
+
+210
+00:12:21,870 --> 00:12:24,620
+and also this month name.
+
+211
+00:12:24,620 --> 00:12:28,420
+So to fix that, let's actually set the month here
+
+212
+00:12:28,420 --> 00:12:29,673
+back to numeric,
+
+213
+00:12:32,270 --> 00:12:35,373
+and also get entirely rid of the weekday.
+
+214
+00:12:37,510 --> 00:12:39,023
+So let's try that again.
+
+215
+00:12:41,210 --> 00:12:44,300
+So we got rid of the Portuguese words here,
+
+216
+00:12:44,300 --> 00:12:46,350
+but the formatting still follows
+
+217
+00:12:46,350 --> 00:12:48,033
+the official Portuguese way.
+
+218
+00:12:49,380 --> 00:12:51,713
+Now let's check out Jessica Davis.
+
+219
+00:12:54,060 --> 00:12:56,320
+And so you'll see, it looks different now.
+
+220
+00:12:56,320 --> 00:12:59,910
+It is now in the American format with the month first,
+
+221
+00:12:59,910 --> 00:13:03,980
+and then also with the AM time down here.
+
+222
+00:13:03,980 --> 00:13:06,660
+And of course you can set one of these accounts
+
+223
+00:13:06,660 --> 00:13:08,270
+to your own language,
+
+224
+00:13:08,270 --> 00:13:11,330
+to see how it would look like in your language
+
+225
+00:13:11,330 --> 00:13:15,340
+to make it a little bit more personalized for yourself.
+
+226
+00:13:15,340 --> 00:13:19,960
+Great, so with this, we have localized this date here.
+
+227
+00:13:19,960 --> 00:13:22,500
+Now we need to do the same with the dates down here
+
+228
+00:13:22,500 --> 00:13:23,533
+in the movements.
+
+229
+00:13:24,860 --> 00:13:28,963
+So let's go to that function which formats these dates.
+
+230
+00:13:29,980 --> 00:13:33,980
+Remember we created a function for that up here.
+
+231
+00:13:33,980 --> 00:13:36,303
+So that is format movement date.
+
+232
+00:13:37,730 --> 00:13:40,000
+Again let's not do this formatting here
+
+233
+00:13:41,070 --> 00:13:43,010
+also for these movements.
+
+234
+00:13:43,010 --> 00:13:46,040
+And so what we're gonna do is to replace all of this here
+
+235
+00:13:46,920 --> 00:13:49,833
+with a new, a nicely formatted date.
+
+236
+00:13:52,790 --> 00:13:57,050
+So instead of returning all of this here like we did before,
+
+237
+00:13:57,050 --> 00:13:59,663
+we will simply return new.
+
+238
+00:14:00,960 --> 00:14:05,687
+And then again, the Intl namespace DateTimeFormat.
+
+239
+00:14:08,500 --> 00:14:11,320
+And then here we need the locale.
+
+240
+00:14:11,320 --> 00:14:14,043
+And so let's actually pass that into the function.
+
+241
+00:14:16,110 --> 00:14:20,170
+So this function right now only receives a date,
+
+242
+00:14:20,170 --> 00:14:22,193
+but we also now need a locale.
+
+243
+00:14:23,290 --> 00:14:28,070
+So let's add that here as a second parameter.
+
+244
+00:14:28,070 --> 00:14:30,113
+And now wherever we call this function,
+
+245
+00:14:32,180 --> 00:14:35,210
+and that is down here.
+
+246
+00:14:35,210 --> 00:14:38,170
+So here we now need to pass in that locale, of course.
+
+247
+00:14:38,170 --> 00:14:41,133
+And so that comes from the account dot locale.
+
+248
+00:14:42,090 --> 00:14:46,163
+So the current account in here is called ACC, remember?
+
+249
+00:14:47,854 --> 00:14:50,763
+And so that locale is that ACC dot locale.
+
+250
+00:14:54,630 --> 00:14:57,940
+So return new date format,
+
+251
+00:14:57,940 --> 00:15:00,890
+and then simply the locale that we receive here
+
+252
+00:15:04,210 --> 00:15:06,573
+and then format the date.
+
+253
+00:15:09,930 --> 00:15:12,700
+And so that's again the date that we receive
+
+254
+00:15:12,700 --> 00:15:13,763
+as an input here.
+
+255
+00:15:15,690 --> 00:15:16,880
+And that's it.
+
+256
+00:15:16,880 --> 00:15:20,240
+And in this case, we don't want any options object,
+
+257
+00:15:20,240 --> 00:15:24,000
+because here we don't need the hours or the minutes,
+
+258
+00:15:24,000 --> 00:15:26,690
+all we want is to simply display the date
+
+259
+00:15:26,690 --> 00:15:28,430
+as simple as possible.
+
+260
+00:15:28,430 --> 00:15:31,253
+And in that case, we don't even need any options.
+
+261
+00:15:32,260 --> 00:15:34,130
+So let's give it a safe here,
+
+262
+00:15:34,130 --> 00:15:36,623
+try it now with Jessica Davis.
+
+263
+00:15:39,300 --> 00:15:40,980
+And you see that indeed,
+
+264
+00:15:40,980 --> 00:15:43,150
+now it is the American format
+
+265
+00:15:43,150 --> 00:15:45,673
+with the month first like this,
+
+266
+00:15:46,820 --> 00:15:49,683
+let's just transfer some money here to Jonas.
+
+267
+00:15:52,000 --> 00:15:55,300
+And so of course your hour today still works.
+
+268
+00:15:55,300 --> 00:15:58,690
+So these kind of easier to read and understand labels
+
+269
+00:15:58,690 --> 00:16:00,023
+that I showed you earlier.
+
+270
+00:16:02,350 --> 00:16:04,140
+So that is the American format.
+
+271
+00:16:04,140 --> 00:16:07,510
+And now let's again, see Jonah's format,
+
+272
+00:16:07,510 --> 00:16:10,700
+which should now change to the Portuguese one.
+
+273
+00:16:10,700 --> 00:16:13,130
+And indeed it did.
+
+274
+00:16:13,130 --> 00:16:15,363
+And so this part is now working as well.
+
+275
+00:16:16,210 --> 00:16:18,700
+Great, so in a nutshell,
+
+276
+00:16:18,700 --> 00:16:22,020
+this is how we localize dates in JavaScript
+
+277
+00:16:22,020 --> 00:16:25,260
+using the new Internationalization API.
+
+278
+00:16:25,260 --> 00:16:29,343
+And as always feel free to read the documentation on MDN.
+
+279
+00:16:30,630 --> 00:16:33,263
+So that's just MDN Intl.
+
+280
+00:16:34,760 --> 00:16:35,910
+And so here, you're gonna find
+
+281
+00:16:35,910 --> 00:16:38,270
+all kinds of different functions.
+
+282
+00:16:38,270 --> 00:16:39,640
+So I mentioned in the beginning
+
+283
+00:16:39,640 --> 00:16:43,400
+that there is all kinds of stuff we can do with this API.
+
+284
+00:16:43,400 --> 00:16:48,400
+So besides dates, so we can also format lists
+
+285
+00:16:49,360 --> 00:16:53,363
+or like words and our plurals.
+
+286
+00:16:56,330 --> 00:16:59,230
+But if you wanna learn about this one a little bit better
+
+287
+00:16:59,230 --> 00:17:00,470
+that we just used,
+
+288
+00:17:00,470 --> 00:17:04,363
+you can go ahead and read the documentation right here.
+
+289
+00:17:05,370 --> 00:17:07,103
+And the next video, we will use
+
+290
+00:17:07,103 --> 00:17:09,520
+this number format function here
+
+291
+00:17:09,520 --> 00:17:11,370
+to format all the remaining numbers
+
+292
+00:17:11,370 --> 00:17:13,430
+that we have in our application.
+
+293
+00:17:13,430 --> 00:17:15,723
+So let's move on and do that now.

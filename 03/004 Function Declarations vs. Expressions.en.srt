@@ -1,0 +1,787 @@
+1
+00:00:01,390 --> 00:00:04,830
+Welcome back, so I hope that you studied
+
+2
+00:00:04,830 --> 00:00:07,120
+the last lecture really well,
+
+3
+00:00:07,120 --> 00:00:10,060
+so that you really understood what we did there
+
+4
+00:00:10,060 --> 00:00:12,690
+with our food processor function.
+
+5
+00:00:12,690 --> 00:00:15,070
+Now in JavaScript, there are different ways
+
+6
+00:00:15,070 --> 00:00:16,680
+of writing functions.
+
+7
+00:00:16,680 --> 00:00:18,110
+And each type of function,
+
+8
+00:00:18,110 --> 00:00:20,590
+works in a slightly different way.
+
+9
+00:00:20,590 --> 00:00:24,070
+But don't worry, they're still all very similar.
+
+10
+00:00:24,070 --> 00:00:25,583
+So let's find out now.
+
+11
+00:00:27,050 --> 00:00:30,270
+So the functions that I showed you in the last lecture
+
+12
+00:00:30,270 --> 00:00:32,800
+are called function declarations
+
+13
+00:00:32,800 --> 00:00:35,560
+because we simply use the function keyword
+
+14
+00:00:35,560 --> 00:00:40,560
+to declare a function a bit like we declare a variable.
+
+15
+00:00:40,590 --> 00:00:43,940
+So let's now write another function declaration.
+
+16
+00:00:43,940 --> 00:00:47,290
+And this time a function to calculate an age
+
+17
+00:00:47,290 --> 00:00:49,083
+based on a given birth year.
+
+18
+00:00:50,850 --> 00:00:54,290
+So let's again use the function keyword
+
+19
+00:00:54,290 --> 00:00:55,990
+and we're gonna call this calcAge1
+
+20
+00:00:58,950 --> 00:01:02,030
+and that's because we're gonna have another one later.
+
+21
+00:01:02,030 --> 00:01:05,290
+So as I said, we want a person's birth year
+
+22
+00:01:05,290 --> 00:01:07,410
+as an input to this function.
+
+23
+00:01:07,410 --> 00:01:09,750
+And what is an input?
+
+24
+00:01:09,750 --> 00:01:13,530
+Well, it's just a parameter in this function.
+
+25
+00:01:13,530 --> 00:01:17,600
+And the parameter remember it's a bit like a local variable,
+
+26
+00:01:17,600 --> 00:01:20,240
+that's only available inside of this function
+
+27
+00:01:22,160 --> 00:01:25,060
+Then the function body with the curly braces
+
+28
+00:01:25,060 --> 00:01:28,930
+and now the code that we want to create here.
+
+29
+00:01:28,930 --> 00:01:31,810
+So, how do we calculate an age?
+
+30
+00:01:31,810 --> 00:01:35,230
+Well, just like we did before
+
+31
+00:01:35,230 --> 00:01:36,780
+we take the current year,
+
+32
+00:01:36,780 --> 00:01:40,670
+which once more let's suppose it's 2037
+
+33
+00:01:40,670 --> 00:01:43,053
+and then minus the person's birth year.
+
+34
+00:01:44,710 --> 00:01:47,320
+And then remember to take this value now
+
+35
+00:01:47,320 --> 00:01:52,320
+out of the function, we return it using the return keyword.
+
+36
+00:01:52,960 --> 00:01:57,210
+So we calculate the age first and then we return that value.
+
+37
+00:01:57,210 --> 00:01:59,150
+And actually we can simplify this
+
+38
+00:01:59,150 --> 00:02:02,290
+and basically return all in one go.
+
+39
+00:02:02,290 --> 00:02:07,070
+So there's actually no need to store this value here
+
+40
+00:02:07,070 --> 00:02:11,243
+in a variable, if all we do is then later return that value.
+
+41
+00:02:12,190 --> 00:02:15,360
+So in fact, we can just take this value here,
+
+42
+00:02:15,360 --> 00:02:19,770
+get rid of this and then simply return the result
+
+43
+00:02:19,770 --> 00:02:22,040
+of this expression here,
+
+44
+00:02:22,040 --> 00:02:26,330
+so basically of this operation, okay?
+
+45
+00:02:26,330 --> 00:02:28,800
+So we're taking the birth year that we're gonna receive
+
+46
+00:02:28,800 --> 00:02:31,900
+and then use that to calculate the age.
+
+47
+00:02:31,900 --> 00:02:35,940
+And so once again, this is a generic function,
+
+48
+00:02:35,940 --> 00:02:40,700
+which is then gonna work for any birth year that we give it.
+
+49
+00:02:40,700 --> 00:02:44,040
+So of course, let's now call or invoke
+
+50
+00:02:44,040 --> 00:02:46,160
+or execute this function.
+
+51
+00:02:46,160 --> 00:02:47,240
+And again, I can use
+
+52
+00:02:47,240 --> 00:02:50,390
+all of these three words interchangeably,
+
+53
+00:02:50,390 --> 00:02:52,650
+they all mean the same thing.
+
+54
+00:02:52,650 --> 00:02:57,310
+So calcAgel and then remember to call the function
+
+55
+00:02:57,310 --> 00:03:00,450
+we use parenthesis and then we specify
+
+56
+00:03:00,450 --> 00:03:03,130
+the actual value of the parameter
+
+57
+00:03:03,130 --> 00:03:06,060
+which is called the argument, remember?
+
+58
+00:03:06,060 --> 00:03:08,330
+So let's say 1991.
+
+59
+00:03:08,330 --> 00:03:10,690
+Now some people use the words arguments
+
+60
+00:03:10,690 --> 00:03:13,850
+and parameters as if they were the same
+
+61
+00:03:13,850 --> 00:03:16,030
+and actually that's not a big deal
+
+62
+00:03:16,030 --> 00:03:20,280
+but to be really precise, the parameter is again
+
+63
+00:03:20,280 --> 00:03:23,280
+the kind of placeholder in the function
+
+64
+00:03:23,280 --> 00:03:26,230
+and the argument is then the actual value
+
+65
+00:03:26,230 --> 00:03:29,360
+that we use to fill in that placeholder
+
+66
+00:03:29,360 --> 00:03:31,440
+that is the parameter.
+
+67
+00:03:31,440 --> 00:03:36,370
+Anyway, this will now create a value, right?
+
+68
+00:03:36,370 --> 00:03:39,280
+And the value that this will create is the value
+
+69
+00:03:39,280 --> 00:03:42,410
+that's returned from the calcAge function
+
+70
+00:03:42,410 --> 00:03:44,990
+so basically this returned value.
+
+71
+00:03:44,990 --> 00:03:47,860
+And so, once again, we need to capture
+
+72
+00:03:47,860 --> 00:03:51,860
+or to save that value into a variable.
+
+73
+00:03:51,860 --> 00:03:53,010
+So let's call this age1
+
+74
+00:03:55,400 --> 00:03:57,610
+and just to make sure that it works,
+
+75
+00:03:57,610 --> 00:04:00,923
+let's quickly check it out in the console.
+
+76
+00:04:04,060 --> 00:04:04,893
+Okay.
+
+77
+00:04:06,340 --> 00:04:10,323
+And indeed, we get 46 just like we did before, okay?
+
+78
+00:04:12,810 --> 00:04:15,690
+So that is a function declaration
+
+79
+00:04:15,690 --> 00:04:19,060
+but now let's create a function expression.
+
+80
+00:04:19,060 --> 00:04:22,080
+So that's the other type of function that exists
+
+81
+00:04:22,080 --> 00:04:23,773
+and it looks like this.
+
+82
+00:04:25,040 --> 00:04:29,320
+Instead of writing a function with the calcAge name,
+
+83
+00:04:29,320 --> 00:04:32,300
+we simply write function basically without a name
+
+84
+00:04:33,360 --> 00:04:38,020
+and then we still define the parameter,
+
+85
+00:04:38,020 --> 00:04:40,260
+we still define the function body,
+
+86
+00:04:40,260 --> 00:04:43,340
+which is gonna be the same as this one
+
+87
+00:04:43,340 --> 00:04:45,893
+because we want another calcAge function here.
+
+88
+00:04:46,990 --> 00:04:48,930
+So we write a function like this
+
+89
+00:04:48,930 --> 00:04:50,760
+and then what we have to do
+
+90
+00:04:50,760 --> 00:04:54,480
+is to store all of this here into a variable
+
+91
+00:04:55,520 --> 00:04:58,253
+and that variable will then be the function.
+
+92
+00:04:59,520 --> 00:05:01,287
+So let's call it, calcAge2.
+
+93
+00:05:03,110 --> 00:05:07,990
+So again, we did write the function in a very similar way,
+
+94
+00:05:07,990 --> 00:05:10,220
+but we didn't give it a name here,
+
+95
+00:05:10,220 --> 00:05:13,070
+so it's a function without a name basically,
+
+96
+00:05:13,070 --> 00:05:16,330
+which is also called an anonymous function.
+
+97
+00:05:16,330 --> 00:05:19,090
+So all of this here is basically an expression
+
+98
+00:05:19,090 --> 00:05:22,110
+and remember that an expression produces a value.
+
+99
+00:05:22,110 --> 00:05:26,390
+And so we use that value in store it into calcAge2
+
+100
+00:05:26,390 --> 00:05:28,890
+and this will then be the function.
+
+101
+00:05:28,890 --> 00:05:31,280
+And I know that sounds very confusing
+
+102
+00:05:31,280 --> 00:05:33,133
+but it will make sense, trust me.
+
+103
+00:05:34,000 --> 00:05:35,670
+Now to call this function,
+
+104
+00:05:35,670 --> 00:05:38,423
+we actually do it in the exact same way.
+
+105
+00:05:39,510 --> 00:05:44,510
+So let's do age2 equals calcAge2
+
+106
+00:05:46,710 --> 00:05:48,770
+and let's use 1991 again
+
+107
+00:05:49,790 --> 00:05:54,230
+and then let's grab this console.log here
+
+108
+00:05:54,230 --> 00:05:58,383
+and log both the ages, So age2 here,
+
+109
+00:05:59,650 --> 00:06:01,653
+let's also add some comments here,
+
+110
+00:06:03,350 --> 00:06:08,350
+function declaration and function expression.
+
+111
+00:06:13,200 --> 00:06:15,730
+And so we should get twice
+
+112
+00:06:15,730 --> 00:06:19,800
+the 46 value here and yes, indeed.
+
+113
+00:06:19,800 --> 00:06:22,320
+So the functional expression works
+
+114
+00:06:22,320 --> 00:06:25,120
+the exact same way as the function declaration.
+
+115
+00:06:25,120 --> 00:06:27,500
+So we call it in the same way we capture
+
+116
+00:06:27,500 --> 00:06:29,700
+the return value in the same way
+
+117
+00:06:29,700 --> 00:06:32,890
+and then of course the result is also the same
+
+118
+00:06:32,890 --> 00:06:36,020
+because the function body is the same.
+
+119
+00:06:36,020 --> 00:06:37,480
+But it's very important to know
+
+120
+00:06:37,480 --> 00:06:41,020
+that we have these two type of functions in JavaScript.
+
+121
+00:06:41,020 --> 00:06:43,580
+Because in some places we will actually need
+
+122
+00:06:43,580 --> 00:06:45,540
+to write them like this,
+
+123
+00:06:45,540 --> 00:06:48,740
+as you will see as we go through the course.
+
+124
+00:06:48,740 --> 00:06:51,610
+So again, this part here that I just highlighted
+
+125
+00:06:51,610 --> 00:06:54,970
+this function here is in fact an expression
+
+126
+00:06:54,970 --> 00:06:58,440
+and remember that expressions produce values.
+
+127
+00:06:58,440 --> 00:07:01,200
+And so we just assign this whole value here
+
+128
+00:07:01,200 --> 00:07:04,100
+then to this variable.
+
+129
+00:07:04,100 --> 00:07:06,480
+And so this variable will then hold
+
+130
+00:07:06,480 --> 00:07:09,020
+this function value basically.
+
+131
+00:07:09,020 --> 00:07:12,320
+And one big implication of what I just said,
+
+132
+00:07:12,320 --> 00:07:15,310
+So, that this here is just a value, yeah,
+
+133
+00:07:15,310 --> 00:07:17,420
+is that in fact in JavaScript,
+
+134
+00:07:17,420 --> 00:07:20,050
+functions are actually just values.
+
+135
+00:07:20,050 --> 00:07:24,290
+So just as a number or a string or a boolean value.
+
+136
+00:07:24,290 --> 00:07:26,190
+So a function is not a type, okay?
+
+137
+00:07:26,190 --> 00:07:28,800
+It's not like a string or number type
+
+138
+00:07:28,800 --> 00:07:31,090
+but it's also a value.
+
+139
+00:07:31,090 --> 00:07:34,670
+And so if it's a value, we can store it in a variable.
+
+140
+00:07:34,670 --> 00:07:36,160
+So just keep this in mind
+
+141
+00:07:36,160 --> 00:07:38,870
+because it will become very important later
+
+142
+00:07:38,870 --> 00:07:42,400
+when we really dig deep into functions.
+
+143
+00:07:42,400 --> 00:07:45,350
+Now, besides these technical differences,
+
+144
+00:07:45,350 --> 00:07:48,100
+you might be wondering what is the big deal?
+
+145
+00:07:48,100 --> 00:07:49,860
+So what's the big difference between
+
+146
+00:07:49,860 --> 00:07:53,480
+function declarations and function expressions?
+
+147
+00:07:53,480 --> 00:07:55,640
+Well, the main practical difference
+
+148
+00:07:55,640 --> 00:07:58,600
+is that we can actually call function declarations
+
+149
+00:07:58,600 --> 00:08:01,660
+before they are defined in the code.
+
+150
+00:08:01,660 --> 00:08:05,130
+So let me show that to you.
+
+151
+00:08:05,130 --> 00:08:07,720
+So here is the declaration, right?
+
+152
+00:08:07,720 --> 00:08:10,700
+This is the function declaration and as I just said,
+
+153
+00:08:10,700 --> 00:08:15,700
+we can call them in a code before they are defined.
+
+154
+00:08:16,780 --> 00:08:21,260
+So now we're calling it first and then defining it later.
+
+155
+00:08:21,260 --> 00:08:23,260
+So let me show you that that still works
+
+156
+00:08:24,760 --> 00:08:27,390
+and indeed we still get the same result.
+
+157
+00:08:27,390 --> 00:08:30,353
+But if we attempt to do the same with the expression,
+
+158
+00:08:32,460 --> 00:08:34,650
+then that should not work.
+
+159
+00:08:34,650 --> 00:08:38,570
+So let's see and yeah,
+
+160
+00:08:38,570 --> 00:08:42,963
+so cannot access calcAge2 before initialization, okay?
+
+161
+00:08:44,580 --> 00:08:46,790
+and internally this happens
+
+162
+00:08:46,790 --> 00:08:49,800
+because of a process called hoisting
+
+163
+00:08:49,800 --> 00:08:54,520
+but more about that in a future section, okay?
+
+164
+00:08:54,520 --> 00:08:58,620
+For now just keep in mind that you can call
+
+165
+00:08:58,620 --> 00:09:01,670
+a function declaration before you define it
+
+166
+00:09:01,670 --> 00:09:06,670
+even though that might not be such a good idea in many cases
+
+167
+00:09:06,810 --> 00:09:09,850
+but you can do it if necessary.
+
+168
+00:09:09,850 --> 00:09:11,840
+All right, now another question
+
+169
+00:09:11,840 --> 00:09:13,580
+that you might have in your mind
+
+170
+00:09:13,580 --> 00:09:17,030
+is which of the two types of functions should I use
+
+171
+00:09:17,030 --> 00:09:19,860
+when I write my own functions?
+
+172
+00:09:19,860 --> 00:09:23,420
+And well, the answer is that oftentimes
+
+173
+00:09:23,420 --> 00:09:27,070
+it's really just a matter of personal preference.
+
+174
+00:09:27,070 --> 00:09:30,680
+and so different developers prefer different formats.
+
+175
+00:09:30,680 --> 00:09:34,470
+Personally, I prefer to use function expressions
+
+176
+00:09:34,470 --> 00:09:37,980
+because this then forces me into a nice structure
+
+177
+00:09:37,980 --> 00:09:40,630
+where I have to define all the functions first
+
+178
+00:09:40,630 --> 00:09:44,190
+at the top of the code and only then I can call them.
+
+179
+00:09:44,190 --> 00:09:46,590
+So this makes the code a little bit nicer
+
+180
+00:09:46,590 --> 00:09:48,330
+and more structured.
+
+181
+00:09:48,330 --> 00:09:52,040
+I also like to have everything stored in variables,
+
+182
+00:09:52,040 --> 00:09:55,640
+so both values and functions, but again,
+
+183
+00:09:55,640 --> 00:09:58,520
+that is just my own personal preference.
+
+184
+00:09:58,520 --> 00:10:01,580
+And many other developers don't agree with this
+
+185
+00:10:01,580 --> 00:10:04,400
+and prefer to use function declarations.
+
+186
+00:10:04,400 --> 00:10:08,470
+So, if you also prefer a function declarations, that's fine.
+
+187
+00:10:08,470 --> 00:10:11,030
+So, just use declarations then.
+
+188
+00:10:11,030 --> 00:10:13,030
+It's absolutely no problem.
+
+189
+00:10:13,030 --> 00:10:16,570
+However, even if you prefer one over the other,
+
+190
+00:10:16,570 --> 00:10:18,840
+you still need to know about both
+
+191
+00:10:18,840 --> 00:10:22,360
+the function expressions and function declarations.
+
+192
+00:10:22,360 --> 00:10:24,030
+So you can not just pick one
+
+193
+00:10:24,030 --> 00:10:26,000
+and then forget the other one
+
+194
+00:10:26,000 --> 00:10:29,140
+because both have their place in JavaScript.
+
+195
+00:10:29,140 --> 00:10:31,370
+And so it's really important that you know
+
+196
+00:10:31,370 --> 00:10:33,780
+how to use and how's to distinguish
+
+197
+00:10:33,780 --> 00:10:36,913
+both function declarations and expressions.

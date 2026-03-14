@@ -1,0 +1,1087 @@
+1
+00:00:01,460 --> 00:00:02,690
+So in this video
+
+2
+00:00:02,690 --> 00:00:06,100
+we're gonna implement classes to manage the data about
+
+3
+00:00:06,100 --> 00:00:09,800
+our cycling and running workouts that are coming
+
+4
+00:00:09,800 --> 00:00:11,343
+from the user interface.
+
+5
+00:00:12,900 --> 00:00:16,920
+And so here we have this diagram again containing
+
+6
+00:00:16,920 --> 00:00:19,480
+the classes that we need to implement.
+
+7
+00:00:19,480 --> 00:00:22,220
+So we already discussed this before
+
+8
+00:00:22,220 --> 00:00:24,770
+and so let's use this as a base
+
+9
+00:00:24,770 --> 00:00:27,460
+for working on the classes now
+
+10
+00:00:27,460 --> 00:00:29,700
+but let's also at the same time,
+
+11
+00:00:29,700 --> 00:00:31,790
+take a look again at
+
+12
+00:00:31,790 --> 00:00:35,313
+our form to make this a little bit less abstract.
+
+13
+00:00:36,230 --> 00:00:40,310
+Okay. So what both the workouts have in common
+
+14
+00:00:40,310 --> 00:00:42,440
+so both running and cycling,
+
+15
+00:00:42,440 --> 00:00:45,830
+they have a distance and a duration.
+
+16
+00:00:45,830 --> 00:00:49,130
+Both of them also have a type of course
+
+17
+00:00:49,130 --> 00:00:52,130
+but that we will not have to encode anywhere because
+
+18
+00:00:52,130 --> 00:00:55,920
+for that we are already creating two different classes.
+
+19
+00:00:55,920 --> 00:01:00,070
+Then for running we have the cadence and for cycling
+
+20
+00:01:00,070 --> 00:01:03,540
+we have the elevation gain as you already know.
+
+21
+00:01:03,540 --> 00:01:07,380
+And then what's also gonna be coming to both workout types
+
+22
+00:01:07,380 --> 00:01:11,760
+is of course the coordinates that are basically coming
+
+23
+00:01:11,760 --> 00:01:14,420
+from the click on the map.
+
+24
+00:01:14,420 --> 00:01:18,000
+And so let's now start by implementing the parent class
+
+25
+00:01:18,000 --> 00:01:20,720
+for both these workout types.
+
+26
+00:01:20,720 --> 00:01:25,223
+And so remember that is simply gonna be called workout.
+
+27
+00:01:27,550 --> 00:01:28,863
+So workout.
+
+28
+00:01:29,740 --> 00:01:32,670
+And so again this one will take in the data
+
+29
+00:01:32,670 --> 00:01:35,390
+that is common to both the workouts.
+
+30
+00:01:35,390 --> 00:01:38,830
+And so that is the coordinates
+
+31
+00:01:38,830 --> 00:01:42,250
+lets just call it Coordes, the distance
+
+32
+00:01:44,690 --> 00:01:46,653
+and the duration.
+
+33
+00:01:48,708 --> 00:01:49,628
+Okay.
+
+34
+00:01:49,628 --> 00:01:51,850
+And then just as we learned previously,
+
+35
+00:01:51,850 --> 00:01:55,330
+we say this dot coordes
+
+36
+00:01:55,330 --> 00:01:59,960
+is equal the coordes that we get as an input.
+
+37
+00:01:59,960 --> 00:02:03,620
+This dot distance equals distance
+
+38
+00:02:03,620 --> 00:02:07,713
+and then the same for the duration.
+
+39
+00:02:08,670 --> 00:02:12,170
+Now we could also make these private fields
+
+40
+00:02:12,170 --> 00:02:13,970
+so basically private properties
+
+41
+00:02:14,850 --> 00:02:19,030
+but I think in this example we are good like this.
+
+42
+00:02:19,030 --> 00:02:22,130
+We just need to keep in mind later for the speed
+
+43
+00:02:22,130 --> 00:02:25,987
+and pace calculations that this one should be in kilometers
+
+44
+00:02:25,987 --> 00:02:29,193
+and this one should be in minutes.
+
+45
+00:02:30,070 --> 00:02:34,760
+Now what we also want for each workout object is a date.
+
+46
+00:02:34,760 --> 00:02:38,503
+So that's gonna be the date where the object is created.
+
+47
+00:02:40,250 --> 00:02:44,323
+So a date and let's simply set it to new date.
+
+48
+00:02:45,550 --> 00:02:47,750
+And so we need this one here
+
+49
+00:02:47,750 --> 00:02:50,720
+to then implement what we have here.
+
+50
+00:02:50,720 --> 00:02:54,220
+So this description of August 20, so here
+
+51
+00:02:55,360 --> 00:02:58,663
+so basically the date in which the workout happened.
+
+52
+00:03:00,740 --> 00:03:01,573
+Alright.
+
+53
+00:03:01,573 --> 00:03:04,760
+And then besides that we also need an ID.
+
+54
+00:03:04,760 --> 00:03:08,050
+And so that should be a unique identifier.
+
+55
+00:03:08,050 --> 00:03:11,450
+So remember way back in the bankers project
+
+56
+00:03:11,450 --> 00:03:14,700
+where we also had an array of objects.
+
+57
+00:03:14,700 --> 00:03:19,160
+And so here we will do the same eventually in our app class.
+
+58
+00:03:19,160 --> 00:03:23,370
+Remember now having that array of objects sometimes
+
+59
+00:03:23,370 --> 00:03:26,690
+we need to find an object in that array.
+
+60
+00:03:26,690 --> 00:03:29,350
+And so back then in the bankers project
+
+61
+00:03:29,350 --> 00:03:33,200
+we used defined or defined index methods for that.
+
+62
+00:03:33,200 --> 00:03:36,990
+Remember however these methods only work if there
+
+63
+00:03:36,990 --> 00:03:39,950
+is something by which we can search.
+
+64
+00:03:39,950 --> 00:03:42,850
+So as some kind of unique identifier
+
+65
+00:03:42,850 --> 00:03:46,530
+and in the bankers project there used to be simply the name
+
+66
+00:03:46,530 --> 00:03:50,700
+of the account owner but that's just not a good practice.
+
+67
+00:03:50,700 --> 00:03:53,720
+So instead any object should have some kind
+
+68
+00:03:53,720 --> 00:03:55,630
+of unique identifier
+
+69
+00:03:55,630 --> 00:03:59,173
+so that we can then later identify it using that ID.
+
+70
+00:04:00,780 --> 00:04:04,510
+So let's create a field for ID here as well
+
+71
+00:04:04,510 --> 00:04:08,780
+and always keep in mind that what we're doing here
+
+72
+00:04:08,780 --> 00:04:11,950
+so here and actually also here is using
+
+73
+00:04:11,950 --> 00:04:15,560
+a very modern specification of JavaScript
+
+74
+00:04:15,560 --> 00:04:17,680
+which is not even yet part
+
+75
+00:04:17,680 --> 00:04:19,870
+of the official JavaScript language.
+
+76
+00:04:19,870 --> 00:04:23,490
+Remember how I talked about that in the last section.
+
+77
+00:04:23,490 --> 00:04:26,880
+And so if we want to make sure that this is gonna work
+
+78
+00:04:26,880 --> 00:04:31,200
+at least with ES6 then we would have to do,
+
+79
+00:04:31,200 --> 00:04:35,440
+this dot date and then define that here
+
+80
+00:04:35,440 --> 00:04:39,370
+and the same here this dot ID
+
+81
+00:04:39,370 --> 00:04:42,393
+and then define that here as well. Right?
+
+82
+00:04:43,720 --> 00:04:48,480
+However, here I'm simply using cutting edge JavaScript
+
+83
+00:04:48,480 --> 00:04:51,350
+and so something that's probably gonna become part
+
+84
+00:04:51,350 --> 00:04:54,120
+of JavaScript pretty soon.
+
+85
+00:04:54,120 --> 00:04:56,780
+And so I think that it's perfectly fine to use
+
+86
+00:04:56,780 --> 00:04:59,520
+these class fields here already.
+
+87
+00:04:59,520 --> 00:05:03,059
+but now back to the ID and in the real world,
+
+88
+00:05:03,059 --> 00:05:06,160
+we usually always use some kind of library
+
+89
+00:05:06,160 --> 00:05:10,010
+in order to create good and unique ID numbers.
+
+90
+00:05:10,010 --> 00:05:13,850
+So usually we should never create IDs on our own
+
+91
+00:05:13,850 --> 00:05:17,350
+but always let some library take care of that because
+
+92
+00:05:17,350 --> 00:05:20,670
+this is a very important part of any application.
+
+93
+00:05:20,670 --> 00:05:23,200
+However right now I'm not gonna include
+
+94
+00:05:23,200 --> 00:05:25,320
+any library like that
+
+95
+00:05:25,320 --> 00:05:30,320
+and I will simply use the current date to create a new ID
+
+96
+00:05:30,700 --> 00:05:33,610
+so a new date, and then I will convert that
+
+97
+00:05:33,610 --> 00:05:37,710
+to a string and then simply take the last 10 numbers.
+
+98
+00:05:37,710 --> 00:05:41,423
+And so that should then be unique enough.All right.
+
+99
+00:05:42,350 --> 00:05:43,840
+So converting to a string
+
+100
+00:05:44,830 --> 00:05:49,713
+and then I can say slice then the last 10 numbers basically.
+
+101
+00:05:51,160 --> 00:05:53,450
+So this is the workout class
+
+102
+00:05:53,450 --> 00:05:56,930
+but we will never directly create a workout.
+
+103
+00:05:56,930 --> 00:06:00,120
+Instead we will always either create a running
+
+104
+00:06:00,120 --> 00:06:01,763
+or a cycling object.
+
+105
+00:06:02,620 --> 00:06:05,290
+So these are the child classes.
+
+106
+00:06:05,290 --> 00:06:06,790
+And so let's create them here.
+
+107
+00:06:07,720 --> 00:06:12,100
+Running extends workout
+
+108
+00:06:14,040 --> 00:06:16,993
+and also cycling,
+
+109
+00:06:18,190 --> 00:06:23,190
+so class cycling extends workout as well.
+
+110
+00:06:25,220 --> 00:06:28,910
+Okay. Then here we also need a constructor
+
+111
+00:06:28,910 --> 00:06:30,910
+and remember that this one should take
+
+112
+00:06:30,910 --> 00:06:33,540
+in the same data as the parent class
+
+113
+00:06:33,540 --> 00:06:36,110
+and then plus the additional properties
+
+114
+00:06:36,110 --> 00:06:39,423
+that we want to set on a running object.
+
+115
+00:06:40,600 --> 00:06:43,310
+So coordinates distance duration
+
+116
+00:06:43,310 --> 00:06:46,160
+and then remember the cadence,
+
+117
+00:06:47,840 --> 00:06:48,673
+right?
+
+118
+00:06:49,610 --> 00:06:51,920
+So that is what's unique.
+
+119
+00:06:51,920 --> 00:06:53,803
+Well let's do that here actually.
+
+120
+00:06:54,730 --> 00:06:58,833
+So that is the part that is unique about running.
+
+121
+00:07:00,570 --> 00:07:04,750
+Then here we need to call the superclass with these three
+
+122
+00:07:06,970 --> 00:07:11,910
+okay. So the common ones that are coming to the parent class
+
+123
+00:07:11,910 --> 00:07:14,680
+and this will then initialize the disc keyword
+
+124
+00:07:14,680 --> 00:07:16,370
+and then here we can say
+
+125
+00:07:16,370 --> 00:07:17,810
+this dot cadence
+
+126
+00:07:19,400 --> 00:07:20,773
+is the incoming cadence.
+
+127
+00:07:23,057 --> 00:07:27,370
+And then let simply copy this also for cycling
+
+128
+00:07:27,370 --> 00:07:31,557
+and here what changes is the elevation gain.
+
+129
+00:07:38,400 --> 00:07:41,930
+So let's check out our diagram here.
+
+130
+00:07:41,930 --> 00:07:43,873
+And so we already have these five.
+
+131
+00:07:45,240 --> 00:07:48,800
+so we have ID and date actually as fields
+
+132
+00:07:48,800 --> 00:07:51,380
+and then distance duration and coordinates
+
+133
+00:07:51,380 --> 00:07:53,603
+we define them in the constructor method.
+
+134
+00:07:54,690 --> 00:07:56,730
+Then for the running and cycling
+
+135
+00:07:56,730 --> 00:08:01,250
+we already defined the cadence and the elevation gain.
+
+136
+00:08:01,250 --> 00:08:04,810
+Now what's missing here is for running the pace
+
+137
+00:08:04,810 --> 00:08:06,973
+and then for cycling the speed.
+
+138
+00:08:07,970 --> 00:08:10,800
+And so let's actually calculate both of them
+
+139
+00:08:10,800 --> 00:08:12,393
+in each of the class.
+
+140
+00:08:14,480 --> 00:08:18,090
+So in this one here let's create a method
+
+141
+00:08:18,090 --> 00:08:19,723
+for calculating the pace.
+
+142
+00:08:21,950 --> 00:08:26,950
+So calcpace and no longer calcH for a change.
+
+143
+00:08:27,650 --> 00:08:32,650
+And so the pace is usually defined in minutes per kilometer.
+
+144
+00:08:33,980 --> 00:08:37,330
+And again that's unless you are in the US
+
+145
+00:08:37,330 --> 00:08:40,570
+which probably uses miles per kilometer.
+
+146
+00:08:40,570 --> 00:08:45,110
+So of course you can also use your distance here in miles.
+
+147
+00:08:45,110 --> 00:08:50,050
+But anyway all we need to do is to now create this dot pace.
+
+148
+00:08:51,290 --> 00:08:53,950
+So adding this in your property basically
+
+149
+00:08:53,950 --> 00:08:58,840
+and then all we need do is this dot duration
+
+150
+00:08:58,840 --> 00:09:02,770
+which is the minutes and then divided by kilometers
+
+151
+00:09:02,770 --> 00:09:04,573
+and so that is the distance.
+
+152
+00:09:07,050 --> 00:09:11,480
+So this dot distance then that's actually it.
+
+153
+00:09:11,480 --> 00:09:12,360
+All right.
+
+154
+00:09:12,360 --> 00:09:16,690
+Now it might also be a good idea to return this data
+
+155
+00:09:16,690 --> 00:09:20,570
+in case someplace in our code we actually need this
+
+156
+00:09:20,570 --> 00:09:25,110
+but what we will do instead of relying on this return
+
+157
+00:09:25,110 --> 00:09:28,853
+is to simply call this method right here in the constructor.
+
+158
+00:09:30,210 --> 00:09:33,210
+And so remember how I said in the last section
+
+159
+00:09:33,210 --> 00:09:37,730
+that it's perfectly fine to call any code in a constructor
+
+160
+00:09:37,730 --> 00:09:42,113
+and so of course we can simply do this right here.
+
+161
+00:09:42,950 --> 00:09:46,760
+And in fact we did the same here in our app class
+
+162
+00:09:46,760 --> 00:09:50,180
+so here we also did a lot of different stuff
+
+163
+00:09:50,180 --> 00:09:51,449
+in the constructor
+
+164
+00:09:51,449 --> 00:09:56,449
+and we didn't even set any properties here right?
+
+165
+00:09:56,952 --> 00:09:58,910
+So we used the constructor here
+
+166
+00:09:58,910 --> 00:10:01,560
+to immediately calculate the pace
+
+167
+00:10:01,560 --> 00:10:05,783
+and so next up let's do the same here for the speed.
+
+168
+00:10:10,340 --> 00:10:15,260
+So the speed is measured in kilometers per hour.
+
+169
+00:10:15,260 --> 00:10:16,640
+And so this dot speed
+
+170
+00:10:19,100 --> 00:10:21,260
+so not calcspeed but speed
+
+171
+00:10:22,380 --> 00:10:24,740
+will be equal this distance
+
+172
+00:10:27,530 --> 00:10:29,720
+and then divided by the duration.
+
+173
+00:10:29,720 --> 00:10:33,320
+So the speed is basically the opposite of the pace.
+
+174
+00:10:33,320 --> 00:10:35,330
+So this one is duration by distance
+
+175
+00:10:35,330 --> 00:10:37,483
+and this one is distance by duration.
+
+176
+00:10:38,760 --> 00:10:43,207
+However this duration is not in minutes but in hours, right?
+
+177
+00:10:44,600 --> 00:10:48,080
+And so therefore we need to now first divide
+
+178
+00:10:48,080 --> 00:10:49,653
+this one here by 60,
+
+179
+00:10:51,594 --> 00:10:54,810
+and then we can also return this dot speed
+
+180
+00:10:54,810 --> 00:10:58,960
+even though right now that's not yet necessary,
+
+181
+00:10:58,960 --> 00:11:01,270
+because we are simply calling it right here
+
+182
+00:11:02,680 --> 00:11:07,680
+and we don't need to return value at this point. Okay.
+
+183
+00:11:07,870 --> 00:11:10,823
+Now let's just add a comment here.
+
+184
+00:11:15,830 --> 00:11:18,410
+So this one has 40 architecture
+
+185
+00:11:18,410 --> 00:11:23,410
+and then I'm adding like a small divider here. Alright.
+
+186
+00:11:23,500 --> 00:11:27,163
+And then let's actually test out these classes.
+
+187
+00:11:29,980 --> 00:11:31,620
+So let's create a run here
+
+188
+00:11:33,900 --> 00:11:35,510
+so that's new running
+
+189
+00:11:38,780 --> 00:11:41,770
+and let's see what this class needs.
+
+190
+00:11:41,770 --> 00:11:43,250
+So we need coordinates
+
+191
+00:11:43,250 --> 00:11:45,750
+and so that's gonna be an array of coordinates
+
+192
+00:11:46,910 --> 00:11:49,200
+and that's just specified as here.
+
+193
+00:11:49,200 --> 00:11:52,530
+So basically kind of as documentation
+
+194
+00:11:52,530 --> 00:11:56,120
+so an array of latitude and longitude
+
+195
+00:11:56,120 --> 00:11:58,580
+and so if we have some other developers they will
+
+196
+00:11:58,580 --> 00:12:02,270
+then know exactly what this coordinates should look like.
+
+197
+00:12:02,270 --> 00:12:04,130
+And there are other more fancy ways
+
+198
+00:12:04,130 --> 00:12:06,260
+of writing documentation,
+
+199
+00:12:06,260 --> 00:12:09,743
+but maybe we will explore that a bit later in the course.
+
+200
+00:12:11,040 --> 00:12:14,170
+But anyway let's pass in some array here
+
+201
+00:12:14,170 --> 00:12:17,770
+of latitude 39 and longitude minus 12
+
+202
+00:12:17,770 --> 00:12:20,070
+and this should then be somewhere in Portugal.
+
+203
+00:12:20,949 --> 00:12:23,343
+Then next we have the distance
+
+204
+00:12:23,343 --> 00:12:28,343
+and let's say 5.2 kilometers and 24 minutes
+
+205
+00:12:29,040 --> 00:12:33,533
+and with 178 steps per minute.
+
+206
+00:12:34,730 --> 00:12:37,230
+And let's actually do the same for cycling as well
+
+207
+00:12:40,510 --> 00:12:42,620
+so how do we call this?
+
+208
+00:12:42,620 --> 00:12:47,410
+Is it a cycle one? Maybe it's a cycling like this
+
+209
+00:12:48,640 --> 00:12:50,710
+so let's use the same coordinates
+
+210
+00:12:50,710 --> 00:12:55,597
+and then here let's say we did 27 kilometers in 95 minutes
+
+211
+00:12:57,640 --> 00:13:01,333
+and the elevation gain was 523 meters,
+
+212
+00:13:02,520 --> 00:13:03,430
+all right?
+
+213
+00:13:03,430 --> 00:13:06,330
+And now we can lock both through the console really quick.
+
+214
+00:13:08,030 --> 00:13:10,460
+And so again this one here
+
+215
+00:13:10,460 --> 00:13:13,830
+is not really part of the application, Okay.
+
+216
+00:13:13,830 --> 00:13:16,650
+This is just to experiment if our classes
+
+217
+00:13:16,650 --> 00:13:18,623
+are indeed working as expected.
+
+218
+00:13:21,370 --> 00:13:23,460
+So going to our application
+
+219
+00:13:24,510 --> 00:13:28,493
+then you see here that we have our running and our cycling.
+
+220
+00:13:30,030 --> 00:13:33,950
+So indeed we have all the data that we specified
+
+221
+00:13:33,950 --> 00:13:35,293
+that includes the date.
+
+222
+00:13:38,720 --> 00:13:41,820
+Then here the ID looks a little bit off
+
+223
+00:13:41,820 --> 00:13:46,780
+and the reason for that is that I basically used a new date
+
+224
+00:13:46,780 --> 00:13:48,710
+which is gonna be an object
+
+225
+00:13:48,710 --> 00:13:51,290
+and so transforming that object to a string
+
+226
+00:13:52,330 --> 00:13:55,220
+will then basically become all of this here.
+
+227
+00:13:55,220 --> 00:13:59,480
+So this string and so we then took these last characters
+
+228
+00:13:59,480 --> 00:14:01,030
+but let's fix that in a minute.
+
+229
+00:14:02,090 --> 00:14:05,680
+But anyway here we have to pace calculated as well
+
+230
+00:14:06,520 --> 00:14:10,250
+and you see that this is of the type running
+
+231
+00:14:11,100 --> 00:14:15,830
+and then in the prototype we indeed have the calcpace method
+
+232
+00:14:15,830 --> 00:14:17,713
+that we just defined previously.
+
+233
+00:14:18,760 --> 00:14:21,128
+And in cycling we should of course have
+
+234
+00:14:21,128 --> 00:14:22,878
+the calcspeed method.
+
+235
+00:14:24,304 --> 00:14:26,033
+And here it is. Okay.
+
+236
+00:14:27,260 --> 00:14:30,830
+And of course this one itself has another prototype
+
+237
+00:14:30,830 --> 00:14:34,050
+which is then the workout itself.
+
+238
+00:14:34,050 --> 00:14:36,340
+This one doesn't have any methods yet
+
+239
+00:14:36,340 --> 00:14:38,290
+but we will add them a little bit later
+
+240
+00:14:39,360 --> 00:14:42,230
+as we keep moving on in a project.
+
+241
+00:14:42,230 --> 00:14:46,590
+Lets now fix this ID here very quick
+
+242
+00:14:46,590 --> 00:14:48,780
+and so instead of using new date
+
+243
+00:14:48,780 --> 00:14:53,780
+we are gonna use date dot now
+
+244
+00:14:54,150 --> 00:14:56,150
+which remember simply gives us
+
+245
+00:14:56,150 --> 00:14:58,873
+the current time stamp of right now.
+
+246
+00:15:00,160 --> 00:15:03,570
+And so that will now hopefully fix it.
+
+247
+00:15:03,570 --> 00:15:06,230
+And to see that here we have this ID
+
+248
+00:15:08,250 --> 00:15:10,700
+and then here we also have the ID
+
+249
+00:15:10,700 --> 00:15:14,110
+but right now they are actually exactly the same.
+
+250
+00:15:14,110 --> 00:15:16,520
+And so basically that happened because
+
+251
+00:15:16,520 --> 00:15:19,290
+they were created at the same time.
+
+252
+00:15:19,290 --> 00:15:21,450
+But then later in the real world
+
+253
+00:15:21,450 --> 00:15:23,840
+as we used our application of course
+
+254
+00:15:23,840 --> 00:15:26,820
+it's gonna be impossible to create two new objects
+
+255
+00:15:26,820 --> 00:15:28,230
+at the same time.
+
+256
+00:15:28,230 --> 00:15:31,170
+And so then that's gonna work just fine.
+
+257
+00:15:31,170 --> 00:15:33,160
+However as I said previously,
+
+258
+00:15:33,160 --> 00:15:35,580
+when you are really working on the real world
+
+259
+00:15:35,580 --> 00:15:38,360
+then probably you have many users using
+
+260
+00:15:38,360 --> 00:15:40,510
+the same application, right?
+
+261
+00:15:40,510 --> 00:15:43,350
+And then of course some users can create objects
+
+262
+00:15:43,350 --> 00:15:44,570
+at the same time
+
+263
+00:15:44,570 --> 00:15:46,140
+and so by then relying
+
+264
+00:15:46,140 --> 00:15:51,140
+on the time to create ID's is gonna be a really bad idea.
+
+265
+00:15:51,210 --> 00:15:52,730
+All right.
+
+266
+00:15:52,730 --> 00:15:55,863
+So let's get rid of these experiments here.
+
+267
+00:15:56,780 --> 00:16:01,120
+And so for now at least our classes here are complete.
+
+268
+00:16:01,120 --> 00:16:04,700
+As I said we will keep adding some more stuff to them,
+
+269
+00:16:04,700 --> 00:16:06,850
+but for now we're fine.
+
+270
+00:16:06,850 --> 00:16:09,570
+And so with this we are now ready to move on
+
+271
+00:16:09,570 --> 00:16:12,890
+to the next video where we will then use these classes
+
+272
+00:16:12,890 --> 00:16:15,713
+to actually create work outs from the form.

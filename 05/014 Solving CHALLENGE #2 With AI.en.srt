@@ -1,0 +1,1195 @@
+1
+00:00:00,990 --> 00:00:02,310
+So, in this lecture
+
+2
+00:00:02,310 --> 00:00:04,950
+we're gonna work on Challenge #2,
+
+3
+00:00:04,950 --> 00:00:07,650
+but this time, we're gonna actually solve it
+
+4
+00:00:07,650 --> 00:00:09,660
+using an AI assistant
+
+5
+00:00:09,660 --> 00:00:12,990
+just so you can see how we could use the process
+
+6
+00:00:12,990 --> 00:00:15,663
+that we just learned about in practice.
+
+7
+00:00:17,010 --> 00:00:18,870
+So, let's say that you're building
+
+8
+00:00:18,870 --> 00:00:23,010
+a time tracking application built for freelancers,
+
+9
+00:00:23,010 --> 00:00:25,650
+and at some point, in building this application,
+
+10
+00:00:25,650 --> 00:00:28,740
+you need a function that receives daily work hours
+
+11
+00:00:28,740 --> 00:00:32,940
+for a certain week and then it will return five data points.
+
+12
+00:00:32,940 --> 00:00:36,360
+So the total hours worked, the average daily hours,
+
+13
+00:00:36,360 --> 00:00:39,990
+the day with the most hours worked, the number of days,
+
+14
+00:00:39,990 --> 00:00:44,370
+and finally, whether this current week was a full-time week,
+
+15
+00:00:44,370 --> 00:00:49,370
+which means that the freelancer worked 35 hours or more.
+
+16
+00:00:49,710 --> 00:00:52,740
+Now, you could actually try to solve this challenge
+
+17
+00:00:52,740 --> 00:00:56,160
+also on your own before using the AI assistant.
+
+18
+00:00:56,160 --> 00:00:58,500
+But the problem is that this actually needs
+
+19
+00:00:58,500 --> 00:01:01,860
+some JavaScript features that we haven't learned about yet.
+
+20
+00:01:01,860 --> 00:01:05,040
+But still, if you really want to challenge yourself,
+
+21
+00:01:05,040 --> 00:01:07,590
+you can see how far you can take it
+
+22
+00:01:07,590 --> 00:01:09,930
+with the skills that you have already learned
+
+23
+00:01:09,930 --> 00:01:11,280
+up until this point,
+
+24
+00:01:11,280 --> 00:01:13,860
+even though the solutions would not be perfect.
+
+25
+00:01:13,860 --> 00:01:15,990
+But again, it could be worth a try
+
+26
+00:01:15,990 --> 00:01:18,420
+if you want this extra challenge.
+
+27
+00:01:18,420 --> 00:01:22,200
+But in any case, the point of this lecture is
+
+28
+00:01:22,200 --> 00:01:23,940
+to use an AI assistant
+
+29
+00:01:23,940 --> 00:01:27,270
+and to use that five step process
+
+30
+00:01:27,270 --> 00:01:30,270
+that we basically learned in the last lecture.
+
+31
+00:01:30,270 --> 00:01:32,760
+And so, remember how the first step is
+
+32
+00:01:32,760 --> 00:01:34,680
+to really understand the problem
+
+33
+00:01:34,680 --> 00:01:38,280
+that we are trying to solve using the AI assistant.
+
+34
+00:01:38,280 --> 00:01:41,550
+Now in this case, we have already kind of understood
+
+35
+00:01:41,550 --> 00:01:44,220
+the task because it was given to us here
+
+36
+00:01:44,220 --> 00:01:46,470
+in this very comprehensible format.
+
+37
+00:01:46,470 --> 00:01:49,170
+So, pretty much, we have everything worked down here
+
+38
+00:01:49,170 --> 00:01:51,030
+except maybe for some details,
+
+39
+00:01:51,030 --> 00:01:53,400
+which we're gonna work out in a minute
+
+40
+00:01:53,400 --> 00:01:55,680
+when we write the prompt.
+
+41
+00:01:55,680 --> 00:01:59,520
+So, the next step is to then choose the AI assistant tool.
+
+42
+00:01:59,520 --> 00:02:00,960
+And for that, we're going to use
+
+43
+00:02:00,960 --> 00:02:03,873
+the most popular one of all, which is ChatGPT.
+
+44
+00:02:05,070 --> 00:02:08,370
+So, let's head over to chatgpt.com.
+
+45
+00:02:08,370 --> 00:02:11,321
+And I'm pretty sure that you have already used this tool
+
+46
+00:02:11,321 --> 00:02:13,470
+in the past at this point.
+
+47
+00:02:13,470 --> 00:02:17,730
+So, this is by far the most popular AI tool out there.
+
+48
+00:02:17,730 --> 00:02:20,178
+And so again, I'm sure you already have an account
+
+49
+00:02:20,178 --> 00:02:23,190
+on chatgpt.com, but if you don't,
+
+50
+00:02:23,190 --> 00:02:24,690
+then that's no problem at all.
+
+51
+00:02:24,690 --> 00:02:28,203
+You can just create a free account and then come back here.
+
+52
+00:02:29,250 --> 00:02:31,740
+So, this is a pretty basic interface.
+
+53
+00:02:31,740 --> 00:02:34,590
+You can just choose the model up here.
+
+54
+00:02:34,590 --> 00:02:36,647
+And we're just gonna use this GPT-4o,
+
+55
+00:02:37,500 --> 00:02:40,320
+which is the best one at this moment.
+
+56
+00:02:40,320 --> 00:02:42,450
+But again, if you're watching this in the future,
+
+57
+00:02:42,450 --> 00:02:45,570
+I'm sure some better model has already come out.
+
+58
+00:02:45,570 --> 00:02:48,660
+So, they're releasing these new models here pretty fast.
+
+59
+00:02:48,660 --> 00:02:51,000
+There's also this canvas mode here,
+
+60
+00:02:51,000 --> 00:02:53,370
+which is actually great for writing code,
+
+61
+00:02:53,370 --> 00:02:55,950
+but let's just stick to this more basic one
+
+62
+00:02:55,950 --> 00:02:59,910
+where we can just chat back and forth with this assistant.
+
+63
+00:02:59,910 --> 00:03:01,860
+And so then, we can just type
+
+64
+00:03:01,860 --> 00:03:04,740
+our very detailed prompt down here.
+
+65
+00:03:04,740 --> 00:03:08,520
+And so to start, I'm just gonna grab these instructions
+
+66
+00:03:08,520 --> 00:03:12,147
+from here and I'm gonna paste them here.
+
+67
+00:03:12,147 --> 00:03:14,160
+And then let's change this a little bit
+
+68
+00:03:14,160 --> 00:03:16,113
+and make it more specific.
+
+69
+00:03:17,400 --> 00:03:19,387
+So here, let's say,
+
+70
+00:03:19,387 --> 00:03:23,970
+"I'm building a time tracking application for freelancers."
+
+71
+00:03:23,970 --> 00:03:26,040
+Then here, we don't need any of this fluff,
+
+72
+00:03:26,040 --> 00:03:28,920
+so we want to be as direct and straightforward here
+
+73
+00:03:28,920 --> 00:03:31,290
+in this prompt at possible.
+
+74
+00:03:31,290 --> 00:03:34,027
+So we just tell the assistant,
+
+75
+00:03:34,027 --> 00:03:39,027
+"Write a function called," let's say, "analyzeWorkWeek."
+
+76
+00:03:46,680 --> 00:03:50,490
+And then let's say, "that receives daily work hours
+
+77
+00:03:50,490 --> 00:03:54,300
+for a certain week and returns" these five here.
+
+78
+00:03:54,300 --> 00:03:55,440
+So let's think about this.
+
+79
+00:03:55,440 --> 00:03:59,370
+How should this function actually receive the data?
+
+80
+00:03:59,370 --> 00:04:00,870
+So I think it would make sense
+
+81
+00:04:00,870 --> 00:04:04,020
+that it actually gets an array of the seven values
+
+82
+00:04:04,020 --> 00:04:07,230
+of the seven days that are in a week.
+
+83
+00:04:07,230 --> 00:04:12,230
+So let's say here, "that receives an array
+
+84
+00:04:14,160 --> 00:04:18,420
+of daily work hours," and then it returns these.
+
+85
+00:04:18,420 --> 00:04:21,030
+Now, these should then also be in a data structure.
+
+86
+00:04:21,030 --> 00:04:23,490
+So we could again, return an array,
+
+87
+00:04:23,490 --> 00:04:26,193
+but let's actually return an object here,
+
+88
+00:04:27,330 --> 00:04:29,520
+which then makes it a bit easier to understand
+
+89
+00:04:29,520 --> 00:04:32,580
+what each of the data points is all about.
+
+90
+00:04:32,580 --> 00:04:37,580
+So, "and returns an object with the following data."
+
+91
+00:04:41,760 --> 00:04:44,910
+So, I think that this prompt here is very specific,
+
+92
+00:04:44,910 --> 00:04:47,970
+so the AI will know exactly what it needs to do.
+
+93
+00:04:47,970 --> 00:04:50,250
+And then let's also give it a bit more details
+
+94
+00:04:50,250 --> 00:04:52,080
+on what to actually do here.
+
+95
+00:04:52,080 --> 00:04:53,700
+So, here are these daily hours.
+
+96
+00:04:53,700 --> 00:04:57,510
+Let's say that they should round it.
+
+97
+00:04:57,510 --> 00:05:02,183
+So, "round to one decimal place."
+
+98
+00:05:06,540 --> 00:05:11,100
+Then here, let's say in this case that it should assume
+
+99
+00:05:11,100 --> 00:05:14,040
+that Monday is the first day of the array.
+
+100
+00:05:14,040 --> 00:05:19,040
+So, "assume Monday is day 0 in the array."
+
+101
+00:05:22,530 --> 00:05:24,840
+And then here, as for the number of days
+
+102
+00:05:24,840 --> 00:05:27,090
+where the freelancer actually worked,
+
+103
+00:05:27,090 --> 00:05:29,910
+let's say that these are the days with over zero hours
+
+104
+00:05:29,910 --> 00:05:34,910
+just to make sure, "with more than 0 hours."
+
+105
+00:05:38,940 --> 00:05:42,870
+So looking here at our test data, again, we have this array,
+
+106
+00:05:42,870 --> 00:05:44,280
+which is why we said here
+
+107
+00:05:44,280 --> 00:05:46,530
+that this function should receive an array.
+
+108
+00:05:46,530 --> 00:05:48,840
+And so for example, here we have a 0,
+
+109
+00:05:48,840 --> 00:05:50,190
+and here we have a 0,
+
+110
+00:05:50,190 --> 00:05:52,170
+meaning that out of these seven days,
+
+111
+00:05:52,170 --> 00:05:55,173
+the freelancer has only worked five days.
+
+112
+00:05:56,880 --> 00:05:59,250
+All right, so I think this looks pretty great.
+
+113
+00:05:59,250 --> 00:06:04,080
+So, just hit Enter and then ChatGPT will very quickly
+
+114
+00:06:04,080 --> 00:06:06,453
+start working on our solution here.
+
+115
+00:06:07,470 --> 00:06:09,820
+So, it takes some time as it's working
+
+116
+00:06:10,920 --> 00:06:15,000
+and it's still way faster than we are.
+
+117
+00:06:15,000 --> 00:06:18,060
+And then here at the end, it even gives us an explanation
+
+118
+00:06:18,060 --> 00:06:20,943
+of what exactly it did.
+
+119
+00:06:22,200 --> 00:06:25,170
+So, let's check this code here.
+
+120
+00:06:25,170 --> 00:06:27,780
+So, the function has the name that we gave it.
+
+121
+00:06:27,780 --> 00:06:29,970
+Then it's calculated in the total hours,
+
+122
+00:06:29,970 --> 00:06:31,890
+and here it's using this reduce method
+
+123
+00:06:31,890 --> 00:06:33,340
+that we don't know about yet.
+
+124
+00:06:34,890 --> 00:06:38,220
+Then, the averageHours, also using this function
+
+125
+00:06:38,220 --> 00:06:40,620
+that we also don't know about yet.
+
+126
+00:06:40,620 --> 00:06:42,170
+But for now, that's no problem.
+
+127
+00:06:43,050 --> 00:06:46,470
+So, this looks pretty good to me, even though, again,
+
+128
+00:06:46,470 --> 00:06:49,230
+at this point, you don't really know this code yet,
+
+129
+00:06:49,230 --> 00:06:51,180
+so you don't have any way of checking
+
+130
+00:06:51,180 --> 00:06:53,040
+if it is actually correct.
+
+131
+00:06:53,040 --> 00:06:55,200
+So, I'll just go ahead and copy the code.
+
+132
+00:06:55,200 --> 00:06:59,640
+And ChatGPT is even smart enough to know that this is code.
+
+133
+00:06:59,640 --> 00:07:00,936
+And so, it has this button here
+
+134
+00:07:00,936 --> 00:07:05,103
+where we can just copy and paste that here.
+
+135
+00:07:06,180 --> 00:07:09,330
+And yeah, let's even keep the comments here.
+
+136
+00:07:09,330 --> 00:07:11,400
+We could also remove them.
+
+137
+00:07:11,400 --> 00:07:13,410
+But yeah, let's keep this.
+
+138
+00:07:13,410 --> 00:07:17,760
+Then here, it even generated some test data for us,
+
+139
+00:07:17,760 --> 00:07:21,690
+but let's use the ones that we already have up here.
+
+140
+00:07:21,690 --> 00:07:24,850
+So, I will replace all of this
+
+141
+00:07:26,160 --> 00:07:28,830
+and then let's run our code.
+
+142
+00:07:28,830 --> 00:07:31,740
+And I think it is still running here.
+
+143
+00:07:31,740 --> 00:07:34,200
+So, the live server that we set up earlier.
+
+144
+00:07:34,200 --> 00:07:37,560
+And so indeed, here we have our object,
+
+145
+00:07:37,560 --> 00:07:39,570
+just like we asked it to.
+
+146
+00:07:39,570 --> 00:07:43,410
+So we get the averageHours, the number of days worked,
+
+147
+00:07:43,410 --> 00:07:47,130
+whether it is full-time, then the maxDay
+
+148
+00:07:47,130 --> 00:07:48,870
+and the totalHours.
+
+149
+00:07:48,870 --> 00:07:51,420
+So that's just shy of 35.
+
+150
+00:07:51,420 --> 00:07:54,780
+And so that's why isFullTime is false.
+
+151
+00:07:54,780 --> 00:07:58,350
+So let's maybe change the four here to five.
+
+152
+00:07:58,350 --> 00:08:00,960
+And so then, this should be 35.5
+
+153
+00:08:00,960 --> 00:08:04,833
+and isFullTime should become true.
+
+154
+00:08:05,910 --> 00:08:10,910
+So, give that a save, and indeed, this worked really great.
+
+155
+00:08:11,340 --> 00:08:12,780
+So just like this,
+
+156
+00:08:12,780 --> 00:08:14,940
+we actually solved the challenge
+
+157
+00:08:14,940 --> 00:08:17,400
+without having to type any code.
+
+158
+00:08:17,400 --> 00:08:20,310
+Just keep in mind that if you were to incorporate this
+
+159
+00:08:20,310 --> 00:08:22,230
+into your own application,
+
+160
+00:08:22,230 --> 00:08:24,750
+you would have to really test this code
+
+161
+00:08:24,750 --> 00:08:28,110
+and inspect if everything is correct.
+
+162
+00:08:28,110 --> 00:08:30,240
+Also, remember that this is supposed to be
+
+163
+00:08:30,240 --> 00:08:32,100
+an iterative process.
+
+164
+00:08:32,100 --> 00:08:35,160
+And so, let's try to maybe change something here.
+
+165
+00:08:35,160 --> 00:08:38,370
+So, this nextDay right here is number four,
+
+166
+00:08:38,370 --> 00:08:41,790
+which is basically the index of the day
+
+167
+00:08:41,790 --> 00:08:44,280
+in which most work happened.
+
+168
+00:08:44,280 --> 00:08:48,090
+So, 0, because remember that in a race,
+
+169
+00:08:48,090 --> 00:08:50,640
+the first element is always the 0.
+
+170
+00:08:50,640 --> 00:08:54,420
+So that's 0, 1, 2, 3, 4.
+
+171
+00:08:54,420 --> 00:08:56,070
+So that is indeed correct.
+
+172
+00:08:56,070 --> 00:08:58,020
+This is the maxDay,
+
+173
+00:08:58,020 --> 00:09:01,530
+so the day in which the freelancer worked the most.
+
+174
+00:09:01,530 --> 00:09:04,380
+However, this number four here is not really
+
+175
+00:09:04,380 --> 00:09:06,450
+a nice, readable result.
+
+176
+00:09:06,450 --> 00:09:08,971
+So instead, let's tell ChatGPT
+
+177
+00:09:08,971 --> 00:09:12,333
+that this should actually be a weekday.
+
+178
+00:09:14,040 --> 00:09:19,040
+So, let's say, "change maxDay to be an actual work day
+
+179
+00:09:22,680 --> 00:09:24,867
+like Monday."
+
+180
+00:09:26,310 --> 00:09:29,490
+And so then, it will get back to work.
+
+181
+00:09:29,490 --> 00:09:33,300
+And so now, here what's happening is that ChatGPT
+
+182
+00:09:33,300 --> 00:09:38,073
+is creating this array here of these days of the week.
+
+183
+00:09:40,110 --> 00:09:43,260
+And then here, it will basically convert the index
+
+184
+00:09:43,260 --> 00:09:45,510
+like the number four that we got earlier
+
+185
+00:09:45,510 --> 00:09:48,963
+to the actual day name by reading that value here.
+
+186
+00:09:50,070 --> 00:09:51,600
+So, let's just copy this function here
+
+187
+00:09:51,600 --> 00:09:53,650
+and replace the one that we already have.
+
+188
+00:09:55,890 --> 00:10:00,890
+So just like this, give it a save,
+
+189
+00:10:01,650 --> 00:10:04,740
+and now we should get Friday.
+
+190
+00:10:04,740 --> 00:10:06,390
+Beautiful.
+
+191
+00:10:06,390 --> 00:10:11,390
+So, small tasks like this can easily be automated with AI
+
+192
+00:10:11,400 --> 00:10:14,970
+as you just saw, but it will always be your task
+
+193
+00:10:14,970 --> 00:10:18,660
+to incorporate code like this into your own application,
+
+194
+00:10:18,660 --> 00:10:21,000
+again, making sure that it actually works
+
+195
+00:10:21,000 --> 00:10:23,640
+and that there are no bugs in the code.
+
+196
+00:10:23,640 --> 00:10:26,700
+So, you'd have to do a lot more analysis and tests
+
+197
+00:10:26,700 --> 00:10:28,080
+than we just did here.
+
+198
+00:10:28,080 --> 00:10:31,500
+And actually, let's do one more test like this.
+
+199
+00:10:31,500 --> 00:10:36,500
+So, let me just copy this here again.
+
+200
+00:10:37,860 --> 00:10:40,110
+Let's also remove this comment from here.
+
+201
+00:10:40,110 --> 00:10:45,110
+And let's do weeklyHours2, analysis2 and analysis2 here.
+
+202
+00:10:45,450 --> 00:10:49,410
+And now what I'm gonna do is to remove two days from here.
+
+203
+00:10:49,410 --> 00:10:52,710
+And in this case, we actually don't want this to work.
+
+204
+00:10:52,710 --> 00:10:57,124
+So, this analyzeWorkWeek function should only work
+
+205
+00:10:57,124 --> 00:11:01,680
+if there are actually seven days given to the function.
+
+206
+00:11:01,680 --> 00:11:05,340
+So, if the length of this array here is seven.
+
+207
+00:11:05,340 --> 00:11:09,243
+So, let's tell ChatGPT this, as well.
+
+208
+00:11:10,657 --> 00:11:15,410
+"The function should require the input array
+
+209
+00:11:16,890 --> 00:11:21,363
+to have exactly 7 days.
+
+210
+00:11:23,310 --> 00:11:27,627
+Update the function accordingly."
+
+211
+00:11:30,180 --> 00:11:34,233
+So now, it will probably introduce some kind of error here.
+
+212
+00:11:35,310 --> 00:11:40,140
+Yeah, so in case that
+
+213
+00:11:40,140 --> 00:11:42,660
+the length of this array is not seven,
+
+214
+00:11:42,660 --> 00:11:46,230
+then we will get an error here in our browser,
+
+215
+00:11:46,230 --> 00:11:49,380
+and even actually if this is not an array at all,
+
+216
+00:11:49,380 --> 00:11:50,913
+so with this part right here.
+
+217
+00:11:53,400 --> 00:11:57,273
+So, let's copy this,
+
+218
+00:11:58,620 --> 00:12:01,233
+again replacing our function here.
+
+219
+00:12:05,130 --> 00:12:06,333
+Let's give it a try.
+
+220
+00:12:08,760 --> 00:12:13,080
+Maybe manually reload here. We don't get the error.
+
+221
+00:12:13,080 --> 00:12:15,450
+Ah, but that's because I forgot
+
+222
+00:12:15,450 --> 00:12:18,900
+to actually use this array right here.
+
+223
+00:12:18,900 --> 00:12:21,000
+And so now, we get exactly that error.
+
+224
+00:12:21,000 --> 00:12:25,590
+So, "Input must be an array of exactly 7 daily work hours."
+
+225
+00:12:25,590 --> 00:12:29,820
+So, that's basically the error that is generated up here.
+
+226
+00:12:29,820 --> 00:12:32,490
+And again, we never saw this code,
+
+227
+00:12:32,490 --> 00:12:36,600
+so we had never learned about how to manually create errors,
+
+228
+00:12:36,600 --> 00:12:41,160
+and we never saw this reduce method or this filter method
+
+229
+00:12:41,160 --> 00:12:43,860
+and many of the things here in this function.
+
+230
+00:12:43,860 --> 00:12:44,700
+But don't worry.
+
+231
+00:12:44,700 --> 00:12:47,160
+Of course, you will learn about all of this
+
+232
+00:12:47,160 --> 00:12:48,630
+throughout this course,
+
+233
+00:12:48,630 --> 00:12:51,960
+and by the end of it, you would be able to easily write
+
+234
+00:12:51,960 --> 00:12:54,540
+this entire code here on your own.
+
+235
+00:12:54,540 --> 00:12:58,140
+But remember how we also talked about in the last lecture
+
+236
+00:12:58,140 --> 00:13:03,140
+that ChatGPT or any AI assistant is also great for learning.
+
+237
+00:13:03,780 --> 00:13:08,340
+And so, let's now use it for that, as well.
+
+238
+00:13:08,340 --> 00:13:11,070
+So let's say for example, that we want to learn more
+
+239
+00:13:11,070 --> 00:13:14,670
+about this filter method here.
+
+240
+00:13:14,670 --> 00:13:16,537
+So, let's just ask it that.
+
+241
+00:13:16,537 --> 00:13:21,537
+"What does the filter method do?
+
+242
+00:13:22,110 --> 00:13:24,663
+Why is it useful?
+
+243
+00:13:26,700 --> 00:13:31,380
+Give me a few examples."
+
+244
+00:13:31,380 --> 00:13:34,440
+Here's a typo, and ChatGPT would even understand it
+
+245
+00:13:34,440 --> 00:13:39,440
+with these typos, but let's make our text correct here.
+
+246
+00:13:39,630 --> 00:13:42,600
+And so now if you want, you can just read the explanation
+
+247
+00:13:42,600 --> 00:13:45,840
+that you get here about the filter method.
+
+248
+00:13:45,840 --> 00:13:48,144
+Now, here are still some words that we don't understand
+
+249
+00:13:48,144 --> 00:13:50,820
+or that we didn't talk about yet, I think.
+
+250
+00:13:50,820 --> 00:13:52,440
+For example, callback.
+
+251
+00:13:52,440 --> 00:13:55,890
+So this callback concept here seems to be essential
+
+252
+00:13:55,890 --> 00:13:57,300
+for the filter method.
+
+253
+00:13:57,300 --> 00:13:59,535
+And so we can drill down even further
+
+254
+00:13:59,535 --> 00:14:04,535
+and ask it, "What is a callback?
+
+255
+00:14:08,340 --> 00:14:13,340
+Explain the filter method in simple terms
+
+256
+00:14:16,830 --> 00:14:21,567
+to a JavaScript beginner."
+
+257
+00:14:22,530 --> 00:14:26,250
+So, that's basically what you are right now.
+
+258
+00:14:26,250 --> 00:14:29,250
+And so, if the explanation is a bit too complex,
+
+259
+00:14:29,250 --> 00:14:31,803
+you can just ask it to make it more simple.
+
+260
+00:14:32,790 --> 00:14:35,550
+And so then you get this explanation right here,
+
+261
+00:14:35,550 --> 00:14:38,820
+which, of course, will look a little bit different for you
+
+262
+00:14:38,820 --> 00:14:42,960
+because the output for each query in ChatGPT
+
+263
+00:14:42,960 --> 00:14:47,960
+is always different for each time that you ask it.
+
+264
+00:14:49,770 --> 00:14:52,350
+So, even if I ask the exact same thing twice,
+
+265
+00:14:52,350 --> 00:14:54,780
+the response will always be a little bit different.
+
+266
+00:14:54,780 --> 00:14:57,330
+But you see it is pretty detailed here
+
+267
+00:14:57,330 --> 00:15:00,810
+and gives me all of this text, all this explanation.
+
+268
+00:15:00,810 --> 00:15:02,280
+And so, yeah.
+
+269
+00:15:02,280 --> 00:15:04,680
+Maybe one day, it will even replace me
+
+270
+00:15:04,680 --> 00:15:07,350
+as a teacher, which I hope it won't,
+
+271
+00:15:07,350 --> 00:15:12,350
+but I guess until ChatGPT is able to create videos as I am,
+
+272
+00:15:12,600 --> 00:15:13,863
+I should be safe.
+
+273
+00:15:16,260 --> 00:15:20,550
+Okay. But anyway, this is it for this lecture.
+
+274
+00:15:20,550 --> 00:15:23,580
+This was just a quick walkthrough and a quick demonstration
+
+275
+00:15:23,580 --> 00:15:25,449
+of how we can use an AI tool
+
+276
+00:15:25,449 --> 00:15:28,950
+in order to solve challenges like this.
+
+277
+00:15:28,950 --> 00:15:30,810
+So as you go throughout the course,
+
+278
+00:15:30,810 --> 00:15:33,030
+you can maybe also ask some questions
+
+279
+00:15:33,030 --> 00:15:36,000
+in case anything that you did learn throughout the course
+
+280
+00:15:36,000 --> 00:15:38,070
+was not 100% clear,
+
+281
+00:15:38,070 --> 00:15:41,430
+and so then ChatGPT could help you with that.
+
+282
+00:15:41,430 --> 00:15:43,980
+There's also now an AI assistant integrated
+
+283
+00:15:43,980 --> 00:15:48,570
+right into Udemy, and so, you could use that one, as well,
+
+284
+00:15:48,570 --> 00:15:50,070
+while they're going through the course
+
+285
+00:15:50,070 --> 00:15:52,620
+and something is not 100% clear.
+
+286
+00:15:52,620 --> 00:15:56,100
+Just make sure to not use an AI assistant
+
+287
+00:15:56,100 --> 00:15:58,980
+in order to solve the challenges of the course,
+
+288
+00:15:58,980 --> 00:16:00,990
+because that would obviously be
+
+289
+00:16:00,990 --> 00:16:02,880
+completely counterproductive.
+
+290
+00:16:02,880 --> 00:16:05,310
+You wouldn't learn anything at all.
+
+291
+00:16:05,310 --> 00:16:08,130
+So basically, only used these tools
+
+292
+00:16:08,130 --> 00:16:10,320
+after you have already finished the course
+
+293
+00:16:10,320 --> 00:16:12,930
+and after you know exactly what you're doing.
+
+294
+00:16:12,930 --> 00:16:16,260
+But that's exactly what we learned in the last lecture,
+
+295
+00:16:16,260 --> 00:16:18,660
+and so let's not repeat all of that.
+
+296
+00:16:18,660 --> 00:16:22,050
+So anyway, with this, we finish up this section,
+
+297
+00:16:22,050 --> 00:16:24,480
+and so let's now move on to the next one
+
+298
+00:16:24,480 --> 00:16:26,970
+and really start learning JavaScript.
+
+299
+00:16:26,970 --> 00:16:28,593
+So, see you there very soon.

@@ -1,0 +1,497 @@
+﻿Welcome back.
+
+Let's now talk about our first data structure.
+
+And that's gonna be Arrays.
+
+And let's say, I want it to store my friends' names in variables so that I could use them later in my program.
+
+And so with the knowledge that we have so far this is how we would do it.
+
+So const friend one let's say Michael, and let's spell this correct.
+
+Then friend two Steven and then friend three let's say Peter.
+
+Now this isn't really fun to do, right?
+
+Because imagine that we actually wanted to represent 10 friends and then we would have to create 10 variables.
+
+So that doesn't sound like fun.
+
+Instead, wouldn't it be great to essentially bundle all of these values together into some bigger container?
+
+Well, that's why we have data structures in JavaScript.
+
+And Arrays are such a data structure.
+
+So an Array is like a big container into which we can throw variables and then later reference them.
+
+And that's super important.
+
+Because programming is most of the time, all about data.
+
+So we get data from somewhere we store and process data and then we give some data back.
+
+And that data, it has to go somewhere.
+
+So it has to be stored in some place.
+
+And for that, we use data structures, just like Arrays.
+
+So in case we have more, than just a single value.
+
+The two most important data structures at least in JavaScript, are Arrays and Objects.
+
+And so now let's learn all about Arrays.
+
+So instead of doing this let's create a variable, which I'm gonna call a friends and then we use the brackets, to create a new Array.
+
+And then in there, we can put different values, separated by commas.
+
+And so let's now use the exact same friends.
+
+So Michael comma, then Steven comma and Peter.
+
+And make sure that these commas here are outside of the string.
+
+So that's an error I see people do.
+
+And so this needs to be one string.
+
+So you need to start and finish it, then the comma and then another value then another comma and then another value.
+
+Okay.
+
+And now let's take a look at it in the console.
+
+Okay.
+
+And so this is what the Array looks like, in the console.
+
+So basically just as we wrote it in our code.
+
+And that is the absolute basics about Arrays.
+
+So that's how we create one.
+
+At least that's the way that we use the most but there's actually another way.
+
+So let me show that to you as well.
+
+So let's say we wanted an Array of years.
+
+And so instead of the brackets, we could also write new, Array and then parenthesis.
+
+And in there we would then specify all our values.
+
+Let's say 1991, 1984, 2008, and let's say 2020.
+
+So on the rate can hold as many values as we want.
+
+And also values of any type that we'd like.
+
+So it doesn't have to be strings like here, of course, numbers work just the same.
+
+And so here we used a different way of creating the Array, which was using this Array function.
+
+So you see that it's a function because we called it here basically using these parenthesis.
+
+And we also needed to use the new keyword because otherwise it's not gonna work.
+
+But anyway, it's way more usual to just use the brackets like I did up here, which is called the a literal syntax.
+
+Great.
+
+So now we know how to create Arrays.
+
+So basically how to put elements into an Array, but of course we need to have a way to get them out.
+
+And for that, we use the square bracket syntax again.
+
+So let's say that we want to log to the console, the first element of this friend's Array.
+
+So that would be Michael.
+
+So console.log, and now we write friends.
+
+So that's the name of the Array.
+
+And then we use the square brackets and then the number zero.
+
+That's because Arrays are zero-based, which means that this first element is the element number zero.
+
+Then this one is element number one number two, and so on and so forth.
+
+And so if we want the element at position zero, so this first one, then we write friends square bracket zero.
+
+And that's it.
+
+And now let's say we wanted Peter here as well.
+
+So that would be element zero, one, two.
+
+And so, let's just write two.
+
+And check it out.
+
+And indeed we get Michael and Peter.
+
+Cool.
+
+Now we can also get the actual number of elements that is in the Array.
+
+So let's also log that one to the console.
+
+And this one works by saying, friends.length.
+
+Okay.
+
+And this dot length is something called a property which we're gonna talk about a little bit later in the section when we talk about objects.
+
+Anyway what matters, is that this is gonna be the exact amount of elements that is in the Array.
+
+And it's not zero based.
+
+So it will not be two, even though the last one here is element number two.
+
+Instead it really gives us the number of elements in the Array.
+
+So we should expect this to log three and yeah, here we go.
+
+Now we can use this to automatically get the last element of any Array.
+
+And that is useful so that we don't have to count how many elements are in the Array.
+
+So let me show you how we could do that.
+
+Friends, and then remember to retrieve an element from the Array, we need to square brackets.
+
+So just like this.
+
+And then to get the index of the last element in the Array all we need to do, is friends.length minus one.
+
+So friends.length minus one.
+
+And that's because again, friends.length is not zero based.
+
+So this is three I remember, but this last element is two.
+
+And so we always need to subtract one from this number here.
+
+Okay.
+
+So what this also means, is that inside of these brackets, we can put any expression.
+
+It doesn't just have to be a number literally like we did here and here.
+
+So here we have this expression and remember that an expression is something that produces a value.
+
+And so this one here is gonna be calculated first.
+
+So it will compute friends.length which is three minus one is two, and then it will get friends at position two.
+
+And that's also one of the reasons why it's important that you know what is an expression and what is a statement.
+
+Because once again, we could not put a statement in here.
+
+So inside of these square brackets, JavaScript expects an expression, not a statement.
+
+Anyway, we got to the correct element from the Array, which is the element number two.
+
+And so that means that this automatic retrieval of the last element works just fine.
+
+All right.
+
+And moving on, there is more stuff that we can do.
+
+So this square bracket syntax, that we used here is not only for retrieving elements from the Array but we can also change it to add elements to the Array.
+
+So let's say that for some reason, I'm no longer friends with Peter and that I want to replace him with some other friends.
+
+And so now we can change or mutate the Array in the same way.
+
+So we can say friends at position number two and I'm doing it manually here again.
+
+So we can say that this should be equal to, something else.
+
+And let's say Jay.
+
+And if we now log this friends Array to the console, then we should already see the new Array.
+
+So, friends and let's see, and indeed the element number two.
+
+So this one here, is now replaced with Jay, okay.
+
+So in the beginning, when we first logged the friends Array to the console, it was still in this state.
+
+So it still had Peter.
+
+And that's why here in the beginning, we still see that original state.
+
+But then as we move on through the code, at some point here, we changed that Array.
+
+And so when we then log the Array again that change is of course reflected here in the output.
+
+But wait!
+
+Didn't I say in the last section, that variables declared with const, cannot be changed.
+
+And we did in fact declare the friends variable here with const, right?
+
+But I was still able to change one element of the Array here from Peter to Jay, right?
+
+So isn't that a contradiction?
+
+Well what I didn't tell you at the time, is that only primitive values, are immutable.
+
+But an Array is not a primitive value.
+
+And so we can actually always change it so we can mutate it.
+
+And it works this way because of the way that JavaScript stores things in memory.
+
+And once more we will have a whole lecture just on that topic alone, in a special section about how JavaScript works behind the scenes.
+
+So what you need to know for now is that we can actually mutate Arrays even though they were declared with const.
+
+Now what we can not do is to actually replace the entire Array.
+
+So we cannot do this.
+
+We cannot say that the entire friends' Array should now be Bob and Ellis.
+
+That would be illegal.
+
+So let's see.
+
+And now we get assignment to constant variable.
+
+And so that's why that we can not do.
+
+But let's just keep it here anyway.
+
+So you get this as a reference.
+
+Next up, I want to show you that an Array can actually hold values with different types all at the same time.
+
+So let's experiment with that.
+
+So let's create an Array which holds all kinds of information about me.
+
+So let's say Jonas, so that would be the first name then the last name, then the age.
+
+And here we can actually calculate the age from other values.
+
+And that works because in each position, JavaScript simply expects an expression.
+
+And so if we do this, then this is perfectly fine.
+
+Okay.
+
+So this will here produce a value.
+
+And so that's the value that will then be stored at position number two of the new Array.
+
+And that also works for variables.
+
+So we could, for example do first name equal Jonas.
+
+And then here instead of literally writing that, we could use this variable name.
+
+And so this would then be replaced, with the actual string.
+
+So let's put some more data and actually we could even put other Arrays inside of an Array.
+
+So that's really cool.
+
+So let's put the friends Array here, in the Jonas Array.
+
+And then with this, we have all the relevant data about Jonas in one handy data structure.
+
+And that's really convenient because then we don't have to create one variable for each of the data points.
+
+So let's, of course, inspect is now in the console so that you can see that all of these expressions here basically.
+
+So this and this here and this, so all of them are gonna be replaced with the values that they produce.
+
+And so indeed, we now get Jonas.
+
+We have to calculate at age, and here have the Array at three.
+
+And we can expand that by clicking on this small triangle here and then we can see the actual Array in here.
+
+We also have the length.
+
+So length is five.
+
+And so that's where JavaScript gets this friends.length from.
+
+Jonas.length, would of course also work.
+
+And it would be this five that we see here.
+
+Okay.
+
+So that's the one.
+
+Great.
+
+So these are the very fundamentals of Arrays in JavaScript.
+
+And now just to finish this video, let's work on a very small Array exercise.
+
+So that we can see why Arrays are actually so useful.
+
+And to do that, let's bring back our old calcAge function.
+
+So it's gotta be somewhere here.
+
+Yes.
+
+Let's use this one.
+
+We've coded this so many times that I don't want to repeat it.
+
+So exercise.
+
+So calcAge.
+
+And now let's say that we have an Array of birth years.
+
+And then we want to calculate the ages for some of them.
+
+So, a new Array and let's say 1990, 1967, 2002, 2010 and 2018.
+
+And now we will be able to use the calcAge function and then store the results of calculating the ages for some of these years into a new Array.
+
+So let's see how and let's see first how we could not do it.
+
+Okay.
+
+So for example, if we wanted to use the calcAge function for all of the elements in this Array, we could not do this.
+
+This would be not illegal, I would say but it's not gonna work because this years is an Array.
+
+And if we pass this years' Array as an argument to the calcAge function, it doesn't know what to do with it.
+
+Because this operation here expects a single value and we cannot do a number minus and array.
+
+So let me actually show you what's gonna happen if we run this, and well that's not the error I wanted to show you.
+
+So what we get is, "identifier 'years' has already been declared."
+
+So this means that somewhere in the code, we already have an Array called years and yeah, here it is.
+
+So that's changed the name of this one to just Y.
+
+So that one doesn't really matter anyway but now let's see what happens and well not much did happen.
+
+So we actually need to inspect the result, of this.
+
+So console.log, and then the result of this.
+
+So let's see, and now we get the result, "not a number."
+
+And so that's the result of attempting to subtract a whole Array which would be this year's Array, from a number.
+
+Okay.
+
+So let's actually do that here as well.
+
+Remember that we have access to all the variables that we declare in the script, also in the console.
+
+So that's the years Array, that we just declared.
+
+But years, for example, plus 10 does not work.
+
+At least not in a way that we expected it.
+
+So the plus operator what it does here, is to convert everything to a string, just like I showed you before.
+
+And so the string here, is then basically this Array as a string, and then it adds the 10 here.
+
+So that's not meaningful at all.
+
+And if we use it with minus 10, then it's even weirder.
+
+So we get not a number.
+
+So all of this is to say that we cannot do operations with Arrays.
+
+But we can still use the calcAge function on individual elements of the Array of course.
+
+So let's do that.
+
+And we will assume that I want to calculate the ages for the first, the second and the last Array element.
+
+So this one, this one and this one.
+
+So let's calculate this and then store the result into a variable called age one and we need to get rid of this parenthesis.
+
+And so, as I said I want to calculate the age for this first element.
+
+And so what we do, is to take years at position zero.
+
+And so this year will then basically be replaced with 1990.
+
+And then calcAge is called with 1990, and to resolve the stores to age one.
+
+Now let's do this some more times and say, age two age three.
+
+And here I'm using one.
+
+So remember I want this, this and the last one.
+
+But I don't want to count the number of elements in the Array.
+
+And so I used that trick, that I just showed you in the beginning which is to first compute the length of the Array.
+
+So years.length, and then minus one to account for the fact that the index of the Array is zero based.
+
+And now we can quickly check out if this actually worked.
+
+So age one, age two, age three.
+
+And yeah.
+
+So we got three values here, which are these three ages.
+
+But we can take this even a little bit further.
+
+So since we started with an Array, it's usually a good idea, to also end up with a new Array.
+
+So let's create an Array const ages, and now what should I put in here?
+
+Well, remember how I said up here that any position of the Array simply needs to be an expression.
+
+So something that produces a value.
+
+And as we already know, this here produces a value as well, right?
+
+It is an expression.
+
+And so I can take this and simply put it as a position in this Array.
+
+And so JavaScript will then go ahead compute this value and place it in the Array.
+
+So basically we can place function calls into an Array just fine, because they will produce a value.
+
+And now here.
+
+We need to again, do years.length minus one.
+
+And now finally logging it to the console and then we're done.
+
+And indeed we get the three same values, that we had up here separately.
+
+Now, all nicely placed into this Array.
+
+And this of course works because JavaScript will start by running these function calls, these three function calls here and then place all the results in an Array afterwards.
+
+Nice.
+
+And I think that should be enough for one video.
+
+I hope that you see how fun Arrays can be, and how useful they can be.
+
+And in the next lecture, we will make them even more useful by doing some operations with them.

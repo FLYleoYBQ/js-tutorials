@@ -1,0 +1,847 @@
+1
+00:00:01,070 --> 00:00:01,903
+All right.
+
+2
+00:00:01,903 --> 00:00:04,710
+So we learned all about the for loop
+
+3
+00:00:04,710 --> 00:00:08,030
+and even created a loop inside a loop,
+
+4
+00:00:08,030 --> 00:00:10,919
+but there is another type of loop in JavaScript
+
+5
+00:00:10,919 --> 00:00:13,350
+and that's the while loop.
+
+6
+00:00:13,350 --> 00:00:15,263
+So let's explore that one now.
+
+7
+00:00:16,770 --> 00:00:19,790
+And to understand how the while loop works
+
+8
+00:00:19,790 --> 00:00:23,220
+and the difference between the for and the while loop,
+
+9
+00:00:23,220 --> 00:00:28,220
+let's actually go back to our first for loop lecture
+
+10
+00:00:28,320 --> 00:00:32,503
+and get back the code of this weightlifting exercise.
+
+11
+00:00:34,150 --> 00:00:38,640
+So just copy this and we will keep it for comparison
+
+12
+00:00:38,640 --> 00:00:39,473
+basically.
+
+13
+00:00:41,130 --> 00:00:45,340
+So let's put it back to 10 here as well,
+
+14
+00:00:45,340 --> 00:00:50,190
+and so let's now do the same thing with a while loop.
+
+15
+00:00:50,190 --> 00:00:53,210
+So implementing the same with a while loop,
+
+16
+00:00:53,210 --> 00:00:55,840
+we still need the same components.
+
+17
+00:00:55,840 --> 00:00:59,893
+So we still need a counter so that we can then actually
+
+18
+00:00:59,893 --> 00:01:03,520
+print the current value to the console,
+
+19
+00:01:03,520 --> 00:01:06,730
+we still need a condition so that we know when to stop
+
+20
+00:01:06,730 --> 00:01:09,863
+and we still need to increase the counter somehow.
+
+21
+00:01:10,810 --> 00:01:11,690
+Now in the while loop,
+
+22
+00:01:11,690 --> 00:01:14,960
+it works a bit differently because for the while loop,
+
+23
+00:01:14,960 --> 00:01:17,343
+we can only specify a condition.
+
+24
+00:01:19,340 --> 00:01:22,850
+So while, and then just a condition
+
+25
+00:01:22,850 --> 00:01:25,003
+is the only thing that we can specify here.
+
+26
+00:01:26,480 --> 00:01:30,630
+So that's gonna be exactly the same as this one.
+
+27
+00:01:30,630 --> 00:01:33,870
+So we want to keep the loop running while repetitions
+
+28
+00:01:33,870 --> 00:01:35,760
+is less or equal 10.
+
+29
+00:01:35,760 --> 00:01:40,190
+And that's actually why this loop is called while.
+
+30
+00:01:40,190 --> 00:01:42,720
+So again, it's called the while loop
+
+31
+00:01:42,720 --> 00:01:46,733
+because it will run while this condition is true.
+
+32
+00:01:48,110 --> 00:01:48,943
+Alright.
+
+33
+00:01:48,943 --> 00:01:51,640
+But now we need to kind of manually,
+
+34
+00:01:51,640 --> 00:01:54,669
+so more explicitly define the other two components
+
+35
+00:01:54,669 --> 00:01:56,640
+of the for loop.
+
+36
+00:01:56,640 --> 00:02:01,640
+So the repetitions and the increasing of the counter.
+
+37
+00:02:02,538 --> 00:02:05,633
+And so we need to do that basically outside.
+
+38
+00:02:06,670 --> 00:02:11,587
+So we start at the beginning with rep equal one,
+
+39
+00:02:12,600 --> 00:02:14,320
+then we have the condition,
+
+40
+00:02:14,320 --> 00:02:17,170
+then let's put the code that we want to execute
+
+41
+00:02:18,350 --> 00:02:20,580
+and then at the end of the iteration,
+
+42
+00:02:20,580 --> 00:02:23,040
+we will then increase the counter.
+
+43
+00:02:23,040 --> 00:02:24,870
+And so let's just do that.
+
+44
+00:02:24,870 --> 00:02:27,588
+So at the end of the iteration is basically the end
+
+45
+00:02:27,588 --> 00:02:31,603
+of this code block, and so let's do that there,
+
+46
+00:02:33,780 --> 00:02:35,290
+and that's it.
+
+47
+00:02:35,290 --> 00:02:38,960
+And so now we should get the exact same result twice,
+
+48
+00:02:38,960 --> 00:02:41,220
+once coming from this for loop
+
+49
+00:02:41,220 --> 00:02:43,623
+and once coming from this while loop.
+
+50
+00:02:46,160 --> 00:02:50,670
+And yeah, so 1 to 10, and then again, 1 to 10
+
+51
+00:02:51,680 --> 00:02:55,373
+coming from the while loop, just write that here,
+
+52
+00:02:58,610 --> 00:03:00,950
+just to make 100% sure.
+
+53
+00:03:00,950 --> 00:03:02,033
+Yeah.
+
+54
+00:03:02,033 --> 00:03:03,020
+And indeed the second set here
+
+55
+00:03:03,020 --> 00:03:05,870
+is coming from the while loop.
+
+56
+00:03:05,870 --> 00:03:08,770
+So this all means that the while loop
+
+57
+00:03:08,770 --> 00:03:11,770
+is more versatile than the for loop,
+
+58
+00:03:11,770 --> 00:03:13,510
+which means that it can be used
+
+59
+00:03:13,510 --> 00:03:17,240
+in a larger variety of situations.
+
+60
+00:03:17,240 --> 00:03:21,210
+And that's because it does not really need a counter.
+
+61
+00:03:21,210 --> 00:03:23,740
+So you put the counter here because we need it
+
+62
+00:03:23,740 --> 00:03:25,710
+for this specific use case.
+
+63
+00:03:25,710 --> 00:03:29,190
+But all the while loop really needs is the condition
+
+64
+00:03:29,190 --> 00:03:32,900
+which needs to stay true for it to keep running.
+
+65
+00:03:32,900 --> 00:03:35,630
+And that condition can be any condition,
+
+66
+00:03:35,630 --> 00:03:38,950
+it doesn't have to be related to any counter at all.
+
+67
+00:03:38,950 --> 00:03:41,570
+And sometimes that's exactly what we need
+
+68
+00:03:41,570 --> 00:03:43,470
+to solve a certain problem.
+
+69
+00:03:43,470 --> 00:03:45,670
+So a problem without any counter,
+
+70
+00:03:45,670 --> 00:03:49,020
+so without a number that is increasing.
+
+71
+00:03:49,020 --> 00:03:52,623
+And so let's create such an example here.
+
+72
+00:03:53,900 --> 00:03:57,400
+So I will start by taking off this for loop,
+
+73
+00:03:57,400 --> 00:03:59,680
+we no longer need that one
+
+74
+00:03:59,680 --> 00:04:02,170
+and now we will do a simple example
+
+75
+00:04:02,170 --> 00:04:05,100
+that does not depend on a counter,
+
+76
+00:04:05,100 --> 00:04:10,023
+but instead it will depend on a random variable, okay.
+
+77
+00:04:10,023 --> 00:04:14,180
+So what we're gonna do is to basically roll a dice
+
+78
+00:04:14,180 --> 00:04:18,140
+and then keep rolling the dice until we roll a six.
+
+79
+00:04:18,140 --> 00:04:21,240
+And then when we roll a six, we stop.
+
+80
+00:04:21,240 --> 00:04:24,850
+So essentially we will want to keep running the loop
+
+81
+00:04:24,850 --> 00:04:28,730
+while the rolled dice is different from six.
+
+82
+00:04:28,730 --> 00:04:30,390
+And so in this case,
+
+83
+00:04:30,390 --> 00:04:32,830
+we do actually not know beforehand
+
+84
+00:04:32,830 --> 00:04:35,620
+how many times the loop should run.
+
+85
+00:04:35,620 --> 00:04:38,330
+And so we don't need a counter variable
+
+86
+00:04:38,330 --> 00:04:42,450
+and that's exactly the use case of a while loop.
+
+87
+00:04:42,450 --> 00:04:45,600
+So let's start by creating that random number.
+
+88
+00:04:45,600 --> 00:04:50,290
+And so the roll of a dice is a number between one and six,
+
+89
+00:04:50,290 --> 00:04:52,400
+the way that we implement this
+
+90
+00:04:52,400 --> 00:04:55,670
+does not matter at this point, okay.
+
+91
+00:04:55,670 --> 00:04:59,830
+We will learn more about random numbers at a later point,
+
+92
+00:04:59,830 --> 00:05:00,720
+and so for now,
+
+93
+00:05:00,720 --> 00:05:04,573
+just basically just type what I am writing here.
+
+94
+00:05:05,780 --> 00:05:08,253
+So we're using Math.random,
+
+95
+00:05:09,430 --> 00:05:12,870
+and this will create a number between zero and one,
+
+96
+00:05:12,870 --> 00:05:16,380
+then we multiply that by a six,
+
+97
+00:05:16,380 --> 00:05:18,393
+but this is gonna be a decimal number.
+
+98
+00:05:19,340 --> 00:05:21,250
+Let me just show it out to you quickly,
+
+99
+00:05:21,250 --> 00:05:25,083
+because I think this is still interesting for you.
+
+100
+00:05:28,300 --> 00:05:30,800
+So you see that it's a decimal number,
+
+101
+00:05:30,800 --> 00:05:35,510
+and so now we need to get rid of this decimal part.
+
+102
+00:05:35,510 --> 00:05:39,543
+And so that we do using Math.trunc,
+
+103
+00:05:42,860 --> 00:05:46,320
+and so this will give us a number between zero and five
+
+104
+00:05:46,320 --> 00:05:50,060
+and then we add one and get one to six.
+
+105
+00:05:50,060 --> 00:05:52,850
+So again, don't worry about the implementation of this
+
+106
+00:05:52,850 --> 00:05:57,580
+at this point, we will do this again later.
+
+107
+00:05:57,580 --> 00:06:00,890
+But what matters here is that as we reload the page,
+
+108
+00:06:00,890 --> 00:06:04,520
+we get a random number here that is different every time.
+
+109
+00:06:04,520 --> 00:06:08,070
+And so it will be different for you of course,
+
+110
+00:06:08,070 --> 00:06:10,270
+so different from what you see in the video
+
+111
+00:06:10,270 --> 00:06:13,010
+as you keep reloading your own page.
+
+112
+00:06:13,010 --> 00:06:13,843
+Okay.
+
+113
+00:06:13,843 --> 00:06:16,893
+And so now let's do what I explained earlier.
+
+114
+00:06:18,250 --> 00:06:20,890
+So again, we want to keep running the loop
+
+115
+00:06:20,890 --> 00:06:22,900
+until we roll a six.
+
+116
+00:06:22,900 --> 00:06:27,900
+So until this dice variable here holds the value of six.
+
+117
+00:06:28,230 --> 00:06:32,883
+And so the condition of the loop is now gonna be,
+
+118
+00:06:34,010 --> 00:06:38,423
+dice different from six.
+
+119
+00:06:39,340 --> 00:06:42,843
+And as soon as the value is six, it will stop.
+
+120
+00:06:44,860 --> 00:06:48,623
+And let's lock the value to the console here.
+
+121
+00:06:49,840 --> 00:06:54,077
+So, 'You rolled a $ dice',
+
+122
+00:06:55,300 --> 00:06:58,500
+and so that's get rid of this one here
+
+123
+00:06:58,500 --> 00:07:00,730
+and now let's log it to the console,
+
+124
+00:07:00,730 --> 00:07:03,500
+but keep in mind that actually right now
+
+125
+00:07:03,500 --> 00:07:06,700
+we are only creating one dice value.
+
+126
+00:07:06,700 --> 00:07:10,060
+So at this point a loop doesn't make a lot of sense,
+
+127
+00:07:10,060 --> 00:07:12,810
+and so actually let's keep working on this
+
+128
+00:07:12,810 --> 00:07:13,953
+before we test it.
+
+129
+00:07:14,820 --> 00:07:18,600
+So again, we are only creating one random number
+
+130
+00:07:18,600 --> 00:07:21,590
+between one and six here, right?
+
+131
+00:07:21,590 --> 00:07:26,100
+And if that's different than six, this loop here will run.
+
+132
+00:07:26,100 --> 00:07:29,011
+But right now the loop would then run forever,
+
+133
+00:07:29,011 --> 00:07:31,440
+which I'm not going to show you here now
+
+134
+00:07:31,440 --> 00:07:33,770
+because that would crash the browser.
+
+135
+00:07:33,770 --> 00:07:36,350
+So this would be called an infinite loop
+
+136
+00:07:36,350 --> 00:07:38,360
+and we don't want that.
+
+137
+00:07:38,360 --> 00:07:42,900
+So what we will do is to keep creating new dice values.
+
+138
+00:07:42,900 --> 00:07:46,040
+And so we are gonna reassign this value
+
+139
+00:07:46,040 --> 00:07:48,640
+at the end of each iteration.
+
+140
+00:07:48,640 --> 00:07:51,903
+And so now we're ready to test the result here.
+
+141
+00:07:53,850 --> 00:07:58,170
+Whoa, you see we got a lot of dice rolls here.
+
+142
+00:07:58,170 --> 00:08:03,113
+Let me actually also comment out just this console.log here,
+
+143
+00:08:07,550 --> 00:08:11,590
+and so of course your result will be different from mine,
+
+144
+00:08:11,590 --> 00:08:14,690
+because we are using different random numbers.
+
+145
+00:08:14,690 --> 00:08:17,920
+But anyway, let's analyze what happened here.
+
+146
+00:08:17,920 --> 00:08:20,510
+So we start with some random dice number
+
+147
+00:08:20,510 --> 00:08:25,030
+and then here we check if that dice is different from six.
+
+148
+00:08:25,030 --> 00:08:27,290
+And apparently it was different,
+
+149
+00:08:27,290 --> 00:08:30,250
+and so then we entered the loop, which then logged,
+
+150
+00:08:30,250 --> 00:08:32,310
+'You rolled a 2'.
+
+151
+00:08:32,310 --> 00:08:35,620
+So my random number was first a two.
+
+152
+00:08:35,620 --> 00:08:39,250
+Then in the next line we created a new random number
+
+153
+00:08:39,250 --> 00:08:41,150
+and then the loop run again.
+
+154
+00:08:41,150 --> 00:08:43,770
+So again, this condition was tested.
+
+155
+00:08:43,770 --> 00:08:48,280
+So is the dice different from six, and apparently it was,
+
+156
+00:08:48,280 --> 00:08:50,520
+and so we entered the loop again.
+
+157
+00:08:50,520 --> 00:08:53,890
+And so it printed, 'You rolled a 1'.
+
+158
+00:08:53,890 --> 00:08:56,010
+And then the next dice was a five,
+
+159
+00:08:56,010 --> 00:08:58,560
+and then the next one was a four.
+
+160
+00:08:58,560 --> 00:09:00,293
+But then apparently the next dice
+
+161
+00:09:00,293 --> 00:09:02,873
+that was rolled here was a six.
+
+162
+00:09:03,710 --> 00:09:06,630
+So at the end of this iteration here,
+
+163
+00:09:06,630 --> 00:09:09,500
+this dice value was a six.
+
+164
+00:09:09,500 --> 00:09:11,720
+And so then in the next iteration,
+
+165
+00:09:11,720 --> 00:09:14,940
+dice was actually equal six.
+
+166
+00:09:14,940 --> 00:09:17,590
+And so then the condition is no longer true
+
+167
+00:09:17,590 --> 00:09:19,023
+and the loop stopped.
+
+168
+00:09:20,010 --> 00:09:24,100
+And let me actually write one more line of code here
+
+169
+00:09:24,100 --> 00:09:29,100
+in which we can say, if dice is 6 then log,
+
+170
+00:09:32,970 --> 00:09:35,760
+'Loop is about to end'.
+
+171
+00:09:36,600 --> 00:09:39,780
+And so this way we can know when a six happened,
+
+172
+00:09:39,780 --> 00:09:42,710
+and so the very first thing that should ever happen here
+
+173
+00:09:42,710 --> 00:09:46,260
+in this output is this, right?
+
+174
+00:09:46,260 --> 00:09:48,790
+Because then when the dice was six,
+
+175
+00:09:48,790 --> 00:09:50,883
+the next iteration will no longer run.
+
+176
+00:09:52,260 --> 00:09:57,260
+So let's do that, and indeed, so we get one, five, for, one,
+
+177
+00:09:57,770 --> 00:10:01,400
+but no six and then, 'Loop is about to end',
+
+178
+00:10:01,400 --> 00:10:05,560
+and so the dice was six, and so this condition was true,
+
+179
+00:10:05,560 --> 00:10:08,400
+and so we saw this log to the console
+
+180
+00:10:08,400 --> 00:10:13,030
+and then in the next iteration, again six equals six
+
+181
+00:10:13,030 --> 00:10:14,653
+and so the loop finished.
+
+182
+00:10:15,750 --> 00:10:20,750
+Let's try some more times, and of course it works.
+
+183
+00:10:20,860 --> 00:10:24,490
+Oh, and now we got a situation where the first dice ever
+
+184
+00:10:24,490 --> 00:10:28,180
+was a six, and so the loop never even started.
+
+185
+00:10:28,180 --> 00:10:31,540
+And this was the situation I was waiting for here.
+
+186
+00:10:31,540 --> 00:10:35,140
+So when dice is six right away in the beginning,
+
+187
+00:10:35,140 --> 00:10:39,430
+then of course this loop will have exactly zero iterations,
+
+188
+00:10:39,430 --> 00:10:42,140
+it will never start, okay.
+
+189
+00:10:42,140 --> 00:10:45,450
+And so the conclusion of this is that the while loop
+
+190
+00:10:45,450 --> 00:10:49,980
+does really not have to depend on any counter variable.
+
+191
+00:10:49,980 --> 00:10:53,690
+So whenever you do need a loop without a counter,
+
+192
+00:10:53,690 --> 00:10:56,080
+you can reach for the while loop.
+
+193
+00:10:56,080 --> 00:10:59,510
+So basically that happens whenever you do not know
+
+194
+00:10:59,510 --> 00:11:03,280
+beforehand how many iterations the loop will have.
+
+195
+00:11:03,280 --> 00:11:05,310
+So in that situation the while loop
+
+196
+00:11:05,310 --> 00:11:07,650
+is the right tool for the job.
+
+197
+00:11:07,650 --> 00:11:09,453
+And that's exactly what we had here.
+
+198
+00:11:10,310 --> 00:11:12,860
+So we had no way of knowing how many times
+
+199
+00:11:12,860 --> 00:11:16,730
+we would roll a dice that's different from six.
+
+200
+00:11:16,730 --> 00:11:17,960
+Now, on the other hand,
+
+201
+00:11:17,960 --> 00:11:21,120
+when we do know how many times the loop will run,
+
+202
+00:11:21,120 --> 00:11:24,310
+that means that we're gonna actually need a counter.
+
+203
+00:11:24,310 --> 00:11:27,130
+For example, when we want to loop over an array,
+
+204
+00:11:27,130 --> 00:11:30,520
+we already know how many elements that array has,
+
+205
+00:11:30,520 --> 00:11:33,700
+and so we know how many iterations we will need.
+
+206
+00:11:33,700 --> 00:11:36,933
+And therefore the for loop is usually the right choice
+
+207
+00:11:36,933 --> 00:11:38,924
+to loop over an array.
+
+208
+00:11:38,924 --> 00:11:40,390
+All right.
+
+209
+00:11:40,390 --> 00:11:41,223
+And with this,
+
+210
+00:11:41,223 --> 00:11:44,140
+we kind of finished the JavaScript fundamentals.
+
+211
+00:11:44,140 --> 00:11:47,100
+All there's left to do now is for you to complete
+
+212
+00:11:47,100 --> 00:11:50,163
+the final coding challenge of this section.

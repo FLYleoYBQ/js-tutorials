@@ -1,0 +1,127 @@
+﻿Let's now talk about a new way of looping over arrays, which was introduced in year six.
+
+And that's the for-of loop.
+
+And let's say we wanted to loop over our entire menu here.
+
+So let's start by creating again, the array with the entire menu.
+
+And for that we expand restaurant dot starter menu and restaurant dot main menu.
+
+So nothing new at this point.
+
+Now you already know how to loop over this array with a regular for loop, right?
+
+So you would have to go through all the steps of setting up a counter, a condition and also update the counter.
+
+And that's a lot of work.
+
+And so that's why we got the for-of loop now in which you don't need any of that.
+
+It's so much simpler.
+
+And this is how it works.
+
+We still write for and then we create a variable here, let's just call it item for now and then of menu.
+
+And then we can log to the console simply this item.
+
+So let's see if that works and then I'm gonna explain why it works and what this loop does.
+
+So indeed we got all our elements here now, individually logged to the console.
+
+So this for-of loop, which is called for-of because it is for and then item of the menu, right?
+
+So this loop will automatically loop over the entire array and in each iteration, it will give us access to the current array element, which we can specify here.
+
+So in this case it's called the item, but of course we could call it anything that we want.
+
+And so if we simply log the current item down to the console, well, then this is here what we get.
+
+Simply each element logged one by one.
+
+And that's because again, the item variable is always the current element in each iteration.
+
+And also just like in the if else statement, we don't need to create a code block when we only have one statement here to execute, okay?
+
+So that's pretty simple, but it's a really nice level of obstructing over the regular for loop.
+
+So we can do the same thing with this one, but without having to worry about all the underlying details such as counters and conditions.
+
+What's also great about the for-of loop, is that we can still use the continue and break keywords.
+
+And this is important because in the next section, you will learn other ways of looping arrays and in those ones, you will not be able to continue or to break.
+
+So you will need to keep that in mind.
+
+But now what if we also wanted the current index and not just the current element?
+
+Well, in the for-of loop, it's actually a bit of a pain when we need that index, because originally the for-of loop was really just meant to give you the current element.
+
+However, you can get both and you will have to do it like this.
+
+So for and then again, let's just call it item, but now instead of just menu, we now need to call the entries, a method on this array.
+
+So entries and then let's take a look at the item.
+
+And so as you see, each of the item is now actually an array with the index in the array element itself.
+
+So let's quickly take a look at what this mysterious menu dot entries actually is.
+
+So menu dot entries, and so here we get this weird array iterator.
+
+And so that's not really helpful, but we will learn about iterators by the end of the course.
+
+But if we want to take a look at this, we need to essentially expand this here, using the spread operator and then create a new array based out of that.
+
+So again this is really just to take a look at what menu dot entries actually is.
+
+And so we see that it is basically an array, which in each position contains a new array, which contains the element, so the element entity index number of that element in the original array.
+
+And so that's why we get, zero, one, two, three, four, five, six, plus all of the original elements of the menu.
+
+And that's also the reason why then we get this output from this loop now.
+
+Because here we now basically have that array.
+
+And so now each item of that array is, well, this new array.
+
+And so now if we wanted to like print a nice menu, then we could take advantage of this data now.
+
+So let's not log something nicer here.
+
+So a template string.
+
+So let's take the first element which is zero and then let's actually add one to it so that we can start the menu at one.
+
+So here we're basically gonna display like a nice menu in a real restaurant.
+
+And so there the numbers don't start at zero, right?
+
+And now here then the actual item itself, so that's at position number one.
+
+And so that looks quite nice, doesn't it?
+
+So this works great here, but we are actually at this point smarter than doing it like this.
+
+And that's because if item is now an array, we can de-structure it.
+
+We don't have to manually take element zero and element one, that is the old school way.
+
+So let's now do it in a better way.
+
+And so we can actually de-structure the item, array here, right here.
+
+All we have to do is to use the de-structuring assignment and then create the two variables that we want.
+
+So let's call it i and el for element.
+
+So here we can use i and here element.
+
+So that's checked out and indeed it works the same.
+
+And so once again these structuring made our lives a little bit easier here.
+
+So it's a really great addition to the JavaScript language here once again.
+
+And the same is of course true for the for-of loop itself, which also makes it a lot easier to loop over arrays.

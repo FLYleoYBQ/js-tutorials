@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Section Intro</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f172a;
+            --bg-secondary: #1e293b;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: #334155;
+            --code-bg: #1e1e1e;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .app-container {
+            display: flex;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* 侧边栏导航 */
+        .sidebar {
+            width: 280px;
+            background-color: var(--bg-secondary);
+            border-right: 1px solid var(--border-color);
+            padding: 2rem 1.5rem;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .sidebar-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .progress-container {
+            width: 100%;
+            height: 6px;
+            background-color: var(--bg-color);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-bar {
+            width: 0%;
+            height: 100%;
+            background-color: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        #toc {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.95rem;
+            padding: 0.5rem 0.75rem;
+            border-radius: 6px;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            color: var(--text-primary);
+            background-color: rgba(59, 130, 246, 0.15);
+        }
+
+        .nav-item.active {
+            border-left: 3px solid var(--accent-color);
+            font-weight: 500;
+        }
+
+        /* 主内容区 */
+        .main-content {
+            flex: 1;
+            padding: 3rem 4rem;
+            max-width: 900px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            letter-spacing: -0.02em;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            margin-top: 3rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .meta-info {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .callout {
+            background-color: rgba(59, 130, 246, 0.1);
+            border-left: 4px solid var(--accent-color);
+            padding: 1.5rem;
+            border-radius: 0 8px 8px 0;
+            margin: 2rem 0;
+        }
+
+        .callout strong {
+            color: var(--accent-color);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+        
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>本章简介 (Section Intro)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：001 Section Intro.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：基础语法结构（第 2 和 3 章）及底层原理基础（第 8 章）</li>
+                <li><strong>后续扩展</strong>：为处理复杂数据提供现代化开发武器库（ES6+ 特性）</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>欢迎回来！很高兴你熬过了漫长的纯理论（第 8 章），希望我们对底层 JavaScript 工作原理的剖析能让你觉得非常实用。从本章开始，我们将重新回到更为实用的代码层面，继续学习基本功能和现代 JS 语法！</p>
+        
+        <p>在第 09 章，我们将聚焦于 <strong>更现代（Modern）的 JavaScript ES6+</strong>。我们将深入探索内置的数据结构（如对象、字典映射 Maps 以及数组），掌握现代操作符：例如<strong>解构赋值 (Destructuring)</strong>、<strong>可选链操作符 (Optional Chaining)</strong>。最后，我们将剖析强大的进阶字符串操作。</p>
+
+        <p>这些全新登场的数据结构和语法，将共同为你搭建起一个更加“短小精悍”又所向披靡的代码基石（Solid foundation），以此迎战后续章节的所有重大项目！</p>
+        
+        <!-- 作为简介，暂时没有代码和课后题目 -->
+        <br><br><br><br>
+    </main>
+</div>
+
+<script>
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+
+    window.addEventListener('scroll', () => {
+        const scrollY = window.pageYOffset;
+        const totalHeight = document.body.scrollHeight - window.innerHeight;
+        const progress = totalHeight > 0 ? (scrollY / totalHeight) * 100 : 100;
+        
+        progressBar.style.width = Math.min(100, Math.max(0, progress)) + '%';
+        progressText.innerText = Math.round(Math.min(100, Math.max(0, progress))) + '%';
+    });
+</script>
+</body>
+</html>

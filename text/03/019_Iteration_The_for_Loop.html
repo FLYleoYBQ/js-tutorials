@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iteration: The for Loop</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
+        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
+        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
+        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
+        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; font-weight: 600;}
+        .btn-run:active { transform: scale(0.95); }
+        .editor-textarea { width: 100%; height: 280px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
+        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
+        .code-comparison { display: flex; gap: 24px; margin: 24px 0; }
+        .code-block-wrapper { flex: 1; min-width: 0; background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+        .code-block-header { padding: 8px 16px; font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid var(--border-color); }
+        .code-block-header.bad-side { background-color: rgba(239, 68, 68, 0.1); color: var(--danger-color); }
+        .code-block-header.good-side { background-color: rgba(16, 185, 129, 0.1); color: var(--success-color); }
+        pre[class*="language-"] { margin: 0; padding: 16px; border-radius: 0; background: transparent; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-problem" class="nav-item active">重复灾难与 DRY</a>
+            <a href="#section-anatomy" class="nav-item">解剖 For 循环的三要素</a>
+            <a href="#section-action" class="nav-item">沙盒：举铁 10 次的自动化</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Iteration: The for Loop (For 循环迭代)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：019 Iteration The for Loop.en.srt</span>
+            <span>📂 章节：第 03 章</span>
+        </div>
+
+        <h2 id="section-problem">🏋️ 健身房的重复灾难 (DRY)</h2>
+        <p>我们曾学过 <code>if/else</code> 是 JavaScript 中的控制流结构 (Control Structures)。那么现在，欢迎认识同属于控制流的终极利器：<strong>循环 (Loops)</strong>。</p>
+        <p>所有编程语言的底层基因都带有自动化的血液，而循环正是我们解决**反复做同一件事**的关键设施。想象一下去健身房举铁，你需要做 10 组：</p>
+
+        <div class="code-comparison">
+            <div class="code-block-wrapper">
+                <div class="code-block-header bad-side">❌ 人工肉体级代码</div>
+                <pre><code class="language-javascript">console.log('Lifting weights rep 1 🏋️');
+console.log('Lifting weights rep 2 🏋️');
+console.log('Lifting weights rep 3 🏋️');
+// ... 难道让你复制粘贴 10 遍甚至是 30 遍吗？
+// 如果有一天，我们想修改后面的 Emoji 这将是末日级工作量！</code></pre>
+            </div>
+            <div class="code-block-wrapper">
+                <div class="code-block-header good-side">✅ 全自动工业级循环</div>
+                <pre><code class="language-javascript">for (let rep = 1; rep <= 10; rep++) {
+    console.log(`Lifting weights rep ${rep} 🏋️`);
+}
+// 搞定。不管是 10 遍还是 10 万遍，都只需两行代码。</code></pre>
+            </div>
+        </div>
+
+        <h2 id="section-anatomy">🔬 解剖 For 循环的三要素</h2>
+
+        <p><code>for</code> 语句极其规整地由三个组件构成，它们被塞入小括号 <code>()</code> 内，组件之间**必须用分号 <code>;</code> 严格隔开**：</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>组件阶段</th>
+                    <th>代码写法</th>
+                    <th>意义与职责</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>1. 起点指令 (Initial Value)</strong></td>
+                    <td><code>let rep = 1;</code></td>
+                    <td>在起跑线创造一个计数器变量。必须用 <code>let</code>，因为循环跑起来这数字在翻滚，不能用定死的 <code>const</code>。</td>
+                </tr>
+                <tr>
+                    <td><strong>2. 生死结界 (Logical Condition)</strong></td>
+                    <td><code>rep <= 10;</code></td>
+                    <td>只要这句条件计算是 True，循环体代码就会轰鸣地运转。<b>只要它胆敢被判定为 False 时，整个机器瞬间熄火停机。</b> 这是循环安全阀。</td>
+                </tr>
+                <tr>
+                    <td><strong>3. 齿轮推杆 (Counter Update)</strong></td>
+                    <td><code>rep++</code></td>
+                    <td>在每一圈(iteration)代码行走到末尾时，我们该拿计步器 <code>rep</code> 怎么办？<code>++</code> 是自增的优雅语法糖，代表 <code>rep = rep + 1</code>。强迫推着循环往前走。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout">
+            <p><strong>💡 Jonas 黄金笔记本：</strong> <br>
+            <i>“For loop keeps running, while condition is true.” </i> —— 只要中间那个条件的真理还没被打破，For 循环就绝不会停止工作。</p>
+        </div>
+
+        <h2 id="section-action">💻 沙盒：启动自动化进程</h2>
+
+        <p>运行下方的沙盒吧！通过利用我们的 <code>rep</code> 变量并用模板字符串动态植入文字当中，使得每跑一圈它都能打印出正确的记录标签。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">for-loop.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 开启举铁模式</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+// 尝试将 10 改为 30，感受工业机器的威力
+for (let rep = 1; rep <= 10; rep++) {
+    console.log(`Lifting weights repetition ${rep} 🏋️`);
+}
+
+/* 
+ * 机器的推算过程：
+ * 圈1: rep=1 -> 1<=10 (True) -> 打印 -> 计算++ -> rep变为2
+ * 圈2: rep=2 -> 2<=10 (True) -> 打印 -> 计算++ -> rep变为3
+ * ...
+ * 圈10: rep=10 -> 10<=10(True) -> 打印 -> 计算++ -> rep变为11
+ * 圈11: rep=11 -> 11<=10(False!) -> 安全灯亮起，代码停滞。
+ */
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const out = document.getElementById(consoleId);
+        out.innerHTML = '';
+        const originalLog = console.log;
+        const originalError = console.error;
+        let logs = [];
+        // Limit console output to prevent flooding
+        let logCount = 0;
+        console.log = function(...args) {
+            if (logCount < 50) {
+                logs.push('> ' + args.join(' '));
+            } else if (logCount === 50) {
+                logs.push('<i>...output truncated (showing only first 50 lines)...</i>');
+            }
+            logCount++;
+            originalLog.apply(console, args);
+        };
+        console.error = function(...args) {
+            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
+            originalError.apply(console, args);
+        };
+        try {
+            new Function(code)();
+            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+        } catch (e) {
+            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+        }
+        console.log = originalLog;
+        console.error = originalError;
+        out.innerHTML = logs.join('<br>');
+    }
+</script>
+</body>
+</html>

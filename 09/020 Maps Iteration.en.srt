@@ -1,0 +1,1095 @@
+1
+00:00:01,400 --> 00:00:04,463
+So let's continue learning about maps.
+
+2
+00:00:06,250 --> 00:00:09,660
+So in the last video we created an empty map
+
+3
+00:00:09,660 --> 00:00:10,900
+and then edit elements
+
+4
+00:00:10,900 --> 00:00:13,670
+to it by using the set method.
+
+5
+00:00:13,670 --> 00:00:15,610
+Remember, however,
+
+6
+00:00:15,610 --> 00:00:19,640
+there is actually another way of populating a new map
+
+7
+00:00:19,640 --> 00:00:22,560
+without having to use the set method.
+
+8
+00:00:22,560 --> 00:00:25,760
+And I prefer that because the set method
+
+9
+00:00:25,760 --> 00:00:28,570
+is a bit cumbersome when there are a lot
+
+10
+00:00:28,570 --> 00:00:30,180
+of values to set.
+
+11
+00:00:30,180 --> 00:00:33,493
+So instead we can create a new map like this.
+
+12
+00:00:34,930 --> 00:00:37,320
+So I'm going to call this one question,
+
+13
+00:00:37,320 --> 00:00:39,430
+because now we're implementing
+
+14
+00:00:39,430 --> 00:00:41,550
+something like a quiz.
+
+15
+00:00:41,550 --> 00:00:43,143
+So in a very simple way,
+
+16
+00:00:45,000 --> 00:00:46,470
+so a new map,
+
+17
+00:00:46,470 --> 00:00:49,740
+and then here we can pass in an array
+
+18
+00:00:49,740 --> 00:00:52,960
+and disarray itself will contain multiple arrays.
+
+19
+00:00:52,960 --> 00:00:54,660
+And in each of these arrays,
+
+20
+00:00:54,660 --> 00:00:57,060
+the first position is gonna be the key.
+
+21
+00:00:57,060 --> 00:01:00,740
+And the second position is gonna be the value.
+
+22
+00:01:00,740 --> 00:01:02,033
+So let's do that.
+
+23
+00:01:03,400 --> 00:01:04,340
+So let's say
+
+24
+00:01:05,360 --> 00:01:07,080
+question,
+
+25
+00:01:07,080 --> 00:01:12,080
+and then what is the best programming language
+
+26
+00:01:13,600 --> 00:01:16,033
+in the world?
+
+27
+00:01:17,970 --> 00:01:20,870
+So this is basically the first entry of
+
+28
+00:01:20,870 --> 00:01:22,073
+this question map.
+
+29
+00:01:23,090 --> 00:01:26,140
+So before we would have used the set method
+
+30
+00:01:26,140 --> 00:01:28,780
+and then this as the first argument
+
+31
+00:01:28,780 --> 00:01:30,510
+and this as the second,
+
+32
+00:01:30,510 --> 00:01:32,980
+but now we can simply specify a disarray
+
+33
+00:01:32,980 --> 00:01:33,813
+of arrays
+
+34
+00:01:34,940 --> 00:01:36,070
+in this.
+
+35
+00:01:36,070 --> 00:01:37,200
+wait
+
+36
+00:01:37,200 --> 00:01:38,280
+Now, next up,
+
+37
+00:01:38,280 --> 00:01:40,720
+I want to specify the options
+
+38
+00:01:40,720 --> 00:01:42,470
+for the answer basically.
+
+39
+00:01:42,470 --> 00:01:45,313
+And so I can simply do that by their number.
+
+40
+00:01:46,370 --> 00:01:48,440
+So the first answer is going to be C
+
+41
+00:01:49,610 --> 00:01:52,230
+so C the programming language.
+
+42
+00:01:52,230 --> 00:01:53,963
+The second, will it be Java.
+
+43
+00:01:57,750 --> 00:02:02,750
+And the third will be, of course, what else? Java script,
+
+44
+00:02:08,420 --> 00:02:12,690
+then we need a key for the correct answer.
+
+45
+00:02:12,690 --> 00:02:15,430
+And what do you think the correct answer is?
+
+46
+00:02:15,430 --> 00:02:17,083
+of course, number three.
+
+47
+00:02:18,150 --> 00:02:21,040
+And then we can also have like a success message
+
+48
+00:02:21,040 --> 00:02:22,990
+and an error message.
+
+49
+00:02:22,990 --> 00:02:23,900
+And so let's again,
+
+50
+00:02:23,900 --> 00:02:27,970
+use the Boolean keys, so true,
+
+51
+00:02:27,970 --> 00:02:30,993
+which is basically when the user is correct,
+
+52
+00:02:32,010 --> 00:02:33,733
+then we can say correct.
+
+53
+00:02:34,750 --> 00:02:37,060
+And maybe some kind of emoji here,
+
+54
+00:02:37,060 --> 00:02:38,133
+like this one,
+
+55
+00:02:40,310 --> 00:02:41,930
+but if it's wrong.
+
+56
+00:02:41,930 --> 00:02:44,310
+So if the answer is false,
+
+57
+00:02:44,310 --> 00:02:45,483
+then try again.
+
+58
+00:02:46,810 --> 00:02:47,673
+All right.
+
+59
+00:02:48,940 --> 00:02:50,140
+And so let's take a look
+
+60
+00:02:54,780 --> 00:02:57,110
+and that looks correct.
+
+61
+00:02:57,110 --> 00:02:58,620
+Fantastic.
+
+62
+00:02:58,620 --> 00:03:02,420
+So when creating a new map from scratch,
+
+63
+00:03:02,420 --> 00:03:03,830
+directly in the code,
+
+64
+00:03:03,830 --> 00:03:06,190
+I actually prefer this way
+
+65
+00:03:06,190 --> 00:03:08,340
+of writing it over the way that we did
+
+66
+00:03:08,340 --> 00:03:10,430
+in a previous lecture.
+
+67
+00:03:10,430 --> 00:03:12,210
+But when we keep adding new elements,
+
+68
+00:03:12,210 --> 00:03:14,760
+programmatically using code,
+
+69
+00:03:14,760 --> 00:03:18,703
+then of course the set method is still the way to go.
+
+70
+00:03:19,670 --> 00:03:21,560
+Now, as an aside,
+
+71
+00:03:21,560 --> 00:03:24,220
+does this kind of structure here?
+
+72
+00:03:24,220 --> 00:03:28,540
+So disarray of arrays look kind of similar to you?
+
+73
+00:03:28,540 --> 00:03:30,710
+Well, I hope it does
+
+74
+00:03:30,710 --> 00:03:33,880
+because this is exactly the same array structure
+
+75
+00:03:33,880 --> 00:03:35,290
+that is returned
+
+76
+00:03:35,290 --> 00:03:39,010
+from calling object dot entries.
+
+77
+00:03:39,010 --> 00:03:40,480
+So for example,
+
+78
+00:03:40,480 --> 00:03:42,403
+on the opening hours object.
+
+79
+00:03:44,090 --> 00:03:46,380
+And so you see that they're two,
+
+80
+00:03:46,380 --> 00:03:49,073
+we get an array of arrays where the first element
+
+81
+00:03:49,073 --> 00:03:51,580
+is the key and the second one
+
+82
+00:03:51,580 --> 00:03:53,380
+is the value.
+
+83
+00:03:53,380 --> 00:03:56,010
+And so what this means is that there
+
+84
+00:03:56,010 --> 00:04:00,133
+is an easy way to convert from objects to maps.
+
+85
+00:04:01,070 --> 00:04:02,911
+So let me write that here,
+
+86
+00:04:02,911 --> 00:04:05,823
+actually convert object to map.
+
+87
+00:04:07,830 --> 00:04:12,420
+And so we can say ours map
+
+88
+00:04:12,420 --> 00:04:13,970
+is a new map
+
+89
+00:04:14,950 --> 00:04:16,420
+and then simply
+
+90
+00:04:16,420 --> 00:04:19,000
+with object dot entries
+
+91
+00:04:20,190 --> 00:04:21,693
+of opening hours.
+
+92
+00:04:22,770 --> 00:04:24,440
+Alright, so again,
+
+93
+00:04:24,440 --> 00:04:28,660
+because this structure that results from object dot entries
+
+94
+00:04:28,660 --> 00:04:31,680
+is exactly the same as this.
+
+95
+00:04:31,680 --> 00:04:33,473
+So an array of arrays.
+
+96
+00:04:38,530 --> 00:04:41,880
+So indeed, now we have a map here
+
+97
+00:04:43,680 --> 00:04:46,560
+and so keep this small trick here in mind,
+
+98
+00:04:46,560 --> 00:04:47,980
+whenever you need a map,
+
+99
+00:04:47,980 --> 00:04:49,783
+when you already have an object.
+
+100
+00:04:50,640 --> 00:04:53,590
+Next up, let's talk about iteration
+
+101
+00:04:53,590 --> 00:04:54,970
+and iteration is possible
+
+102
+00:04:54,970 --> 00:04:57,670
+on maps because as we already know,
+
+103
+00:04:57,670 --> 00:04:59,830
+maps are also iterables.
+
+104
+00:04:59,830 --> 00:05:01,100
+And so the for loop
+
+105
+00:05:01,100 --> 00:05:03,780
+is also available for them.
+
+106
+00:05:03,780 --> 00:05:05,940
+And so let's use a for loop actually
+
+107
+00:05:05,940 --> 00:05:07,930
+to now print,
+
+108
+00:05:07,930 --> 00:05:09,410
+just these options here
+
+109
+00:05:09,410 --> 00:05:10,730
+to the console.
+
+110
+00:05:10,730 --> 00:05:13,570
+So these three,
+
+111
+00:05:13,570 --> 00:05:14,403
+all right.
+
+112
+00:05:16,070 --> 00:05:17,370
+So as always,
+
+113
+00:05:17,370 --> 00:05:18,510
+I like to start
+
+114
+00:05:18,510 --> 00:05:21,413
+with first saying what we will loop over.
+
+115
+00:05:22,580 --> 00:05:24,750
+And so that's gonna be the question map.
+
+116
+00:05:24,750 --> 00:05:26,690
+And so each item
+
+117
+00:05:26,690 --> 00:05:31,450
+of the question will just like before contain both the key
+
+118
+00:05:31,450 --> 00:05:33,050
+and the value.
+
+119
+00:05:33,050 --> 00:05:36,330
+And so here I can now directly restructure that
+
+120
+00:05:36,330 --> 00:05:38,600
+into two separate variables.
+
+121
+00:05:38,600 --> 00:05:39,640
+So this is a really,
+
+122
+00:05:39,640 --> 00:05:42,563
+really good use case of restructuring.
+
+123
+00:05:43,640 --> 00:05:46,660
+Alright, so just to reiterate,
+
+124
+00:05:46,660 --> 00:05:48,520
+this is exactly the same as we did
+
+125
+00:05:48,520 --> 00:05:50,640
+when we looped over the object.
+
+126
+00:05:50,640 --> 00:05:53,120
+The only difference is that for the object,
+
+127
+00:05:53,120 --> 00:05:56,940
+we needed object dot entries right here.
+
+128
+00:05:56,940 --> 00:05:58,950
+And that's just because the object
+
+129
+00:05:58,950 --> 00:06:00,620
+is not an alterable,
+
+130
+00:06:00,620 --> 00:06:01,940
+but then we converted it
+
+131
+00:06:01,940 --> 00:06:05,970
+to an alterable using object dot entries.
+
+132
+00:06:05,970 --> 00:06:07,810
+And so then this part here
+
+133
+00:06:07,810 --> 00:06:09,710
+is exactly the same.
+
+134
+00:06:09,710 --> 00:06:10,900
+Okay.
+
+135
+00:06:10,900 --> 00:06:11,820
+Now keep in mind.
+
+136
+00:06:11,820 --> 00:06:15,160
+We only want to print these three.
+
+137
+00:06:15,160 --> 00:06:17,010
+So essentially we only want
+
+138
+00:06:17,010 --> 00:06:20,883
+to print an element if the key is a number.
+
+139
+00:06:22,680 --> 00:06:25,262
+So let's use what we already know,
+
+140
+00:06:25,262 --> 00:06:30,262
+type off key, equal number,
+
+141
+00:06:30,850 --> 00:06:33,500
+and only then look to the console.
+
+142
+00:06:33,500 --> 00:06:36,483
+So inside here, answer,
+
+143
+00:06:37,540 --> 00:06:39,130
+and then the key.
+
+144
+00:06:39,130 --> 00:06:41,370
+So the number for the person then to choose
+
+145
+00:06:42,620 --> 00:06:45,320
+with the correct value,
+
+146
+00:06:45,320 --> 00:06:47,793
+which is going to be the answer option itself.
+
+147
+00:06:48,920 --> 00:06:50,960
+So here we go.
+
+148
+00:06:50,960 --> 00:06:52,263
+Answer one, two, three,
+
+149
+00:06:53,500 --> 00:06:56,973
+and now let's just also log the question itself.
+
+150
+00:06:58,500 --> 00:07:00,053
+So quiz app,
+
+151
+00:07:02,263 --> 00:07:06,900
+and here we want question dot get, remember,
+
+152
+00:07:06,900 --> 00:07:10,253
+and then the question key.
+
+153
+00:07:10,253 --> 00:07:14,463
+And so now it is complete with question and answers.
+
+154
+00:07:15,810 --> 00:07:18,320
+Now to get the answer from the user,
+
+155
+00:07:18,320 --> 00:07:20,403
+let's again, use a prompt,
+
+156
+00:07:24,140 --> 00:07:28,023
+so answer equal a prompt,
+
+157
+00:07:30,440 --> 00:07:33,180
+and let's ask for your answer
+
+158
+00:07:35,180 --> 00:07:37,493
+and answer.
+
+159
+00:07:37,493 --> 00:07:40,750
+And remember, we need to convert this now to a number
+
+160
+00:07:41,590 --> 00:07:45,110
+because eventually we will compare this number
+
+161
+00:07:45,110 --> 00:07:47,913
+with the key that we have here.
+
+162
+00:07:49,690 --> 00:07:50,523
+All right.
+
+163
+00:07:51,860 --> 00:07:53,603
+Let's just print it then also.
+
+164
+00:07:57,320 --> 00:07:58,153
+Okay.
+
+165
+00:07:58,153 --> 00:07:59,513
+So here we have to question,
+
+166
+00:08:00,415 --> 00:08:02,223
+and of course the correct answer
+
+167
+00:08:02,223 --> 00:08:03,460
+is number three.
+
+168
+00:08:03,460 --> 00:08:04,633
+And so here we go.
+
+169
+00:08:06,210 --> 00:08:07,950
+And now we can use the power
+
+170
+00:08:07,950 --> 00:08:10,520
+of the Boolean keys here in order
+
+171
+00:08:10,520 --> 00:08:14,187
+to print either the success message here
+
+172
+00:08:14,187 --> 00:08:17,063
+or the error message basically.
+
+173
+00:08:18,270 --> 00:08:19,630
+All right.
+
+174
+00:08:19,630 --> 00:08:21,390
+So do you think you can do that
+
+175
+00:08:21,390 --> 00:08:22,840
+on your own?
+
+176
+00:08:22,840 --> 00:08:25,370
+Just take a minute or two and try that
+
+177
+00:08:25,370 --> 00:08:27,253
+on your own right now.
+
+178
+00:08:30,230 --> 00:08:32,580
+So did you manage to do that?
+
+179
+00:08:32,580 --> 00:08:35,510
+Well, let's start by comparing the answer
+
+180
+00:08:35,510 --> 00:08:38,403
+with the correct answer, basically.
+
+181
+00:08:39,950 --> 00:08:44,950
+So that is a question dot get correct.
+
+182
+00:08:47,880 --> 00:08:51,890
+And so this is a three, right?
+
+183
+00:08:51,890 --> 00:08:55,470
+And then we can compare that to the answer.
+
+184
+00:08:55,470 --> 00:08:56,303
+So in this case,
+
+185
+00:08:56,303 --> 00:08:58,220
+this was also three.
+
+186
+00:08:58,220 --> 00:08:59,053
+And so this here,
+
+187
+00:08:59,053 --> 00:09:01,290
+what return true.
+
+188
+00:09:01,290 --> 00:09:02,520
+Correct.
+
+189
+00:09:02,520 --> 00:09:04,140
+And now, since this is true,
+
+190
+00:09:04,140 --> 00:09:06,420
+we can directly plug that
+
+191
+00:09:06,420 --> 00:09:08,410
+into the map.
+
+192
+00:09:08,410 --> 00:09:11,423
+And so this true will then return correct.
+
+193
+00:09:12,450 --> 00:09:14,300
+So that's similar to what we did
+
+194
+00:09:14,300 --> 00:09:16,883
+in the previous video as well.
+
+195
+00:09:18,490 --> 00:09:19,323
+And so again,
+
+196
+00:09:19,323 --> 00:09:23,963
+we are using the power of having Boolean values as keys,
+
+197
+00:09:25,200 --> 00:09:28,970
+and then let's just log that final message
+
+198
+00:09:28,970 --> 00:09:29,883
+to the console.
+
+199
+00:09:31,090 --> 00:09:33,680
+So three again, now,
+
+200
+00:09:33,680 --> 00:09:35,857
+and something went wrong,
+
+201
+00:09:35,857 --> 00:09:38,830
+but I see that it's just here.
+
+202
+00:09:38,830 --> 00:09:39,663
+It's the name?
+
+203
+00:09:39,663 --> 00:09:41,980
+So this is correct.
+
+204
+00:09:41,980 --> 00:09:42,813
+Not correct.
+
+205
+00:09:43,750 --> 00:09:45,880
+So again three
+
+206
+00:09:45,880 --> 00:09:46,830
+and now
+
+207
+00:09:46,830 --> 00:09:48,383
+indeed we get correct.
+
+208
+00:09:49,640 --> 00:09:50,700
+Okay.
+
+209
+00:09:50,700 --> 00:09:52,000
+So this is three here.
+
+210
+00:09:52,000 --> 00:09:53,690
+The answer is three,
+
+211
+00:09:53,690 --> 00:09:55,040
+this is three.
+
+212
+00:09:55,040 --> 00:09:56,790
+And so this here will be true.
+
+213
+00:09:56,790 --> 00:09:59,110
+And so when we get a true
+
+214
+00:09:59,110 --> 00:10:00,410
+from the map,
+
+215
+00:10:00,410 --> 00:10:04,750
+we get this string well,
+
+216
+00:10:04,750 --> 00:10:06,410
+something else.
+
+217
+00:10:06,410 --> 00:10:08,523
+And indeed we get try again.
+
+218
+00:10:09,380 --> 00:10:10,213
+Okay.
+
+219
+00:10:10,213 --> 00:10:11,046
+And with that,
+
+220
+00:10:11,046 --> 00:10:15,690
+we finished this nice little quiz.
+
+221
+00:10:15,690 --> 00:10:17,650
+Now,just to finish here,
+
+222
+00:10:17,650 --> 00:10:18,800
+as a side note,
+
+223
+00:10:18,800 --> 00:10:21,680
+sometimes we also need to convert a map back
+
+224
+00:10:21,680 --> 00:10:23,120
+to an array.
+
+225
+00:10:23,120 --> 00:10:25,693
+So basically to this structure,
+
+226
+00:10:27,130 --> 00:10:30,950
+and we can do that, like this.
+
+227
+00:10:30,950 --> 00:10:32,560
+So convert map
+
+228
+00:10:32,560 --> 00:10:35,483
+to array basically.
+
+229
+00:10:36,710 --> 00:10:40,110
+You can do that by simply building new array
+
+230
+00:10:40,110 --> 00:10:42,080
+and then unpacking again,
+
+231
+00:10:42,080 --> 00:10:43,740
+using the spread operator.
+
+232
+00:10:43,740 --> 00:10:45,843
+The question map,
+
+233
+00:10:48,340 --> 00:10:50,500
+it's asking us here again.
+
+234
+00:10:50,500 --> 00:10:52,950
+And so then the result is essentially
+
+235
+00:10:52,950 --> 00:10:54,860
+this same data structure.
+
+236
+00:10:54,860 --> 00:10:56,303
+So the array of arrays,
+
+237
+00:10:57,500 --> 00:10:59,890
+with which we started.
+
+238
+00:10:59,890 --> 00:11:01,630
+So it's this one here.
+
+239
+00:11:01,630 --> 00:11:02,970
+So in this case, of course,
+
+240
+00:11:02,970 --> 00:11:05,240
+this wouldn't make too much sense,
+
+241
+00:11:05,240 --> 00:11:07,509
+but it's still got to know that sometimes
+
+242
+00:11:07,509 --> 00:11:10,463
+you can convert a map to an array.
+
+243
+00:11:12,030 --> 00:11:15,830
+Let's just preset this here to some value
+
+244
+00:11:16,980 --> 00:11:19,223
+so that it doesn't always bug us here.
+
+245
+00:11:21,150 --> 00:11:22,550
+And by the way,
+
+246
+00:11:22,550 --> 00:11:23,817
+there are also the,
+
+247
+00:11:26,200 --> 00:11:28,930
+the methods that we had on arrays ,
+
+248
+00:11:28,930 --> 00:11:30,400
+which are the entries
+
+249
+00:11:32,920 --> 00:11:35,160
+and also keys
+
+250
+00:11:35,160 --> 00:11:38,030
+and values
+
+251
+00:11:38,030 --> 00:11:39,823
+in case that you need them.
+
+252
+00:11:41,230 --> 00:11:44,030
+Okay, now they give us
+
+253
+00:11:44,030 --> 00:11:46,230
+this weird iterator here.
+
+254
+00:11:46,230 --> 00:11:48,330
+So then just as I showed you before,
+
+255
+00:11:48,330 --> 00:11:50,560
+you have to spread them and put them
+
+256
+00:11:50,560 --> 00:11:51,453
+in a new array.
+
+257
+00:11:53,540 --> 00:11:55,373
+So like this,
+
+258
+00:11:57,870 --> 00:11:59,890
+but this is not really that important.
+
+259
+00:11:59,890 --> 00:12:02,750
+I just wanted to show you that this exists
+
+260
+00:12:02,750 --> 00:12:04,750
+and for this,there's actually no need,
+
+261
+00:12:04,750 --> 00:12:07,450
+because it's going to be exactly the same as this one.
+
+262
+00:12:08,800 --> 00:12:09,970
+Okay.
+
+263
+00:12:09,970 --> 00:12:11,920
+So these are all the keys
+
+264
+00:12:11,920 --> 00:12:14,193
+and all the values in dit.
+
+265
+00:12:15,890 --> 00:12:18,470
+Alright and that's all I have to show you
+
+266
+00:12:18,470 --> 00:12:20,830
+about maps for now,
+
+267
+00:12:20,830 --> 00:12:22,680
+but now you might be wondering
+
+268
+00:12:22,680 --> 00:12:24,280
+when should I use maps?
+
+269
+00:12:24,280 --> 00:12:26,230
+and when should I use objects?
+
+270
+00:12:26,230 --> 00:12:29,000
+Because they are pretty similar, right?
+
+271
+00:12:29,000 --> 00:12:32,420
+Well, that's what the next lecture is all about.
+
+272
+00:12:32,420 --> 00:12:33,940
+There I will help you to choose
+
+273
+00:12:33,940 --> 00:12:36,210
+between all the data structures,
+
+274
+00:12:36,210 --> 00:12:38,833
+including even arrays and sets.

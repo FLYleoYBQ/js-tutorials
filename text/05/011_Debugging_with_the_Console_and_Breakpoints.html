@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debugging with the Console and Breakpoints</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 利用 Console 查漏补缺</a>
+            <a href="#section-2" class="nav-item">2. 步入高阶：Chrome 断点调试 (Breakpoints)</a>
+            <a href="#section-3" class="nav-item">3. 循环内部捉虫与 debugger 指令</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Debugging with the Console and Breakpoints</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：011 Debugging with the Console and Breakpoints.en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：理解 Bug 的产生、浏览器的基本开发者工具</li>
+                <li><strong>核心能力</strong>：学会使用各种控制台日志和浏览器断点 (Breakpoints) 逐帧执行代码</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>上节课我们探讨了 Bug 的定义和应对策略。纸上谈兵终觉浅，这节课我们要真刀真枪地在代码里追踪两处经典 Bug，并且学习使用前端开发最致命的武器 —— <strong>Chrome DevTools 调试器 断点 (Breakpoints)</strong>。</p>
+
+        <h2 id="section-1">1. 利用 Console 查漏补缺</h2>
+        <p>假如我们需要开发一个极简函数：接收用户输入的摄氏度（Celsius），返回对应的开尔文温度（Kelvin）。开尔文的换算公式很简单：<code>摄氏度 + 273</code>。</p>
+        
+        <p>来看看这段藏有暗雷的代码：</p>
+
+        <div class="code-comparison">
+            <div class="code-column">
+                <div class="code-header">💣 常规输出 (存在隐患)</div>
+<pre><code class="language-javascript">const measureKelvin = function() {
+    const measurement = {
+        type: 'temp',
+        unit: 'celsius',
+        // 模拟从 prompt 弹窗获取温度
+        value: prompt('Degrees celsius:') 
+    };
+
+    const kelvin = measurement.value + 273;
+    return kelvin;
+};
+
+// 如果我们在弹窗输入 10，这里会输出多少？
+console.log(measureKelvin()); // 🔴 竟然变成了 "10273"！</code></pre>
+            </div>
+            <div class="code-column">
+                <div class="code-header">🛡️ 进阶 Console 战术</div>
+<pre><code class="language-javascript">const measureKelvin = function() {
+    const measurement = {
+        type: 'temp', 
+        unit: 'celsius', 
+        value: prompt('Degrees celsius:') 
+    };
+    
+    // 💡 战术一：不要只 log 局部变量，可以打印出完整的对象！
+    console.log(measurement); 
+    // 看到控制台里的 value 是个字符串格式的 "10"，我们才恍然大悟！
+    
+    // 💡 战术二：如果你有超级大的嵌套对象，用表格输出巨清晰！
+    console.table(measurement);
+
+    // ✅ 修复：将 prompt 获取的绝对 String 转为 Number。
+    const kelvin = Number(measurement.value) + 273;
+    return kelvin;
+};</code></pre>
+            </div>
+        </div>
+
+        <p><strong>💡 拓展锦囊：那些你不知道的 Console：</strong></p>
+        <ul>
+            <li><code>console.log()</code> - 默认的白色日志，平平无奇。</li>
+            <li><code>console.warn()</code> - ⚠️ 黄色高亮显示，用来抛出潜在风险提示。</li>
+            <li><code>console.error()</code> - 🔴 红色高亮并附带堆栈追踪，用来模拟最高级别的系统报错。</li>
+            <li><code>console.table()</code> - 📊 自动把数组或对象格式化生成一个精致的网格表格（强烈推荐）。</li>
+        </ul>
+
+        <h2 id="section-2">2. 步入高阶：Chrome 断点调试 (Breakpoints)</h2>
+        <p>虽然 <code>console.log()</code> 被大家戏称为“史上最坚挺的调试工具”，但在拥有几千行代码和复杂循环的函数中不停地写 <code>log</code> 然后删掉，实在过于笨重。</p>
+
+        <p><strong>此时，断点 (Breakpoints) 闪亮登场。</strong>它的核心逻辑是：<strong>在代码运行的半空中按下“时间暂停”键。</strong>此时宇宙万物静止不动，你可以随意查看那一瞬间所有变量的值。</p>
+        
+        <p><strong>具体操作手法：</strong></p>
+        <ol>
+            <li>在 Chrome 浏览器中按下 <code>F12</code> 或者右键选择 <code>检查(Inspect)</code> 打开开发者工具。</li>
+            <li>在最顶部的菜单栏点击 <strong>Sources（源代码）</strong> 面板。</li>
+            <li>在左侧文件树中找到并选中你写好的 <code>script.js</code> 文件。</li>
+            <li>在代码编辑区域的左侧行号数字上点一下。那里会出现一个醒目的<strong>蓝图标记（早先是红点）</strong>，这就是你的“结界（断点）”。</li>
+            <li>刷新页面触发代码。页面执行到这行时会瞬间挂起停顿（Paused in debugger），右下方会展示出当时的全局和局部变量快照。</li>
+            <li>点击悬浮控制条中的 <strong>➡️ Step over next function call (单步跳过)</strong>，可以让代码像挤牙膏一样，每次只精确往下执行一行。</li>
+        </ol>
+
+        <h2 id="section-3">3. 循环内部捉虫与 debugger 指令</h2>
+        <p>前面两节课我们徒手写了一个计算最高温和最低温振幅的函数。假设这次粗心的写手在初始化 <code>max</code> 和 <code>min</code> 时自作聪明地使用了 <code>0</code>。</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const calcTempAmplitudeBug = function(temps) {
+    let max = 0; // 💣 逻辑毒药
+    let min = 0; // 💣 逻辑毒药
+
+    for (let i = 0; i < temps.length; i++) {
+        const curTemp = temps[i];
+        if (typeof curTemp !== 'number') continue;
+        
+        // 我们想找最低温，所以如果目前的温度小于 min，就替换它
+        if (curTemp > max) max = curTemp;
+        if (curTemp < min) min = curTemp;
+    }
+    console.log("最终的 min 值竟然是: ", min);
+    return max - min;
+};
+
+const amplitudeBug = calcTempAmplitudeBug([3, 5, 1, 9, 4, 5]);
+console.log(amplitudeBug);</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <p>当我们执行代码时，发现 <code>min</code> 最终的值竟然匪夷所思地定格在了初始值 <code>0</code> 上，而不是数组里的最小值 <code>1</code>。</p>
+        
+        <p>如果你使用我们在 Sources 面板里打在 <code>if (curTemp < min) min = curTemp;</code> 这行代码的断点进行<strong>逐行执行(Step Over)监视</strong>，真相瞬间大白：我们传入的数组里最低温度是 <code>1</code>。因为我们一上来就把最小值钦定为 <code>0</code>（低于所有数字），导致这句 if 语句的条件 <code>(1 < 0)</code> 永远不可能判断为真，因此也就永远不会刷新最低温记录。</p>
+        
+        <div class="callout callout-tip">
+            <strong>⌨️ 懒人必看的魔法咒语 "debugger;"</strong><br>
+            每次都在浏览器里去找文件、点行号嫌麻烦？直接在 JS 代码源文件你想暂停的地方，写下大写的 <strong><code>debugger;</code></strong> 这句霸道的内置保留词！浏览器只要不小心读到这个拼写，就算你没点开 Sources 面板，它也会像受到惊吓一样强行自动打开调试器停下来！<br>
+            (一定要注意！发布交给老板验收的版本时，千万别把代码里的 <code>debugger;</code> 忘了删掉。)
+        </div>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 下列关于浏览器断点调试的说法，哪一个是完全正确的？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 每次必须都在 Elements 标签页下操作，才可以单步执行 JavaScript。</div>
+                <div class="quiz-option" data-value="B">B) 直接在你的 .js 物理文件中输入专门的 `debugger;` 语句即可命令浏览器强行挂起并召唤出调试器界面。</div>
+                <div class="quiz-option" data-value="C">C) 断点调试时必须通过 console.log 来辅助观看变量情况。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的选项</strong>。JavaScript 的内置保留字 `debugger` 可以直接替代在 Chrome Sources 面板右键点点点的繁琐流程，非常提效。
+            </div>
+        </div>
+        
+        <br>
+        
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>语法 / 方法</th>
+                    <th>简明释义</th>
+                    <th>使用场景推荐</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><code>console.table()</code></td>
+                    <td>将目标数据（尤其是对象或数组）渲染为二维行列排布的网格</td>
+                    <td>当数据体量过大，直接 `log` 需要一层层鼠标剥开时，提升全局可视化效率</td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/console/table" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td><code>debugger</code> 语句</td>
+                    <td>调用系统中立即可用的任何现代前端调试功能。</td>
+                    <td>写在复杂死循环与疑难杂症函数内圈的前端强力“定身术”符咒</td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/debugger" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        
+        // 重写 console.log 来捕获输出
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

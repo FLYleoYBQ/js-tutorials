@@ -1,0 +1,459 @@
+1
+00:00:01,110 --> 00:00:02,750
+In this short video,
+
+2
+00:00:02,750 --> 00:00:05,913
+let's quickly gonna talk about statics methods.
+
+3
+00:00:07,950 --> 00:00:10,330
+Now a good example to understand
+
+4
+00:00:10,330 --> 00:00:12,743
+what a static method actually is,
+
+5
+00:00:13,695 --> 00:00:17,110
+is the build in Array.from method.
+
+6
+00:00:17,110 --> 00:00:19,260
+And let's just do that here in the console.
+
+7
+00:00:20,180 --> 00:00:24,920
+so remember that we have the Array.from method
+
+8
+00:00:24,920 --> 00:00:29,920
+which converts any array like structure to a real Array.
+
+9
+00:00:30,410 --> 00:00:35,410
+So for example document.query selector.
+
+10
+00:00:37,636 --> 00:00:38,623
+All right.
+
+11
+00:00:39,480 --> 00:00:43,140
+So that's an error right there and so you see,
+
+12
+00:00:43,140 --> 00:00:46,120
+this now return an Array to us.
+
+13
+00:00:46,120 --> 00:00:47,953
+And for some reason it is empty.
+
+14
+00:00:48,940 --> 00:00:50,910
+And that's because query selector
+
+15
+00:00:52,003 --> 00:00:54,120
+doesn't return any note list.
+
+16
+00:00:54,120 --> 00:00:56,580
+So lets try query selector all,
+
+17
+00:00:56,580 --> 00:00:58,883
+and so now indeed we get an Array here.
+
+18
+00:00:59,720 --> 00:01:01,620
+But that's not really the point,
+
+19
+00:01:01,620 --> 00:01:05,110
+what's the point is that this from method here
+
+20
+00:01:05,110 --> 00:01:07,710
+is really a method that is attached
+
+21
+00:01:07,710 --> 00:01:10,170
+to the Array constructor.
+
+22
+00:01:10,170 --> 00:01:13,453
+So we could not use the from method on an Array.
+
+23
+00:01:14,290 --> 00:01:17,373
+So this is not gonna work.
+
+24
+00:01:20,430 --> 00:01:21,300
+All right.
+
+25
+00:01:21,300 --> 00:01:24,090
+So from is not a function.
+
+26
+00:01:24,090 --> 00:01:27,340
+And so that is because this from method here
+
+27
+00:01:28,312 --> 00:01:31,160
+is really attached to the entire constructor,
+
+28
+00:01:31,160 --> 00:01:32,680
+so the Array constructor
+
+29
+00:01:33,801 --> 00:01:37,450
+and not to the prototype property of the constructor.
+
+30
+00:01:37,450 --> 00:01:38,320
+All right.
+
+31
+00:01:38,320 --> 00:01:43,320
+And so therefore all the Arrays do not inherit this method.
+
+32
+00:01:43,390 --> 00:01:46,770
+Again because its not on their prototype.
+
+33
+00:01:46,770 --> 00:01:50,460
+Its simply attached to the constructor itself.
+
+34
+00:01:50,460 --> 00:01:55,010
+So Array.from here is basically just a simple function,
+
+35
+00:01:55,010 --> 00:01:59,390
+but its a function that's attached to the Array constructor.
+
+36
+00:01:59,390 --> 00:02:02,450
+And the reason for that is simply,
+
+37
+00:02:02,450 --> 00:02:06,000
+so that developers know that it is related to Arrays.
+
+38
+00:02:06,000 --> 00:02:11,000
+We also say that the from method is in the Array name space.
+
+39
+00:02:11,170 --> 00:02:15,090
+And we actually used that term before for some methods
+
+40
+00:02:15,090 --> 00:02:19,223
+in the number and in the internationalization name space.
+
+41
+00:02:21,513 --> 00:02:23,513
+Remember for example numbers.parsefloat.
+
+42
+00:02:25,690 --> 00:02:26,963
+So that's the same thing.
+
+43
+00:02:28,240 --> 00:02:29,530
+Okay.
+
+44
+00:02:29,530 --> 00:02:32,570
+So this method is another static method
+
+45
+00:02:32,570 --> 00:02:36,140
+and its static on the number constructor.
+
+46
+00:02:36,140 --> 00:02:38,150
+So its not available on numbers,
+
+47
+00:02:38,150 --> 00:02:41,500
+but only on this very constructor.
+
+48
+00:02:41,500 --> 00:02:42,430
+All right.
+
+49
+00:02:42,430 --> 00:02:45,755
+So these are some good examples that we understand
+
+50
+00:02:45,755 --> 00:02:48,440
+what a static method is.
+
+51
+00:02:48,440 --> 00:02:51,463
+And we usually use these kind of as helpers,
+
+52
+00:02:52,509 --> 00:02:54,909
+that should be related to a certain constructor.
+
+53
+00:02:56,597 --> 00:02:59,735
+And so maybe you can imagine that it should be pretty easy
+
+54
+00:02:59,735 --> 00:03:02,350
+to implement static methods or selfs.
+
+55
+00:03:02,350 --> 00:03:05,870
+And let's do that for both or constructor function
+
+56
+00:03:05,870 --> 00:03:07,663
+and also for the class.
+
+57
+00:03:08,520 --> 00:03:11,820
+So here I already have the constructor function
+
+58
+00:03:11,820 --> 00:03:15,090
+that we wrote right in the beginning of the section.
+
+59
+00:03:15,090 --> 00:03:19,718
+So this person here and to add a static method,
+
+60
+00:03:19,718 --> 00:03:22,033
+all we have to do is write,
+
+61
+00:03:23,090 --> 00:03:26,493
+person and let's say I want to create a very simple
+
+62
+00:03:26,493 --> 00:03:28,476
+hey function
+
+63
+00:03:28,476 --> 00:03:29,601
+okay.
+
+64
+00:03:29,601 --> 00:03:34,601
+So which simply like waves when we call it.
+
+65
+00:03:35,470 --> 00:03:37,673
+So lets just say console.log,
+
+66
+00:03:39,790 --> 00:03:41,250
+hey there.
+
+67
+00:03:41,250 --> 00:03:44,130
+And then maybe some emojis so we can actually
+
+68
+00:03:44,130 --> 00:03:45,863
+see it better in the console.
+
+69
+00:03:47,185 --> 00:03:51,307
+And so now in order to call this, it is pretty easy.
+
+70
+00:03:51,307 --> 00:03:52,520
+We just have to do
+
+71
+00:03:54,599 --> 00:03:55,781
+person.hey
+
+72
+00:03:55,781 --> 00:03:57,530
+and that's it.
+
+73
+00:03:57,530 --> 00:04:02,140
+So somewhere up here we now should get this hey there.
+
+74
+00:04:02,140 --> 00:04:06,083
+Great but of course this one is not inherited.
+
+75
+00:04:07,020 --> 00:04:11,900
+So just like we cannot call the from method on an Array.
+
+76
+00:04:11,900 --> 00:04:14,780
+we cannot say Jonas.hey
+
+77
+00:04:14,780 --> 00:04:18,420
+because it is simply not in the prototype of
+
+78
+00:04:18,420 --> 00:04:20,070
+the Jonas object.
+
+79
+00:04:20,070 --> 00:04:23,853
+So there's noway that the Jonas object could inherit it.
+
+80
+00:04:24,798 --> 00:04:25,963
+All right.
+
+81
+00:04:27,260 --> 00:04:31,033
+Now just let's just take a look at the disc key word,
+
+82
+00:04:32,170 --> 00:04:35,383
+but this again should be pretty obvious.
+
+83
+00:04:36,240 --> 00:04:38,709
+And so that's essentially the entire
+
+84
+00:04:38,709 --> 00:04:40,483
+constructor function here.
+
+85
+00:04:41,691 --> 00:04:43,230
+And the reason for that is because,
+
+86
+00:04:43,230 --> 00:04:46,910
+that is exactly the object that is calling the method.
+
+87
+00:04:46,910 --> 00:04:50,360
+And so as always that is basically the rule.
+
+88
+00:04:50,360 --> 00:04:53,190
+So whatever object is calling the method,
+
+89
+00:04:53,190 --> 00:04:56,620
+will be the disc key word inside of that function.
+
+90
+00:04:56,620 --> 00:04:58,360
+And so here the disc key word,
+
+91
+00:04:58,360 --> 00:05:01,570
+is simply that entire constructor function.
+
+92
+00:05:01,570 --> 00:05:02,760
+Great.
+
+93
+00:05:02,760 --> 00:05:06,930
+And now let's quickly take this do the same in class,
+
+94
+00:05:06,930 --> 00:05:08,583
+where it is even easier.
+
+95
+00:05:10,260 --> 00:05:12,930
+So here to create a static method,
+
+96
+00:05:12,930 --> 00:05:17,543
+all we need to do is to add the static keyword.
+
+97
+00:05:19,260 --> 00:05:20,480
+So static hey
+
+98
+00:05:22,195 --> 00:05:24,850
+and then that's it.
+
+99
+00:05:24,850 --> 00:05:29,297
+So let's just write it here so that is a static method.
+
+100
+00:05:30,670 --> 00:05:34,350
+While these ones is called instance method.
+
+101
+00:05:34,350 --> 00:05:36,680
+So as it says here these are methods
+
+102
+00:05:36,680 --> 00:05:39,570
+that will be added to the prototype property,
+
+103
+00:05:39,570 --> 00:05:42,800
+so that all instances can have access to them.
+
+104
+00:05:42,800 --> 00:05:47,673
+And therefore the name instance methods,
+
+105
+00:05:47,673 --> 00:05:49,280
+okay.
+
+106
+00:05:49,280 --> 00:05:52,823
+And now we can simply, let's do it here at the end.
+
+107
+00:05:53,930 --> 00:05:55,887
+Can simply do personcl.hey.
+
+108
+00:05:59,787 --> 00:06:01,370
+And so again we get hey there and this time,
+
+109
+00:06:02,790 --> 00:06:05,853
+disc key word points to the entire class.
+
+110
+00:06:06,840 --> 00:06:08,160
+All right.
+
+111
+00:06:08,160 --> 00:06:10,830
+So keep in mind that these static methods
+
+112
+00:06:10,830 --> 00:06:13,053
+are not available on the instances,
+
+113
+00:06:14,334 --> 00:06:16,250
+and sometimes they are still useful to implement
+
+114
+00:06:16,250 --> 00:06:19,480
+some kind of helper function about a class
+
+115
+00:06:19,480 --> 00:06:21,553
+or about a constructor function.

@@ -1,0 +1,1207 @@
+1
+00:00:01,470 --> 00:00:03,540
+Welcome to the first coding challenge
+
+2
+00:00:03,540 --> 00:00:04,920
+of this section
+
+3
+00:00:04,920 --> 00:00:07,980
+and also in a long time, actually.
+
+4
+00:00:07,980 --> 00:00:10,230
+And this one is gonna be a big one.
+
+5
+00:00:10,230 --> 00:00:12,543
+And so let's get started right away.
+
+6
+00:00:14,550 --> 00:00:15,780
+And in this challenge,
+
+7
+00:00:15,780 --> 00:00:18,480
+you're gonna build a function, where am I,
+
+8
+00:00:18,480 --> 00:00:21,450
+which then displays a country on the page,
+
+9
+00:00:21,450 --> 00:00:24,210
+but based only on the GPS coordinates
+
+10
+00:00:24,210 --> 00:00:26,940
+that you provide to the function.
+
+11
+00:00:26,940 --> 00:00:28,080
+All right?
+
+12
+00:00:28,080 --> 00:00:31,920
+So instead of providing a real country name like Portugal,
+
+13
+00:00:31,920 --> 00:00:34,380
+all you will provide is coordinates
+
+14
+00:00:34,380 --> 00:00:36,300
+of any place on the world.
+
+15
+00:00:36,300 --> 00:00:38,100
+And based on these coordinates,
+
+16
+00:00:38,100 --> 00:00:40,170
+then a country will be rendered
+
+17
+00:00:40,170 --> 00:00:42,330
+just like we have been doing.
+
+18
+00:00:42,330 --> 00:00:43,230
+All right?
+
+19
+00:00:43,230 --> 00:00:46,680
+And so for that, we are going to use a second API
+
+20
+00:00:46,680 --> 00:00:50,310
+to basically geocode coordinates.
+
+21
+00:00:50,310 --> 00:00:52,083
+And so here are your tasks.
+
+22
+00:00:52,920 --> 00:00:55,680
+So again, create a function, where am I,
+
+23
+00:00:55,680 --> 00:00:59,223
+which takes as inputs the latitude and longitude,
+
+24
+00:01:00,210 --> 00:01:03,270
+so coordinates, as you already know.
+
+25
+00:01:03,270 --> 00:01:07,050
+And as always, we have some test data down below.
+
+26
+00:01:07,050 --> 00:01:10,950
+Then the next step once you've got these coordinates is
+
+27
+00:01:10,950 --> 00:01:15,060
+to do reverse geocoding on these coordinates.
+
+28
+00:01:15,060 --> 00:01:18,180
+And reverse geocoding means to convert coordinates
+
+29
+00:01:18,180 --> 00:01:20,160
+to a meaningful location,
+
+30
+00:01:20,160 --> 00:01:23,220
+for example, a city or a country name.
+
+31
+00:01:23,220 --> 00:01:27,690
+And so the API that we're gonna use for that is this one.
+
+32
+00:01:27,690 --> 00:01:29,070
+Now, unfortunately,
+
+33
+00:01:29,070 --> 00:01:31,710
+shortly after recording this video,
+
+34
+00:01:31,710 --> 00:01:36,710
+this Geocode called XYZ API also stopped working.
+
+35
+00:01:37,170 --> 00:01:41,910
+And so instead of this one, please use the API URL
+
+36
+00:01:41,910 --> 00:01:45,033
+that I'm displaying here on the screen right now,
+
+37
+00:01:45,926 --> 00:01:48,150
+and which is also part of the starter files
+
+38
+00:01:48,150 --> 00:01:50,880
+to make it a bit easier for you.
+
+39
+00:01:50,880 --> 00:01:55,230
+All you need to do then with this URL is to replace the lat
+
+40
+00:01:55,230 --> 00:01:58,440
+and lng values with the correct latitude
+
+41
+00:01:58,440 --> 00:02:00,600
+and longitude values.
+
+42
+00:02:00,600 --> 00:02:04,380
+Now the result of this new API is pretty similar
+
+43
+00:02:04,380 --> 00:02:08,340
+to the old one, with the only change being that instead
+
+44
+00:02:08,340 --> 00:02:12,480
+of the country property, you will need to use country code.
+
+45
+00:02:12,480 --> 00:02:16,170
+But no worries, I will later also display that
+
+46
+00:02:16,170 --> 00:02:18,600
+on the screen when necessary.
+
+47
+00:02:18,600 --> 00:02:22,260
+And with this small but important new instruction
+
+48
+00:02:22,260 --> 00:02:26,040
+out of the way, let's get back to the challenge.
+
+49
+00:02:26,040 --> 00:02:29,910
+So to do this, you should use the fetch API, of course,
+
+50
+00:02:29,910 --> 00:02:33,270
+and then also promises just like we have been doing
+
+51
+00:02:33,270 --> 00:02:35,430
+in the last couple of videos.
+
+52
+00:02:35,430 --> 00:02:38,790
+However, do not use the get JSON function
+
+53
+00:02:38,790 --> 00:02:40,500
+that we created previously.
+
+54
+00:02:40,500 --> 00:02:42,360
+So that would be cheating
+
+55
+00:02:42,360 --> 00:02:45,990
+because it would make this whole challenge too easy.
+
+56
+00:02:45,990 --> 00:02:49,170
+Next, once you have the data, take a look at it,
+
+57
+00:02:49,170 --> 00:02:52,770
+and then using the data, print a message like this here
+
+58
+00:02:52,770 --> 00:02:53,763
+to the console.
+
+59
+00:02:54,630 --> 00:02:58,350
+Then chain a catch method to the end of the promise
+
+60
+00:02:58,350 --> 00:03:01,533
+and log any errors that might occur to the console.
+
+61
+00:03:02,790 --> 00:03:06,990
+Then finally, there's one important thing about this API,
+
+62
+00:03:06,990 --> 00:03:08,970
+which is that it only allows you
+
+63
+00:03:08,970 --> 00:03:11,910
+to make three requests per second.
+
+64
+00:03:11,910 --> 00:03:14,580
+So if you reload the page really fast,
+
+65
+00:03:14,580 --> 00:03:18,180
+then you will get an error with the code 403,
+
+66
+00:03:18,180 --> 00:03:20,850
+and this is an error with a request.
+
+67
+00:03:20,850 --> 00:03:23,490
+So it's a little bit like the 404 error
+
+68
+00:03:23,490 --> 00:03:25,953
+that we worked on before, remember?
+
+69
+00:03:26,940 --> 00:03:29,760
+So the fetch function does not reject the promise
+
+70
+00:03:29,760 --> 00:03:34,320
+in this case, and so you basically have to do that manually.
+
+71
+00:03:34,320 --> 00:03:35,973
+And so that is step five.
+
+72
+00:03:37,200 --> 00:03:40,140
+And so with that, you completed part one.
+
+73
+00:03:40,140 --> 00:03:44,190
+So part one is basically about reverse geocoding,
+
+74
+00:03:44,190 --> 00:03:47,400
+and then in part two, it's time to use the data
+
+75
+00:03:47,400 --> 00:03:50,973
+that you get from step number one to render a country.
+
+76
+00:03:52,565 --> 00:03:56,730
+And so take the relevant attribute from the geocoding API
+
+77
+00:03:56,730 --> 00:04:00,840
+and plug it into the country's API that we have been using.
+
+78
+00:04:00,840 --> 00:04:03,570
+And just like we have been doing, render the country
+
+79
+00:04:03,570 --> 00:04:05,703
+and also catch any errors.
+
+80
+00:04:06,630 --> 00:04:09,990
+And for this one, you can actually even copy the code.
+
+81
+00:04:09,990 --> 00:04:12,690
+So there's no need to type the same code,
+
+82
+00:04:12,690 --> 00:04:14,490
+at least if you are in a hurry.
+
+83
+00:04:14,490 --> 00:04:17,790
+So if you want to write the same code again, of course,
+
+84
+00:04:17,790 --> 00:04:21,330
+that's still great because that will help your muscle memory
+
+85
+00:04:21,330 --> 00:04:24,480
+to really internalize these concepts.
+
+86
+00:04:24,480 --> 00:04:25,890
+Now, if for any reason,
+
+87
+00:04:25,890 --> 00:04:28,140
+by the time you're watching this course,
+
+88
+00:04:28,140 --> 00:04:30,630
+this API here is no longer working,
+
+89
+00:04:30,630 --> 00:04:35,610
+then please just Google for another reverse geocoding API.
+
+90
+00:04:35,610 --> 00:04:37,500
+So I'm sure there should be another one
+
+91
+00:04:37,500 --> 00:04:40,650
+that you can use, okay?
+
+92
+00:04:40,650 --> 00:04:43,080
+But anyway, once you have all of this done,
+
+93
+00:04:43,080 --> 00:04:44,730
+then you should test your function
+
+94
+00:04:44,730 --> 00:04:48,810
+with these three test data coordinates.
+
+95
+00:04:48,810 --> 00:04:51,180
+So hopefully you can complete this challenge
+
+96
+00:04:51,180 --> 00:04:53,580
+and have some fun along the way.
+
+97
+00:04:53,580 --> 00:04:57,990
+So I designed this one to, one more time, be fun for you.
+
+98
+00:04:57,990 --> 00:04:59,760
+So go have some fun now,
+
+99
+00:04:59,760 --> 00:05:02,010
+and I'll see you back here once you're ready.
+
+100
+00:05:06,240 --> 00:05:09,810
+All right, so here I am back,
+
+101
+00:05:09,810 --> 00:05:11,880
+and here goes my solution.
+
+102
+00:05:11,880 --> 00:05:16,170
+So where am I is the function that we're gonna create
+
+103
+00:05:16,170 --> 00:05:18,320
+and that you hopefully created it yourself.
+
+104
+00:05:19,440 --> 00:05:21,750
+And so if your code works perfectly,
+
+105
+00:05:21,750 --> 00:05:24,480
+then there's actually not even a need
+
+106
+00:05:24,480 --> 00:05:26,913
+to watch this video probably to the end.
+
+107
+00:05:28,110 --> 00:05:31,560
+But anyway, let's now take this URL format
+
+108
+00:05:31,560 --> 00:05:35,163
+and then do a fetch request to this URL.
+
+109
+00:05:37,170 --> 00:05:38,223
+So fetch,
+
+110
+00:05:39,270 --> 00:05:41,160
+here, let's use a template string,
+
+111
+00:05:41,160 --> 00:05:44,403
+because now here we need to plug in the latitude,
+
+112
+00:05:48,060 --> 00:05:52,293
+and then here after the comma, we need the longitude.
+
+113
+00:05:54,270 --> 00:05:55,200
+All right?
+
+114
+00:05:55,200 --> 00:05:58,650
+Then on this, we call the then method.
+
+115
+00:05:58,650 --> 00:06:00,900
+And here we get the response.
+
+116
+00:06:00,900 --> 00:06:03,750
+Let's just call it res for now.
+
+117
+00:06:03,750 --> 00:06:08,220
+And then immediately we return res.json,
+
+118
+00:06:08,220 --> 00:06:11,520
+which, remember, will return a new promise,
+
+119
+00:06:11,520 --> 00:06:15,090
+and it is this one, which then will get the data
+
+120
+00:06:15,090 --> 00:06:18,990
+because the data is going to be the resolved value
+
+121
+00:06:18,990 --> 00:06:20,373
+of this promise.
+
+122
+00:06:21,630 --> 00:06:25,200
+And so let's just take a look at the data here.
+
+123
+00:06:25,200 --> 00:06:26,703
+So let's reload here.
+
+124
+00:06:27,540 --> 00:06:32,540
+Oh, and of course, I need to call this function indeed.
+
+125
+00:06:33,900 --> 00:06:38,580
+So let's grab these coordinates, give it a save.
+
+126
+00:06:38,580 --> 00:06:41,463
+And so now it actually already worked.
+
+127
+00:06:43,230 --> 00:06:45,690
+All right, so let's open it
+
+128
+00:06:45,690 --> 00:06:48,093
+and let's see what kind of stuff we have here.
+
+129
+00:06:48,930 --> 00:06:52,560
+So we have the city, we have the,
+
+130
+00:06:52,560 --> 00:06:55,680
+so basically the confidence that this data is correct,
+
+131
+00:06:55,680 --> 00:06:58,113
+which is 90%, which is pretty good.
+
+132
+00:06:58,980 --> 00:07:01,200
+So the country is Germany,
+
+133
+00:07:01,200 --> 00:07:04,500
+and then here we have all kinds of stuff.
+
+134
+00:07:04,500 --> 00:07:07,200
+But what matters is actually the country,
+
+135
+00:07:07,200 --> 00:07:09,510
+at least for part two, which is gonna be
+
+136
+00:07:09,510 --> 00:07:11,250
+to render the country,
+
+137
+00:07:11,250 --> 00:07:14,790
+but for now the task is to log to the console as string,
+
+138
+00:07:14,790 --> 00:07:18,360
+you are in city and then country.
+
+139
+00:07:18,360 --> 00:07:20,163
+So like in Berlin, Germany.
+
+140
+00:07:21,270 --> 00:07:23,973
+Now, okay, so let's do that.
+
+141
+00:07:25,860 --> 00:07:27,843
+So you are in,
+
+142
+00:07:29,520 --> 00:07:32,343
+and then data.city,
+
+143
+00:07:34,110 --> 00:07:38,173
+data.country.
+
+144
+00:07:38,173 --> 00:07:40,083
+Country, like this.
+
+145
+00:07:41,760 --> 00:07:45,333
+And all right, so we are in Berlin, Germany.
+
+146
+00:07:46,950 --> 00:07:50,583
+Let's actually already do this with the other coordinates.
+
+147
+00:07:54,660 --> 00:07:59,660
+So, let's see what countries we are in.
+
+148
+00:08:00,210 --> 00:08:01,683
+I actually have no idea.
+
+149
+00:08:03,570 --> 00:08:07,680
+All right, so we get undefined, undefined.
+
+150
+00:08:07,680 --> 00:08:09,360
+And so this is actually the problem
+
+151
+00:08:09,360 --> 00:08:11,703
+that I was mentioning right at the beginning.
+
+152
+00:08:13,314 --> 00:08:16,440
+So, this one,
+
+153
+00:08:16,440 --> 00:08:19,200
+where the API, sorry,
+
+154
+00:08:19,200 --> 00:08:23,460
+so where the API only allows three requests per second.
+
+155
+00:08:23,460 --> 00:08:26,940
+And so now we got this error, 403,
+
+156
+00:08:26,940 --> 00:08:31,140
+and so indeed it is exactly this one, all right?
+
+157
+00:08:31,140 --> 00:08:34,440
+And so one more time, the fetch function
+
+158
+00:08:34,440 --> 00:08:36,990
+is not correctly handling this error.
+
+159
+00:08:36,990 --> 00:08:39,180
+So it is not rejecting the promise
+
+160
+00:08:39,180 --> 00:08:42,300
+even though this clearly is an error.
+
+161
+00:08:42,300 --> 00:08:44,340
+And so, as you already know,
+
+162
+00:08:44,340 --> 00:08:46,203
+we need to now manually do that.
+
+163
+00:08:50,070 --> 00:08:52,320
+So here we need to now return.
+
+164
+00:08:52,320 --> 00:08:55,683
+And just to make sure, let's take a look at the response.
+
+165
+00:08:56,760 --> 00:08:59,610
+And this doesn't always happen, okay?
+
+166
+00:08:59,610 --> 00:09:02,910
+And so in this case, it actually worked just fine.
+
+167
+00:09:02,910 --> 00:09:06,933
+So one of these here is Cape Town, South Africa,
+
+168
+00:09:07,800 --> 00:09:10,623
+and the other one is Mumbai in India.
+
+169
+00:09:11,880 --> 00:09:16,880
+All right, so let's try to reload again very fast here.
+
+170
+00:09:18,240 --> 00:09:20,313
+And so now we get that error again.
+
+171
+00:09:21,450 --> 00:09:25,533
+Okay, so where is that response?
+
+172
+00:09:27,300 --> 00:09:32,300
+So the one that's associated to 13.381,
+
+173
+00:09:33,240 --> 00:09:34,860
+so that's this one.
+
+174
+00:09:34,860 --> 00:09:39,090
+And so one more time you get that OK is false.
+
+175
+00:09:39,090 --> 00:09:42,420
+So let's use that to our advantage.
+
+176
+00:09:42,420 --> 00:09:47,250
+So if res.ok is false,
+
+177
+00:09:47,250 --> 00:09:51,580
+then throw new error
+
+178
+00:09:53,122 --> 00:09:57,197
+with the error message, "Problem with geocoding."
+
+179
+00:09:59,490 --> 00:10:02,190
+And again, let's actually include
+
+180
+00:10:02,190 --> 00:10:04,713
+the status code here.
+
+181
+00:10:06,290 --> 00:10:07,590
+All right.
+
+182
+00:10:07,590 --> 00:10:10,620
+So here we are throwing a new error,
+
+183
+00:10:10,620 --> 00:10:12,780
+and so we are rejecting this promise
+
+184
+00:10:12,780 --> 00:10:14,463
+that's gonna be returned here,
+
+185
+00:10:15,450 --> 00:10:19,170
+but we are, as of now, not catching it anywhere.
+
+186
+00:10:19,170 --> 00:10:20,940
+And so at this point, we would have
+
+187
+00:10:20,940 --> 00:10:23,580
+an unhandled promise rejection,
+
+188
+00:10:23,580 --> 00:10:25,430
+and actually let me show that to you.
+
+189
+00:10:27,060 --> 00:10:30,150
+So I need to save this a bit faster
+
+190
+00:10:30,150 --> 00:10:31,833
+in order to create the error.
+
+191
+00:10:34,050 --> 00:10:38,253
+So, sometimes it's not that easy to catch it.
+
+192
+00:10:39,630 --> 00:10:41,673
+Let's do it really fast here,
+
+193
+00:10:42,810 --> 00:10:44,310
+now, all right.
+
+194
+00:10:44,310 --> 00:10:47,583
+So now you get uncaught promise, basically.
+
+195
+00:10:48,900 --> 00:10:51,723
+So the error message is already the one that we want,
+
+196
+00:10:52,959 --> 00:10:55,350
+but it should not be uncaught, right?
+
+197
+00:10:55,350 --> 00:10:59,943
+And so indeed we need to catch any promise rejection.
+
+198
+00:11:01,650 --> 00:11:03,123
+And so let's do that.
+
+199
+00:11:05,190 --> 00:11:08,010
+And all I'm gonna do in this case is simply log it
+
+200
+00:11:08,010 --> 00:11:09,723
+to the console as an error,
+
+201
+00:11:11,220 --> 00:11:14,913
+simply the error.message,
+
+202
+00:11:15,930 --> 00:11:19,023
+and then I will again like add an emoji here,
+
+203
+00:11:20,070 --> 00:11:22,563
+just so we know that it's our own message.
+
+204
+00:11:24,630 --> 00:11:25,470
+Now, okay,
+
+205
+00:11:25,470 --> 00:11:27,633
+something is missing here apparently.
+
+206
+00:11:30,210 --> 00:11:33,690
+So here again, we get problem with geocoding.
+
+207
+00:11:33,690 --> 00:11:36,750
+And so now we successfully handled the error
+
+208
+00:11:36,750 --> 00:11:39,660
+and could now do something more meaningful with it
+
+209
+00:11:39,660 --> 00:11:43,620
+if we had to, like again displaying some kind
+
+210
+00:11:43,620 --> 00:11:46,320
+of error message or logging this error
+
+211
+00:11:46,320 --> 00:11:49,110
+in some error-tracking application.
+
+212
+00:11:49,110 --> 00:11:51,480
+Now, okay, so I think with this,
+
+213
+00:11:51,480 --> 00:11:54,183
+we actually already completed part one.
+
+214
+00:11:55,110 --> 00:11:59,550
+So we did four and five in the opposite order,
+
+215
+00:11:59,550 --> 00:12:01,290
+but that's okay.
+
+216
+00:12:01,290 --> 00:12:04,893
+And so now it's time to use this data to render a country.
+
+217
+00:12:05,820 --> 00:12:08,703
+And so this is essentially what we already did before,
+
+218
+00:12:09,600 --> 00:12:12,453
+so I'm just gonna come here and copy that.
+
+219
+00:12:14,190 --> 00:12:17,013
+So let's see where that is.
+
+220
+00:12:18,630 --> 00:12:20,433
+Well, it's even more up there,
+
+221
+00:12:21,570 --> 00:12:22,653
+or actually it's not.
+
+222
+00:12:26,790 --> 00:12:29,820
+So actually, I will just copy this part here
+
+223
+00:12:29,820 --> 00:12:31,083
+of the error handling.
+
+224
+00:12:31,950 --> 00:12:33,813
+Oh, and actually I can get all of it.
+
+225
+00:12:36,120 --> 00:12:39,753
+Okay, so let's paste that here then.
+
+226
+00:12:41,820 --> 00:12:45,690
+Let's get rid of these comments.
+
+227
+00:12:45,690 --> 00:12:49,173
+And of course now here, we need to do a new fetch.
+
+228
+00:12:50,460 --> 00:12:52,593
+So return fetch,
+
+229
+00:12:53,730 --> 00:12:57,090
+and then, well, actually I need to go back
+
+230
+00:12:57,090 --> 00:12:58,953
+and get the country as well.
+
+231
+00:13:00,660 --> 00:13:04,743
+So yeah, that's essentially this URL here.
+
+232
+00:13:09,660 --> 00:13:10,493
+Okay.
+
+233
+00:13:13,410 --> 00:13:15,240
+So let's save it.
+
+234
+00:13:15,240 --> 00:13:17,073
+I'm not sure if it's gonna work yet.
+
+235
+00:13:18,960 --> 00:13:20,010
+And it doesn't.
+
+236
+00:13:20,010 --> 00:13:20,850
+And that's of course
+
+237
+00:13:20,850 --> 00:13:23,073
+because this country here doesn't exist.
+
+238
+00:13:24,000 --> 00:13:27,670
+So the country that we need is stored in data.country.
+
+239
+00:13:30,060 --> 00:13:32,910
+And so here we are now logging this string
+
+240
+00:13:32,910 --> 00:13:35,250
+just like we were doing before.
+
+241
+00:13:35,250 --> 00:13:39,450
+And then based on that country, we have our next fetch here,
+
+242
+00:13:39,450 --> 00:13:42,210
+which we will then return.
+
+243
+00:13:42,210 --> 00:13:45,690
+And then here we have that part
+
+244
+00:13:45,690 --> 00:13:48,813
+where we handle the error if the country cannot be found.
+
+245
+00:13:49,710 --> 00:13:53,223
+And finally here, then we render that country,
+
+246
+00:13:55,530 --> 00:13:57,600
+but it is not gonna be a neighbor.
+
+247
+00:13:57,600 --> 00:13:59,820
+So let's get rid of this part.
+
+248
+00:13:59,820 --> 00:14:03,033
+And up there, we called response simply res.
+
+249
+00:14:04,260 --> 00:14:06,360
+So let's do the same here.
+
+250
+00:14:06,360 --> 00:14:09,453
+And for now, let's test it only with one testing data.
+
+251
+00:14:10,890 --> 00:14:12,600
+So let's see.
+
+252
+00:14:12,600 --> 00:14:14,887
+And now we still get an error,
+
+253
+00:14:14,887 --> 00:14:18,567
+"Cannot read property, 0, of undefined."
+
+254
+00:14:19,440 --> 00:14:21,453
+So where does that come from?
+
+255
+00:14:24,000 --> 00:14:27,450
+And so this stack trace here is, once again,
+
+256
+00:14:27,450 --> 00:14:29,400
+not really helpful,
+
+257
+00:14:29,400 --> 00:14:32,880
+but I think that I still know the answer.
+
+258
+00:14:32,880 --> 00:14:35,100
+And that is because here we actually needed
+
+259
+00:14:35,100 --> 00:14:37,683
+to take the first element of the array,
+
+260
+00:14:39,990 --> 00:14:41,463
+if I remember correctly.
+
+261
+00:14:43,290 --> 00:14:45,933
+Well, now nothing happened.
+
+262
+00:14:46,860 --> 00:14:49,380
+Oh, but I think I know why.
+
+263
+00:14:49,380 --> 00:14:51,180
+And the reason for that is
+
+264
+00:14:51,180 --> 00:14:53,853
+that previously we had this finally here.
+
+265
+00:14:54,870 --> 00:14:58,950
+So we had this finally, which set the country's container
+
+266
+00:14:58,950 --> 00:15:00,630
+opacity back to one.
+
+267
+00:15:00,630 --> 00:15:04,353
+And as we did that, we removed this from here.
+
+268
+00:15:05,970 --> 00:15:07,710
+So right here.
+
+269
+00:15:07,710 --> 00:15:11,610
+So basically, now we should set this back here
+
+270
+00:15:11,610 --> 00:15:15,510
+so that we can be back to using it in the future.
+
+271
+00:15:15,510 --> 00:15:18,870
+And so if I save this now, oh beautiful.
+
+272
+00:15:18,870 --> 00:15:20,580
+There you have it.
+
+273
+00:15:20,580 --> 00:15:23,130
+And this is really amazing.
+
+274
+00:15:23,130 --> 00:15:25,920
+So just using the GPS coordinates,
+
+275
+00:15:25,920 --> 00:15:28,890
+we can now determine the country that we are in
+
+276
+00:15:28,890 --> 00:15:31,260
+and then also display it along with a bunch
+
+277
+00:15:31,260 --> 00:15:34,713
+of information about the country here on our page.
+
+278
+00:15:35,610 --> 00:15:38,430
+And all thanks to the power of APIs
+
+279
+00:15:38,430 --> 00:15:40,983
+and also asynchronous JavaScript.
+
+280
+00:15:42,030 --> 00:15:44,763
+So let's now also test with these two,
+
+281
+00:15:47,160 --> 00:15:48,390
+now, right?
+
+282
+00:15:48,390 --> 00:15:50,850
+But now here in one of them,
+
+283
+00:15:50,850 --> 00:15:53,880
+we actually got an error with geocoding.
+
+284
+00:15:53,880 --> 00:15:55,980
+And again, the reason for that is
+
+285
+00:15:55,980 --> 00:15:59,070
+that we can only do three requests a second,
+
+286
+00:15:59,070 --> 00:16:01,953
+and so sometimes this then doesn't really work.
+
+287
+00:16:03,180 --> 00:16:05,403
+Oh, but now we actually got all three.
+
+288
+00:16:06,720 --> 00:16:08,950
+Now this one here for India
+
+289
+00:16:09,960 --> 00:16:14,580
+looks a bit weird, right?
+
+290
+00:16:14,580 --> 00:16:16,477
+So this one is India,
+
+291
+00:16:16,477 --> 00:16:19,680
+but when we get the data for India, then apparently,
+
+292
+00:16:19,680 --> 00:16:22,830
+because this country also has India in its name,
+
+293
+00:16:22,830 --> 00:16:25,367
+this is then gonna be the first country
+
+294
+00:16:25,367 --> 00:16:27,990
+that is found, right?
+
+295
+00:16:27,990 --> 00:16:30,513
+So there's probably multiple countries for India,
+
+296
+00:16:31,350 --> 00:16:34,140
+but yeah, that doesn't really matter here in this case.
+
+297
+00:16:34,140 --> 00:16:37,623
+If you want, you can just use some other coordinates here.
+
+298
+00:16:38,520 --> 00:16:39,570
+All right?
+
+299
+00:16:39,570 --> 00:16:42,570
+But anyway, again, I hope you had some fun,
+
+300
+00:16:42,570 --> 00:16:44,340
+and this was a great use case
+
+301
+00:16:44,340 --> 00:16:48,060
+for how we can actually use multiple APIs in sequence
+
+302
+00:16:48,060 --> 00:16:51,663
+to create a really amazing result like this one.

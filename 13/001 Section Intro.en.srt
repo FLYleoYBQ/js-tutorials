@@ -1,0 +1,87 @@
+1
+00:00:00,018 --> 00:00:01,530
+(upbeat music)
+
+2
+00:00:01,530 --> 00:00:03,500
+So at this point of the course,
+
+3
+00:00:03,500 --> 00:00:07,040
+you're already pretty good at working with the DOM.
+
+4
+00:00:07,040 --> 00:00:10,520
+But there are still a ton of things to learn.
+
+5
+00:00:10,520 --> 00:00:11,800
+So to do that,
+
+6
+00:00:11,800 --> 00:00:12,810
+in this section,
+
+7
+00:00:12,810 --> 00:00:15,940
+we will build a beautiful website project
+
+8
+00:00:15,940 --> 00:00:18,460
+with a lot of different components
+
+9
+00:00:18,460 --> 00:00:21,190
+and visual effects that require
+
+10
+00:00:21,190 --> 00:00:25,450
+some pretty advanced DOM manipulation techniques.
+
+11
+00:00:25,450 --> 00:00:27,280
+So after this section,
+
+12
+00:00:27,280 --> 00:00:29,810
+you will have all the tools that you need
+
+13
+00:00:29,810 --> 00:00:34,140
+in order to implement any visual component or effect
+
+14
+00:00:34,140 --> 00:00:36,510
+that you can imagine.
+
+15
+00:00:36,510 --> 00:00:39,890
+Now, many of the things that I'm gonna show you here
+
+16
+00:00:39,890 --> 00:00:43,470
+could actually also be added to a webpage
+
+17
+00:00:43,470 --> 00:00:46,600
+simply by using a third party library.
+
+18
+00:00:46,600 --> 00:00:50,830
+But you want to master JavaScript and the DOM, right?
+
+19
+00:00:50,830 --> 00:00:51,960
+And so therefore,
+
+20
+00:00:51,960 --> 00:00:55,290
+you need to know how to do things yourself.
+
+21
+00:00:55,290 --> 00:00:58,953
+And so let's go learn advanced DOM manipulation now.
+
+22
+00:00:58,953 --> 00:01:01,620
+(upbeat music)

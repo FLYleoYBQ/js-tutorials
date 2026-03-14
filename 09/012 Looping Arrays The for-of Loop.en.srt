@@ -1,0 +1,563 @@
+1
+00:00:01,570 --> 00:00:05,550
+Let's now talk about a new way of looping over arrays,
+
+2
+00:00:05,550 --> 00:00:08,470
+which was introduced in year six.
+
+3
+00:00:08,470 --> 00:00:10,723
+And that's the for-of loop.
+
+4
+00:00:12,490 --> 00:00:16,283
+And let's say we wanted to loop over our entire menu here.
+
+5
+00:00:17,300 --> 00:00:20,000
+So let's start by creating again,
+
+6
+00:00:20,000 --> 00:00:23,130
+the array with the entire menu.
+
+7
+00:00:23,130 --> 00:00:28,130
+And for that we expand restaurant dot starter menu
+
+8
+00:00:29,570 --> 00:00:33,923
+and restaurant dot main menu.
+
+9
+00:00:34,840 --> 00:00:38,180
+So nothing new at this point.
+
+10
+00:00:38,180 --> 00:00:41,670
+Now you already know how to loop over this array
+
+11
+00:00:41,670 --> 00:00:44,670
+with a regular for loop, right?
+
+12
+00:00:44,670 --> 00:00:46,860
+So you would have to go through all the steps
+
+13
+00:00:46,860 --> 00:00:49,830
+of setting up a counter, a condition
+
+14
+00:00:49,830 --> 00:00:52,170
+and also update the counter.
+
+15
+00:00:52,170 --> 00:00:53,820
+And that's a lot of work.
+
+16
+00:00:53,820 --> 00:00:57,140
+And so that's why we got the for-of loop now
+
+17
+00:00:57,140 --> 00:00:59,520
+in which you don't need any of that.
+
+18
+00:00:59,520 --> 00:01:01,620
+It's so much simpler.
+
+19
+00:01:01,620 --> 00:01:03,360
+And this is how it works.
+
+20
+00:01:03,360 --> 00:01:08,360
+We still write for and then we create a variable here,
+
+21
+00:01:09,330 --> 00:01:11,400
+let's just call it item for now
+
+22
+00:01:11,400 --> 00:01:15,110
+and then of menu.
+
+23
+00:01:15,110 --> 00:01:19,823
+And then we can log to the console simply this item.
+
+24
+00:01:21,190 --> 00:01:22,760
+So let's see if that works
+
+25
+00:01:22,760 --> 00:01:25,710
+and then I'm gonna explain why it works
+
+26
+00:01:25,710 --> 00:01:28,060
+and what this loop does.
+
+27
+00:01:28,060 --> 00:01:30,720
+So indeed we got all our elements here now,
+
+28
+00:01:30,720 --> 00:01:33,720
+individually logged to the console.
+
+29
+00:01:33,720 --> 00:01:35,950
+So this for-of loop,
+
+30
+00:01:35,950 --> 00:01:37,360
+which is called for-of
+
+31
+00:01:37,360 --> 00:01:42,360
+because it is for and then item of the menu, right?
+
+32
+00:01:42,790 --> 00:01:47,200
+So this loop will automatically loop over the entire array
+
+33
+00:01:47,200 --> 00:01:48,620
+and in each iteration,
+
+34
+00:01:48,620 --> 00:01:52,190
+it will give us access to the current array element,
+
+35
+00:01:52,190 --> 00:01:54,690
+which we can specify here.
+
+36
+00:01:54,690 --> 00:01:57,070
+So in this case it's called the item,
+
+37
+00:01:57,070 --> 00:02:00,360
+but of course we could call it anything that we want.
+
+38
+00:02:00,360 --> 00:02:03,040
+And so if we simply log the current item
+
+39
+00:02:03,040 --> 00:02:04,840
+down to the console,
+
+40
+00:02:04,840 --> 00:02:07,570
+well, then this is here what we get.
+
+41
+00:02:07,570 --> 00:02:10,720
+Simply each element logged one by one.
+
+42
+00:02:10,720 --> 00:02:12,560
+And that's because again,
+
+43
+00:02:12,560 --> 00:02:14,960
+the item variable is always
+
+44
+00:02:14,960 --> 00:02:18,180
+the current element in each iteration.
+
+45
+00:02:18,180 --> 00:02:21,840
+And also just like in the if else statement,
+
+46
+00:02:21,840 --> 00:02:23,930
+we don't need to create a code block
+
+47
+00:02:23,930 --> 00:02:28,533
+when we only have one statement here to execute, okay?
+
+48
+00:02:29,720 --> 00:02:31,370
+So that's pretty simple,
+
+49
+00:02:31,370 --> 00:02:34,370
+but it's a really nice level of obstructing
+
+50
+00:02:34,370 --> 00:02:36,310
+over the regular for loop.
+
+51
+00:02:36,310 --> 00:02:38,700
+So we can do the same thing with this one,
+
+52
+00:02:38,700 --> 00:02:41,150
+but without having to worry about
+
+53
+00:02:41,150 --> 00:02:43,230
+all the underlying details
+
+54
+00:02:43,230 --> 00:02:46,670
+such as counters and conditions.
+
+55
+00:02:46,670 --> 00:02:49,210
+What's also great about the for-of loop,
+
+56
+00:02:49,210 --> 00:02:53,430
+is that we can still use the continue and break keywords.
+
+57
+00:02:53,430 --> 00:02:56,270
+And this is important because in the next section,
+
+58
+00:02:56,270 --> 00:02:59,020
+you will learn other ways of looping arrays
+
+59
+00:02:59,020 --> 00:02:59,940
+and in those ones,
+
+60
+00:02:59,940 --> 00:03:03,760
+you will not be able to continue or to break.
+
+61
+00:03:03,760 --> 00:03:06,053
+So you will need to keep that in mind.
+
+62
+00:03:07,440 --> 00:03:11,100
+But now what if we also wanted the current index
+
+63
+00:03:11,100 --> 00:03:13,570
+and not just the current element?
+
+64
+00:03:13,570 --> 00:03:15,450
+Well, in the for-of loop,
+
+65
+00:03:15,450 --> 00:03:17,280
+it's actually a bit of a pain
+
+66
+00:03:17,280 --> 00:03:19,280
+when we need that index,
+
+67
+00:03:19,280 --> 00:03:22,030
+because originally the for-of loop
+
+68
+00:03:22,030 --> 00:03:25,930
+was really just meant to give you the current element.
+
+69
+00:03:25,930 --> 00:03:27,790
+However, you can get both
+
+70
+00:03:27,790 --> 00:03:29,973
+and you will have to do it like this.
+
+71
+00:03:31,360 --> 00:03:34,683
+So for and then again,
+
+72
+00:03:35,690 --> 00:03:37,053
+let's just call it item,
+
+73
+00:03:38,160 --> 00:03:40,950
+but now instead of just menu,
+
+74
+00:03:40,950 --> 00:03:43,220
+we now need to call the entries,
+
+75
+00:03:43,220 --> 00:03:45,093
+a method on this array.
+
+76
+00:03:46,600 --> 00:03:51,600
+So entries and then let's take a look at the item.
+
+77
+00:03:55,990 --> 00:03:57,723
+And so as you see,
+
+78
+00:03:58,930 --> 00:04:01,390
+each of the item is now actually an array
+
+79
+00:04:01,390 --> 00:04:04,653
+with the index in the array element itself.
+
+80
+00:04:05,520 --> 00:04:07,060
+So let's quickly take a look at
+
+81
+00:04:07,060 --> 00:04:10,723
+what this mysterious menu dot entries actually is.
+
+82
+00:04:12,530 --> 00:04:14,803
+So menu dot entries,
+
+83
+00:04:16,650 --> 00:04:21,320
+and so here we get this weird array iterator.
+
+84
+00:04:21,320 --> 00:04:23,490
+And so that's not really helpful,
+
+85
+00:04:23,490 --> 00:04:25,370
+but we will learn about iterators
+
+86
+00:04:25,370 --> 00:04:27,440
+by the end of the course.
+
+87
+00:04:27,440 --> 00:04:29,900
+But if we want to take a look at this,
+
+88
+00:04:29,900 --> 00:04:32,830
+we need to essentially expand this here,
+
+89
+00:04:32,830 --> 00:04:35,160
+using the spread operator
+
+90
+00:04:35,160 --> 00:04:38,363
+and then create a new array based out of that.
+
+91
+00:04:40,310 --> 00:04:42,700
+So again this is really just to take a look
+
+92
+00:04:42,700 --> 00:04:46,100
+at what menu dot entries actually is.
+
+93
+00:04:46,100 --> 00:04:49,480
+And so we see that it is basically an array,
+
+94
+00:04:49,480 --> 00:04:52,190
+which in each position contains a new array,
+
+95
+00:04:52,190 --> 00:04:54,433
+which contains the element,
+
+96
+00:04:55,470 --> 00:04:58,800
+so the element entity index number of that element
+
+97
+00:04:58,800 --> 00:05:00,930
+in the original array.
+
+98
+00:05:00,930 --> 00:05:02,430
+And so that's why we get,
+
+99
+00:05:02,430 --> 00:05:05,750
+zero, one, two, three, four, five, six,
+
+100
+00:05:05,750 --> 00:05:09,843
+plus all of the original elements of the menu.
+
+101
+00:05:11,270 --> 00:05:12,710
+And that's also the reason
+
+102
+00:05:12,710 --> 00:05:16,230
+why then we get this output from this loop now.
+
+103
+00:05:16,230 --> 00:05:19,380
+Because here we now basically have that array.
+
+104
+00:05:19,380 --> 00:05:23,470
+And so now each item of that array is,
+
+105
+00:05:23,470 --> 00:05:24,853
+well, this new array.
+
+106
+00:05:26,320 --> 00:05:30,180
+And so now if we wanted to like print a nice menu,
+
+107
+00:05:30,180 --> 00:05:33,890
+then we could take advantage of this data now.
+
+108
+00:05:33,890 --> 00:05:36,830
+So let's not log something nicer here.
+
+109
+00:05:36,830 --> 00:05:38,203
+So a template string.
+
+110
+00:05:41,040 --> 00:05:45,120
+So let's take the first element which is zero
+
+111
+00:05:45,120 --> 00:05:47,230
+and then let's actually add one to it
+
+112
+00:05:48,700 --> 00:05:51,490
+so that we can start the menu at one.
+
+113
+00:05:51,490 --> 00:05:54,660
+So here we're basically gonna display like a nice menu
+
+114
+00:05:54,660 --> 00:05:56,200
+in a real restaurant.
+
+115
+00:05:56,200 --> 00:05:59,073
+And so there the numbers don't start at zero, right?
+
+116
+00:06:01,460 --> 00:06:04,490
+And now here then the actual item itself,
+
+117
+00:06:04,490 --> 00:06:06,253
+so that's at position number one.
+
+118
+00:06:07,360 --> 00:06:10,570
+And so that looks quite nice, doesn't it?
+
+119
+00:06:10,570 --> 00:06:12,620
+So this works great here,
+
+120
+00:06:12,620 --> 00:06:14,640
+but we are actually at this point
+
+121
+00:06:14,640 --> 00:06:17,310
+smarter than doing it like this.
+
+122
+00:06:17,310 --> 00:06:21,030
+And that's because if item is now an array,
+
+123
+00:06:21,030 --> 00:06:22,690
+we can de-structure it.
+
+124
+00:06:22,690 --> 00:06:27,690
+We don't have to manually take element zero and element one,
+
+125
+00:06:27,690 --> 00:06:29,720
+that is the old school way.
+
+126
+00:06:29,720 --> 00:06:31,840
+So let's now do it in a better way.
+
+127
+00:06:31,840 --> 00:06:35,660
+And so we can actually de-structure the item,
+
+128
+00:06:35,660 --> 00:06:38,160
+array here, right here.
+
+129
+00:06:38,160 --> 00:06:42,350
+All we have to do is to use the de-structuring assignment
+
+130
+00:06:42,350 --> 00:06:45,290
+and then create the two variables that we want.
+
+131
+00:06:45,290 --> 00:06:50,290
+So let's call it i and el for element.
+
+132
+00:06:50,370 --> 00:06:55,220
+So here we can use i and here element.
+
+133
+00:06:55,220 --> 00:06:59,760
+So that's checked out and indeed it works the same.
+
+134
+00:06:59,760 --> 00:07:01,580
+And so once again these structuring
+
+135
+00:07:01,580 --> 00:07:04,690
+made our lives a little bit easier here.
+
+136
+00:07:04,690 --> 00:07:06,580
+So it's a really great addition
+
+137
+00:07:06,580 --> 00:07:09,890
+to the JavaScript language here once again.
+
+138
+00:07:09,890 --> 00:07:11,610
+And the same is of course true
+
+139
+00:07:11,610 --> 00:07:14,600
+for the for-of loop itself,
+
+140
+00:07:14,600 --> 00:07:16,440
+which also makes it a lot easier
+
+141
+00:07:16,440 --> 00:07:18,033
+to loop over arrays.

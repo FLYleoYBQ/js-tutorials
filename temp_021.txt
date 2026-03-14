@@ -1,0 +1,203 @@
+﻿In this lecture, we're gonna do two interesting things.
+
+First, we will loop over an array backwards, and then second we will also create a loop inside another loop.
+
+So, let's have some more fun with arrays now.
+
+And so, let's get back our array again here.
+
+So, the Jonas' array and let's forget about this element here.
+
+And so now, as I said, in the beginning of this video, let's not loop over this array backwards.
+
+So the first element that we want to print is this one, then this, this, this, and finally Jonas.
+
+So essentially, in the last lecture we looped from the beginning.
+
+So we started with index zero, then one all the way to four right?
+
+But now, we want to start at four then we want to go to three and all the way to zero, which gonna be the last index.
+
+So, this one is four and this one is zero.
+
+And so, now we need to create the four loop according to this new information.
+
+So, basically according to this new methodology.
+
+So, let's start again with the counter and then we'll name it i again, but now what should be the initial value of the counter?
+
+And we already replied to that question kind of, so it should be four but should we just write the four here?
+
+No, we shouldn't, right, because we already learned that hard coded values like this are not a good idea.
+
+So what is four?
+
+Well, four is basically just the length of the array, which is five minus one.
+
+So that's exactly what we will write here.
+
+Jonas.length -1, then the condition and when do we want the loop to stop?
+
+Well, it should stop after the zero.
+
+And so, the condition we need to write remember is telling JavaScript in which condition the loop should keep running.
+
+And so basically, the loop should keep running as long as the counter is still above zero.
+
+So I should be greater or equal actually zero.
+
+So, let's quickly simulate that.
+
+So, at number four which is in the beginning, I is greater equal zero, right?
+
+So, this condition will be true and so the next iteration will run, then we need to decrease the index or the counter.
+
+And so, let's actually do that as well.
+
+And so instead of using I plus plus, which we used before to increment the value we use minus minus to decrement or to decrease the value by one.
+
+And so now we move from four, to three and three of course still is greater equals zero, then all the way to zero.
+
+And so, zero is still greater equals zero.
+
+Then the counter gets updated again, and it will be updated to minus one.
+
+And now minus one is not greater or equal zero.
+
+So this is false and so the loop will stop, okay.
+
+So, I hope that this was not hard, really all we have to do is to think when we create these three parts here of the four loop and I hope that you could follow my train of thought here.
+
+Now, anyway the rest of course is gonna work just exactly the same.
+
+So, we're getting again, the current element.
+
+So, let's check that very quickly and yes, great job it works.
+
+And just to really show it, let's also look the counter variable itself.
+
+So first the i sort of counter and then the array value.
+
+And so, indeed this works just as we intend it we start with number four just as we have it here, and then we move to three, two, one, zero.
+
+And if we now edit one element then for sure this is gonna work just the same because now Jonah's length is six and minus one is five and so it will start here at true, and indeed it does.
+
+All right, now you will probably not be doing this all the time in your own code, but I thought that this was a nice exercise.
+
+So we could again think about how to define the counter, the condition and the counter update.
+
+Okay, so that was the first part of this lecture.
+
+And now, I want to show you how we can create a loop inside of a loop.
+
+So, does that sound crazy?
+
+Well, it's not so crazy and it's not so difficult either.
+
+And to do this, let's go back to our gym example from the first loop lecture.
+
+So there, we had 10 repetitions for a certain weightlifting exercise, remember?
+
+But now let's say that we have three different exercises and we want to repeat each of them five times.
+
+So that means a total of 15 repetitions five for each of the three exercises.
+
+So to lock all these exercises, we will need a loop inside a loop.
+
+So, let's roll up our sleeves and get to work here.
+
+And we're gonna start with the three exercises.
+
+So let's create a counter, and I will actually call it exercise.
+
+So exercise and we start at one now this time again because we simply want to log exercise one, two and three.
+
+So our condition here is that the exercise should be less or equal three.
+
+And actually this would be exactly the same as writing exercise below four.
+
+So you can do whatever you prefer most, and I think I will actually stick with this one this time.
+
+And then we need to increase the exercise after each iteration as always.
+
+So now, let's look to the console something like this starting exercise, and actually here we want to include the exercise number.
+
+So that's instead created template literal.
+
+And so, here we use that counter variable.
+
+So, let's just check this one.
+
+So we have three exercises but we don't have any repetitions yet in there.
+
+And so now again, we need to create a loop inside a loop, so that in each exercise we can have the five repetitions that we want and the repetitions themselves are a loop, right?
+
+And so that's why we now need that loop inside of this loop, so let's do that.
+
+And this is gonna be basically the same as we did earlier.
+
+So, let's again call it a rep, start at one and 10 the condition.
+
+So, remember how I said, that we want five repetitions this time.
+
+And so, let's say we want to stay below six.
+
+So again, that would be exactly the same as writing less or equal five, but let's keep it a bit different this time and say below six.
+
+And then rep plus plus, and now lifting weights repetition, and again I forgot to make this a template literal.
+
+So yes, this should work much better.
+
+And now, this cute emoji here again.
+
+Oh, where is it?
+
+And let's test this now.
+
+So, what do you expect to see think about that before you load your own result or before I load here, the result.
+
+So, is this what you expected?
+
+Lets even increase the Sierra a little bit and now we see the full picture.
+
+All right, so we start exercise number one, which is what we have here and then inside of this iteration of exercise one, a new loop is created and executed.
+
+And so that's what then creates this lifting weights repetition from one to five, all right, then this loop here is finished, right?
+
+So it run all the five time that then this first iteration is finished.
+
+And so, the exercise loop, so this outer loop here goes to its second iteration.
+
+And so, we are at exercise number two and then this whole loop here will run again from one to five, so that's this five here, and then that loop again finishes.
+
+And then the exercise iteration finishes and we go to iteration number three.
+
+So exercises now, number three and turn the whole repetition loop.
+
+So, this inner loop here we'll run five times again.
+
+And with that we end up with a total of basically 15 repetitions just as I said in the beginning.
+
+So, three times five, okay.
+
+And we could even include the number of the current exercise in this string that we're printing here.
+
+So that stood out as well, exercise and then exercise.
+
+So this is the variable that we get from the outer loop.
+
+And so this variable here is of course available insight, this whole loop.
+
+And that does include all the inner code even this inner loop.
+
+And so that's why we can access this variable here as well.
+
+And so now we should see exercise one printed for these five, then exercise to printed for these five and exercise three for the last ones.
+
+And yeah, beautiful.
+
+All right, I think this was a very fun exercise.
+
+And again, even though you might not use this all the time in the real world I still think that this was a pretty cool example to show you some more power of loops.
+
+And now to wrap up this section, all there is left to learn is another type of loop, which is the wild loop.

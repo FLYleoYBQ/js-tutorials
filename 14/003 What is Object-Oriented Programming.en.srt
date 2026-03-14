@@ -1,0 +1,1847 @@
+1
+00:00:01,160 --> 00:00:02,230
+So this section
+
+2
+00:00:02,230 --> 00:00:05,040
+is about object-oriented programming,
+
+3
+00:00:05,040 --> 00:00:07,030
+and this lecture is gonna be
+
+4
+00:00:07,030 --> 00:00:10,020
+a very general, high level overview
+
+5
+00:00:10,020 --> 00:00:12,780
+of this programming paradigm.
+
+6
+00:00:12,780 --> 00:00:14,360
+So we're gonna talk about
+
+7
+00:00:14,360 --> 00:00:16,860
+what object-oriented programming is,
+
+8
+00:00:16,860 --> 00:00:18,860
+how it works in general,
+
+9
+00:00:18,860 --> 00:00:22,160
+and about its four fundamental principles.
+
+10
+00:00:22,160 --> 00:00:24,790
+So this is gonna be a really important
+
+11
+00:00:24,790 --> 00:00:26,700
+and valuable lecture.
+
+12
+00:00:26,700 --> 00:00:28,753
+And so let's get started.
+
+13
+00:00:30,200 --> 00:00:34,770
+So, first of all, what is object-oriented programming?
+
+14
+00:00:34,770 --> 00:00:37,460
+Well, object-oriented programming,
+
+15
+00:00:37,460 --> 00:00:39,720
+or OOP in short,
+
+16
+00:00:39,720 --> 00:00:42,530
+is a programming paradigm that is based
+
+17
+00:00:42,530 --> 00:00:45,270
+on the concept of objects.
+
+18
+00:00:45,270 --> 00:00:47,270
+And paradigm simply means
+
+19
+00:00:47,270 --> 00:00:49,130
+the style of the code,
+
+20
+00:00:49,130 --> 00:00:53,330
+so the how we write and organize code.
+
+21
+00:00:53,330 --> 00:00:56,020
+Now we use objects to model,
+
+22
+00:00:56,020 --> 00:00:59,500
+so to describe aspects of the real world,
+
+23
+00:00:59,500 --> 00:01:02,850
+like a user or a to-do list item,
+
+24
+00:01:02,850 --> 00:01:05,060
+or even more abstract features
+
+25
+00:01:05,060 --> 00:01:07,150
+like an HTML component
+
+26
+00:01:07,150 --> 00:01:09,693
+or some kind of data structure.
+
+27
+00:01:10,640 --> 00:01:14,710
+Now, as we already know, objects can contain data,
+
+28
+00:01:14,710 --> 00:01:17,750
+which we call properties, and also code,
+
+29
+00:01:17,750 --> 00:01:19,690
+which we call methods.
+
+30
+00:01:19,690 --> 00:01:22,400
+So we can say that by using objects,
+
+31
+00:01:22,400 --> 00:01:24,280
+we pack all the data
+
+32
+00:01:24,280 --> 00:01:26,410
+and the corresponding behavior
+
+33
+00:01:26,410 --> 00:01:29,080
+all into one big block.
+
+34
+00:01:29,080 --> 00:01:33,010
+So again, that's data and corresponding behavior.
+
+35
+00:01:33,010 --> 00:01:34,870
+And this makes it super easy
+
+36
+00:01:34,870 --> 00:01:38,140
+to act directly on the data.
+
+37
+00:01:38,140 --> 00:01:39,870
+And speaking of blocks,
+
+38
+00:01:39,870 --> 00:01:43,560
+that's exactly what objects are supposed to be.
+
+39
+00:01:43,560 --> 00:01:46,340
+So in OOP, which is the acronym
+
+40
+00:01:46,340 --> 00:01:50,170
+that I'm gonna use instead of object-oriented programming.
+
+41
+00:01:50,170 --> 00:01:51,500
+Okay.
+
+42
+00:01:51,500 --> 00:01:56,460
+So in OOP objects are self-contained pieces of code
+
+43
+00:01:56,460 --> 00:01:58,030
+or blocks of code,
+
+44
+00:01:58,030 --> 00:02:01,250
+like small applications on their own.
+
+45
+00:02:01,250 --> 00:02:03,200
+And we then use these objects
+
+46
+00:02:03,200 --> 00:02:06,150
+as building blocks of our applications
+
+47
+00:02:06,150 --> 00:02:09,313
+and make objects interact with one another.
+
+48
+00:02:10,150 --> 00:02:12,340
+Now these interactions happen
+
+49
+00:02:12,340 --> 00:02:15,270
+through a so-called public interface,
+
+50
+00:02:15,270 --> 00:02:17,920
+which we also call API.
+
+51
+00:02:17,920 --> 00:02:21,330
+This interface is basically a bunch of methods
+
+52
+00:02:21,330 --> 00:02:23,730
+that a code outside of the objects
+
+53
+00:02:23,730 --> 00:02:27,350
+can access and that we use to communicate
+
+54
+00:02:27,350 --> 00:02:28,503
+with the object.
+
+55
+00:02:29,690 --> 00:02:30,610
+Okay.
+
+56
+00:02:30,610 --> 00:02:32,770
+So let's take a breath here
+
+57
+00:02:32,770 --> 00:02:36,850
+because this all sounds kind of abstract, right?
+
+58
+00:02:36,850 --> 00:02:37,900
+But don't worry.
+
+59
+00:02:37,900 --> 00:02:39,360
+It will make more sense
+
+60
+00:02:39,360 --> 00:02:41,750
+once we start developing these concepts
+
+61
+00:02:41,750 --> 00:02:44,860
+using code throughout this section.
+
+62
+00:02:44,860 --> 00:02:49,860
+But anyway, why does OOP actually exist?
+
+63
+00:02:49,870 --> 00:02:52,500
+Well, this paradigm was developed
+
+64
+00:02:52,500 --> 00:02:55,350
+with the goal of organizing code,
+
+65
+00:02:55,350 --> 00:02:57,300
+so to make it more flexible
+
+66
+00:02:57,300 --> 00:02:59,670
+and easier to maintain.
+
+67
+00:02:59,670 --> 00:03:03,290
+So before OOP, we might have a bunch of codes
+
+68
+00:03:03,290 --> 00:03:06,110
+gathered across multiple functions,
+
+69
+00:03:06,110 --> 00:03:08,010
+or even in the global scope
+
+70
+00:03:08,010 --> 00:03:10,300
+without any structure.
+
+71
+00:03:10,300 --> 00:03:13,980
+And this particular like crazy style of code
+
+72
+00:03:13,980 --> 00:03:16,290
+is what we usually call spaghetti code
+
+73
+00:03:17,300 --> 00:03:19,770
+and spaghetti code makes it very hard
+
+74
+00:03:19,770 --> 00:03:22,170
+to maintain large code bases
+
+75
+00:03:22,170 --> 00:03:26,210
+and let alone, add new functionalities to it.
+
+76
+00:03:26,210 --> 00:03:30,080
+So the idea of OOP was basically created
+
+77
+00:03:30,080 --> 00:03:32,840
+as a solution to this problem.
+
+78
+00:03:32,840 --> 00:03:36,310
+And apparently it worked because today,
+
+79
+00:03:36,310 --> 00:03:38,971
+OOP is probably the most popular
+
+80
+00:03:38,971 --> 00:03:41,930
+and most widely used programming paradigm
+
+81
+00:03:41,930 --> 00:03:44,473
+in large scale software engineering.
+
+82
+00:03:45,310 --> 00:03:48,970
+Now, OOP is certainly not the only way
+
+83
+00:03:48,970 --> 00:03:52,330
+of writing organized and maintainable code.
+
+84
+00:03:52,330 --> 00:03:55,200
+So in fact, there're many other paradigms
+
+85
+00:03:55,200 --> 00:03:57,840
+that have become increasingly popular
+
+86
+00:03:57,840 --> 00:04:00,480
+and one of them is functional programming.
+
+87
+00:04:00,480 --> 00:04:02,770
+And functional programming allows us
+
+88
+00:04:02,770 --> 00:04:05,090
+to achieve the exact same goal
+
+89
+00:04:05,090 --> 00:04:08,040
+of basically avoiding spaghetti code.
+
+90
+00:04:08,040 --> 00:04:09,500
+And as I have been saying,
+
+91
+00:04:09,500 --> 00:04:11,550
+we will talk about functional programming
+
+92
+00:04:11,550 --> 00:04:14,040
+later in the course and compare it
+
+93
+00:04:14,040 --> 00:04:16,580
+with object-oriented programming.
+
+94
+00:04:16,580 --> 00:04:19,067
+But for now, let's focus on OOP.
+
+95
+00:04:21,270 --> 00:04:23,730
+Now, actually using objects
+
+96
+00:04:23,730 --> 00:04:27,550
+is nothing new for us at this point, right?
+
+97
+00:04:27,550 --> 00:04:30,230
+We have been using them all the time.
+
+98
+00:04:30,230 --> 00:04:32,320
+However, up until now,
+
+99
+00:04:32,320 --> 00:04:34,770
+we have basically only used objects
+
+100
+00:04:34,770 --> 00:04:37,190
+as loose collections of data
+
+101
+00:04:37,190 --> 00:04:40,780
+and without making them interact with one another.
+
+102
+00:04:40,780 --> 00:04:42,400
+Also, we didn't have a way
+
+103
+00:04:42,400 --> 00:04:45,160
+to generate objects programmatically.
+
+104
+00:04:45,160 --> 00:04:49,200
+All we ever did was using simple object literals,
+
+105
+00:04:49,200 --> 00:04:53,270
+but in OOP, we actually need a way to generate,
+
+106
+00:04:53,270 --> 00:04:57,240
+so to create, new objects from our code.
+
+107
+00:04:57,240 --> 00:05:00,360
+And to do that in traditional OOP,
+
+108
+00:05:00,360 --> 00:05:03,270
+we use something called classes.
+
+109
+00:05:03,270 --> 00:05:06,400
+You can think of a class as a blueprint,
+
+110
+00:05:06,400 --> 00:05:09,470
+which can then be used to create new objects
+
+111
+00:05:09,470 --> 00:05:13,030
+based on the rules described in the class.
+
+112
+00:05:13,030 --> 00:05:15,570
+So it's just like an architecture
+
+113
+00:05:15,570 --> 00:05:18,160
+where the architect develops a blueprint
+
+114
+00:05:18,160 --> 00:05:21,270
+to exactly plan and describe a house.
+
+115
+00:05:21,270 --> 00:05:24,780
+But the blueprint is really just an abstract plan,
+
+116
+00:05:24,780 --> 00:05:26,350
+like a set of rules,
+
+117
+00:05:26,350 --> 00:05:30,270
+but nothing tangible that you can actually touch.
+
+118
+00:05:30,270 --> 00:05:32,490
+However, from that blueprint,
+
+119
+00:05:32,490 --> 00:05:35,080
+many real houses can then be built
+
+120
+00:05:35,080 --> 00:05:36,800
+in the real world.
+
+121
+00:05:36,800 --> 00:05:39,970
+And with classes it's just the same.
+
+122
+00:05:39,970 --> 00:05:43,560
+So let's take a look at this fictional user class
+
+123
+00:05:43,560 --> 00:05:45,130
+as an example.
+
+124
+00:05:45,130 --> 00:05:46,710
+And I say fictional
+
+125
+00:05:46,710 --> 00:05:50,070
+because this is not actual JavaScript syntax.
+
+126
+00:05:50,070 --> 00:05:51,020
+Okay.
+
+127
+00:05:51,020 --> 00:05:54,150
+Because JavaScript does not actually support
+
+128
+00:05:54,150 --> 00:05:57,540
+real classes like I'm explaining here.
+
+129
+00:05:57,540 --> 00:06:00,970
+We do have a class syntax in JavaScript too,
+
+130
+00:06:00,970 --> 00:06:03,280
+but it still works a bit differently
+
+131
+00:06:03,280 --> 00:06:05,530
+from what I'm gonna show you here.
+
+132
+00:06:05,530 --> 00:06:08,300
+However, the idea of creating objects
+
+133
+00:06:08,300 --> 00:06:09,880
+from a kind of blueprint
+
+134
+00:06:09,880 --> 00:06:13,600
+is still a very useful mental model to have.
+
+135
+00:06:13,600 --> 00:06:15,590
+Because in general terms,
+
+136
+00:06:15,590 --> 00:06:17,880
+this is still how OOP works
+
+137
+00:06:17,880 --> 00:06:19,680
+across all languages
+
+138
+00:06:19,680 --> 00:06:21,770
+and that includes JavaScript.
+
+139
+00:06:21,770 --> 00:06:23,080
+And so that's the reason
+
+140
+00:06:23,080 --> 00:06:24,920
+why I'm showing you this here,
+
+141
+00:06:24,920 --> 00:06:27,030
+so as a conceptual overview,
+
+142
+00:06:27,030 --> 00:06:30,240
+and for you to have this as a mental model.
+
+143
+00:06:30,240 --> 00:06:33,740
+But anyway, back to our fictional class here,
+
+144
+00:06:33,740 --> 00:06:37,040
+we can see that it kind of describes a user
+
+145
+00:06:37,040 --> 00:06:41,350
+who has a username, a password, and an email.
+
+146
+00:06:41,350 --> 00:06:45,030
+So it's a description of data about a user,
+
+147
+00:06:45,030 --> 00:06:47,490
+but it's not the data itself yet.
+
+148
+00:06:47,490 --> 00:06:51,510
+Because remember, the class is really just a plan
+
+149
+00:06:51,510 --> 00:06:55,770
+and a plan doesn't contain the real world data just yet.
+
+150
+00:06:55,770 --> 00:06:58,860
+On the other hand, we then have the behavior
+
+151
+00:06:58,860 --> 00:07:01,490
+that is associated with the data.
+
+152
+00:07:01,490 --> 00:07:02,510
+And in this case,
+
+153
+00:07:02,510 --> 00:07:04,590
+that's just a login method
+
+154
+00:07:04,590 --> 00:07:07,530
+and a method to send messages.
+
+155
+00:07:07,530 --> 00:07:10,310
+So just like we learned in the last slide,
+
+156
+00:07:10,310 --> 00:07:13,810
+this class has everything related to a user.
+
+157
+00:07:13,810 --> 00:07:15,930
+So data and behavior
+
+158
+00:07:15,930 --> 00:07:19,403
+all packed into one nice, self-contained block.
+
+159
+00:07:20,290 --> 00:07:22,510
+But now let's use this class
+
+160
+00:07:22,510 --> 00:07:24,730
+and actually create a new object
+
+161
+00:07:24,730 --> 00:07:26,660
+from this class.
+
+162
+00:07:26,660 --> 00:07:29,210
+And you see that now we actually have
+
+163
+00:07:29,210 --> 00:07:32,330
+real data about the user and the object
+
+164
+00:07:32,330 --> 00:07:34,930
+and not just a description of the data
+
+165
+00:07:34,930 --> 00:07:38,870
+like we have in the class, so in the plan.
+
+166
+00:07:38,870 --> 00:07:42,500
+Now we call all objects created through a class
+
+167
+00:07:42,500 --> 00:07:45,370
+instances of that class.
+
+168
+00:07:45,370 --> 00:07:48,903
+So again, an instance is a real object
+
+169
+00:07:48,903 --> 00:07:50,970
+that we can use in our code,
+
+170
+00:07:50,970 --> 00:07:53,940
+which was created from a class,
+
+171
+00:07:53,940 --> 00:07:57,020
+and a class itself is not an object.
+
+172
+00:07:57,020 --> 00:07:58,590
+All right.
+
+173
+00:07:58,590 --> 00:08:02,010
+So back to the blueprint analogy from earlier,
+
+174
+00:08:02,010 --> 00:08:04,980
+this instance is like a real house,
+
+175
+00:08:04,980 --> 00:08:07,830
+which was created from the abstract blueprint
+
+176
+00:08:07,830 --> 00:08:10,580
+created by the architect.
+
+177
+00:08:10,580 --> 00:08:13,120
+And the beauty of this is that now
+
+178
+00:08:13,120 --> 00:08:16,410
+we can use this class to create as many instances
+
+179
+00:08:16,410 --> 00:08:18,820
+as we need in our application.
+
+180
+00:08:18,820 --> 00:08:21,380
+Just like we can build multiple houses
+
+181
+00:08:21,380 --> 00:08:24,380
+from just one blueprint, right?
+
+182
+00:08:24,380 --> 00:08:26,290
+And all of these instances,
+
+183
+00:08:26,290 --> 00:08:28,760
+so these objects, of course can have
+
+184
+00:08:28,760 --> 00:08:30,200
+different data in them,
+
+185
+00:08:30,200 --> 00:08:32,820
+but they all share the same functionality,
+
+186
+00:08:32,820 --> 00:08:35,873
+which is to login and to send messages.
+
+187
+00:08:37,950 --> 00:08:38,960
+Okay.
+
+188
+00:08:38,960 --> 00:08:41,740
+So now we know that we can create classes
+
+189
+00:08:41,740 --> 00:08:45,130
+to generate objects from these classes.
+
+190
+00:08:45,130 --> 00:08:47,320
+So we know how classes work,
+
+191
+00:08:47,320 --> 00:08:49,750
+but the next logical question is,
+
+192
+00:08:49,750 --> 00:08:52,740
+how do we actually design a class?
+
+193
+00:08:52,740 --> 00:08:54,090
+Or in other words,
+
+194
+00:08:54,090 --> 00:08:55,640
+how do we actually model
+
+195
+00:08:55,640 --> 00:08:58,720
+real-world data into classes?
+
+196
+00:08:58,720 --> 00:09:00,710
+So these questions are just
+
+197
+00:09:00,710 --> 00:09:03,380
+like an architecture student asking,
+
+198
+00:09:03,380 --> 00:09:05,450
+well, how do we actually plan
+
+199
+00:09:05,450 --> 00:09:07,420
+and design a house?
+
+200
+00:09:07,420 --> 00:09:10,820
+And that's of course a very good question.
+
+201
+00:09:10,820 --> 00:09:13,450
+Now the answer is, as you can imagine,
+
+202
+00:09:13,450 --> 00:09:15,440
+not straightforward.
+
+203
+00:09:15,440 --> 00:09:17,690
+So there is not a single correct way
+
+204
+00:09:17,690 --> 00:09:19,770
+of designing classes.
+
+205
+00:09:19,770 --> 00:09:23,290
+There are, however, four fundamental principles
+
+206
+00:09:23,290 --> 00:09:27,300
+that can guide us toward a good class implementation.
+
+207
+00:09:27,300 --> 00:09:31,010
+And these principles are abstraction, encapsulation,
+
+208
+00:09:31,010 --> 00:09:34,090
+inheritance, and polymorphism.
+
+209
+00:09:34,090 --> 00:09:36,070
+And these are actually techniques
+
+210
+00:09:36,070 --> 00:09:39,560
+that can also be used outside of OOP,
+
+211
+00:09:39,560 --> 00:09:43,520
+but they are especially relevant in this context.
+
+212
+00:09:43,520 --> 00:09:46,853
+So let's now take a more detailed look at each of them.
+
+213
+00:09:48,350 --> 00:09:51,190
+And the first one is abstraction.
+
+214
+00:09:51,190 --> 00:09:52,940
+And abstraction basically means
+
+215
+00:09:52,940 --> 00:09:56,040
+to ignore or to hide details
+
+216
+00:09:56,040 --> 00:09:57,860
+that don't matter.
+
+217
+00:09:57,860 --> 00:10:00,880
+This allows us to get an overview perspective
+
+218
+00:10:00,880 --> 00:10:03,690
+of whatever it is that we're implementing
+
+219
+00:10:03,690 --> 00:10:05,790
+instead of messing with details
+
+220
+00:10:05,790 --> 00:10:09,500
+that don't really matter to our implementation.
+
+221
+00:10:09,500 --> 00:10:12,170
+So let's say that we're implementing a phone
+
+222
+00:10:12,170 --> 00:10:14,300
+for a user to use.
+
+223
+00:10:14,300 --> 00:10:17,570
+And even though this doesn't make much sense in code,
+
+224
+00:10:17,570 --> 00:10:20,243
+it's still a great example and analogy.
+
+225
+00:10:21,200 --> 00:10:23,300
+So without abstraction
+
+226
+00:10:23,300 --> 00:10:24,790
+we could design our class
+
+227
+00:10:24,790 --> 00:10:28,450
+to include everything that there is about the phone,
+
+228
+00:10:28,450 --> 00:10:30,530
+including all the internal stuff
+
+229
+00:10:30,530 --> 00:10:34,400
+like verifying the phone's temperature and voltage,
+
+230
+00:10:34,400 --> 00:10:37,590
+turning on the vibration motor or the speaker,
+
+231
+00:10:37,590 --> 00:10:40,070
+and other low-level details.
+
+232
+00:10:40,070 --> 00:10:42,800
+But as a user interacting with a phone,
+
+233
+00:10:42,800 --> 00:10:45,750
+do we really need all of this detail?
+
+234
+00:10:45,750 --> 00:10:47,700
+Well, I guess not.
+
+235
+00:10:47,700 --> 00:10:48,870
+Right?
+
+236
+00:10:48,870 --> 00:10:52,680
+So in reality, when we interact with a real phone,
+
+237
+00:10:52,680 --> 00:10:55,790
+all of these details have been abstracted away
+
+238
+00:10:55,790 --> 00:10:57,840
+from us as the user.
+
+239
+00:10:57,840 --> 00:11:00,993
+And all that we're left with is a simple phone
+
+240
+00:11:00,993 --> 00:11:03,250
+that we basically only interact with
+
+241
+00:11:03,250 --> 00:11:04,800
+using the home button,
+
+242
+00:11:04,800 --> 00:11:07,370
+volume buttons and the screen.
+
+243
+00:11:07,370 --> 00:11:09,110
+Everything else is gone
+
+244
+00:11:09,110 --> 00:11:12,640
+because we simply don't need it as a user.
+
+245
+00:11:12,640 --> 00:11:15,960
+So the phone then operates kind of as a black box,
+
+246
+00:11:15,960 --> 00:11:19,530
+without us seeing what is happening inside.
+
+247
+00:11:19,530 --> 00:11:21,240
+Now, of course, internally
+
+248
+00:11:21,240 --> 00:11:23,610
+the phone still needs to vibrate
+
+249
+00:11:23,610 --> 00:11:25,440
+and to measure the voltage
+
+250
+00:11:25,440 --> 00:11:27,300
+or to turn on the speaker,
+
+251
+00:11:27,300 --> 00:11:30,370
+but we can hide these details from the user.
+
+252
+00:11:30,370 --> 00:11:34,120
+And that is exactly what abstraction means.
+
+253
+00:11:34,120 --> 00:11:35,950
+Now, going back to the example
+
+254
+00:11:35,950 --> 00:11:38,400
+of a user from the last slide,
+
+255
+00:11:38,400 --> 00:11:40,700
+we could implement a user's phone number,
+
+256
+00:11:40,700 --> 00:11:44,040
+mailing address, hair color, shoe size,
+
+257
+00:11:44,040 --> 00:11:46,110
+and tons of other stuff
+
+258
+00:11:46,110 --> 00:11:49,150
+that we might not need in our application.
+
+259
+00:11:49,150 --> 00:11:51,573
+So we simply ignore these details.
+
+260
+00:11:52,550 --> 00:11:55,380
+Now, abstraction is really important,
+
+261
+00:11:55,380 --> 00:11:57,220
+not just in OOP,
+
+262
+00:11:57,220 --> 00:11:59,560
+but in programming in general.
+
+263
+00:11:59,560 --> 00:12:02,630
+In fact, we create and use abstractions
+
+264
+00:12:02,630 --> 00:12:04,170
+all the time.
+
+265
+00:12:04,170 --> 00:12:07,230
+For example, take the add event listener function
+
+266
+00:12:07,230 --> 00:12:09,260
+that we use all the time.
+
+267
+00:12:09,260 --> 00:12:11,880
+Do we actually know how exactly it works
+
+268
+00:12:11,880 --> 00:12:13,620
+behind the scenes?
+
+269
+00:12:13,620 --> 00:12:15,540
+Well, we don't.
+
+270
+00:12:15,540 --> 00:12:17,420
+And do we care?
+
+271
+00:12:17,420 --> 00:12:18,970
+No, not really.
+
+272
+00:12:18,970 --> 00:12:19,970
+Right?
+
+273
+00:12:19,970 --> 00:12:23,410
+And we don't have to because once more,
+
+274
+00:12:23,410 --> 00:12:26,670
+the low-level details of how exactly it works
+
+275
+00:12:26,670 --> 00:12:29,400
+has been abstracted away from us.
+
+276
+00:12:29,400 --> 00:12:31,020
+We are simply the user.
+
+277
+00:12:31,020 --> 00:12:33,630
+And so we can simply use that function
+
+278
+00:12:33,630 --> 00:12:35,880
+without completely understanding it
+
+279
+00:12:35,880 --> 00:12:38,950
+and without having to implement it ourselves.
+
+280
+00:12:38,950 --> 00:12:40,820
+So that's abstraction,
+
+281
+00:12:40,820 --> 00:12:43,710
+which actually blends in with the next principle,
+
+282
+00:12:43,710 --> 00:12:45,503
+which is encapsulation.
+
+283
+00:12:47,090 --> 00:12:49,340
+And encapsulation basically means
+
+284
+00:12:49,340 --> 00:12:50,760
+to keep some properties
+
+285
+00:12:50,760 --> 00:12:54,220
+and methods private inside the class
+
+286
+00:12:54,220 --> 00:12:56,280
+so that they're not accessible
+
+287
+00:12:56,280 --> 00:12:58,130
+from outside the class.
+
+288
+00:12:58,130 --> 00:13:00,430
+However, some methods can, of course,
+
+289
+00:13:00,430 --> 00:13:03,590
+be exposed as a public interface,
+
+290
+00:13:03,590 --> 00:13:05,570
+which we call API.
+
+291
+00:13:05,570 --> 00:13:07,570
+And this is exactly what I meant
+
+292
+00:13:07,570 --> 00:13:09,180
+at the beginning of the lecture
+
+293
+00:13:09,180 --> 00:13:12,210
+when I said that interactions between objects
+
+294
+00:13:12,210 --> 00:13:15,230
+happen through a public interface.
+
+295
+00:13:15,230 --> 00:13:19,450
+And going back to our example of a user from before,
+
+296
+00:13:19,450 --> 00:13:21,410
+this is what private properties
+
+297
+00:13:21,410 --> 00:13:23,950
+might look like conceptually.
+
+298
+00:13:23,950 --> 00:13:26,800
+And again, I'm talking hypothetical here
+
+299
+00:13:26,800 --> 00:13:28,900
+because this private keyword here
+
+300
+00:13:28,900 --> 00:13:32,340
+actually does not exist in JavaScript.
+
+301
+00:13:32,340 --> 00:13:34,880
+But anyway, as we already know,
+
+302
+00:13:34,880 --> 00:13:39,020
+outside code now can't access these properties.
+
+303
+00:13:39,020 --> 00:13:41,220
+However, inside the class,
+
+304
+00:13:41,220 --> 00:13:43,170
+they are still accessible.
+
+305
+00:13:43,170 --> 00:13:46,190
+For example, the password is, of course, necessary
+
+306
+00:13:46,190 --> 00:13:48,600
+in the login method, right?
+
+307
+00:13:48,600 --> 00:13:51,140
+And so there we can use it.
+
+308
+00:13:51,140 --> 00:13:53,460
+And by having these critical properties
+
+309
+00:13:53,460 --> 00:13:55,930
+nicely encapsulated like this,
+
+310
+00:13:55,930 --> 00:13:57,710
+we prevent external code
+
+311
+00:13:57,710 --> 00:14:01,760
+from accidentally manipulating this internal state.
+
+312
+00:14:01,760 --> 00:14:05,270
+And by the way, the term state simply refers
+
+313
+00:14:05,270 --> 00:14:07,180
+to an object's data.
+
+314
+00:14:07,180 --> 00:14:08,670
+Okay.
+
+315
+00:14:08,670 --> 00:14:11,360
+Anyway, this is really important
+
+316
+00:14:11,360 --> 00:14:13,550
+because allowing external code
+
+317
+00:14:13,550 --> 00:14:16,690
+to manipulate internal state directly
+
+318
+00:14:16,690 --> 00:14:19,080
+can cause many kinds of bugs,
+
+319
+00:14:19,080 --> 00:14:21,450
+especially in large code bases
+
+320
+00:14:21,450 --> 00:14:23,460
+and developer teams.
+
+321
+00:14:23,460 --> 00:14:27,320
+Now, as you see, there's also a private method here,
+
+322
+00:14:27,320 --> 00:14:29,540
+the check spam method.
+
+323
+00:14:29,540 --> 00:14:33,380
+Again, it's not accessible from outside a class,
+
+324
+00:14:33,380 --> 00:14:35,190
+but it's used internally
+
+325
+00:14:35,190 --> 00:14:38,640
+to check if a comment is spam or not.
+
+326
+00:14:38,640 --> 00:14:41,760
+So we want no one else outside of the class
+
+327
+00:14:41,760 --> 00:14:44,100
+to be able to use this method,
+
+328
+00:14:44,100 --> 00:14:46,010
+and so basically we don't make it
+
+329
+00:14:46,010 --> 00:14:48,930
+part of the public interface.
+
+330
+00:14:48,930 --> 00:14:50,570
+So the public interface
+
+331
+00:14:50,570 --> 00:14:52,550
+is essentially all the methods
+
+332
+00:14:52,550 --> 00:14:54,310
+that are not private,
+
+333
+00:14:54,310 --> 00:14:56,093
+so that are not encapsulated.
+
+334
+00:14:57,280 --> 00:14:59,390
+So making methods private
+
+335
+00:14:59,390 --> 00:15:02,170
+makes it easier for us to change our code
+
+336
+00:15:02,170 --> 00:15:05,000
+without breaking code from the outside,
+
+337
+00:15:05,000 --> 00:15:08,850
+which might rely on some of these methods.
+
+338
+00:15:08,850 --> 00:15:12,900
+For example, if the check spam method was public,
+
+339
+00:15:12,900 --> 00:15:15,990
+then it could be used anywhere in our code.
+
+340
+00:15:15,990 --> 00:15:19,220
+And if we then changed the implementation of the method,
+
+341
+00:15:19,220 --> 00:15:23,210
+it might break that code that is relying on it.
+
+342
+00:15:23,210 --> 00:15:25,970
+So again, this helps avoiding bugs
+
+343
+00:15:25,970 --> 00:15:28,490
+and also spaghetti code.
+
+344
+00:15:28,490 --> 00:15:31,950
+And really this is not just some theory,
+
+345
+00:15:31,950 --> 00:15:34,730
+this is a real practical scenario.
+
+346
+00:15:34,730 --> 00:15:35,600
+Alright.
+
+347
+00:15:35,600 --> 00:15:38,710
+So there is a real reason why encapsulation
+
+348
+00:15:38,710 --> 00:15:42,330
+and private methods and properties exist.
+
+349
+00:15:42,330 --> 00:15:45,320
+So in summary, we should always have the goal
+
+350
+00:15:45,320 --> 00:15:49,710
+to nicely encapsulate most of our state and methods
+
+351
+00:15:49,710 --> 00:15:52,610
+and only leaving essential methods public
+
+352
+00:15:52,610 --> 00:15:55,243
+for the reasons that I just explained.
+
+353
+00:15:57,560 --> 00:16:00,220
+Next up, we have inheritance.
+
+354
+00:16:00,220 --> 00:16:03,010
+So let's say we have these two classes,
+
+355
+00:16:03,010 --> 00:16:04,960
+user and admin,
+
+356
+00:16:04,960 --> 00:16:07,410
+which stands for administrator.
+
+357
+00:16:07,410 --> 00:16:10,000
+And as we can see, they have actually
+
+358
+00:16:10,000 --> 00:16:12,220
+a lot in common.
+
+359
+00:16:12,220 --> 00:16:15,000
+In fact, admin has all the properties
+
+360
+00:16:15,000 --> 00:16:17,630
+and methods that user has.
+
+361
+00:16:17,630 --> 00:16:18,660
+Right?
+
+362
+00:16:18,660 --> 00:16:20,770
+And that actually makes sense
+
+363
+00:16:20,770 --> 00:16:22,700
+because if you think about it,
+
+364
+00:16:22,700 --> 00:16:25,690
+an admin is also a user.
+
+365
+00:16:25,690 --> 00:16:29,320
+So an admin also needs a password and an email,
+
+366
+00:16:29,320 --> 00:16:32,690
+and he also needs to log in, for example.
+
+367
+00:16:32,690 --> 00:16:36,200
+However, if we design our classes like this,
+
+368
+00:16:36,200 --> 00:16:38,470
+so as two separate identities,
+
+369
+00:16:38,470 --> 00:16:41,680
+we will end up with a lot of duplicate code
+
+370
+00:16:41,680 --> 00:16:44,480
+and we already know that that's bad.
+
+371
+00:16:44,480 --> 00:16:45,400
+Right?
+
+372
+00:16:45,400 --> 00:16:47,630
+But well, that's where inheritance
+
+373
+00:16:47,630 --> 00:16:49,580
+comes into play.
+
+374
+00:16:49,580 --> 00:16:52,860
+So in OOP, when we have two classes
+
+375
+00:16:52,860 --> 00:16:54,860
+that are closely related,
+
+376
+00:16:54,860 --> 00:16:57,050
+like user and admin here,
+
+377
+00:16:57,050 --> 00:17:01,010
+we can have one class inherit from the other.
+
+378
+00:17:01,010 --> 00:17:03,420
+So we will have one parent class
+
+379
+00:17:03,420 --> 00:17:06,640
+and one child class, and the child class
+
+380
+00:17:06,640 --> 00:17:09,930
+then extends the parent class.
+
+381
+00:17:09,930 --> 00:17:11,750
+Okay, great.
+
+382
+00:17:11,750 --> 00:17:15,170
+But what does all of that actually mean?
+
+383
+00:17:15,170 --> 00:17:18,950
+Well, it's actually quite intuitive, I think.
+
+384
+00:17:18,950 --> 00:17:21,160
+So just like you as a child
+
+385
+00:17:21,160 --> 00:17:24,910
+probably inherited some features of your parents,
+
+386
+00:17:24,910 --> 00:17:27,580
+a child class inherits all the properties
+
+387
+00:17:27,580 --> 00:17:30,850
+and methods from its parent class.
+
+388
+00:17:30,850 --> 00:17:32,830
+Now, in more formal terms,
+
+389
+00:17:32,830 --> 00:17:35,640
+inheritance makes all properties and methods
+
+390
+00:17:35,640 --> 00:17:39,890
+of a certain class available to a child class,
+
+391
+00:17:39,890 --> 00:17:43,050
+which of course then forms a hierarchy
+
+392
+00:17:43,050 --> 00:17:45,260
+between these two classes.
+
+393
+00:17:45,260 --> 00:17:47,980
+And the goal of this is to reuse logic
+
+394
+00:17:47,980 --> 00:17:51,080
+that is common to both of the classes.
+
+395
+00:17:51,080 --> 00:17:52,980
+In this case, both the admin
+
+396
+00:17:52,980 --> 00:17:55,230
+and the user need to log in.
+
+397
+00:17:55,230 --> 00:17:58,430
+And so instead of writing that logic twice,
+
+398
+00:17:58,430 --> 00:18:01,620
+it makes sense to inherit the login method
+
+399
+00:18:01,620 --> 00:18:03,480
+from the more global class,
+
+400
+00:18:03,480 --> 00:18:05,750
+which is the parent class user,
+
+401
+00:18:05,750 --> 00:18:07,600
+to the more specific class,
+
+402
+00:18:07,600 --> 00:18:10,540
+which is the child class admin.
+
+403
+00:18:10,540 --> 00:18:13,770
+Now of course a child class can then also have
+
+404
+00:18:13,770 --> 00:18:16,520
+its own methods and properties.
+
+405
+00:18:16,520 --> 00:18:18,020
+So at the end of the day,
+
+406
+00:18:18,020 --> 00:18:20,500
+the child class ends up with some methods
+
+407
+00:18:20,500 --> 00:18:22,950
+and properties from its parent
+
+408
+00:18:22,950 --> 00:18:24,890
+and some of its own.
+
+409
+00:18:24,890 --> 00:18:28,285
+So we can say that the admin is also a user,
+
+410
+00:18:28,285 --> 00:18:31,280
+but basically an extended user,
+
+411
+00:18:31,280 --> 00:18:33,633
+so with some added functionality.
+
+412
+00:18:35,270 --> 00:18:36,270
+Okay.
+
+413
+00:18:36,270 --> 00:18:40,200
+And finally, the last principle is polymorphism.
+
+414
+00:18:40,200 --> 00:18:43,620
+And polymorphism sounds a bit weird,
+
+415
+00:18:43,620 --> 00:18:46,090
+which is because it comes from Greek,
+
+416
+00:18:46,090 --> 00:18:49,260
+where it literally means "many shapes".
+
+417
+00:18:49,260 --> 00:18:51,127
+Now, in the context of OOP,
+
+418
+00:18:51,980 --> 00:18:54,600
+in simple terms, polymorphism means
+
+419
+00:18:54,600 --> 00:18:57,553
+that a child class can overwrite a method
+
+420
+00:18:57,553 --> 00:19:00,980
+that it inherited from a parent class.
+
+421
+00:19:00,980 --> 00:19:04,760
+And here are our user and admin classes again.
+
+422
+00:19:04,760 --> 00:19:07,320
+But now we also have a third class,
+
+423
+00:19:07,320 --> 00:19:09,110
+which is the author.
+
+424
+00:19:09,110 --> 00:19:11,320
+Now admin and author are both
+
+425
+00:19:11,320 --> 00:19:14,440
+really just special kinds of users,
+
+426
+00:19:14,440 --> 00:19:17,150
+and so it makes sense that they both inherit
+
+427
+00:19:17,150 --> 00:19:18,720
+from the user class,
+
+428
+00:19:18,720 --> 00:19:21,840
+just like we studied in the last slide.
+
+429
+00:19:21,840 --> 00:19:24,210
+Therefore, they inherit all the properties
+
+430
+00:19:24,210 --> 00:19:26,870
+and methods from the user class,
+
+431
+00:19:26,870 --> 00:19:30,410
+but we're gonna focus on the login method now.
+
+432
+00:19:30,410 --> 00:19:32,870
+Now let's say that an admin requires
+
+433
+00:19:32,870 --> 00:19:35,580
+a different kind of login method.
+
+434
+00:19:35,580 --> 00:19:37,470
+For example, a more secure one,
+
+435
+00:19:37,470 --> 00:19:39,803
+which has two-factor authentication.
+
+436
+00:19:40,680 --> 00:19:42,300
+And let's say that we also need
+
+437
+00:19:42,300 --> 00:19:45,460
+a special login method for authors.
+
+438
+00:19:45,460 --> 00:19:49,220
+So how do we give them different login methods?
+
+439
+00:19:49,220 --> 00:19:51,910
+Well, it's actually quite simple.
+
+440
+00:19:51,910 --> 00:19:55,410
+In each class we simply just write a new method,
+
+441
+00:19:55,410 --> 00:19:57,780
+which is also called login.
+
+442
+00:19:57,780 --> 00:20:00,430
+And then, according to polymorphism,
+
+443
+00:20:00,430 --> 00:20:02,680
+that login method will overwrite
+
+444
+00:20:02,680 --> 00:20:05,370
+the login method that has been inherited
+
+445
+00:20:05,370 --> 00:20:07,470
+from the user class.
+
+446
+00:20:07,470 --> 00:20:09,160
+And that's actually it.
+
+447
+00:20:09,160 --> 00:20:11,913
+That's all you need to know about polymorphism.
+
+448
+00:20:12,870 --> 00:20:16,280
+And actually that wraps up this introduction
+
+449
+00:20:16,280 --> 00:20:19,000
+to object-oriented programming.
+
+450
+00:20:19,000 --> 00:20:22,270
+So I know there was a lot to take in here,
+
+451
+00:20:22,270 --> 00:20:24,840
+so make sure to understand everything
+
+452
+00:20:24,840 --> 00:20:28,100
+before actually moving on in this section.
+
+453
+00:20:28,100 --> 00:20:30,320
+Now, next up, we're gonna talk about
+
+454
+00:20:30,320 --> 00:20:32,490
+how object-oriented programming
+
+455
+00:20:32,490 --> 00:20:35,220
+actually looks like in JavaScript.
+
+456
+00:20:35,220 --> 00:20:37,470
+Because, as I said in the beginning,
+
+457
+00:20:37,470 --> 00:20:40,050
+it is implemented in a bit different way
+
+458
+00:20:40,050 --> 00:20:42,330
+from what I explained here in the beginning
+
+459
+00:20:42,330 --> 00:20:45,180
+with classes and instances.
+
+460
+00:20:45,180 --> 00:20:47,840
+It's still crucial to understand that,
+
+461
+00:20:47,840 --> 00:20:49,820
+but again, in the next video,
+
+462
+00:20:49,820 --> 00:20:52,173
+we will see how JavaScript does it.

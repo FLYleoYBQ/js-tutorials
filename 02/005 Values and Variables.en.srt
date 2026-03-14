@@ -1,0 +1,1231 @@
+1
+00:00:01,460 --> 00:00:03,090
+Welcome back.
+
+2
+00:00:03,090 --> 00:00:07,030
+Let's now start to really learn the JavaScript language
+
+3
+00:00:07,030 --> 00:00:10,033
+starting with values and variables.
+
+4
+00:00:11,280 --> 00:00:12,113
+And let's start
+
+5
+00:00:12,113 --> 00:00:15,470
+by getting rid of some of the code that we have here.
+
+6
+00:00:15,470 --> 00:00:17,713
+So this one here, isn't doing anything.
+
+7
+00:00:18,740 --> 00:00:21,000
+And let's also delete this one
+
+8
+00:00:21,000 --> 00:00:24,253
+so that we don't get that annoying popup all the time.
+
+9
+00:00:25,120 --> 00:00:29,670
+So in this section, I will be using persons as examples
+
+10
+00:00:29,670 --> 00:00:34,440
+for example, a person's name, a person's age or a job.
+
+11
+00:00:34,440 --> 00:00:35,570
+All right?
+
+12
+00:00:35,570 --> 00:00:38,800
+But anyway, let's talk about values now.
+
+13
+00:00:38,800 --> 00:00:42,750
+So a value is basically a piece of data.
+
+14
+00:00:42,750 --> 00:00:44,750
+So it's the most fundamental unit
+
+15
+00:00:44,750 --> 00:00:48,010
+of information that we have in programming.
+
+16
+00:00:48,010 --> 00:00:51,833
+For example, this text, Jonas, is a value.
+
+17
+00:00:53,320 --> 00:00:54,153
+All right?
+
+18
+00:00:54,153 --> 00:00:56,290
+So this here is a value.
+
+19
+00:00:56,290 --> 00:00:59,740
+And again, if we want to actually see this in the console
+
+20
+00:00:59,740 --> 00:01:03,705
+let's say console.log and then open up the parenthesis
+
+21
+00:01:03,705 --> 00:01:08,705
+and then close them here and then the semicolons.
+
+22
+00:01:10,410 --> 00:01:15,410
+So if I save and reload, then of course we get Jonas.
+
+23
+00:01:15,780 --> 00:01:16,613
+Okay?
+
+24
+00:01:16,613 --> 00:01:19,010
+And so Jonas here is the value
+
+25
+00:01:20,850 --> 00:01:24,510
+or we can, of course, have different values
+
+26
+00:01:24,510 --> 00:01:27,573
+for example, here 23 as the value,
+
+27
+00:01:29,760 --> 00:01:30,593
+right?
+
+28
+00:01:30,593 --> 00:01:33,360
+And so now we see 23 in the console.
+
+29
+00:01:33,360 --> 00:01:36,100
+And the same is true, here.
+
+30
+00:01:36,100 --> 00:01:39,800
+So in this line of code where the values are actually 40
+
+31
+00:01:40,760 --> 00:01:45,000
+and eight and 23 and 10.
+
+32
+00:01:45,000 --> 00:01:47,590
+So all these four are different values.
+
+33
+00:01:47,590 --> 00:01:50,300
+And then these mathematical operators here
+
+34
+00:01:50,300 --> 00:01:53,760
+joined them together to form just one value.
+
+35
+00:01:53,760 --> 00:01:56,670
+And that value is then 61.
+
+36
+00:01:56,670 --> 00:01:57,503
+Okay?
+
+37
+00:01:57,503 --> 00:02:00,460
+And so a value is basically the smallest unit
+
+38
+00:02:00,460 --> 00:02:04,360
+of information that we have in JavaScript.
+
+39
+00:02:04,360 --> 00:02:08,450
+Now, one extremely useful thing that we can do with values
+
+40
+00:02:08,450 --> 00:02:11,140
+is to store them into variables.
+
+41
+00:02:11,140 --> 00:02:14,973
+And so this way we can reuse them over and over again,
+
+42
+00:02:16,290 --> 00:02:19,210
+for example we can say, let,
+
+43
+00:02:19,210 --> 00:02:20,970
+and then the name of the variable
+
+44
+00:02:22,280 --> 00:02:27,280
+and then assign a value like Jonas to this variable.
+
+45
+00:02:27,350 --> 00:02:28,183
+Okay?
+
+46
+00:02:28,183 --> 00:02:32,550
+And so what we did here is called declaring a variable.
+
+47
+00:02:32,550 --> 00:02:33,470
+Okay?
+
+48
+00:02:33,470 --> 00:02:36,310
+And so this will actually create a real variable
+
+49
+00:02:36,310 --> 00:02:38,290
+in your computer's memory
+
+50
+00:02:38,290 --> 00:02:42,750
+and we'll store this value inside of that variable.
+
+51
+00:02:42,750 --> 00:02:46,040
+And actually that is exactly what we did up here,
+
+52
+00:02:46,040 --> 00:02:47,540
+right in the beginning.
+
+53
+00:02:47,540 --> 00:02:51,170
+So here we declared a variable called JS
+
+54
+00:02:51,170 --> 00:02:55,130
+and assigned the value of amazing to that variable.
+
+55
+00:02:55,130 --> 00:02:56,010
+Right?
+
+56
+00:02:56,010 --> 00:02:58,040
+And so now it hopefully makes sense to you
+
+57
+00:02:58,040 --> 00:02:59,913
+what we did back then.
+
+58
+00:03:00,930 --> 00:03:05,930
+So I like to imagine a variable, like being a box.
+
+59
+00:03:06,020 --> 00:03:09,620
+So in the real world, a box can hold some object
+
+60
+00:03:09,620 --> 00:03:11,330
+for example, a book,
+
+61
+00:03:11,330 --> 00:03:13,680
+and we can then write a label on the box
+
+62
+00:03:13,680 --> 00:03:15,820
+to describe what's in it.
+
+63
+00:03:15,820 --> 00:03:18,950
+And then we can find the object later when we need it
+
+64
+00:03:18,950 --> 00:03:21,310
+by using that label.
+
+65
+00:03:21,310 --> 00:03:24,750
+And variables actually work in the exact same way.
+
+66
+00:03:24,750 --> 00:03:28,880
+So here, basically we have a box called firstName
+
+67
+00:03:28,880 --> 00:03:33,320
+and into that box, we put the value of Jonas.
+
+68
+00:03:33,320 --> 00:03:36,120
+And now if we want to use this value
+
+69
+00:03:36,120 --> 00:03:39,770
+all we have to do is to basically use this label
+
+70
+00:03:39,770 --> 00:03:42,720
+or in other words, this variable name.
+
+71
+00:03:42,720 --> 00:03:45,280
+So first name in this case.
+
+72
+00:03:45,280 --> 00:03:47,410
+And so let's use it actually.
+
+73
+00:03:47,410 --> 00:03:50,600
+And for that, once again, I will use console.log
+
+74
+00:03:51,500 --> 00:03:53,810
+and you will see me using console.log
+
+75
+00:03:53,810 --> 00:03:57,000
+throughout this entire course, actually.
+
+76
+00:03:57,000 --> 00:04:00,530
+So whenever we need to output something from our code
+
+77
+00:04:00,530 --> 00:04:04,800
+to the browser, we always use console.log like this.
+
+78
+00:04:04,800 --> 00:04:08,260
+And so here now, instead of passing a literal value
+
+79
+00:04:08,260 --> 00:04:11,510
+like we did here and here and here,
+
+80
+00:04:11,510 --> 00:04:13,390
+now we can pass in,
+
+81
+00:04:13,390 --> 00:04:16,003
+So we can write here, the variable name,
+
+82
+00:04:18,920 --> 00:04:20,253
+so first name.
+
+83
+00:04:21,280 --> 00:04:22,113
+Okay?
+
+84
+00:04:23,330 --> 00:04:27,690
+And if I save and reload, it let's see what happens.
+
+85
+00:04:27,690 --> 00:04:29,820
+Indeed, we get Jonas.
+
+86
+00:04:29,820 --> 00:04:32,350
+So from line number eight.
+
+87
+00:04:32,350 --> 00:04:34,460
+And so that's right here.
+
+88
+00:04:34,460 --> 00:04:36,340
+And that means that indeed
+
+89
+00:04:36,340 --> 00:04:39,253
+or variable declaration up here worked.
+
+90
+00:04:40,160 --> 00:04:41,690
+And if we now change this
+
+91
+00:04:41,690 --> 00:04:46,690
+to Bob, let's say, then here we should get Bob.
+
+92
+00:04:47,230 --> 00:04:48,630
+Right?
+
+93
+00:04:48,630 --> 00:04:50,663
+And indeed, now it's Bob.
+
+94
+00:04:52,300 --> 00:04:53,333
+Let's put it back.
+
+95
+00:04:54,230 --> 00:04:58,620
+And of course we can now use this variable name many times.
+
+96
+00:04:58,620 --> 00:05:01,420
+So let's just copy and paste this here a couple of times
+
+97
+00:05:02,380 --> 00:05:04,723
+and give it a save.
+
+98
+00:05:05,800 --> 00:05:09,230
+And so now we have it three times
+
+99
+00:05:09,230 --> 00:05:11,820
+and that means that whenever JavaScript sees
+
+100
+00:05:11,820 --> 00:05:15,360
+this variable name here it will basically replace it
+
+101
+00:05:15,360 --> 00:05:19,870
+with the original value that we assigned to the variable.
+
+102
+00:05:19,870 --> 00:05:24,130
+So again, that's Jonas and this is extremely useful
+
+103
+00:05:24,130 --> 00:05:26,640
+because now if I want to change the first name
+
+104
+00:05:26,640 --> 00:05:30,020
+to something else, I only have to do it in one place.
+
+105
+00:05:30,020 --> 00:05:31,063
+So just here.
+
+106
+00:05:31,960 --> 00:05:34,890
+So let's change it here to Matilda
+
+107
+00:05:34,890 --> 00:05:37,740
+and if I save it now and reload,
+
+108
+00:05:37,740 --> 00:05:40,503
+of course it will change in all the three places.
+
+109
+00:05:41,520 --> 00:05:45,550
+So this is one of the big advantages of variables.
+
+110
+00:05:45,550 --> 00:05:48,650
+Without variables, I would now have to manually change
+
+111
+00:05:48,650 --> 00:05:51,630
+the value everywhere to Matilda.
+
+112
+00:05:51,630 --> 00:05:56,350
+But like this everywhere where I reference this variable
+
+113
+00:05:56,350 --> 00:05:59,540
+it will automatically changed to Matilda.
+
+114
+00:05:59,540 --> 00:06:01,610
+So that's one of the most important things
+
+115
+00:06:01,610 --> 00:06:04,870
+to keep in mind about variables.
+
+116
+00:06:04,870 --> 00:06:05,703
+Great.
+
+117
+00:06:05,703 --> 00:06:08,440
+And now that we know what a variable is
+
+118
+00:06:08,440 --> 00:06:11,270
+let's just very quickly talk about conventions
+
+119
+00:06:11,270 --> 00:06:14,000
+and rules for naming variables
+
+120
+00:06:14,000 --> 00:06:18,050
+because we shouldn't just give random names to variables.
+
+121
+00:06:18,050 --> 00:06:20,360
+So first, the way that I named this
+
+122
+00:06:20,360 --> 00:06:23,780
+variable here is called camelCase,
+
+123
+00:06:23,780 --> 00:06:26,970
+camelCase means that whenever I have multiple words
+
+124
+00:06:26,970 --> 00:06:31,970
+in a variable name, I write the first word with a lowercase
+
+125
+00:06:32,310 --> 00:06:35,883
+and then all the next words with upper case, like this.
+
+126
+00:06:37,920 --> 00:06:42,833
+So if it was just first, we would write it like this.
+
+127
+00:06:47,200 --> 00:06:51,703
+But if we had more than one word, like first name person
+
+128
+00:06:53,200 --> 00:06:55,540
+then you'll see that all the subsequent words
+
+129
+00:06:55,540 --> 00:06:58,890
+are written with this uppercase letter.
+
+130
+00:06:58,890 --> 00:07:02,540
+And this is kind of a standard in the JavaScript world.
+
+131
+00:07:02,540 --> 00:07:05,710
+But of course, there are other ways of naming variables.
+
+132
+00:07:05,710 --> 00:07:07,130
+For example, we could write
+
+133
+00:07:09,905 --> 00:07:11,110
+first_name
+
+134
+00:07:11,110 --> 00:07:13,300
+with an underscore like this,
+
+135
+00:07:13,300 --> 00:07:15,960
+and this is very popular in other languages
+
+136
+00:07:15,960 --> 00:07:20,190
+like Ruby or like this.
+
+137
+00:07:20,190 --> 00:07:21,023
+Okay?
+
+138
+00:07:21,023 --> 00:07:23,750
+And you can use whatever you like most
+
+139
+00:07:23,750 --> 00:07:26,040
+just keep in mind that it's kind of a standard
+
+140
+00:07:26,040 --> 00:07:29,800
+in JavaScript to write variable names like this.
+
+141
+00:07:29,800 --> 00:07:32,987
+So usually whenever you see other people's code
+
+142
+00:07:32,987 --> 00:07:35,290
+the variables will usually be written
+
+143
+00:07:35,290 --> 00:07:37,663
+using a the camelCase notation.
+
+144
+00:07:38,830 --> 00:07:40,710
+So that's kind of a convention of
+
+145
+00:07:40,710 --> 00:07:43,420
+how to name variables in JavaScript
+
+146
+00:07:43,420 --> 00:07:47,010
+but there are also some actual hard rules in JavaScript
+
+147
+00:07:47,010 --> 00:07:49,740
+about how we can name variables.
+
+148
+00:07:49,740 --> 00:07:54,740
+For example we cannot write something like this
+
+149
+00:07:54,800 --> 00:07:59,800
+like three years and set it to the value of three.
+
+150
+00:08:00,860 --> 00:08:03,380
+So this is an illegal variable name
+
+151
+00:08:03,380 --> 00:08:07,010
+and VS code actually warns us right away here.
+
+152
+00:08:07,010 --> 00:08:08,840
+And again that's because this variable name
+
+153
+00:08:08,840 --> 00:08:10,730
+starts with a number.
+
+154
+00:08:10,730 --> 00:08:12,100
+And if we try it to load this
+
+155
+00:08:12,100 --> 00:08:15,410
+in JavaScript, we would get this error.
+
+156
+00:08:15,410 --> 00:08:20,210
+So that's an invalid or unexpected token here.
+
+157
+00:08:20,210 --> 00:08:22,590
+And it's important to actually start reading
+
+158
+00:08:22,590 --> 00:08:26,170
+these error messages right from the beginning of the course.
+
+159
+00:08:26,170 --> 00:08:29,630
+So we see that this is a so-called syntax error
+
+160
+00:08:29,630 --> 00:08:33,460
+which means that we did a mistake in writing or a code.
+
+161
+00:08:33,460 --> 00:08:36,660
+So that's a mistake in the code's syntax
+
+162
+00:08:36,660 --> 00:08:40,190
+and we can also see the line where the error occurred.
+
+163
+00:08:40,190 --> 00:08:45,010
+So line 13 so that we can then go ahead and fix it
+
+164
+00:08:45,010 --> 00:08:48,440
+and notice how this error was shown in the console.
+
+165
+00:08:48,440 --> 00:08:51,663
+Even though we didn't use console.log in this case.
+
+166
+00:08:52,590 --> 00:08:53,810
+Okay?
+
+167
+00:08:53,810 --> 00:08:56,040
+So we don't need to use console.log
+
+168
+00:08:56,040 --> 00:08:58,160
+for the console to show errors.
+
+169
+00:08:58,160 --> 00:08:59,730
+All the errors that we make
+
+170
+00:08:59,730 --> 00:09:02,280
+will always end up in the console.
+
+171
+00:09:02,280 --> 00:09:06,573
+And also here with this, well, error icon.
+
+172
+00:09:07,840 --> 00:09:11,450
+Now anyway, back to our naming conventions here.
+
+173
+00:09:11,450 --> 00:09:12,850
+So we already learned
+
+174
+00:09:12,850 --> 00:09:15,850
+that variable names cannot start with a number.
+
+175
+00:09:15,850 --> 00:09:19,290
+And in fact, variable names can only contain numbers
+
+176
+00:09:19,290 --> 00:09:22,693
+letters, underscores, or the dollar assign.
+
+177
+00:09:24,340 --> 00:09:26,180
+So for example, if we try to write
+
+178
+00:09:26,180 --> 00:09:28,560
+Jonas and Matilda
+
+179
+00:09:31,000 --> 00:09:33,460
+equals JM
+
+180
+00:09:33,460 --> 00:09:34,980
+we would, once again,
+
+181
+00:09:34,980 --> 00:09:36,843
+get a syntax error.
+
+182
+00:09:38,180 --> 00:09:39,013
+Right?
+
+183
+00:09:39,013 --> 00:09:42,533
+And this time it's telling us unexpected token, &amp;.
+
+184
+00:09:43,856 --> 00:09:45,990
+And, and again that's because this symbol here
+
+185
+00:09:45,990 --> 00:09:48,280
+is illegal in variable names.
+
+186
+00:09:48,280 --> 00:09:49,830
+They can only contain numbers,
+
+187
+00:09:49,830 --> 00:09:53,560
+letters, underscores, or the dollar sign.
+
+188
+00:09:53,560 --> 00:09:56,353
+So this here, for example, would be allowed.
+
+189
+00:09:58,160 --> 00:10:02,150
+So if we reload now, we get no more errors here.
+
+190
+00:10:02,150 --> 00:10:05,870
+Another error might occur when we try to name a variable
+
+191
+00:10:05,870 --> 00:10:08,640
+using a reserved JavaScript keyboard.
+
+192
+00:10:08,640 --> 00:10:12,693
+For example, if we did this, so new,
+
+193
+00:10:14,030 --> 00:10:16,080
+for example set it to 27,
+
+194
+00:10:16,080 --> 00:10:18,583
+then this would also not be allowed.
+
+195
+00:10:20,100 --> 00:10:22,780
+So you see unexpected token new.
+
+196
+00:10:22,780 --> 00:10:27,240
+And that's because new is a reserved keyword in JavaScript
+
+197
+00:10:27,240 --> 00:10:29,520
+as we will see a little bit later.
+
+198
+00:10:29,520 --> 00:10:32,693
+And the same goes for something like function.
+
+199
+00:10:35,340 --> 00:10:38,290
+So again unexpected token here,
+
+200
+00:10:38,290 --> 00:10:40,040
+if we wanted to fix that we could,
+
+201
+00:10:40,040 --> 00:10:44,010
+for example, start this variable name with an underscore
+
+202
+00:10:44,010 --> 00:10:46,590
+or with the dollar sign.
+
+203
+00:10:46,590 --> 00:10:49,050
+So that's the only two symbols that are allowed
+
+204
+00:10:49,050 --> 00:10:52,110
+besides letters and numbers.
+
+205
+00:10:52,110 --> 00:10:54,690
+Another variable name that's kind of reserved
+
+206
+00:10:54,690 --> 00:10:58,333
+but still actually allowed to use is the word name.
+
+207
+00:10:59,230 --> 00:11:01,023
+So we could do this.
+
+208
+00:11:03,100 --> 00:11:04,780
+And it would actually work.
+
+209
+00:11:04,780 --> 00:11:08,730
+But in some cases, this creates some problems.
+
+210
+00:11:08,730 --> 00:11:11,970
+Because again, this is kind of a reserved keyword
+
+211
+00:11:11,970 --> 00:11:13,930
+but it's still legal to use.
+
+212
+00:11:13,930 --> 00:11:15,970
+But since it is a keyword,
+
+213
+00:11:15,970 --> 00:11:19,400
+never call your variables just name.
+
+214
+00:11:19,400 --> 00:11:20,233
+Okay?
+
+215
+00:11:20,233 --> 00:11:24,763
+That's why I always call them first name, like this.
+
+216
+00:11:26,250 --> 00:11:27,210
+Let's actually get rid
+
+217
+00:11:27,210 --> 00:11:30,393
+of this one because we already have first name up there.
+
+218
+00:11:31,840 --> 00:11:33,223
+Now another convention is
+
+219
+00:11:33,223 --> 00:11:35,500
+that we should not start a variable name
+
+220
+00:11:35,500 --> 00:11:39,750
+with an uppercase letter, so we should not
+
+221
+00:11:39,750 --> 00:11:40,583
+do
+
+222
+00:11:41,600 --> 00:11:42,720
+this.
+
+223
+00:11:42,720 --> 00:11:45,590
+So that person, Jonas.
+
+224
+00:11:45,590 --> 00:11:49,720
+Now again, it's a convention, so that's not illegal.
+
+225
+00:11:49,720 --> 00:11:52,750
+It's just that we use this kind of variable names
+
+226
+00:11:52,750 --> 00:11:55,920
+with an uppercase letter for a specific use case
+
+227
+00:11:55,920 --> 00:11:59,350
+in JavaScript, which is object-oriented programming
+
+228
+00:11:59,350 --> 00:12:01,690
+as we will see later in the course.
+
+229
+00:12:01,690 --> 00:12:05,570
+So for now never do this, but instead you should write it
+
+230
+00:12:05,570 --> 00:12:09,600
+like this, with a lower case letter starting.
+
+231
+00:12:09,600 --> 00:12:13,250
+On the same note variables that are all in uppercase
+
+232
+00:12:13,250 --> 00:12:16,883
+are reserved for constants that we know will never change.
+
+233
+00:12:17,980 --> 00:12:20,830
+For example, the number PI
+
+234
+00:12:20,830 --> 00:12:25,830
+which is like 3.1415, and so on and so forth.
+
+235
+00:12:26,750 --> 00:12:30,100
+So we know that this number is never gonna change.
+
+236
+00:12:30,100 --> 00:12:31,660
+And so that's a constant.
+
+237
+00:12:31,660 --> 00:12:34,480
+And for that, we have a convention of writing it
+
+238
+00:12:34,480 --> 00:12:35,970
+in all upper case.
+
+239
+00:12:35,970 --> 00:12:38,750
+and VS code actually marks this variable name
+
+240
+00:12:38,750 --> 00:12:40,130
+with a different color
+
+241
+00:12:40,130 --> 00:12:43,463
+because it knows about this convention that we use.
+
+242
+00:12:44,300 --> 00:12:46,600
+Of course you could also write it like this,
+
+243
+00:12:46,600 --> 00:12:50,400
+but then this would be kind of weird actually.
+
+244
+00:12:50,400 --> 00:12:54,090
+So if it's a real constant, write it in uppercase
+
+245
+00:12:54,090 --> 00:12:57,780
+like this, so that's a pretty normal convention there
+
+246
+00:12:57,780 --> 00:13:00,230
+in programming as a whole.
+
+247
+00:13:00,230 --> 00:13:02,000
+Finally, to finish this lecture
+
+248
+00:13:02,000 --> 00:13:04,660
+let's talk about one final convention,
+
+249
+00:13:04,660 --> 00:13:06,040
+which is to make sure
+
+250
+00:13:06,040 --> 00:13:08,930
+that our variable names are descriptive
+
+251
+00:13:08,930 --> 00:13:12,370
+and that's very important to write cleaner code.
+
+252
+00:13:12,370 --> 00:13:14,450
+So when you name your variables
+
+253
+00:13:14,450 --> 00:13:16,510
+it should be really easy to understand
+
+254
+00:13:16,510 --> 00:13:19,970
+exactly what value the variable is holding
+
+255
+00:13:19,970 --> 00:13:23,200
+just by reading the name of the variable.
+
+256
+00:13:23,200 --> 00:13:25,320
+And that's kind of what we did up here
+
+257
+00:13:25,320 --> 00:13:27,700
+by calling this one first name.
+
+258
+00:13:27,700 --> 00:13:30,260
+But let me show you another example.
+
+259
+00:13:30,260 --> 00:13:35,163
+For example, let's say my first job,
+
+260
+00:13:37,500 --> 00:13:38,333
+programmer
+
+261
+00:13:39,790 --> 00:13:43,093
+and then my current job,
+
+262
+00:13:45,930 --> 00:13:47,090
+teacher.
+
+263
+00:13:47,090 --> 00:13:50,983
+So this is much, much better than writing this.
+
+264
+00:13:52,040 --> 00:13:54,940
+So job one programmer
+
+265
+00:13:58,670 --> 00:14:00,793
+and job two a teacher.
+
+266
+00:14:04,170 --> 00:14:05,950
+So which set of variables
+
+267
+00:14:05,950 --> 00:14:08,890
+do you think is more descriptive?
+
+268
+00:14:08,890 --> 00:14:11,880
+Is it these ones or these ones?
+
+269
+00:14:11,880 --> 00:14:13,760
+And it hope that you agree with me
+
+270
+00:14:13,760 --> 00:14:15,650
+that it's much easier to understand
+
+271
+00:14:15,650 --> 00:14:19,220
+what programmer and teacher are in this case here
+
+272
+00:14:19,220 --> 00:14:21,560
+by simply looking at the variable name.
+
+273
+00:14:21,560 --> 00:14:24,210
+So we know that my first job was a programmer
+
+274
+00:14:24,210 --> 00:14:26,650
+and that my current job is teacher.
+
+275
+00:14:26,650 --> 00:14:29,360
+While down here, well, we would simply know
+
+276
+00:14:29,360 --> 00:14:31,790
+that these are two different jobs.
+
+277
+00:14:31,790 --> 00:14:33,970
+We don't know anything about them.
+
+278
+00:14:33,970 --> 00:14:37,650
+And so this approach up here is a lot better.
+
+279
+00:14:37,650 --> 00:14:38,780
+So keep that in mind,
+
+280
+00:14:38,780 --> 00:14:41,580
+whenever you write your own variable names
+
+281
+00:14:41,580 --> 00:14:43,380
+and actually keep all of this in mind,
+
+282
+00:14:43,380 --> 00:14:44,610
+that we just talked about,
+
+283
+00:14:44,610 --> 00:14:46,280
+for naming your variables.
+
+284
+00:14:46,280 --> 00:14:47,160
+Okay?
+
+285
+00:14:47,160 --> 00:14:51,730
+So just to quickly recap what a variable actually is,
+
+286
+00:14:51,730 --> 00:14:56,730
+it is basically a box into which we can store a value.
+
+287
+00:14:56,780 --> 00:14:58,720
+So we give that box a name
+
+288
+00:14:58,720 --> 00:15:01,790
+which in this case here is first name
+
+289
+00:15:01,790 --> 00:15:05,280
+or in this case here, it's my first job, for example.
+
+290
+00:15:05,280 --> 00:15:07,990
+And then into that box, with that label,
+
+291
+00:15:07,990 --> 00:15:09,720
+we can store a value
+
+292
+00:15:09,720 --> 00:15:13,700
+which in this case is this programmer string here.
+
+293
+00:15:13,700 --> 00:15:15,000
+Then later into code,
+
+294
+00:15:15,000 --> 00:15:18,093
+we can reference that variable over and over again,
+
+295
+00:15:20,600 --> 00:15:23,053
+for example, like this,
+
+296
+00:15:24,240 --> 00:15:26,260
+my first job.
+
+297
+00:15:26,260 --> 00:15:31,260
+And if I save this, then of course here we see programmer.
+
+298
+00:15:31,530 --> 00:15:33,350
+Once again you probably saw
+
+299
+00:15:33,350 --> 00:15:35,600
+my code changing here automatically
+
+300
+00:15:35,600 --> 00:15:38,390
+from the single quotes, two double quotes
+
+301
+00:15:38,390 --> 00:15:42,840
+but that is just my automatic formatting doing its work.
+
+302
+00:15:42,840 --> 00:15:47,393
+And now if we want it to change this here, let's say coder.
+
+303
+00:15:48,900 --> 00:15:51,840
+Then it would change across the entire program.
+
+304
+00:15:51,840 --> 00:15:54,030
+And now we get coder here.
+
+305
+00:15:54,030 --> 00:15:56,920
+And that's what variables are all about.
+
+306
+00:15:56,920 --> 00:16:00,000
+They're one of the most important things of programming.
+
+307
+00:16:00,000 --> 00:16:02,020
+And so make sure to really understand them
+
+308
+00:16:02,020 --> 00:16:03,233
+before you move on.

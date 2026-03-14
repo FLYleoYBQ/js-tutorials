@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rolling the Dice</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        .quiz-card { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); padding: 24px; margin: 24px 0; }
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+        .quiz-option { background: var(--bg-color); border: 1px solid var(--surface-border); padding: 14px 20px; margin-bottom: 10px; border-radius: var(--radius-md); cursor: pointer; }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+        .quiz-explanation { margin-top: 20px; padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md); display: none; border-left: 3px solid var(--info-color); font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-random" class="nav-item active">1. 生成 1-6 的随机骰子点数</a>
+            <a href="#section-src" class="nav-item">2. 动态操控 img 标签的 src 属性</a>
+            <a href="#section-state" class="nav-item">3. 状态持久化：变量与作用域陷阱</a>
+            <a href="#section-logic" class="nav-item">4. 游戏的核心分支判定</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Rolling the Dice (掷骰子业务逻辑)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：016 Rolling the Dice.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <p>上节课我们通过初始化把骰子图片藏起来了，把双方分数清零了。这节课我们将正式赋予 <strong>“Roll dice (掷骰子)”</strong> 按钮灵魂，让游戏动起来！</p>
+
+        <h2 id="section-random">1. 绑定事件与生成随机点数</h2>
+        <p>跟之前的基本操作一样，抓取 Roll 按钮并监听点击事件。在内部产生一个 1 -> 6 的随机数字，代表单次掷出的点数：</p>
+
+        <pre><code class="language-javascript">const btnRoll = document.querySelector('.btn--roll');
+
+btnRoll.addEventListener('click', function() {
+    // 1. 生成 1-6 伪随机数
+    const dice = Math.trunc(Math.random() * 6) + 1;
+    
+    // ... 后续逻辑
+});</code></pre>
+        <p>注意，这个 <code>dice</code> 变量<strong>必须写在事件监听函数的里面</strong>，而不是像之前的预备变量写在外面。因为每次玩家点击，都必须要生成扔出新的数字！</p>
+
+        <h2 id="section-src">2. 动态操控 &lt;img&gt; 的 src 属性</h2>
+        <p>既然扔出了点数，首先要在刚开局被隐藏的图片再次显示：<code>diceEl.classList.remove('hidden')</code>。<br>
+        接着，<strong>关键的一步来了：</strong>前端文件夹里早就放好了六张名叫 <code>dice-1.png</code> 到 <code>dice-6.png</code> 的图片。我们要怎样根据刚刚生成的数字，告诉 <code>&lt;img&gt;</code> 标签应该吃哪张图呢？</p>
+
+        <p>答案是：<strong>直接通过 JavaScript 操弄 <code>src</code> 属性</strong>。就像我们可以用 `.textContent` 改文字、用 `.style` 改样式一样，我们可以用 <code>.src</code> 动态改变图片的来源路径。</p>
+
+        <pre><code class="language-javascript">btnRoll.addEventListener('click', function() {
+    const dice = Math.trunc(Math.random() * 6) + 1;
+    
+    // 揭开隐藏的图片
+    diceEl.classList.remove('hidden');
+    
+    // 🔪 利用模板字符串，将随机数字插拔式塞进图片名称里
+    diceEl.src = `dice-${dice}.png`;
+});</code></pre>
+
+        <p>通过这个小技巧 <code>`dice-${dice}.png`</code>，如果 <code>dice</code> 变量是 3，浏览器就会立刻去加载 <code>dice-3.png</code> 并覆盖原来的源，骰子界面就瞬间“变化”了！</p>
+
+        <h2 id="section-state">3. 状态持久化：作用域陷阱</h2>
+        <p>掷出点数后，我们需要记录玩家在本小回合中持续累加的数字 (Current Score)。很多新手会这样写代码：</p>
+
+        <pre><code class="language-javascript">btnRoll.addEventListener('click', function() {
+    // ❌ 错误示范：致命的作用域陷阱！
+    let currentScore = 0; 
+    currentScore += dice;
+    console.log(currentScore);
+});</code></pre>
+
+        <div class="callout">
+            <p>🚨 <strong>错误分析：</strong><br>
+            在这个回调函数里，一切内部变量的生命周期都只有“一次点击的瞬间”。当你每次点击按钮，里面的所有代码重新执行，<code>let currentScore = 0</code> 就会被重新喊一声“集合清零”。这意味着，你的分数永远只能记录单次扔出的点数，无法不断向上叠加！</p>
+        </div>
+
+        <p>为了让状态能够 <strong>跨越多次点击持久化存在</strong>，必须把它提升 (Lift Up) 到函数外部的“全局”空间中去。</p>
+
+        <pre><code class="language-javascript">// ✅ 正确做法：将状态写在广阔的全局天地里
+let currentScore = 0;
+
+btnRoll.addEventListener('click', function() {
+    const dice = Math.trunc(Math.random() * 6) + 1;
+    // ...
+    // 只有在外面建立的银行账户，这里的汇款记录才不会被清空
+    currentScore += dice; // 等价于 currentScore = currentScore + dice
+});</code></pre>
+
+        <h2 id="section-logic">4. 游戏的核心分支判定</h2>
+        <p>在获得了不断累积的 <code>currentScore</code> 之后，我们迎来了流程图 (Flowchart) 中最关键的分岔引路牌。游戏规则是：<strong>只要掷出的不是 1，就一直把分数加到当前累计上；一旦掷出了1，本回合爆掉，累计分作废并且立即切换对手。</strong></p>
+
+        <pre><code class="language-javascript">btnRoll.addEventListener('click', function() {
+    const dice = Math.trunc(Math.random() * 6) + 1;
+    diceEl.classList.remove('hidden');
+    diceEl.src = `dice-${dice}.png`;
+
+    // 👉 核心业务逻辑
+    if (dice !== 1) {
+        // 增加累计分
+        currentScore += dice;
+        // 把数据印刷到网页上对应的字眼里面 (目前暂时硬编码写死在 Player1 身上测试)
+        document.getElementById('current--0').textContent = currentScore;
+    } else {
+        // 掷到了1：切换到下一位玩家！(下节课填坑)
+    }
+});</code></pre>
+
+        <p>我们已经实现了“点骰子 -> 随机数 -> 图片更替 -> 累计分数变动” 的单边通路。在下一节，我们将完成 `else` 爆点环节中极其骚气的设计：<strong>如何在代码中平滑地切换真正的两位对局玩家轮换。</strong></p>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+        
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 变量定义的“位置 (Scope/作用域)”决定了数据的生死。下面两个场景哪一组定义位置是完全精准的？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 每次丢出的随机数字 `dice` 必须放在外面全局；当前累加总分 `currentScore` 必须放在点击事件里面。</div>
+                <div class="quiz-option" data-value="B">B) 当前累加总分 `currentScore` 必须放在外面全局，因为它要跨越多次不同的点击累计而不被重置；随机数 `dice` 必须放进点击事件内，因为每一次点击都需要全新的数字。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>👍 正确！</strong> 解析：这就是状态管理的基础直觉。持久留存的资产，放金库 (外部全局)；随抛即忘的临时草稿纸，放口袋 (内部局部)。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+
+            card.querySelectorAll('.quiz-option').forEach(opt => { opt.classList.remove('selected', 'correct', 'incorrect'); });
+            this.classList.add('selected');
+
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+        });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+﻿In this video, you're gonna learn how to retrieve data from objects and also how to change data in objects, using both the dot and the bracket notation.
+
+So let's actually get the object here from the previous lecture, so that Jonas object.
+
+And I noticed that we actually didn't even take a look at it and a console, so let's quickly log it, but we're actually not gonna see a big surprise.
+
+So all it shows us it's really the same object that we just wrote in code.
+
+So it looks like this.
+
+So essentially just as it is here in the code, the only thing that's different is that the properties here are ordered alphabetically.
+
+And so that's what I mean when I said in the last lecture that the order of properties does not matter.
+
+And that's because we simply get the properties from the object using the property name itself.
+
+So that's actually the topic of this video.
+
+And so let me show you the two ways in which we do that.
+
+So the first way of getting a property from an object is by using the dot notation and that is very straight forward.
+
+So let's log that to console.
+
+And so let's say that we want to get the last name.
+
+So all we have to do is to write Jonas dot last name and that's it you see here is my last name coming straight from the Jonas object so Jonas dot last name.
+
+And this dot here is actually an operator which will go to this object and then retrieve to property with the name that we specified here.
+
+Now we can do the exact same thing using the brackets notation.
+
+So let me show that as well.
+
+So Jonas, and then we use brackets in a similar way in which we retrieve data from an array, but here we need to specify a string with the property name.
+
+So with the key, so let's do my name again, or actually a last name.
+
+And so these results should be exactly the same here.
+
+Now, the big difference between these two here is that in the bracket notation here, we can actually put any expression that we'd like, so we don't have to explicitly write the string here, but instead we can compute it from some operation because remember that an operation is basically an expression.
+
+So something that produces a value and so we can put that here, inside the brackets.
+
+So let's actually try that and imagine that we had a variable in which we store the repeating part in first name and last name.
+
+So we have name here in both and so let's store just that inside of a variable.
+
+And you will see my point here in a second this will all make sense, trust me.
+
+So name key, and then just name.
+
+So again, that's the repeating part in these two property names.
+
+And now we can use that variable to get both the first and the last name.
+
+So console dot log and then Jonas records.
+
+And so now here we can insert the expression.
+
+So let's create a string first and concatenate it with name key.
+
+And here we could have built this string using a template literal, but in this case it's not really necessary.
+
+So let's just copy this and then also last.
+
+So what will happen here is that as JavaScript sees this line of code, it will start by executing this plus operation and so it will create a string first name.
+
+And then it will go to the Jonas object and retrieve that property at the same for the last name here and the second line of code.
+
+And so that's how we get Jonas and Schmedtman.
+
+And doing something like this is more common than you might think and so that's why it's important that we understand that in the square brackets, we could put any expression here, okay.
+
+Now the same thing would not work with the dot operator or the dot notation.
+
+So we cannot write Jonas dot and then this here, for example, this would not work at all, so and unexpected string.
+
+And so that's the reason why we need the brackets notation and dot notation.
+
+We have to use the real final property name and not a computed property name.
+
+So for example this one, this one is a real property name as it appears in the object and so that's why it works here in this case.
+
+So in what situations should we use the dot notation and when do we have to use deep brackets notation?
+
+And I kind of already replied to that, but this is just to recap.
+
+So when we need to first compute the property name, like we did here with the first and last name, then of course we have to use the bracket notation in any other case, just use the dot notation, which looks a lot cleaner and it's also easier to use, okay.
+
+And now to make the need for the bracket notation even more clear, let me show you another example, which I think is gonna be really fun.
+
+So let's say that we don't know yet which property we want to show, and instead we get this information from some user interface so, for that we can use the prompt function.
+
+Remember, so we can use prompt and prompt is yet another built in function that is built into JavaScript and that we can use in any script.
+
+So here we can write a string and then this will create a popup window with an input field.
+
+Remember, so here we can write, what do you want to know about Jonas?
+
+choose between first name, last name, age, job and friends.
+
+And remember that this function will then return a string and this string, we just need to store into some variable.
+
+So let's call this one 'interested in', alright.
+
+And to start, let's just log this 'interested in' value to the console here, just till we see that it actually works.
+
+And so here is the popup and so now we just write one of these options here.
+
+So let's say job, and indeed now here we get job.
+
+And so what we want to do now is to basically display the job here in the console, because that's what the user chose.
+
+So how will we do that?
+
+Can we use the dot notation?
+
+So basically, can we do this?
+
+Jonas dot interested in, well, let's find out, but I hope that you can guess.
+
+And so we get undefined and this is something new that I didn't explain yet.
+
+And so let me tell you now that undefined is what we get when we try to access a property on an object that does not exist.
+
+So Jonas does not have a property called 'interested in', right?
+
+And so therefore the result of trying to access 'interested in' on Jonas is undefined.
+
+Now, what we need to do here is instead of the dot notation, use the brackets notation, because then we can put any expression here, which in this case will be interested in.
+
+And so JavaScript will now come here and replace 'interested in' with the actual value of the variable and then that's the one that will be looked up on the Jonas object.
+
+So let's try that again and now when I say job, we get a correct result, great.
+
+And I hope that you did understand the big difference between using the dot notation and the bracket notation and why the bracket notation gave us the correct result.
+
+So again, it's because basically this expression that we put here between these brackets will get evaluated then this one here is job.
+
+Now, of course, we can also pass in something else.
+
+So something that is not here, for example, let's try to access the location and then again, we get undefined.
+
+And once more, that is because there is not a property called location on the object.
+
+So let's actually handle that using some knowledge that we already have.
+
+So we know that undefined is a false value, right?
+
+And so we can use that to our advantage now and create some logic that we'll print a custom string whenever the user tries to access a property that doesn't exist.
+
+So let's do that.
+
+And we can say, if Jonas, brackets, 'interested in', then log that to the console.
+
+So basically this, and again, I'm using now the option and arrow down to move this line.
+
+And so if this value exists, then it is a truth value because it is not undefined and so any string that is not empty or any number that is not zero will then trigger this code block here to be executed.
+
+Now, if one of these properties was actually empty or zero, we would then go to the else block, but let's not account for that here in this case, let's say that doesn't happen, all right.
+
+So in case that the value does not exist So for example, with location, we then get undefined and so in this case, Jonas 'interested in' is undefined, which is false and therefore we would go to the else block.
+
+And so let's say something like wrong request, and then we can repeat this sentence here.
+
+So let's try that again here.
+
+So location, and now we get wrong request, but if we try something that exists, then we get that result, great.
+
+So I think this was a fun little experiment here and now I hope you like that.
+
+And now that you know how to retrieve elements from an object, let's also learn how to use both the dots and the brackets notation to add new properties to the object.
+
+And so that's pretty straight forward.
+
+So all we have to do is Jonas dot and now let's actually use location and set it equal to something.
+
+So to some value.
+
+So I'm located in Portugal and so that's how we use the dot notation.
+
+And then we can also of course use the brackets notation just the same.
+
+So let's say my Twitter handle here, which is @Jonasschmedtman with just one N and you should definitely check that out.
+
+And now just to see that it worked, let's log it to the console one final time and okay, it's asking us for the field name again, but anyway, now we have the location and the Twitter here as well in the object.
+
+And of course here we could put any expression just like before.
+
+So it works in the exact same way, alright.
+
+And that's how we use the brackets and the dot notation.
+
+Now, finally, I have one small challenge for you that you can just do right now here at the end of this video.
+
+And so what I want you to do is to write a sentence like this one, that I'm going to show you now, but in a dynamic way.
+
+So let's just write challenge here.
+
+And so I want you to write 'Jonas has three friends and his best friend is called Michael'.
+
+So here, we suppose that the first friend in the array, so in the friends array is the best friend, okay.
+
+And for the record, I do have more than three friends, but of course, here, we need to keep it all very simple.
+
+So again, I want you to write this sentence, but without hard coding, any of these values.
+
+So what you need to get from the object is this value, this value and this value.
+
+And this is actually a bit hard, I would say.
+
+And so there's absolutely no need for you to nail this, but you can still try it and maybe you can do some of the parts.
+
+One hint that I can give you is that you will need to use multiple dots to get the number of friends, okay.
+
+So that's totally possible.
+
+And so take like five minutes to try this out now.
+
+So pause the video and I'll see you in a second.
+
+All right.
+
+And so this is how we would do this.
+
+So we want to lock this to the console, of course.
+
+And so we're starting with the name and this one is probably the most straightforward one.
+
+So that's just, Jonas dot first name.
+
+So that is where the name is stored then has, and then the number of friends.
+
+So the friends are stored in Jonas dot friends.
+
+Now, do you remember how to get the number of elements in an array?
+
+It is by writing the array dot length, right?
+
+And so let's do that.
+
+So Jonas dot friends.
+
+And so this is our array, right?
+
+And so on this array, we can now ask for the length.
+
+And so basically you can see here that length is also a property that is available on all race.
+
+So it's a property that we don't define ourselves, but it's automatically available.
+
+But now that you know about the dot notation, you can also start to understand that the dot length is just a property that is available on all a race.
+
+And so that's what we're doing here.
+
+So again, we have an array which is this one, and on there, we can simply then request dot length.
+
+Okay, let's continue the sentence now.
+
+And his best friend is called and now we need to simply get the first element from the array.
+
+And so that's again, Jonas dot friends and now remember, we get the first element of an array using square brackets zero, and that's it.
+
+So once more, this here is simply an array and so we learned that to take the first element we just use square brackets with zero.
+
+So in a sense on the race, we also have the brackets notation.
+
+Okay, so that's just test this, and again, this annoying popup, but indeed Jonas has three and we're just missing the friends here.
+
+So friends and his best friend is called Michael.
+
+So just what I had written here as a template.
+
+Now, in terms of operator proceedings, let's quickly check out why it actually works this way.
+
+So with the dots here.
+
+Because remember, as I said, the dot operator here is really just that it's just an operator and the same goes for the brackets.
+
+So I will, again, Google MDN operator proceedings, but the link to this table is also on the resources pages on my website.
+
+And the link to that one is right in the first text lecture of the course.
+
+But anyway, here we have date dot notation, which here is called member access and then we have the brackets notation, which is here called computed member access.
+
+And so the computed, is because as I mentioned multiple times now, because we can compute the property names that we want to access.
+
+Now, what matters here is that they both have a really high priority and both are left to right.
+
+And so that's why all of this works.
+
+So we have two dots here so Jonas dot friends dot length and they are executed left to right.
+
+And therefore the first thing that JavaScript does is Jonas dot friends.
+
+And so essentially, this will then be replaced with the array and then on that array is where the dot length is then applied and the same thing here.
+
+So first Jonas dot friends is done.
+
+And then this one is also left to right and so from there we take element number zero, okay.
+
+So there's no magic involved here there is rules for everything and everything makes sense.
+
+And again, you don't need to memorize this here, with time all of this will become second nature to you.

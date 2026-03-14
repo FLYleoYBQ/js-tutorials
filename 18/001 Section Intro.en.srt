@@ -1,0 +1,55 @@
+1
+00:00:00,480 --> 00:00:02,320
+(soothing music)
+
+2
+00:00:02,320 --> 00:00:06,640
+Welcome back to the final project of this course.
+
+3
+00:00:06,640 --> 00:00:09,890
+And in this one, we take everything that we learned
+
+4
+00:00:09,890 --> 00:00:14,210
+throughout the course and put it all into one beautiful,
+
+5
+00:00:14,210 --> 00:00:17,693
+modern, and really advanced application.
+
+6
+00:00:18,580 --> 00:00:23,580
+So we're gonna use things like classes, modules, promises,
+
+7
+00:00:23,950 --> 00:00:28,120
+a single weight, parcel and so much more.
+
+8
+00:00:28,120 --> 00:00:31,930
+Also we're gonna dive even deeper into flow charts
+
+9
+00:00:31,930 --> 00:00:34,910
+and project architecture in this project
+
+10
+00:00:34,910 --> 00:00:39,060
+so that you become more and more confident and prepared
+
+11
+00:00:39,060 --> 00:00:41,823
+to actually write applications by yourself.
+
+12
+00:00:42,780 --> 00:00:47,340
+So, this will be a ton of work, but also a lot of fun
+
+13
+00:00:47,340 --> 00:00:51,801
+and so I can't wait to finally show you this project now.
+
+14
+00:00:51,801 --> 00:00:54,384
+(upbeat music)

@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Default Parameters</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --border-color: #2b3040;
+            --text-primary: #e0e6f8;
+            --text-secondary: #8b94b0;
+            --accent-color: #00ff9d;
+            --accent-hover: #00e68d;
+            --danger-color: #ff4d4d;
+            --info-color: #4da6ff;
+            --warning-color: #ffaa00;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-weight: 600; font-size: 1.1rem; margin-bottom: 16px; color: var(--text-primary); }
+        .progress-container { width: 100%; height: 6px; background-color: var(--border-color); border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background-color: var(--accent-color); width: 0%; transition: width 0.3s ease; }
+        .nav-item { display: block; padding: 10px 16px; border-radius: 8px; color: var(--text-secondary); text-decoration: none; font-size: 0.95rem; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: var(--border-color); color: var(--text-primary); }
+        .main-content { margin-left: 280px; padding: 64px 80px; max-width: 1000px; width: 100%; }
+        h1 { font-size: 2.5rem; font-weight: 700; margin-bottom: 16px; color: #fff; letter-spacing: -0.02em; }
+        h2 { font-size: 1.8rem; font-weight: 600; margin: 48px 0 24px; color: #fff; border-bottom: 1px solid var(--border-color); padding-bottom: 12px; }
+        h3 { font-size: 1.4rem; font-weight: 600; margin: 32px 0 16px; color: #e0e6f8; }
+        p { margin-bottom: 24px; font-size: 1.1rem; color: #a4adc5; }
+        .meta-info { display: flex; gap: 24px; color: var(--text-secondary); font-size: 0.95rem; margin-bottom: 40px; }
+        .callout { background-color: rgba(77, 166, 255, 0.1); border-left: 4px solid var(--info-color); padding: 24px; border-radius: 0 8px 8px 0; margin: 32px 0; }
+        .code-comparison { display: flex; gap: 24px; margin: 32px 0; }
+        .code-panel { flex: 1; min-width: 0; background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
+        .panel-header { padding: 12px 16px; font-size: 0.9rem; font-weight: 600; color: #fff; cursor: default;}
+        .panel-header.method1 { background-color: rgba(255, 77, 77, 0.2); border-bottom: 1px solid rgba(255, 77, 77, 0.3); }
+        .panel-header.method2 { background-color: rgba(0, 255, 157, 0.2); border-bottom: 1px solid rgba(0, 255, 157, 0.3); }
+        .runnable-editor { background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); margin: 32px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0,0,0,0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { color: var(--text-secondary); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem; }
+        .btn-run { background-color: var(--accent-color); color: #000; border: none; padding: 6px 16px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-run:hover { opacity: 0.9; }
+        .editor-textarea { width: 100%; height: 350px; background: transparent; color: #fff; font-family: 'JetBrains Mono', monospace; font-size: 14px; padding: 16px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background-color: #000; color: #00ff9d; font-family: 'JetBrains Mono', monospace; padding: 16px; font-size: 14px; min-height: 50px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        .quiz-card { background-color: var(--surface-color); border-radius: 8px; padding: 24px; border: 1px solid var(--border-color); margin-bottom: 24px; }
+        .quiz-question { font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; color: #fff; }
+        .quiz-option { padding: 12px 16px; background-color: rgba(255,255,255,0.05); border-radius: 4px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; }
+        .quiz-option:hover { background-color: rgba(255,255,255,0.1); }
+        .quiz-explanation { margin-top: 16px; padding: 16px; background-color: rgba(77, 166, 255, 0.1); border-radius: 4px; display: none; }
+        table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 32px 0; background-color: var(--surface-color); border-radius: 8px; overflow: hidden; border: 1px solid var(--border-color); }
+        th, td { padding: 16px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background-color: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        code { font-family: 'JetBrains Mono', monospace; background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 10 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 默认参数的演进</a>
+            <a href="#section-2" class="nav-item">2. 动态计算默认参数</a>
+            <a href="#section-3" class="nav-item">3. 跳过默认参数</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>默认参数 (Default Parameters)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：003 Default Parameters.en.srt</span>
+            <span>📂 章节：第 10 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：短路逻辑（Short-circuiting）、函数调用</li>
+                <li><strong>后续扩展</strong>：解构与复杂参数处理、ES6 高级写法</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>有时候为函数设置默认参数非常有用，这样在不需要改变默认值的情况下，就不必每次手动传入所有参数。本小节带你掌握 ES6 默认参数（Default Parameters）的优雅写法、动态计算机制，以及如何巧妙跳过中间参数。</p>
+
+        <h2 id="section-1">1. 默认参数的演进：从 ES5 到 ES6</h2>
+        
+        <p>我们以一个虚构的航空公司航班预订函数为例。如果你想为未传递的参数提供默认值（比如默认 1 名乘客，默认价格 199），在 ES6 出现前，我们需要利用逻辑或 <code>||</code> 运算符的<strong>短路逻辑（Short-circuiting）</strong>来实现。但现在 ES6 允许我们直接在参数列表中定义默认值！</p>
+
+        <div class="code-comparison">
+            <div class="code-panel">
+                <div class="panel-header method1">🚨 初版冗余写法 (ES5 样板代码)</div>
+                <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">const createBooking = function(flightNum, numPassengers, price) {
+  // ES5 时代的经典写法：如果参数是 falsy 值 (即 undefined)，则赋予默认值
+  numPassengers = numPassengers || 1;
+  price = price || 199;
+
+  const booking = {
+    flightNum,
+    numPassengers,
+    price
+  };
+  console.log(booking);
+};</code></pre>
+            </div>
+            <div class="code-panel">
+                <div class="panel-header method2">✨ DRY 重构写法 (ES6 优雅新法)</div>
+                <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">const createBooking = function(
+  flightNum, 
+  numPassengers = 1, 
+  price = 199
+) {
+  // 直接在参数列表处理，告别函数体内的杂乱逻辑！
+  const booking = {
+    flightNum,
+    numPassengers,
+    price
+  };
+  console.log(booking);
+};</code></pre>
+            </div>
+        </div>
+
+        <h2 id="section-2">2. 动态计算默认参数</h2>
+        <p>默认参数的高级之处在于：默认值不一定是写死的静态数据！它可以是<strong>包含表达式</strong>甚至<strong>引用其他参数</strong>的动态计算结果。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const bookings = [];
+
+const createBooking = function(
+  flightNum, 
+  numPassengers = 1, 
+  // 动态引用：引用了前面的 numPassengers 参数！
+  price = 199 * numPassengers 
+) {
+  const booking = { flightNum, numPassengers, price };
+  console.log(booking);
+  bookings.push(booking);
+};
+
+// 测试动态计算
+createBooking('LH123');           // { flightNum: "LH123", numPassengers: 1, price: 199 }
+createBooking('LH123', 2);        // { flightNum: "LH123", numPassengers: 2, price: 398 }
+createBooking('LH123', 5);        // { flightNum: "LH123", numPassengers: 5, price: 995 }
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <div class="callout" style="border-color: var(--warning-color);">
+            <strong>⚠️ 严格有序解析</strong><br>
+            需要注意的是，JavaScript 在处理默认参数时，是<strong>按顺序解析</strong>的。如果你在 <code>numPassengers</code> 定义前就在其他参数的默认值里引用了它，就会抛出 ReferenceError 错误，因为它还不存在！
+        </div>
+
+        <h2 id="section-3">3. 巧妙跳过被设置默认值的参数</h2>
+        
+        <p>在传参时，如果我们只想改变第三个参数的值，而第二个参数保持默认值，我们不能通过"留空"跳过参数。因为 JavaScript 传参严格依据位置对齐。</p>
+
+        <p>要想跳过前面的默认参数，标准的技巧是传入 <strong><code>undefined</code></strong>。因为对于参数解析器来说，传入 <code>undefined</code> 就等同于"什么都没传"，引擎会自动激活对应的默认参数。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const createBooking = function(flightNum, numPassengers = 1, price = 199) {
+  console.log({ flightNum, numPassengers, price });
+};
+
+// ❌ 错误示范：跳过参数留空？这是非法的语法
+// createBooking('LH123', , 1000); 
+
+// ✅ 正确示范：传入 undefined 跳过第二个参数
+createBooking('LH123', undefined, 1000); 
+// 输出: { flightNum: 'LH123', numPassengers: 1, price: 1000 }
+</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+
+        <br>
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        
+        <div class="quiz-card" data-correct="C">
+            <div class="quiz-question">1. 下面这段代码的输出结果是什么？<br><br><code>const demo = (a = 10, b = a * 2, c = b + a) => console.log(c);<br>demo(5, undefined, undefined);</code></div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 30</div>
+                <div class="quiz-option" data-value="B">B) NaN</div>
+                <div class="quiz-option" data-value="C">C) 15</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案: C。</strong>传入 5 赋给 `a`。`b` 收到了 `undefined`，所以触发求默认值 `b = a * 2 = 5 * 2 = 10`。`c` 也收到了 `undefined`，对应求默认值 `c = b + a = 10 + 5 = 15`。
+            </div>
+        </div>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">2. 为什么在 ES5 的年代里，通过 `numPassengers = numPassengers || 1;` 设置数字 0 的默认参数有时会带来 bug？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为 JavaScript 不支持逻辑或运算符</div>
+                <div class="quiz-option" data-value="B">B) 因为 `0` 是一个 falsy 值，即使你真的想传 `0`，这种短路写法也会强行覆盖为你设置的默认值 1</div>
+                <div class="quiz-option" data-value="C">C) 因为 0 加任何数运算会抛出异常</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案: B。</strong>这是 ES5 "逻辑或短路"赋初值法最大的痛点。如果用户有意识地传入了 0 或者空字符串 `""`，由于它们被判定为 false，依然会被 || 吞噬并覆盖。而 ES6 原生默认参数仅在传入 `undefined` 时才会触发默认值，完美解决了这一误伤问题。
+            </div>
+        </div>
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>默认参数</td>
+                    <td>Default Parameters</td>
+                    <td>允许在函数定义时为未传入或 <code>undefined</code> 的参数直接设置初始值。</td>
+                    <td><code>(x=1, y=2) => {}</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Default_parameters" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>短路</td>
+                    <td>Short-circuiting</td>
+                    <td>逻辑或 <code>||</code> 和逻辑与 <code>&&</code> 在能确定整式结果时提前截止并在原样返回该值的机制。</td>
+                    <td><code>a || 1</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Logical_OR" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    // 执行代码功能
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const consoleOut = document.getElementById(consoleId);
+        consoleOut.innerHTML = ''; // 清空
+
+        // 收接 console.log 捕获
+        const proxyLog = console.log;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            proxyLog.apply(console, args);
+        };
+
+        try {
+            // 使用 new Function 而不是 eval 更加安全隔离
+            const executable = new Function(code);
+            executable();
+            consoleOut.innerHTML = logs.join('\n') || '代码执行成功，无输出。';
+        } catch (err) {
+            consoleOut.innerHTML = `<span style="color:var(--danger-color)">Error: ${err.message}</span>`;
+        } finally {
+            // 恢复原始 console.log
+            console.log = proxyLog;
+        }
+    }
+
+    // Quiz 验证脚本
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.dataset.correct;
+            const selectedAnswer = this.dataset.value;
+            const explanation = card.querySelector('.quiz-explanation');
+
+            // 禁用全部选项
+            card.querySelectorAll('.quiz-option').forEach(opt => opt.style.pointerEvents = 'none');
+
+            if (selectedAnswer === correctAnswer) {
+                this.style.backgroundColor = 'rgba(0, 255, 157, 0.2)';
+                this.style.border = '1px solid var(--accent-color)';
+            } else {
+                this.style.backgroundColor = 'rgba(255, 77, 77, 0.2)';
+                this.style.border = '1px solid var(--danger-color)';
+                card.querySelector(`.quiz-option[data-value="${correctAnswer}"]`).style.backgroundColor = 'rgba(0, 255, 157, 0.2)';
+            }
+            
+            explanation.style.display = 'block';
+        });
+    });
+
+    // 目录高亮联动
+    window.addEventListener('scroll', () => {
+        const sections = document.querySelectorAll('h2, h3');
+        const navItems = document.querySelectorAll('.nav-item');
+        
+        let currentSectionId = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            if (pageYOffset >= sectionTop - 100) {
+                currentSectionId = section.getAttribute('id');
+            }
+        });
+
+        navItems.forEach(item => {
+            item.classList.remove('active');
+            if (item.getAttribute('href') === `#${currentSectionId}`) {
+                item.classList.add('active');
+            }
+        });
+    });
+</script>
+</body>
+</html>

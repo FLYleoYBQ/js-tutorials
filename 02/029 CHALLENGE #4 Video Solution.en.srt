@@ -1,0 +1,447 @@
+1
+00:00:00,570 --> 00:00:01,770
+Okay.
+
+2
+00:00:01,770 --> 00:00:05,763
+So, I hope you successfully did that.
+
+3
+00:00:07,440 --> 00:00:10,143
+And so, let's try to solve it now together.
+
+4
+00:00:11,550 --> 00:00:14,400
+Or actually, let me show you my solution
+
+5
+00:00:14,400 --> 00:00:17,520
+so that you can see how it compares with yours.
+
+6
+00:00:17,520 --> 00:00:19,980
+And as always, you can also find my solution
+
+7
+00:00:19,980 --> 00:00:23,250
+in the final folder in the GitHub repository.
+
+8
+00:00:23,250 --> 00:00:24,083
+Okay?
+
+9
+00:00:25,500 --> 00:00:30,210
+Now actually, let's start with the bill variable
+
+10
+00:00:30,210 --> 00:00:33,060
+which I'm gonna set to 275
+
+11
+00:00:33,060 --> 00:00:35,403
+which is here the first test value.
+
+12
+00:00:36,870 --> 00:00:38,850
+And now, the tip
+
+13
+00:00:38,850 --> 00:00:41,703
+and let's calculate it using the ternary operator.
+
+14
+00:00:43,770 --> 00:00:45,840
+So, let's implement this rule,
+
+15
+00:00:45,840 --> 00:00:49,830
+which is, if the value is between 50 and 300,
+
+16
+00:00:49,830 --> 00:00:53,493
+then the tip should be 15% of the bill value.
+
+17
+00:00:56,820 --> 00:01:01,820
+So, that means that bill must be less or equal 300,
+
+18
+00:01:04,770 --> 00:01:06,570
+and at the same time,
+
+19
+00:01:06,570 --> 00:01:11,570
+bill must be greater or equal than 50, right?
+
+20
+00:01:14,010 --> 00:01:17,160
+And again, that's what it means for the bill value
+
+21
+00:01:17,160 --> 00:01:20,580
+to be between 300 and 50.
+
+22
+00:01:20,580 --> 00:01:22,860
+It's gonna be less or equal 300,
+
+23
+00:01:22,860 --> 00:01:27,860
+and at the same time, greater or equal than 50.
+
+24
+00:01:27,930 --> 00:01:31,440
+So, 40 for example, is of course less than 300
+
+25
+00:01:31,440 --> 00:01:33,930
+but it's also less than 50.
+
+26
+00:01:33,930 --> 00:01:36,540
+And so, this part here will then be false.
+
+27
+00:01:36,540 --> 00:01:39,180
+And so, this entire expression here,
+
+28
+00:01:39,180 --> 00:01:43,667
+which is than true and false will be false as well, right?
+
+29
+00:01:45,180 --> 00:01:50,110
+So, in this case, the tip here will be the bill value
+
+30
+00:01:51,270 --> 00:01:53,790
+times 15%,
+
+31
+00:01:53,790 --> 00:01:55,939
+which as I explained here,
+
+32
+00:01:55,939 --> 00:02:00,750
+all we need to do is to multiply it by 15 divided by 100,
+
+33
+00:02:00,750 --> 00:02:02,463
+so that 0.15.
+
+34
+00:02:03,600 --> 00:02:07,500
+And else it's 20%.
+
+35
+00:02:07,500 --> 00:02:10,863
+So, bill times 0.2.
+
+36
+00:02:12,150 --> 00:02:14,910
+Give it a save, and that's actually it.
+
+37
+00:02:14,910 --> 00:02:16,113
+So, that's number one.
+
+38
+00:02:18,210 --> 00:02:20,310
+And now, as number two,
+
+39
+00:02:20,310 --> 00:02:23,640
+let's lock this string to the console
+
+40
+00:02:23,640 --> 00:02:26,490
+as is requested here in number two.
+
+41
+00:02:26,490 --> 00:02:29,610
+So, let's actually grab this template here.
+
+42
+00:02:29,610 --> 00:02:32,520
+So, then we just have to replace the values.
+
+43
+00:02:32,520 --> 00:02:34,380
+And so, since we're building a string,
+
+44
+00:02:34,380 --> 00:02:37,203
+we are again relying on the template literal.
+
+45
+00:02:38,760 --> 00:02:40,893
+So, here we're gonna put the bill value.
+
+46
+00:02:43,920 --> 00:02:46,173
+Here we're gonna put the tip.
+
+47
+00:02:47,400 --> 00:02:49,530
+And we're missing the curly braces.
+
+48
+00:02:49,530 --> 00:02:54,530
+And here the total value is gonna be the bill plus the tip.
+
+49
+00:02:55,500 --> 00:02:59,140
+So, we can, as you already know, write an expression here
+
+50
+00:03:00,540 --> 00:03:02,340
+using this operator,
+
+51
+00:03:02,340 --> 00:03:03,603
+so the plus operator.
+
+52
+00:03:05,550 --> 00:03:07,350
+And that's actually it.
+
+53
+00:03:07,350 --> 00:03:08,490
+So, let's try it
+
+54
+00:03:08,490 --> 00:03:10,410
+and with this bill value,
+
+55
+00:03:10,410 --> 00:03:13,080
+the output should actually be exactly
+
+56
+00:03:13,080 --> 00:03:14,763
+like it's written up there.
+
+57
+00:03:15,930 --> 00:03:17,220
+And it is.
+
+58
+00:03:17,220 --> 00:03:21,150
+So, 275, the tip is 41.25,
+
+59
+00:03:21,150 --> 00:03:22,590
+so just like here.
+
+60
+00:03:22,590 --> 00:03:26,970
+And the total value is 316.25.
+
+61
+00:03:26,970 --> 00:03:27,803
+Great.
+
+62
+00:03:27,803 --> 00:03:30,090
+And just to understand this one,
+
+63
+00:03:30,090 --> 00:03:31,980
+so this condition a little bit better,
+
+64
+00:03:31,980 --> 00:03:35,943
+let's just take this one and paste it here into the console.
+
+65
+00:03:36,990 --> 00:03:39,420
+And so, we see that this one is true.
+
+66
+00:03:39,420 --> 00:03:43,830
+And of course that's because 275 is less than 300
+
+67
+00:03:43,830 --> 00:03:45,420
+and more than 50.
+
+68
+00:03:45,420 --> 00:03:47,460
+So, it is between this range.
+
+69
+00:03:47,460 --> 00:03:50,790
+And therefore, this part of the ternary operator here
+
+70
+00:03:50,790 --> 00:03:53,580
+will be executed and become the result
+
+71
+00:03:53,580 --> 00:03:56,610
+of this operator essentially, right?
+
+72
+00:03:56,610 --> 00:03:58,230
+So, the result of this operator
+
+73
+00:03:58,230 --> 00:04:00,960
+will be bill times 0.15
+
+74
+00:04:00,960 --> 00:04:03,660
+and that's the value that will then be assigned
+
+75
+00:04:03,660 --> 00:04:06,660
+to the tip variable, okay?
+
+76
+00:04:06,660 --> 00:04:08,190
+Now, let's try another one.
+
+77
+00:04:08,190 --> 00:04:09,183
+So, 40,
+
+78
+00:04:12,180 --> 00:04:14,313
+and now the tip was 8.
+
+79
+00:04:15,600 --> 00:04:17,133
+Let's try this one here again.
+
+80
+00:04:18,450 --> 00:04:20,520
+And now the condition is false.
+
+81
+00:04:20,520 --> 00:04:22,560
+So, remember that here in the console
+
+82
+00:04:22,560 --> 00:04:24,480
+we have access to all the variables
+
+83
+00:04:24,480 --> 00:04:26,280
+that we have declared here.
+
+84
+00:04:26,280 --> 00:04:30,330
+So, if I write bill now, you will see that it's actually 40.
+
+85
+00:04:30,330 --> 00:04:35,263
+So, bill is obviously below 300, but it's also below 50.
+
+86
+00:04:36,420 --> 00:04:37,890
+So, this part is false,
+
+87
+00:04:37,890 --> 00:04:40,710
+and true and false gives false.
+
+88
+00:04:40,710 --> 00:04:42,090
+And so, in this case,
+
+89
+00:04:42,090 --> 00:04:46,533
+the value that's gonna be assigned to tip is 40 times 0.2,
+
+90
+00:04:47,430 --> 00:04:49,410
+and that's exactly 8.
+
+91
+00:04:49,410 --> 00:04:52,110
+So, it's what we see here.
+
+92
+00:04:52,110 --> 00:04:55,200
+Okay. And now just for the sake of completion,
+
+93
+00:04:55,200 --> 00:04:56,823
+let's do the last one as well.
+
+94
+00:04:59,460 --> 00:05:03,450
+And yeah, this should have worked as well
+
+95
+00:05:03,450 --> 00:05:07,230
+because now this one is false again.
+
+96
+00:05:07,230 --> 00:05:11,460
+I mean, that's because this time 430 is above 300
+
+97
+00:05:11,460 --> 00:05:16,460
+and so, 86 should be 430 times 0.2.
+
+98
+00:05:17,670 --> 00:05:21,390
+Let's quickly check that 0.2.
+
+99
+00:05:21,390 --> 00:05:22,380
+And that's right.
+
+100
+00:05:22,380 --> 00:05:24,723
+That's the 86 that we have up here.
+
+101
+00:05:25,710 --> 00:05:26,700
+Great.
+
+102
+00:05:26,700 --> 00:05:29,040
+So, hopefully you did this.
+
+103
+00:05:29,040 --> 00:05:32,010
+And once more, if you did it a little bit differently,
+
+104
+00:05:32,010 --> 00:05:33,630
+that's not a problem at all.
+
+105
+00:05:33,630 --> 00:05:36,000
+I just hope that you made it work.
+
+106
+00:05:36,000 --> 00:05:37,020
+Okay.
+
+107
+00:05:37,020 --> 00:05:40,830
+And actually this concludes the coding part of this section.
+
+108
+00:05:40,830 --> 00:05:42,900
+There's just one more lecture left,
+
+109
+00:05:42,900 --> 00:05:46,680
+which is gonna be a deeper dive into JavaScript versions,
+
+110
+00:05:46,680 --> 00:05:49,800
+especially into ES5 and ES6.
+
+111
+00:05:49,800 --> 00:05:51,720
+So, it's gonna be an interesting one.
+
+112
+00:05:51,720 --> 00:05:54,483
+And yeah, I'm waiting for you there.

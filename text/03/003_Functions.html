@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Functions</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
+        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
+        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
+        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
+        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; }
+        .btn-run:active { transform: scale(0.95); }
+        .editor-textarea { width: 100%; height: 250px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
+        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: rgba(255,255,255,0.05); }
+        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
+        .quiz-card { background: var(--surface-color); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 16px; }
+        .quiz-question { font-weight: 600; margin-bottom: 12px; }
+        .quiz-options { display: flex; flex-direction: column; gap: 8px; }
+        .quiz-option { padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+        .quiz-option:hover { background: rgba(255,255,255,0.05); }
+        .quiz-option.selected.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--success-color); }
+        .quiz-option.selected.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--danger-color); }
+        .quiz-explanation { display: none; margin-top: 12px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 6px; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 什么是函数？</a>
+            <a href="#section-2" class="nav-item">2. 函数的核心机制：参数与返回值</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Functions</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：003 Functions.en.srt</span>
+            <span>📂 章节：第 03 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：变量与表达式。</li>
+                <li><strong>后续扩展</strong>：函数是 JS 的一等公民，掌握它将为你开启高阶函数、回调机制和对象方法的大门。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>如果说变量是存储数据的“盒子”，那函数就是处理数据的“加工厂”。本节课我们将深入了解在 JavaScript 中最为重要的构件——函数（Functions）。学完后，你的代码将从此拥抱极致的复用性（DRY 原则）。</p>
+
+        <h2 id="section-1">1. 什么是函数？</h2>
+        
+        <p>简单来说，函数就是一段<strong>可以在代码中重复使用的代码块</strong>。当你需要完成某项特定任务时，只需把这段代码“打包”成一个函数。日后就可以随时随地调用它，避免一遍又一遍地复制粘贴（DRY 原则：Don't Repeat Yourself）。</p>
+
+        <p>我们先来看一个最基础的函数构建与调用：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">logger.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+// 1. 声明（Declare）一个函数
+function logger() {
+    console.log('大家好，我是一个简单的函数！');
+}
+
+// 2. 调用（Call / Invoke / Execute）该函数
+logger();
+logger(); // 你可以无限次调用！
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-2">2. 函数的核心机制：参数与返回值</h2>
+
+        <p>仅仅能执行固定代码的函数虽然有用，但略显死板。通常我们需要给函数传递一些数据（顺手比作原料），让函数帮我们加工，最后把成品还给我们。</p>
+
+        <blockquote>
+            <p>🧩 <strong>生活类比：榨汁机（Food Processor）</strong><br>
+            想象一台榨汁机：你投入几颗苹果和几颗橙子（<strong>参数 Parameters</strong>），机器开启加工运转（<strong>函数体体内的代码</strong>），最终顺着出口流出了一杯混合果汁（<strong>返回值 Return Value</strong>）。</p>
+        </blockquote>
+
+<div class="mermaid">
+flowchart LR
+    A[苹果 (5)] & B[橙子 (2)] -->|传入 (Arguments)| C((榨汁机 函数<br>fruitProcessor))
+    C -->|加工生成字符串<br>Return| D[一杯 5 苹果 2 橙子的混合果汁!]
+    
+    classDef func fill:#3b82f6,stroke:#1d4ed8,color:#fff;
+    class C func;
+</div>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">processor.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">'use strict';
+
+function fruitProcessor(apples, oranges) {
+    // apples 和 oranges 是形参（Parameters）
+    console.log(`收到：${apples} 个苹果，${oranges} 个橙子`);
+    
+    // 加工数据
+    const juice = `这是一杯用 ${apples} 个苹果和 ${oranges} 个橙子榨的果汁。`;
+    
+    // 输出成品（返回值）
+    return juice; 
+}
+
+// 调用函数，并传入实参（Arguments）5 和 2
+// 我们必须用一个变量（appleJuice）来接收它返回（return）的成品数据！
+const appleJuice = fruitProcessor(5, 2);
+console.log(appleJuice);
+
+// 再次复用！这次做全橙汁
+const orangeJuice = fruitProcessor(0, 4);
+console.log(orangeJuice);
+</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+        
+        <p><strong>🔁 数据传递流向图 (Data Flow) 追踪：</strong></p>
+        <ol>
+            <li>我们调用 <code>fruitProcessor(5, 2)</code>，数字 <code>5</code> 赋予了变量 <code>apples</code>，数字 <code>2</code> 赋予了 <code>oranges</code>。（实际传入的具体数值称为<strong>实参 Argument</strong>）。</li>
+            <li>函数执行时，内部拼装出 <code>juice</code> 字符串变量。</li>
+            <li>关键词 <code>return</code> 将 <code>juice</code> 抛出函数外部。一旦代码执行到 <code>return</code>，函数运行立即结束并交出数据。</li>
+            <li>在外部，我们将抛出来的结果捕获，并赋值给常量 <code>appleJuice</code>。</li>
+        </ol>
+
+        <hr>
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>函数</td>
+                    <td>Function</td>
+                    <td>可重用的代码块</td>
+                    <td><code>function name() {}</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Functions" target="_blank" style="color:var(--accent-color);">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>形参</td>
+                    <td>Parameter</td>
+                    <td>定义函数时括号内的占位符变量</td>
+                    <td><code>function log(msg) {}</code></td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>实参</td>
+                    <td>Argument</td>
+                    <td>调用函数时真实传入的具体数据</td>
+                    <td><code>log('Hello')</code></td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>返回值</td>
+                    <td>Return Value</td>
+                    <td>函数加工完毕后向外抛出的最终结果</td>
+                    <td><code>return data;</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/return" target="_blank" style="color:var(--accent-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>📝 动手练习</h3>
+        <p><strong>练习 1：算账机</strong><br>
+        写一个名叫 <code>calcTotal</code> 的函数。它接收两个参数：<code>price</code>（单价）和 <code>quantity</code>（数量）。函数内部计算总价并返回（return）。然后调用它计算 单价 50，数量 3 的总价，并打印到控制台。</p>
+        <details>
+            <summary>💡 参考答案</summary>
+            <pre><code class="language-javascript">function calcTotal(price, quantity) {
+    return price * quantity;
+}
+const total = calcTotal(50, 3);
+console.log(total); // 150</code></pre>
+        </details>
+
+        <br>
+        <h3>❓ 理解检测</h3>
+        
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 关于 <code>console.log()</code> 和 <code>return</code> 的区别，以下哪项最贴切？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 它们是同一个东西，都用于输出结果。</div>
+                <div class="quiz-option" data-value="B">B) console.log 只是在开发者面板打印文字用于查看；return 则是将真正的值从函数内部交出来，以便赋值给新的变量继续使用。</div>
+                <div class="quiz-option" data-value="C">C) return 会在网页屏幕上弹出一个内容框反馈。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>解析：</strong> B 是正确的。<code>console.log</code> 不会交出任何数据，如果尝试用变量接收它只会得到 <code>undefined</code>；而只有用 <code>return</code> 才能拿到真真实实的数据用于下一次运算。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const out = document.getElementById(consoleId);
+        out.innerHTML = '';
+        const originalLog = console.log;
+        const originalError = console.error;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push('> ' + args.join(' '));
+            originalLog.apply(console, args);
+        };
+        console.error = function(...args) {
+            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
+            originalError.apply(console, args);
+        };
+        try {
+            new Function(code)();
+            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+        } catch (e) {
+            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+        }
+        console.log = originalLog;
+        console.error = originalError;
+        out.innerHTML = logs.join('<br>');
+    }
+
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            if (card.querySelector('.selected')) return;
+            const correctVal = card.getAttribute('data-correct');
+            const selectedVal = this.getAttribute('data-value');
+            this.classList.add('selected');
+            if (correctVal === selectedVal) {
+                this.classList.add('correct');
+            } else {
+                this.classList.add('wrong');
+                card.querySelector(`[data-value="${correctVal}"]`).classList.add('correct', 'selected');
+            }
+            card.querySelector('.quiz-explanation').style.display = 'block';
+        });
+    });
+</script>
+</body>
+</html>

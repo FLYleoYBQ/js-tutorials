@@ -1,0 +1,655 @@
+1
+00:00:01,400 --> 00:00:02,730
+So in this section,
+
+2
+00:00:02,730 --> 00:00:05,490
+we're gonna build yet another project.
+
+3
+00:00:05,490 --> 00:00:08,093
+So let's start by taking a look at it.
+
+4
+00:00:09,600 --> 00:00:12,070
+So over the last two sections,
+
+5
+00:00:12,070 --> 00:00:13,500
+we built the application
+
+6
+00:00:13,500 --> 00:00:16,268
+for a fictional bank called Bankist.
+
+7
+00:00:16,268 --> 00:00:18,380
+Now in this section,
+
+8
+00:00:18,380 --> 00:00:22,260
+we're gonna be building the kind of marketing website
+
+9
+00:00:22,260 --> 00:00:24,740
+for the same fictional bank.
+
+10
+00:00:24,740 --> 00:00:27,157
+So again, that's Bankist is here.
+
+11
+00:00:27,157 --> 00:00:30,290
+And so let's take a look at it.
+
+12
+00:00:30,290 --> 00:00:31,280
+Now, of course,
+
+13
+00:00:31,280 --> 00:00:35,260
+all of this HTML and CSS that you see here is already
+
+14
+00:00:35,260 --> 00:00:37,909
+provided for you in the starter files,
+
+15
+00:00:37,909 --> 00:00:40,860
+but all the effects that you see here going on
+
+16
+00:00:40,860 --> 00:00:43,449
+will be built by us throughout the section.
+
+17
+00:00:43,449 --> 00:00:47,070
+So maybe you already saw this section here,
+
+18
+00:00:47,070 --> 00:00:49,524
+fading in and moving a little bit,
+
+19
+00:00:49,524 --> 00:00:53,703
+and also notice here what happens with these images.
+
+20
+00:00:55,680 --> 00:00:59,160
+So it's basically lazy loading these images
+
+21
+00:00:59,160 --> 00:01:00,483
+as we scroll to them.
+
+22
+00:01:02,780 --> 00:01:06,756
+So here you saw also this section fading in,
+
+23
+00:01:06,756 --> 00:01:11,550
+maybe you already also noticed that the menu bar
+
+24
+00:01:11,550 --> 00:01:14,070
+has become sticky here at the top.
+
+25
+00:01:14,070 --> 00:01:16,520
+And when we hover over each of these links,
+
+26
+00:01:16,520 --> 00:01:19,920
+then all the other links and get great out.
+
+27
+00:01:19,920 --> 00:01:23,893
+You'll see. And so all of that is done using JavaScript.
+
+28
+00:01:25,170 --> 00:01:28,958
+And also here you get this nice popup window.
+
+29
+00:01:28,958 --> 00:01:31,520
+And so again, that's JavaScript.
+
+30
+00:01:31,520 --> 00:01:36,520
+Here we have this component, which is a tapped component,
+
+31
+00:01:36,540 --> 00:01:40,290
+which is pretty common to see in modern user interfaces.
+
+32
+00:01:40,290 --> 00:01:43,133
+And so you will learn how to do this as well.
+
+33
+00:01:43,976 --> 00:01:46,140
+Then again, this section here,
+
+34
+00:01:46,140 --> 00:01:49,820
+sliding in and here we have the coolest component
+
+35
+00:01:49,820 --> 00:01:52,743
+of all of them, which is this slider.
+
+36
+00:01:52,743 --> 00:01:55,236
+So as we click here, you see,
+
+37
+00:01:55,236 --> 00:01:59,674
+basically we have these three slides with these three dots
+
+38
+00:01:59,674 --> 00:02:03,521
+and we are circling through them as we click these arrows
+
+39
+00:02:03,521 --> 00:02:05,093
+or even these dots.
+
+40
+00:02:06,400 --> 00:02:09,967
+So these dots, they work just the same as the arrows.
+
+41
+00:02:09,967 --> 00:02:12,800
+And I'm sure you have seen a slider like this.
+
+42
+00:02:12,800 --> 00:02:15,950
+And so now you will learn one way of building
+
+43
+00:02:15,950 --> 00:02:17,492
+a really cool slider.
+
+44
+00:02:17,492 --> 00:02:19,453
+Yeah, just like this one.
+
+45
+00:02:20,620 --> 00:02:23,813
+And here again, we will have the popup window.
+
+46
+00:02:25,260 --> 00:02:27,300
+And of course, if we click here,
+
+47
+00:02:27,300 --> 00:02:31,300
+then we get a smooth scrolling animation to that part
+
+48
+00:02:31,300 --> 00:02:36,300
+of the page and the same here on this button now. Okay.
+
+49
+00:02:37,470 --> 00:02:40,090
+So you'll see there are a lot of dynamic effects
+
+50
+00:02:40,090 --> 00:02:42,010
+going on here on this page.
+
+51
+00:02:42,010 --> 00:02:44,774
+And so I hope you're really excited for this project
+
+52
+00:02:44,774 --> 00:02:48,370
+because you will learn how to do all of them.
+
+53
+00:02:48,370 --> 00:02:49,805
+And these are for sure,
+
+54
+00:02:49,805 --> 00:02:53,169
+some of the most important and commonly used effects
+
+55
+00:02:53,169 --> 00:02:56,110
+that you will see on all websites.
+
+56
+00:02:56,110 --> 00:02:59,150
+And so that's why I decided to include this project
+
+57
+00:02:59,150 --> 00:03:03,510
+in the course so that you can learn how to do them yourself.
+
+58
+00:03:03,510 --> 00:03:07,270
+I also tried to design a really nice and beautiful website,
+
+59
+00:03:07,270 --> 00:03:11,340
+which looks like a real marketing page of a real company.
+
+60
+00:03:11,340 --> 00:03:13,543
+And so if you include this in your portfolio,
+
+61
+00:03:13,543 --> 00:03:16,310
+then I'm sure it will look really cool
+
+62
+00:03:16,310 --> 00:03:18,500
+on your portfolio too.
+
+63
+00:03:18,500 --> 00:03:21,860
+So I hope you liked this page, that you liked the effects
+
+64
+00:03:21,860 --> 00:03:23,330
+that we're gonna implement,
+
+65
+00:03:23,330 --> 00:03:25,800
+and that you're just as excited as I am
+
+66
+00:03:25,800 --> 00:03:28,113
+to get started with this project.
+
+67
+00:03:29,350 --> 00:03:32,890
+So anyway, please open up your starter files
+
+68
+00:03:32,890 --> 00:03:36,150
+that I provided for this project.
+
+69
+00:03:36,150 --> 00:03:39,988
+And so there you have this big HTML file
+
+70
+00:03:39,988 --> 00:03:42,764
+that I will explain you as necessary,
+
+71
+00:03:42,764 --> 00:03:47,000
+then this huge style sheet with hundreds of lines of code
+
+72
+00:03:47,000 --> 00:03:50,020
+that I wrote just for this project.
+
+73
+00:03:50,020 --> 00:03:53,600
+And then of course the script.js
+
+74
+00:03:53,600 --> 00:03:57,440
+Now here, I already included the code for the modal window
+
+75
+00:03:58,480 --> 00:04:01,180
+because this is actually exactly the code
+
+76
+00:04:01,180 --> 00:04:05,268
+that we wrote before in one of the projects. Remember that?
+
+77
+00:04:05,268 --> 00:04:09,027
+So this is exactly the same. And so if we start our project,
+
+78
+00:04:09,027 --> 00:04:12,451
+it should actually already be working.
+
+79
+00:04:12,451 --> 00:04:17,451
+So let's open up here our console live server.
+
+80
+00:04:20,490 --> 00:04:22,714
+And so this is the page here.
+
+81
+00:04:22,714 --> 00:04:27,714
+Now I'm seeing this page at, I think 75% now,
+
+82
+00:04:29,160 --> 00:04:33,930
+because otherwise it looks really ugly, right?
+
+83
+00:04:33,930 --> 00:04:37,780
+And at this point also nothing works yet as it did
+
+84
+00:04:37,780 --> 00:04:40,560
+in the demo project because the JavaScript
+
+85
+00:04:40,560 --> 00:04:42,900
+is simply not yet written.
+
+86
+00:04:42,900 --> 00:04:43,860
+And so of course,
+
+87
+00:04:43,860 --> 00:04:48,860
+nothing works here, and everything looks a little bit weird.
+
+88
+00:04:50,700 --> 00:04:53,143
+So let's go back to 75%,
+
+89
+00:04:53,143 --> 00:04:58,010
+but what should already be working is this popup.
+
+90
+00:04:58,010 --> 00:05:00,010
+So does modal window.
+
+91
+00:05:00,010 --> 00:05:03,509
+And again, that is because it is exactly the same code
+
+92
+00:05:03,509 --> 00:05:05,493
+that we already wrote before.
+
+93
+00:05:06,697 --> 00:05:09,280
+Now, there are just two small changes
+
+94
+00:05:09,280 --> 00:05:11,130
+that I want to do here in this code
+
+95
+00:05:11,130 --> 00:05:13,740
+A very quick before we get started,
+
+96
+00:05:13,740 --> 00:05:14,584
+the first one is,
+
+97
+00:05:14,584 --> 00:05:18,060
+watch what happens if we click this button here,
+
+98
+00:05:18,060 --> 00:05:19,223
+like in this position.
+
+99
+00:05:21,250 --> 00:05:23,970
+So you'll see that the page scroll to back to the top
+
+100
+00:05:23,970 --> 00:05:27,833
+and that is because, well, let me show you here.
+
+101
+00:05:29,210 --> 00:05:32,520
+So that's because this is actually now a link
+
+102
+00:05:32,520 --> 00:05:35,260
+and not a button and on the link
+
+103
+00:05:35,260 --> 00:05:39,090
+when we have this hash here as the hyperlink.
+
+104
+00:05:39,090 --> 00:05:43,770
+So as HRF, then that will make the page jump to the top.
+
+105
+00:05:43,770 --> 00:05:45,740
+So that's the default behavior.
+
+106
+00:05:45,740 --> 00:05:49,688
+When we click a link that has this hyperlink here.
+
+107
+00:05:49,688 --> 00:05:51,870
+And so if that is the default,
+
+108
+00:05:51,870 --> 00:05:56,670
+we already know a way of preventing debt default, right?
+
+109
+00:05:56,670 --> 00:05:58,093
+Do you remember how?
+
+110
+00:05:59,010 --> 00:06:02,580
+Well, all we need here is in dysfunction,
+
+111
+00:06:02,580 --> 00:06:06,601
+which is the one responsible for opening this model,
+
+112
+00:06:06,601 --> 00:06:09,240
+is to get access to the event.
+
+113
+00:06:09,240 --> 00:06:13,240
+And then on the event we call prevent default.
+
+114
+00:06:16,033 --> 00:06:18,928
+So hopefully you remember that from earlier.
+
+115
+00:06:18,928 --> 00:06:23,928
+So let's see again, and this time, the page didn't jump.
+
+116
+00:06:26,164 --> 00:06:27,500
+So we fixed that.
+
+117
+00:06:27,500 --> 00:06:30,970
+And now the second part that I want to quickly fix
+
+118
+00:06:30,970 --> 00:06:33,560
+is getting rid of this old school
+
+119
+00:06:33,560 --> 00:06:35,760
+for a loop that we have here,
+
+120
+00:06:35,760 --> 00:06:39,130
+because now we know of a better way of doing this,
+
+121
+00:06:39,130 --> 00:06:41,678
+which is the, for each loop.
+
+122
+00:06:41,678 --> 00:06:46,244
+So we have this buttons open modal, which is a node list.
+
+123
+00:06:46,244 --> 00:06:47,654
+And it's a node list
+
+124
+00:06:47,654 --> 00:06:52,654
+because it's the result of querySelectorAll, all right.
+
+125
+00:06:52,671 --> 00:06:56,670
+Now remember that a note list is not an array,
+
+126
+00:06:56,670 --> 00:07:00,387
+but still it does have default for each method.
+
+127
+00:07:00,387 --> 00:07:04,330
+So it doesn't have most of the methods that erase have,
+
+128
+00:07:04,330 --> 00:07:06,950
+but for each is one of the methods
+
+129
+00:07:06,950 --> 00:07:09,540
+that in node list has as well.
+
+130
+00:07:09,540 --> 00:07:12,200
+And so let's use that now.
+
+131
+00:07:12,200 --> 00:07:16,363
+So buttons open modal dot for each.
+
+132
+00:07:17,197 --> 00:07:19,900
+And so remember that we did this loop here
+
+133
+00:07:19,900 --> 00:07:21,120
+in the first place,
+
+134
+00:07:21,120 --> 00:07:23,580
+because we wanted to add an event listener
+
+135
+00:07:23,580 --> 00:07:25,520
+to each of the buttons.
+
+136
+00:07:25,520 --> 00:07:26,470
+So in our case,
+
+137
+00:07:26,470 --> 00:07:30,173
+that's this button here and also this one down here.
+
+138
+00:07:31,960 --> 00:07:33,150
+So this one,
+
+139
+00:07:33,150 --> 00:07:35,600
+well, for some reason it's not working right now,
+
+140
+00:07:36,575 --> 00:07:39,473
+but let's first finish this.
+
+141
+00:07:40,540 --> 00:07:41,470
+All right.
+
+142
+00:07:41,470 --> 00:07:43,630
+So anyway, we want to attach
+
+143
+00:07:43,630 --> 00:07:45,723
+an event listener to this button
+
+144
+00:07:45,723 --> 00:07:48,981
+and to this one here at the same time.
+
+145
+00:07:48,981 --> 00:07:51,213
+And so that's why we did this loop,
+
+146
+00:07:51,213 --> 00:07:53,485
+but now we have a better way of doing it,
+
+147
+00:07:53,485 --> 00:07:56,760
+which is by simply providing a callback function here,
+
+148
+00:07:56,760 --> 00:07:58,070
+two for each.
+
+149
+00:07:58,070 --> 00:08:00,203
+So each one will be a button.
+
+150
+00:08:01,220 --> 00:08:02,834
+And then on that button,
+
+151
+00:08:02,834 --> 00:08:06,020
+we will simply add an event listener.
+
+152
+00:08:06,020 --> 00:08:08,653
+And so that's simply this part.
+
+153
+00:08:12,410 --> 00:08:15,290
+And so now, this is exactly the same as this,
+
+154
+00:08:15,290 --> 00:08:17,373
+but in a lot easier way.
+
+155
+00:08:18,420 --> 00:08:19,570
+So let's give it a save
+
+156
+00:08:22,250 --> 00:08:25,513
+and that works and let's check the other one as well.
+
+157
+00:08:26,990 --> 00:08:27,823
+90. Yeah.
+
+158
+00:08:28,800 --> 00:08:30,870
+So this one works as well.
+
+159
+00:08:30,870 --> 00:08:31,703
+And so with this,
+
+160
+00:08:31,703 --> 00:08:35,652
+our code is a little bit nicer and adapted to this page.
+
+161
+00:08:35,652 --> 00:08:39,547
+All right. So we are ready to get started in the section
+
+162
+00:08:39,547 --> 00:08:42,470
+and we will do that right in the next video,
+
+163
+00:08:42,470 --> 00:08:43,810
+by learning a little bit more
+
+164
+00:08:43,810 --> 00:08:46,923
+about how the DOM actually works behind the scenes.

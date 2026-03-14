@@ -1,0 +1,59 @@
+1
+00:00:00,374 --> 00:00:02,260
+(soothing music)
+
+2
+00:00:02,260 --> 00:00:06,030
+Welcome back after a long theory section
+
+3
+00:00:06,030 --> 00:00:09,050
+which I hope was really helpful.
+
+4
+00:00:09,050 --> 00:00:12,240
+Now, in this one, we will basically continue learning
+
+5
+00:00:12,240 --> 00:00:17,240
+about basic JavaScript features and syntax, but this time
+
+6
+00:00:17,250 --> 00:00:21,140
+with a focus on more modern JavaScript.
+
+7
+00:00:21,140 --> 00:00:24,980
+So we're gonna dive deeper and to build in data structures
+
+8
+00:00:24,980 --> 00:00:28,550
+like objects, maps, and arrays.
+
+9
+00:00:28,550 --> 00:00:31,700
+We will talk about modern ES6 plus operators,
+
+10
+00:00:31,700 --> 00:00:34,930
+such as destructuring, and optional chaining
+
+11
+00:00:34,930 --> 00:00:39,030
+and we will also take a look at how to work with strings
+
+12
+00:00:39,880 --> 00:00:43,880
+and all this together will then give you a very solid
+
+13
+00:00:43,880 --> 00:00:45,870
+and important foundation
+
+14
+00:00:45,870 --> 00:00:48,775
+for the upcoming sections and projects.
+
+15
+00:00:48,775 --> 00:00:51,358
+(upbeat music)

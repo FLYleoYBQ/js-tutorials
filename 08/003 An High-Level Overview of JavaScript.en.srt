@@ -1,0 +1,935 @@
+1
+00:00:01,150 --> 00:00:04,410
+As an introduction to this theory section,
+
+2
+00:00:04,410 --> 00:00:06,720
+I want to start with a very cool
+
+3
+00:00:06,720 --> 00:00:11,190
+and very high-level overview about the JavaScript language.
+
+4
+00:00:11,190 --> 00:00:13,480
+Just so you get a first overview
+
+5
+00:00:13,480 --> 00:00:16,380
+of most of the things that we need to learn
+
+6
+00:00:16,380 --> 00:00:19,830
+in order to eventually master JavaScript.
+
+7
+00:00:19,830 --> 00:00:22,520
+And this is gonna be a long lecture,
+
+8
+00:00:22,520 --> 00:00:25,303
+so get ready for a crazy ride.
+
+9
+00:00:27,400 --> 00:00:30,860
+And I want to start by coming back to that first definition
+
+10
+00:00:30,860 --> 00:00:33,300
+that I gave you on JavaScript,
+
+11
+00:00:33,300 --> 00:00:35,370
+where I told you that JavaScript
+
+12
+00:00:35,370 --> 00:00:37,890
+is a high-level, object-oriented,
+
+13
+00:00:37,890 --> 00:00:40,980
+multi-paradigm programming language.
+
+14
+00:00:40,980 --> 00:00:44,140
+Now this is of course 100% correct,
+
+15
+00:00:44,140 --> 00:00:47,170
+but it's also really just the surface,
+
+16
+00:00:47,170 --> 00:00:49,610
+the tip of the iceberg.
+
+17
+00:00:49,610 --> 00:00:53,020
+So what about this definition?
+
+18
+00:00:53,020 --> 00:00:55,700
+JavaScript is a high-level, prototype-based,
+
+19
+00:00:55,700 --> 00:00:57,710
+object-oriented, multi-paradigm,
+
+20
+00:00:57,710 --> 00:01:00,740
+interpreted or just-in-time compiled,
+
+21
+00:01:00,740 --> 00:01:02,120
+dynamic, single-threaded,
+
+22
+00:01:02,120 --> 00:01:04,090
+garbage-collected programming language
+
+23
+00:01:04,090 --> 00:01:06,000
+with first-class functions
+
+24
+00:01:06,000 --> 00:01:10,050
+and a non-blocking event loop concurrency model.
+
+25
+00:01:10,050 --> 00:01:11,760
+Wait, what?
+
+26
+00:01:11,760 --> 00:01:14,090
+Is this some kind of joke?
+
+27
+00:01:14,090 --> 00:01:17,600
+Well, yeah, it kind of is actually,
+
+28
+00:01:17,600 --> 00:01:20,280
+I just packed as much information as possible
+
+29
+00:01:20,280 --> 00:01:25,280
+about JavaScript into one unreadable sentence, just for fun,
+
+30
+00:01:25,970 --> 00:01:27,790
+but besides fun,
+
+31
+00:01:27,790 --> 00:01:30,600
+this also gives us a great opportunity
+
+32
+00:01:30,600 --> 00:01:34,960
+to unpack all of this in order to get a first peek
+
+33
+00:01:34,960 --> 00:01:38,380
+into all the stuff that we're gonna learn about JavaScript
+
+34
+00:01:38,380 --> 00:01:40,010
+throughout the course.
+
+35
+00:01:40,010 --> 00:01:44,210
+And this is not to intimidate you. It's really not.
+
+36
+00:01:44,210 --> 00:01:46,550
+I just want you to get the big picture
+
+37
+00:01:46,550 --> 00:01:48,960
+before really getting started
+
+38
+00:01:48,960 --> 00:01:51,170
+and also introduce some topics
+
+39
+00:01:51,170 --> 00:01:53,420
+that are just good to know,
+
+40
+00:01:53,420 --> 00:01:56,910
+because getting the big picture before diving deep
+
+41
+00:01:56,910 --> 00:02:00,920
+is in my opinion, an amazing learning technique.
+
+42
+00:02:00,920 --> 00:02:05,083
+So with that being said, let's unpack this now a little bit.
+
+43
+00:02:06,130 --> 00:02:08,390
+So these are the nine JavaScript topics
+
+44
+00:02:08,390 --> 00:02:11,630
+that we're briefly gonna talk about in this lecture,
+
+45
+00:02:11,630 --> 00:02:12,933
+slightly reordered.
+
+46
+00:02:13,820 --> 00:02:16,700
+And starting with the high-level part,
+
+47
+00:02:16,700 --> 00:02:18,180
+as you might already know,
+
+48
+00:02:18,180 --> 00:02:20,940
+every program that runs on your computer
+
+49
+00:02:20,940 --> 00:02:23,530
+needs some hardware resources,
+
+50
+00:02:23,530 --> 00:02:28,000
+such as memory and the CPU to do its work.
+
+51
+00:02:28,000 --> 00:02:31,980
+Now, there are low-level languages, such as C,
+
+52
+00:02:31,980 --> 00:02:35,360
+where you have to manually manage these resources.
+
+53
+00:02:35,360 --> 00:02:36,210
+For example,
+
+54
+00:02:36,210 --> 00:02:40,630
+asking the computer for memory to create a new variable.
+
+55
+00:02:40,630 --> 00:02:41,810
+On the other side,
+
+56
+00:02:41,810 --> 00:02:46,470
+you have high-level languages such as JavaScript and Python,
+
+57
+00:02:46,470 --> 00:02:49,880
+where we do not have to manage resources at all
+
+58
+00:02:49,880 --> 00:02:53,660
+because these languages have so-called abstractions
+
+59
+00:02:53,660 --> 00:02:56,560
+that take all of that work away from us.
+
+60
+00:02:56,560 --> 00:02:59,700
+This makes the language easier to learn and to use,
+
+61
+00:02:59,700 --> 00:03:03,710
+but the downside is that programs will never be as fast
+
+62
+00:03:03,710 --> 00:03:08,170
+or as optimized as for example, C programs.
+
+63
+00:03:08,170 --> 00:03:10,170
+Now, one of the powerful tools
+
+64
+00:03:10,170 --> 00:03:13,530
+that takes memory management away from us developers
+
+65
+00:03:13,530 --> 00:03:15,690
+is garbage-collection,
+
+66
+00:03:15,690 --> 00:03:17,700
+which is basically an algorithm
+
+67
+00:03:17,700 --> 00:03:19,780
+inside the JavaScript engine,
+
+68
+00:03:19,780 --> 00:03:23,370
+which automatically removes old, unused objects
+
+69
+00:03:23,370 --> 00:03:24,970
+from the computer memory
+
+70
+00:03:24,970 --> 00:03:29,430
+in order not to clog it up with unnecessary stuff.
+
+71
+00:03:29,430 --> 00:03:33,490
+So it's a little bit like JavaScript has a cleaning guy
+
+72
+00:03:33,490 --> 00:03:36,750
+who cleans our memory from time to time
+
+73
+00:03:36,750 --> 00:03:40,350
+so that we don't have to do it manually in our code.
+
+74
+00:03:40,350 --> 00:03:43,440
+Next up, JavaScript is an interpreted
+
+75
+00:03:43,440 --> 00:03:46,620
+or just-in-time compiled language.
+
+76
+00:03:46,620 --> 00:03:50,070
+And again, we will learn more about this in this section,
+
+77
+00:03:50,070 --> 00:03:51,990
+but what you need to know for now
+
+78
+00:03:51,990 --> 00:03:54,080
+is that the computer's processor
+
+79
+00:03:54,080 --> 00:03:58,750
+only understands zeros and ones, that's right.
+
+80
+00:03:58,750 --> 00:04:01,880
+Ultimately, every single program needs to be written
+
+81
+00:04:01,880 --> 00:04:06,840
+in zeros and ones, which is also called machine code.
+
+82
+00:04:06,840 --> 00:04:10,860
+And since that's not really practical to write, is it?
+
+83
+00:04:10,860 --> 00:04:14,630
+We simply write human-readable JavaScript code,
+
+84
+00:04:14,630 --> 00:04:18,020
+which is an abstraction over machine code,
+
+85
+00:04:18,020 --> 00:04:21,020
+but this code eventually needs to be translated
+
+86
+00:04:21,020 --> 00:04:22,590
+to machine code.
+
+87
+00:04:22,590 --> 00:04:25,330
+And that step can be either compiling
+
+88
+00:04:25,330 --> 00:04:27,370
+or interpreting.
+
+89
+00:04:27,370 --> 00:04:31,220
+This step is necessary in every single programming language
+
+90
+00:04:31,220 --> 00:04:34,700
+because no one writes machine code manually.
+
+91
+00:04:34,700 --> 00:04:36,360
+In the case of JavaScript,
+
+92
+00:04:36,360 --> 00:04:39,283
+this happens inside the JavaScript engine.
+
+93
+00:04:40,500 --> 00:04:44,380
+Now, one of the things that makes JavaScript so popular
+
+94
+00:04:44,380 --> 00:04:48,150
+is the fact that it's a multi-paradigm language.
+
+95
+00:04:48,150 --> 00:04:51,400
+In programming, a paradigm is an approach
+
+96
+00:04:51,400 --> 00:04:55,100
+and an overall mindset of structuring our code,
+
+97
+00:04:55,100 --> 00:04:59,060
+which will ultimately direct the coding style and technique
+
+98
+00:04:59,060 --> 00:05:02,920
+in a project that uses a certain paradigm.
+
+99
+00:05:02,920 --> 00:05:06,450
+And this definition still sounds kind of abstract,
+
+100
+00:05:06,450 --> 00:05:07,580
+but don't worry,
+
+101
+00:05:07,580 --> 00:05:10,223
+it will become more clear as we move on.
+
+102
+00:05:11,100 --> 00:05:13,610
+Now, three popular paradigms are;
+
+103
+00:05:13,610 --> 00:05:16,090
+procedural, object-oriented,
+
+104
+00:05:16,090 --> 00:05:18,440
+and functional programming.
+
+105
+00:05:18,440 --> 00:05:22,400
+So procedural programming is what we've been doing so far,
+
+106
+00:05:22,400 --> 00:05:25,230
+which is basically just organizing the code
+
+107
+00:05:25,230 --> 00:05:27,350
+in a very linear way,
+
+108
+00:05:27,350 --> 00:05:30,320
+and then with some functions in between.
+
+109
+00:05:30,320 --> 00:05:32,310
+Now about object-oriented programming
+
+110
+00:05:32,310 --> 00:05:33,970
+and functional programming,
+
+111
+00:05:33,970 --> 00:05:36,470
+I will talk about them in a second.
+
+112
+00:05:36,470 --> 00:05:40,440
+Also, we can classify paradigms as imperative
+
+113
+00:05:40,440 --> 00:05:45,280
+or as declarative, but again, more on that later.
+
+114
+00:05:45,280 --> 00:05:48,430
+Now, many languages are only procedural
+
+115
+00:05:48,430 --> 00:05:50,500
+or only object-oriented
+
+116
+00:05:50,500 --> 00:05:52,280
+or only functional,
+
+117
+00:05:52,280 --> 00:05:55,020
+but JavaScript does all of it.
+
+118
+00:05:55,020 --> 00:05:58,190
+So it's really flexible and versatile.
+
+119
+00:05:58,190 --> 00:06:01,520
+And so we can do really whatever we want with it.
+
+120
+00:06:01,520 --> 00:06:05,380
+It's our choice. We can use whatever paradigm we want.
+
+121
+00:06:05,380 --> 00:06:08,703
+And in this course, I will show you how to use all of them.
+
+122
+00:06:09,810 --> 00:06:13,620
+So, about the object-oriented nature of JavaScript,
+
+123
+00:06:13,620 --> 00:06:17,840
+it is a prototype-based, object-oriented approach.
+
+124
+00:06:17,840 --> 00:06:19,670
+Now, what does that mean?
+
+125
+00:06:19,670 --> 00:06:24,670
+Well, first, almost everything in JavaScript is an object,
+
+126
+00:06:24,750 --> 00:06:26,900
+except for primitive values
+
+127
+00:06:26,900 --> 00:06:30,040
+such as numbers, strings, et cetera.
+
+128
+00:06:30,040 --> 00:06:33,230
+But arrays, for example, are just object.
+
+129
+00:06:33,230 --> 00:06:36,640
+And we already saw that in practice, right?
+
+130
+00:06:36,640 --> 00:06:40,760
+Now, have you ever wondered why we can create an array
+
+131
+00:06:40,760 --> 00:06:44,640
+and then use the push method on it, for example?
+
+132
+00:06:44,640 --> 00:06:48,840
+Well, it's because of prototypal inheritance.
+
+133
+00:06:48,840 --> 00:06:53,140
+Basically, we create arrays from an array blueprint,
+
+134
+00:06:53,140 --> 00:06:57,480
+which is like a template and this is called the prototype.
+
+135
+00:06:57,480 --> 00:07:01,170
+This prototype contains all the array methods
+
+136
+00:07:01,170 --> 00:07:03,860
+and the arrays that we create in our code
+
+137
+00:07:03,860 --> 00:07:07,380
+then inherit the methods from the blueprint
+
+138
+00:07:07,380 --> 00:07:10,640
+so that we can use them on the arrays.
+
+139
+00:07:10,640 --> 00:07:12,600
+And this, what I just explained to you
+
+140
+00:07:12,600 --> 00:07:15,880
+is actually a huge oversimplification,
+
+141
+00:07:15,880 --> 00:07:18,560
+which might still sound confusing.
+
+142
+00:07:18,560 --> 00:07:21,540
+And that's the reason why there is a whole section
+
+143
+00:07:21,540 --> 00:07:24,710
+on object-oriented programming with JavaScript
+
+144
+00:07:24,710 --> 00:07:26,510
+later in the course.
+
+145
+00:07:26,510 --> 00:07:29,040
+But since this is a big overview lecture,
+
+146
+00:07:29,040 --> 00:07:32,623
+I wanted to first introduce this topic right here.
+
+147
+00:07:33,850 --> 00:07:36,160
+Next up, JavaScript is a language
+
+148
+00:07:36,160 --> 00:07:38,440
+with first-class functions,
+
+149
+00:07:38,440 --> 00:07:40,410
+which simply means that functions
+
+150
+00:07:40,410 --> 00:07:43,600
+are treated just as regular variables.
+
+151
+00:07:43,600 --> 00:07:47,130
+So, we can pass functions into other functions
+
+152
+00:07:47,130 --> 00:07:50,870
+and we can even return functions from functions.
+
+153
+00:07:50,870 --> 00:07:53,240
+And this is extremely powerful
+
+154
+00:07:53,240 --> 00:07:57,480
+because it allows us to use a lot of powerful techniques
+
+155
+00:07:57,480 --> 00:08:01,090
+and also allows for functional-programming,
+
+156
+00:08:01,090 --> 00:08:02,740
+which is one of the paradigms
+
+157
+00:08:02,740 --> 00:08:05,230
+that we just talked about before.
+
+158
+00:08:05,230 --> 00:08:06,370
+And in fact,
+
+159
+00:08:06,370 --> 00:08:10,100
+we have already used the power of first-class functions
+
+160
+00:08:10,100 --> 00:08:14,440
+without knowing that they are called first-class functions.
+
+161
+00:08:14,440 --> 00:08:17,850
+So remember this piece of code that we wrote
+
+162
+00:08:17,850 --> 00:08:21,060
+for closing the modal window that we built before.
+
+163
+00:08:21,060 --> 00:08:24,320
+So right here, we pass the closeModal function
+
+164
+00:08:24,320 --> 00:08:26,770
+into the addEventListener function
+
+165
+00:08:26,770 --> 00:08:30,453
+as if it was just a regular variable, right?
+
+166
+00:08:31,400 --> 00:08:35,740
+And actually not all languages have first-class functions,
+
+167
+00:08:35,740 --> 00:08:39,100
+but JavaScript has, and it is amazing.
+
+168
+00:08:39,100 --> 00:08:41,623
+Believe me, it's really, really helpful.
+
+169
+00:08:43,130 --> 00:08:47,580
+Next, I said that JavaScript is a dynamic language
+
+170
+00:08:47,580 --> 00:08:51,170
+and dynamic actually means dynamically-typed.
+
+171
+00:08:51,170 --> 00:08:53,040
+So as we've already seen,
+
+172
+00:08:53,040 --> 00:08:57,720
+in JavaScript, we don't assign data types to variables.
+
+173
+00:08:57,720 --> 00:08:59,980
+Instead, they only became known
+
+174
+00:08:59,980 --> 00:09:04,130
+when the JavaScript engine executes our code.
+
+175
+00:09:04,130 --> 00:09:07,650
+Also, the type of variables can easily be changed
+
+176
+00:09:07,650 --> 00:09:10,100
+as we reassign variables.
+
+177
+00:09:10,100 --> 00:09:14,300
+And this is basically what dynamically-typed means.
+
+178
+00:09:14,300 --> 00:09:18,670
+Now there is a lot of controversy if this is good or bad,
+
+179
+00:09:18,670 --> 00:09:21,340
+but this is just how it works.
+
+180
+00:09:21,340 --> 00:09:23,050
+Now, the same is not true
+
+181
+00:09:23,050 --> 00:09:25,540
+for most other programming languages,
+
+182
+00:09:25,540 --> 00:09:29,450
+where we have to manually assign types, to variables.
+
+183
+00:09:29,450 --> 00:09:32,970
+And this then usually prevents bugs from happening,
+
+184
+00:09:32,970 --> 00:09:36,430
+which is the reason why many people say that JavaScript
+
+185
+00:09:36,430 --> 00:09:39,920
+should be a strongly-typed language as well.
+
+186
+00:09:39,920 --> 00:09:43,800
+And if you yourself want to use JavaScript with types,
+
+187
+00:09:43,800 --> 00:09:46,513
+then you can always look into TypeScript.
+
+188
+00:09:47,420 --> 00:09:51,300
+But anyway, let's now finally talk about the single-thread
+
+189
+00:09:51,300 --> 00:09:55,270
+and the non-blocking event loop concurrency model.
+
+190
+00:09:55,270 --> 00:09:57,870
+Now this is a really complex topic
+
+191
+00:09:57,870 --> 00:10:01,420
+and probably the most complex one of the whole course,
+
+192
+00:10:01,420 --> 00:10:04,930
+which is why it's kind of at the end of the course.
+
+193
+00:10:04,930 --> 00:10:05,780
+And therefore,
+
+194
+00:10:05,780 --> 00:10:09,040
+I'm not gonna go into specifics here just yet,
+
+195
+00:10:09,040 --> 00:10:12,810
+but instead I will just define some things here.
+
+196
+00:10:12,810 --> 00:10:16,840
+First, what actually is a concurrency model?
+
+197
+00:10:16,840 --> 00:10:19,190
+Well, it's just a fancy term
+
+198
+00:10:19,190 --> 00:10:23,260
+that means how the JavaScript engine handles multiple tasks
+
+199
+00:10:23,260 --> 00:10:25,540
+happening at the same time.
+
+200
+00:10:25,540 --> 00:10:27,460
+No, okay. That's cool.
+
+201
+00:10:27,460 --> 00:10:30,180
+But why do we need that?
+
+202
+00:10:30,180 --> 00:10:35,180
+Well, because JavaScript itself runs in one single-thread,
+
+203
+00:10:35,310 --> 00:10:39,040
+which means that it can only do one thing at a time
+
+204
+00:10:39,040 --> 00:10:41,570
+and therefore we need a way of handling
+
+205
+00:10:41,570 --> 00:10:44,930
+multiple things happening at the same time.
+
+206
+00:10:44,930 --> 00:10:47,180
+And by the way, in computing,
+
+207
+00:10:47,180 --> 00:10:50,280
+a thread is like a set of instructions
+
+208
+00:10:50,280 --> 00:10:53,800
+that is executed in the computer's CPU.
+
+209
+00:10:53,800 --> 00:10:56,830
+So basically, the thread is where our code
+
+210
+00:10:56,830 --> 00:11:00,263
+is actually executed in a machine's processor.
+
+211
+00:11:01,120 --> 00:11:05,400
+All right. But what if there is a long-running task,
+
+212
+00:11:05,400 --> 00:11:08,690
+like fetching data from a remote server?
+
+213
+00:11:08,690 --> 00:11:12,410
+Well, it sounds like that would block the single thread
+
+214
+00:11:12,410 --> 00:11:15,030
+where the code is running, right?
+
+215
+00:11:15,030 --> 00:11:17,480
+But of course we don't want that.
+
+216
+00:11:17,480 --> 00:11:21,410
+What we want is so-called non-blocking behavior
+
+217
+00:11:21,410 --> 00:11:24,210
+and how do we achieve that?
+
+218
+00:11:24,210 --> 00:11:27,680
+Well, by using a so-called event loop.
+
+219
+00:11:27,680 --> 00:11:30,480
+The event loop takes long-running tasks,
+
+220
+00:11:30,480 --> 00:11:32,440
+executes them in the background
+
+221
+00:11:32,440 --> 00:11:34,910
+and then puts them back in the main thread
+
+222
+00:11:34,910 --> 00:11:37,010
+once they are finished.
+
+223
+00:11:37,010 --> 00:11:38,430
+And this is, in a nutshell,
+
+224
+00:11:38,430 --> 00:11:42,040
+JavaScript's non-blocking event loop concurrency model
+
+225
+00:11:42,040 --> 00:11:44,100
+with a single thread.
+
+226
+00:11:44,100 --> 00:11:46,990
+It sounds like a mouthful for sure
+
+227
+00:11:46,990 --> 00:11:47,823
+but in the end,
+
+228
+00:11:47,823 --> 00:11:51,230
+it really just compresses to this.
+
+229
+00:11:51,230 --> 00:11:53,160
+Just keep in mind that, again,
+
+230
+00:11:53,160 --> 00:11:57,373
+this is a huge oversimplification that we will come back to.
+
+231
+00:11:58,340 --> 00:11:59,230
+All right.
+
+232
+00:11:59,230 --> 00:12:02,710
+And this actually rounds up this overview lecture.
+
+233
+00:12:02,710 --> 00:12:05,680
+I know there was a ton of stuff to take in,
+
+234
+00:12:05,680 --> 00:12:08,380
+but I hope that you still learned a thing or two here.

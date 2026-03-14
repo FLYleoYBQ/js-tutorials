@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Think Like a Developer Become a Problem Solver!</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 解决问题的四步框架</a>
+            <a href="#section-2" class="nav-item">2. 案例实战拆解</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>How to Think Like a Developer Become a Problem Solver!</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：007 How to Think Like a Developer Become a Problem Solver!.en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：无</li>
+                <li><strong>后续扩展</strong>：写算法题、处理复杂业务需求时的前置大纲设计</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>编程本质上就是“解决问题”。面对复杂的业务需求（比如“从 GPS 数组中找出最近的两个坐标”），你如果直接凭一股冲动猛敲键盘，最终通常会被乱如线团的逻辑逼入死胡同。本节课程教你一套万能的开发者【4 步解题框架】。</p>
+
+        <h2 id="section-1">1. 解决问题的四步框架</h2>
+
+        <pre class="language-mermaid">
+        flowchart TD
+            A[🤔 1. 彻底理解问题] -->|不要盲目敲键盘| B[✂️ 2. 分而治之 <br> (Divide & Conquer)]
+            B -->|切分为小任务| C[🕵️ 3. 勇于调查研究]
+            C -->|不会的地方查文档| D[✍️ 4. 编写伪代码]
+            
+            style A fill:#4a148c,stroke:#fff,stroke-width:2px,color:#fff
+            style B fill:#e65100,stroke:#fff,stroke-width:2px,color:#fff
+            style C fill:#004d40,stroke:#fff,stroke-width:2px,color:#fff
+            style D fill:#1565c0,stroke:#fff,stroke-width:2px,color:#fff
+        </pre>
+
+        <ul>
+            <li><strong>第一步：100% 彻底理解问题。</strong> 不要上来就写代码！主动提问，搞清楚输入是什么？输出是什么？发生异常情况怎么处理？</li>
+            <li><strong>第二步：分而治之 (Divide and Conquer)。</strong> 将复杂的大问题，大卸八块，变成一个个简单好上手的小任务清单。</li>
+            <li><strong>第三步：善用搜索研究。</strong> 当卡在某个小任务上不知道怎么实现时，不要死脑筋，果断使用 Google、Stack Overflow 开发社区或 MDN 官方文档寻找灵感。</li>
+            <li><strong>第四步：编写伪代码 (Pseudo-code)。</strong> 用人类看得懂的逻辑（即使不是有效 JS 代码）写下整个执行流程大纲，整理好后再动手写出真正的代码。</li>
+        </ul>
+
+        <h2 id="section-2">2. 案例实战拆解</h2>
+        <p><strong>需求假设</strong>：经理要求“写一个能反转输入任何数据的函数”。</p>
+        
+        <p>❌ <strong>失败的做法</strong>：马上新建文件，打下 <code>function reverse() {}</code>，然后脑子一片空白。</p>
+        <p>✅ <strong>四步框架流的做法</strong>：</p>
+        
+        <p><strong>Step 1：提问理解</strong></p>
+        <ul>
+            <li>“任何数据” 指的是什么？数值、字符串、数组都可以反转，但对象 (Object) 没有固定顺序，怎么反转布尔值也不合规矩。</li>
+            <li>输入的类型不对该怎么办？</li>
+            <li>输出应该和输入类型保持一致吗？</li>
+        </ul>
+        
+        <p><strong>Step 2：分而治之</strong></p>
+        <ol>
+            <li>检测输入的值属于哪种类型（数字、字符串抑或数组）。</li>
+            <li>分别实现：怎么反转数字？</li>
+            <li>怎么反转字符串？</li>
+            <li>怎么反转数组？</li>
+            <li>返回最终值。</li>
+        </ol>
+
+        <p><strong>Step 3：调研搜索</strong></p>
+        <p>如果在实现中不知道如何“检测类型”，就可以直接去 Google 搜索："How to check type in JavaScript?" 或者 "How to reverse string MDN" 寻找兵器。</p>
+
+        <p><strong>Step 4：编写伪代码</strong></p>
+        <p>直接在代码编辑器里写人类能懂的英文/中文草稿：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header"><span class="editor-title">pseudo_code.js</span></div>
+            <div class="editor-container">
+                <textarea class="editor-textarea" spellcheck="false" readonly>// 1. 接收输入值 value
+// 2. 如果 value 既不是数字，也不是字符串或数组：
+//    - 直接原封不动 return value
+// 3. 如果是数字：
+//    - 将数字倒序并保存
+// 4. 发挥同样的判断对付字符串和数组...
+// 5. 将处理好的反转结果 return。</textarea>
+            </div>
+        </div>
+        <p>有了这个脚手架，你只需要把这 5 句中文翻译成等效的 JavaScript 语法，功能自然水到渠成！</p>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">1. 什么是伪代码 (Pseudo-code)？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 一种人类看得懂的逻辑草稿，不受限于严谨的编程语法规则。</div>
+                <div class="quiz-option" data-value="B">B) 一种只有高级编译器才能运行的秘密机器码。</div>
+                <div class="quiz-option" data-value="C">C) 从网络上复制粘贴来的未经测试的残缺代码。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>A 是正确的</strong>。伪代码用于搭建系统思考的大纲桥梁。写代码不过是将其“翻译”为特定语言语法的最后一步而已。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+</body>
+</html>

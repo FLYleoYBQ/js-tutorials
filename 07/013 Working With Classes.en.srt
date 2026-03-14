@@ -1,0 +1,1451 @@
+1
+00:00:01,280 --> 00:00:03,160
+Let's now actually learn how
+
+2
+00:00:03,160 --> 00:00:06,223
+to manipulate classes with JavaScript.
+
+3
+00:00:07,630 --> 00:00:09,920
+But the first thing that we have to do is
+
+4
+00:00:09,920 --> 00:00:14,920
+to actually react to a click on each of these buttons here.
+
+5
+00:00:15,460 --> 00:00:18,460
+So right now, of course, nothing happens.
+
+6
+00:00:18,460 --> 00:00:21,110
+So now we need to attach an event handler
+
+7
+00:00:21,110 --> 00:00:22,933
+to each of these three buttons.
+
+8
+00:00:23,890 --> 00:00:25,010
+We finished the last video
+
+9
+00:00:25,010 --> 00:00:27,800
+by learning how we can do something for all
+
+10
+00:00:27,800 --> 00:00:30,270
+of these three buttons at the same time.
+
+11
+00:00:30,270 --> 00:00:31,370
+Right.
+
+12
+00:00:31,370 --> 00:00:35,290
+So for that, we used a for loop which loops
+
+13
+00:00:35,290 --> 00:00:37,230
+over this note list,
+
+14
+00:00:37,230 --> 00:00:40,870
+which is basically an array holding all of the buttons.
+
+15
+00:00:40,870 --> 00:00:43,617
+And so, this "btnsOpenModal",
+
+16
+00:00:45,100 --> 00:00:46,750
+at position number "I"
+
+17
+00:00:46,750 --> 00:00:49,980
+is the current button element in each iteration.
+
+18
+00:00:49,980 --> 00:00:51,860
+And then from there we simply write
+
+19
+00:00:51,860 --> 00:00:53,710
+the text content property
+
+20
+00:00:53,710 --> 00:00:56,623
+just like on any other element.
+
+21
+00:00:57,880 --> 00:01:00,230
+But now, let's take it one step further
+
+22
+00:01:00,230 --> 00:01:04,070
+and instead of simply reading the text content property,
+
+23
+00:01:04,070 --> 00:01:06,870
+we will call the add event listener method,
+
+24
+00:01:06,870 --> 00:01:10,150
+just like we learned in the last project.
+
+25
+00:01:10,150 --> 00:01:10,983
+Okay.
+
+26
+00:01:10,983 --> 00:01:14,700
+So remember, in order to respond to a click event,
+
+27
+00:01:14,700 --> 00:01:19,000
+we will attach an event handler function to the element.
+
+28
+00:01:19,000 --> 00:01:21,300
+And event handler and event listener
+
+29
+00:01:21,300 --> 00:01:23,080
+are pretty much the same thing.
+
+30
+00:01:23,080 --> 00:01:26,360
+So that's why this method is called "event listener."
+
+31
+00:01:26,360 --> 00:01:31,010
+So let's say, add event listener,
+
+32
+00:01:31,010 --> 00:01:34,550
+and then the name of the event.
+
+33
+00:01:34,550 --> 00:01:37,220
+And that is, once more, the click event.
+
+34
+00:01:37,220 --> 00:01:39,780
+And then the second argument is the function
+
+35
+00:01:39,780 --> 00:01:42,950
+which will contain the code that should be executed
+
+36
+00:01:42,950 --> 00:01:44,820
+once the button is clicked.
+
+37
+00:01:44,820 --> 00:01:47,800
+So, that will be an anonymous function.
+
+38
+00:01:47,800 --> 00:01:50,870
+Remember, so a function without a name,
+
+39
+00:01:50,870 --> 00:01:54,370
+and it is of course also a function expression.
+
+40
+00:01:54,370 --> 00:01:56,980
+Because it's simply this value here.
+
+41
+00:01:56,980 --> 00:01:58,710
+So this function value.
+
+42
+00:01:58,710 --> 00:02:01,420
+So just as I explained multiple times already,
+
+43
+00:02:01,420 --> 00:02:04,160
+but it's important to keep remembering this stuff
+
+44
+00:02:04,160 --> 00:02:06,910
+as we go here through this section.
+
+45
+00:02:06,910 --> 00:02:08,610
+And to start, let's simply log
+
+46
+00:02:08,610 --> 00:02:11,530
+to the console the text content of the button
+
+47
+00:02:11,530 --> 00:02:12,810
+that was clicked.
+
+48
+00:02:12,810 --> 00:02:14,690
+Now here was actually a mistake,
+
+49
+00:02:14,690 --> 00:02:16,140
+because of course we don't want
+
+50
+00:02:16,140 --> 00:02:18,910
+to log to the console this event listener.
+
+51
+00:02:18,910 --> 00:02:19,900
+Right.
+
+52
+00:02:19,900 --> 00:02:21,940
+It doesn't make any sense.
+
+53
+00:02:21,940 --> 00:02:24,350
+Instead we now want to log something
+
+54
+00:02:24,350 --> 00:02:28,240
+to the console right here, inside this handler function.
+
+55
+00:02:28,240 --> 00:02:31,440
+So that's just "CL" again.
+
+56
+00:02:31,440 --> 00:02:36,250
+And then let's just say, "Button clicked."
+
+57
+00:02:36,250 --> 00:02:37,760
+Give it a save.
+
+58
+00:02:37,760 --> 00:02:40,340
+And now each of these three buttons here
+
+59
+00:02:40,340 --> 00:02:43,983
+has their own event handler function attached to it.
+
+60
+00:02:44,890 --> 00:02:46,476
+So, button clicked
+
+61
+00:02:46,476 --> 00:02:50,090
+and when we click on this one then the same should appear.
+
+62
+00:02:50,090 --> 00:02:52,070
+And indeed, now we have two.
+
+63
+00:02:52,070 --> 00:02:54,090
+So that's what this two means.
+
+64
+00:02:54,090 --> 00:02:56,270
+And as we click here, we get another one,
+
+65
+00:02:56,270 --> 00:02:58,220
+and another, and another.
+
+66
+00:02:58,220 --> 00:03:01,050
+And so, yeah, this worked.
+
+67
+00:03:01,050 --> 00:03:03,600
+So we attached this function here now
+
+68
+00:03:03,600 --> 00:03:05,670
+to all of the three buttons.
+
+69
+00:03:05,670 --> 00:03:08,720
+And again, because we did it here in the loop,
+
+70
+00:03:08,720 --> 00:03:11,360
+while we were looping over this note list,
+
+71
+00:03:11,360 --> 00:03:14,530
+which contains all of these three buttons.
+
+72
+00:03:14,530 --> 00:03:17,248
+Okay, but now of course, this is not the only thing
+
+73
+00:03:17,248 --> 00:03:19,400
+that we want to do.
+
+74
+00:03:19,400 --> 00:03:21,790
+Instead, we want to display the model.
+
+75
+00:03:21,790 --> 00:03:25,730
+And remember that this model is already in the HTML.
+
+76
+00:03:25,730 --> 00:03:29,280
+It is hidden right now because it has the hidden class.
+
+77
+00:03:29,280 --> 00:03:32,460
+If it didn't have this hidden class, it would be visible.
+
+78
+00:03:32,460 --> 00:03:33,650
+Let me actually show that.
+
+79
+00:03:33,650 --> 00:03:35,954
+So I delete it, and if I save it now,
+
+80
+00:03:35,954 --> 00:03:38,373
+then you see here is the modal.
+
+81
+00:03:41,500 --> 00:03:42,333
+Right.
+
+82
+00:03:42,333 --> 00:03:43,166
+Here it is.
+
+83
+00:03:43,166 --> 00:03:46,402
+And that's because the hidden class is now gone.
+
+84
+00:03:46,402 --> 00:03:50,670
+Basically this is exactly what we will do using JavaScript.
+
+85
+00:03:50,670 --> 00:03:52,913
+So, we're moving this class.
+
+86
+00:03:55,840 --> 00:03:59,270
+So, what we want to do is take the modal.
+
+87
+00:03:59,270 --> 00:04:02,093
+So this element that we selected here previously.
+
+88
+00:04:03,474 --> 00:04:07,770
+So we selected it, then stored it into this variable.
+
+89
+00:04:07,770 --> 00:04:10,387
+And so now we take that selected element
+
+90
+00:04:10,387 --> 00:04:15,370
+and on there we can read the class list property.
+
+91
+00:04:15,370 --> 00:04:18,240
+So that's class list.
+
+92
+00:04:18,240 --> 00:04:20,700
+And then this class list property itself
+
+93
+00:04:20,700 --> 00:04:22,680
+has a couple of methods.
+
+94
+00:04:22,680 --> 00:04:25,627
+And the one we're gonna use now is "remove."
+
+95
+00:04:28,660 --> 00:04:30,790
+And as I just explained, the class
+
+96
+00:04:30,790 --> 00:04:34,810
+that we're gonna remove is the class called "hidden."
+
+97
+00:04:34,810 --> 00:04:36,020
+Okay.
+
+98
+00:04:36,020 --> 00:04:38,790
+And we can actually also remove multiple classes.
+
+99
+00:04:38,790 --> 00:04:41,900
+For that we just have to pass them in with commas,
+
+100
+00:04:41,900 --> 00:04:42,890
+like this.
+
+101
+00:04:42,890 --> 00:04:45,810
+So here we then specify more classes.
+
+102
+00:04:45,810 --> 00:04:49,290
+Just keep in mind that we do not use the dot here.
+
+103
+00:04:49,290 --> 00:04:52,160
+So not like this, okay.
+
+104
+00:04:52,160 --> 00:04:54,657
+And I'm telling you that because I used to do
+
+105
+00:04:54,657 --> 00:04:56,090
+that mistake myself.
+
+106
+00:04:56,090 --> 00:04:57,417
+And I remembered that.
+
+107
+00:04:57,417 --> 00:04:59,910
+And so, I want you to avoid it.
+
+108
+00:04:59,910 --> 00:05:02,750
+So the dot is only for the selector.
+
+109
+00:05:02,750 --> 00:05:06,170
+But here we are not anymore selecting anything.
+
+110
+00:05:06,170 --> 00:05:08,670
+We're just passing in the name of the class.
+
+111
+00:05:08,670 --> 00:05:11,963
+And so all we need is a string with that name.
+
+112
+00:05:13,170 --> 00:05:17,230
+Now besides removing classes, we can also add classes
+
+113
+00:05:17,230 --> 00:05:18,450
+and we can even check
+
+114
+00:05:18,450 --> 00:05:22,210
+if an element contains a certain class or not.
+
+115
+00:05:22,210 --> 00:05:25,980
+And we will use all of them in this video and the next one.
+
+116
+00:05:25,980 --> 00:05:27,200
+Okay.
+
+117
+00:05:27,200 --> 00:05:29,900
+And this should actually already do the trick.
+
+118
+00:05:29,900 --> 00:05:31,860
+So when I save this now
+
+119
+00:05:31,860 --> 00:05:36,020
+and let's click here, and it worked.
+
+120
+00:05:36,020 --> 00:05:37,200
+Great.
+
+121
+00:05:37,200 --> 00:05:38,930
+So the hidden class is now gone
+
+122
+00:05:38,930 --> 00:05:40,850
+and I can show that to you here.
+
+123
+00:05:40,850 --> 00:05:42,110
+Using the inspect
+
+124
+00:05:43,710 --> 00:05:46,090
+and then we need to give it some more space back.
+
+125
+00:05:46,090 --> 00:05:48,000
+And then you see here the modal class
+
+126
+00:05:48,000 --> 00:05:51,470
+that used to be here is no longer there.
+
+127
+00:05:51,470 --> 00:05:52,910
+Now we can of course not close it
+
+128
+00:05:52,910 --> 00:05:55,670
+because that functionality is not yet there.
+
+129
+00:05:55,670 --> 00:05:57,773
+But at least now it is open.
+
+130
+00:05:58,690 --> 00:06:01,470
+Now we also have the overlay which is this one,
+
+131
+00:06:01,470 --> 00:06:03,591
+which also has the hidden class.
+
+132
+00:06:03,591 --> 00:06:06,400
+In order to show that overlay,
+
+133
+00:06:06,400 --> 00:06:08,160
+we need to remove the hidden class
+
+134
+00:06:08,160 --> 00:06:09,873
+from this element as well.
+
+135
+00:06:11,610 --> 00:06:14,430
+So that's easy enough.
+
+136
+00:06:14,430 --> 00:06:16,590
+It's just the same thing again.
+
+137
+00:06:16,590 --> 00:06:21,140
+So overlay dot class list,
+
+138
+00:06:21,140 --> 00:06:22,970
+dot remove,
+
+139
+00:06:22,970 --> 00:06:25,223
+and then again, hidden.
+
+140
+00:06:29,380 --> 00:06:30,253
+All right.
+
+141
+00:06:31,320 --> 00:06:33,850
+And, yeah.
+
+142
+00:06:33,850 --> 00:06:34,890
+Beautiful.
+
+143
+00:06:34,890 --> 00:06:36,650
+That's really nice.
+
+144
+00:06:36,650 --> 00:06:40,120
+So using classes like this is a really, really great
+
+145
+00:06:40,120 --> 00:06:43,310
+and handy way of manipulating webpages.
+
+146
+00:06:43,310 --> 00:06:46,240
+And in practice adding and removing classes,
+
+147
+00:06:46,240 --> 00:06:48,030
+like we just did here,
+
+148
+00:06:48,030 --> 00:06:52,410
+is the main way in which we change styles on websites.
+
+149
+00:06:52,410 --> 00:06:56,170
+That's because a class basically aggregates many styles
+
+150
+00:06:56,170 --> 00:06:58,270
+in just one class.
+
+151
+00:06:58,270 --> 00:06:59,300
+Now in this case actually,
+
+152
+00:06:59,300 --> 00:07:04,040
+the hidden class only contains this one style here.
+
+153
+00:07:04,040 --> 00:07:05,650
+So this would've been the same
+
+154
+00:07:05,650 --> 00:07:10,650
+as specifying the display style directly in JavaScript.
+
+155
+00:07:11,100 --> 00:07:13,940
+So like we learned in the last project.
+
+156
+00:07:13,940 --> 00:07:15,730
+So we could've done also,
+
+157
+00:07:15,730 --> 00:07:20,720
+modal, dot style, dot display
+
+158
+00:07:20,720 --> 00:07:23,690
+and then send it to block,
+
+159
+00:07:23,690 --> 00:07:24,893
+I guess, what was it?
+
+160
+00:07:26,580 --> 00:07:27,413
+Yeah, nothing.
+
+161
+00:07:27,413 --> 00:07:31,770
+So basically display none means that it's not visible.
+
+162
+00:07:31,770 --> 00:07:33,370
+And if we want it to be visible,
+
+163
+00:07:33,370 --> 00:07:35,623
+we would set it to display block.
+
+164
+00:07:37,020 --> 00:07:40,230
+Okay, so this would do the exact same thing.
+
+165
+00:07:40,230 --> 00:07:42,750
+But you can see that it's a bit more of a pain.
+
+166
+00:07:42,750 --> 00:07:44,680
+Because then we would have to memorize
+
+167
+00:07:44,680 --> 00:07:47,500
+what exactly we have to write here.
+
+168
+00:07:47,500 --> 00:07:50,760
+So these property name and the exact value.
+
+169
+00:07:50,760 --> 00:07:52,720
+And this is only for one style.
+
+170
+00:07:52,720 --> 00:07:56,760
+Imagine that the hidden class actually had 10 properties.
+
+171
+00:07:56,760 --> 00:07:58,210
+Then we would have to write all
+
+172
+00:07:58,210 --> 00:07:59,740
+of this properties here manually
+
+173
+00:07:59,740 --> 00:08:01,880
+and change all their values.
+
+174
+00:08:01,880 --> 00:08:04,970
+So that's a lot of work and it's not fun.
+
+175
+00:08:04,970 --> 00:08:07,560
+And so instead we can basically aggregate all
+
+176
+00:08:07,560 --> 00:08:09,780
+of this properties in one class,
+
+177
+00:08:09,780 --> 00:08:12,100
+that we identify here in CSS,
+
+178
+00:08:12,100 --> 00:08:14,980
+and then in JavaScript we simply add
+
+179
+00:08:14,980 --> 00:08:17,420
+and remove these classes as we need
+
+180
+00:08:17,420 --> 00:08:19,980
+or don't need these styles.
+
+181
+00:08:19,980 --> 00:08:23,930
+So, usually when you need to manipulate styles on a page,
+
+182
+00:08:23,930 --> 00:08:27,260
+then always just export the styles into a class,
+
+183
+00:08:27,260 --> 00:08:30,580
+and then use the class just like we did here.
+
+184
+00:08:30,580 --> 00:08:31,680
+All right.
+
+185
+00:08:31,680 --> 00:08:35,520
+Now what we just did here is for showing the modal window.
+
+186
+00:08:35,520 --> 00:08:39,060
+But now let's also add the ability of then hiding it
+
+187
+00:08:39,060 --> 00:08:40,453
+by clicking that button.
+
+188
+00:08:41,330 --> 00:08:43,243
+So, this button here.
+
+189
+00:08:44,570 --> 00:08:45,450
+Okay.
+
+190
+00:08:45,450 --> 00:08:46,680
+So right now, as I said,
+
+191
+00:08:46,680 --> 00:08:48,580
+it's not possible to close the window,
+
+192
+00:08:48,580 --> 00:08:50,753
+unless we reload the whole page.
+
+193
+00:08:51,610 --> 00:08:56,220
+So, let's take this button here that we already selected
+
+194
+00:08:56,220 --> 00:09:00,310
+and simply add an event listener to that one as well.
+
+195
+00:09:00,310 --> 00:09:05,310
+So, button close modal, dot add event listener.
+
+196
+00:09:08,740 --> 00:09:11,793
+And again waiting for the click event.
+
+197
+00:09:12,700 --> 00:09:15,683
+And then let's specify or function here again.
+
+198
+00:09:17,880 --> 00:09:18,940
+Okay.
+
+199
+00:09:18,940 --> 00:09:21,440
+So again we are just defining the function here.
+
+200
+00:09:21,440 --> 00:09:23,540
+We are not calling it itself.
+
+201
+00:09:23,540 --> 00:09:26,600
+It is the JavaScript engin who will call this function
+
+202
+00:09:26,600 --> 00:09:31,600
+as soon as the click event happens on exactly this element.
+
+203
+00:09:31,770 --> 00:09:33,180
+All right.
+
+204
+00:09:33,180 --> 00:09:36,450
+Anyway, here we now want to do the opposite.
+
+205
+00:09:36,450 --> 00:09:40,070
+So basically we want to add the class back on.
+
+206
+00:09:40,070 --> 00:09:45,070
+So modal dot class list, dot add, this time.
+
+207
+00:09:47,150 --> 00:09:50,360
+And so, we add the hidden class back on.
+
+208
+00:09:50,360 --> 00:09:52,550
+Which will then hide the modal.
+
+209
+00:09:52,550 --> 00:09:55,362
+And the same actually for the overlay.
+
+210
+00:09:55,362 --> 00:09:58,612
+So let's just duplicate this line here.
+
+211
+00:09:59,843 --> 00:10:02,790
+And change this to overlay
+
+212
+00:10:02,790 --> 00:10:05,923
+and yeah, this should already work.
+
+213
+00:10:08,740 --> 00:10:10,570
+So that already worked before,
+
+214
+00:10:10,570 --> 00:10:12,510
+and now let's check it.
+
+215
+00:10:12,510 --> 00:10:14,850
+And yes, it does.
+
+216
+00:10:14,850 --> 00:10:17,663
+And it should work for all the three buttons of course.
+
+217
+00:10:18,720 --> 00:10:21,090
+And yeah, it does.
+
+218
+00:10:21,090 --> 00:10:21,980
+Great.
+
+219
+00:10:21,980 --> 00:10:25,350
+So again, this is a very common thing to do.
+
+220
+00:10:25,350 --> 00:10:28,020
+We change the appearance of websites
+
+221
+00:10:28,020 --> 00:10:30,630
+and of elements like this all the time,
+
+222
+00:10:30,630 --> 00:10:33,090
+using this class technique.
+
+223
+00:10:33,090 --> 00:10:37,110
+Next up, usually when we click outside of a modal,
+
+224
+00:10:37,110 --> 00:10:39,880
+then the modal window also closes.
+
+225
+00:10:39,880 --> 00:10:41,750
+So that's pretty common, right.
+
+226
+00:10:41,750 --> 00:10:44,780
+So what I mean is, clicking this area here outside,
+
+227
+00:10:44,780 --> 00:10:47,110
+should also close this window.
+
+228
+00:10:47,110 --> 00:10:49,550
+So basically we want this in a code here
+
+229
+00:10:49,550 --> 00:10:53,450
+to also be executed when we click on the modal.
+
+230
+00:10:53,450 --> 00:10:54,853
+Or actually on the overlay.
+
+231
+00:10:55,750 --> 00:10:56,783
+So let's do that.
+
+232
+00:10:58,350 --> 00:11:00,923
+So overlay, dot add,
+
+233
+00:11:02,680 --> 00:11:04,373
+event listener,
+
+234
+00:11:06,520 --> 00:11:09,390
+click, and now what should I do?
+
+235
+00:11:09,390 --> 00:11:13,740
+Well, just to make it work, I can copy this code here.
+
+236
+00:11:13,740 --> 00:11:17,933
+But you already know that this is not a good idea, probably.
+
+237
+00:11:20,340 --> 00:11:23,510
+But let's just for now see if it works.
+
+238
+00:11:23,510 --> 00:11:25,350
+So if we click outside,
+
+239
+00:11:25,350 --> 00:11:27,084
+so this is the overlay.
+
+240
+00:11:27,084 --> 00:11:29,300
+So as we click it now, then indeed,
+
+241
+00:11:29,300 --> 00:11:33,120
+the modal and the overlay are both hidden again.
+
+242
+00:11:33,120 --> 00:11:34,050
+Great.
+
+243
+00:11:34,050 --> 00:11:35,440
+So this works now.
+
+244
+00:11:35,440 --> 00:11:38,920
+But again, we do not want the same code here
+
+245
+00:11:38,920 --> 00:11:40,720
+in these two places.
+
+246
+00:11:40,720 --> 00:11:44,160
+We want actually the exact same function to be executed,
+
+247
+00:11:44,160 --> 00:11:46,410
+no matter if we click the close button
+
+248
+00:11:46,410 --> 00:11:48,660
+or if we click the overlay.
+
+249
+00:11:48,660 --> 00:11:50,937
+So, how should we do that?
+
+250
+00:11:50,937 --> 00:11:53,700
+We can simply export this function
+
+251
+00:11:53,700 --> 00:11:57,050
+into a more real named function.
+
+252
+00:11:57,050 --> 00:11:58,980
+So let me cut the code from here
+
+253
+00:11:59,900 --> 00:12:04,900
+and then I will create a function called, "close modal".
+
+254
+00:12:05,110 --> 00:12:10,110
+So const, close modal, equals this function value.
+
+255
+00:12:12,450 --> 00:12:13,430
+Okay.
+
+256
+00:12:13,430 --> 00:12:15,510
+And so now, this variable here is
+
+257
+00:12:15,510 --> 00:12:17,780
+what holds the function value.
+
+258
+00:12:17,780 --> 00:12:21,210
+So what I can do now is to here specify
+
+259
+00:12:21,210 --> 00:12:24,029
+that close modal function.
+
+260
+00:12:24,029 --> 00:12:25,250
+And that's it.
+
+261
+00:12:25,250 --> 00:12:26,740
+That's the function right here.
+
+262
+00:12:26,740 --> 00:12:29,120
+So this what we have here,
+
+263
+00:12:29,120 --> 00:12:31,253
+is exactly the same as this.
+
+264
+00:12:32,090 --> 00:12:35,380
+And again, notice that we are not calling the function.
+
+265
+00:12:35,380 --> 00:12:37,273
+We are not doing this.
+
+266
+00:12:37,273 --> 00:12:39,660
+This would not work at all,
+
+267
+00:12:39,660 --> 00:12:42,550
+because it will immediately called a function,
+
+268
+00:12:42,550 --> 00:12:45,980
+as soon as JavaScript executes this line.
+
+269
+00:12:45,980 --> 00:12:47,940
+But that's not what we want to happen.
+
+270
+00:12:47,940 --> 00:12:50,960
+We want to close modal function to be executed
+
+271
+00:12:50,960 --> 00:12:53,890
+only as soon as the click event happens
+
+272
+00:12:53,890 --> 00:12:56,173
+on the close modal button.
+
+273
+00:12:59,240 --> 00:13:01,860
+And now, here we can just do the same thing.
+
+274
+00:13:01,860 --> 00:13:03,863
+So again, close modal.
+
+275
+00:13:04,750 --> 00:13:06,930
+And that's it, that's so much better
+
+276
+00:13:06,930 --> 00:13:08,650
+than what we had before.
+
+277
+00:13:08,650 --> 00:13:11,240
+Not only did we make our code more dry.
+
+278
+00:13:11,240 --> 00:13:13,470
+But we also made it more readable.
+
+279
+00:13:13,470 --> 00:13:16,870
+More expressive, and more declarative.
+
+280
+00:13:16,870 --> 00:13:19,570
+So right now, when we read this code here,
+
+281
+00:13:19,570 --> 00:13:21,810
+it's a lot easier to understand.
+
+282
+00:13:21,810 --> 00:13:25,620
+So, we just read, button close modal,
+
+283
+00:13:25,620 --> 00:13:28,940
+add the event listener of close the modal.
+
+284
+00:13:28,940 --> 00:13:30,320
+Okay, that makes sense.
+
+285
+00:13:30,320 --> 00:13:33,030
+So, just by looking at this line we see
+
+286
+00:13:33,030 --> 00:13:35,960
+that when this element is clicked,
+
+287
+00:13:35,960 --> 00:13:37,610
+then we want to close the modal.
+
+288
+00:13:37,610 --> 00:13:40,050
+The same when the overlay is clicked,
+
+289
+00:13:40,050 --> 00:13:41,827
+we want to close the modal.
+
+290
+00:13:41,827 --> 00:13:42,660
+All right.
+
+291
+00:13:42,660 --> 00:13:45,000
+And so, we know exactly what's gonna happen
+
+292
+00:13:45,000 --> 00:13:47,130
+when we read this code.
+
+293
+00:13:47,130 --> 00:13:49,010
+And so for that advantage alone,
+
+294
+00:13:49,010 --> 00:13:52,760
+let's do the same thing here with this function.
+
+295
+00:13:52,760 --> 00:13:55,470
+So the one that opens the modal.
+
+296
+00:13:55,470 --> 00:13:56,470
+So let me grab this one,
+
+297
+00:13:56,470 --> 00:13:59,543
+just put him up here.
+
+298
+00:14:00,460 --> 00:14:02,653
+Can also get rid of this console dot log.
+
+299
+00:14:03,540 --> 00:14:07,260
+So let's put the two functions here together.
+
+300
+00:14:07,260 --> 00:14:08,543
+So open modal.
+
+301
+00:14:10,120 --> 00:14:14,073
+And now this function will be just this.
+
+302
+00:14:15,380 --> 00:14:16,213
+Right?
+
+303
+00:14:16,213 --> 00:14:18,003
+So I'll just cut it again.
+
+304
+00:14:19,180 --> 00:14:20,890
+And paste it here.
+
+305
+00:14:20,890 --> 00:14:24,230
+And so now we assigned this function here
+
+306
+00:14:24,230 --> 00:14:26,760
+to this open modal variable.
+
+307
+00:14:26,760 --> 00:14:30,150
+So once more a nice function expression.
+
+308
+00:14:30,150 --> 00:14:31,780
+And now we'll just take that
+
+309
+00:14:31,780 --> 00:14:32,920
+and put it here.
+
+310
+00:14:32,920 --> 00:14:35,030
+Open modal.
+
+311
+00:14:35,030 --> 00:14:37,550
+And of course again, we don't call it.
+
+312
+00:14:37,550 --> 00:14:40,630
+We simply declare or we define it here.
+
+313
+00:14:40,630 --> 00:14:43,697
+And tell JavaScript, "Hey, whenever a click happens
+
+314
+00:14:43,697 --> 00:14:45,537
+"on one of these buttons,
+
+315
+00:14:45,537 --> 00:14:47,410
+"then please call this function
+
+316
+00:14:47,410 --> 00:14:49,397
+"that we just specified here."
+
+317
+00:14:50,750 --> 00:14:51,583
+All right.
+
+318
+00:14:52,530 --> 00:14:54,600
+And so, this is our code.
+
+319
+00:14:54,600 --> 00:14:56,043
+And it's a lot better.
+
+320
+00:14:56,930 --> 00:15:00,120
+So actually we just did some refactoring here.
+
+321
+00:15:00,120 --> 00:15:02,810
+And so, restructuring our code
+
+322
+00:15:02,810 --> 00:15:05,040
+without changing the functionality.
+
+323
+00:15:05,040 --> 00:15:08,600
+And so that means that our code should still work the same.
+
+324
+00:15:08,600 --> 00:15:10,223
+And indeed it does.
+
+325
+00:15:11,380 --> 00:15:13,390
+We can open and close in two ways
+
+326
+00:15:13,390 --> 00:15:17,780
+and we can open it on all of the three buttons.
+
+327
+00:15:17,780 --> 00:15:18,640
+Beautiful.
+
+328
+00:15:18,640 --> 00:15:20,890
+That's really, really great.
+
+329
+00:15:20,890 --> 00:15:24,240
+So to recap, if you want to use the same function
+
+330
+00:15:24,240 --> 00:15:26,640
+in multiple event listeners,
+
+331
+00:15:26,640 --> 00:15:29,830
+then you need to specify that function
+
+332
+00:15:29,830 --> 00:15:32,710
+as a separate function, like this one here.
+
+333
+00:15:32,710 --> 00:15:34,440
+And then you can pass that function
+
+334
+00:15:34,440 --> 00:15:38,670
+as an argument to multiple "add event listener" methods.
+
+335
+00:15:38,670 --> 00:15:40,920
+So just like we did it here.
+
+336
+00:15:40,920 --> 00:15:41,830
+Right.
+
+337
+00:15:41,830 --> 00:15:44,450
+So that's one of the takeaways of this video.
+
+338
+00:15:44,450 --> 00:15:47,510
+And the other one is that we really, in practice,
+
+339
+00:15:47,510 --> 00:15:48,850
+use the functionality
+
+340
+00:15:48,850 --> 00:15:51,960
+of adding and removing classes all the time
+
+341
+00:15:51,960 --> 00:15:56,040
+in order to change the appearance of elements on our page.
+
+342
+00:15:56,040 --> 00:15:57,850
+And that's because classes allow us
+
+343
+00:15:57,850 --> 00:16:02,850
+to basically aggregate multiple CSS properties in just one,
+
+344
+00:16:02,870 --> 00:16:03,920
+like a container.
+
+345
+00:16:03,920 --> 00:16:06,890
+So each class functions a bit like a container
+
+346
+00:16:06,890 --> 00:16:09,000
+with a lot of properties in it.
+
+347
+00:16:09,000 --> 00:16:12,660
+And then here, by adding and removing them,
+
+348
+00:16:12,660 --> 00:16:16,860
+we basically can activate and deactivate certain styles,
+
+349
+00:16:16,860 --> 00:16:18,490
+all at the same time.
+
+350
+00:16:18,490 --> 00:16:20,590
+Okay, so keep that in mind.
+
+351
+00:16:20,590 --> 00:16:23,680
+And even better, actually write notes maybe
+
+352
+00:16:23,680 --> 00:16:25,040
+with what I'm saying,
+
+353
+00:16:25,040 --> 00:16:27,390
+because this is really important stuff.
+
+354
+00:16:27,390 --> 00:16:29,440
+So working with classes is something
+
+355
+00:16:29,440 --> 00:16:31,440
+that we do all the time.
+
+356
+00:16:31,440 --> 00:16:34,850
+And there is a third thing that we do with classes,
+
+357
+00:16:34,850 --> 00:16:38,160
+which is to check if a class is actually present
+
+358
+00:16:38,160 --> 00:16:39,770
+on a certain element.
+
+359
+00:16:39,770 --> 00:16:42,670
+And that's gonna be the topic of the next video,
+
+360
+00:16:42,670 --> 00:16:45,870
+along with a learning how to actually deal
+
+361
+00:16:45,870 --> 00:16:48,030
+with a key press event.
+
+362
+00:16:48,030 --> 00:16:51,070
+So that's yet another really exciting video.
+
+363
+00:16:51,070 --> 00:16:53,053
+So, let's now check that out.

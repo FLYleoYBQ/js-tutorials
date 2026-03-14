@@ -1,0 +1,851 @@
+1
+00:00:01,520 --> 00:00:02,850
+So in this section,
+
+2
+00:00:02,850 --> 00:00:04,080
+we have talked about
+
+3
+00:00:04,080 --> 00:00:06,900
+modern JavaScript development practices,
+
+4
+00:00:06,900 --> 00:00:10,150
+such as tooling and modules.
+
+5
+00:00:10,150 --> 00:00:12,510
+Now since this is the section about
+
+6
+00:00:12,510 --> 00:00:14,840
+how to write modern JavaScript,
+
+7
+00:00:14,840 --> 00:00:16,980
+let's actually finish the section
+
+8
+00:00:16,980 --> 00:00:20,760
+by reviewing clean and modern JavaScript coding style,
+
+9
+00:00:20,760 --> 00:00:22,440
+and also take a brief look
+
+10
+00:00:22,440 --> 00:00:25,120
+at some functional JavaScript principles,
+
+11
+00:00:25,120 --> 00:00:26,573
+in the next video.
+
+12
+00:00:28,000 --> 00:00:31,180
+And this lecture is actually mostly going to be
+
+13
+00:00:31,180 --> 00:00:32,960
+a review lecture.
+
+14
+00:00:32,960 --> 00:00:35,720
+So, a lecture where I'm gonna bring together
+
+15
+00:00:35,720 --> 00:00:40,370
+all the clean and modern JavaScript techniques and practices
+
+16
+00:00:40,370 --> 00:00:43,370
+that I've been showing you throughout the course.
+
+17
+00:00:43,370 --> 00:00:44,500
+And so with this,
+
+18
+00:00:44,500 --> 00:00:47,683
+you will then have all this information in one place.
+
+19
+00:00:48,520 --> 00:00:50,380
+Then, in the next lecture,
+
+20
+00:00:50,380 --> 00:00:53,730
+we will actually bring some of these topics to practice
+
+21
+00:00:53,730 --> 00:00:56,610
+by fixing a bad coding example
+
+22
+00:00:56,610 --> 00:00:59,690
+that does not follow these practices.
+
+23
+00:00:59,690 --> 00:01:02,393
+But anyway, let's now get started.
+
+24
+00:01:03,290 --> 00:01:06,820
+So, one of the most important things when you code,
+
+25
+00:01:06,820 --> 00:01:09,830
+is that you should write readable code,
+
+26
+00:01:09,830 --> 00:01:13,000
+which basically means that you should write code
+
+27
+00:01:13,000 --> 00:01:15,090
+so that others can understand it,
+
+28
+00:01:15,090 --> 00:01:18,470
+and also, so that you can understand it yourself
+
+29
+00:01:18,470 --> 00:01:20,220
+in the future.
+
+30
+00:01:20,220 --> 00:01:23,840
+Also you should try to avoid writing too clever
+
+31
+00:01:23,840 --> 00:01:26,650
+and maybe over complicated solutions
+
+32
+00:01:26,650 --> 00:01:30,150
+that might make you feel really smart as a developer,
+
+33
+00:01:30,150 --> 00:01:33,620
+but which also might make your code very confusing
+
+34
+00:01:33,620 --> 00:01:35,160
+and unreadable.
+
+35
+00:01:35,160 --> 00:01:37,610
+And so in many situations it's best
+
+36
+00:01:37,610 --> 00:01:41,113
+to simply write the most straightforward solutions.
+
+37
+00:01:41,980 --> 00:01:45,280
+Another thing that's very important for readable code
+
+38
+00:01:45,280 --> 00:01:47,700
+is to give functions and variables,
+
+39
+00:01:47,700 --> 00:01:49,710
+very descriptive names.
+
+40
+00:01:49,710 --> 00:01:50,950
+So for variables,
+
+41
+00:01:50,950 --> 00:01:54,270
+you should name them according to what they contain,
+
+42
+00:01:54,270 --> 00:01:55,430
+and for functions
+
+43
+00:01:55,430 --> 00:01:58,500
+you should name them according to what they do.
+
+44
+00:01:58,500 --> 00:01:59,960
+And so by doing this,
+
+45
+00:01:59,960 --> 00:02:02,280
+you will make it really clear and obvious
+
+46
+00:02:02,280 --> 00:02:05,120
+to everyone what each variable is,
+
+47
+00:02:05,120 --> 00:02:06,673
+and what each function does.
+
+48
+00:02:07,640 --> 00:02:10,060
+Next, there are some more general rules
+
+49
+00:02:10,060 --> 00:02:12,120
+that you should follow in order to write
+
+50
+00:02:12,120 --> 00:02:13,970
+modern and clean code,
+
+51
+00:02:13,970 --> 00:02:17,160
+which are to use the DRY principle.
+
+52
+00:02:17,160 --> 00:02:19,110
+So don't repeat yourself,
+
+53
+00:02:19,110 --> 00:02:22,950
+which means that you should essentially refactor your code
+
+54
+00:02:22,950 --> 00:02:24,580
+whenever you can.
+
+55
+00:02:24,580 --> 00:02:28,100
+Also, you should not pollute the global namespace,
+
+56
+00:02:28,100 --> 00:02:32,140
+and instead, encapsulate your data into functions
+
+57
+00:02:32,140 --> 00:02:34,820
+or classes or modules.
+
+58
+00:02:34,820 --> 00:02:39,320
+Also, you shouldn't use var for declaring variables.
+
+59
+00:02:39,320 --> 00:02:40,410
+Right.
+
+60
+00:02:40,410 --> 00:02:43,990
+So I've mentioned this one many times in the course.
+
+61
+00:02:43,990 --> 00:02:45,530
+And so by now you already know
+
+62
+00:02:45,530 --> 00:02:47,610
+that you should always use const
+
+63
+00:02:47,610 --> 00:02:50,160
+and only if you want to change any variable,
+
+64
+00:02:50,160 --> 00:02:53,590
+then use let, but never var.
+
+65
+00:02:53,590 --> 00:02:58,190
+And finally, you should always use strong type checks.
+
+66
+00:02:58,190 --> 00:03:00,310
+So always use the triple equals
+
+67
+00:03:00,310 --> 00:03:02,520
+over the simple double equals,
+
+68
+00:03:02,520 --> 00:03:05,410
+which do not perform type checks.
+
+69
+00:03:05,410 --> 00:03:07,290
+Now about writing functions,
+
+70
+00:03:07,290 --> 00:03:09,510
+which is one of the most important things
+
+71
+00:03:09,510 --> 00:03:12,190
+that we do as JavaScript developers,
+
+72
+00:03:12,190 --> 00:03:15,470
+and the main rule that we should follow by writing functions
+
+73
+00:03:15,470 --> 00:03:20,220
+is that each function should usually only do one thing.
+
+74
+00:03:20,220 --> 00:03:21,340
+All right.
+
+75
+00:03:21,340 --> 00:03:25,180
+Now many times of course we will want to break that rule,
+
+76
+00:03:25,180 --> 00:03:28,510
+but in general it's good to keep this rule in mind,
+
+77
+00:03:28,510 --> 00:03:31,760
+so that you always write like small functions
+
+78
+00:03:31,760 --> 00:03:35,200
+which only do one thing, but do it really well.
+
+79
+00:03:35,200 --> 00:03:36,430
+All right?
+
+80
+00:03:36,430 --> 00:03:39,660
+Next, you shouldn't use more than three parameters
+
+81
+00:03:39,660 --> 00:03:41,160
+in a function.
+
+82
+00:03:41,160 --> 00:03:44,750
+And this actually goes in line with the previous guideline
+
+83
+00:03:44,750 --> 00:03:48,640
+because of course, if a function only does one thing,
+
+84
+00:03:48,640 --> 00:03:52,040
+then probably it doesn't need so many parameters
+
+85
+00:03:52,040 --> 00:03:53,810
+in the first place.
+
+86
+00:03:53,810 --> 00:03:56,800
+Also use default parameters in your functions
+
+87
+00:03:56,800 --> 00:03:58,790
+whenever that's possible,
+
+88
+00:03:58,790 --> 00:04:03,610
+and in general return the same data type as you received.
+
+89
+00:04:03,610 --> 00:04:04,670
+So for example,
+
+90
+00:04:04,670 --> 00:04:07,010
+if you receive two or three numbers
+
+91
+00:04:07,010 --> 00:04:08,950
+as an input to a function,
+
+92
+00:04:08,950 --> 00:04:12,530
+then probably you will want to return a number as well.
+
+93
+00:04:12,530 --> 00:04:15,830
+So that then makes more sense for when you consume,
+
+94
+00:04:15,830 --> 00:04:18,640
+so for when you use the function later.
+
+95
+00:04:18,640 --> 00:04:21,820
+And again, this is a rule that you can of course break,
+
+96
+00:04:21,820 --> 00:04:25,650
+but it's again good to keep this one in mind.
+
+97
+00:04:25,650 --> 00:04:29,130
+Finally, you can and should use arrow functions
+
+98
+00:04:29,130 --> 00:04:31,940
+whenever they make the code more readable.
+
+99
+00:04:31,940 --> 00:04:33,030
+Okay.
+
+100
+00:04:33,030 --> 00:04:36,470
+And here, many people actually have different opinions.
+
+101
+00:04:36,470 --> 00:04:39,960
+So some people started to use arrow functions everywhere,
+
+102
+00:04:39,960 --> 00:04:42,180
+and some people don't like them at all,
+
+103
+00:04:42,180 --> 00:04:45,940
+because they think that they completely make code unreadable
+
+104
+00:04:45,940 --> 00:04:47,980
+no matter when they're used.
+
+105
+00:04:47,980 --> 00:04:52,160
+But personally, I like to kind of follow a middle ground.
+
+106
+00:04:52,160 --> 00:04:55,130
+So I still use the more regular functions
+
+107
+00:04:55,130 --> 00:04:56,790
+in many situations.
+
+108
+00:04:56,790 --> 00:04:59,970
+But if arrow functions make the code more readable,
+
+109
+00:04:59,970 --> 00:05:02,850
+then I will totally use arrow functions.
+
+110
+00:05:02,850 --> 00:05:05,190
+And one great use case in my opinion
+
+111
+00:05:05,190 --> 00:05:08,493
+is in the callback functions of array methods.
+
+112
+00:05:09,330 --> 00:05:11,020
+And now after functions
+
+113
+00:05:11,020 --> 00:05:14,380
+our next topic is object-oriented programming.
+
+114
+00:05:14,380 --> 00:05:18,640
+And in my opinion in order to implement OOP in JavaScript,
+
+115
+00:05:18,640 --> 00:05:21,630
+you should now use ES6 classes.
+
+116
+00:05:21,630 --> 00:05:26,390
+And so that's also what I did after OOP section.
+
+117
+00:05:26,390 --> 00:05:27,720
+Right.
+
+118
+00:05:27,720 --> 00:05:29,990
+Now when designing your classes,
+
+119
+00:05:29,990 --> 00:05:32,610
+make sure that you encapsulate any data
+
+120
+00:05:32,610 --> 00:05:35,260
+that shouldn't be accessible from the outside,
+
+121
+00:05:35,260 --> 00:05:39,760
+so that you don't mutate that data from outside the class.
+
+122
+00:05:39,760 --> 00:05:40,990
+All right.
+
+123
+00:05:40,990 --> 00:05:43,140
+Now probably you will still need
+
+124
+00:05:43,140 --> 00:05:46,780
+to at least manipulate some data that's in the class,
+
+125
+00:05:46,780 --> 00:05:50,460
+but for that you should then implement a public API.
+
+126
+00:05:50,460 --> 00:05:53,660
+So basically a couple of methods that can then manipulate
+
+127
+00:05:53,660 --> 00:05:57,453
+that data exactly as you want that to happen.
+
+128
+00:05:58,340 --> 00:06:01,890
+And again we talked about all of this already before.
+
+129
+00:06:01,890 --> 00:06:06,030
+So this is really just a review of all these big topics
+
+130
+00:06:06,030 --> 00:06:09,353
+that we have been handling throughout all of this course.
+
+131
+00:06:10,330 --> 00:06:14,000
+Now as you implement your methods in your classes,
+
+132
+00:06:14,000 --> 00:06:17,720
+make sure that you implement chaining in all the methods
+
+133
+00:06:17,720 --> 00:06:19,550
+where it'll actually makes sense.
+
+134
+00:06:19,550 --> 00:06:23,430
+Because this can make your methods way easier to use,
+
+135
+00:06:23,430 --> 00:06:24,840
+not only for you,
+
+136
+00:06:24,840 --> 00:06:28,180
+but maybe also for other developers on your team.
+
+137
+00:06:28,180 --> 00:06:31,000
+So this is yet another great practice
+
+138
+00:06:31,000 --> 00:06:33,780
+when you're writing your classes.
+
+139
+00:06:33,780 --> 00:06:37,200
+Finally, one important thing to also mention here
+
+140
+00:06:37,200 --> 00:06:40,450
+is that in regular objects when you're writing methods,
+
+141
+00:06:40,450 --> 00:06:43,540
+then please don't use the arrow functions there.
+
+142
+00:06:43,540 --> 00:06:44,820
+Because by doing that,
+
+143
+00:06:44,820 --> 00:06:49,120
+you will not get access to the disk keywords of that object.
+
+144
+00:06:49,120 --> 00:06:52,740
+Remember, and so always avoid arrow functions,
+
+145
+00:06:52,740 --> 00:06:55,760
+even if you're not even using the disk keyword
+
+146
+00:06:55,760 --> 00:06:56,850
+in a method.
+
+147
+00:06:56,850 --> 00:06:59,140
+Because simply by getting into the habit
+
+148
+00:06:59,140 --> 00:07:03,460
+of avoiding arrow functions as methods in this situation,
+
+149
+00:07:03,460 --> 00:07:07,220
+you'll then not commit any mistakes ever.
+
+150
+00:07:07,220 --> 00:07:08,620
+All right.
+
+151
+00:07:08,620 --> 00:07:09,580
+Okay.
+
+152
+00:07:09,580 --> 00:07:13,860
+Next up, let's talk about avoiding nested code.
+
+153
+00:07:13,860 --> 00:07:15,860
+So writing nested code,
+
+154
+00:07:15,860 --> 00:07:19,540
+which basically means writing code inside of blocks
+
+155
+00:07:19,540 --> 00:07:23,200
+inside of other blocks is really really bad
+
+156
+00:07:23,200 --> 00:07:24,960
+for readable code.
+
+157
+00:07:24,960 --> 00:07:29,180
+And so we should avoid nested code at all costs.
+
+158
+00:07:29,180 --> 00:07:32,240
+And one great way of avoiding nested code
+
+159
+00:07:32,240 --> 00:07:34,130
+is to use guard clauses,
+
+160
+00:07:34,130 --> 00:07:35,300
+as we have been doing
+
+161
+00:07:35,300 --> 00:07:38,590
+over the last couple of sections, right.
+
+162
+00:07:38,590 --> 00:07:41,380
+So guard clauses basically simply means
+
+163
+00:07:41,380 --> 00:07:46,380
+to use an early return, in case some condition is not met.
+
+164
+00:07:47,150 --> 00:07:50,220
+Also you can use the ternary operator,
+
+165
+00:07:50,220 --> 00:07:54,340
+or even logical operators instead of an if statement.
+
+166
+00:07:54,340 --> 00:07:56,790
+Because the ternary operator of course
+
+167
+00:07:56,790 --> 00:07:59,020
+does not create a new code block,
+
+168
+00:07:59,020 --> 00:08:01,720
+while the if statement does.
+
+169
+00:08:01,720 --> 00:08:04,730
+Now if you really do need an if statement,
+
+170
+00:08:04,730 --> 00:08:07,700
+then instead of an if else statement,
+
+171
+00:08:07,700 --> 00:08:10,600
+you should use multiple ifs instead.
+
+172
+00:08:10,600 --> 00:08:14,350
+Because again, this will make code a lot more readable
+
+173
+00:08:14,350 --> 00:08:18,020
+than having to go through all these if and else if,
+
+174
+00:08:18,020 --> 00:08:20,010
+and else blocks.
+
+175
+00:08:20,010 --> 00:08:22,433
+So that's also another modern practice
+
+176
+00:08:22,433 --> 00:08:24,510
+that we start to see more and more
+
+177
+00:08:24,510 --> 00:08:27,033
+in modern JavaScript code basis.
+
+178
+00:08:28,110 --> 00:08:32,530
+Next, you should completely avoid any kind of loops.
+
+179
+00:08:32,530 --> 00:08:35,030
+And with that I mean any for loops.
+
+180
+00:08:35,030 --> 00:08:38,190
+So the for, and also the for of loops,
+
+181
+00:08:38,190 --> 00:08:41,960
+should be avoided if you want to avoid nested code.
+
+182
+00:08:41,960 --> 00:08:46,040
+And so instead, you can use array methods like a map,
+
+183
+00:08:46,040 --> 00:08:48,150
+filter and reduce.
+
+184
+00:08:48,150 --> 00:08:50,970
+And finally, you should avoid callback-based
+
+185
+00:08:50,970 --> 00:08:54,230
+asynchronous API's whenever you can.
+
+186
+00:08:54,230 --> 00:08:57,500
+And so that actually brings us to our next topic,
+
+187
+00:08:57,500 --> 00:08:59,293
+which is asynchronous code.
+
+188
+00:09:00,370 --> 00:09:02,520
+So for best readability,
+
+189
+00:09:02,520 --> 00:09:05,850
+always consume Promises using async/await
+
+190
+00:09:05,850 --> 00:09:09,270
+and not using the den and the catch methods.
+
+191
+00:09:09,270 --> 00:09:13,230
+Because these methods actually require callback functions,
+
+192
+00:09:13,230 --> 00:09:16,580
+which will then introduce even more nested code.
+
+193
+00:09:16,580 --> 00:09:18,120
+And so that's again,
+
+194
+00:09:18,120 --> 00:09:21,840
+something that we really want to avoid, all alright.
+
+195
+00:09:21,840 --> 00:09:24,620
+So these two go kind of together.
+
+196
+00:09:24,620 --> 00:09:28,010
+So avoiding callback based asynchronous API's,
+
+197
+00:09:28,010 --> 00:09:30,970
+and instead opting for using Promises
+
+198
+00:09:30,970 --> 00:09:34,950
+and then consume these Promises with async/await.
+
+199
+00:09:34,950 --> 00:09:37,460
+Now, something that's very important
+
+200
+00:09:37,460 --> 00:09:39,420
+is that whenever you can,
+
+201
+00:09:39,420 --> 00:09:42,020
+you should run Promises in parallel
+
+202
+00:09:42,020 --> 00:09:45,600
+using the Promise.all combinator function.
+
+203
+00:09:45,600 --> 00:09:49,890
+So when you have two Promises that can run at the same time,
+
+204
+00:09:49,890 --> 00:09:53,300
+so Promises that do not depend on each other,
+
+205
+00:09:53,300 --> 00:09:55,460
+then please run them in parallel
+
+206
+00:09:55,460 --> 00:09:59,810
+to make the application a little bit faster for your users.
+
+207
+00:09:59,810 --> 00:10:04,470
+And finally, always handle errors and Promise rejections.
+
+208
+00:10:04,470 --> 00:10:08,230
+So this is simply a best practice for clean code.
+
+209
+00:10:08,230 --> 00:10:09,270
+Now right.
+
+210
+00:10:09,270 --> 00:10:13,520
+So these are the main best practices for writing modern
+
+211
+00:10:13,520 --> 00:10:16,850
+and clean JavaScript code that I can think of.
+
+212
+00:10:16,850 --> 00:10:19,230
+And so let's now put some of these guidelines
+
+213
+00:10:19,230 --> 00:10:23,193
+that I gave you for clean and modern code in practice.

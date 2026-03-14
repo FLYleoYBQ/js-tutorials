@@ -1,0 +1,2699 @@
+1
+00:00:01,090 --> 00:00:02,170
+In this lecture,
+
+2
+00:00:02,170 --> 00:00:05,980
+we will develop an algorithm which will update the DOM
+
+3
+00:00:05,980 --> 00:00:08,833
+only in places where it actually changed.
+
+4
+00:00:10,660 --> 00:00:13,330
+And remember that that is necessary
+
+5
+00:00:13,330 --> 00:00:17,090
+because right now, as we update the servings here,
+
+6
+00:00:17,090 --> 00:00:20,680
+then that will always basically re-render
+
+7
+00:00:20,680 --> 00:00:23,453
+the entire recipe view here.
+
+8
+00:00:24,780 --> 00:00:28,920
+And so we can see some flickering around the page.
+
+9
+00:00:28,920 --> 00:00:31,650
+Right now, it's not really happening
+
+10
+00:00:31,650 --> 00:00:33,270
+for some reason.
+
+11
+00:00:33,270 --> 00:00:35,440
+But you saw that in the previous video
+
+12
+00:00:35,440 --> 00:00:38,680
+where every time that I would update the servings,
+
+13
+00:00:38,680 --> 00:00:42,160
+it would then basically reload this image,
+
+14
+00:00:42,160 --> 00:00:45,460
+which would then cause a short flicker.
+
+15
+00:00:45,460 --> 00:00:48,990
+And having to re-render the entire view,
+
+16
+00:00:48,990 --> 00:00:51,650
+so all of these HTML elements
+
+17
+00:00:51,650 --> 00:00:54,170
+is actually a bit overkill
+
+18
+00:00:54,170 --> 00:00:57,630
+and it will put too much strain on the browser.
+
+19
+00:00:57,630 --> 00:01:00,380
+So it will create unnecessary work.
+
+20
+00:01:00,380 --> 00:01:03,920
+And so therefore, let's now create an update method
+
+21
+00:01:03,920 --> 00:01:06,870
+that we can use in this situation.
+
+22
+00:01:06,870 --> 00:01:07,703
+All right?
+
+23
+00:01:09,890 --> 00:01:14,400
+So again, here instead of calling the render method,
+
+24
+00:01:14,400 --> 00:01:18,540
+we actually want to be able to call an update method.
+
+25
+00:01:18,540 --> 00:01:21,070
+So let's duplicate this line here
+
+26
+00:01:21,070 --> 00:01:21,993
+or comment it.
+
+27
+00:01:23,300 --> 00:01:27,740
+And so here we want to call update.
+
+28
+00:01:27,740 --> 00:01:31,810
+And of course, the update will still need all the data,
+
+29
+00:01:31,810 --> 00:01:33,680
+just like the render method
+
+30
+00:01:33,680 --> 00:01:36,890
+but again, the difference between update and render
+
+31
+00:01:36,890 --> 00:01:38,630
+is that the update method
+
+32
+00:01:38,630 --> 00:01:41,090
+will basically only update text
+
+33
+00:01:41,090 --> 00:01:43,330
+and attributes in the DOM.
+
+34
+00:01:43,330 --> 00:01:46,633
+So without having to re-render the entire view.
+
+35
+00:01:47,530 --> 00:01:49,990
+And so let's now go to the view here
+
+36
+00:01:49,990 --> 00:01:52,910
+because we will want this update method
+
+37
+00:01:52,910 --> 00:01:55,370
+to be available on all the views
+
+38
+00:01:56,770 --> 00:01:58,860
+because actually, we will use this
+
+39
+00:01:58,860 --> 00:02:01,810
+in multiple situations in this project.
+
+40
+00:02:01,810 --> 00:02:03,730
+So actually, not just here
+
+41
+00:02:03,730 --> 00:02:05,273
+for updating the servings.
+
+42
+00:02:07,350 --> 00:02:10,370
+But anyway, this is called update
+
+43
+00:02:10,370 --> 00:02:13,500
+and it receives also some data.
+
+44
+00:02:13,500 --> 00:02:18,470
+Here then, let's get this same check here.
+
+45
+00:02:18,470 --> 00:02:21,833
+And also, we will want to do these two parts.
+
+46
+00:02:23,020 --> 00:02:27,470
+And that is because well, once we update the data,
+
+47
+00:02:27,470 --> 00:02:29,350
+we then want the view's data
+
+48
+00:02:29,350 --> 00:02:31,950
+to become that new data.
+
+49
+00:02:31,950 --> 00:02:35,750
+And we also want to generate some new Markup.
+
+50
+00:02:35,750 --> 00:02:38,330
+So let's actually call this here the newMarkup.
+
+51
+00:02:40,440 --> 00:02:43,220
+And this will basically be the entire Markup
+
+52
+00:02:43,220 --> 00:02:47,010
+as if we wanted to render a new view.
+
+53
+00:02:47,010 --> 00:02:50,640
+But again, here we are just going to update the Markup,
+
+54
+00:02:50,640 --> 00:02:54,290
+but for doing that, we still need the entire Markup
+
+55
+00:02:54,290 --> 00:02:56,160
+so that we can then compare it
+
+56
+00:02:56,160 --> 00:02:58,603
+to the old Markup basically.
+
+57
+00:02:59,520 --> 00:03:01,870
+So again, what we will do here
+
+58
+00:03:01,870 --> 00:03:05,010
+in this method is to create newMarkup
+
+59
+00:03:05,010 --> 00:03:07,010
+but not render it.
+
+60
+00:03:07,010 --> 00:03:09,160
+So instead, all that we're gonna do
+
+61
+00:03:09,160 --> 00:03:10,980
+is to generate this Markup
+
+62
+00:03:10,980 --> 00:03:13,940
+and then compare that new HTML
+
+63
+00:03:13,940 --> 00:03:15,700
+to the current HTML.
+
+64
+00:03:15,700 --> 00:03:17,470
+And then only change text
+
+65
+00:03:17,470 --> 00:03:20,270
+and attributes that actually have changed
+
+66
+00:03:20,270 --> 00:03:24,380
+from the old version to the new version, okay?
+
+67
+00:03:24,380 --> 00:03:26,870
+So here we now have the Markup
+
+68
+00:03:26,870 --> 00:03:28,850
+but that is just a string.
+
+69
+00:03:28,850 --> 00:03:31,980
+And so that is gonna be very difficult to compare
+
+70
+00:03:31,980 --> 00:03:34,420
+to the DOM elements that we currently have
+
+71
+00:03:34,420 --> 00:03:35,740
+on the page.
+
+72
+00:03:35,740 --> 00:03:37,560
+And so to fix that problem,
+
+73
+00:03:37,560 --> 00:03:39,950
+we can actually use a nice trick,
+
+74
+00:03:39,950 --> 00:03:43,750
+which is to basically convert this Markup string
+
+75
+00:03:43,750 --> 00:03:45,440
+to a DOM object
+
+76
+00:03:45,440 --> 00:03:47,330
+that's living in the memory
+
+77
+00:03:47,330 --> 00:03:48,870
+and that we can then use
+
+78
+00:03:48,870 --> 00:03:51,953
+to compare with the actual DOM that's on the page.
+
+79
+00:03:52,970 --> 00:03:55,917
+So let's do that and create newDOM.
+
+80
+00:03:58,360 --> 00:04:00,220
+And so document.
+
+81
+00:04:00,220 --> 00:04:05,220
+And then we need to call a function called createRange.
+
+82
+00:04:10,300 --> 00:04:11,440
+Okay?
+
+83
+00:04:11,440 --> 00:04:13,960
+So this will create something called a range,
+
+84
+00:04:13,960 --> 00:04:17,090
+and on the range, we can then call yet another method,
+
+85
+00:04:17,090 --> 00:04:20,127
+which is called createContextualFragment.
+
+86
+00:04:23,980 --> 00:04:26,950
+And so this is where we then pass in the string
+
+87
+00:04:26,950 --> 00:04:30,573
+of Markup, so like a string of HTML.
+
+88
+00:04:31,790 --> 00:04:33,850
+And so as I said before,
+
+89
+00:04:33,850 --> 00:04:36,490
+this method will then convert that string
+
+90
+00:04:36,490 --> 00:04:39,250
+into real DOM Node objects.
+
+91
+00:04:39,250 --> 00:04:40,910
+So basically, newDOM here
+
+92
+00:04:40,910 --> 00:04:43,690
+will become like a big object,
+
+93
+00:04:43,690 --> 00:04:46,410
+which is like a virtual DOM.
+
+94
+00:04:46,410 --> 00:04:49,680
+So a DOM that is not really living on the page
+
+95
+00:04:49,680 --> 00:04:51,890
+but which lives in our memory.
+
+96
+00:04:51,890 --> 00:04:53,990
+And so we can now use that DOM
+
+97
+00:04:53,990 --> 00:04:57,250
+as if it was the real DOM on our page.
+
+98
+00:04:57,250 --> 00:04:59,453
+And so we can do something like this.
+
+99
+00:05:00,320 --> 00:05:03,123
+We can say newElements.
+
+100
+00:05:05,270 --> 00:05:07,247
+And then we can take that newDOM,
+
+101
+00:05:08,650 --> 00:05:11,880
+and then on that, we can call querySelectorAll,
+
+102
+00:05:14,120 --> 00:05:16,283
+and select all the elements in there.
+
+103
+00:05:17,450 --> 00:05:19,563
+And so if we now log this to the console,
+
+104
+00:05:21,740 --> 00:05:24,450
+then we will basically see all the elements
+
+105
+00:05:24,450 --> 00:05:28,559
+that will be contained inside of this newDOM element
+
+106
+00:05:28,559 --> 00:05:31,843
+that we basically created from generating the new Markup
+
+107
+00:05:31,843 --> 00:05:35,517
+from the updated data, okay?
+
+108
+00:05:35,517 --> 00:05:38,423
+So that sounds confusing I'm sure.
+
+109
+00:05:40,280 --> 00:05:43,650
+But we will see it in practice really soon.
+
+110
+00:05:43,650 --> 00:05:45,765
+So we are calling update here.
+
+111
+00:05:45,765 --> 00:05:48,000
+And so that will then trigger all of this
+
+112
+00:05:48,000 --> 00:05:49,590
+and so let's now see in the console
+
+113
+00:05:49,590 --> 00:05:50,453
+what happens.
+
+114
+00:05:53,990 --> 00:05:56,803
+So just to make sure everything works here,
+
+115
+00:06:00,230 --> 00:06:01,710
+so as we're clicking here,
+
+116
+00:06:01,710 --> 00:06:05,887
+it will, of course, now no longer update the values here
+
+117
+00:06:05,887 --> 00:06:10,150
+in the DOM because we are now using the update method,
+
+118
+00:06:10,150 --> 00:06:12,093
+which for now doesn't do that.
+
+119
+00:06:13,570 --> 00:06:16,670
+Okay, but what we did got
+
+120
+00:06:16,670 --> 00:06:19,700
+was the entire list of all the elements
+
+121
+00:06:19,700 --> 00:06:20,973
+in the new DOM.
+
+122
+00:06:22,170 --> 00:06:26,803
+So in this so to say virtual DOM, okay?
+
+123
+00:06:27,790 --> 00:06:30,340
+So if we check now this element,
+
+124
+00:06:30,340 --> 00:06:33,020
+so this is the element that contains the number,
+
+125
+00:06:33,020 --> 00:06:34,703
+that should now contain five.
+
+126
+00:06:36,400 --> 00:06:39,480
+So let's see the textContent property
+
+127
+00:06:40,640 --> 00:06:43,000
+or innerHTML is the same
+
+128
+00:06:43,000 --> 00:06:45,603
+and so indeed, here we have five now.
+
+129
+00:06:46,470 --> 00:06:48,830
+And so again, the reason for that
+
+130
+00:06:48,830 --> 00:06:50,470
+is that this here
+
+131
+00:06:50,470 --> 00:06:53,260
+is now basically the DOM that would be rendered
+
+132
+00:06:53,260 --> 00:06:57,853
+on the page if we simply used the render method from before.
+
+133
+00:06:59,190 --> 00:07:00,810
+Okay?
+
+134
+00:07:00,810 --> 00:07:02,400
+And so now with this,
+
+135
+00:07:02,400 --> 00:07:04,290
+we can compare this DOM
+
+136
+00:07:04,290 --> 00:07:06,590
+that we have here, which is a little bit
+
+137
+00:07:06,590 --> 00:07:08,460
+like a virtual DOM.
+
+138
+00:07:08,460 --> 00:07:12,620
+So to the actual DOM that is really on the page.
+
+139
+00:07:12,620 --> 00:07:16,100
+So for example, again, this one here
+
+140
+00:07:16,100 --> 00:07:18,220
+has now changed to five
+
+141
+00:07:18,220 --> 00:07:20,040
+and this one is still at four.
+
+142
+00:07:20,040 --> 00:07:22,450
+And so that is one of the elements,
+
+143
+00:07:22,450 --> 00:07:25,050
+which is different and so that is then one
+
+144
+00:07:25,050 --> 00:07:27,110
+of the things that we will change.
+
+145
+00:07:27,110 --> 00:07:30,010
+But everything else is the same
+
+146
+00:07:30,010 --> 00:07:32,430
+or at least, most of the things.
+
+147
+00:07:32,430 --> 00:07:34,340
+For example, here the minutes,
+
+148
+00:07:34,340 --> 00:07:38,503
+this value here, this is, of course, still 45.
+
+149
+00:07:40,010 --> 00:07:43,270
+So you see, of course, it's still 45
+
+150
+00:07:43,270 --> 00:07:46,060
+and so this element will not change,
+
+151
+00:07:46,060 --> 00:07:48,160
+and the same, for example, for the image
+
+152
+00:07:48,160 --> 00:07:49,730
+and for this icon
+
+153
+00:07:49,730 --> 00:07:52,780
+and for lots of things here.
+
+154
+00:07:52,780 --> 00:07:54,700
+And so with this, we will be able
+
+155
+00:07:54,700 --> 00:07:56,610
+to only change what happened
+
+156
+00:07:56,610 --> 00:07:57,620
+from the new DOM,
+
+157
+00:07:57,620 --> 00:08:01,060
+which is this one here to the actual current DOM,
+
+158
+00:08:01,060 --> 00:08:04,770
+which is basically what we have here on the page.
+
+159
+00:08:04,770 --> 00:08:07,030
+So in order to being able
+
+160
+00:08:07,030 --> 00:08:09,610
+to actually do that comparison,
+
+161
+00:08:09,610 --> 00:08:13,150
+we now also need to get all the actual elements
+
+162
+00:08:13,150 --> 00:08:15,173
+that are currently on the page.
+
+163
+00:08:16,250 --> 00:08:18,630
+So get them into our code.
+
+164
+00:08:18,630 --> 00:08:20,883
+And so therefore, let's also select them.
+
+165
+00:08:22,550 --> 00:08:24,550
+So let's call that the current elements,
+
+166
+00:08:26,010 --> 00:08:30,140
+which are at this._parentElement
+
+167
+00:08:32,315 --> 00:08:34,482
+and then querySelectorAll.
+
+168
+00:08:35,787 --> 00:08:38,623
+And then again, selecting all of them.
+
+169
+00:08:39,640 --> 00:08:41,040
+And maybe you saw previously
+
+170
+00:08:41,040 --> 00:08:43,800
+that this here returned a Node list
+
+171
+00:08:43,800 --> 00:08:46,950
+and so let's right away convert this and this one
+
+172
+00:08:46,950 --> 00:08:48,720
+to a real array.
+
+173
+00:08:48,720 --> 00:08:53,543
+So remember, we can do that with Array.from.
+
+174
+00:08:55,350 --> 00:08:56,183
+All right?
+
+175
+00:08:57,400 --> 00:09:00,953
+And so let's actually now do that comparison.
+
+176
+00:09:01,847 --> 00:09:05,530
+Well, I mean, only visually in the console for now.
+
+177
+00:09:05,530 --> 00:09:08,740
+So let's log the current elements
+
+178
+00:09:09,940 --> 00:09:13,097
+and let's also again log the newElements.
+
+179
+00:09:16,690 --> 00:09:18,557
+So let's click here now.
+
+180
+00:09:19,900 --> 00:09:22,823
+And you see that now it is actually an array.
+
+181
+00:09:24,700 --> 00:09:26,020
+I'll go OK.
+
+182
+00:09:26,020 --> 00:09:29,140
+So let's look again for the servings
+
+183
+00:09:29,140 --> 00:09:32,080
+and that's actually not the one,
+
+184
+00:09:32,080 --> 00:09:33,203
+this is the one.
+
+185
+00:09:34,300 --> 00:09:36,733
+So let's see the textContent or the innerHTML.
+
+186
+00:09:38,350 --> 00:09:41,620
+And so indeed, it is still four, right?
+
+187
+00:09:41,620 --> 00:09:44,240
+And again, because that is the current DOM.
+
+188
+00:09:44,240 --> 00:09:46,763
+But if we now come to our new DOM,
+
+189
+00:09:47,830 --> 00:09:52,503
+then well, it's gotta be down here.
+
+190
+00:09:54,610 --> 00:09:58,960
+So then if we open up this one,
+
+191
+00:09:58,960 --> 00:10:01,423
+then again we should be already at five.
+
+192
+00:10:02,550 --> 00:10:03,670
+Right?
+
+193
+00:10:03,670 --> 00:10:05,100
+So here we have five
+
+194
+00:10:05,100 --> 00:10:08,980
+and so now let's actually compare these two,
+
+195
+00:10:08,980 --> 00:10:10,920
+basically one by one.
+
+196
+00:10:10,920 --> 00:10:11,920
+Okay?
+
+197
+00:10:11,920 --> 00:10:15,263
+So I'm going to loop over the newElements array now,
+
+198
+00:10:18,930 --> 00:10:20,830
+and here in the callback function,
+
+199
+00:10:20,830 --> 00:10:22,080
+then the current element
+
+200
+00:10:22,080 --> 00:10:25,230
+is the newEl let's say,
+
+201
+00:10:25,230 --> 00:10:29,030
+and then we also need access to the current index
+
+202
+00:10:30,260 --> 00:10:34,160
+so that we can then also grab the current element
+
+203
+00:10:34,160 --> 00:10:36,490
+from this array.
+
+204
+00:10:36,490 --> 00:10:39,120
+So basically, we need to loop over the two arrays
+
+205
+00:10:39,120 --> 00:10:40,550
+at the same time
+
+206
+00:10:40,550 --> 00:10:42,780
+and I think we've done that before.
+
+207
+00:10:42,780 --> 00:10:44,890
+So for that, we also need the index
+
+208
+00:10:44,890 --> 00:10:49,190
+so that now we can say that the current element
+
+209
+00:10:49,190 --> 00:10:54,190
+is equal current elements at position i.
+
+210
+00:10:56,800 --> 00:11:00,130
+Okay, and now, how will we actually compare
+
+211
+00:11:00,130 --> 00:11:01,800
+these two elements?
+
+212
+00:11:01,800 --> 00:11:05,320
+So current element and newElement?
+
+213
+00:11:05,320 --> 00:11:07,943
+Well, there's actually a very handy method
+
+214
+00:11:07,943 --> 00:11:10,540
+that is available on all nodes,
+
+215
+00:11:10,540 --> 00:11:12,423
+which is isEqualNode.
+
+216
+00:11:13,890 --> 00:11:16,410
+So let's log that here to the console.
+
+217
+00:11:16,410 --> 00:11:17,620
+So in each iteration,
+
+218
+00:11:17,620 --> 00:11:21,170
+we will log whether the new element
+
+219
+00:11:22,336 --> 00:11:26,720
+isEqualNode to the current element.
+
+220
+00:11:28,240 --> 00:11:31,623
+And then let's disable these two console.logs here.
+
+221
+00:11:32,500 --> 00:11:35,530
+And let's also log the current element
+
+222
+00:11:35,530 --> 00:11:37,400
+so that we actually know
+
+223
+00:11:37,400 --> 00:11:40,960
+what element we are comparing here, all right?
+
+224
+00:11:40,960 --> 00:11:42,890
+So again, this method here
+
+225
+00:11:42,890 --> 00:11:45,280
+will basically compare the content
+
+226
+00:11:45,280 --> 00:11:47,500
+of this one and of this one.
+
+227
+00:11:47,500 --> 00:11:50,120
+So it doesn't have to be the exact same node.
+
+228
+00:11:50,120 --> 00:11:52,080
+All that matters is that the content
+
+229
+00:11:52,080 --> 00:11:54,103
+in these nodes is the same.
+
+230
+00:11:55,380 --> 00:11:56,290
+Right?
+
+231
+00:11:56,290 --> 00:11:58,350
+And if you're curious about the difference
+
+232
+00:11:58,350 --> 00:12:00,950
+between elements and nodes,
+
+233
+00:12:00,950 --> 00:12:02,640
+then please go watch the beginning
+
+234
+00:12:02,640 --> 00:12:04,860
+of the advanced DOM section
+
+235
+00:12:04,860 --> 00:12:08,240
+because there's a very nice lecture about that.
+
+236
+00:12:08,240 --> 00:12:09,190
+Okay?
+
+237
+00:12:09,190 --> 00:12:11,163
+But anyway, let's now check this.
+
+238
+00:12:12,640 --> 00:12:13,873
+So clearing this.
+
+239
+00:12:16,376 --> 00:12:18,226
+And so a lot of things happened here.
+
+240
+00:12:20,210 --> 00:12:23,194
+And so you see that most of these nodes
+
+241
+00:12:23,194 --> 00:12:24,693
+are actually the same.
+
+242
+00:12:25,540 --> 00:12:28,193
+Let's go all the way to the top here.
+
+243
+00:12:31,170 --> 00:12:32,800
+So these here are all the same,
+
+244
+00:12:32,800 --> 00:12:34,390
+so you see true.
+
+245
+00:12:34,390 --> 00:12:36,850
+But here you also see false.
+
+246
+00:12:36,850 --> 00:12:38,717
+So basically, this entire container
+
+247
+00:12:38,717 --> 00:12:41,130
+is not the same as before
+
+248
+00:12:41,130 --> 00:12:43,323
+because something inside of there changed.
+
+249
+00:12:45,020 --> 00:12:47,463
+But let's actually go to that detail.
+
+250
+00:12:48,690 --> 00:12:51,970
+So here it is.
+
+251
+00:12:51,970 --> 00:12:54,130
+So here this is now false
+
+252
+00:12:54,130 --> 00:12:56,280
+because this current element here
+
+253
+00:12:56,280 --> 00:12:58,780
+is now different from the new element,
+
+254
+00:12:58,780 --> 00:13:01,850
+which will have five servings.
+
+255
+00:13:01,850 --> 00:13:04,193
+And the same here for these two buttons.
+
+256
+00:13:07,130 --> 00:13:09,550
+So this button and also this button
+
+257
+00:13:09,550 --> 00:13:11,780
+because this data attribute in there
+
+258
+00:13:11,780 --> 00:13:13,510
+will also be different.
+
+259
+00:13:13,510 --> 00:13:15,210
+So if we are on page five,
+
+260
+00:13:15,210 --> 00:13:17,350
+then this here will update to six
+
+261
+00:13:17,350 --> 00:13:18,483
+and this one to four.
+
+262
+00:13:20,090 --> 00:13:21,600
+Okay?
+
+263
+00:13:21,600 --> 00:13:24,440
+So again, we have this to false
+
+264
+00:13:24,440 --> 00:13:27,330
+because the current element is, at this point,
+
+265
+00:13:27,330 --> 00:13:29,540
+different from the new element.
+
+266
+00:13:29,540 --> 00:13:30,890
+But the same also happens
+
+267
+00:13:30,890 --> 00:13:33,750
+on all the parent elements of that.
+
+268
+00:13:33,750 --> 00:13:37,252
+So it happens here in recipe__info
+
+269
+00:13:37,252 --> 00:13:39,920
+and then as we saw previously,
+
+270
+00:13:39,920 --> 00:13:42,000
+also in this whole container
+
+271
+00:13:42,000 --> 00:13:44,460
+simply because the four in there changed.
+
+272
+00:13:44,460 --> 00:13:47,420
+And so that means that this entire container is,
+
+273
+00:13:47,420 --> 00:13:50,290
+of course, different to what it was before.
+
+274
+00:13:50,290 --> 00:13:52,460
+But nevermind about that for now.
+
+275
+00:13:52,460 --> 00:13:55,100
+That's the detail we will tackle later.
+
+276
+00:13:55,100 --> 00:13:58,870
+For now, let's use this node here for our advantage
+
+277
+00:13:58,870 --> 00:14:01,603
+and do something in this situation.
+
+278
+00:14:05,280 --> 00:14:08,873
+So basically, if the newElement isEqual
+
+279
+00:14:12,460 --> 00:14:13,713
+to the current element,
+
+280
+00:14:15,250 --> 00:14:17,610
+so if that is not the case,
+
+281
+00:14:17,610 --> 00:14:19,590
+so if they are different,
+
+282
+00:14:19,590 --> 00:14:21,780
+then we want to change the text content
+
+283
+00:14:21,780 --> 00:14:24,880
+of the current element to the text content
+
+284
+00:14:24,880 --> 00:14:26,763
+of the new element.
+
+285
+00:14:28,430 --> 00:14:29,263
+Right?
+
+286
+00:14:29,263 --> 00:14:32,570
+And so this essentially is updating your DOM
+
+287
+00:14:32,570 --> 00:14:35,560
+only in places where it has changed.
+
+288
+00:14:35,560 --> 00:14:37,993
+Or where it was about to change.
+
+289
+00:14:39,600 --> 00:14:41,323
+So currentElement.textContent,
+
+290
+00:14:43,090 --> 00:14:45,160
+and remember that this current element
+
+291
+00:14:45,160 --> 00:14:48,700
+is the actual element that is currently on the page.
+
+292
+00:14:48,700 --> 00:14:52,220
+And so that is the one that we want to update.
+
+293
+00:14:52,220 --> 00:14:53,850
+So to mutate.
+
+294
+00:14:53,850 --> 00:14:57,050
+And a textContent should be the same
+
+295
+00:14:57,050 --> 00:14:59,390
+as the newElement.textContent.
+
+296
+00:15:02,060 --> 00:15:06,470
+However, now we will get a problem as you will see.
+
+297
+00:15:06,470 --> 00:15:07,600
+So let's click here
+
+298
+00:15:08,650 --> 00:15:12,150
+and indeed, some replacement was done.
+
+299
+00:15:12,150 --> 00:15:15,200
+So you see, we now have five servings,
+
+300
+00:15:15,200 --> 00:15:16,750
+but again, the problem here
+
+301
+00:15:16,750 --> 00:15:21,750
+is that we now basically replaced the entire container here
+
+302
+00:15:21,930 --> 00:15:25,160
+because here there was already some change.
+
+303
+00:15:25,160 --> 00:15:26,670
+And then right away,
+
+304
+00:15:26,670 --> 00:15:29,350
+the entire text content from this parent element
+
+305
+00:15:29,350 --> 00:15:32,100
+was taken and replaced.
+
+306
+00:15:32,100 --> 00:15:34,910
+And so, of course, this doesn't work.
+
+307
+00:15:34,910 --> 00:15:37,470
+So instead of what we're doing right now,
+
+308
+00:15:37,470 --> 00:15:40,520
+we now need to find a way of determining
+
+309
+00:15:40,520 --> 00:15:43,400
+if the element only contains text
+
+310
+00:15:43,400 --> 00:15:47,210
+because that is the only thing that we want to replace.
+
+311
+00:15:47,210 --> 00:15:50,120
+So again, what we want to replace
+
+312
+00:15:50,120 --> 00:15:52,110
+is only this one here
+
+313
+00:15:52,110 --> 00:15:56,434
+because this here contains only text, okay?
+
+314
+00:15:56,434 --> 00:15:59,123
+So how can we do that?
+
+315
+00:16:00,230 --> 00:16:03,500
+Well, there is yet another very nice method
+
+316
+00:16:03,500 --> 00:16:05,110
+or actually property
+
+317
+00:16:05,110 --> 00:16:07,950
+that is available on all nodes.
+
+318
+00:16:07,950 --> 00:16:10,442
+And let me actually show that to you
+
+319
+00:16:10,442 --> 00:16:13,190
+on the MDN documentation,
+
+320
+00:16:13,190 --> 00:16:15,107
+and it is called nodeValue.
+
+321
+00:16:18,332 --> 00:16:20,222
+So this is the one.
+
+322
+00:16:20,222 --> 00:16:21,413
+And so the value of nodeValue
+
+323
+00:16:23,250 --> 00:16:27,220
+will be null if the node is an element
+
+324
+00:16:27,220 --> 00:16:29,660
+or really most of these things
+
+325
+00:16:29,660 --> 00:16:31,490
+but if it is text,
+
+326
+00:16:31,490 --> 00:16:33,430
+then we actually get the content
+
+327
+00:16:33,430 --> 00:16:35,150
+of the text node.
+
+328
+00:16:35,150 --> 00:16:38,463
+And so we can now use this to our advantage.
+
+329
+00:16:40,350 --> 00:16:42,940
+So besides checking for this,
+
+330
+00:16:42,940 --> 00:16:45,140
+we can now also do another check.
+
+331
+00:16:45,140 --> 00:16:47,100
+So, of course, the elements still need
+
+332
+00:16:47,100 --> 00:16:48,810
+to be different but now,
+
+333
+00:16:48,810 --> 00:16:52,360
+we only want elements that are actually text.
+
+334
+00:16:52,360 --> 00:16:53,763
+So this is how we can do it.
+
+335
+00:16:55,280 --> 00:16:56,900
+So new element,
+
+336
+00:16:56,900 --> 00:17:00,093
+and now we need to select the child node.
+
+337
+00:17:01,320 --> 00:17:03,640
+So let's take the first child,
+
+338
+00:17:03,640 --> 00:17:06,170
+which remember, will return a node
+
+339
+00:17:06,170 --> 00:17:10,170
+as we learned also in that advanced DOM section.
+
+340
+00:17:10,170 --> 00:17:12,420
+And we need to select the child
+
+341
+00:17:12,420 --> 00:17:14,430
+because the child node
+
+342
+00:17:14,430 --> 00:17:17,720
+is actually what contains the text, right?
+
+343
+00:17:17,720 --> 00:17:20,220
+So the element is really just an element.
+
+344
+00:17:20,220 --> 00:17:22,010
+It is an element node
+
+345
+00:17:22,010 --> 00:17:23,920
+and not a text node.
+
+346
+00:17:23,920 --> 00:17:26,380
+And so what is, in fact, the text
+
+347
+00:17:26,380 --> 00:17:28,720
+is the first child node.
+
+348
+00:17:28,720 --> 00:17:33,010
+And again, we talked about that in the advanced DOM section,
+
+349
+00:17:33,010 --> 00:17:35,400
+which I hope you remember.
+
+350
+00:17:35,400 --> 00:17:38,020
+And so now we can take the nodeValue here
+
+351
+00:17:39,430 --> 00:17:41,430
+and so if this is text,
+
+352
+00:17:41,430 --> 00:17:44,520
+this will then be some kind of text here.
+
+353
+00:17:44,520 --> 00:17:46,943
+And so this text should not be empty.
+
+354
+00:17:48,710 --> 00:17:51,223
+So different from an empty string.
+
+355
+00:17:52,510 --> 00:17:55,253
+And actually, let's also trim any white space here.
+
+356
+00:17:56,330 --> 00:17:57,490
+Okay.
+
+357
+00:17:57,490 --> 00:17:59,683
+And so with this, it should work.
+
+358
+00:18:00,600 --> 00:18:04,220
+But I'm sure this is again a little bit confusing,
+
+359
+00:18:04,220 --> 00:18:06,730
+so let's actually log this value here
+
+360
+00:18:06,730 --> 00:18:07,823
+to the console.
+
+361
+00:18:09,370 --> 00:18:10,203
+Okay?
+
+362
+00:18:10,203 --> 00:18:13,163
+Just so you see what this will actually be.
+
+363
+00:18:14,170 --> 00:18:17,920
+And let's log this together with some emoji
+
+364
+00:18:17,920 --> 00:18:20,870
+just so we can see it in the console different
+
+365
+00:18:20,870 --> 00:18:22,923
+from all the other logs.
+
+366
+00:18:23,810 --> 00:18:26,593
+So by now, this should actually already been working.
+
+367
+00:18:27,620 --> 00:18:29,640
+But I want to focus for now
+
+368
+00:18:31,790 --> 00:18:34,503
+only on the log.
+
+369
+00:18:36,290 --> 00:18:40,220
+So you see it already did work here.
+
+370
+00:18:40,220 --> 00:18:42,480
+But let's now go to our logs.
+
+371
+00:18:42,480 --> 00:18:43,830
+And all the way to the top.
+
+372
+00:18:45,630 --> 00:18:47,400
+So this here has the explosion,
+
+373
+00:18:47,400 --> 00:18:50,060
+so it's the log we are interested in.
+
+374
+00:18:50,060 --> 00:18:53,640
+And so indeed, it just got the text here
+
+375
+00:18:53,640 --> 00:18:56,750
+out of this element, right?
+
+376
+00:18:56,750 --> 00:18:59,620
+So this was the current element in the loop
+
+377
+00:18:59,620 --> 00:19:00,800
+and so then at this point,
+
+378
+00:19:00,800 --> 00:19:04,920
+the first child.node value is five.
+
+379
+00:19:04,920 --> 00:19:06,950
+And again, in all other elements,
+
+380
+00:19:06,950 --> 00:19:09,998
+which do not contain text directly,
+
+381
+00:19:09,998 --> 00:19:12,890
+this nodeValue will be null.
+
+382
+00:19:12,890 --> 00:19:17,200
+And so therefore, then this whole expression here
+
+383
+00:19:17,200 --> 00:19:18,580
+will be false,
+
+384
+00:19:18,580 --> 00:19:21,270
+and so then this replacement here
+
+385
+00:19:21,270 --> 00:19:22,603
+does not take place.
+
+386
+00:19:23,580 --> 00:19:26,930
+Now, here, let's just add some optional chaining
+
+387
+00:19:26,930 --> 00:19:31,230
+because the first child might not always exist.
+
+388
+00:19:31,230 --> 00:19:34,580
+So with this, we make 100% sure
+
+389
+00:19:34,580 --> 00:19:36,213
+that this code is going to work.
+
+390
+00:19:37,350 --> 00:19:39,173
+So let's check it out again here.
+
+391
+00:19:40,100 --> 00:19:42,750
+And so if we click on minus now,
+
+392
+00:19:42,750 --> 00:19:45,660
+you see that only this value is replaced
+
+393
+00:19:45,660 --> 00:19:47,530
+and also, these values here
+
+394
+00:19:47,530 --> 00:19:49,970
+but you don't see any of the flickering
+
+395
+00:19:49,970 --> 00:19:52,210
+or any other weird effects here
+
+396
+00:19:52,210 --> 00:19:53,990
+because there is nothing else
+
+397
+00:19:53,990 --> 00:19:55,800
+that is being replaced.
+
+398
+00:19:55,800 --> 00:19:57,850
+It's only really this text.
+
+399
+00:19:57,850 --> 00:20:00,560
+Everything else is staying the same.
+
+400
+00:20:00,560 --> 00:20:03,560
+And so that is exactly what we wanted to achieve
+
+401
+00:20:03,560 --> 00:20:05,880
+with this algorithm.
+
+402
+00:20:05,880 --> 00:20:08,660
+Now, as you noticed, as I click here,
+
+403
+00:20:08,660 --> 00:20:11,990
+the only options I have is to go to three servings
+
+404
+00:20:11,990 --> 00:20:14,010
+and to five servings.
+
+405
+00:20:14,010 --> 00:20:16,230
+And the reason for that is that right now,
+
+406
+00:20:16,230 --> 00:20:19,080
+we are not replacing yet the attributes here
+
+407
+00:20:19,080 --> 00:20:20,870
+on these buttons.
+
+408
+00:20:20,870 --> 00:20:24,390
+So they are still at three and five.
+
+409
+00:20:24,390 --> 00:20:25,933
+Let's check that here.
+
+410
+00:20:27,730 --> 00:20:31,160
+So indeed, we still get three and five
+
+411
+00:20:31,160 --> 00:20:34,540
+because all we did yet was to update the text
+
+412
+00:20:34,540 --> 00:20:36,340
+but not attributes.
+
+413
+00:20:36,340 --> 00:20:38,330
+So whenever an element changes,
+
+414
+00:20:38,330 --> 00:20:40,893
+we also want to change the attributes.
+
+415
+00:20:42,170 --> 00:20:44,493
+So let's quickly do that here as well.
+
+416
+00:20:45,370 --> 00:20:48,370
+And this, we can actually nod to here
+
+417
+00:20:48,370 --> 00:20:50,390
+in this if block
+
+418
+00:20:50,390 --> 00:20:52,840
+because the condition that we created here
+
+419
+00:20:52,840 --> 00:20:54,470
+makes it so that this code
+
+420
+00:20:54,470 --> 00:20:56,810
+is only executed on elements
+
+421
+00:20:56,810 --> 00:20:59,003
+that contain text directly.
+
+422
+00:20:59,838 --> 00:21:02,304
+So that was the whole point
+
+423
+00:21:02,304 --> 00:21:04,560
+of this line of code
+
+424
+00:21:04,560 --> 00:21:09,500
+that I explained like over the last five minutes or so.
+
+425
+00:21:09,500 --> 00:21:11,570
+And so instead, we only want
+
+426
+00:21:11,570 --> 00:21:13,575
+to change the attributes
+
+427
+00:21:13,575 --> 00:21:15,810
+when the new element is different
+
+428
+00:21:15,810 --> 00:21:18,683
+from the old one or the current one.
+
+429
+00:21:20,490 --> 00:21:21,323
+Okay?
+
+430
+00:21:22,220 --> 00:21:24,453
+So let's just comment this here.
+
+431
+00:21:25,850 --> 00:21:30,053
+Updates changed TEXT.
+
+432
+00:21:31,288 --> 00:21:32,838
+And then here we want to update
+
+433
+00:21:34,330 --> 00:21:37,863
+changed ATTRIBUTES.
+
+434
+00:21:41,050 --> 00:21:43,910
+Now, here there is something cool that we can use,
+
+435
+00:21:43,910 --> 00:21:45,610
+so yet another new thing,
+
+436
+00:21:45,610 --> 00:21:48,803
+which is the attributes property on an element.
+
+437
+00:21:49,840 --> 00:21:51,310
+So let's start by logging that
+
+438
+00:21:51,310 --> 00:21:52,693
+to the console this time.
+
+439
+00:21:53,590 --> 00:21:57,593
+So let's say newElement.attributes.
+
+440
+00:21:58,780 --> 00:22:02,040
+And let's get rid of this console.log here now
+
+441
+00:22:02,040 --> 00:22:02,880
+and so for now,
+
+442
+00:22:02,880 --> 00:22:06,170
+what this will do is to log this attributes property
+
+443
+00:22:06,170 --> 00:22:08,523
+of all the elements that have changed.
+
+444
+00:22:11,270 --> 00:22:12,323
+So let's see.
+
+445
+00:22:13,380 --> 00:22:15,730
+Well, we still get a lot of different logs here
+
+446
+00:22:16,570 --> 00:22:18,650
+but that doesn't matter.
+
+447
+00:22:18,650 --> 00:22:21,070
+So here we have, for example,
+
+448
+00:22:21,070 --> 00:22:22,880
+this ingredient here
+
+449
+00:22:22,880 --> 00:22:24,550
+and so this has changed
+
+450
+00:22:24,550 --> 00:22:26,400
+and so here we then get a list
+
+451
+00:22:26,400 --> 00:22:28,510
+of all the attributes.
+
+452
+00:22:28,510 --> 00:22:30,560
+So we have the class, we have the length.
+
+453
+00:22:32,350 --> 00:22:33,580
+So let's see here
+
+454
+00:22:35,210 --> 00:22:36,843
+what that actually is.
+
+455
+00:22:38,080 --> 00:22:39,810
+But this one doesn't really matter.
+
+456
+00:22:39,810 --> 00:22:41,220
+The one I'm interested in
+
+457
+00:22:41,220 --> 00:22:43,233
+is actually the one on the buttons.
+
+458
+00:22:44,410 --> 00:22:46,210
+So let's go up a little bit further.
+
+459
+00:22:50,550 --> 00:22:51,550
+And this is the one.
+
+460
+00:22:52,780 --> 00:22:53,700
+Right?
+
+461
+00:22:53,700 --> 00:22:56,370
+So here we have the actual attributes,
+
+462
+00:22:56,370 --> 00:22:58,290
+so data-update-to,
+
+463
+00:22:58,290 --> 00:23:00,650
+and probably they should have the values
+
+464
+00:23:00,650 --> 00:23:02,073
+also somewhere in there.
+
+465
+00:23:03,960 --> 00:23:06,670
+So this is a lot of stuff we don't need
+
+466
+00:23:06,670 --> 00:23:08,300
+to take a look at this.
+
+467
+00:23:08,300 --> 00:23:10,520
+So this is very confusing
+
+468
+00:23:10,520 --> 00:23:12,060
+but I just wanted to show
+
+469
+00:23:12,060 --> 00:23:15,090
+that basically, this here will return something
+
+470
+00:23:15,090 --> 00:23:19,680
+like an object of all the attributes that have changed.
+
+471
+00:23:19,680 --> 00:23:22,600
+So let's now convert this object here
+
+472
+00:23:22,600 --> 00:23:26,430
+to an array, and then we can loop over this array
+
+473
+00:23:26,430 --> 00:23:28,650
+and basically copy all the attributes
+
+474
+00:23:28,650 --> 00:23:31,690
+from one element to the other element.
+
+475
+00:23:31,690 --> 00:23:36,150
+So from the new element basically to the current one.
+
+476
+00:23:36,150 --> 00:23:38,000
+So basically, doing something similar
+
+477
+00:23:39,030 --> 00:23:40,483
+as we did here with the text.
+
+478
+00:23:43,950 --> 00:23:48,950
+So we want to loop over newElement.attributes,
+
+479
+00:23:50,410 --> 00:23:55,163
+and again, we need to convert that to an array like this.
+
+480
+00:23:56,559 --> 00:23:57,859
+And then for each of them,
+
+481
+00:23:58,930 --> 00:24:00,523
+so each is an attribute.
+
+482
+00:24:02,190 --> 00:24:04,010
+And then on the current element,
+
+483
+00:24:04,010 --> 00:24:06,003
+we want to set the attribute.
+
+484
+00:24:06,880 --> 00:24:09,413
+So remember this method from way back.
+
+485
+00:24:10,920 --> 00:24:13,360
+setAttribute, which again, we learned about
+
+486
+00:24:13,360 --> 00:24:15,123
+in the advanced DOM section.
+
+487
+00:24:16,460 --> 00:24:17,990
+And so here we want to take the name
+
+488
+00:24:17,990 --> 00:24:18,910
+of the attribute
+
+489
+00:24:21,400 --> 00:24:22,283
+and the value.
+
+490
+00:24:23,460 --> 00:24:24,510
+Okay?
+
+491
+00:24:24,510 --> 00:24:26,903
+And maybe just to make this a bit more clear,
+
+492
+00:24:28,020 --> 00:24:29,530
+so right now,
+
+493
+00:24:29,530 --> 00:24:31,510
+this kind of comes out of nowhere,
+
+494
+00:24:31,510 --> 00:24:33,510
+so let's also log this to the console
+
+495
+00:24:36,830 --> 00:24:39,503
+so we can see what we're actually looping over here.
+
+496
+00:24:44,550 --> 00:24:46,003
+So let's go back.
+
+497
+00:24:52,690 --> 00:24:55,493
+Ah, and so here is that array.
+
+498
+00:24:57,270 --> 00:25:00,793
+And so here we have the class and data-update-to.
+
+499
+00:25:03,233 --> 00:25:05,603
+And so now let me actually show you the name.
+
+500
+00:25:06,530 --> 00:25:08,070
+So that is the name.
+
+501
+00:25:08,070 --> 00:25:10,610
+And let's do it for data-update-to,
+
+502
+00:25:10,610 --> 00:25:12,960
+which is the one we are actually interested in.
+
+503
+00:25:13,805 --> 00:25:15,250
+So we will take that name
+
+504
+00:25:15,250 --> 00:25:17,233
+and set it to the value,
+
+505
+00:25:18,080 --> 00:25:19,890
+which is four.
+
+506
+00:25:19,890 --> 00:25:22,900
+So we will get that value
+
+507
+00:25:22,900 --> 00:25:25,993
+and set it into the current element.
+
+508
+00:25:27,320 --> 00:25:28,153
+Okay?
+
+509
+00:25:29,150 --> 00:25:33,373
+So we don't need these curly braces anymore.
+
+510
+00:25:34,240 --> 00:25:37,660
+And so again, basically, what we are doing here
+
+511
+00:25:37,660 --> 00:25:40,500
+is to simply replace all the attributes
+
+512
+00:25:40,500 --> 00:25:41,970
+in the current element
+
+513
+00:25:41,970 --> 00:25:45,003
+by the attributes coming from the new element.
+
+514
+00:25:46,620 --> 00:25:50,603
+And so this will then replace the five
+
+515
+00:25:50,603 --> 00:25:53,550
+that is currently here with six.
+
+516
+00:25:53,550 --> 00:25:58,550
+And so now we are able to go as far as we want here.
+
+517
+00:26:01,840 --> 00:26:02,673
+All right?
+
+518
+00:26:03,700 --> 00:26:06,540
+And so we successfully implemented a method
+
+519
+00:26:06,540 --> 00:26:10,690
+for updating the DOM only in places where the text
+
+520
+00:26:10,690 --> 00:26:13,670
+or the attributes actually changed.
+
+521
+00:26:13,670 --> 00:26:15,240
+Now, this algorithm here
+
+522
+00:26:15,240 --> 00:26:18,050
+is probably not the most robust one
+
+523
+00:26:18,050 --> 00:26:21,070
+and so maybe it might not be the best algorithm
+
+524
+00:26:21,070 --> 00:26:23,630
+to really use in the real world
+
+525
+00:26:23,630 --> 00:26:25,450
+unless you have like a kind
+
+526
+00:26:25,450 --> 00:26:27,820
+of small application, like this one.
+
+527
+00:26:27,820 --> 00:26:30,310
+But for a really huge application,
+
+528
+00:26:30,310 --> 00:26:33,560
+probably this algorithm is not performant enough
+
+529
+00:26:33,560 --> 00:26:35,580
+and might not be good enough.
+
+530
+00:26:35,580 --> 00:26:37,100
+But here in this project,
+
+531
+00:26:37,100 --> 00:26:40,173
+I think that this was an excellent exercise
+
+532
+00:26:40,173 --> 00:26:42,240
+to get even more familiar
+
+533
+00:26:42,240 --> 00:26:44,990
+with some of the lower-level details
+
+534
+00:26:44,990 --> 00:26:49,010
+of the DOM, and also to think logically a little bit
+
+535
+00:26:49,010 --> 00:26:51,800
+about what we wanted to achieve here.
+
+536
+00:26:51,800 --> 00:26:54,780
+And so again, I hope that you liked this kind
+
+537
+00:26:54,780 --> 00:26:56,600
+of small exercise,
+
+538
+00:26:56,600 --> 00:26:58,030
+which was a little bit different
+
+539
+00:26:58,030 --> 00:27:00,480
+from the rest of the project.
+
+540
+00:27:00,480 --> 00:27:02,050
+And this was actually one
+
+541
+00:27:02,050 --> 00:27:03,840
+of the more difficult parts
+
+542
+00:27:03,840 --> 00:27:05,700
+for me to also figure out
+
+543
+00:27:05,700 --> 00:27:08,000
+when I was building this project,
+
+544
+00:27:08,000 --> 00:27:11,280
+and so I hope that you can go over this code
+
+545
+00:27:11,280 --> 00:27:13,170
+one more time by yourself
+
+546
+00:27:13,170 --> 00:27:14,950
+and really figure out exactly
+
+547
+00:27:14,950 --> 00:27:16,363
+what is happening here.
+
+548
+00:27:17,330 --> 00:27:21,890
+So let's check out our flow chart here on page two
+
+549
+00:27:21,890 --> 00:27:24,020
+or actually, part two.
+
+550
+00:27:24,020 --> 00:27:29,020
+And so we successfully just did this part here.
+
+551
+00:27:29,090 --> 00:27:32,100
+Now, I also want to use this algorithm
+
+552
+00:27:32,100 --> 00:27:37,020
+that we just developed to quickly tackle this part here
+
+553
+00:27:37,020 --> 00:27:38,410
+of the application,
+
+554
+00:27:38,410 --> 00:27:40,700
+which is to mark the selected result
+
+555
+00:27:40,700 --> 00:27:42,083
+in the search results.
+
+556
+00:27:42,970 --> 00:27:45,340
+So let me show that to you in practice.
+
+557
+00:27:45,340 --> 00:27:46,630
+So here in the demo,
+
+558
+00:27:46,630 --> 00:27:49,770
+whenever I select one of the recipes,
+
+559
+00:27:49,770 --> 00:27:53,070
+it will then get this selected class here.
+
+560
+00:27:53,070 --> 00:27:54,220
+Right?
+
+561
+00:27:54,220 --> 00:27:56,660
+And so then when I move out the mouse,
+
+562
+00:27:56,660 --> 00:27:58,330
+it will stay selected.
+
+563
+00:27:58,330 --> 00:28:00,140
+And so that's a nice touch
+
+564
+00:28:00,140 --> 00:28:05,067
+that we are currently still missing here, right?
+
+565
+00:28:06,220 --> 00:28:08,760
+So of course, it doesn't stay selected,
+
+566
+00:28:08,760 --> 00:28:12,790
+and so we can now use this update algorithm
+
+567
+00:28:12,790 --> 00:28:16,960
+in order to update this entire search results view
+
+568
+00:28:16,960 --> 00:28:19,973
+whenever we click on one of these results.
+
+569
+00:28:21,064 --> 00:28:24,173
+And so let's go implement that.
+
+570
+00:28:25,180 --> 00:28:28,253
+And we actually need to start with the view here.
+
+571
+00:28:29,190 --> 00:28:33,013
+So searchView or actually, resultsView
+
+572
+00:28:34,510 --> 00:28:36,680
+because this is where we need the logic
+
+573
+00:28:36,680 --> 00:28:40,463
+of marking the current recipe as selected here.
+
+574
+00:28:41,570 --> 00:28:46,570
+So the link that is selected will get a special class here.
+
+575
+00:28:46,740 --> 00:28:50,160
+Let me show that to you here in the results.
+
+576
+00:28:50,160 --> 00:28:51,820
+And so that is this one here.
+
+577
+00:28:51,820 --> 00:28:54,223
+So preview__link--active.
+
+578
+00:28:56,120 --> 00:28:59,100
+And so here we want to give that class
+
+579
+00:28:59,950 --> 00:29:02,240
+to this anchor element here
+
+580
+00:29:02,240 --> 00:29:04,880
+if this result.id
+
+581
+00:29:04,880 --> 00:29:08,723
+is basically the same as the current ID in the URL.
+
+582
+00:29:10,170 --> 00:29:11,410
+Okay?
+
+583
+00:29:11,410 --> 00:29:14,463
+So let's start by determining that ID.
+
+584
+00:29:18,450 --> 00:29:23,340
+And so remember that is at window.location.hash.
+
+585
+00:29:25,750 --> 00:29:27,830
+And then we want to take everything
+
+586
+00:29:27,830 --> 00:29:30,600
+except the first element.
+
+587
+00:29:30,600 --> 00:29:33,623
+So basically, starting to read from the first element.
+
+588
+00:29:34,791 --> 00:29:35,624
+Okay?
+
+589
+00:29:35,624 --> 00:29:38,333
+And now here we want to conditionally add that class.
+
+590
+00:29:40,430 --> 00:29:43,583
+So we can write a simple template literal here.
+
+591
+00:29:45,380 --> 00:29:47,810
+And I'm right away putting the class here.
+
+592
+00:29:47,810 --> 00:29:51,050
+And so here we want to say if the result.id
+
+593
+00:29:52,920 --> 00:29:55,523
+is the same as the current id,
+
+594
+00:29:56,720 --> 00:29:58,480
+then the result of this expression
+
+595
+00:29:58,480 --> 00:30:00,920
+should become this class name.
+
+596
+00:30:00,920 --> 00:30:04,713
+And otherwise, then simply an empty string.
+
+597
+00:30:05,660 --> 00:30:07,020
+All right?
+
+598
+00:30:07,020 --> 00:30:11,160
+And so now here in the controller,
+
+599
+00:30:11,160 --> 00:30:14,790
+so the controller for the results,
+
+600
+00:30:14,790 --> 00:30:17,703
+so SearchResults or actually,
+
+601
+00:30:18,660 --> 00:30:22,520
+in this one here, so the one controlling the recipes,
+
+602
+00:30:22,520 --> 00:30:25,647
+so here we now want to update the resultsView.
+
+603
+00:30:27,421 --> 00:30:31,496
+And let's do that right at the beginning right here.
+
+604
+00:30:31,496 --> 00:30:32,746
+Let's say zero.
+
+605
+00:30:36,036 --> 00:30:39,703
+Results view to mark selected search result.
+
+606
+00:30:44,764 --> 00:30:47,157
+And so that's gonna be resultsView.update,
+
+607
+00:30:50,020 --> 00:30:53,340
+and then here, we want to pass in the current page.
+
+608
+00:30:53,340 --> 00:30:56,443
+And so remember that is model.getSeachResultsPage.
+
+609
+00:31:01,200 --> 00:31:02,420
+Okay?
+
+610
+00:31:02,420 --> 00:31:05,700
+So basically, we are doing here exactly the same
+
+611
+00:31:05,700 --> 00:31:06,653
+as this here.
+
+612
+00:31:08,180 --> 00:31:12,240
+But instead of using render, we use update.
+
+613
+00:31:12,240 --> 00:31:13,290
+Okay?
+
+614
+00:31:13,290 --> 00:31:15,810
+Now, it would also work with render,
+
+615
+00:31:15,810 --> 00:31:18,283
+and let's first see that.
+
+616
+00:31:23,800 --> 00:31:24,633
+So let's
+
+617
+00:31:27,180 --> 00:31:29,330
+search for something here.
+
+618
+00:31:29,330 --> 00:31:30,530
+So pizza.
+
+619
+00:31:30,530 --> 00:31:32,910
+And now I will click on this one here
+
+620
+00:31:33,770 --> 00:31:37,070
+and you see that it stays selected.
+
+621
+00:31:37,070 --> 00:31:41,060
+And that happened because as the hash here changed,
+
+622
+00:31:41,060 --> 00:31:45,010
+remember, then this recipe got loaded
+
+623
+00:31:45,010 --> 00:31:47,220
+and also as we just did,
+
+624
+00:31:47,220 --> 00:31:51,410
+this entire search results view got rendered again.
+
+625
+00:31:51,410 --> 00:31:54,360
+And then this time, the ID of this result
+
+626
+00:31:54,360 --> 00:31:56,160
+is the same as this one,
+
+627
+00:31:56,160 --> 00:31:59,293
+and so therefore, it got that active class.
+
+628
+00:32:00,530 --> 00:32:01,363
+Right?
+
+629
+00:32:01,363 --> 00:32:03,920
+But watch what happens to all these images
+
+630
+00:32:03,920 --> 00:32:06,833
+when I click, for example, this recipe here.
+
+631
+00:32:08,170 --> 00:32:10,320
+So you see, like before,
+
+632
+00:32:10,320 --> 00:32:11,880
+there is this flickering
+
+633
+00:32:11,880 --> 00:32:14,520
+because everything is re-rendered.
+
+634
+00:32:14,520 --> 00:32:17,770
+And so these images are basically loading again.
+
+635
+00:32:17,770 --> 00:32:19,030
+And that is the whole reason
+
+636
+00:32:19,030 --> 00:32:22,670
+why we have now the update method.
+
+637
+00:32:22,670 --> 00:32:25,533
+And so with this, we will now fix that problem.
+
+638
+00:32:26,840 --> 00:32:29,950
+So pizza again, and you see that already
+
+639
+00:32:29,950 --> 00:32:33,603
+it did select the recipe that is currently active.
+
+640
+00:32:35,840 --> 00:32:36,673
+Okay?
+
+641
+00:32:36,673 --> 00:32:39,930
+And now you see that there is no flickering
+
+642
+00:32:39,930 --> 00:32:41,660
+because now only the element
+
+643
+00:32:41,660 --> 00:32:44,403
+that actually changed was updated.
+
+644
+00:32:45,310 --> 00:32:47,680
+Great, now I just noticed
+
+645
+00:32:47,680 --> 00:32:49,400
+that when we reload the page,
+
+646
+00:32:49,400 --> 00:32:53,030
+then we get no recipes found right here.
+
+647
+00:32:53,030 --> 00:32:55,620
+And the reason for that is that our application
+
+648
+00:32:55,620 --> 00:33:00,413
+is immediately trying to update this view here.
+
+649
+00:33:00,413 --> 00:33:03,920
+So when the page loads and there is an ID,
+
+650
+00:33:03,920 --> 00:33:08,550
+then it will, of course, immediately load that recipe.
+
+651
+00:33:08,550 --> 00:33:09,400
+Right?
+
+652
+00:33:09,400 --> 00:33:12,290
+Even if there was no search before.
+
+653
+00:33:12,290 --> 00:33:13,740
+And so then here,
+
+654
+00:33:13,740 --> 00:33:16,460
+as we are trying to update, of course,
+
+655
+00:33:16,460 --> 00:33:18,360
+there are no search results.
+
+656
+00:33:18,360 --> 00:33:22,350
+And so this here will then return an empty array.
+
+657
+00:33:22,350 --> 00:33:24,703
+And so let's go to our update method here.
+
+658
+00:33:25,750 --> 00:33:28,563
+And here we can then remove this check.
+
+659
+00:33:29,550 --> 00:33:32,580
+So again, right now, we are calling update
+
+660
+00:33:32,580 --> 00:33:34,420
+with an empty array.
+
+661
+00:33:34,420 --> 00:33:36,157
+So data is this empty array
+
+662
+00:33:36,157 --> 00:33:39,190
+and so therefore, this part will then be true
+
+663
+00:33:39,190 --> 00:33:41,570
+and then this error gets rendered.
+
+664
+00:33:41,570 --> 00:33:46,170
+And this doesn't make sense so let's remove that,
+
+665
+00:33:46,170 --> 00:33:49,053
+and so now that error is gone.
+
+666
+00:33:50,513 --> 00:33:54,710
+And now immediately this one here gets selected
+
+667
+00:33:55,560 --> 00:33:58,313
+and so everything keeps working the same.
+
+668
+00:33:59,330 --> 00:34:02,810
+All right, so we just did a big step
+
+669
+00:34:02,810 --> 00:34:05,970
+towards improving our application even more
+
+670
+00:34:05,970 --> 00:34:08,880
+and making it even more user friendly.
+
+671
+00:34:08,880 --> 00:34:10,570
+And it was a lot of work
+
+672
+00:34:10,570 --> 00:34:14,170
+but I really hope that it was worth it for you.
+
+673
+00:34:14,170 --> 00:34:15,470
+And with that being said,
+
+674
+00:34:15,470 --> 00:34:17,730
+let's now move on to the next feature,
+
+675
+00:34:17,730 --> 00:34:20,423
+which will be to implement bookmarks.

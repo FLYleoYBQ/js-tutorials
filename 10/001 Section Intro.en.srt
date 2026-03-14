@@ -1,0 +1,55 @@
+1
+00:00:00,671 --> 00:00:01,810
+(soothing music)
+
+2
+00:00:01,810 --> 00:00:04,540
+So you already know that functions
+
+3
+00:00:04,540 --> 00:00:07,810
+are one of the most fundamental building blocks
+
+4
+00:00:07,810 --> 00:00:10,090
+of any JavaScript program.
+
+5
+00:00:10,090 --> 00:00:14,720
+And so let's now turn our attention back to functions
+
+6
+00:00:14,720 --> 00:00:16,920
+because there is actually a lot
+
+7
+00:00:16,920 --> 00:00:19,363
+that we don't know yet about functions.
+
+8
+00:00:20,200 --> 00:00:22,740
+So in this section, we're gonna study
+
+9
+00:00:22,740 --> 00:00:27,520
+some quite advanced topics, such as higher order functions
+
+10
+00:00:27,520 --> 00:00:31,180
+to bind method and also closures.
+
+11
+00:00:31,180 --> 00:00:34,530
+And once again, it's crucial that you understand
+
+12
+00:00:34,530 --> 00:00:38,960
+these topics before moving on to future sections.
+
+13
+00:00:38,960 --> 00:00:43,251
+So make sure to follow this one all the way to the end.
+
+14
+00:00:43,251 --> 00:00:45,834
+(upbeat music)

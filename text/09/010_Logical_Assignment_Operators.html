@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logical Assignment Operators</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 简化冗余的 OR 分配 <code>||=</code></a>
+            <a href="#section-2" class="nav-item">2. 填平空值坑：空值分配 <code>??=</code></a>
+            <a href="#section-3" class="nav-item">3. 过滤涂改：逻辑 AND 赋值 <code>&&=</code></a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Logical Assignment Operators</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：010 Logical Assignment Operators.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置基础</strong>：逻辑短路运算 (<code>||</code>, <code>&&</code>, <code>??</code>) 以及传统的老旧重赋值语句结构如 <code>x = x + 1</code> 到 <code>x += 1</code>。</li>
+                <li><strong>技术代差</strong>：ES 2021 的全新魔法扩展语法糖。用最凝练缩句的手法清理老练 API JSON 结构。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>短路判定在设置默认值时非常有效。不过，每次我们要把查验出的默认值，重新回写给原来的那个属性变量时，代码看起来总是异常的臃肿，例如：<code>rest1.num = rest1.num || 10</code>。左右两边存在肉眼可见的冗长复制！<br>
+        2021 版的 JavaScript 为这种现象直接发放了<strong>逻辑赋值运算符组合套装</strong> (<code>||=</code>, <code>??=</code>, <code>&&=</code>)，进一步缩进前瞻框架代码体量。</p>
+
+        <h2 id="section-1">1. 简化冗余的 OR 分配 (<code>||=</code>)</h2>
+        <p>假设我们刚刚调配回服务器接口的两批餐馆数据：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const rest1 = { name: 'Capri', numGuests: 20 };
+const rest2 = { name: 'La Piazza', owner: 'Giovanni Rossi' }; // 完全未登记来客数
+
+// ❌ 【旧版冗长写法】给如果没写来客数量的二号馆定编一个兜底保底游客数：10
+// rest2.numGuests = rest2.numGuests || 10;
+
+// ✅ 【ES2021 逻辑 OR 赋值】
+// 语义直译：仅仅当 rest2.numGuests 如今是 falsy 虚假黑洞状态，我才帮你把 10 这个值塞进覆盖进去。
+rest1.numGuests ||= 10;
+rest2.numGuests ||= 10;
+
+console.log('Rest1:', rest1);
+console.log('Rest2:', rest2);</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-2">2. 填平空值坑：空值分配 (<code>??=</code>)</h2>
+        <p>这又是一脉传承在上一节的死穴：如果你其中一家连锁门店确实惨淡营业，当晚 <code>numGuest</code> 直接记录为凄惨的 <code>0</code> 呢？<code>||=</code> 就会犯花痴导致依然把它修改成强制硬塞的 10。</p>
+        <p>于是我们直接替换使用<strong>逻辑 nullish 赋值符</strong>：</p>
+        
+        <pre><code class="language-javascript">const rest3 = { name: 'Empty Bar', numGuests: 0 }; // 0 是合法的
+
+// 只要不是空无所有的 undefined 和 null，请通通放宽网面拦截下来，不要强塞 10。
+rest3.numGuests ??= 10;
+
+console.log(rest3.numGuests); // 完美停住并持有真实的 0！</code></pre>
+
+        <h2 id="section-3">3. 过滤涂改：逻辑 AND 赋值 (<code>&&=</code>)</h2>
+        <p>还记得 <code>&&</code> 象征着什么吗？只吃香甜甘果（即遇到 <strong>假值 Falsy 即短路阻断</strong>）。<br>
+        假设你的合规风控需求：<strong>只要某家餐馆里目前确实含有明面上的大老板登记人（存在 owner 且为 truthy），我们为了防止数据隐私泄露，就拿块修正液全部涂抹成 'ANONYMOUS'。</strong></p>
+
+        <div class="code-comparison">
+            <div class="code-column">
+                <div class="code-header">💣 常规覆盖与错误下水隐患</div>
+<pre><code class="language-javascript">// 假若老套写...你会发现把并没有拥有者的餐馆强塞了未定义标签！
+rest1.owner = rest1.owner && 'ANONYMOUS';
+// rest1（明明没有老板）这下平白无故沾染出了一个 
+// owner: undefined 这种畸形的无赖占位属性空壳子。</code></pre>
+            </div>
+            <div class="code-column">
+                <div class="code-header">🛡️ ES2021 完美刺杀替换</div>
+<pre><code class="language-javascript">// 语义直译：如果并且只有当这个变量目前真的是一片大好 Truthy 的存在状态。那就狠狠赋值给覆盖改掉它。
+rest1.owner &&= 'ANONYMOUS';
+rest2.owner &&= 'ANONYMOUS';
+
+// 终局揭晓：
+// rest1 完全毫发无损，甚至根本没被硬塞一个 undefined 的壳。
+// rest2 老板名字消失被覆盖成了 ANONYMOUS。</code></pre>
+            </div>
+        </div>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">1. 我们为什么在特定隐私涂改操作中极度赞美 `&&=` 算子，而不是直接使用老式的 `obj.prop = obj.prop && '新值'`？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为如果该属性原本压根不存在，老式写法会强行给你把这个不存在的阴魂属性印进对象树内（生成属性名为 undefined 的废壳结构），而全新时代的 `&&=` 会极其克制，如果发现前头就是个伪假物直接静默不干活不动刀。</div>
+                <div class="quiz-option" data-value="B">B) 因为它跑起来运行内存占用大幅下降。</div>
+                <div class="quiz-option" data-value="C">C) 对于 && 判断，老式和新式没有任何结果区别，仅仅就是语法糖的少打字炫技。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>A 是正确的选项</strong>。它不仅仅省力。更是彻底剪除了以往必须用 If 包裹防爆兜底代码块和被强赋值 Undefined 洗版的垃圾残留脏数据隐患问题。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

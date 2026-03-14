@@ -1,0 +1,935 @@
+1
+00:00:01,490 --> 00:00:02,840
+Now, even more modern
+
+2
+00:00:02,840 --> 00:00:04,833
+that the nullish coalescing operator
+
+3
+00:00:04,833 --> 00:00:06,510
+that we just talked about
+
+4
+00:00:06,510 --> 00:00:10,280
+are three new so-called logical assignment operators
+
+5
+00:00:10,280 --> 00:00:13,320
+that were introduced in ES 2021.
+
+6
+00:00:13,320 --> 00:00:15,203
+So let's see how they work.
+
+7
+00:00:16,360 --> 00:00:18,950
+And in order to do that in an effective way,
+
+8
+00:00:18,950 --> 00:00:23,513
+let's quickly start by creating two new restaurant object.
+
+9
+00:00:24,760 --> 00:00:26,790
+So I'm gonna call then restaurant one
+
+10
+00:00:26,790 --> 00:00:28,420
+and restaurant two.
+
+11
+00:00:28,420 --> 00:00:30,871
+And they are extremely simple.
+
+12
+00:00:30,871 --> 00:00:32,660
+They just have a name
+
+13
+00:00:33,600 --> 00:00:35,433
+and then this one has a property,
+
+14
+00:00:36,920 --> 00:00:38,400
+number of guests,
+
+15
+00:00:38,400 --> 00:00:40,303
+and let's set it to 20 here.
+
+16
+00:00:42,180 --> 00:00:46,010
+And then there will also be a restaurant two.
+
+17
+00:00:46,010 --> 00:00:48,763
+And, in fact, let's just duplicate this one here.
+
+18
+00:00:50,490 --> 00:00:51,683
+Restaurant two.
+
+19
+00:00:54,140 --> 00:00:56,693
+Call this on La Piazza.
+
+20
+00:00:57,860 --> 00:00:58,693
+And this one actually
+
+21
+00:00:58,693 --> 00:01:01,630
+doesn't have the number of guests property
+
+22
+00:01:01,630 --> 00:01:03,483
+but it has an owner.
+
+23
+00:01:05,600 --> 00:01:10,600
+So Giovanni Rossi, or whatever.
+
+24
+00:01:14,410 --> 00:01:17,490
+Okay, and the first thing that we want to do now
+
+25
+00:01:17,490 --> 00:01:20,220
+is to set a default number of guests
+
+26
+00:01:20,220 --> 00:01:21,920
+for all the restaurant objects
+
+27
+00:01:21,920 --> 00:01:24,230
+that do not have that property.
+
+28
+00:01:24,230 --> 00:01:27,240
+So in this case, it is just this restaurant here
+
+29
+00:01:27,240 --> 00:01:29,290
+but let's pretend that we got them
+
+30
+00:01:29,290 --> 00:01:33,030
+so that we got these restaurants from some kind of API,
+
+31
+00:01:33,030 --> 00:01:36,070
+and now we want to apply something to all of them.
+
+32
+00:01:36,070 --> 00:01:37,530
+So in this case,
+
+33
+00:01:37,530 --> 00:01:40,650
+basically adding the number of guests property
+
+34
+00:01:40,650 --> 00:01:43,270
+to the objects that do not have them.
+
+35
+00:01:43,270 --> 00:01:46,650
+And let's start by using the tool that we already know about
+
+36
+00:01:46,650 --> 00:01:47,830
+to do this.
+
+37
+00:01:47,830 --> 00:01:50,370
+And so that is the or operator.
+
+38
+00:01:50,370 --> 00:01:52,850
+So we already know how we can do this using
+
+39
+00:01:52,850 --> 00:01:54,853
+the or operator, right?
+
+40
+00:01:56,130 --> 00:01:57,470
+So let's say rest2
+
+41
+00:02:03,827 --> 00:02:07,743
+.number of guests should be equal to rest1.numGuests
+
+42
+00:02:11,000 --> 00:02:13,653
+or 10.
+
+43
+00:02:14,900 --> 00:02:17,140
+So let's quickly remember that this works
+
+44
+00:02:17,140 --> 00:02:19,830
+because of short circuiting.
+
+45
+00:02:19,830 --> 00:02:21,210
+So in the or operator,
+
+46
+00:02:21,210 --> 00:02:24,310
+if the first value is truthy,
+
+47
+00:02:24,310 --> 00:02:27,070
+so this one here, then that first value
+
+48
+00:02:27,070 --> 00:02:30,330
+will immediately be returned and the second value
+
+49
+00:02:30,330 --> 00:02:32,350
+will not even be evaluated.
+
+50
+00:02:32,350 --> 00:02:33,990
+So that's this one here.
+
+51
+00:02:33,990 --> 00:02:35,633
+And so by doing this,
+
+52
+00:02:36,470 --> 00:02:38,467
+and here actually should be numGuests,
+
+53
+00:02:40,160 --> 00:02:41,970
+so again by doing this,
+
+54
+00:02:41,970 --> 00:02:44,380
+here we are returning the number of guests
+
+55
+00:02:44,380 --> 00:02:47,510
+if it does exist, so if it's not falsy,
+
+56
+00:02:47,510 --> 00:02:50,293
+and otherwise, the 10 is going to be returned.
+
+57
+00:02:51,640 --> 00:02:52,473
+Okay?
+
+58
+00:02:52,473 --> 00:02:54,883
+And in fact, let's duplicate this line here.
+
+59
+00:02:55,950 --> 00:02:57,410
+But first, I should fix it
+
+60
+00:02:57,410 --> 00:03:00,760
+because, of course, the number of guests in restaurant two
+
+61
+00:03:00,760 --> 00:03:03,110
+should be set based on the number
+
+62
+00:03:03,110 --> 00:03:05,893
+of guests that are in restaurant two or not.
+
+63
+00:03:06,890 --> 00:03:09,610
+But anyway, duplicating this now
+
+64
+00:03:09,610 --> 00:03:12,650
+and then doing it for both restaurants here
+
+65
+00:03:12,650 --> 00:03:14,100
+so that we can see the result
+
+66
+00:03:18,140 --> 00:03:20,563
+here for both objects.
+
+67
+00:03:22,120 --> 00:03:23,173
+So let's see.
+
+68
+00:03:24,020 --> 00:03:26,260
+And here we go.
+
+69
+00:03:26,260 --> 00:03:29,060
+So the second one here didn't have a number of guests
+
+70
+00:03:29,060 --> 00:03:31,760
+and so now numGuests is 10.
+
+71
+00:03:31,760 --> 00:03:34,803
+And again, that is because of short circuiting.
+
+72
+00:03:35,760 --> 00:03:37,940
+So this here returned undefined
+
+73
+00:03:37,940 --> 00:03:40,200
+and so then the second one got returned,
+
+74
+00:03:40,200 --> 00:03:42,530
+while here in this one,
+
+75
+00:03:42,530 --> 00:03:44,080
+this value was 20
+
+76
+00:03:44,080 --> 00:03:47,720
+and so it is this 20 that immediately got returned.
+
+77
+00:03:47,720 --> 00:03:50,050
+So nothing new up until this point
+
+78
+00:03:50,050 --> 00:03:51,630
+but now let me introduce
+
+79
+00:03:51,630 --> 00:03:54,600
+the very first logical assignment operator,
+
+80
+00:03:54,600 --> 00:03:56,853
+which is the or assignment operator.
+
+81
+00:03:58,950 --> 00:04:00,380
+So with that operator,
+
+82
+00:04:00,380 --> 00:04:03,270
+we will be able to write the same thing basically
+
+83
+00:04:03,270 --> 00:04:04,793
+in a more concise way.
+
+84
+00:04:05,730 --> 00:04:06,913
+So rest1.numGuests,
+
+85
+00:04:10,610 --> 00:04:13,530
+and now instead of repeating the same thing again
+
+86
+00:04:13,530 --> 00:04:14,800
+like I did here,
+
+87
+00:04:14,800 --> 00:04:19,033
+I can simply write or equal and then 10.
+
+88
+00:04:20,200 --> 00:04:21,790
+And that's it.
+
+89
+00:04:21,790 --> 00:04:24,910
+So this here is exactly the same as this one
+
+90
+00:04:24,910 --> 00:04:26,623
+but in a more concise way.
+
+91
+00:04:27,930 --> 00:04:29,550
+Okay?
+
+92
+00:04:29,550 --> 00:04:31,400
+Let's do the same for restaurant two.
+
+93
+00:04:33,220 --> 00:04:35,263
+And if we comment out these two now,
+
+94
+00:04:36,860 --> 00:04:40,530
+then as you see the result is exactly the same.
+
+95
+00:04:40,530 --> 00:04:41,890
+Great.
+
+96
+00:04:41,890 --> 00:04:46,843
+So let's write here the OR assignment operator.
+
+97
+00:04:49,090 --> 00:04:51,940
+And basically, this operator assigns a variable
+
+98
+00:04:51,940 --> 00:04:56,090
+to a variable if that variable is currently falsy.
+
+99
+00:04:56,090 --> 00:04:58,410
+So again, exactly what's happening here
+
+100
+00:04:58,410 --> 00:05:01,120
+because this variable is currently falsy
+
+101
+00:05:01,120 --> 00:05:04,313
+and so it will be assigned the value of 10.
+
+102
+00:05:05,760 --> 00:05:08,240
+Great, so that works beautifully,
+
+103
+00:05:08,240 --> 00:05:10,150
+except in one situation.
+
+104
+00:05:10,150 --> 00:05:12,690
+That actually we already encountered before
+
+105
+00:05:12,690 --> 00:05:14,253
+in the previous lecture.
+
+106
+00:05:16,060 --> 00:05:19,870
+So let's actually duplicate this here.
+
+107
+00:05:19,870 --> 00:05:21,210
+Comment out this one.
+
+108
+00:05:21,210 --> 00:05:24,220
+And now setting the number of guests to zero,
+
+109
+00:05:24,220 --> 00:05:27,560
+which is a perfectly reasonable number, right?
+
+110
+00:05:27,560 --> 00:05:31,053
+But look what happens if I then run this code again.
+
+111
+00:05:32,480 --> 00:05:33,570
+As we can see here,
+
+112
+00:05:33,570 --> 00:05:35,110
+it is back to being 10,
+
+113
+00:05:35,110 --> 00:05:37,383
+even though we set it to zero here.
+
+114
+00:05:38,240 --> 00:05:40,410
+So can you guess why that is happening
+
+115
+00:05:40,410 --> 00:05:42,660
+based on what we learned in the last lecture?
+
+116
+00:05:43,630 --> 00:05:46,780
+Well, zero is actually a falsy value,
+
+117
+00:05:46,780 --> 00:05:48,970
+and so this OR assignment operator
+
+118
+00:05:48,970 --> 00:05:51,010
+is actually working just fine.
+
+119
+00:05:51,010 --> 00:05:54,140
+So this here right now is falsy
+
+120
+00:05:54,140 --> 00:05:58,060
+and so therefore, it will then be assigned this value of 10,
+
+121
+00:05:58,060 --> 00:06:00,800
+which is exactly what this operator does.
+
+122
+00:06:00,800 --> 00:06:04,210
+So again, the logical OR assignment operator
+
+123
+00:06:04,210 --> 00:06:06,680
+will assign a value to a variable
+
+124
+00:06:06,680 --> 00:06:10,013
+if that exact variable is falsy right now.
+
+125
+00:06:12,060 --> 00:06:15,823
+However, fortunately, we have a good way of solving this.
+
+126
+00:06:17,670 --> 00:06:21,100
+So let's copy all of this, put it here,
+
+127
+00:06:21,100 --> 00:06:22,950
+comment out these two
+
+128
+00:06:22,950 --> 00:06:24,980
+because they don't really work.
+
+129
+00:06:24,980 --> 00:06:27,660
+And so here we actually do also have
+
+130
+00:06:27,660 --> 00:06:30,433
+the logical nullish assignment operator.
+
+131
+00:06:31,440 --> 00:06:32,890
+Sounds a bit complicated
+
+132
+00:06:32,890 --> 00:06:34,200
+but really all it is
+
+133
+00:06:34,200 --> 00:06:38,400
+is to change the or for the nullish coalescing operator.
+
+134
+00:06:38,400 --> 00:06:41,403
+So let's actually write that also here.
+
+135
+00:06:46,770 --> 00:06:48,970
+Nullish assignment operator.
+
+136
+00:06:48,970 --> 00:06:50,310
+So if I save it now,
+
+137
+00:06:50,310 --> 00:06:53,120
+then it is back to zero here.
+
+138
+00:06:53,120 --> 00:06:56,700
+And that is exactly the correct result here.
+
+139
+00:06:56,700 --> 00:06:58,290
+Let's just remember here
+
+140
+00:06:58,290 --> 00:07:00,680
+that nullish basically means null
+
+141
+00:07:02,410 --> 00:07:06,100
+or undefined, and right here in restaurant two,
+
+142
+00:07:06,100 --> 00:07:08,450
+the number of guests is undefined
+
+143
+00:07:08,450 --> 00:07:11,930
+and so therefore, then the 10 will be assigned
+
+144
+00:07:11,930 --> 00:07:13,720
+to that variable.
+
+145
+00:07:13,720 --> 00:07:15,740
+And so in a nutshell,
+
+146
+00:07:15,740 --> 00:07:17,500
+the nullish assignment operator
+
+147
+00:07:17,500 --> 00:07:20,260
+will assign a value to a variable
+
+148
+00:07:20,260 --> 00:07:24,530
+if that exact variable is currently nullish.
+
+149
+00:07:24,530 --> 00:07:27,973
+So again, that is the case in restaurant number two.
+
+150
+00:07:28,950 --> 00:07:30,070
+Okay.
+
+151
+00:07:30,070 --> 00:07:32,030
+And as you can probably guess,
+
+152
+00:07:32,030 --> 00:07:36,020
+we do also have the logical and assignment operator.
+
+153
+00:07:36,020 --> 00:07:37,730
+And to learn about that one,
+
+154
+00:07:37,730 --> 00:07:41,050
+let's say that we want to anonymize the names
+
+155
+00:07:41,050 --> 00:07:43,330
+of the restaurant owners.
+
+156
+00:07:43,330 --> 00:07:46,300
+So when there currently is an owner,
+
+157
+00:07:46,300 --> 00:07:47,940
+like here in this object,
+
+158
+00:07:47,940 --> 00:07:50,760
+we want to basically replace this string here
+
+159
+00:07:50,760 --> 00:07:53,130
+with the string anonymous.
+
+160
+00:07:53,130 --> 00:07:56,380
+So how could we do that again using the tools
+
+161
+00:07:56,380 --> 00:07:57,583
+that we already know?
+
+162
+00:07:58,870 --> 00:08:03,480
+Well, let's say rest2.owner
+
+163
+00:08:04,730 --> 00:08:08,313
+and now let's use for now just an and operator.
+
+164
+00:08:10,000 --> 00:08:14,340
+So we can say rest2.owner
+
+165
+00:08:16,490 --> 00:08:20,193
+and then let's write it like this.
+
+166
+00:08:22,700 --> 00:08:25,180
+Anonymous, okay?
+
+167
+00:08:25,180 --> 00:08:27,300
+Let's see for now if this worked.
+
+168
+00:08:27,300 --> 00:08:29,500
+And indeed, it did.
+
+169
+00:08:29,500 --> 00:08:31,910
+So it replaced the string that we had here before
+
+170
+00:08:31,910 --> 00:08:33,640
+with this anonymous.
+
+171
+00:08:33,640 --> 00:08:36,750
+And so let's remember why this works.
+
+172
+00:08:36,750 --> 00:08:40,610
+Well, once again, it is because of short circuiting.
+
+173
+00:08:40,610 --> 00:08:43,550
+And in the particular case of the and operator,
+
+174
+00:08:43,550 --> 00:08:46,860
+it short circuits when the first value is falsy,
+
+175
+00:08:46,860 --> 00:08:50,660
+and then immediately returns that falsy value.
+
+176
+00:08:50,660 --> 00:08:53,460
+So in this case, that's not what happening.
+
+177
+00:08:53,460 --> 00:08:55,720
+So this is truthy right now
+
+178
+00:08:55,720 --> 00:08:57,440
+and so therefore, the second value
+
+179
+00:08:57,440 --> 00:09:00,293
+will then actually be evaluated and returned.
+
+180
+00:09:01,260 --> 00:09:02,940
+So if we duplicated this,
+
+181
+00:09:05,780 --> 00:09:06,813
+like this,
+
+182
+00:09:07,730 --> 00:09:09,870
+then you see that it's now actually being set
+
+183
+00:09:09,870 --> 00:09:13,510
+to undefined because well,
+
+184
+00:09:13,510 --> 00:09:16,660
+the restaurant1.owner does not exist.
+
+185
+00:09:16,660 --> 00:09:18,310
+So that property is not here
+
+186
+00:09:18,310 --> 00:09:20,450
+and so this value is undefined.
+
+187
+00:09:20,450 --> 00:09:22,950
+And since the and operator short circuits
+
+188
+00:09:22,950 --> 00:09:25,780
+when the first value is falsy,
+
+189
+00:09:25,780 --> 00:09:27,520
+well, then that is the value
+
+190
+00:09:27,520 --> 00:09:29,023
+that is immediately returned.
+
+191
+00:09:30,400 --> 00:09:33,670
+So again, we already learned about that a little bit earlier
+
+192
+00:09:33,670 --> 00:09:34,700
+in the section,
+
+193
+00:09:34,700 --> 00:09:36,910
+and so that's why I'm not going really deep
+
+194
+00:09:36,910 --> 00:09:39,870
+into the details here once again.
+
+195
+00:09:39,870 --> 00:09:41,700
+What I will go into detail
+
+196
+00:09:41,700 --> 00:09:45,860
+is that we can now replace once again
+
+197
+00:09:45,860 --> 00:09:48,650
+this duplicate variable here.
+
+198
+00:09:48,650 --> 00:09:52,583
+So basically replacing it with the and assignment operator.
+
+199
+00:09:53,960 --> 00:09:56,200
+So for doing that, I can write rest1
+
+200
+00:09:57,688 --> 00:10:02,688
+&amp;&amp; equal, and then here let's just copy this string.
+
+201
+00:10:05,310 --> 00:10:08,383
+All right, and copying it for restaurant two.
+
+202
+00:10:09,782 --> 00:10:12,470
+And I can then comment these two out
+
+203
+00:10:13,340 --> 00:10:15,570
+and just for the sake of completeness,
+
+204
+00:10:15,570 --> 00:10:17,513
+let's also write it here.
+
+205
+00:10:20,608 --> 00:10:22,370
+Now, and we get an error here
+
+206
+00:10:22,370 --> 00:10:23,203
+and that's, of course,
+
+207
+00:10:23,203 --> 00:10:26,300
+because I forget the number of guests,
+
+208
+00:10:26,300 --> 00:10:30,083
+and actually, it is .owner, of course.
+
+209
+00:10:31,460 --> 00:10:33,090
+So .owner.
+
+210
+00:10:33,090 --> 00:10:35,710
+Let's see, and there we go.
+
+211
+00:10:35,710 --> 00:10:38,890
+So the owner has been replaced with anonymous in this case,
+
+212
+00:10:38,890 --> 00:10:41,900
+and here in the case of the first restaurant,
+
+213
+00:10:41,900 --> 00:10:43,848
+the result is even better now
+
+214
+00:10:43,848 --> 00:10:45,130
+than what we had before
+
+215
+00:10:45,130 --> 00:10:47,320
+because with this code here,
+
+216
+00:10:47,320 --> 00:10:50,530
+we actually had the owner then set to undefined,
+
+217
+00:10:50,530 --> 00:10:52,650
+which was not really what we wanted.
+
+218
+00:10:52,650 --> 00:10:54,540
+Now it is simply not here.
+
+219
+00:10:54,540 --> 00:10:57,080
+And so basically, what the logical
+
+220
+00:10:57,080 --> 00:10:59,070
+and assignment operator does
+
+221
+00:10:59,070 --> 00:11:01,720
+is to assign a value to a variable
+
+222
+00:11:01,720 --> 00:11:03,733
+if it is currently truthy.
+
+223
+00:11:04,590 --> 00:11:06,120
+All right.
+
+224
+00:11:06,120 --> 00:11:08,860
+So clearly, this here was falsy
+
+225
+00:11:08,860 --> 00:11:10,820
+because it didn't exist.
+
+226
+00:11:10,820 --> 00:11:12,630
+And so then nothing happened.
+
+227
+00:11:12,630 --> 00:11:15,260
+So the object stayed exactly the same.
+
+228
+00:11:15,260 --> 00:11:19,210
+Then here this here was indeed truthy,
+
+229
+00:11:19,210 --> 00:11:22,150
+so it was Giovanni before.
+
+230
+00:11:22,150 --> 00:11:25,750
+And so it was replaced now with this other string.
+
+231
+00:11:25,750 --> 00:11:29,130
+And so again, if you ever need to assign a value
+
+232
+00:11:29,130 --> 00:11:31,970
+to a variable that is already defined,
+
+233
+00:11:31,970 --> 00:11:34,860
+so that has a value that is currently truthy,
+
+234
+00:11:34,860 --> 00:11:38,033
+then you can use this and assignment operator.

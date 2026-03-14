@@ -1,0 +1,1535 @@
+1
+00:00:01,110 --> 00:00:04,170
+These days, everyone seems to be talking about
+
+2
+00:00:04,170 --> 00:00:06,600
+AI tools for programming,
+
+3
+00:00:06,600 --> 00:00:10,050
+things like ChatGPT, GitHub Copilot,
+
+4
+00:00:10,050 --> 00:00:13,920
+the new Cursor AI Code Editor, and so on.
+
+5
+00:00:13,920 --> 00:00:18,180
+There's a lot of hype in the industry around AI right now,
+
+6
+00:00:18,180 --> 00:00:21,780
+but there is in fact a place for these tools
+
+7
+00:00:21,780 --> 00:00:25,140
+in web development and programming in general.
+
+8
+00:00:25,140 --> 00:00:27,930
+And so I think it's important to learn
+
+9
+00:00:27,930 --> 00:00:31,710
+and to think about this new reality early on,
+
+10
+00:00:31,710 --> 00:00:34,800
+and address the questions that you might already have
+
+11
+00:00:34,800 --> 00:00:37,770
+about what this means for the future.
+
+12
+00:00:37,770 --> 00:00:40,920
+So that's what this lecture is all about.
+
+13
+00:00:40,920 --> 00:00:44,730
+Let me just warn you that it's gonna be pretty opinionated,
+
+14
+00:00:44,730 --> 00:00:48,270
+but I believe that this is what a beginner like you
+
+15
+00:00:48,270 --> 00:00:50,133
+should know and do.
+
+16
+00:00:51,120 --> 00:00:52,890
+So as I already mentioned,
+
+17
+00:00:52,890 --> 00:00:57,210
+we're talking about AI tools like ChatGPT, GitHub Copilot,
+
+18
+00:00:57,210 --> 00:00:59,730
+or the Cursor AI Code Editor.
+
+19
+00:00:59,730 --> 00:01:01,680
+And by the time you're watching this,
+
+20
+00:01:01,680 --> 00:01:03,930
+I'm sure there are already a million
+
+21
+00:01:03,930 --> 00:01:06,390
+new fancy tools out there.
+
+22
+00:01:06,390 --> 00:01:08,850
+Now, what all of these have in common
+
+23
+00:01:08,850 --> 00:01:11,340
+is that they're powered by an LLM,
+
+24
+00:01:11,340 --> 00:01:15,210
+so a Large Language Model like GPT or Claude,
+
+25
+00:01:15,210 --> 00:01:16,980
+in order to generate code
+
+26
+00:01:16,980 --> 00:01:19,920
+based on a prompt the user gives the model,
+
+27
+00:01:19,920 --> 00:01:21,960
+that's basically all they do.
+
+28
+00:01:21,960 --> 00:01:24,840
+But different tools have different ways of working
+
+29
+00:01:24,840 --> 00:01:27,510
+and a different user experience.
+
+30
+00:01:27,510 --> 00:01:31,680
+So basically, we can ask these tools to write code snippets
+
+31
+00:01:31,680 --> 00:01:33,330
+or a function for us,
+
+32
+00:01:33,330 --> 00:01:35,100
+and some tools like Cursor
+
+33
+00:01:35,100 --> 00:01:39,600
+can even generate entire files based on our prompts.
+
+34
+00:01:39,600 --> 00:01:41,130
+Copilot and Cursor
+
+35
+00:01:41,130 --> 00:01:44,520
+also give us a very powerful auto-complete feature
+
+36
+00:01:44,520 --> 00:01:47,280
+that is aware of the code that you're writing,
+
+37
+00:01:47,280 --> 00:01:49,620
+your comments, your clipboard,
+
+38
+00:01:49,620 --> 00:01:52,110
+and also the entire code base.
+
+39
+00:01:52,110 --> 00:01:54,720
+You can even chat with your code base,
+
+40
+00:01:54,720 --> 00:01:56,100
+like asking questions
+
+41
+00:01:56,100 --> 00:01:58,830
+about how certain parts of the app work,
+
+42
+00:01:58,830 --> 00:02:01,260
+in case you don't understand something.
+
+43
+00:02:01,260 --> 00:02:04,230
+And all of this works pretty well, sometimes,
+
+44
+00:02:04,230 --> 00:02:07,560
+and not so well, in some other times,
+
+45
+00:02:07,560 --> 00:02:11,100
+but more about potential problems later on.
+
+46
+00:02:11,100 --> 00:02:15,120
+Now, when we choose to work with an AI tool in our code,
+
+47
+00:02:15,120 --> 00:02:16,590
+or even just for learning
+
+48
+00:02:16,590 --> 00:02:19,020
+or for writing some simple function,
+
+49
+00:02:19,020 --> 00:02:21,240
+we need to follow a workflow,
+
+50
+00:02:21,240 --> 00:02:24,510
+just like we follow a workflow when we're coding
+
+51
+00:02:24,510 --> 00:02:26,640
+and solving problems ourselves,
+
+52
+00:02:26,640 --> 00:02:28,950
+without an AI assistant.
+
+53
+00:02:28,950 --> 00:02:31,590
+And we've already talked about that workflow
+
+54
+00:02:31,590 --> 00:02:34,920
+for solving problems and the different steps involved
+
+55
+00:02:34,920 --> 00:02:37,770
+earlier in this section, right?
+
+56
+00:02:37,770 --> 00:02:40,830
+And so let's now adapt that workflow
+
+57
+00:02:40,830 --> 00:02:42,840
+for the age of AI,
+
+58
+00:02:42,840 --> 00:02:47,250
+in case you decide to adopt any of these technologies.
+
+59
+00:02:47,250 --> 00:02:50,070
+So just like in our earlier workflow,
+
+60
+00:02:50,070 --> 00:02:54,210
+it all starts with 100% understanding the problem
+
+61
+00:02:54,210 --> 00:02:56,160
+that we need to solve.
+
+62
+00:02:56,160 --> 00:02:57,810
+Don't use an AI tool
+
+63
+00:02:57,810 --> 00:03:01,350
+if you don't even know exactly what you need to solve,
+
+64
+00:03:01,350 --> 00:03:05,370
+because this will just introduce unwanted code.
+
+65
+00:03:05,370 --> 00:03:08,610
+You can also apply the divide and conquer step
+
+66
+00:03:08,610 --> 00:03:10,170
+that we discussed earlier,
+
+67
+00:03:10,170 --> 00:03:12,150
+to basically divide the problem
+
+68
+00:03:12,150 --> 00:03:14,130
+into smaller sub-problems,
+
+69
+00:03:14,130 --> 00:03:15,930
+if it's a really big one,
+
+70
+00:03:15,930 --> 00:03:18,007
+like you're not gonna tell the AI,
+
+71
+00:03:18,007 --> 00:03:22,140
+"Just write me a social network like Instagram, right?"
+
+72
+00:03:22,140 --> 00:03:25,980
+That's way too big, and outright impossible.
+
+73
+00:03:25,980 --> 00:03:28,050
+You would have to divide that one
+
+74
+00:03:28,050 --> 00:03:31,290
+into thousands of small sub-problems.
+
+75
+00:03:31,290 --> 00:03:35,460
+But anyway, next up, you're gonna choose which AI tool
+
+76
+00:03:35,460 --> 00:03:36,630
+you want to use,
+
+77
+00:03:36,630 --> 00:03:40,080
+and then you need to write a very specific prompt,
+
+78
+00:03:40,080 --> 00:03:43,410
+telling it exactly what you want to get done.
+
+79
+00:03:43,410 --> 00:03:46,500
+For this, it's important to feed the AI
+
+80
+00:03:46,500 --> 00:03:48,840
+the exact context of the problem,
+
+81
+00:03:48,840 --> 00:03:51,000
+like what topic it's about,
+
+82
+00:03:51,000 --> 00:03:53,310
+the exact goal that should be achieved,
+
+83
+00:03:53,310 --> 00:03:56,250
+what language it should write the solution in,
+
+84
+00:03:56,250 --> 00:04:00,000
+what coding style you want, and so on.
+
+85
+00:04:00,000 --> 00:04:02,550
+Then, based on this specific prompt,
+
+86
+00:04:02,550 --> 00:04:04,590
+the AI will do its magic
+
+87
+00:04:04,590 --> 00:04:07,620
+and generate a solution to your problem,
+
+88
+00:04:07,620 --> 00:04:10,920
+and output that solution in the form of code,
+
+89
+00:04:10,920 --> 00:04:13,890
+and in the language of your choice.
+
+90
+00:04:13,890 --> 00:04:17,010
+So in our case, that's of course gonna be JavaScript,
+
+91
+00:04:17,010 --> 00:04:19,800
+but it could also be HTML, CSS,
+
+92
+00:04:19,800 --> 00:04:23,250
+Python, Java, and so one,
+
+93
+00:04:23,250 --> 00:04:26,430
+and now here comes the most important part,
+
+94
+00:04:26,430 --> 00:04:28,320
+where you as the developer
+
+95
+00:04:28,320 --> 00:04:30,330
+need to very thoroughly
+
+96
+00:04:30,330 --> 00:04:33,900
+inspect and test the generated code.
+
+97
+00:04:33,900 --> 00:04:36,810
+Again, this is extremely important
+
+98
+00:04:36,810 --> 00:04:39,450
+because code generated by AI
+
+99
+00:04:39,450 --> 00:04:41,790
+can contain lots of bugs,
+
+100
+00:04:41,790 --> 00:04:44,490
+which are sometimes, very well hidden,
+
+101
+00:04:44,490 --> 00:04:46,620
+or it can also suggest a solution
+
+102
+00:04:46,620 --> 00:04:51,060
+that's more complicated or convoluted than necessary.
+
+103
+00:04:51,060 --> 00:04:53,400
+More about that in the next slide.
+
+104
+00:04:53,400 --> 00:04:55,410
+But you can already start to see
+
+105
+00:04:55,410 --> 00:04:58,800
+that these tools should only be used by developers
+
+106
+00:04:58,800 --> 00:05:02,670
+who already know what they are doing, right?
+
+107
+00:05:02,670 --> 00:05:06,360
+But anyway, after reviewing and testing the code,
+
+108
+00:05:06,360 --> 00:05:10,800
+you can use the AI to correct or improve the solution,
+
+109
+00:05:10,800 --> 00:05:13,950
+by generating a new, very specific prompt
+
+110
+00:05:13,950 --> 00:05:16,710
+telling the AI assistant what's wrong
+
+111
+00:05:16,710 --> 00:05:18,660
+and what you need fixed.
+
+112
+00:05:18,660 --> 00:05:21,270
+So this is a pretty iterative process
+
+113
+00:05:21,270 --> 00:05:22,980
+until you reach a solution
+
+114
+00:05:22,980 --> 00:05:24,840
+that you're happy with.
+
+115
+00:05:24,840 --> 00:05:27,660
+Sometimes, this actually never happens,
+
+116
+00:05:27,660 --> 00:05:30,300
+in which case, you need to abandon the idea
+
+117
+00:05:30,300 --> 00:05:33,900
+of using AI for this specific case.
+
+118
+00:05:33,900 --> 00:05:36,540
+But if you are satisfied with the answer
+
+119
+00:05:36,540 --> 00:05:39,750
+and are 100% sure that it's correct,
+
+120
+00:05:39,750 --> 00:05:43,803
+then you can integrate the solution into your code base.
+
+121
+00:05:44,820 --> 00:05:47,640
+So this is how you would use an AI assistant
+
+122
+00:05:47,640 --> 00:05:49,800
+to help you write some code,
+
+123
+00:05:49,800 --> 00:05:53,760
+but when exactly should you actually use a tool like this
+
+124
+00:05:53,760 --> 00:05:56,910
+and the code that it generates?
+
+125
+00:05:56,910 --> 00:06:00,240
+Well, before you choose to use an AI assistant
+
+126
+00:06:00,240 --> 00:06:01,950
+to solve any task,
+
+127
+00:06:01,950 --> 00:06:03,480
+you first need to make sure
+
+128
+00:06:03,480 --> 00:06:04,890
+that you actually know
+
+129
+00:06:04,890 --> 00:06:07,950
+how to code yourself on your own.
+
+130
+00:06:07,950 --> 00:06:10,080
+So fundamental programming skills
+
+131
+00:06:10,080 --> 00:06:12,270
+are absolutely essential,
+
+132
+00:06:12,270 --> 00:06:15,750
+and so that's what this course is for.
+
+133
+00:06:15,750 --> 00:06:18,420
+Now, I'm giving you this lecture early on
+
+134
+00:06:18,420 --> 00:06:22,470
+because there are so many questions about AI these days,
+
+135
+00:06:22,470 --> 00:06:24,360
+and so I wanted to highlight the need
+
+136
+00:06:24,360 --> 00:06:27,150
+for learning programming right off the gate,
+
+137
+00:06:27,150 --> 00:06:29,220
+instead of relying on AI
+
+138
+00:06:29,220 --> 00:06:32,460
+before you even know how to program.
+
+139
+00:06:32,460 --> 00:06:33,930
+Now, in the same vein,
+
+140
+00:06:33,930 --> 00:06:37,800
+you also need to be able to solve problems on your own
+
+141
+00:06:37,800 --> 00:06:41,250
+and develop very good critical thinking.
+
+142
+00:06:41,250 --> 00:06:44,010
+Critical thinking is especially important
+
+143
+00:06:44,010 --> 00:06:46,710
+when you're dealing with AI-generated code,
+
+144
+00:06:46,710 --> 00:06:47,940
+because many times,
+
+145
+00:06:47,940 --> 00:06:50,550
+it contains bugs that are hard to find,
+
+146
+00:06:50,550 --> 00:06:53,610
+or the code is simply not good enough.
+
+147
+00:06:53,610 --> 00:06:56,340
+Always question whether the AI output
+
+148
+00:06:56,340 --> 00:06:58,590
+actually makes sense.
+
+149
+00:06:58,590 --> 00:07:03,060
+Finally, coding should sparkle joy and curiosity.
+
+150
+00:07:03,060 --> 00:07:06,630
+If coding is boring or not exciting anyway,
+
+151
+00:07:06,630 --> 00:07:09,210
+if you lack the passion for writing code,
+
+152
+00:07:09,210 --> 00:07:12,930
+then maybe this isn't the right career anyway.
+
+153
+00:07:12,930 --> 00:07:17,070
+So in summary, I would advise to not just use AI
+
+154
+00:07:17,070 --> 00:07:19,500
+without knowing what you're doing,
+
+155
+00:07:19,500 --> 00:07:23,370
+otherwise, AI will turn you into a terrible programmer
+
+156
+00:07:23,370 --> 00:07:26,610
+or maybe, not even a programmer at all.
+
+157
+00:07:26,610 --> 00:07:30,180
+If you rely on AI-generated code all the time,
+
+158
+00:07:30,180 --> 00:07:32,250
+you're gonna grow dependent on it,
+
+159
+00:07:32,250 --> 00:07:34,020
+and you'll just become someone
+
+160
+00:07:34,020 --> 00:07:36,690
+who copy=pastes code left and right,
+
+161
+00:07:36,690 --> 00:07:39,690
+until you have some barely working app,
+
+162
+00:07:39,690 --> 00:07:41,910
+an app that you don't understand,
+
+163
+00:07:41,910 --> 00:07:44,370
+can't maintain, and can't fix,
+
+164
+00:07:44,370 --> 00:07:46,020
+in case anything breaks,
+
+165
+00:07:46,020 --> 00:07:49,410
+which let me assure you, will break.
+
+166
+00:07:49,410 --> 00:07:54,090
+So someone like this is not a programmer in my mind.
+
+167
+00:07:54,090 --> 00:07:58,020
+Now, some people will go ahead and do just this,
+
+168
+00:07:58,020 --> 00:07:59,940
+so they will just copy-paste,
+
+169
+00:07:59,940 --> 00:08:02,460
+and they might have some success with it
+
+170
+00:08:02,460 --> 00:08:04,170
+to a certain degree,
+
+171
+00:08:04,170 --> 00:08:06,330
+but if you want to do things well,
+
+172
+00:08:06,330 --> 00:08:09,240
+again, my advice is to learn the fundamentals
+
+173
+00:08:09,240 --> 00:08:10,290
+from this course
+
+174
+00:08:10,290 --> 00:08:13,410
+and become a real programmer instead.
+
+175
+00:08:13,410 --> 00:08:15,930
+Now, this may all sound a bit negative,
+
+176
+00:08:15,930 --> 00:08:20,520
+but, of course, it is fine to use AI in certain situations,
+
+177
+00:08:20,520 --> 00:08:22,770
+I do it myself all the time.
+
+178
+00:08:22,770 --> 00:08:26,520
+But instead of relying on AI to do everything,
+
+179
+00:08:26,520 --> 00:08:29,250
+you should see AI as an assistant.
+
+180
+00:08:29,250 --> 00:08:33,420
+AI is meant to help you, not to replace you.
+
+181
+00:08:33,420 --> 00:08:36,570
+So AI tools can and should be used
+
+182
+00:08:36,570 --> 00:08:39,000
+to help you save time on repetitive
+
+183
+00:08:39,000 --> 00:08:42,390
+or mundane tasks like boilerplate code,
+
+184
+00:08:42,390 --> 00:08:45,903
+so things that don't require you to think much anyway.
+
+185
+00:08:46,770 --> 00:08:50,340
+AI assistants are also great for learning,
+
+186
+00:08:50,340 --> 00:08:52,920
+for example, you can just ask it questions
+
+187
+00:08:52,920 --> 00:08:54,870
+about programming topics,
+
+188
+00:08:54,870 --> 00:08:57,270
+or you can ask for code solutions,
+
+189
+00:08:57,270 --> 00:09:00,030
+and then analyze the output step by step
+
+190
+00:09:00,030 --> 00:09:02,520
+in order to learn something new.
+
+191
+00:09:02,520 --> 00:09:05,820
+This way, you're gonna find new tools and techniques
+
+192
+00:09:05,820 --> 00:09:07,020
+that you can learn,
+
+193
+00:09:07,020 --> 00:09:09,840
+that maybe otherwise you would've missed,
+
+194
+00:09:09,840 --> 00:09:12,750
+so you wouldn't have known they even existed,
+
+195
+00:09:12,750 --> 00:09:16,293
+and will actually do all this in the next lecture.
+
+196
+00:09:17,250 --> 00:09:21,960
+Now, okay, now assuming that you did decide to use AI,
+
+197
+00:09:21,960 --> 00:09:25,110
+and you now have your AI-generated code,
+
+198
+00:09:25,110 --> 00:09:26,790
+when is it actually okay
+
+199
+00:09:26,790 --> 00:09:30,360
+to incorporate this code into your app?
+
+200
+00:09:30,360 --> 00:09:34,290
+Well, I'm gonna start by reiterating on what I said earlier
+
+201
+00:09:34,290 --> 00:09:36,870
+because it's just so important.
+
+202
+00:09:36,870 --> 00:09:39,330
+You should only incorporate AI code
+
+203
+00:09:39,330 --> 00:09:42,870
+if you could have written that code yourself.
+
+204
+00:09:42,870 --> 00:09:44,760
+The ideal scenario is that
+
+205
+00:09:44,760 --> 00:09:47,880
+before asking the AI to write the code for you,
+
+206
+00:09:47,880 --> 00:09:50,130
+you have already thought of the steps
+
+207
+00:09:50,130 --> 00:09:52,830
+and the JavaScript features that you might need,
+
+208
+00:09:52,830 --> 00:09:54,720
+in order to solve the problem,
+
+209
+00:09:54,720 --> 00:09:58,170
+and maybe even imagined the code in your mind.
+
+210
+00:09:58,170 --> 00:09:59,940
+Then all the AI does
+
+211
+00:09:59,940 --> 00:10:03,090
+is to actually write the code you had already imagined,
+
+212
+00:10:03,090 --> 00:10:04,740
+which is gonna be a lot faster
+
+213
+00:10:04,740 --> 00:10:07,530
+than you typing it out by hand.
+
+214
+00:10:07,530 --> 00:10:11,550
+And this actually happens to me many times when I use AI,
+
+215
+00:10:11,550 --> 00:10:14,790
+and it feels pretty magical, to be honest.
+
+216
+00:10:14,790 --> 00:10:17,190
+Now, if you could have written the code yourself,
+
+217
+00:10:17,190 --> 00:10:19,650
+the next guideline is pretty obvious,
+
+218
+00:10:19,650 --> 00:10:21,900
+but it's still important to highlight the fact
+
+219
+00:10:21,900 --> 00:10:25,530
+that you should truly understand the generated code
+
+220
+00:10:25,530 --> 00:10:29,310
+before incorporating it into your code base.
+
+221
+00:10:29,310 --> 00:10:31,800
+Also, as I already touched on earlier,
+
+222
+00:10:31,800 --> 00:10:36,120
+you need to ensure that the code is 100% correct.
+
+223
+00:10:36,120 --> 00:10:39,600
+All this will ensure that errors made by AI,
+
+224
+00:10:39,600 --> 00:10:42,420
+don't make it into your code base.
+
+225
+00:10:42,420 --> 00:10:44,220
+This is especially important
+
+226
+00:10:44,220 --> 00:10:47,220
+for mission-critical parts of your app,
+
+227
+00:10:47,220 --> 00:10:49,200
+like core business logic,
+
+228
+00:10:49,200 --> 00:10:52,320
+and so I advise you to not even use AI
+
+229
+00:10:52,320 --> 00:10:55,800
+for these crucial tasks at all.
+
+230
+00:10:55,800 --> 00:10:57,270
+So to recap,
+
+231
+00:10:57,270 --> 00:11:00,720
+it's absolutely okay to incorporate some code
+
+232
+00:11:00,720 --> 00:11:02,850
+that an AI has written for you,
+
+233
+00:11:02,850 --> 00:11:04,710
+if you're only using the AI
+
+234
+00:11:04,710 --> 00:11:07,890
+to be faster at non-crucial tasks,
+
+235
+00:11:07,890 --> 00:11:11,010
+even though, you could have done it yourself
+
+236
+00:11:11,010 --> 00:11:13,650
+otherwise, you'll never be able to fix the code
+
+237
+00:11:13,650 --> 00:11:15,270
+when it eventually breaks,
+
+238
+00:11:15,270 --> 00:11:17,610
+and maybe even more importantly,
+
+239
+00:11:17,610 --> 00:11:20,670
+you won't grow as a developer.
+
+240
+00:11:20,670 --> 00:11:25,530
+But now it's time to finally tackle these big, big questions
+
+241
+00:11:25,530 --> 00:11:27,210
+that many beginners have,
+
+242
+00:11:27,210 --> 00:11:28,687
+which go something like,
+
+243
+00:11:28,687 --> 00:11:32,250
+"Do I even need to grow as a developer now?
+
+244
+00:11:32,250 --> 00:11:35,580
+Won't AI take my job anyway at some point?
+
+245
+00:11:35,580 --> 00:11:39,480
+Or, should I even bother learning to code now?"
+
+246
+00:11:39,480 --> 00:11:42,570
+Well, answering this type of question
+
+247
+00:11:42,570 --> 00:11:46,260
+is one of the main goals of this lecture.
+
+248
+00:11:46,260 --> 00:11:48,787
+So the short answer to the question,
+
+249
+00:11:48,787 --> 00:11:50,910
+"Will AI take my job?"
+
+250
+00:11:50,910 --> 00:11:52,800
+Is no.
+
+251
+00:11:52,800 --> 00:11:55,380
+So case closed, right?
+
+252
+00:11:55,380 --> 00:11:58,110
+Well, maybe not so fast.
+
+253
+00:11:58,110 --> 00:12:01,500
+Maybe you want to understand why I'm so confident
+
+254
+00:12:01,500 --> 00:12:05,520
+that developers will still be needed going forward.
+
+255
+00:12:05,520 --> 00:12:08,040
+Now, I need to preface this by saying,
+
+256
+00:12:08,040 --> 00:12:10,920
+that this is of course, my personal opinion,
+
+257
+00:12:10,920 --> 00:12:14,820
+and that I shockingly cannot see the future,
+
+258
+00:12:14,820 --> 00:12:16,950
+but I've thought about this a lot
+
+259
+00:12:16,950 --> 00:12:19,320
+and here's what I think.
+
+260
+00:12:19,320 --> 00:12:22,470
+So the first thing that we should address
+
+261
+00:12:22,470 --> 00:12:26,550
+is that there is just a lot of hype around AI these days,
+
+262
+00:12:26,550 --> 00:12:29,010
+and that's true for all industries,
+
+263
+00:12:29,010 --> 00:12:31,230
+not just web development.
+
+264
+00:12:31,230 --> 00:12:32,880
+Many people seem to believe
+
+265
+00:12:32,880 --> 00:12:35,460
+that AI is gonna replace us soon,
+
+266
+00:12:35,460 --> 00:12:39,240
+and there are actually companies trying to do just that,
+
+267
+00:12:39,240 --> 00:12:40,770
+but they seem to forget
+
+268
+00:12:40,770 --> 00:12:43,290
+that we've been in this situation before.
+
+269
+00:12:43,290 --> 00:12:47,040
+We've had tools like Dreamweaver, or WordPress,
+
+270
+00:12:47,040 --> 00:12:49,980
+or site builders like Wix in the past,
+
+271
+00:12:49,980 --> 00:12:53,880
+which were supposed to make web developers obsolete.
+
+272
+00:12:53,880 --> 00:12:56,130
+But did that ever happen?
+
+273
+00:12:56,130 --> 00:12:57,720
+No, it didn't,
+
+274
+00:12:57,720 --> 00:13:01,440
+and I'm sure that it won't happen this time around.
+
+275
+00:13:01,440 --> 00:13:05,070
+Now, I do believe that AI is here to stay
+
+276
+00:13:05,070 --> 00:13:08,460
+and that it will be very helpful for us developers,
+
+277
+00:13:08,460 --> 00:13:11,970
+but it's clearly over-hyped at the moment.
+
+278
+00:13:11,970 --> 00:13:14,520
+But this brings me to the next point,
+
+279
+00:13:14,520 --> 00:13:19,020
+which is that, indeed, things will change in the future.
+
+280
+00:13:19,020 --> 00:13:21,870
+No one knows how much and how fast,
+
+281
+00:13:21,870 --> 00:13:23,460
+but we can say for sure
+
+282
+00:13:23,460 --> 00:13:25,830
+that some portions of applications
+
+283
+00:13:25,830 --> 00:13:28,800
+will be written by AI in the future.
+
+284
+00:13:28,800 --> 00:13:31,290
+This is already happening right now,
+
+285
+00:13:31,290 --> 00:13:34,590
+and this tendency is only gonna increase.
+
+286
+00:13:34,590 --> 00:13:38,250
+But the thing is that this isn't necessarily bad,
+
+287
+00:13:38,250 --> 00:13:41,370
+as we saw before, AI code can be great
+
+288
+00:13:41,370 --> 00:13:44,190
+for automating boring boilerplate stuff
+
+289
+00:13:44,190 --> 00:13:45,990
+that takes up a lot of time,
+
+290
+00:13:45,990 --> 00:13:49,860
+or other mundane tasks in software development.
+
+291
+00:13:49,860 --> 00:13:53,340
+This means that for all the other interesting tasks,
+
+292
+00:13:53,340 --> 00:13:55,590
+you will still be needed.
+
+293
+00:13:55,590 --> 00:13:57,030
+You the developer,
+
+294
+00:13:57,030 --> 00:14:00,240
+will always stay in control of implementing
+
+295
+00:14:00,240 --> 00:14:03,840
+and of adapting the applications architecture,
+
+296
+00:14:03,840 --> 00:14:06,570
+and of writing the core business logic,
+
+297
+00:14:06,570 --> 00:14:09,630
+at least, that's how it should work.
+
+298
+00:14:09,630 --> 00:14:11,490
+You're also the one who asks
+
+299
+00:14:11,490 --> 00:14:14,010
+the AI for help in the first place,
+
+300
+00:14:14,010 --> 00:14:17,700
+and you are the one who is gonna review the code, test it,
+
+301
+00:14:17,700 --> 00:14:20,880
+and finally, integrated it into the app.
+
+302
+00:14:20,880 --> 00:14:25,020
+So again, the developers are gonna stay in control
+
+303
+00:14:25,020 --> 00:14:26,670
+and can actively decide
+
+304
+00:14:26,670 --> 00:14:31,230
+how much they want to involve the AI in their projects,
+
+305
+00:14:31,230 --> 00:14:32,940
+because the truth is,
+
+306
+00:14:32,940 --> 00:14:37,940
+software developers do a lot more than just writing code.
+
+307
+00:14:38,010 --> 00:14:40,290
+They're able to maintain an overview
+
+308
+00:14:40,290 --> 00:14:43,530
+and see the bigger picture of complex projects,
+
+309
+00:14:43,530 --> 00:14:47,253
+and they understand and implement design principles.
+
+310
+00:14:48,210 --> 00:14:51,660
+Now, I guess all this is a bit hard for you to imagine
+
+311
+00:14:51,660 --> 00:14:53,340
+as you're just starting out
+
+312
+00:14:53,340 --> 00:14:54,960
+on this programming journey,
+
+313
+00:14:54,960 --> 00:14:56,550
+but there are just things
+
+314
+00:14:56,550 --> 00:14:59,490
+that are too complex for AI to handle,
+
+315
+00:14:59,490 --> 00:15:02,610
+where it's not just writing a few lines of code,
+
+316
+00:15:02,610 --> 00:15:06,990
+but really thinking hard about problems and solutions,
+
+317
+00:15:06,990 --> 00:15:11,310
+and so that's where the human programmers come into play.
+
+318
+00:15:11,310 --> 00:15:15,210
+These humans are also way more creative than AI,
+
+319
+00:15:15,210 --> 00:15:17,400
+and they're able to actually collaborate
+
+320
+00:15:17,400 --> 00:15:18,840
+with other developers,
+
+321
+00:15:18,840 --> 00:15:21,360
+and maybe, even more importantly,
+
+322
+00:15:21,360 --> 00:15:23,640
+collaborate with the clients.
+
+323
+00:15:23,640 --> 00:15:28,170
+So it won't be easy to automate all that stuff away with AI,
+
+324
+00:15:28,170 --> 00:15:30,510
+and it won't happen soon.
+
+325
+00:15:30,510 --> 00:15:31,710
+On top of this,
+
+326
+00:15:31,710 --> 00:15:33,780
+as I also already hinted at,
+
+327
+00:15:33,780 --> 00:15:36,660
+from my experience, AI generated-code
+
+328
+00:15:36,660 --> 00:15:38,430
+is still pretty buggy,
+
+329
+00:15:38,430 --> 00:15:40,740
+and often, doesn't give you the best
+
+330
+00:15:40,740 --> 00:15:43,200
+or most up-to-date solutions.
+
+331
+00:15:43,200 --> 00:15:47,610
+It's especially bad at debugging non-trivial problems
+
+332
+00:15:47,610 --> 00:15:50,250
+that span multiple functions or files,
+
+333
+00:15:50,250 --> 00:15:53,760
+hallucinating solutions that don't solve anything
+
+334
+00:15:53,760 --> 00:15:56,640
+and just make the code worse and worse
+
+335
+00:15:56,640 --> 00:16:00,210
+each time you ask it to improve the solution.
+
+336
+00:16:00,210 --> 00:16:02,370
+I've seen this happening a few times,
+
+337
+00:16:02,370 --> 00:16:05,190
+where the most state-of-the-art AI models
+
+338
+00:16:05,190 --> 00:16:07,800
+become completely useless.
+
+339
+00:16:07,800 --> 00:16:10,530
+So yeah, I think we're pretty safe,
+
+340
+00:16:10,530 --> 00:16:13,650
+especially when it comes to debugging.
+
+341
+00:16:13,650 --> 00:16:16,410
+Another aspect that's interesting to consider
+
+342
+00:16:16,410 --> 00:16:18,630
+is the fact that, right now,
+
+343
+00:16:18,630 --> 00:16:21,630
+the world actually needs more software
+
+344
+00:16:21,630 --> 00:16:25,170
+than can be built by us humans right now.
+
+345
+00:16:25,170 --> 00:16:29,220
+So how many times have you used some terrible website
+
+346
+00:16:29,220 --> 00:16:30,930
+from a local business,
+
+347
+00:16:30,930 --> 00:16:33,600
+or used a non-functioning web app
+
+348
+00:16:33,600 --> 00:16:37,290
+to make a restaurant reservation or something like that?
+
+349
+00:16:37,290 --> 00:16:38,520
+I know I have,
+
+350
+00:16:38,520 --> 00:16:42,960
+and if we recruit AI to help us automating the boring parts,
+
+351
+00:16:42,960 --> 00:16:45,900
+maybe we can improve much of the bad,
+
+352
+00:16:45,900 --> 00:16:48,150
+or even non-existing software,
+
+353
+00:16:48,150 --> 00:16:50,520
+which is gonna benefit everyone.
+
+354
+00:16:50,520 --> 00:16:54,840
+So maybe if AI makes us like 10 times faster
+
+355
+00:16:54,840 --> 00:16:57,240
+at some distant point in the future,
+
+356
+00:16:57,240 --> 00:17:01,590
+it might enable us to write 10 times more software.
+
+357
+00:17:01,590 --> 00:17:04,770
+So those are the kinds of positive effects
+
+358
+00:17:04,770 --> 00:17:07,740
+that many people don't even think about,
+
+359
+00:17:07,740 --> 00:17:10,950
+and there are probably many more positive effects
+
+360
+00:17:10,950 --> 00:17:14,100
+that we can't even imagine yet.
+
+361
+00:17:14,100 --> 00:17:15,810
+So in conclusion,
+
+362
+00:17:15,810 --> 00:17:19,410
+AI will help us, not replace us.
+
+363
+00:17:19,410 --> 00:17:22,530
+It might take some boring coding tasks away,
+
+364
+00:17:22,530 --> 00:17:26,070
+allowing us to focus on what really matters,
+
+365
+00:17:26,070 --> 00:17:28,170
+building amazing software,
+
+366
+00:17:28,170 --> 00:17:31,830
+and building a lot more software faster.
+
+367
+00:17:31,830 --> 00:17:34,890
+This means, there won't be fewer jobs in the future,
+
+368
+00:17:34,890 --> 00:17:38,370
+but actually, maybe even more.
+
+369
+00:17:38,370 --> 00:17:42,330
+So please keep learning JavaScript or React,
+
+370
+00:17:42,330 --> 00:17:45,120
+or whatever it is you're doing right now,
+
+371
+00:17:45,120 --> 00:17:48,030
+and don't stop this whole AI narrative
+
+372
+00:17:48,030 --> 00:17:49,860
+from progressing on your journey
+
+373
+00:17:49,860 --> 00:17:51,720
+of learning web development
+
+374
+00:17:51,720 --> 00:17:54,480
+and building amazing software.
+
+375
+00:17:54,480 --> 00:17:58,350
+Plus, learning programming teaches you foundational skills
+
+376
+00:17:58,350 --> 00:18:00,900
+like logic and reasoning.
+
+377
+00:18:00,900 --> 00:18:03,960
+Basically, it teaches you how to think,
+
+378
+00:18:03,960 --> 00:18:07,050
+and those skills will always be relevant,
+
+379
+00:18:07,050 --> 00:18:10,530
+and maybe even more so in the future.
+
+380
+00:18:10,530 --> 00:18:12,090
+And with this being said,
+
+381
+00:18:12,090 --> 00:18:15,180
+let's now actually try our hands at using AI
+
+382
+00:18:15,180 --> 00:18:16,860
+to solve a challenge,
+
+383
+00:18:16,860 --> 00:18:19,200
+following the process and the guidelines
+
+384
+00:18:19,200 --> 00:18:21,813
+that we just talked about in this video.

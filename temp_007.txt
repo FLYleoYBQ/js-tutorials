@@ -1,0 +1,311 @@
+﻿To finish this part about functions, let's review everything important that we learned so far.
+
+In order to make sure that you really understand functions before we move on to other topics.
+
+And let's start by bringing back and rewriting the function that we wrote before, which is the years until retirement function.
+
+So I think that was, yeah it was here in the lecture about arrow functions.
+
+So let's copy this one and paste it here.
+
+And the first thing that we're gonna do is to actually convert it to a more normal function expression.
+
+So how do we do that?
+
+Well, in this case, we simply get rid of the arrow here and then write the function keyword here.
+
+And so now this is just a regular function expression like we learned before.
+
+Next up we could export this functionality here into another function.
+
+So like a calcAge function that we've been using before.
+
+So let's do that because then we can do what we did in the last lecture, which was to call one function inside of the other function.
+
+So let's write another function expression here, calcAge equals a function and then the birth year again.
+
+And what we return from this one is simply 2037 minus the birth year.
+
+So we already did that before. Right.
+
+Now you might find it confusing that we have two different functions here with the same parameter names.
+
+So this one has birth year and this one has too, but that's not a problem at all.
+
+So this birth year in this function is not at all related to this birth year in this function.
+
+They are two completely different parameters.
+
+So basically two different variables.
+
+We could even have a variable outside of any of the functions, which could also be called birth year.
+
+Okay.
+
+And we could do that now, but I don't want to confuse you even further. Okay.
+
+But what matters here is that this parameter is really like a local variable to each function.
+
+Anyway, let's now go ahead and delete this here and instead, calculate the age based on the function that we just wrote.
+
+And actually we just delete this part here.
+
+And so now the age will come from the function calcAge.
+
+And what we pass in here is the birth year.
+
+So again, it's confusing now with these same parameter names here, but let's quickly call this function just so I can quickly show you the data flow.
+
+So years until retirement with birth year 1991 and first name of Jonas.
+
+So 1991 will be the birth year here in this function.
+
+Then as a first step, this years until retirement function called calcAge and it calls calcAge with the argument of 1991.
+
+So this one here, and so then birth year in this function also becomes 1991.
+
+And so then here, the operation will be 2037 minus 1991.
+
+And if you find it less confusing, we could change this year to something else.
+
+Let's just say year and it would work the exact same way.
+
+Okay. So again, these variable names in these two different functions, they do not have anything to do with one another.
+
+All right.
+
+But let's actually put it back here because it's a, it's good to keep this in mind.
+
+Then down here, let's actually go back to returning a number and not the string, which for now I will just comment out.
+
+So here we call this function and once more, I'm not gonna store it into a variable.
+
+So we will just log the result of this, to the console.
+
+So this should be just like before, 19.
+
+Okay.
+
+But now I want to show you something which is to call this function again, let's say now with a Mike and let's say Mike was born in 1970.
+
+And so, his years until retirement will be two.
+
+So a negative number, which means that he already retired.
+
+So let's quickly account for that.
+
+So what we will do is to basically return this number, if it is above zero, and if it is below zero, we are gonna return something else like a minus one or something or some special number.
+
+So instead of returning simply the retirement, let's take a decision here based on the retirement value.
+
+And so that's something that we learned in the last lecture.
+
+So let's use an if else statement and say, if the retirement is greater than zero.
+
+So if there are more than zero years left until retirement then return this retirement value.
+
+Okay.
+
+So remember that in the, if block, we can put any code that we want.
+
+And so that includes the return statement.
+
+And else, well, let's just return always minus one.
+
+So, minus one is kind of a standard number in programming.
+
+We could also like return, like this.
+
+So a number that shows us clearly that this has no meaning.
+
+Let's just keep it at number one, minus number one.
+
+Okay.
+
+And I'm returning actually numbers here and not a string as we had before, because that's usually what we do, especially when we actually receive a number as an input.
+
+So here in this function, we get birth year here as an input, and it's a number and therefore it's a good practice to then also return a number.
+
+Okay, let's try this again.
+
+Now, we'll even change it to something more drastic.
+
+So 1950 and let's see what we get now.
+
+Now, so it's minus one now.
+
+Great.
+
+Now, one thing that I didn't mention yet is that this return keyword here will actually immediately exit the function.
+
+So it will first return the value that we tell it to return.
+
+So in this case, the retirement value, and then after that, the function is done.
+
+So it exits immediately.
+
+And we also say that the function has returned.
+
+So let me actually demonstrate that to you.
+
+And what I will do is to take this string here.
+
+Now we can get rid of the rest and I will put that after the return.
+
+So we will log to the console, this string here that we just had.
+
+And then here let's log simply the first name has already retired, and then we can put another emoji here, like this party emoji that I like.
+
+And, yeah.
+
+What do you think will happen when we run this code now and keep in mind that we have the return before the console dot log, in both cases.
+
+So in the, if block here and also in the else block.
+
+So what do you think is gonna happen with these console dot logs?
+
+Well, let's see.
+
+And indeed they are simply ignored, so they will not get executed.
+
+Because as I said before, the return statement immediately exits or immediately returns the function.
+
+And so therefore there is no chance that this code here is even reached.
+
+So if we want this one here to execute, we need to put it before the return and in vs code, I can simply hit option or alt up.
+
+Okay. And that will then move the line up.
+
+So we can, we also have that here somewhere in this menu.
+
+So that's move line up and move line down.
+
+So just so you see which one is the shortcut.
+
+So I use that one all the time.
+
+I also use add cursor below all the time, and I also use add next occurrence.
+
+So that would be command or control D.
+
+So what this means is that we have, if we have this for example, here select it then we can already see all the other ones.
+
+But if we hit command D then it will actually select that.
+
+So you see. Now we have these four selected.
+
+And so we now could replace all of them at the same time, for example, like this. Okay.
+
+But anyway, let's go back to what we were doing here.
+
+So I just moved the console dot log before the return here.
+
+And so now there should be a chance that the console dot log is actually executed before the value is returned.
+
+And so let's do the same here.
+
+So again, I'm hitting option or alt up.
+
+Add to these two lines to changed position, and now, yeah, now it works.
+
+So we get the string and here we get, Mike has already retired.
+
+Okay.
+
+So this was to show you some more things about functions that we had already learned, and also show you something new, which is the fact that the return statement here immediately exits the function.
+
+So we reviewed already some things here, but now it's time to really review everything that we learned so far about functions in these first couple of lectures.
+
+And here we have the three type of functions that we talked about.
+
+So we have first, the function declaration, and one particularity about function declarations is that they can be used before they are declared in the code.
+
+Second, we have the function expressions, and they are essentially function values that are stored in a variable.
+
+And finally, we have arrow functions that are in fact also function expressions, but special ones.
+
+And these are great for quick one line functions where we don't need to explicitly use the return keyword and no curly braces either.
+
+I also said that this one has no this keyword, but more about that in one of the future lectures.
+
+Now what's important to note here is that these are three different ways of writing functions, but they all work in a similar way.
+
+So all of them can receive input data, they transform data, and then they can output data.
+
+It's all optional, but usually that's the things that functions do.
+
+And no matter which type of function we use, we can always do these three things.
+
+And now let's zoom in a little bit further and take a close look at the structure of a common function let's say.
+
+And this one here is a function statement, but it works the exact same way for all other types of functions again.
+
+So first, usually a function needs a function name.
+
+So calcAge in this example, then a function also has parameters.
+
+And these parameters are essentially placeholders, that receive input values.
+
+So, as I said before, these are a little bit like local variables of a function.
+
+So variables that are defined only inside of this very function.
+
+Now, as you also already know, we use functions to reuse pieces of code, and these pieces of code are inside the function body.
+
+So this is where the functions input data is usually processed and then returned.
+
+And speaking of the return, by the end of the function, we usually have a return statement, which we use to output a value from the function.
+
+And also, as I mentioned a little bit earlier, the return statement also immediately terminates the function's execution.
+
+We also say that the function returns, okay.
+
+And now about calling the function, we do that using parenthesis.
+
+So we write the name of the function like we did here with calcAge and then with a parenthesis we call the function.
+
+Because without the parenthesis, the function is really just a value.
+
+But then with the parenthesis, we actually called a function.
+
+And we can also say that we run the function or invoked a function or execute a function.
+
+And all of these terms kind of mean the same thing.
+
+Now, in this case, since the function actually has parameters, we then call the function with arguments and these arguments are the actual values of the function parameters.
+
+So we use these to input the actual data into the function.
+
+And we can also imagine this as replacing the placeholders that are the parameters.
+
+Then once the calcAge function has finally done its job, then all this expression will basically be replaced with the returned value.
+
+So in this case, the age that was replaced here.
+
+And that age value is what we then store into this age variable.
+
+So we use this variable to basically save the returned value that was outputed from the function.
+
+Okay.
+
+Now just one other thing that I want to make clear is that this console dot log that we have in the function.
+
+So in that first line there, has nothing to do with returning a value.
+
+This simply prints a message to the developer console, but it has nothing to do with returning.
+
+Actually the console dot log is actually just another function call inside the calcAge function because console dot log is itself a function.
+
+And so the argument that we pass into the console dot log function is what will get printed to the developer console.
+
+Okay. So just wanted to make sure that you really get this distinction between console dot log and return.
+
+The reason why we always use console dot log is because we want to see the results of our experiments in the developer console, in the browser.
+
+Anyway, I think this pretty much sums up all there is to know, at least for now about functions.
+
+So make sure that you get all of this down and then you can move on right to the next video where the first coding challenge of this section waits for you.
+
+And as you can probably guess, it's gonna be about writing your own function for the very first time.
+
+So I hope to see you there soon.

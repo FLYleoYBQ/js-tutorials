@@ -1,0 +1,67 @@
+1
+00:00:02,040 --> 00:00:03,730
+Welcome back.
+
+2
+00:00:03,730 --> 00:00:06,695
+Now it's time to finally build our first project
+
+3
+00:00:06,695 --> 00:00:10,090
+with a visual user interface.
+
+4
+00:00:10,090 --> 00:00:12,510
+And actually, we'll build not one,
+
+5
+00:00:12,510 --> 00:00:16,060
+but three beautiful projects in this section
+
+6
+00:00:16,060 --> 00:00:17,575
+so that you can learn the basics
+
+7
+00:00:17,575 --> 00:00:20,033
+of so-called DOM manipulation.
+
+8
+00:00:20,970 --> 00:00:22,240
+So up until this point,
+
+9
+00:00:22,240 --> 00:00:25,810
+we have only learned about the language itself
+
+10
+00:00:25,810 --> 00:00:28,158
+but now, we will take it to the next level
+
+11
+00:00:28,158 --> 00:00:31,640
+and actually make JavaScript interact
+
+12
+00:00:31,640 --> 00:00:33,890
+with real web pages.
+
+13
+00:00:33,890 --> 00:00:35,740
+So for the first time now,
+
+14
+00:00:35,740 --> 00:00:39,820
+we will finally see a real project come to life
+
+15
+00:00:39,820 --> 00:00:42,350
+and so that's gonna be a lot of fun
+
+16
+00:00:42,350 --> 00:00:43,967
+and really exciting.
+
+17
+00:00:43,967 --> 00:00:46,550
+(lively music)

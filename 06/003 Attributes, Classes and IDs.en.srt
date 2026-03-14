@@ -1,0 +1,995 @@
+1
+00:00:00,990 --> 00:00:04,300
+Let's not learn about HTML attributes,
+
+2
+00:00:04,300 --> 00:00:06,470
+classes and ids.
+
+3
+00:00:06,470 --> 00:00:07,430
+And then also learn
+
+4
+00:00:07,430 --> 00:00:10,543
+about a couple more different HTML elements.
+
+5
+00:00:11,910 --> 00:00:13,840
+So what are attributes?
+
+6
+00:00:13,840 --> 00:00:17,680
+Well in HTML some elements can have attributes
+
+7
+00:00:17,680 --> 00:00:21,200
+and these attributes basically describe elements.
+
+8
+00:00:21,200 --> 00:00:23,590
+So that's for example create a link
+
+9
+00:00:23,590 --> 00:00:27,570
+and this link will be inside of this paragraph, okay.
+
+10
+00:00:27,570 --> 00:00:30,210
+So as you already saw we can nest elements
+
+11
+00:00:30,210 --> 00:00:35,140
+inside one another, for example this h1 is inside the body
+
+12
+00:00:35,140 --> 00:00:37,970
+and this p element is also inside the body.
+
+13
+00:00:37,970 --> 00:00:41,940
+So the child elements of the body element okay.
+
+14
+00:00:41,940 --> 00:00:45,320
+So I forgot to mention that in the last lecture.
+
+15
+00:00:45,320 --> 00:00:48,550
+Anyway so let's not add this link element
+
+16
+00:00:48,550 --> 00:00:50,730
+inside of the paragraph.
+
+17
+00:00:50,730 --> 00:00:53,760
+And for that, we use the anchor element.
+
+18
+00:00:53,760 --> 00:00:56,930
+So there's an a, and then in here
+
+19
+00:00:56,930 --> 00:00:59,890
+we put a text that we want to be displayed on the page.
+
+20
+00:00:59,890 --> 00:01:03,380
+So just like before and the paragraph, for example
+
+21
+00:01:03,380 --> 00:01:07,120
+so here I want to place a link to my profile on Udemy.
+
+22
+00:01:07,120 --> 00:01:10,990
+So let's say Jonas on Udemy
+
+23
+00:01:10,990 --> 00:01:13,740
+but now how do we tell the browser where this link
+
+24
+00:01:13,740 --> 00:01:15,500
+should actually point to?
+
+25
+00:01:15,500 --> 00:01:17,930
+And that's where the attributes come in.
+
+26
+00:01:17,930 --> 00:01:21,380
+So, as I said, we used attributes to describe elements.
+
+27
+00:01:21,380 --> 00:01:24,440
+And in this case, we described this anchor element
+
+28
+00:01:24,440 --> 00:01:26,403
+using the href attributes.
+
+29
+00:01:27,640 --> 00:01:30,920
+And so href stands for hypertext reference.
+
+30
+00:01:30,920 --> 00:01:34,543
+And so here you put the URL where this link should point to.
+
+31
+00:01:35,980 --> 00:01:39,543
+So let's actually get my profile page on Udemy.
+
+32
+00:01:41,510 --> 00:01:46,510
+So Jonas Udemy that's actually a link,
+
+33
+00:01:47,160 --> 00:01:51,283
+I think yes, so let's copy this and put it here.
+
+34
+00:01:52,790 --> 00:01:55,450
+Okay, give it a safe.
+
+35
+00:01:55,450 --> 00:01:58,310
+And now well here we have to reload it.
+
+36
+00:01:58,310 --> 00:01:59,550
+Sometimes it doesn't work.
+
+37
+00:01:59,550 --> 00:02:02,460
+Sometimes we have to reload okay,
+
+38
+00:02:02,460 --> 00:02:05,730
+so when you don't see it changing right away
+
+39
+00:02:05,730 --> 00:02:08,603
+just reload and then it will work.
+
+40
+00:02:09,580 --> 00:02:13,120
+So here we have this now blue link.
+
+41
+00:02:13,120 --> 00:02:16,750
+And so that's the standard format of any HTML link.
+
+42
+00:02:16,750 --> 00:02:19,110
+And when we now click this indeed,
+
+43
+00:02:19,110 --> 00:02:22,720
+it goes to my user page here on Udemy.
+
+44
+00:02:22,720 --> 00:02:24,380
+And of course you can use your own link
+
+45
+00:02:24,380 --> 00:02:26,663
+or whatever link you want to use.
+
+46
+00:02:29,030 --> 00:02:32,320
+And then we can go back and we're back on this page.
+
+47
+00:02:32,320 --> 00:02:36,880
+Okay, so that's what we used this href attribute for.
+
+48
+00:02:36,880 --> 00:02:39,590
+We described the anchor element by telling it
+
+49
+00:02:39,590 --> 00:02:41,680
+which URL it should go to,
+
+50
+00:02:41,680 --> 00:02:44,020
+whenever we click on the link.
+
+51
+00:02:44,020 --> 00:02:44,900
+Now here on the page,
+
+52
+00:02:44,900 --> 00:02:47,860
+you can actually see that there's text here.
+
+53
+00:02:47,860 --> 00:02:51,130
+So this link is right in line with the previous text.
+
+54
+00:02:51,130 --> 00:02:53,800
+So the text here in this paragraph
+
+55
+00:02:53,800 --> 00:02:57,233
+that's why we call the anchor element an inline element.
+
+56
+00:02:58,260 --> 00:03:01,700
+So it flows in line with the rest of the text.
+
+57
+00:03:01,700 --> 00:03:03,600
+Now on the other hand, for example
+
+58
+00:03:03,600 --> 00:03:07,710
+this h2 element here is a so-called block element.
+
+59
+00:03:07,710 --> 00:03:11,490
+Because as we see here, this heading is not in line
+
+60
+00:03:11,490 --> 00:03:13,530
+with the text of the previous element.
+
+61
+00:03:13,530 --> 00:03:14,860
+It created a new line
+
+62
+00:03:14,860 --> 00:03:19,390
+which only contains this content of this heading right?
+
+63
+00:03:19,390 --> 00:03:21,640
+So all of this year is this huge block.
+
+64
+00:03:21,640 --> 00:03:26,540
+And so it's a block element not an inline element, okay.
+
+65
+00:03:26,540 --> 00:03:30,770
+So we can actually include this link here in a sentence.
+
+66
+00:03:30,770 --> 00:03:35,460
+So let's say you can learn more about it
+
+67
+00:03:37,310 --> 00:03:40,243
+and then let's say on Udemy.
+
+68
+00:03:43,740 --> 00:03:48,240
+All right here, we need a space, okay.
+
+69
+00:03:48,240 --> 00:03:50,380
+And so now this looks like a normal sentence
+
+70
+00:03:50,380 --> 00:03:52,820
+and then with a link in it,
+
+71
+00:03:52,820 --> 00:03:57,370
+and we can even put a period after it ,great.
+
+72
+00:03:57,370 --> 00:04:00,770
+So let's check out another element which needs attributes
+
+73
+00:04:00,770 --> 00:04:03,490
+which is the image element.
+
+74
+00:04:03,490 --> 00:04:08,490
+So let's do that after this somehow space here
+
+75
+00:04:09,090 --> 00:04:11,630
+and for the image we use the img tag
+
+76
+00:04:12,920 --> 00:04:15,740
+and then this source attribute.
+
+77
+00:04:15,740 --> 00:04:18,040
+And then in here we can specify any image
+
+78
+00:04:18,040 --> 00:04:19,810
+from the current working folder
+
+79
+00:04:19,810 --> 00:04:21,793
+or we can also set an image URL.
+
+80
+00:04:22,760 --> 00:04:23,963
+So let's do that.
+
+81
+00:04:25,270 --> 00:04:27,430
+So what I'm doing here is,
+
+82
+00:04:27,430 --> 00:04:30,670
+since we're talking about HTML and CSS on this page,
+
+83
+00:04:30,670 --> 00:04:34,520
+I want to copy this image here, okay.
+
+84
+00:04:34,520 --> 00:04:38,560
+So the image address, so I'm getting the image address here
+
+85
+00:04:38,560 --> 00:04:40,800
+and now I'm pasting it here.
+
+86
+00:04:40,800 --> 00:04:45,130
+And so this jpg image is now the source of this image.
+
+87
+00:04:45,130 --> 00:04:47,630
+Okay, and now you see here that
+
+88
+00:04:47,630 --> 00:04:51,070
+with the auto save and edit this closing slash
+
+89
+00:04:51,070 --> 00:04:53,150
+and that's because the image element
+
+90
+00:04:53,150 --> 00:04:55,490
+does not have a closing tag.
+
+91
+00:04:55,490 --> 00:04:59,880
+It only has an opening tag which is a img of course
+
+92
+00:04:59,880 --> 00:05:02,720
+but then we don't have a closing tag.
+
+93
+00:05:02,720 --> 00:05:05,040
+And so we can close this opening tab
+
+94
+00:05:05,040 --> 00:05:08,730
+by the end using this slash here at the end of the tag.
+
+95
+00:05:08,730 --> 00:05:10,150
+But it's actually not mandatory,
+
+96
+00:05:10,150 --> 00:05:13,050
+it works just the same without this one here.
+
+97
+00:05:13,050 --> 00:05:16,460
+Okay, so image doesn't have a closing tag
+
+98
+00:05:16,460 --> 00:05:18,670
+because we don't really put any
+
+99
+00:05:18,670 --> 00:05:20,423
+like written content in here.
+
+100
+00:05:21,610 --> 00:05:25,680
+It's not like we say now a course image
+
+101
+00:05:25,680 --> 00:05:28,360
+or something and then close the image, right.
+
+102
+00:05:28,360 --> 00:05:29,793
+That would make no sense.
+
+103
+00:05:30,900 --> 00:05:34,510
+And so that's why images don't need the closing tag.
+
+104
+00:05:34,510 --> 00:05:38,040
+Now if we check it indeed here now is the image.
+
+105
+00:05:38,040 --> 00:05:41,330
+Okay, so that's the source attribute.
+
+106
+00:05:41,330 --> 00:05:42,260
+And as you see,
+
+107
+00:05:42,260 --> 00:05:45,110
+different elements have different attributes.
+
+108
+00:05:45,110 --> 00:05:46,250
+So for example
+
+109
+00:05:46,250 --> 00:05:50,410
+the href attribute is not going to do anything on an image
+
+110
+00:05:50,410 --> 00:05:54,120
+and the opposite is true for the source attribute.
+
+111
+00:05:54,120 --> 00:05:56,840
+So if we use source here on the anchor element,
+
+112
+00:05:56,840 --> 00:05:59,200
+it's not gonna have any effect.
+
+113
+00:05:59,200 --> 00:06:01,920
+And so when you really learn HTML properly
+
+114
+00:06:01,920 --> 00:06:04,080
+you gonna learn exactly which attributes
+
+115
+00:06:04,080 --> 00:06:06,470
+you can use on which elements.
+
+116
+00:06:06,470 --> 00:06:08,690
+But it's actually pretty straight forward,
+
+117
+00:06:08,690 --> 00:06:11,140
+and you get used to it pretty quick.
+
+118
+00:06:11,140 --> 00:06:14,020
+Now there are two very important attributes that
+
+119
+00:06:14,020 --> 00:06:16,220
+we can actually use on all elements
+
+120
+00:06:16,220 --> 00:06:18,960
+and which we can use to identify them.
+
+121
+00:06:18,960 --> 00:06:21,970
+And these are classes and ids.
+
+122
+00:06:21,970 --> 00:06:26,130
+So we use classes and ids to essentially name elements
+
+123
+00:06:26,130 --> 00:06:29,120
+so that we can then select them in CSS
+
+124
+00:06:29,120 --> 00:06:31,120
+in order to style them.
+
+125
+00:06:31,120 --> 00:06:35,430
+And actually we also use ids and classes to select elements
+
+126
+00:06:35,430 --> 00:06:38,980
+from JavaScript when we do dumb manipulation.
+
+127
+00:06:38,980 --> 00:06:43,980
+So classes and ids are crucial to identifying elements
+
+128
+00:06:44,020 --> 00:06:46,180
+and especially classes.
+
+129
+00:06:46,180 --> 00:06:47,493
+And here's how that works.
+
+130
+00:06:48,550 --> 00:06:51,000
+And again we can add them on any element.
+
+131
+00:06:51,000 --> 00:06:54,130
+So let's add one here to this paragraph.
+
+132
+00:06:54,130 --> 00:06:55,640
+So all we have to do is class
+
+133
+00:06:57,530 --> 00:07:00,080
+and let's call this one the first okay.
+
+134
+00:07:00,080 --> 00:07:02,940
+Because it's the first of these two paragraphs
+
+135
+00:07:02,940 --> 00:07:07,940
+and then here class again and you guessed it.
+
+136
+00:07:08,630 --> 00:07:10,900
+This one is gonna be called second.
+
+137
+00:07:10,900 --> 00:07:12,940
+And we gonna use this in the next lecture
+
+138
+00:07:12,940 --> 00:07:14,940
+to then select the two paragraphs
+
+139
+00:07:14,940 --> 00:07:16,870
+and style them differently.
+
+140
+00:07:16,870 --> 00:07:19,590
+So then according to these classes,
+
+141
+00:07:19,590 --> 00:07:21,610
+now as I said beside classes,
+
+142
+00:07:21,610 --> 00:07:25,360
+we also have ids and they work like this.
+
+143
+00:07:25,360 --> 00:07:27,337
+So let's add it here to the image
+
+144
+00:07:27,337 --> 00:07:32,337
+and let's call it course image just like this.
+
+145
+00:07:32,500 --> 00:07:35,100
+Now the difference between classes and ids
+
+146
+00:07:35,100 --> 00:07:38,570
+is that ids have to be unique, okay?
+
+147
+00:07:38,570 --> 00:07:42,200
+So each id can only be used once on the page
+
+148
+00:07:42,200 --> 00:07:45,290
+while classes can be used over and over again.
+
+149
+00:07:45,290 --> 00:07:49,360
+So I could have more paragraphs called second
+
+150
+00:07:49,360 --> 00:07:53,190
+but I could not have another element called course image.
+
+151
+00:07:53,190 --> 00:07:57,800
+All right, in practice we actually almost never used ids
+
+152
+00:07:57,800 --> 00:08:01,440
+to style elements or to select them from JavaScript.
+
+153
+00:08:01,440 --> 00:08:04,670
+It's just a better practice to use classes.
+
+154
+00:08:04,670 --> 00:08:08,560
+Okay, and now to finish let's create an HTML form
+
+155
+00:08:08,560 --> 00:08:11,870
+so that we can use some more attributes.
+
+156
+00:08:11,870 --> 00:08:15,780
+Okay, so let's do that here after the image.
+
+157
+00:08:15,780 --> 00:08:17,290
+And now I'll also introduce you
+
+158
+00:08:17,290 --> 00:08:20,590
+to the idea of basically creating boxes.
+
+159
+00:08:20,590 --> 00:08:24,330
+So we want the contents of this forum to be in a box.
+
+160
+00:08:24,330 --> 00:08:28,080
+And so there are many ways of creating boxes in HTML.
+
+161
+00:08:28,080 --> 00:08:31,330
+The most generic box is a div.
+
+162
+00:08:31,330 --> 00:08:32,890
+So let's say div
+
+163
+00:08:32,890 --> 00:08:35,660
+and let's give it a name here using an id again,
+
+164
+00:08:35,660 --> 00:08:39,900
+does that so we use classes and ids in different places
+
+165
+00:08:39,900 --> 00:08:42,483
+so that you can learn how to use both.
+
+166
+00:08:43,410 --> 00:08:46,360
+So I'm calling this box here your name
+
+167
+00:08:46,360 --> 00:08:49,020
+because that's what we gonna do in this form.
+
+168
+00:08:49,020 --> 00:08:52,783
+So just an input asking for the user's name basically.
+
+169
+00:08:53,730 --> 00:08:56,920
+Okay, and here it already close the element for me.
+
+170
+00:08:56,920 --> 00:09:01,320
+Or and maybe you're also noticing that for the names here.
+
+171
+00:09:01,320 --> 00:09:04,930
+So the id name but also for class names in CSS,
+
+172
+00:09:04,930 --> 00:09:08,940
+we use the dash to separate two different words.
+
+173
+00:09:08,940 --> 00:09:11,530
+So in JavaScript we would use camel case.
+
+174
+00:09:11,530 --> 00:09:15,250
+So course, and then like this, right.
+
+175
+00:09:15,250 --> 00:09:16,410
+But the convention is yes
+
+176
+00:09:16,410 --> 00:09:19,010
+as is to write it like this.
+
+177
+00:09:19,010 --> 00:09:21,440
+Of course it will also work the other way
+
+178
+00:09:21,440 --> 00:09:25,198
+but this is just a convention, okay.
+
+179
+00:09:25,198 --> 00:09:28,363
+And let's create just a heading for this form,
+
+180
+00:09:29,560 --> 00:09:32,180
+your name here, okay.
+
+181
+00:09:32,180 --> 00:09:34,800
+And you can see that of course we can have multiple
+
+182
+00:09:34,800 --> 00:09:37,730
+h2 elements here on the same page.
+
+183
+00:09:37,730 --> 00:09:41,670
+So we have here a secondary heading and here another one.
+
+184
+00:09:41,670 --> 00:09:46,090
+Okay, so we of course you already have the h2 here now
+
+185
+00:09:46,090 --> 00:09:48,800
+and there's also this box around it,
+
+186
+00:09:48,800 --> 00:09:50,870
+but you cannot really see it
+
+187
+00:09:50,870 --> 00:09:52,660
+but we will see it in the next lecture
+
+188
+00:09:52,660 --> 00:09:56,973
+when we actually style all of these elements using CSS.
+
+189
+00:09:59,760 --> 00:10:02,280
+Anyway let's not add another paragraph here
+
+190
+00:10:04,330 --> 00:10:07,350
+please fill in this form.
+
+191
+00:10:10,950 --> 00:10:14,390
+And now let's actually use an input element.
+
+192
+00:10:14,390 --> 00:10:18,253
+And so like that we are then basically creating a form.
+
+193
+00:10:19,580 --> 00:10:23,460
+So input and then we use the type attribute
+
+194
+00:10:23,460 --> 00:10:26,680
+to specify the type of data that should be inputted
+
+195
+00:10:26,680 --> 00:10:28,520
+into this element.
+
+196
+00:10:28,520 --> 00:10:29,353
+So once again
+
+197
+00:10:29,353 --> 00:10:32,490
+we're using an attribute to describe this element.
+
+198
+00:10:32,490 --> 00:10:34,680
+So here we could use a text
+
+199
+00:10:34,680 --> 00:10:38,660
+or as you can see it we could use button checkbox,
+
+200
+00:10:38,660 --> 00:10:42,530
+email, file and so on and so forth.
+
+201
+00:10:42,530 --> 00:10:45,080
+But here we just gonna use text
+
+202
+00:10:46,142 --> 00:10:48,900
+not then we can even specify a placeholder.
+
+203
+00:10:48,900 --> 00:10:52,703
+Now we'll just use the auto complete functionality here.
+
+204
+00:10:56,170 --> 00:10:58,480
+Okay, and we close it.
+
+205
+00:10:58,480 --> 00:11:00,800
+And once more this is one of the elements
+
+206
+00:11:00,800 --> 00:11:04,480
+which does not have a closing tag because, well again
+
+207
+00:11:04,480 --> 00:11:07,113
+it doesn't make much sense to have that here.
+
+208
+00:11:07,991 --> 00:11:10,840
+And then usually a form also has a button.
+
+209
+00:11:10,840 --> 00:11:12,993
+And so for that we have to button element.
+
+210
+00:11:14,340 --> 00:11:18,180
+And in this case it actually makes sense to have content.
+
+211
+00:11:18,180 --> 00:11:20,270
+And so that's why there is a closing tag
+
+212
+00:11:20,270 --> 00:11:23,640
+which the S code automatically placed there for us.
+
+213
+00:11:23,640 --> 00:11:28,640
+Let's give it a safe and here we go, nice.
+
+214
+00:11:28,670 --> 00:11:31,360
+So we have a nice input and a button,
+
+215
+00:11:31,360 --> 00:11:32,970
+of course nothing will happen
+
+216
+00:11:32,970 --> 00:11:36,250
+because for that we would need some JavaScript
+
+217
+00:11:36,250 --> 00:11:39,750
+but that's not the point of this lecture or of the sector,
+
+218
+00:11:39,750 --> 00:11:43,110
+but now you know how to create a form like this.
+
+219
+00:11:43,110 --> 00:11:44,590
+And now just to finish this form
+
+220
+00:11:44,590 --> 00:11:46,490
+we should actually change the name
+
+221
+00:11:46,490 --> 00:11:50,300
+or the type of the element of this box here.
+
+222
+00:11:50,300 --> 00:11:52,820
+Okay, because this is now a form
+
+223
+00:11:52,820 --> 00:11:56,090
+because it has this input and this button elements.
+
+224
+00:11:56,090 --> 00:11:59,390
+And so in HTML we have a special element for that,
+
+225
+00:11:59,390 --> 00:12:02,700
+which is instead of div we use form,
+
+226
+00:12:02,700 --> 00:12:04,210
+okay give it a safe.
+
+227
+00:12:04,210 --> 00:12:08,260
+And it looks exactly the same but this is more semantic.
+
+228
+00:12:08,260 --> 00:12:10,370
+What this means is that the form element
+
+229
+00:12:10,370 --> 00:12:13,350
+better describes the content that is inside of the box
+
+230
+00:12:13,350 --> 00:12:17,670
+than just the generic box that is the div okay.
+
+231
+00:12:17,670 --> 00:12:20,480
+So the div element is really just a generic box
+
+232
+00:12:20,480 --> 00:12:22,650
+which has no meaning at all.
+
+233
+00:12:22,650 --> 00:12:24,570
+And so that's usually not a good idea
+
+234
+00:12:24,570 --> 00:12:28,090
+for many reasons for example for SEO,
+
+235
+00:12:28,090 --> 00:12:29,950
+when Google searches your page,
+
+236
+00:12:29,950 --> 00:12:33,260
+it's better if it knows exactly what each element means
+
+237
+00:12:33,260 --> 00:12:37,070
+than just having generic boxes without any meaning at all.
+
+238
+00:12:37,070 --> 00:12:40,100
+Okay, so using the appropriate element,
+
+239
+00:12:40,100 --> 00:12:42,190
+according to the content that's in it
+
+240
+00:12:42,190 --> 00:12:45,430
+is the idea of semantic HTML.
+
+241
+00:12:45,430 --> 00:12:47,550
+In this case we are creating a forum here
+
+242
+00:12:47,550 --> 00:12:49,400
+because we have an input and a button.
+
+243
+00:12:49,400 --> 00:12:52,620
+And so we use the form element that HTML gives us
+
+244
+00:12:52,620 --> 00:12:54,440
+just for this purpose.
+
+245
+00:12:54,440 --> 00:12:57,330
+Okay, it looks exactly the same as a div element,
+
+246
+00:12:57,330 --> 00:13:00,610
+but it has meaning and so it's semantic.
+
+247
+00:13:00,610 --> 00:13:02,660
+Okay, and that's it for this video
+
+248
+00:13:02,660 --> 00:13:05,900
+in the next one we're finally gonna style all this,
+
+249
+00:13:05,900 --> 00:13:07,423
+using some HTML.

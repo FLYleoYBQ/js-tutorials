@@ -1,0 +1,1223 @@
+1
+00:00:01,290 --> 00:00:04,110
+So until now, we have always assumed
+
+2
+00:00:04,110 --> 00:00:07,770
+that everything went well with our Ajax calls.
+
+3
+00:00:07,770 --> 00:00:10,590
+So, we never handled any errors.
+
+4
+00:00:10,590 --> 00:00:14,010
+However, an important part of web development
+
+5
+00:00:14,010 --> 00:00:16,200
+is to actually handle errors,
+
+6
+00:00:16,200 --> 00:00:17,730
+because it's very common
+
+7
+00:00:17,730 --> 00:00:21,030
+that errors happen in web applications.
+
+8
+00:00:21,030 --> 00:00:23,820
+And so, in this lecture, let's talk about how
+
+9
+00:00:23,820 --> 00:00:26,073
+to handle errors in promises.
+
+10
+00:00:28,110 --> 00:00:30,960
+And to start, remember that a promise
+
+11
+00:00:30,960 --> 00:00:35,010
+in which an error happened is a rejected promise.
+
+12
+00:00:35,010 --> 00:00:37,020
+And so, in this video, we're gonna learn
+
+13
+00:00:37,020 --> 00:00:39,930
+how to handle promise rejections.
+
+14
+00:00:39,930 --> 00:00:43,320
+Now, actually, the only way in which the fetch promise
+
+15
+00:00:43,320 --> 00:00:48,000
+rejects is when the user loses his internet connection.
+
+16
+00:00:48,000 --> 00:00:50,940
+And so, for now, that's gonna be the only error
+
+17
+00:00:50,940 --> 00:00:53,160
+that we will handle here.
+
+18
+00:00:53,160 --> 00:00:56,910
+Now, to simulate losing the internet connection,
+
+19
+00:00:56,910 --> 00:00:58,980
+we can go here to Network
+
+20
+00:00:58,980 --> 00:01:03,870
+and then we can basically change the speed here to Offline.
+
+21
+00:01:03,870 --> 00:01:07,230
+However, when we then reload the page,
+
+22
+00:01:07,230 --> 00:01:09,393
+then basically, everything will disappear.
+
+23
+00:01:10,260 --> 00:01:12,960
+And so, that's not really what we want.
+
+24
+00:01:12,960 --> 00:01:17,670
+We want to simulate that the page was first still loaded,
+
+25
+00:01:17,670 --> 00:01:22,050
+but then as the user does the request without internet,
+
+26
+00:01:22,050 --> 00:01:25,860
+then we want to see the error happening.
+
+27
+00:01:25,860 --> 00:01:28,770
+And so, let's set it back to Online.
+
+28
+00:01:28,770 --> 00:01:30,930
+And so, now, what we want to do
+
+29
+00:01:30,930 --> 00:01:33,840
+is to basically only call this function here
+
+30
+00:01:33,840 --> 00:01:36,630
+whenever the user clicks on a button.
+
+31
+00:01:36,630 --> 00:01:39,330
+And so, that will then make it easier for us
+
+32
+00:01:39,330 --> 00:01:42,693
+to simulate losing the internet connection.
+
+33
+00:01:43,890 --> 00:01:46,713
+So here in the HTML, we already have a button.
+
+34
+00:01:47,850 --> 00:01:50,343
+So, let's comment this one out.
+
+35
+00:01:51,570 --> 00:01:55,740
+And then in the script, I believe, yeah.
+
+36
+00:01:55,740 --> 00:01:59,943
+So we already have it here selected as this btn.
+
+37
+00:02:02,790 --> 00:02:05,793
+And so, all we will do now is btn.addEventListener,
+
+38
+00:02:08,580 --> 00:02:12,063
+click, enter here, Function.
+
+39
+00:02:15,210 --> 00:02:16,413
+And just like this.
+
+40
+00:02:18,600 --> 00:02:19,860
+All right?
+
+41
+00:02:19,860 --> 00:02:21,783
+So, just to see what happens here.
+
+42
+00:02:22,800 --> 00:02:25,830
+So, indeed, that works just fine.
+
+43
+00:02:25,830 --> 00:02:29,583
+But now, watch what happens when we set ourselves offline.
+
+44
+00:02:30,720 --> 00:02:32,400
+Let's go back to the console.
+
+45
+00:02:32,400 --> 00:02:34,293
+And so, now, when we do the request,
+
+46
+00:02:35,550 --> 00:02:38,280
+then we get these errors here.
+
+47
+00:02:38,280 --> 00:02:40,080
+So, first, this one here,
+
+48
+00:02:40,080 --> 00:02:42,030
+but the one that's most important
+
+49
+00:02:42,030 --> 00:02:45,840
+is that we now have an uncaught promise.
+
+50
+00:02:45,840 --> 00:02:49,200
+And so, because we have failed to fetch.
+
+51
+00:02:49,200 --> 00:02:51,750
+And so, at this point for the first time,
+
+52
+00:02:51,750 --> 00:02:54,750
+the promise that's returned from the fetch function
+
+53
+00:02:54,750 --> 00:02:57,030
+was actually rejected.
+
+54
+00:02:57,030 --> 00:03:00,210
+And so, let's now handle that rejection.
+
+55
+00:03:00,210 --> 00:03:03,330
+Now, there are two ways of handling rejections,
+
+56
+00:03:03,330 --> 00:03:07,020
+and the first one is to pass a second callback function
+
+57
+00:03:07,020 --> 00:03:08,493
+into the then method.
+
+58
+00:03:10,110 --> 00:03:11,970
+So, the first callback function here
+
+59
+00:03:11,970 --> 00:03:15,450
+is always gonna be called for the fulfilled promise.
+
+60
+00:03:15,450 --> 00:03:17,640
+So, for a successful one.
+
+61
+00:03:17,640 --> 00:03:20,280
+But we can also pass in a second callback,
+
+62
+00:03:20,280 --> 00:03:24,300
+which will be called when the promise was rejected.
+
+63
+00:03:24,300 --> 00:03:25,473
+So, let's do that.
+
+64
+00:03:26,460 --> 00:03:29,880
+And this callback function will be called with an argument,
+
+65
+00:03:29,880 --> 00:03:32,073
+which is basically the error itself.
+
+66
+00:03:33,690 --> 00:03:36,813
+And so, let's simply alert the error.
+
+67
+00:03:38,670 --> 00:03:40,320
+All right.
+
+68
+00:03:40,320 --> 00:03:41,433
+So, let's try that.
+
+69
+00:03:42,300 --> 00:03:46,200
+Oh, and now, we are back to having no internet.
+
+70
+00:03:46,200 --> 00:03:50,100
+So we first need to do everything normally.
+
+71
+00:03:50,100 --> 00:03:51,960
+So, load the page.
+
+72
+00:03:51,960 --> 00:03:53,523
+Now, we lose the connection,
+
+73
+00:03:54,690 --> 00:03:56,790
+and now, we do the request.
+
+74
+00:03:56,790 --> 00:03:59,760
+And so, now actually, we handled the error
+
+75
+00:03:59,760 --> 00:04:02,790
+by displaying this alert window.
+
+76
+00:04:02,790 --> 00:04:04,980
+And the error that we saw previously
+
+77
+00:04:04,980 --> 00:04:07,290
+down here is now gone.
+
+78
+00:04:07,290 --> 00:04:08,370
+So, now in fact,
+
+79
+00:04:08,370 --> 00:04:11,910
+we no longer have this uncaught error down here,
+
+80
+00:04:11,910 --> 00:04:15,453
+because we did actually catch the error right here.
+
+81
+00:04:16,470 --> 00:04:20,310
+So, handling the error is also called catching the error.
+
+82
+00:04:20,310 --> 00:04:22,860
+And so, again, that's the reason why
+
+83
+00:04:22,860 --> 00:04:26,010
+this error that we had here before disappeared.
+
+84
+00:04:26,010 --> 00:04:28,110
+So, it said uncaught error,
+
+85
+00:04:28,110 --> 00:04:31,860
+but again, now, we are actually catching it here.
+
+86
+00:04:31,860 --> 00:04:34,890
+And so, with this, we are now handling the error
+
+87
+00:04:34,890 --> 00:04:37,623
+that might occur in this promise here.
+
+88
+00:04:38,520 --> 00:04:40,080
+Okay?
+
+89
+00:04:40,080 --> 00:04:43,290
+But now, what if there was actually no error
+
+90
+00:04:43,290 --> 00:04:46,470
+in this fetch promise here?
+
+91
+00:04:46,470 --> 00:04:48,810
+So, basically, what if this fetch promise
+
+92
+00:04:48,810 --> 00:04:50,490
+was actually fulfilled,
+
+93
+00:04:50,490 --> 00:04:53,373
+but then the second one here was rejected?
+
+94
+00:04:54,390 --> 00:04:58,620
+Well, then we would also have to catch an error here.
+
+95
+00:04:58,620 --> 00:05:00,513
+So, we would have to come here,
+
+96
+00:05:01,740 --> 00:05:04,260
+get this function and paste it here,
+
+97
+00:05:04,260 --> 00:05:06,783
+and also handle the error right here.
+
+98
+00:05:07,620 --> 00:05:10,380
+However, that is a little bit annoying,
+
+99
+00:05:10,380 --> 00:05:13,050
+and so, in fact, there is a better way
+
+100
+00:05:13,050 --> 00:05:16,110
+of basically handling all these errors globally
+
+101
+00:05:16,110 --> 00:05:18,450
+just in one central place.
+
+102
+00:05:18,450 --> 00:05:22,590
+So instead of all of these callback functions here,
+
+103
+00:05:22,590 --> 00:05:24,093
+let's just delete them.
+
+104
+00:05:26,509 --> 00:05:27,480
+Okay?
+
+105
+00:05:27,480 --> 00:05:29,400
+So, this is a lot nicer
+
+106
+00:05:29,400 --> 00:05:32,190
+just having one callback in the then.
+
+107
+00:05:32,190 --> 00:05:35,100
+And then instead, we can handle all the errors
+
+108
+00:05:35,100 --> 00:05:37,620
+no matter where they appear in the chain
+
+109
+00:05:37,620 --> 00:05:42,543
+right at the end of the chain by adding a catch method.
+
+110
+00:05:43,440 --> 00:05:45,090
+And then here, we can actually use
+
+111
+00:05:45,090 --> 00:05:47,070
+the same callback function,
+
+112
+00:05:47,070 --> 00:05:50,130
+because the callback function here will also be called
+
+113
+00:05:50,130 --> 00:05:52,980
+with the Error object that occurred,
+
+114
+00:05:52,980 --> 00:05:55,740
+and so then we can handle it in some way.
+
+115
+00:05:55,740 --> 00:05:59,640
+So, again, this catch method here at the end of the chain
+
+116
+00:05:59,640 --> 00:06:02,280
+will basically catch any errors that occur
+
+117
+00:06:02,280 --> 00:06:05,310
+in any place in this whole promise chain,
+
+118
+00:06:05,310 --> 00:06:07,590
+and no matter where that is.
+
+119
+00:06:07,590 --> 00:06:10,680
+So, errors basically propagate down the chain
+
+120
+00:06:10,680 --> 00:06:12,540
+until they are caught.
+
+121
+00:06:12,540 --> 00:06:14,880
+And only if they're not caught anywhere,
+
+122
+00:06:14,880 --> 00:06:17,280
+then we get that unco error
+
+123
+00:06:17,280 --> 00:06:19,030
+that we saw right in the beginning.
+
+124
+00:06:20,520 --> 00:06:21,420
+All right.
+
+125
+00:06:21,420 --> 00:06:23,070
+So let's now try this again,
+
+126
+00:06:23,070 --> 00:06:25,743
+and we will have to put back the internet,
+
+127
+00:06:26,670 --> 00:06:29,673
+reload the page, get back offline,
+
+128
+00:06:31,170 --> 00:06:35,310
+and indeed, we get the same error now here.
+
+129
+00:06:35,310 --> 00:06:37,983
+So, the same alert window that we had before.
+
+130
+00:06:42,150 --> 00:06:45,780
+Now, instead of having that annoying alert window,
+
+131
+00:06:45,780 --> 00:06:48,450
+let's just log the error to the console
+
+132
+00:06:48,450 --> 00:06:50,973
+and create some string here.
+
+133
+00:06:52,440 --> 00:06:55,740
+So, error, and then let's just add some emojis
+
+134
+00:06:55,740 --> 00:06:57,330
+so that we know exactly
+
+135
+00:06:57,330 --> 00:07:01,593
+which errors were printed by ourselves.
+
+136
+00:07:03,180 --> 00:07:05,460
+Well, let's add a couple of them here.
+
+137
+00:07:05,460 --> 00:07:08,370
+And in fact, we can actually also style this one
+
+138
+00:07:08,370 --> 00:07:10,350
+with console.error.
+
+139
+00:07:10,350 --> 00:07:11,280
+Remember?
+
+140
+00:07:11,280 --> 00:07:13,500
+I think I showed you this one
+
+141
+00:07:13,500 --> 00:07:16,410
+at some point in the beginning of the course.
+
+142
+00:07:16,410 --> 00:07:20,610
+But anyway, usually simply logging the error to the console
+
+143
+00:07:20,610 --> 00:07:23,160
+is not enough in a real application
+
+144
+00:07:23,160 --> 00:07:25,530
+with a real user interface.
+
+145
+00:07:25,530 --> 00:07:29,040
+And so, instead of just logging something to the console,
+
+146
+00:07:29,040 --> 00:07:32,553
+let's also display an error message for the user to see.
+
+147
+00:07:34,080 --> 00:07:36,480
+And so, that's then a more real use case
+
+148
+00:07:36,480 --> 00:07:38,253
+of this catch block.
+
+149
+00:07:39,450 --> 00:07:40,560
+All right.
+
+150
+00:07:40,560 --> 00:07:43,140
+So, I'm adding a new block here.
+
+151
+00:07:43,140 --> 00:07:45,270
+So we still want to, of course,
+
+152
+00:07:45,270 --> 00:07:48,450
+log the error to the console, but besides that,
+
+153
+00:07:48,450 --> 00:07:50,343
+let's actually now create a function
+
+154
+00:07:50,343 --> 00:07:54,180
+that will also render some kind of error.
+
+155
+00:07:54,180 --> 00:07:55,440
+Okay?
+
+156
+00:07:55,440 --> 00:07:57,213
+So let's do that outside here,
+
+157
+00:07:58,590 --> 00:08:00,553
+and I'm calling it renderError.
+
+158
+00:08:05,100 --> 00:08:08,613
+So, this is a function and it can take in a message.
+
+159
+00:08:09,630 --> 00:08:11,580
+Just call it like this.
+
+160
+00:08:11,580 --> 00:08:13,200
+And just like the country elements,
+
+161
+00:08:13,200 --> 00:08:16,803
+we want to attach this to countriesContainer,
+
+162
+00:08:17,940 --> 00:08:20,340
+and then insertAdjacent.
+
+163
+00:08:20,340 --> 00:08:23,223
+And this time, not HTML, but insertAdjacentText.
+
+164
+00:08:24,870 --> 00:08:29,080
+So, this is a new one, but basically, it does the same thing
+
+165
+00:08:29,940 --> 00:08:34,233
+as insertAdjacentHTML, but simply with text.
+
+166
+00:08:35,370 --> 00:08:37,923
+So, it doesn't create any new HTML elements.
+
+167
+00:08:39,480 --> 00:08:40,313
+Okay?
+
+168
+00:08:40,313 --> 00:08:42,150
+And then besides that,
+
+169
+00:08:42,150 --> 00:08:46,323
+remember we always have to set the opacity back to 1.
+
+170
+00:08:47,550 --> 00:08:52,170
+So just as we did before in the renderCountries function,
+
+171
+00:08:52,170 --> 00:08:55,923
+because otherwise, this container is not even be visible.
+
+172
+00:08:56,850 --> 00:08:58,410
+And actually, let's put this function
+
+173
+00:08:58,410 --> 00:09:00,280
+right at the very top of the file
+
+174
+00:09:01,770 --> 00:09:04,743
+together with the render country function.
+
+175
+00:09:08,550 --> 00:09:11,343
+So, just like this.
+
+176
+00:09:13,800 --> 00:09:14,790
+Okay?
+
+177
+00:09:14,790 --> 00:09:16,350
+So, again, in both cases,
+
+178
+00:09:16,350 --> 00:09:18,510
+in order to actually see the container,
+
+179
+00:09:18,510 --> 00:09:20,373
+we set the opacity to 1.
+
+180
+00:09:22,200 --> 00:09:23,310
+Okay?
+
+181
+00:09:23,310 --> 00:09:25,563
+And so now here, let's use that.
+
+182
+00:09:27,660 --> 00:09:30,963
+render, so not country, of course, Error.
+
+183
+00:09:32,280 --> 00:09:37,280
+Let's say, "Something went wrong."
+
+184
+00:09:38,040 --> 00:09:40,260
+Then here, we can use our emoji again.
+
+185
+00:09:40,260 --> 00:09:41,093
+Why not?
+
+186
+00:09:43,230 --> 00:09:45,960
+And then here, let's again print the error.
+
+187
+00:09:45,960 --> 00:09:49,080
+And actually, this error that is generated here
+
+188
+00:09:49,080 --> 00:09:51,630
+is a real JavaScript object.
+
+189
+00:09:51,630 --> 00:09:55,650
+So we can create errors in JavaScript with a constructor,
+
+190
+00:09:55,650 --> 00:09:58,563
+for example, just like a map or a set,
+
+191
+00:09:59,730 --> 00:10:03,450
+and any error in JavaScript that was created like this
+
+192
+00:10:03,450 --> 00:10:06,030
+contains the message property.
+
+193
+00:10:06,030 --> 00:10:10,530
+So we can use that here to basically only print the message
+
+194
+00:10:10,530 --> 00:10:14,880
+of that error and not the whole object itself.
+
+195
+00:10:14,880 --> 00:10:16,260
+And we will actually learn more
+
+196
+00:10:16,260 --> 00:10:19,260
+about the builtin Error object of JavaScript
+
+197
+00:10:19,260 --> 00:10:20,493
+in the next video.
+
+198
+00:10:21,660 --> 00:10:25,323
+Now, to try this, we need to again get ourselves online,
+
+199
+00:10:27,390 --> 00:10:30,903
+then offline, check the console,
+
+200
+00:10:31,800 --> 00:10:36,330
+and indeed, we get our custom error down here
+
+201
+00:10:36,330 --> 00:10:37,950
+visible by the emojis,
+
+202
+00:10:37,950 --> 00:10:41,490
+and then our own message here for the user.
+
+203
+00:10:41,490 --> 00:10:45,003
+Now, it's not super pretty, but that's not the point here.
+
+204
+00:10:46,021 --> 00:10:48,510
+And as you see, indeed, this here is simply
+
+205
+00:10:48,510 --> 00:10:53,510
+the error.message while down here, we have the entire error.
+
+206
+00:10:54,000 --> 00:10:56,490
+So that includes the type error
+
+207
+00:10:56,490 --> 00:11:01,490
+and even it includes this so-called stack trace.
+
+208
+00:11:01,770 --> 00:11:04,270
+So it shows us exactly where the error comes from.
+
+209
+00:11:05,640 --> 00:11:06,473
+All right.
+
+210
+00:11:06,473 --> 00:11:08,970
+And so, that's how we handle errors happening
+
+211
+00:11:08,970 --> 00:11:12,660
+in promises in any then handler.
+
+212
+00:11:12,660 --> 00:11:15,840
+So basically, handling any promise rejection
+
+213
+00:11:15,840 --> 00:11:18,840
+no matter where it happens in the chain.
+
+214
+00:11:18,840 --> 00:11:21,720
+Now, just to finish, there is one more quick method
+
+215
+00:11:21,720 --> 00:11:23,160
+that I want to show you
+
+216
+00:11:23,160 --> 00:11:26,400
+and that is also available on all promises.
+
+217
+00:11:26,400 --> 00:11:29,040
+So, besides then and catch,
+
+218
+00:11:29,040 --> 00:11:31,980
+there is also the finally method.
+
+219
+00:11:31,980 --> 00:11:36,600
+So, let's add a finally here, finally.
+
+220
+00:11:36,600 --> 00:11:38,370
+And then the callback function
+
+221
+00:11:38,370 --> 00:11:41,520
+that we define here will always be called
+
+222
+00:11:41,520 --> 00:11:44,070
+whatever happens with the promise.
+
+223
+00:11:44,070 --> 00:11:48,300
+So, no matter if the promise is fulfilled or rejected,
+
+224
+00:11:48,300 --> 00:11:50,700
+this callback function that we define here
+
+225
+00:11:50,700 --> 00:11:53,400
+is gonna be called always.
+
+226
+00:11:53,400 --> 00:11:56,160
+So that's the difference between the other two.
+
+227
+00:11:56,160 --> 00:11:59,550
+So, the then method is only called when the promise
+
+228
+00:11:59,550 --> 00:12:02,520
+is fulfilled, while this one is only called
+
+229
+00:12:02,520 --> 00:12:04,980
+while the promise is rejected.
+
+230
+00:12:04,980 --> 00:12:08,430
+Now, the finally method is not always useful,
+
+231
+00:12:08,430 --> 00:12:10,590
+but sometimes, it actually is.
+
+232
+00:12:10,590 --> 00:12:12,840
+So, we use this method for something
+
+233
+00:12:12,840 --> 00:12:14,640
+that always needs to happen
+
+234
+00:12:14,640 --> 00:12:17,550
+no matter the result of the promise.
+
+235
+00:12:17,550 --> 00:12:21,510
+And one good example of that is to hide a loading spinner
+
+236
+00:12:21,510 --> 00:12:23,370
+like these rotating circles
+
+237
+00:12:23,370 --> 00:12:26,160
+that you see everywhere in web applications
+
+238
+00:12:26,160 --> 00:12:27,990
+when you load some data.
+
+239
+00:12:27,990 --> 00:12:30,510
+So, these applications show a spinner
+
+240
+00:12:30,510 --> 00:12:33,180
+when an asynchronous operation starts
+
+241
+00:12:33,180 --> 00:12:36,210
+and then hide it once the operation completes.
+
+242
+00:12:36,210 --> 00:12:37,980
+And that happens no matter
+
+243
+00:12:37,980 --> 00:12:41,100
+if the operation was successfully or not.
+
+244
+00:12:41,100 --> 00:12:44,970
+And so, for that, the finally method is perfect.
+
+245
+00:12:44,970 --> 00:12:47,610
+And in our case, what we always need to do
+
+246
+00:12:47,610 --> 00:12:50,010
+is to fade in the container.
+
+247
+00:12:50,010 --> 00:12:54,780
+So, basically, this part here always happens
+
+248
+00:12:54,780 --> 00:12:57,270
+no matter what, right?
+
+249
+00:12:57,270 --> 00:12:59,280
+So, no matter if we render the country
+
+250
+00:12:59,280 --> 00:13:00,930
+in the case of success
+
+251
+00:13:00,930 --> 00:13:04,530
+or if we render the error in case of an error,
+
+252
+00:13:04,530 --> 00:13:07,530
+no matter what, we always need to do this.
+
+253
+00:13:07,530 --> 00:13:10,410
+And so, let's take this out of here.
+
+254
+00:13:10,410 --> 00:13:15,410
+So I'm copying it here and deactivating this in both cases,
+
+255
+00:13:16,860 --> 00:13:19,803
+and then let's put it here into the finally handler.
+
+256
+00:13:21,090 --> 00:13:22,230
+Okay?
+
+257
+00:13:22,230 --> 00:13:25,143
+And now, we no longer need the offline.
+
+258
+00:13:26,160 --> 00:13:29,970
+So let's just reload, put it here,
+
+259
+00:13:29,970 --> 00:13:32,493
+and yeah, that works beautifully.
+
+260
+00:13:33,900 --> 00:13:36,810
+Just notice that this actually works
+
+261
+00:13:36,810 --> 00:13:40,470
+because catch itself also returns a promise.
+
+262
+00:13:40,470 --> 00:13:43,800
+So, that's the only way why this here can work.
+
+263
+00:13:43,800 --> 00:13:47,130
+So, of course, this only works on promises.
+
+264
+00:13:47,130 --> 00:13:49,080
+And so, yeah.
+
+265
+00:13:49,080 --> 00:13:51,840
+Again, this can only work if catch itself
+
+266
+00:13:51,840 --> 00:13:53,643
+also returns a promise.
+
+267
+00:13:55,440 --> 00:13:56,730
+All right.
+
+268
+00:13:56,730 --> 00:13:59,490
+Now, let's try to simulate another error
+
+269
+00:13:59,490 --> 00:14:02,373
+so that I can show you what we need to do next.
+
+270
+00:14:03,240 --> 00:14:06,480
+So, let's say that we're trying to search for a country
+
+271
+00:14:06,480 --> 00:14:08,490
+that simply doesn't exist.
+
+272
+00:14:08,490 --> 00:14:12,840
+And so, or API is not gonna find any result for that.
+
+273
+00:14:12,840 --> 00:14:14,463
+Let's say just this.
+
+274
+00:14:15,540 --> 00:14:16,533
+So, let's see.
+
+275
+00:14:17,430 --> 00:14:19,613
+And well, we get this weird error
+
+276
+00:14:19,613 --> 00:14:24,613
+that we cannot read property flag of undefined in line 152.
+
+277
+00:14:26,859 --> 00:14:30,660
+So, basically, it's coming from this place,
+
+278
+00:14:30,660 --> 00:14:33,000
+but, of course, then in our stack trace
+
+279
+00:14:33,000 --> 00:14:36,120
+we can see where exactly it's coming from.
+
+280
+00:14:36,120 --> 00:14:38,343
+So, it's coming from getCountryData.
+
+281
+00:14:40,020 --> 00:14:42,360
+Well, in this case, it's not that helpful,
+
+282
+00:14:42,360 --> 00:14:45,480
+but sometimes, inspecting the stack trace
+
+283
+00:14:45,480 --> 00:14:47,883
+can be helpful indeed.
+
+284
+00:14:48,930 --> 00:14:51,720
+So, anyway, this error here is weird
+
+285
+00:14:51,720 --> 00:14:54,330
+and it doesn't really reflect the true error,
+
+286
+00:14:54,330 --> 00:14:58,020
+which is simply that our API cannot find any country
+
+287
+00:14:58,020 --> 00:14:59,640
+with this name.
+
+288
+00:14:59,640 --> 00:15:02,370
+So, the true error is of course not
+
+289
+00:15:02,370 --> 00:15:05,220
+that we cannot read flag of undefined,
+
+290
+00:15:05,220 --> 00:15:09,840
+but, in fact, it is that our API cannot find any country.
+
+291
+00:15:09,840 --> 00:15:14,520
+And so, that's reflected here with the status code of 404.
+
+292
+00:15:14,520 --> 00:15:16,560
+However, as I said in the beginning,
+
+293
+00:15:16,560 --> 00:15:18,630
+the fetch promise only rejects
+
+294
+00:15:18,630 --> 00:15:21,240
+when there is no internet connection.
+
+295
+00:15:21,240 --> 00:15:26,070
+But with a 404 error like this, which is not a real error,
+
+296
+00:15:26,070 --> 00:15:30,840
+but well, it kind of is, but anyway, with this 404,
+
+297
+00:15:30,840 --> 00:15:34,140
+the fetch promise will still get fulfilled.
+
+298
+00:15:34,140 --> 00:15:36,000
+So, there is no rejection.
+
+299
+00:15:36,000 --> 00:15:40,470
+And so, our catch handler cannot pick up on this error.
+
+300
+00:15:40,470 --> 00:15:43,440
+It does pick up on this other error.
+
+301
+00:15:43,440 --> 00:15:44,970
+So, this one here,
+
+302
+00:15:44,970 --> 00:15:48,000
+but that's not the one that we actually want to handle.
+
+303
+00:15:48,000 --> 00:15:50,310
+In this case, we really want to tell the user
+
+304
+00:15:50,310 --> 00:15:53,790
+that no country was found with this name.
+
+305
+00:15:53,790 --> 00:15:56,730
+And so, that is what we will do in the next lecture,
+
+306
+00:15:56,730 --> 00:15:59,403
+so that this one doesn't become all too long.

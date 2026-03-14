@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Holding Current Score</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.warning { border-color: var(--accent-color); border-left-color: var(--accent-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        .quiz-card { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); padding: 24px; margin: 24px 0; }
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+        .quiz-option { background: var(--bg-color); border: 1px solid var(--surface-border); padding: 14px 20px; margin-bottom: 10px; border-radius: var(--radius-md); cursor: pointer; }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+        .quiz-explanation { margin-top: 20px; padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md); display: none; border-left: 3px solid var(--info-color); font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-array" class="nav-item active">1. 数组大翻身：多玩家数据装载</a>
+            <a href="#section-hold" class="nav-item">2. Hold 按钮：落袋为安</a>
+            <a href="#section-winner" class="nav-item">3. 夺冠判断与黑化渲染</a>
+            <a href="#section-state" class="nav-item">4. 高级架构：State Variable 守卫</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Holding Current Score (保留分数与胜利判定)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：018 Holding Current Score.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <p>上节课我们见识到了由于 <code>activePlayer</code> 是 0 和 1 带来的 HTML ID 映射威力。那对于<strong>玩家各自独立沉淀的总分 (Total Score)</strong>，我们能怎么存呢？</p>
+
+        <h2 id="section-array">1. 数组大翻身：多玩家数据装载</h2>
+        <p>与其去建立两个割裂的散装变量 <code>let score0 = 0; let score1 = 0;</code>，更好的做法是<strong>把它们塞进一个只有两个元素的数组里</strong>：</p>
+        <pre><code class="language-javascript">const scores = [0, 0]; // 0 号房是玩家1总分；1 号房是玩家2总分</code></pre>
+        <p>这样一来，当我们需要给当前活动玩家加分时，只要写 <code>scores[activePlayer] += currentScore;</code> 即可！你又一次体会到了 0/1 这种布尔系索引值配合数组带来的魔法穿透力。</p>
+
+        <h2 id="section-hold">2. Hold 按钮：落袋为安与夺冠判定</h2>
+        <p>当玩家见好就收，不愿承担爆退风险时，就会点击 "Hold" (保留/入库) 按钮。这会触发一系列连锁操作：</p>
+
+        <pre><code class="language-javascript">btnHold.addEventListener('click', function() {
+  // 1. 把当前的本回合池子里的分，倾倒进全局总分数组里的专属房间
+  scores[activePlayer] += currentScore;
+  
+  // 2. 刷在屏幕上对应的那个总分大字上 (利用模板字符串抓取)
+  document.getElementById(`score--${activePlayer}`).textContent = scores[activePlayer];
+  
+  // 3. 检查他是否赢了比赛 (>= 100 分)
+  if (scores[activePlayer] >= 100) {
+    // 赢了！游戏结束！颁发黑榜！
+    document.querySelector(`.player--${activePlayer}`).classList.add('player--winner');
+    // 把之前指示他正在活动的高亮类名去掉，否则两个颜色会打架
+    document.querySelector(`.player--${activePlayer}`).classList.remove('player--active');
+  } else {
+    // 还没赢，只不过是该交涉换人了
+    switchPlayer(); // 把上一节的那一坨脱衣服换人代码扔进一个函数里调用
+  }
+});</code></pre>
+
+        <h2 id="section-state">3. 高级架构：State Variable (状态守卫变量)</h2>
+        <p>此时存在一个极其弱智的 Bug：一名玩家分数冲破了 100 并且屏幕背景都已经成了黑金色宣告游戏胜利了，此时你如果继续手贱去点击 Roll 骰子按钮，游戏竟然还能不知疲倦地投出新数字、疯狂累加分数甚至疯狂切换回合！</p>
+        <p><strong>因为计算机就像是一个没有记忆的纯情少男。你虽然用 CSS 给界面染了颜色画上了句号，但你给它绑定的 click 事件依旧坚守岗位，来者不拒。</strong></p>
+
+        <p>专业的游戏与电商后端，都会使用一种叫做 <strong>State Variable (状态守卫变量)</strong> 来作为整个中枢的总闸。这通常是一个布尔值 (Boolean)：</p>
+
+        <pre><code class="language-javascript">// 在代码最顶部，游戏的大闸：默认通电开启
+let playing = true; 
+
+btnRoll.addEventListener('click', function() {
+  // 只有当大闸通着电时，里面的机器才允许转动！
+  if (playing) {
+    // ...掷骰子的一百多行代码
+  }
+});
+
+btnHold.addEventListener('click', function() {
+  if (playing) {
+    // ...加分并判断输赢的代码
+    if (scores[activePlayer] >= 100) {
+      // 🏆 有人赢了！拉闸断电！
+      playing = false; 
+    }
+  }
+});</code></pre>
+
+        <div class="callout warning">
+            <p>🔧 <strong>状态变量的至高哲学：</strong><br>
+            `let playing = true;` 是一种心智模型，它是对真实世界业务状态的<strong>数字化映射</strong>。<br>
+            你不能指望机器去读你的 CSS 样式来推测游戏是否结束；你必须在内存中留存一个“开关”。这也就是为什么在 React/Vue 中，万物皆“状态驱动视图”的底层启蒙！</p>
+        </div>
+
+        <p>至此，我们完成了《猪骰子》对决的最核心骨架，它已经是一套滴水不漏的战斗引擎。下一节，我们将以“New Game (新游戏)”按钮为契机收尾！</p>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+        
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">1. 关于防止“游戏结束后还能点按钮”的 Bug，为什么我们不推荐在有人赢了之后去执行 `btnRoll.removeEventListener('click', ...)`，而是采用声明 `let playing = true` 布尔开关的做法？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为使用 bool 状态变量 (State Variable) 是业界标准的“状态决定数据流”思想，代码更具拓展性。如果以后加了 10 个按钮，拉下 `playing = false` 总闸就能瞬间瘫痪所有的业务逻辑，而无需挨个去强行解绑 Listener。</div>
+                <div class="quiz-option" data-value="B">B) 因为 JavaScript根本就不支持从 DOM 身上移除事件监听器。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>👍 正确！</strong> 解析：虽然能依靠 removeEventListener 解绑，但在现代前端工程学中，我们倾向于“让状态(Data)做主宰”，界面行为只是一层壳。拉下总闸，所有防线一同关闭，这才是干净健壮的架构。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+
+            card.querySelectorAll('.quiz-option').forEach(opt => { opt.classList.remove('selected', 'correct', 'incorrect'); });
+            this.classList.add('selected');
+
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+        });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+</script>
+</body>
+</html>

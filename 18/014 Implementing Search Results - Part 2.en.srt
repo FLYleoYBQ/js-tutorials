@@ -1,0 +1,2063 @@
+1
+00:00:01,180 --> 00:00:03,574
+Let's now render the search results
+
+2
+00:00:03,574 --> 00:00:06,093
+by creating a new view.
+
+3
+00:00:07,960 --> 00:00:11,300
+So we already have the searchView
+
+4
+00:00:11,300 --> 00:00:15,390
+but now we also want to create like a resultsView.
+
+5
+00:00:15,390 --> 00:00:19,030
+So a resultsView, which will contain a render
+
+6
+00:00:19,030 --> 00:00:22,470
+so that we can then call that render here
+
+7
+00:00:22,470 --> 00:00:24,033
+with these search results.
+
+8
+00:00:24,950 --> 00:00:26,853
+So similar to what we have here,
+
+9
+00:00:27,880 --> 00:00:31,140
+so to the recipeView,
+
+10
+00:00:31,140 --> 00:00:33,160
+which also has a render method,
+
+11
+00:00:33,160 --> 00:00:34,990
+which takes in some data
+
+12
+00:00:34,990 --> 00:00:37,800
+and so now, again we want the same
+
+13
+00:00:37,800 --> 00:00:40,220
+for a results view.
+
+14
+00:00:40,220 --> 00:00:42,860
+So we also want it to have a render method,
+
+15
+00:00:42,860 --> 00:00:45,900
+which takes in data and which is then rendered
+
+16
+00:00:45,900 --> 00:00:47,853
+to our user interface.
+
+17
+00:00:49,840 --> 00:00:52,977
+So let's create the resultsView.js.
+
+18
+00:01:00,630 --> 00:01:02,000
+So ResultsView
+
+19
+00:01:05,405 --> 00:01:06,920
+and so now this view
+
+20
+00:01:06,920 --> 00:01:10,860
+will actually be pretty similar to the recipeView.
+
+21
+00:01:12,510 --> 00:01:14,980
+So we don't need that one anymore.
+
+22
+00:01:14,980 --> 00:01:17,050
+But now, again this one is going
+
+23
+00:01:17,050 --> 00:01:18,420
+to be very similar.
+
+24
+00:01:18,420 --> 00:01:20,370
+So we will have a parentElement,
+
+25
+00:01:20,370 --> 00:01:22,776
+data, these messages.
+
+26
+00:01:22,776 --> 00:01:26,360
+We will basically also need the same render method,
+
+27
+00:01:26,360 --> 00:01:28,806
+the same renderSpinner.
+
+28
+00:01:28,806 --> 00:01:31,260
+So we will need to display the spinner
+
+29
+00:01:31,260 --> 00:01:33,350
+while the data is being fetched,
+
+30
+00:01:33,350 --> 00:01:35,910
+so in this case, the search results.
+
+31
+00:01:35,910 --> 00:01:39,130
+We might need to also render an error
+
+32
+00:01:40,700 --> 00:01:45,220
+and so now it's time to basically refactor this code
+
+33
+00:01:45,220 --> 00:01:47,430
+and create a parent class.
+
+34
+00:01:47,430 --> 00:01:49,600
+So I had mentioned that before
+
+35
+00:01:49,600 --> 00:01:52,150
+but now it's actually time to do it
+
+36
+00:01:52,150 --> 00:01:54,500
+because by creating a parent class,
+
+37
+00:01:54,500 --> 00:01:58,410
+we will then be able to reuse all of these methods
+
+38
+00:01:58,410 --> 00:01:59,830
+on all the views.
+
+39
+00:01:59,830 --> 00:02:02,070
+So basically, on all the objects
+
+40
+00:02:02,070 --> 00:02:05,303
+that are created through all the view classes.
+
+41
+00:02:06,270 --> 00:02:09,890
+So let's create yet another file here
+
+42
+00:02:11,030 --> 00:02:14,013
+and I'm calling it View.js.
+
+43
+00:02:14,870 --> 00:02:18,967
+And so let's create a new class here called View
+
+44
+00:02:21,310 --> 00:02:25,113
+and so we will then export immediately this class.
+
+45
+00:02:26,280 --> 00:02:29,533
+And actually, let's make it a default export.
+
+46
+00:02:30,420 --> 00:02:34,120
+So at this time, we are actually exporting the class itself
+
+47
+00:02:34,120 --> 00:02:37,550
+because of course, we are not going to create any instance
+
+48
+00:02:37,550 --> 00:02:38,950
+of this view.
+
+49
+00:02:38,950 --> 00:02:41,540
+We will only use it as a parent class
+
+50
+00:02:41,540 --> 00:02:45,373
+of these other child views, all right?
+
+51
+00:02:46,660 --> 00:02:49,020
+Here in the recipeView,
+
+52
+00:02:49,020 --> 00:02:52,663
+let's now import that parent class.
+
+53
+00:02:54,120 --> 00:02:58,980
+So import View as,
+
+54
+00:02:58,980 --> 00:03:01,367
+or actually, not as but from View
+
+55
+00:03:05,580 --> 00:03:07,835
+and actually, we don't even need the js
+
+56
+00:03:07,835 --> 00:03:12,560
+but I like to keep it there for consistency.
+
+57
+00:03:12,560 --> 00:03:14,300
+And so now, all we need to do
+
+58
+00:03:14,300 --> 00:03:16,313
+is to basically copy everything
+
+59
+00:03:16,313 --> 00:03:18,907
+that should be common to all the views
+
+60
+00:03:18,907 --> 00:03:22,380
+to that parent class.
+
+61
+00:03:22,380 --> 00:03:24,030
+However, there is one thing
+
+62
+00:03:24,030 --> 00:03:26,320
+that we still need to change here.
+
+63
+00:03:26,320 --> 00:03:28,231
+And that is that right now,
+
+64
+00:03:28,231 --> 00:03:30,580
+with Parcel and Babel,
+
+65
+00:03:30,580 --> 00:03:34,470
+inheritance between these truly private fields
+
+66
+00:03:34,470 --> 00:03:37,083
+and methods doesn't really work yet.
+
+67
+00:03:38,050 --> 00:03:42,060
+So here it was nice to actually use the native way
+
+68
+00:03:42,060 --> 00:03:46,500
+of JavaScript of protected methods and properties
+
+69
+00:03:46,500 --> 00:03:49,213
+but now we cannot really use it anymore.
+
+70
+00:03:50,210 --> 00:03:53,560
+So maybe that might be possible at some point in the future
+
+71
+00:03:53,560 --> 00:03:57,230
+but for now, we will have to go back to protected fields
+
+72
+00:03:57,230 --> 00:03:58,713
+and protected methods.
+
+73
+00:03:59,620 --> 00:04:04,620
+So let's basically select all of these hash symbols
+
+74
+00:04:04,990 --> 00:04:07,460
+and actually, I will select them like this.
+
+75
+00:04:07,460 --> 00:04:09,480
+So with the dot because otherwise,
+
+76
+00:04:09,480 --> 00:04:11,453
+that will also select these ones.
+
+77
+00:04:13,030 --> 00:04:15,763
+So hitting Command + D here a couple of times.
+
+78
+00:04:17,420 --> 00:04:19,430
+And then replace it with ._
+
+79
+00:04:21,550 --> 00:04:25,713
+and now we just have to change these method names.
+
+80
+00:04:30,870 --> 00:04:33,840
+So changing from truly private
+
+81
+00:04:33,840 --> 00:04:37,693
+to only protected using the underscore convention.
+
+82
+00:04:38,560 --> 00:04:42,013
+And then the same right here.
+
+83
+00:04:43,670 --> 00:04:44,503
+Okay?
+
+84
+00:04:45,760 --> 00:04:48,483
+So now our code should still be working.
+
+85
+00:04:50,060 --> 00:04:52,520
+It says here connection lost
+
+86
+00:04:52,520 --> 00:04:55,823
+but indeed, our code keeps working here.
+
+87
+00:04:57,080 --> 00:04:58,170
+Okay?
+
+88
+00:04:58,170 --> 00:05:02,220
+Let's just check out the search view
+
+89
+00:05:02,220 --> 00:05:05,313
+and so let's use the same convention here as well.
+
+90
+00:05:09,860 --> 00:05:10,693
+Okay.
+
+91
+00:05:13,180 --> 00:05:15,590
+Just here as well.
+
+92
+00:05:15,590 --> 00:05:19,233
+And now here we also converted everything successfully.
+
+93
+00:05:20,140 --> 00:05:23,910
+But anyway, let's now basically extract the View class
+
+94
+00:05:23,910 --> 00:05:25,590
+from this RecipeView.
+
+95
+00:05:26,560 --> 00:05:28,890
+So what we need in all the views
+
+96
+00:05:28,890 --> 00:05:31,200
+is this render method,
+
+97
+00:05:31,200 --> 00:05:34,343
+then this one as well, this one,
+
+98
+00:05:35,400 --> 00:05:39,470
+and basically everything except for generating the markup
+
+99
+00:05:39,470 --> 00:05:40,660
+because that, of course,
+
+100
+00:05:40,660 --> 00:05:45,500
+is gonna be unique to every single view, right?
+
+101
+00:05:45,500 --> 00:05:47,230
+And also, adding the handler.
+
+102
+00:05:47,230 --> 00:05:51,320
+But everything else we want to be the same on all the views.
+
+103
+00:05:51,320 --> 00:05:53,530
+For example, rendering a spinner
+
+104
+00:05:53,530 --> 00:05:55,480
+will be really easy.
+
+105
+00:05:55,480 --> 00:05:58,500
+So all the views will simply have this method
+
+106
+00:05:58,500 --> 00:06:01,810
+and we will then be able to call it on that method
+
+107
+00:06:01,810 --> 00:06:05,540
+and thanks to the parentElement property here,
+
+108
+00:06:05,540 --> 00:06:07,110
+it will then know exactly
+
+109
+00:06:07,110 --> 00:06:09,870
+to which element it should attach the spinner
+
+110
+00:06:10,710 --> 00:06:12,900
+because again, the parentElement,
+
+111
+00:06:12,900 --> 00:06:16,500
+of course, will be unique to each single view.
+
+112
+00:06:16,500 --> 00:06:18,863
+So the parentElement will be unique,
+
+113
+00:06:18,863 --> 00:06:21,800
+the message, so these two messages
+
+114
+00:06:21,800 --> 00:06:25,650
+but this data can actually also be on the parent.
+
+115
+00:06:25,650 --> 00:06:29,203
+So let's copy all of this here or actually cut.
+
+116
+00:06:30,670 --> 00:06:33,250
+So everything except for adding the handlers
+
+117
+00:06:33,250 --> 00:06:34,993
+and generating the markup.
+
+118
+00:06:37,994 --> 00:06:39,493
+So let's put that here.
+
+119
+00:06:42,320 --> 00:06:46,490
+And here we, of course, then need to extend this one.
+
+120
+00:06:46,490 --> 00:06:49,263
+So extends View.
+
+121
+00:06:50,500 --> 00:06:51,560
+Right?
+
+122
+00:06:51,560 --> 00:06:55,763
+And so let's see if we have everything still in place.
+
+123
+00:06:58,020 --> 00:07:01,920
+Yeah, so I'm confident that this will work now.
+
+124
+00:07:01,920 --> 00:07:02,863
+So let's see.
+
+125
+00:07:03,800 --> 00:07:07,101
+Oh, and icons is not defined.
+
+126
+00:07:07,101 --> 00:07:10,560
+So let's go back here to our view
+
+127
+00:07:10,560 --> 00:07:12,803
+where we will have to copy this one.
+
+128
+00:07:15,760 --> 00:07:18,833
+Because here, of course, we are also using the icons.
+
+129
+00:07:20,430 --> 00:07:21,430
+Okay.
+
+130
+00:07:21,430 --> 00:07:22,373
+But here it is.
+
+131
+00:07:24,030 --> 00:07:25,110
+All right?
+
+132
+00:07:25,110 --> 00:07:28,230
+So we successfully extracted the View class
+
+133
+00:07:28,230 --> 00:07:29,860
+from the recipeView.
+
+134
+00:07:29,860 --> 00:07:31,370
+And now all that's left here
+
+135
+00:07:31,370 --> 00:07:34,480
+is really what is unique to this view.
+
+136
+00:07:34,480 --> 00:07:37,610
+And so this makes this even easier to work with
+
+137
+00:07:37,610 --> 00:07:42,610
+in my opinion because now let's see what we can do here.
+
+138
+00:07:43,600 --> 00:07:47,680
+So even without any code yet in the results view,
+
+139
+00:07:47,680 --> 00:07:50,530
+we will already be able to add a spinner
+
+140
+00:07:50,530 --> 00:07:51,973
+to the search results.
+
+141
+00:07:54,150 --> 00:07:55,370
+All right?
+
+142
+00:07:55,370 --> 00:07:58,170
+Well, we cannot really leave it empty.
+
+143
+00:07:58,170 --> 00:08:01,253
+We still need actually the parent element here.
+
+144
+00:08:02,200 --> 00:08:03,033
+All right?
+
+145
+00:08:03,033 --> 00:08:06,673
+And we also need to import the View.
+
+146
+00:08:10,320 --> 00:08:11,660
+So import View
+
+147
+00:08:11,660 --> 00:08:16,360
+and then this is just another child class of View.
+
+148
+00:08:19,970 --> 00:08:22,630
+Then here, we need to say that parentElement
+
+149
+00:08:22,630 --> 00:08:24,950
+should be well, something.
+
+150
+00:08:24,950 --> 00:08:27,373
+And let's check out what it actually should be.
+
+151
+00:08:28,820 --> 00:08:30,743
+So here in index,
+
+152
+00:08:35,350 --> 00:08:37,010
+let's see.
+
+153
+00:08:37,010 --> 00:08:38,380
+So it's this here.
+
+154
+00:08:38,380 --> 00:08:43,160
+So this results element, so this unordered list.
+
+155
+00:08:43,160 --> 00:08:45,870
+All right, and then basically,
+
+156
+00:08:45,870 --> 00:08:48,970
+each of the search-results will be one
+
+157
+00:08:48,970 --> 00:08:51,340
+of these preview elements.
+
+158
+00:08:51,340 --> 00:08:53,080
+But more about that later.
+
+159
+00:08:53,080 --> 00:08:55,720
+So for now, let's just set the parentElement
+
+160
+00:08:55,720 --> 00:08:59,800
+to this results element here in resultView.
+
+161
+00:09:02,001 --> 00:09:04,657
+So document.querySelector results.
+
+162
+00:09:09,290 --> 00:09:12,980
+And then we have to export
+
+163
+00:09:14,180 --> 00:09:16,210
+default just like before
+
+164
+00:09:16,210 --> 00:09:18,383
+and then a new instance of this view.
+
+165
+00:09:19,350 --> 00:09:23,060
+And so this way they can only be one ResultsView
+
+166
+00:09:23,060 --> 00:09:24,920
+and then here in controller,
+
+167
+00:09:24,920 --> 00:09:27,080
+we can immediately import that
+
+168
+00:09:27,080 --> 00:09:29,923
+without having to create the instance here manually.
+
+169
+00:09:33,260 --> 00:09:36,423
+So that's resultsView like this.
+
+170
+00:09:37,530 --> 00:09:40,750
+And so now here we should already be able
+
+171
+00:09:40,750 --> 00:09:42,720
+to load the spinner
+
+172
+00:09:42,720 --> 00:09:45,223
+or actually to display the spinner.
+
+173
+00:09:46,550 --> 00:09:48,500
+So let's do that at the very beginning.
+
+174
+00:09:49,500 --> 00:09:52,130
+So resultsView.renderSpinner.
+
+175
+00:09:56,230 --> 00:09:59,113
+And let's see what happens.
+
+176
+00:10:00,360 --> 00:10:04,370
+So pizza and here is a small error
+
+177
+00:10:04,370 --> 00:10:08,570
+and so let's once again do some debugging here
+
+178
+00:10:08,570 --> 00:10:10,400
+and I hope that you can appreciate
+
+179
+00:10:10,400 --> 00:10:12,200
+that I'm actually not cutting out
+
+180
+00:10:12,200 --> 00:10:14,990
+all these like small debugging sessions
+
+181
+00:10:14,990 --> 00:10:17,150
+so that you can actually see
+
+182
+00:10:17,150 --> 00:10:18,720
+what I'm doing here.
+
+183
+00:10:18,720 --> 00:10:23,720
+But anyway, apparently the problem appears here in View.js
+
+184
+00:10:23,850 --> 00:10:25,753
+at line 14.
+
+185
+00:10:29,160 --> 00:10:31,270
+So right here.
+
+186
+00:10:31,270 --> 00:10:33,873
+So it seems like it cannot find the parentElement.
+
+187
+00:10:35,320 --> 00:10:37,893
+So let's simply log that to the console.
+
+188
+00:10:45,960 --> 00:10:49,350
+So this here is the result of doing that for the view.
+
+189
+00:10:49,350 --> 00:10:52,300
+And now let's see.
+
+190
+00:10:52,300 --> 00:10:54,023
+So now that is undefined.
+
+191
+00:10:55,210 --> 00:10:56,580
+So to me it seems
+
+192
+00:10:56,580 --> 00:11:00,453
+like here we selected the wrong element here maybe.
+
+193
+00:11:03,530 --> 00:11:04,793
+So results.
+
+194
+00:11:05,830 --> 00:11:07,240
+So that should actually
+
+195
+00:11:09,590 --> 00:11:11,290
+be correct.
+
+196
+00:11:11,290 --> 00:11:13,360
+And so should the name.
+
+197
+00:11:13,360 --> 00:11:16,840
+So I think parentElement is correctly spelled.
+
+198
+00:11:16,840 --> 00:11:20,693
+Oh, but it's actually called parentElement all written out.
+
+199
+00:11:21,960 --> 00:11:23,360
+Okay.
+
+200
+00:11:23,360 --> 00:11:26,543
+So you see, it's actually called parentElement like this.
+
+201
+00:11:28,220 --> 00:11:30,490
+For some reason, I thought it was called
+
+202
+00:11:31,530 --> 00:11:33,753
+just like the abbreviation.
+
+203
+00:11:35,800 --> 00:11:36,780
+Ah.
+
+204
+00:11:36,780 --> 00:11:39,763
+And you see, here is the nice loading spinner,
+
+205
+00:11:40,930 --> 00:11:44,653
+spinning away here in our search results.
+
+206
+00:11:45,710 --> 00:11:46,590
+Right?
+
+207
+00:11:46,590 --> 00:11:49,490
+And again, all without writing any new code
+
+208
+00:11:49,490 --> 00:11:53,070
+for displaying that spinner here in the ResultsView
+
+209
+00:11:53,070 --> 00:11:58,070
+because it is now simply inheriting that method
+
+210
+00:11:58,130 --> 00:12:01,703
+so that renderSpinner method from its parent class.
+
+211
+00:12:03,410 --> 00:12:05,660
+So let's get rid of this
+
+212
+00:12:05,660 --> 00:12:08,090
+and just for the sake of curiosity,
+
+213
+00:12:08,090 --> 00:12:10,290
+let's actually take a look
+
+214
+00:12:10,290 --> 00:12:11,943
+at this resultsView,
+
+215
+00:12:12,860 --> 00:12:16,120
+so just so we can see the whole prototype chain here
+
+216
+00:12:16,120 --> 00:12:17,053
+in the console.
+
+217
+00:12:18,540 --> 00:12:21,110
+So for that, we need that controller to run
+
+218
+00:12:22,100 --> 00:12:23,453
+and so here it is.
+
+219
+00:12:25,180 --> 00:12:28,800
+So you see that we have still some undefined data.
+
+220
+00:12:28,800 --> 00:12:30,890
+Then we have the parentElement.
+
+221
+00:12:30,890 --> 00:12:32,233
+So the one we selected.
+
+222
+00:12:33,330 --> 00:12:34,853
+And then we get,
+
+223
+00:12:36,370 --> 00:12:38,610
+well, right now, we don't have any methods
+
+224
+00:12:38,610 --> 00:12:40,170
+in the class already
+
+225
+00:12:40,170 --> 00:12:43,110
+but we do have methods in a parent class.
+
+226
+00:12:43,110 --> 00:12:44,443
+And so these are the ones.
+
+227
+00:12:45,620 --> 00:12:49,530
+Right, so the render one that we're gonna use next,
+
+228
+00:12:49,530 --> 00:12:52,063
+then renderError and Spinner and Message.
+
+229
+00:12:53,010 --> 00:12:56,310
+So it's always good to remember these things
+
+230
+00:12:57,550 --> 00:13:00,770
+so that we still know how everything still actually works
+
+231
+00:13:00,770 --> 00:13:02,530
+behind the scenes.
+
+232
+00:13:02,530 --> 00:13:03,833
+But now it's actually time
+
+233
+00:13:03,833 --> 00:13:08,833
+to create basically this generateMarkup method also
+
+234
+00:13:10,460 --> 00:13:13,100
+in the resultsView, okay?
+
+235
+00:13:13,100 --> 00:13:16,480
+So all the child views should have this method here
+
+236
+00:13:16,480 --> 00:13:20,300
+because in the view, the render method then actually relies
+
+237
+00:13:20,300 --> 00:13:22,920
+on that, okay?
+
+238
+00:13:22,920 --> 00:13:26,690
+So this.generateMarkup needs to exist in order
+
+239
+00:13:26,690 --> 00:13:29,320
+for the render method then being able
+
+240
+00:13:29,320 --> 00:13:32,810
+to create the markup and render it
+
+241
+00:13:32,810 --> 00:13:35,623
+or to insert that HTML into the DOM.
+
+242
+00:13:36,840 --> 00:13:40,480
+And so let's take that, just that name
+
+243
+00:13:41,850 --> 00:13:43,663
+and create that right here.
+
+244
+00:13:46,810 --> 00:13:49,260
+So as always, a template literal
+
+245
+00:13:50,252 --> 00:13:53,910
+and then now it's time to actually get this code here.
+
+246
+00:13:53,910 --> 00:13:54,743
+Okay?
+
+247
+00:13:54,743 --> 00:13:57,380
+And this here is called a preview
+
+248
+00:13:57,380 --> 00:14:00,600
+because we will actually use the same thing later here
+
+249
+00:14:00,600 --> 00:14:02,053
+to render the bookmarks.
+
+250
+00:14:03,220 --> 00:14:05,429
+So that's gonna be a nice trick
+
+251
+00:14:05,429 --> 00:14:08,123
+but we will save that for the future.
+
+252
+00:14:09,550 --> 00:14:11,090
+Okay?
+
+253
+00:14:11,090 --> 00:14:13,680
+Some more indentation here on all of this
+
+254
+00:14:14,910 --> 00:14:17,230
+to make it look great.
+
+255
+00:14:17,230 --> 00:14:19,890
+And so now we need to take our data
+
+256
+00:14:19,890 --> 00:14:23,380
+and actually put that right here.
+
+257
+00:14:23,380 --> 00:14:27,300
+Now, where actually is that search results data?
+
+258
+00:14:27,300 --> 00:14:29,000
+So with all of the structure,
+
+259
+00:14:29,000 --> 00:14:31,040
+it might be a little bit hard to follow
+
+260
+00:14:31,040 --> 00:14:32,573
+where that data is.
+
+261
+00:14:33,450 --> 00:14:34,990
+So let me actually start
+
+262
+00:14:34,990 --> 00:14:36,903
+by calling the render method here.
+
+263
+00:14:38,860 --> 00:14:42,870
+So here, besides of simply logging the search results,
+
+264
+00:14:42,870 --> 00:14:47,870
+we now also want resultsView.render
+
+265
+00:14:48,370 --> 00:14:52,191
+because of course, just like renderSpinner,
+
+266
+00:14:52,191 --> 00:14:55,060
+the resultsView also inherits render
+
+267
+00:14:55,060 --> 00:14:58,763
+and then into that, we pass whatever we want to be rendered.
+
+268
+00:15:00,130 --> 00:15:02,393
+And so that is all of this.
+
+269
+00:15:04,320 --> 00:15:05,240
+Okay?
+
+270
+00:15:05,240 --> 00:15:07,334
+And then in the render,
+
+271
+00:15:07,334 --> 00:15:09,921
+here we see that it takes this data
+
+272
+00:15:09,921 --> 00:15:12,254
+and puts it into this._data.
+
+273
+00:15:13,100 --> 00:15:17,440
+And so here, if we then take a look at the resultsView,
+
+274
+00:15:17,440 --> 00:15:19,970
+let's simply log that then to the console.
+
+275
+00:15:19,970 --> 00:15:22,180
+So this._data
+
+276
+00:15:23,330 --> 00:15:25,020
+and so this_data here
+
+277
+00:15:25,020 --> 00:15:30,020
+should basically be exactly this search.results.
+
+278
+00:15:31,490 --> 00:15:32,443
+So let's see.
+
+279
+00:15:35,030 --> 00:15:36,990
+And it is.
+
+280
+00:15:36,990 --> 00:15:40,820
+So you see that twice we now get this array
+
+281
+00:15:40,820 --> 00:15:44,630
+and you also see that it already printed something here
+
+282
+00:15:44,630 --> 00:15:46,490
+to the results.
+
+283
+00:15:46,490 --> 00:15:49,543
+So that is that pre-formatted HTML
+
+284
+00:15:49,543 --> 00:15:52,100
+that we already created here.
+
+285
+00:15:52,100 --> 00:15:57,100
+So it's already basically this HTML, right?
+
+286
+00:15:57,240 --> 00:16:00,650
+Because this method here is already returning that
+
+287
+00:16:00,650 --> 00:16:03,926
+and so then the view takes that data
+
+288
+00:16:03,926 --> 00:16:07,783
+and renders it on the user interface.
+
+289
+00:16:09,018 --> 00:16:10,980
+Okay?
+
+290
+00:16:10,980 --> 00:16:15,003
+And so let's now actually create this method.
+
+291
+00:16:15,980 --> 00:16:18,940
+Now, this is actually an array now
+
+292
+00:16:18,940 --> 00:16:22,140
+and so here we need to loop over that array.
+
+293
+00:16:22,140 --> 00:16:26,650
+So in fact, we don't want to return simply this
+
+294
+00:16:26,650 --> 00:16:29,130
+but instead, we want to return a whole string,
+
+295
+00:16:29,130 --> 00:16:32,130
+which contains like one of these elements
+
+296
+00:16:32,130 --> 00:16:35,853
+for each of the search results in the array.
+
+297
+00:16:36,990 --> 00:16:40,740
+So we will return basically this._data
+
+298
+00:16:41,800 --> 00:16:43,980
+and then we map over it.
+
+299
+00:16:43,980 --> 00:16:47,460
+Remember, so we did that before with the ingredients
+
+300
+00:16:47,460 --> 00:16:49,460
+and then at the end,
+
+301
+00:16:49,460 --> 00:16:51,740
+we join everything together
+
+302
+00:16:51,740 --> 00:16:53,840
+and so then that will be the string
+
+303
+00:16:53,840 --> 00:16:55,023
+that we return here.
+
+304
+00:16:56,310 --> 00:16:57,860
+Now, we could now go ahead
+
+305
+00:16:57,860 --> 00:17:01,520
+and put this code here into the map function
+
+306
+00:17:01,520 --> 00:17:05,010
+but instead, I will create just another method down here
+
+307
+00:17:05,010 --> 00:17:07,360
+to make this a little bit cleaner.
+
+308
+00:17:07,360 --> 00:17:08,673
+Let me copy this name.
+
+309
+00:17:10,720 --> 00:17:11,553
+Preview.
+
+310
+00:17:12,430 --> 00:17:14,180
+And I'm simply calling it this
+
+311
+00:17:14,180 --> 00:17:16,143
+because that's also the class name.
+
+312
+00:17:18,630 --> 00:17:20,483
+So let's put this one here.
+
+313
+00:17:22,043 --> 00:17:25,013
+And so then here we can call the method.
+
+314
+00:17:26,060 --> 00:17:27,960
+Oh, what was that?
+
+315
+00:17:27,960 --> 00:17:30,270
+So we can call it right here then.
+
+316
+00:17:31,750 --> 00:17:35,763
+And so now this should like print 50 or 60 of the same.
+
+317
+00:17:37,560 --> 00:17:39,530
+So just to see if it works.
+
+318
+00:17:39,530 --> 00:17:42,020
+And indeed, here it is.
+
+319
+00:17:42,020 --> 00:17:43,310
+So 59 results
+
+320
+00:17:43,310 --> 00:17:48,260
+and so it prints this 59 times right here now.
+
+321
+00:17:48,260 --> 00:17:49,093
+Right?
+
+322
+00:17:49,093 --> 00:17:51,880
+Now, all we need to do is to fill it
+
+323
+00:17:51,880 --> 00:17:53,560
+with the real data.
+
+324
+00:17:53,560 --> 00:17:58,453
+So with the id, image, publisher and title.
+
+325
+00:18:00,230 --> 00:18:01,430
+Okay?
+
+326
+00:18:01,430 --> 00:18:03,230
+So to start, we need the ID here
+
+327
+00:18:03,230 --> 00:18:05,220
+in order to build the link
+
+328
+00:18:05,220 --> 00:18:06,910
+and so then we click the link,
+
+329
+00:18:06,910 --> 00:18:08,892
+that will change the hash in the URL,
+
+330
+00:18:08,892 --> 00:18:12,313
+which in turn, will trigger a loading a recipe.
+
+331
+00:18:14,180 --> 00:18:17,343
+So that's what we did by the beginning of this section.
+
+332
+00:18:18,470 --> 00:18:21,103
+Now, here we need to pass in the result then.
+
+333
+00:18:22,270 --> 00:18:26,313
+And so here that is result.id.
+
+334
+00:18:29,200 --> 00:18:31,203
+Then here it's the image,
+
+335
+00:18:34,190 --> 00:18:35,480
+so .image.
+
+336
+00:18:35,480 --> 00:18:36,833
+Here it's the title.
+
+337
+00:18:43,230 --> 00:18:45,743
+And then here the publisher.
+
+338
+00:18:51,230 --> 00:18:52,063
+Okay.
+
+339
+00:18:53,300 --> 00:18:56,450
+Here we also need to replace the icons.
+
+340
+00:18:56,450 --> 00:19:00,563
+So we will need again the icons right here.
+
+341
+00:19:02,630 --> 00:19:05,193
+We will probably need them in all of them.
+
+342
+00:19:12,380 --> 00:19:13,943
+But that should be it.
+
+343
+00:19:17,590 --> 00:19:18,773
+And it works.
+
+344
+00:19:19,850 --> 00:19:21,330
+Beautiful.
+
+345
+00:19:21,330 --> 00:19:24,160
+So we get all of these search results here.
+
+346
+00:19:24,160 --> 00:19:27,100
+We just have to fix some small details
+
+347
+00:19:27,100 --> 00:19:30,050
+but you see that it's already working
+
+348
+00:19:30,050 --> 00:19:34,933
+and now let's click on one of them and it works.
+
+349
+00:19:38,180 --> 00:19:39,660
+Minimizing this a little bit
+
+350
+00:19:40,550 --> 00:19:43,260
+and so you see, now we get exactly the recipe
+
+351
+00:19:43,260 --> 00:19:44,763
+that we are clicking on here.
+
+352
+00:19:45,780 --> 00:19:47,530
+So watch what happens with the ID
+
+353
+00:19:47,530 --> 00:19:50,560
+when I click here on Pizza Casserole
+
+354
+00:19:50,560 --> 00:19:52,970
+or Casserole or whatever.
+
+355
+00:19:52,970 --> 00:19:55,210
+So it changed the ID up there
+
+356
+00:19:55,210 --> 00:19:58,860
+and changed the recipe here also in the view.
+
+357
+00:19:58,860 --> 00:20:00,220
+Great.
+
+358
+00:20:00,220 --> 00:20:03,310
+And now let's just fix this icon here
+
+359
+00:20:03,310 --> 00:20:05,253
+and actually, also here.
+
+360
+00:20:06,766 --> 00:20:09,840
+And then also all of these should not be highlighted.
+
+361
+00:20:09,840 --> 00:20:12,123
+We will take care of that a little bit later.
+
+362
+00:20:13,260 --> 00:20:16,003
+So we need to take away this class here of active.
+
+363
+00:20:17,120 --> 00:20:20,763
+And here we also need to take away this.
+
+364
+00:20:22,700 --> 00:20:23,533
+Okay?
+
+365
+00:20:23,533 --> 00:20:26,320
+And we will come back to this later again
+
+366
+00:20:26,320 --> 00:20:27,300
+when we actually start
+
+367
+00:20:27,300 --> 00:20:30,133
+to implement uploading our own recipes.
+
+368
+00:20:31,340 --> 00:20:32,670
+And here in the alt text,
+
+369
+00:20:32,670 --> 00:20:35,883
+we should just put that title as well.
+
+370
+00:20:37,298 --> 00:20:38,131
+Okay?
+
+371
+00:20:39,043 --> 00:20:41,880
+Now you see that actually the states
+
+372
+00:20:41,880 --> 00:20:44,690
+that we had here before in the page is gone
+
+373
+00:20:44,690 --> 00:20:48,640
+and so let's activate that hot module reloading
+
+374
+00:20:48,640 --> 00:20:52,573
+that I mentioned in the last section.
+
+375
+00:20:53,570 --> 00:20:57,030
+So remember that with parcel, we can do this.
+
+376
+00:20:57,030 --> 00:21:00,523
+So if module.hot,
+
+377
+00:21:02,710 --> 00:21:07,223
+then module.hot.accept.
+
+378
+00:21:08,300 --> 00:21:09,230
+All right?
+
+379
+00:21:09,230 --> 00:21:12,390
+And again, this is not real JavaScript,
+
+380
+00:21:12,390 --> 00:21:14,430
+at least this module.hot.
+
+381
+00:21:14,430 --> 00:21:16,463
+This is simply coming from parcel.
+
+382
+00:21:17,790 --> 00:21:18,850
+All right?
+
+383
+00:21:18,850 --> 00:21:22,880
+And now finally, let's also delete these fakes links
+
+384
+00:21:22,880 --> 00:21:23,993
+that we had before.
+
+385
+00:21:28,560 --> 00:21:29,623
+Let's reload.
+
+386
+00:21:32,780 --> 00:21:34,453
+And that looks a lot better.
+
+387
+00:21:36,480 --> 00:21:37,540
+Okay?
+
+388
+00:21:37,540 --> 00:21:39,863
+So let me now change something in the code.
+
+389
+00:21:42,640 --> 00:21:46,270
+For example, getting rid of this console.log here.
+
+390
+00:21:46,270 --> 00:21:49,570
+And so previously, that would then reload the entire page
+
+391
+00:21:50,530 --> 00:21:52,670
+but now, as we go back,
+
+392
+00:21:52,670 --> 00:21:56,490
+you see that the state here actually remains.
+
+393
+00:21:56,490 --> 00:21:57,410
+All right?
+
+394
+00:21:57,410 --> 00:22:01,053
+All it says is the console was cleared but that's it.
+
+395
+00:22:02,090 --> 00:22:04,020
+So the rest remains the same
+
+396
+00:22:04,020 --> 00:22:07,980
+and we can now also delete this user icon
+
+397
+00:22:07,980 --> 00:22:10,563
+from the recipeView.
+
+398
+00:22:12,040 --> 00:22:15,973
+So let's see where that is.
+
+399
+00:22:16,860 --> 00:22:18,643
+It is simply this div here.
+
+400
+00:22:21,050 --> 00:22:25,023
+And so once again, it will now not re-render everything.
+
+401
+00:22:26,240 --> 00:22:28,663
+Well, maybe we should re-render.
+
+402
+00:22:31,180 --> 00:22:33,740
+And yeah, now it's gone.
+
+403
+00:22:33,740 --> 00:22:38,113
+Well, it also messed up our button here for some reason.
+
+404
+00:22:39,390 --> 00:22:41,850
+So maybe that was not intended.
+
+405
+00:22:41,850 --> 00:22:44,973
+Maybe I should just remove this here.
+
+406
+00:22:46,110 --> 00:22:48,723
+So basically keeping an empty div.
+
+407
+00:22:53,260 --> 00:22:55,270
+Okay, so for the time being,
+
+408
+00:22:55,270 --> 00:22:57,063
+let's just leave it like this.
+
+409
+00:22:58,590 --> 00:22:59,480
+Okay.
+
+410
+00:22:59,480 --> 00:23:02,530
+Now, let's just see what happens when we search something
+
+411
+00:23:02,530 --> 00:23:04,513
+that for sure does not exist.
+
+412
+00:23:06,060 --> 00:23:09,823
+So you see that here we still get a success.
+
+413
+00:23:11,680 --> 00:23:13,134
+You see.
+
+414
+00:23:13,134 --> 00:23:16,034
+So we still get that data but the only difference
+
+415
+00:23:16,034 --> 00:23:19,201
+is that the recipes array is now empty
+
+416
+00:23:20,177 --> 00:23:22,880
+and here we also see that the array is empty coming
+
+417
+00:23:22,880 --> 00:23:24,620
+from the state.
+
+418
+00:23:24,620 --> 00:23:26,760
+So in this case, we actually want
+
+419
+00:23:26,760 --> 00:23:30,110
+to render like an error message here saying
+
+420
+00:23:30,110 --> 00:23:32,803
+that there was no result for that query.
+
+421
+00:23:33,660 --> 00:23:36,500
+So let's start by creating also
+
+422
+00:23:36,500 --> 00:23:38,513
+the errorMessage property here.
+
+423
+00:23:40,470 --> 00:23:43,733
+So let's copy these two actually to our resultsView.
+
+424
+00:23:49,970 --> 00:23:54,970
+And here let's say no recipes found for your query!
+
+425
+00:24:01,040 --> 00:24:02,423
+Please try again.
+
+426
+00:24:03,670 --> 00:24:05,380
+But now, how exactly
+
+427
+00:24:05,380 --> 00:24:08,260
+will we actually display this errorMessage
+
+428
+00:24:08,260 --> 00:24:10,700
+on the parentElement?
+
+429
+00:24:11,850 --> 00:24:14,250
+So we could do that right here in generateMarkup
+
+430
+00:24:15,160 --> 00:24:17,810
+and basically check if the array is empty
+
+431
+00:24:17,810 --> 00:24:19,293
+and if it is so,
+
+432
+00:24:19,293 --> 00:24:21,610
+then render the errorMessage.
+
+433
+00:24:21,610 --> 00:24:23,100
+So that would work.
+
+434
+00:24:23,100 --> 00:24:25,540
+However, we can also do that directly
+
+435
+00:24:25,540 --> 00:24:27,310
+in the render method.
+
+436
+00:24:27,310 --> 00:24:30,543
+So automatically, right as we receive the data.
+
+437
+00:24:31,770 --> 00:24:34,930
+And I believe that is what makes more sense.
+
+438
+00:24:34,930 --> 00:24:36,460
+So right in the beginning
+
+439
+00:24:36,460 --> 00:24:39,020
+when the render method is first called
+
+440
+00:24:39,020 --> 00:24:41,460
+and receives the data for the first time,
+
+441
+00:24:41,460 --> 00:24:45,660
+we can immediately check if that data actually exists.
+
+442
+00:24:45,660 --> 00:24:48,210
+So right now, we only simply assumed
+
+443
+00:24:48,210 --> 00:24:49,940
+that there always is data
+
+444
+00:24:49,940 --> 00:24:53,820
+and that we can then generate some markup with that data.
+
+445
+00:24:53,820 --> 00:24:55,920
+But as always, it's a good idea
+
+446
+00:24:55,920 --> 00:24:58,930
+to check if the data actually exists.
+
+447
+00:24:58,930 --> 00:25:02,740
+And that is true no matter if we receive a simple object
+
+448
+00:25:02,740 --> 00:25:06,100
+or if we receive an entire array of objects,
+
+449
+00:25:06,100 --> 00:25:09,300
+which is the case of the results.
+
+450
+00:25:09,300 --> 00:25:11,980
+So let's add a guard clause here.
+
+451
+00:25:11,980 --> 00:25:14,450
+So if there is no data,
+
+452
+00:25:14,450 --> 00:25:16,940
+then we want to return immediately
+
+453
+00:25:16,940 --> 00:25:20,090
+and we also want to render the error.
+
+454
+00:25:20,090 --> 00:25:22,090
+So we can do that all in one line
+
+455
+00:25:22,090 --> 00:25:24,440
+and this will then still work.
+
+456
+00:25:24,440 --> 00:25:26,200
+So this.renderError
+
+457
+00:25:28,330 --> 00:25:32,360
+and we actually don't even have to pass in any message
+
+458
+00:25:32,360 --> 00:25:35,090
+because we already automatically get the message
+
+459
+00:25:35,090 --> 00:25:38,444
+from this._errorMessage.
+
+460
+00:25:38,444 --> 00:25:41,500
+And so in this case, that is going to be this one
+
+461
+00:25:41,500 --> 00:25:43,223
+that we just specified before.
+
+462
+00:25:44,220 --> 00:25:45,560
+Right?
+
+463
+00:25:45,560 --> 00:25:47,540
+Now, however, in this case,
+
+464
+00:25:47,540 --> 00:25:49,600
+this check is actually not enough
+
+465
+00:25:49,600 --> 00:25:52,360
+because in fact, we do get data.
+
+466
+00:25:52,360 --> 00:25:54,420
+It's just an empty array
+
+467
+00:25:54,420 --> 00:25:55,430
+and so in this case,
+
+468
+00:25:55,430 --> 00:25:58,170
+we also want to treat the empty array
+
+469
+00:25:58,170 --> 00:26:00,340
+as though we had no data.
+
+470
+00:26:00,340 --> 00:26:03,530
+So this here basically only works for undefined
+
+471
+00:26:03,530 --> 00:26:05,152
+or for null.
+
+472
+00:26:05,152 --> 00:26:08,840
+But now we also want to check if the received data
+
+473
+00:26:08,840 --> 00:26:11,920
+is an array and if it is empty.
+
+474
+00:26:11,920 --> 00:26:13,570
+So we can do that by saying
+
+475
+00:26:14,760 --> 00:26:17,340
+so if there is no data or
+
+476
+00:26:17,340 --> 00:26:20,540
+and then basically, if the data is an array
+
+477
+00:26:20,540 --> 00:26:22,400
+and if it's empty.
+
+478
+00:26:22,400 --> 00:26:23,650
+And we can do that
+
+479
+00:26:23,650 --> 00:26:25,110
+by using a helper function
+
+480
+00:26:25,110 --> 00:26:27,470
+that is on the Array constructor,
+
+481
+00:26:27,470 --> 00:26:28,900
+which is isArray.
+
+482
+00:26:30,580 --> 00:26:31,763
+So we can check that.
+
+483
+00:26:33,170 --> 00:26:34,790
+And so if it's an array
+
+484
+00:26:34,790 --> 00:26:39,530
+and the length of the array is zero basically,
+
+485
+00:26:39,530 --> 00:26:44,530
+data.length zero,
+
+486
+00:26:44,780 --> 00:26:46,143
+well, then in this case,
+
+487
+00:26:46,143 --> 00:26:49,200
+exit this function immediately
+
+488
+00:26:49,200 --> 00:26:52,840
+and also render the error, okay?
+
+489
+00:26:52,840 --> 00:26:55,680
+So again, if there is no data
+
+490
+00:26:55,680 --> 00:26:57,640
+or if there is data,
+
+491
+00:26:57,640 --> 00:26:59,860
+but that data is an array,
+
+492
+00:26:59,860 --> 00:27:02,040
+and it is empty.
+
+493
+00:27:02,040 --> 00:27:05,863
+So in both these cases, we want the error to be shown.
+
+494
+00:27:07,020 --> 00:27:08,353
+So let's check that.
+
+495
+00:27:11,990 --> 00:27:14,270
+So with pizza, it all works the same
+
+496
+00:27:14,270 --> 00:27:16,610
+because there are results.
+
+497
+00:27:16,610 --> 00:27:20,120
+But now with this, ha, there are no results
+
+498
+00:27:20,120 --> 00:27:23,200
+and then we get our error message.
+
+499
+00:27:23,200 --> 00:27:25,000
+So great.
+
+500
+00:27:25,000 --> 00:27:26,200
+That works.
+
+501
+00:27:26,200 --> 00:27:29,433
+And so I think we are done actually with this part.
+
+502
+00:27:30,510 --> 00:27:33,023
+So just one more look at our flowchart.
+
+503
+00:27:34,005 --> 00:27:37,260
+So we implemented the event
+
+504
+00:27:37,260 --> 00:27:38,950
+that the user searches.
+
+505
+00:27:38,950 --> 00:27:42,500
+We asynchronously loaded the search results
+
+506
+00:27:42,500 --> 00:27:47,082
+and then we also rendered them to our user interface.
+
+507
+00:27:47,082 --> 00:27:51,444
+And so with that, we are done.
+
+508
+00:27:51,444 --> 00:27:52,950
+Right?
+
+509
+00:27:52,950 --> 00:27:55,290
+Just a final look here at the controller
+
+510
+00:27:55,290 --> 00:27:56,803
+that everything looks good.
+
+511
+00:27:58,160 --> 00:28:01,010
+So in the next lecture, we will actually take care
+
+512
+00:28:01,010 --> 00:28:04,670
+of the problem that we have these 59 results,
+
+513
+00:28:04,670 --> 00:28:06,903
+all one after another here.
+
+514
+00:28:07,780 --> 00:28:09,310
+So that's not good
+
+515
+00:28:09,310 --> 00:28:11,460
+and so we will implement pagination
+
+516
+00:28:11,460 --> 00:28:13,243
+in the next two lectures.

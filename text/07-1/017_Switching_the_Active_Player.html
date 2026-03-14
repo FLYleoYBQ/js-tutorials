@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Switching the Active Player</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        .quiz-card { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); padding: 24px; margin: 24px 0; }
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+        .quiz-option { background: var(--bg-color); border: 1px solid var(--surface-border); padding: 14px 20px; margin-bottom: 10px; border-radius: var(--radius-md); cursor: pointer; }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+        .quiz-explanation { margin-top: 20px; padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md); display: none; border-left: 3px solid var(--info-color); font-size: 14px; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-dynid" class="nav-item active">1. 动态生成目标元素 ID</a>
+            <a href="#section-switch" class="nav-item">2. 玩家轮回：爆点与权限剥夺</a>
+            <a href="#section-toggle" class="nav-item">3. 视觉轮转：强大的 toggle() API</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Switching the Active Player (轮换当前活动的玩家)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：017 Switching the Active Player.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <p>上节课我们留了一个坑：玩家的分数全都毫无脑子地硬编码直接加给了 Player 1（即 ID 为 <code>current--0</code> 的元素）。<br>
+        实际上，这个游戏在设计 HTML 结构时，把玩家 1 的标志设为了 <strong>0</strong> (<code>player--0</code>)，玩家 2 设为了 <strong>1</strong> (<code>player--1</code>)，这绝非偶然，而是为了我们今天写代码进行“极速换人”铺好的阳关大道！</p>
+
+        <h2 id="section-dynid">1. 状态：我是谁？动态拼装元素 ID</h2>
+        <p>我们首先需要在游戏开局的大环境中，设立一个新的上帝视角变量：<strong><code>activePlayer</code></strong>。它的值必须只能停留在 <code>0</code> 或者 <code>1</code>。</p>
+
+        <pre><code class="language-javascript">let currentScore = 0;
+let activePlayer = 0; // 0 代表左边的玩家，1 代表右边的玩家</code></pre>
+
+        <p>既然我们知道谁是活动玩家，那么在修改它 DOM 上的专属位置分数时，就不需要写死了。我们可以用模板字符串 <strong>拼出要选取的 ID 名字！</strong></p>
+
+        <pre><code class="language-javascript">// 【神仙技巧】如果 activePlayer 为 0，拼出来的就是 'current--0'；
+// 如果 activePlayer 为 1，拼出来的就是 'current--1'！
+document.getElementById(`current--${activePlayer}`).textContent = currentScore;</code></pre>
+        <p>通过这个极其优雅的模型映射技巧，这一行代码就能动态地决定是把钱装进左边玩家的口袋，还是右边玩家的口袋。</p>
+
+        <h2 id="section-switch">2. 惩罚机制：一旦投出数字 1，立即清零并滚蛋</h2>
+        <p>进入上节课留下的神秘 <code>else</code> 区域：</p>
+
+        <pre><code class="language-javascript">if (dice !== 1) {
+    // ... 累加并渲染分数的正常流程
+} else {
+    // 💣 倒霉蛋，你投出了 1！
+
+    // 1️⃣ 还没换人之前，先无情地把他在画面上的“当前分数”抹零
+    document.getElementById(`current--${activePlayer}`).textContent = 0;
+    
+    // 2️⃣ 切除他在代码内存池里的累计池子
+    currentScore = 0; 
+    
+    // 3️⃣ 剥夺权力让给另一个人 (三元运算符再现神威！)
+    // 翻译：当前是我 0 吗？是的话就变成 1；如果是 1 的话，就变回 0
+    activePlayer = activePlayer === 0 ? 1 : 0; 
+}</code></pre>
+
+        <h2 id="section-toggle">3. 视觉轮转：强大的 classList.toggle()</h2>
+        <p>逻辑上我们换了人，但屏幕上并没有什么变化。在 CSS 里，高亮的活动玩家身上带有一个名为 <strong><code>.player--active</code></strong> 的类名，它的底色偏白，而未活动的另一边则是暗紫色。</p>
+        <p>此时，如果你脑子里想的是：<br>
+        “如果当前是 0，我就 <code>classList.remove</code> 1 身上的类名，<code>classList.add</code> 给 0；反之亦然...”</p>
+        <p><strong>拜托请停止这段复杂的大段 if/else 头脑风暴！</strong><br>
+        <code>classList</code> 提供了一个极其聪明的杀手级 API，专门用于这种“此消彼长 / 有则减无则加”的开关场景 —— 它就是 <strong><code>toggle()</code> (切换)</strong>！</p>
+
+        <pre><code class="language-javascript">// 无论切给谁，我们在换人时，只要对两边的容器施加这股魔法：
+player0El.classList.toggle('player--active');
+player1El.classList.toggle('player--active');</code></pre>
+
+        <div class="callout info">
+            <p>💡 <strong>Toggle (拨动开关) 的聪明机制：</strong><br>
+            当执行 `toggle('XXX')` 时，它会侦查元素身上有没有这个阶级。<br>
+            如果有？它就帮你执行 `remove()` 把它扒下来。<br>
+            如果没有？它就帮你执行 `add()` 把它穿上去。<br><br>
+            由于两边玩家同一时间必然只有一件衣服。所以一起 toggle 它们，就相当于把衣服脱下来直接砸到了对方面前，完成秒换！干净得出神入化。</p>
+        </div>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+        
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 我们为什么要把两边玩家的 HTML ID 设计成 `score--0` 和 `score--1` 这种带序号的格式，而不是命名为 `score--p1` 和 `score--p2`？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为 JavaScript 规定 HTML 元素的 ID 必须包含数字，用来帮助底层优化 DOM 的查询速度。</div>
+                <div class="quiz-option" data-value="B">B) 为了“结构映射逻辑”。通过让 HTML 设计出的数字后缀（0,1）完美契合我们在 JS 代码中声明的 `activePlayer` 状态变量值（0,1），实现一行模板字符串代码就能动态操控两个元素的终极优雅。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>👍 正确！</strong> 解析：高级前端开发最精髓的思想：让状态数据(State) 与 结构视图(HTML) 建立内在和谐的映射关系。这样一来，你不再是被动地到处点选元素，而是让代码自己推理该去选谁。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+
+            card.querySelectorAll('.quiz-option').forEach(opt => { opt.classList.remove('selected', 'correct', 'incorrect'); });
+            this.classList.add('selected');
+
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+        });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+</script>
+</body>
+</html>

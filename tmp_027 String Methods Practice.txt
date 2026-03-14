@@ -1,0 +1,245 @@
+﻿So, over the last couple of videos, we have learned how to work with strings and also did a couple of exercises and one challenge.
+
+But many people have actually asked me to create even more string exercises.
+
+And so in this lecture, we're gonna solve basically one more challenge and do one more nice string exercise.
+
+So somewhere at the beginning of your starter files you will have this flights string like this.
+
+And so our goal is basically to transform this (indistinct) mess here, which is the string into this nicely formatted output which contains all the information that is in this string here, but then put it in a way that is actually legible to people.
+
+So let's pretend for example that we get this string here from some kind of web API.
+
+And our goal in our application is tend to display the data like this.
+
+So, let's start by taking a look at our string here so that we can think about how to approach this problem.
+
+So, we see that we have basically four lines of output here.
+
+And so, if we take a look at the string, we can see that we have here this first part, then we have this plus sign.
+
+And so you see that here's another one and another one.
+
+And so essentially this plus sign, acts as a separator between these four pieces of information.
+
+So these four flights.
+
+So this one here I showed you as the first one.
+
+Then here we have the second one, the third one and the fourth one.
+
+So let's start by dividing that up so that we can transform this one string into these four pieces.
+
+And for now I will simply lock the result of doing that to the console just so we can get a first look at this.
+
+So remember that for that, we are going to use the split method.
+
+So flights.split and then we specify by which character we want to split the string.
+
+So give it a safe, and then you see that we get this array, and this array contains now, these four pieces of information, so these four flights.
+
+Now, again, you see here that we have actually one line for each of the flights.
+
+So that means that we want to lock to the console one line for each flight.
+
+And so we should probably loop over this array and then create a string like this in each of the iterations.
+
+And so we also learned how to do that in this section, so we can use the for of loop.
+
+So let's say that each of them is a flight and here we can then directly use a flights.split which creates the array that we just saw.
+
+And so again to start, let's just log each of the flights here to the console in each iteration and we can then get rid of this, and here we are trying to access that flight variable but of course it is flights.
+
+So this string here, and so now indeed we get our four strings here locked separately to the console.
+
+And now it's time to actually build each of these nicely formatted string out of his mess that we get here.
+
+So again we can notice that we have an element which basically splits or separates different pieces of the information inside of the string.
+
+So here we see, we have a delayed departure and here we have this airport code, here another one, and then here at the time of arrival which is exactly what we have in the string.
+
+So, here we have the late departure, the airport code for Farrow, and then the airport code for Berlin.
+
+And so therefore let's extract that information from the string again, and so again, I will start by splitting this variable but this time using the semi-colon separator.
+
+So exactly this, so you'll see it already worked.
+
+And now all we need to do is to get this data out of these arrays, then format each of these four pieces here a little bit and then assemble each of them into the final string.
+
+So, we can do this in many different ways, but what am gonna do, is to use destructuring to take these four pieces out of the array.
+
+So, remember destructuring, we use the erase syntax here but to specify variables.
+
+So the first variable here, let's call it the type because we can have departures and arrivals.
+
+So that's the type the second one is the from, so you see here that the first airport code is the from and the second is the to.
+
+So from FAO to TXL.
+
+So the third one is to, and then the last one is the time.
+
+So 1125, which we will then transform here into 11H 25 like this.
+
+So now of course we don't have the output anymore but anyway, let's now start creating or output string here.
+
+So I'm gonna call that output, and of course, we're going to use a template literal and I will start by simply put these for variables that we just created in here, and so then we can format each of them individually.
+
+So that's type, from, to, and then the time.
+
+And we can already put that inside parenthesis, just as we have a it here, and then to finish we will just lock that nicely to the console.
+
+And so, now indeed, we have four strings right here.
+
+So let's now individually format each of these four pieces.
+
+And I'm gonna start here with the time which is the easiest one.
+
+So here we just want to replace the colon with an H.
+
+All right, that worked beautifully.
+
+And now, let's go to the type.
+
+So you see that in a type, we always have these underscores which of course we want to get rid of.
+
+So here it should just say delayed departure with a space instead of the underscore and here in the arrival we basically also want to get rid of the underscore.
+
+So essentially, we're just gonna replace the underscore with an empty space.
+
+So here we can now actually use that years 2021 method that I mentioned before, but which didn't work back then, but now as I'm recording this video, replace all, actually already works in Google Chrome.
+
+And so, here we can now use, replace all.
+
+Alright, so again, this is an ES 2021 method which is brand new in JavaScript and which allows us to replace all incidents of a certain string at once.
+
+And so again, we're gonna replace the underscore with a space.
+
+That's nice.
+
+Now we see here that we have this empty space at the beginning of each string but we gonna take care of that later because we will have to add some strings here or actually some spaces anyway in order to create this format here.
+
+So it this and all of these spaces here.
+
+So don't worry about that for now, instead, what we're gonna do now is to add these red dots here.
+
+So these are actually emojis and we will add this emoji whenever the departure or the arrival is delayed.
+
+So basically to symbol that there is a delay.
+
+So this applies to both departures and arrivals like this.
+
+So basically we want to add this emoji whenever the type, so which is remember all of this, so this here.
+
+So whenever this starts with the string delayed, then we want to add this emoji here.
+
+So, Let's do that.
+
+And we actually have a nice and easy string method for that which we already talked about, which is the starts with.
+
+So starts with, and so here we're asking if the string starts with delayed, so actually like this, and remember that this is going to return a bullion.
+
+And so this is perfect to then use a conditional like the turnery operator to return something in case this is to.
+
+So, in case it is to, here we want to add this emoji so we can just come here and copy it, paste it here.
+
+And if not, then simply add nothing.
+
+Well, that didn't really work.
+
+All it did was to add like another space here which is this one here.
+
+But I think I know what the problem is, which, lemme actually show this to you by logging here again, the type.
+
+So we are looking if the string, so if the type string starts with delayed but in fact it does start with _delayed at this point.
+
+And so therefore we need to add that here to our test as well.
+
+And then it works just like expected.
+
+So let's take away that log here and let's actually take away that space.
+
+And so now we have a more evenly spaced text here.
+
+Great, and actually we're almost done here.
+
+All we have to do is to now format these airport codes.
+
+Now we have all of these numbers here and here as well but it don't really serve any purpose here for formatting the string.
+
+So all we want is the three letters here, which any airport code is made of.
+
+So it's always just three letters but the number afterwards, we don't care about it at all.
+
+So basically what we will do to this string and also this here, is to take the first three letters and then convert them to uppercase.
+
+And then that's actually it.
+
+So, let's do what I just said.
+
+So we use the slice method to take the first three elements.
+
+So from position zero, all the way to three, where three is not included, so we're taking zero one and two and then we can simply chain the two upper case method onto that, and there we go.
+
+So that's four now and now we can copy the same thing from here to here.
+
+But let's actually not do that, but I will create a small refactor outside here.
+
+So basically create just a small function called getCode which gets a string, and then from that string, it does this.
+
+So let's cut that, and that's it.
+
+So it's just a nice and simple arrow function just for the small use case.
+
+And notice how I defined this variable here outside of the loop, because otherwise, this function here is gonna be defined over and over again which is not necessary.
+
+So now we can just rep this into parenthesis and pass it into getCode, and so that will then take this string, pass it into this function, which will then do the formatting that we wanted and we'll return it and let's do the same thing to the destination and, that's it.
+
+So, we are almost done now.
+
+So a string is nicely formatted.
+
+It looks just or at least almost like these ones here.
+
+Now, the only thing that's different, is that here they are basically all aligned to the right like this so that we have these airport codes here and the times all in the same position which makes the strings a lot easier to read.
+
+And do you remember how we can do that?
+
+So for that we can use the padStart method that I also introduced some time ago.
+
+So, we can do that on the entire string which ends right here.
+
+So the output string starts here and ends here.
+
+And we now want to apply the padStart method on the entire string so we can change that right here.
+
+We could also put it here like this, but this formatting should actually be a part of the string itself.
+
+And so let's actually edit right here.
+
+So let's try 50 here and remember that by default, the default character that will pet the string is an empty space.
+
+So if we gift as a safe now, then you see that indeed, everything is now actually aligned here.
+
+But 50 is apparently a bit too much, let's try 20, which is not really enough.
+
+Let's try 40 here maybe or 30, just as be a little bit like trial and error until it looks nice.
+
+But 36, it is.
+
+So now everything is nicely aligned, and all these strings are now exactly 36 characters long, which is exactly what this padStart does.
+
+So to makes sure that the string has exactly this length, and if it doesn't, then it keeps adding the string or so the character that we define here.
+
+So we could also do like this, and then it would add this character here, but we simply want a space.
+
+And so we can just get rid of that.
+
+And then automatically it adds this empty space.
+
+And that's actually it, that solves the problem that we set out to solve in the beginning.
+
+And on the way we practiced many of these methods that I showed you before.
+
+And we also use the IES 2021 method here, replace all for the first time.
+
+So I hope that you found this exercise useful and that you're now even more comfortable working with strings on your own.

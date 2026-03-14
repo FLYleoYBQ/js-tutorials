@@ -1,0 +1,703 @@
+1
+00:00:01,180 --> 00:00:04,460
+Dealing and working with data is the main thing
+
+2
+00:00:04,460 --> 00:00:06,820
+that we do as developers.
+
+3
+00:00:06,820 --> 00:00:08,150
+And that's the reason why,
+
+4
+00:00:08,150 --> 00:00:10,010
+since the beginning of the course,
+
+5
+00:00:10,010 --> 00:00:11,070
+we have been working
+
+6
+00:00:11,070 --> 00:00:13,980
+with JavaScripts built-in data structures,
+
+7
+00:00:13,980 --> 00:00:16,800
+like arrays and objects.
+
+8
+00:00:16,800 --> 00:00:18,740
+Then in the last few lectures
+
+9
+00:00:18,740 --> 00:00:21,550
+we learned about two new data structures
+
+10
+00:00:21,550 --> 00:00:24,470
+which are sets and objects.
+
+11
+00:00:24,470 --> 00:00:26,840
+So now we have four data structures
+
+12
+00:00:26,840 --> 00:00:28,690
+from which we can choose.
+
+13
+00:00:28,690 --> 00:00:31,710
+And so I decided to create this quick lecture
+
+14
+00:00:31,710 --> 00:00:35,750
+which will show you the pros and cons of each data structure
+
+15
+00:00:35,750 --> 00:00:38,363
+and also when to choose each of them.
+
+16
+00:00:40,380 --> 00:00:43,470
+And I want to start this video by quickly categorizing
+
+17
+00:00:43,470 --> 00:00:46,800
+where data can actually come from.
+
+18
+00:00:46,800 --> 00:00:50,690
+So there are essentially three sources of data.
+
+19
+00:00:50,690 --> 00:00:52,610
+First, the data can be written
+
+20
+00:00:52,610 --> 00:00:56,970
+within the program source code itself like status messages
+
+21
+00:00:56,970 --> 00:01:01,840
+that will be displayed on a webpage based on user actions.
+
+22
+00:01:01,840 --> 00:01:05,300
+Second, data can come from the user interface.
+
+23
+00:01:05,300 --> 00:01:07,090
+So from the webpage,
+
+24
+00:01:07,090 --> 00:01:11,430
+it can either be data that the user inputs into some form
+
+25
+00:01:11,430 --> 00:01:15,330
+or data test already written somehow in the DOM.
+
+26
+00:01:15,330 --> 00:01:19,430
+For example, this can be the users tasks in a todo app
+
+27
+00:01:19,430 --> 00:01:24,140
+or expenses in a budget app or anything like that.
+
+28
+00:01:24,140 --> 00:01:27,870
+Finally, data can come from external sources
+
+29
+00:01:27,870 --> 00:01:30,970
+which is usually a web API.
+
+30
+00:01:30,970 --> 00:01:33,700
+Now what is a web API?
+
+31
+00:01:33,700 --> 00:01:38,110
+Well, API stands for Application Programming Interface
+
+32
+00:01:38,110 --> 00:01:41,420
+and we can basically use a web API to get data
+
+33
+00:01:41,420 --> 00:01:44,020
+from other web applications.
+
+34
+00:01:44,020 --> 00:01:46,620
+For example we can use a web API
+
+35
+00:01:46,620 --> 00:01:50,890
+to get the current weather in any city or data about movies
+
+36
+00:01:50,890 --> 00:01:53,140
+or currency conversion rates
+
+37
+00:01:53,140 --> 00:01:56,760
+and really every kind of data that you can imagine.
+
+38
+00:01:56,760 --> 00:02:00,073
+And we will learn how all that works later in the course.
+
+39
+00:02:00,970 --> 00:02:03,810
+So no matter where the data comes from
+
+40
+00:02:03,810 --> 00:02:06,010
+and what kind of data it is,
+
+41
+00:02:06,010 --> 00:02:09,140
+we usually always have collections of data
+
+42
+00:02:09,140 --> 00:02:12,040
+that we then need to store somewhere.
+
+43
+00:02:12,040 --> 00:02:15,330
+And so where do we store collections of data?
+
+44
+00:02:15,330 --> 00:02:19,550
+That's right, we use data structures, but as you know
+
+45
+00:02:19,550 --> 00:02:23,440
+there are four built-in data structures in JavaScript.
+
+46
+00:02:23,440 --> 00:02:27,200
+And so now we need a way of deciding between them,
+
+47
+00:02:27,200 --> 00:02:29,260
+but it's not that hard.
+
+48
+00:02:29,260 --> 00:02:31,760
+So the first decision is this
+
+49
+00:02:31,760 --> 00:02:34,810
+do we just need a simple list of values?
+
+50
+00:02:34,810 --> 00:02:39,210
+If so, then we're gonna use an array or a set.
+
+51
+00:02:39,210 --> 00:02:42,650
+But on the other hand if we need key value pairs,
+
+52
+00:02:42,650 --> 00:02:45,083
+then we need an object or a map.
+
+53
+00:02:45,940 --> 00:02:49,730
+So the big difference here is that with a key value pair
+
+54
+00:02:49,730 --> 00:02:53,853
+we have a way of describing the values, so by using the key.
+
+55
+00:02:54,750 --> 00:02:58,860
+On the other hand, in a list like an array or a set,
+
+56
+00:02:58,860 --> 00:03:03,860
+we simply have the values without any description, okay?
+
+57
+00:03:04,050 --> 00:03:05,780
+Now, as a quick example,
+
+58
+00:03:05,780 --> 00:03:09,400
+let's go back to getting data from a web API
+
+59
+00:03:09,400 --> 00:03:12,170
+because in modern JavaScript applications
+
+60
+00:03:12,170 --> 00:03:15,730
+that's usually the most common source of data.
+
+61
+00:03:15,730 --> 00:03:20,670
+So data from web APIs usually comes in a special data format
+
+62
+00:03:20,670 --> 00:03:25,070
+called JSON which looks like this example here.
+
+63
+00:03:25,070 --> 00:03:29,640
+So JSON is essentially just text so a long string,
+
+64
+00:03:29,640 --> 00:03:33,030
+but it can easily be converted to JavaScript objects
+
+65
+00:03:33,030 --> 00:03:35,500
+because it uses the same formatting
+
+66
+00:03:35,500 --> 00:03:38,343
+as JavaScript objects and arrays.
+
+67
+00:03:39,190 --> 00:03:43,200
+So here we have three objects that describe recipes.
+
+68
+00:03:43,200 --> 00:03:47,380
+We have the values in green, like the title and a publisher.
+
+69
+00:03:47,380 --> 00:03:48,940
+And it makes complete sense
+
+70
+00:03:48,940 --> 00:03:53,220
+that these values are then described using a key.
+
+71
+00:03:53,220 --> 00:03:55,430
+Otherwise we would have no idea
+
+72
+00:03:55,430 --> 00:03:59,220
+what the different values actually are, right?
+
+73
+00:03:59,220 --> 00:04:02,080
+So key value pairs are essential here
+
+74
+00:04:02,080 --> 00:04:05,480
+and that's why this data is stored in an object,
+
+75
+00:04:05,480 --> 00:04:07,380
+not an array.
+
+76
+00:04:07,380 --> 00:04:10,550
+Now, each of these recipe objects in itself
+
+77
+00:04:10,550 --> 00:04:12,760
+can be seen as a value.
+
+78
+00:04:12,760 --> 00:04:14,660
+And since we have many of them,
+
+79
+00:04:14,660 --> 00:04:17,960
+it means that we have again a collection of data
+
+80
+00:04:17,960 --> 00:04:22,130
+and therefore we need a data structure to store them.
+
+81
+00:04:22,130 --> 00:04:26,210
+Now, do we want to describe each of the objects?
+
+82
+00:04:26,210 --> 00:04:29,660
+Well, it's not really necessary, is it?
+
+83
+00:04:29,660 --> 00:04:32,600
+We already know they are all recipes
+
+84
+00:04:32,600 --> 00:04:35,900
+and whatever information we need about the recipes
+
+85
+00:04:35,900 --> 00:04:39,750
+is already stored right in each of the objects.
+
+86
+00:04:39,750 --> 00:04:42,900
+So all we want is basically a simple list
+
+87
+00:04:42,900 --> 00:04:45,820
+where all the recipes are held together.
+
+88
+00:04:45,820 --> 00:04:50,820
+And so here an array is the perfect data structure for that.
+
+89
+00:04:50,870 --> 00:04:54,190
+And in fact, creating an array of objects
+
+90
+00:04:54,190 --> 00:04:57,260
+is extremely common in JavaScript.
+
+91
+00:04:57,260 --> 00:05:01,020
+Now you will be working with this kind of data all the time
+
+92
+00:05:01,020 --> 00:05:03,670
+as a professional JavaScript developer.
+
+93
+00:05:03,670 --> 00:05:06,973
+And that's why I'm placing so much focus on this here.
+
+94
+00:05:07,840 --> 00:05:12,440
+Okay, now before we move on to compare array, sets,
+
+95
+00:05:12,440 --> 00:05:15,780
+objects and maps, I quickly want to mention
+
+96
+00:05:15,780 --> 00:05:18,634
+that there are also Weaksets
+
+97
+00:05:18,634 --> 00:05:22,270
+and WeakMaps data structures in JavaScript.
+
+98
+00:05:22,270 --> 00:05:25,100
+Also, there are even more data structures
+
+99
+00:05:25,100 --> 00:05:26,970
+that are used in programming,
+
+100
+00:05:26,970 --> 00:05:30,060
+but which are not built into JavaScript.
+
+101
+00:05:30,060 --> 00:05:31,700
+And just to mention a few,
+
+102
+00:05:31,700 --> 00:05:35,630
+these can be stacks, queues, linked lists, trees,
+
+103
+00:05:35,630 --> 00:05:37,470
+or hash tables.
+
+104
+00:05:37,470 --> 00:05:39,650
+And these don't really matter for now
+
+105
+00:05:39,650 --> 00:05:42,090
+but I still just wanted to let you know
+
+106
+00:05:42,090 --> 00:05:43,750
+that there are more than just
+
+107
+00:05:43,750 --> 00:05:46,103
+the four built-in data structures.
+
+108
+00:05:47,810 --> 00:05:49,640
+But now let's talk a bit more
+
+109
+00:05:49,640 --> 00:05:52,750
+about the built-in data structures.
+
+110
+00:05:52,750 --> 00:05:56,750
+So you already know at this point how to use all of them,
+
+111
+00:05:56,750 --> 00:06:00,360
+but it's important to know when to use them.
+
+112
+00:06:00,360 --> 00:06:05,020
+So starting with arrays versus sets, we already know
+
+113
+00:06:05,020 --> 00:06:08,720
+that we should use them for simple lists of values
+
+114
+00:06:08,720 --> 00:06:11,523
+when we do not need to describe the values.
+
+115
+00:06:12,600 --> 00:06:16,230
+Now you should use arrays whenever you need to store values
+
+116
+00:06:16,230 --> 00:06:21,020
+in order and when these values might contain duplicates.
+
+117
+00:06:21,020 --> 00:06:23,200
+Also you should always use arrays
+
+118
+00:06:23,200 --> 00:06:25,300
+when you need to manipulate data
+
+119
+00:06:25,300 --> 00:06:29,240
+because there are a ton of useful array methods.
+
+120
+00:06:29,240 --> 00:06:32,090
+Now sets on the other hand should only be used
+
+121
+00:06:32,090 --> 00:06:35,230
+when you are working with unique values,
+
+122
+00:06:35,230 --> 00:06:38,780
+besides that you can also use sets in situations
+
+123
+00:06:38,780 --> 00:06:42,000
+when high performance is really important
+
+124
+00:06:42,000 --> 00:06:45,060
+because operations like searching for an item
+
+125
+00:06:45,060 --> 00:06:47,670
+or deleting an item from a set can be
+
+126
+00:06:47,670 --> 00:06:52,260
+up to 10 times faster in sets than in arrays.
+
+127
+00:06:52,260 --> 00:06:55,160
+Now one great use case for sets
+
+128
+00:06:55,160 --> 00:06:57,963
+is to remove duplicate values from an array
+
+129
+00:06:57,963 --> 00:07:01,180
+like we already did before.
+
+130
+00:07:01,180 --> 00:07:04,640
+So sets are really not meant to replace arrays
+
+131
+00:07:04,640 --> 00:07:06,300
+but rather to compliment them
+
+132
+00:07:06,300 --> 00:07:10,280
+whenever we are dealing with unique values.
+
+133
+00:07:10,280 --> 00:07:15,000
+Okay, so now let's talk about objects versus maps
+
+134
+00:07:15,000 --> 00:07:16,550
+and we already know that we should
+
+135
+00:07:16,550 --> 00:07:19,910
+use these key value data structures
+
+136
+00:07:19,910 --> 00:07:24,890
+whenever we need to describe the values using keys, right?
+
+137
+00:07:24,890 --> 00:07:29,050
+But when to use objects and when to use maps.
+
+138
+00:07:29,050 --> 00:07:31,200
+Well objects have been
+
+139
+00:07:31,200 --> 00:07:34,090
+the traditional key value data structure
+
+140
+00:07:34,090 --> 00:07:38,700
+simply because we didn't have maps before ES6,
+
+141
+00:07:38,700 --> 00:07:41,960
+but using objects simply as key value stores
+
+142
+00:07:41,960 --> 00:07:44,750
+has a couple of technical disadvantages.
+
+143
+00:07:44,750 --> 00:07:46,410
+And that's why some people say
+
+144
+00:07:46,410 --> 00:07:49,910
+that we've been abusing objects for this.
+
+145
+00:07:49,910 --> 00:07:52,860
+Now maps on the other hand are way better suited
+
+146
+00:07:52,860 --> 00:07:55,140
+for simple key value stores
+
+147
+00:07:55,140 --> 00:07:58,620
+because they offer better performance in fact.
+
+148
+00:07:58,620 --> 00:08:02,240
+Also map keys can have any data type
+
+149
+00:08:02,240 --> 00:08:04,590
+and they're also easy to iterate
+
+150
+00:08:04,590 --> 00:08:08,350
+and it's easy to compute the size of a map.
+
+151
+00:08:08,350 --> 00:08:11,160
+However, the biggest advantage of objects
+
+152
+00:08:11,160 --> 00:08:15,590
+is probably how easy it is to write them and to access data
+
+153
+00:08:15,590 --> 00:08:19,770
+by simply using the dot or the brackets operator.
+
+154
+00:08:19,770 --> 00:08:24,460
+Also most developers are already super used to objects.
+
+155
+00:08:24,460 --> 00:08:26,810
+And so they simply keep using them
+
+156
+00:08:26,810 --> 00:08:28,923
+for simple key value stores.
+
+157
+00:08:30,000 --> 00:08:33,170
+Anyway, as a conclusion you should use maps
+
+158
+00:08:33,170 --> 00:08:36,600
+when you simply need to map keys to values
+
+159
+00:08:36,600 --> 00:08:39,940
+and also when you need keys that are not strings
+
+160
+00:08:39,940 --> 00:08:42,330
+because as we saw in the last video,
+
+161
+00:08:42,330 --> 00:08:44,663
+that can be very powerful sometimes.
+
+162
+00:08:45,590 --> 00:08:48,130
+Now, if you need functions as values
+
+163
+00:08:48,130 --> 00:08:51,670
+then you should absolutely use an object for that.
+
+164
+00:08:51,670 --> 00:08:55,540
+So in objects, these functions are then called methods
+
+165
+00:08:55,540 --> 00:08:58,420
+and you can use the this keyword to access properties
+
+166
+00:08:58,420 --> 00:09:02,790
+of the same object, which is impossible in maps.
+
+167
+00:09:02,790 --> 00:09:05,350
+Also, when working with JSON data,
+
+168
+00:09:05,350 --> 00:09:07,990
+as we saw in the previous light
+
+169
+00:09:07,990 --> 00:09:11,310
+you will probably be using objects for that as well
+
+170
+00:09:11,310 --> 00:09:14,680
+unless you then want to convert the objects to maps,
+
+171
+00:09:14,680 --> 00:09:17,163
+but that's usually not something that we do.
+
+172
+00:09:18,020 --> 00:09:21,630
+So in fact, we still use objects all the time
+
+173
+00:09:21,630 --> 00:09:25,550
+but maps are also a very important data structure right now
+
+174
+00:09:25,550 --> 00:09:27,873
+and way more important than sets.
+
+175
+00:09:28,930 --> 00:09:32,990
+Great, and with that, we wrap up this overview.
+
+176
+00:09:32,990 --> 00:09:37,023
+I hope you found this useful and so let's now move on.

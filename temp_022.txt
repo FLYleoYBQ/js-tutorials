@@ -1,0 +1,199 @@
+﻿All right.
+
+So we learned all about the for loop and even created a loop inside a loop, but there is another type of loop in JavaScript and that's the while loop.
+
+So let's explore that one now.
+
+And to understand how the while loop works and the difference between the for and the while loop, let's actually go back to our first for loop lecture and get back the code of this weightlifting exercise.
+
+So just copy this and we will keep it for comparison basically.
+
+So let's put it back to 10 here as well, and so let's now do the same thing with a while loop.
+
+So implementing the same with a while loop, we still need the same components.
+
+So we still need a counter so that we can then actually print the current value to the console, we still need a condition so that we know when to stop and we still need to increase the counter somehow.
+
+Now in the while loop, it works a bit differently because for the while loop, we can only specify a condition.
+
+So while, and then just a condition is the only thing that we can specify here.
+
+So that's gonna be exactly the same as this one.
+
+So we want to keep the loop running while repetitions is less or equal 10.
+
+And that's actually why this loop is called while.
+
+So again, it's called the while loop because it will run while this condition is true.
+
+Alright.
+
+But now we need to kind of manually, so more explicitly define the other two components of the for loop.
+
+So the repetitions and the increasing of the counter.
+
+And so we need to do that basically outside.
+
+So we start at the beginning with rep equal one, then we have the condition, then let's put the code that we want to execute and then at the end of the iteration, we will then increase the counter.
+
+And so let's just do that.
+
+So at the end of the iteration is basically the end of this code block, and so let's do that there, and that's it.
+
+And so now we should get the exact same result twice, once coming from this for loop and once coming from this while loop.
+
+And yeah, so 1 to 10, and then again, 1 to 10 coming from the while loop, just write that here, just to make 100% sure.
+
+Yeah.
+
+And indeed the second set here is coming from the while loop.
+
+So this all means that the while loop is more versatile than the for loop, which means that it can be used in a larger variety of situations.
+
+And that's because it does not really need a counter.
+
+So you put the counter here because we need it for this specific use case.
+
+But all the while loop really needs is the condition which needs to stay true for it to keep running.
+
+And that condition can be any condition, it doesn't have to be related to any counter at all.
+
+And sometimes that's exactly what we need to solve a certain problem.
+
+So a problem without any counter, so without a number that is increasing.
+
+And so let's create such an example here.
+
+So I will start by taking off this for loop, we no longer need that one and now we will do a simple example that does not depend on a counter, but instead it will depend on a random variable, okay.
+
+So what we're gonna do is to basically roll a dice and then keep rolling the dice until we roll a six.
+
+And then when we roll a six, we stop.
+
+So essentially we will want to keep running the loop while the rolled dice is different from six.
+
+And so in this case, we do actually not know beforehand how many times the loop should run.
+
+And so we don't need a counter variable and that's exactly the use case of a while loop.
+
+So let's start by creating that random number.
+
+And so the roll of a dice is a number between one and six, the way that we implement this does not matter at this point, okay.
+
+We will learn more about random numbers at a later point, and so for now, just basically just type what I am writing here.
+
+So we're using Math.random, and this will create a number between zero and one, then we multiply that by a six, but this is gonna be a decimal number.
+
+Let me just show it out to you quickly, because I think this is still interesting for you.
+
+So you see that it's a decimal number, and so now we need to get rid of this decimal part.
+
+And so that we do using Math.trunc, and so this will give us a number between zero and five and then we add one and get one to six.
+
+So again, don't worry about the implementation of this at this point, we will do this again later.
+
+But what matters here is that as we reload the page, we get a random number here that is different every time.
+
+And so it will be different for you of course, so different from what you see in the video as you keep reloading your own page.
+
+Okay.
+
+And so now let's do what I explained earlier.
+
+So again, we want to keep running the loop until we roll a six.
+
+So until this dice variable here holds the value of six.
+
+And so the condition of the loop is now gonna be, dice different from six.
+
+And as soon as the value is six, it will stop.
+
+And let's lock the value to the console here.
+
+So, 'You rolled a $ dice', and so that's get rid of this one here and now let's log it to the console, but keep in mind that actually right now we are only creating one dice value.
+
+So at this point a loop doesn't make a lot of sense, and so actually let's keep working on this before we test it.
+
+So again, we are only creating one random number between one and six here, right?
+
+And if that's different than six, this loop here will run.
+
+But right now the loop would then run forever, which I'm not going to show you here now because that would crash the browser.
+
+So this would be called an infinite loop and we don't want that.
+
+So what we will do is to keep creating new dice values.
+
+And so we are gonna reassign this value at the end of each iteration.
+
+And so now we're ready to test the result here.
+
+Whoa, you see we got a lot of dice rolls here.
+
+Let me actually also comment out just this console.log here, and so of course your result will be different from mine, because we are using different random numbers.
+
+But anyway, let's analyze what happened here.
+
+So we start with some random dice number and then here we check if that dice is different from six.
+
+And apparently it was different, and so then we entered the loop, which then logged, 'You rolled a 2'.
+
+So my random number was first a two.
+
+Then in the next line we created a new random number and then the loop run again.
+
+So again, this condition was tested.
+
+So is the dice different from six, and apparently it was, and so we entered the loop again.
+
+And so it printed, 'You rolled a 1'.
+
+And then the next dice was a five, and then the next one was a four.
+
+But then apparently the next dice that was rolled here was a six.
+
+So at the end of this iteration here, this dice value was a six.
+
+And so then in the next iteration, dice was actually equal six.
+
+And so then the condition is no longer true and the loop stopped.
+
+And let me actually write one more line of code here in which we can say, if dice is 6 then log, 'Loop is about to end'.
+
+And so this way we can know when a six happened, and so the very first thing that should ever happen here in this output is this, right?
+
+Because then when the dice was six, the next iteration will no longer run.
+
+So let's do that, and indeed, so we get one, five, for, one, but no six and then, 'Loop is about to end', and so the dice was six, and so this condition was true, and so we saw this log to the console and then in the next iteration, again six equals six and so the loop finished.
+
+Let's try some more times, and of course it works.
+
+Oh, and now we got a situation where the first dice ever was a six, and so the loop never even started.
+
+And this was the situation I was waiting for here.
+
+So when dice is six right away in the beginning, then of course this loop will have exactly zero iterations, it will never start, okay.
+
+And so the conclusion of this is that the while loop does really not have to depend on any counter variable.
+
+So whenever you do need a loop without a counter, you can reach for the while loop.
+
+So basically that happens whenever you do not know beforehand how many iterations the loop will have.
+
+So in that situation the while loop is the right tool for the job.
+
+And that's exactly what we had here.
+
+So we had no way of knowing how many times we would roll a dice that's different from six.
+
+Now, on the other hand, when we do know how many times the loop will run, that means that we're gonna actually need a counter.
+
+For example, when we want to loop over an array, we already know how many elements that array has, and so we know how many iterations we will need.
+
+And therefore the for loop is usually the right choice to loop over an array.
+
+All right.
+
+And with this, we kind of finished the JavaScript fundamentals.
+
+All there's left to do now is for you to complete the final coding challenge of this section.

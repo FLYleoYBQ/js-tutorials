@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Introduction to Arrays</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
+        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
+        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
+        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+        .callout-warning { background-color: rgba(245, 158, 11, 0.1); border-left: 4px solid var(--warning-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
+        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; font-weight: 600;}
+        .btn-run:active { transform: scale(0.95); }
+        .editor-textarea { width: 100%; height: 260px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
+        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
+        th { background-color: rgba(255,255,255,0.05); }
+        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">为什么要用数组？</a>
+            <a href="#section-create" class="nav-item">创建与读取数组</a>
+            <a href="#section-behind-scenes" class="nav-item">原理揭秘：用 const 也能修改数组？</a>
+            <a href="#section-types" class="nav-item">全能收纳盒：多元数据类型</a>
+            <a href="#section-exercise" class="nav-item">实战练习：批量计算年龄</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Introduction to Arrays (数组入门)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：010 Introduction to Arrays.en.srt</span>
+            <span>📂 章节：第 03 章</span>
+        </div>
+
+        <h2 id="section-overview">📦 为什么要用数组？</h2>
+        <p>编程在绝大多数时候都是与<strong>数据</strong>打交道。当我们只有两三个数据时，声明三个变量 <code>friend1, friend2, friend3</code> 还可以接受。可是，如果我们有 500 个用户的名字，需要创建 500 个独立变量吗？显然这不可能！</p>
+        <p>这就引出了 JavaScript 中最核心的两大数据结构之一：<strong>数组（Array）</strong>。（另一个是对象，我们稍后会讲）。</p>
+        <p>数组就像一个有无数个格子的神奇快递盒，我们可以把所有数据统统打包放进去，并且每个格子都有一个属于自己的“编号”。</p>
+
+        <h2 id="section-create">🛠️ 创建与读取数组</h2>
+
+        <p>下面这块代码将为你演示所有跟数组基础盘相关的技能：如何创建、如何获取、如何算数量、如何获取最后那一个“神秘人”！</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">arrays-basics.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+// 1. 创建数组的两种常见方式：
+// 推荐方式：字面量语法 (Literal Syntax)
+const friends = ['Michael', 'Steven', 'Peter']; 
+
+// 第二种方式：通过 Array 函数
+const years = new Array(1991, 1984, 2008, 2020);
+
+// 2. 读取数组中的特定元素（索引以 0 为起跑线）
+console.log(friends[0]); // 取第一个
+console.log(friends[2]); // 取第三个
+
+// 3. 数组长度（并不是 0 基底的！）
+console.log(friends.length); // 有多少个就返回多少
+
+// 4. 重级技巧：如何获取数组中最后一个元素？
+// 我们在方括号 [] 里放进去了数学表达式： length(长度为3) - 1 => 索引2
+console.log(friends[friends.length - 1]);
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <div class="callout">
+            <p><strong>💡 Jonas 提醒：</strong><br>
+            千万记住，虽然数组的项是从 <code>0, 1, 2...</code> 开始数的，但 <code>length</code> 属性却是一个老实巴交的人类数字。数组有几个元素，它就是几。正因如此，获取数组最后一位的万能公式永远是 <code>array[array.length - 1]</code>。</p>
+        </div>
+
+        <h2 id="section-behind-scenes">🕵️‍♂️ 原理揭秘：用 const 也能修改数组？</h2>
+
+        <p>我们除了读取数组元素，也可以<strong>更新（覆盖）</strong>数组里的元素。例如由于某些原因，我们不和 Peter 玩了，我们要修改他的位置换成 Jay：</p>
+
+<pre><code class="language-javascript">const friends = ['Michael', 'Steven', 'Peter'];
+friends[2] = 'Jay';
+console.log(friends); // ['Michael', 'Steven', 'Jay']
+</code></pre>
+
+        <div class="callout-warning">
+            <p><strong>⚠️ 等等！这里有破绽！</strong><br>
+            你可能会问：“Jonas，你上一章才说过被 `const` 定义的变量是绝对<strong>不可变 (immutable)</strong> 的，这里数组 `friends` 也是被 `const` 定义的，凭什么我能随意改它的元素？”</p>
+            <p><strong>底层真相揭秘 (Behind the Scenes)：</strong><br>
+            只有<strong>原始数据类型</strong> (Primitive values，如字符串、数字) 才是完全死板的。而数组不属于原始数据类型！在内存里，`const` 锁定的只是数组所居住的那栋楼的“物理地址”。至于在楼里面你怎么给房间搞装修（换掉某个元素），JavaScript 完全不管！除非你要把这栋楼整个炸掉换一栋（例如用 `friends = ['Bob', 'Alice']` 进行完全重写），那才会被 `const` 判定为非法操作！我们会在后期高级理论章节对内存进行超级大盘底揭秘。</p>
+        </div>
+
+        <h2 id="section-types">🌈 全能收纳盒：多元数据类型</h2>
+
+        <p>JavaScript 的数组是彻底“放飞自我”的。同一个数组里面可以随心所欲塞入字符串、数字、数学计算式、变量...甚至塞入另一个完整的数组（俄罗斯套娃模式）！</p>
+        <p>因为数组的坑位本质上只要求填入一个**表达式(Expression)**。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">array-diversity.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">'use strict';
+
+const firstName = 'Jonas';
+const friends = ['Michael', 'Peter'];
+
+// 见证奇迹的缝合怪数组！
+const jonas = [
+    firstName,             // 传递变量解析出值
+    'Schmedtmann',         // 直接放入字符串
+    2037 - 1991,           // 放入运算表达式
+    'teacher', 
+    friends                // 将另一个数组塞进来
+];
+
+console.log(jonas);
+console.log(jonas.length); // 长度是5 还是 7 ！？（注意整个 friends 只算 1 项）
+</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+
+        <h2 id="section-exercise">🏃 实战练习：批量计算年龄</h2>
+
+        <p>绝不要试图用数组自己去进行做算术运算运算（例如 `[1990, 1991] + 10`），那只会得到一团被强制转换为字符串的乱码：`"1990,199110"`。</p>
+        <p>正确的姿势是：抽取出每个具体的数组坑位值，把它交由函数来独立处理。而且正如上文所说，<strong>函数调用本身也是个会抛出值的表达式</strong>，这意味着你可以直接把函数排兵布阵放在数组里！</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">age-exercise.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">'use strict';
+
+// 最强年代年龄计算器
+const calcAge = function (birthYear) {
+    return 2037 - birthYear;
+}
+const years = [1990, 1967, 2002, 2010, 2018];
+
+// 我们要分别计算第1个、第2个和最后一个小伙伴的年龄，并立马组成新阵列
+const ages = [
+    calcAge(years[0]),
+    calcAge(years[1]),
+    calcAge(years[years.length - 1])
+];
+
+console.log(ages);
+</textarea>
+            </div>
+            <div id="console3" class="console-output"></div>
+        </div>
+
+        <p>这完美证明了数组和函数两者犹如神剑配英雄，在下一节我们将学习更多能够让数组变得更强大的杀手锏“内置方法技巧”！</p>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const out = document.getElementById(consoleId);
+        out.innerHTML = '';
+        const originalLog = console.log;
+        const originalError = console.error;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push('> ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            originalLog.apply(console, args);
+        };
+        console.error = function(...args) {
+            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
+            originalError.apply(console, args);
+        };
+        try {
+            new Function(code)();
+            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+        } catch (e) {
+            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+        }
+        console.log = originalLog;
+        console.error = originalError;
+        out.innerHTML = logs.join('<br>');
+    }
+</script>
+</body>
+</html>

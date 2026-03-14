@@ -1,0 +1,1263 @@
+1
+00:00:01,310 --> 00:00:03,280
+One of the most important things
+
+2
+00:00:03,280 --> 00:00:07,000
+when building any website is performance.
+
+3
+00:00:07,000 --> 00:00:11,940
+And images have by far the biggest impact on page loading.
+
+4
+00:00:11,940 --> 00:00:13,630
+And so it's very important
+
+5
+00:00:13,630 --> 00:00:17,310
+that images are optimized on any page.
+
+6
+00:00:17,310 --> 00:00:18,190
+And for that,
+
+7
+00:00:18,190 --> 00:00:22,260
+we can use a strategy called Lazy Loading Images.
+
+8
+00:00:22,260 --> 00:00:23,690
+So, let me show you now
+
+9
+00:00:23,690 --> 00:00:27,063
+how to implement that strategy in JavaScript.
+
+10
+00:00:28,790 --> 00:00:32,480
+And the effect that I'm talking about is this one.
+
+11
+00:00:32,480 --> 00:00:34,930
+So what for what happens with the images
+
+12
+00:00:34,930 --> 00:00:36,163
+in this section here?
+
+13
+00:00:37,200 --> 00:00:38,883
+So you see, as we approach it,
+
+14
+00:00:39,750 --> 00:00:43,560
+it basically starts to load and then once it finished,
+
+15
+00:00:43,560 --> 00:00:46,340
+it will get displayed and that placeholder
+
+16
+00:00:46,340 --> 00:00:49,113
+which is there in the beginning gets replaced.
+
+17
+00:00:50,030 --> 00:00:51,073
+So you see that?
+
+18
+00:00:52,230 --> 00:00:55,830
+So let me quickly show you in the HTML how we implement that
+
+19
+00:00:57,150 --> 00:00:59,660
+and we're actually already here.
+
+20
+00:00:59,660 --> 00:01:02,380
+So, it's these features here
+
+21
+00:01:02,380 --> 00:01:05,920
+and so each of these features has an image.
+
+22
+00:01:05,920 --> 00:01:09,740
+So, the main ingredient to this lazy loading strategy
+
+23
+00:01:09,740 --> 00:01:12,650
+is that we have a very low resolution image,
+
+24
+00:01:12,650 --> 00:01:15,170
+which is really small and which is loaded,
+
+25
+00:01:15,170 --> 00:01:16,930
+right in the beginning.
+
+26
+00:01:16,930 --> 00:01:19,380
+So that's this image here, and you'll see
+
+27
+00:01:19,380 --> 00:01:24,380
+that the dimensions are only 200 times 120 in this case.
+
+28
+00:01:24,700 --> 00:01:27,983
+So let's actually take a look at that image here.
+
+29
+00:01:28,950 --> 00:01:31,230
+And so, you see it's really small
+
+30
+00:01:31,230 --> 00:01:35,090
+and it's only 16 kilobytes while the real one,
+
+31
+00:01:35,090 --> 00:01:39,380
+so this one called digital, is almost half a megabyte.
+
+32
+00:01:39,380 --> 00:01:42,370
+So that's a huge difference
+
+33
+00:01:42,370 --> 00:01:45,350
+and that image we then reference here
+
+34
+00:01:45,350 --> 00:01:48,370
+in this data-src attribute.
+
+35
+00:01:48,370 --> 00:01:50,800
+So that's a special attribute that we can use,
+
+36
+00:01:50,800 --> 00:01:53,460
+but any other would work as well.
+
+37
+00:01:53,460 --> 00:01:56,230
+So this is not a standard HTML attribute
+
+38
+00:01:56,230 --> 00:01:59,720
+but instead it's one of these special data attributes
+
+39
+00:01:59,720 --> 00:02:01,123
+that we can do ourselves.
+
+40
+00:02:02,330 --> 00:02:05,030
+And so basically the idea is to...
+
+41
+00:02:05,030 --> 00:02:08,850
+As we scroll to one of these low resolution images
+
+42
+00:02:08,850 --> 00:02:12,280
+we will then replace this low resolution image
+
+43
+00:02:12,280 --> 00:02:14,681
+with the one that is here specified
+
+44
+00:02:14,681 --> 00:02:17,140
+in the data-src attribute.
+
+45
+00:02:17,140 --> 00:02:21,090
+And we then also are gonna remove this class here
+
+46
+00:02:21,090 --> 00:02:22,920
+which has kind of this filter,
+
+47
+00:02:22,920 --> 00:02:27,320
+which makes this image blurred because without this filter,
+
+48
+00:02:27,320 --> 00:02:28,633
+let me show that to you,
+
+49
+00:02:29,490 --> 00:02:32,503
+without this, it would look really terrible.
+
+50
+00:02:33,580 --> 00:02:38,193
+So too small to change this now here.
+
+51
+00:02:39,810 --> 00:02:43,033
+Okay, but let's just remove it here for a second,
+
+52
+00:02:44,900 --> 00:02:47,390
+just so you can see what it looks like.
+
+53
+00:02:47,390 --> 00:02:50,570
+And so, maybe you can see, or maybe it's too small
+
+54
+00:02:52,800 --> 00:02:57,800
+but notice that it's like really pixelated and really ugly.
+
+55
+00:02:57,800 --> 00:03:01,800
+And so, I created this filter basically,
+
+56
+00:03:01,800 --> 00:03:03,990
+and so it makes it look like this.
+
+57
+00:03:03,990 --> 00:03:07,880
+So it hides the fact that it is actually way too small
+
+58
+00:03:07,880 --> 00:03:08,973
+for its size.
+
+59
+00:03:11,160 --> 00:03:12,573
+So let's put it back here.
+
+60
+00:03:14,200 --> 00:03:18,720
+And so this is what this class looks like.
+
+61
+00:03:18,720 --> 00:03:20,850
+It's simply a blur filter.
+
+62
+00:03:20,850 --> 00:03:24,683
+And so modern CSS allows us to do this really cool effect.
+
+63
+00:03:27,380 --> 00:03:31,550
+So, let's implement this and that's actually not too hard
+
+64
+00:03:31,550 --> 00:03:34,773
+using the Intersection Observer API, one more time.
+
+65
+00:03:40,276 --> 00:03:44,030
+So lazy loading images and so once again,
+
+66
+00:03:44,030 --> 00:03:47,060
+this one is really great for performance
+
+67
+00:03:47,060 --> 00:03:50,940
+while the other things we did so far are more visual things.
+
+68
+00:03:50,940 --> 00:03:54,270
+This one really impacts how your site works and especially
+
+69
+00:03:54,270 --> 00:03:57,860
+for your users who might have a slow internet connection
+
+70
+00:03:57,860 --> 00:04:01,310
+or a low data plan or a slow cell phone.
+
+71
+00:04:01,310 --> 00:04:04,430
+And we always have to think about these users as well.
+
+72
+00:04:04,430 --> 00:04:07,540
+Not everyone has a super high end computer
+
+73
+00:04:07,540 --> 00:04:08,923
+or the latest phone.
+
+74
+00:04:10,950 --> 00:04:14,123
+Anyway, let's start by selecting our images,
+
+75
+00:04:15,800 --> 00:04:17,483
+let's call them image targets.
+
+76
+00:04:19,000 --> 00:04:22,120
+And this selector is gonna be
+
+77
+00:04:22,120 --> 00:04:25,460
+a little bit different this time
+
+78
+00:04:25,460 --> 00:04:28,593
+because we don't want to select all the images.
+
+79
+00:04:30,110 --> 00:04:33,250
+So, we could simply do a selector of image
+
+80
+00:04:33,250 --> 00:04:36,130
+and that would then give us all the images.
+
+81
+00:04:36,130 --> 00:04:40,580
+But however not all of them are gonna be lazy loaded,
+
+82
+00:04:40,580 --> 00:04:42,490
+for example, this one here,
+
+83
+00:04:42,490 --> 00:04:45,050
+or we have some down here somewhere.
+
+84
+00:04:45,050 --> 00:04:48,930
+So these avatars here or even this logo,
+
+85
+00:04:48,930 --> 00:04:51,070
+so these are not lazy loaded.
+
+86
+00:04:51,070 --> 00:04:53,760
+And so, the ones that will be lazy loaded
+
+87
+00:04:53,760 --> 00:04:56,630
+are the ones that have this attribute here.
+
+88
+00:04:56,630 --> 00:04:58,820
+So, this data-src attribute
+
+89
+00:04:58,820 --> 00:05:00,610
+because that's where we specified
+
+90
+00:05:00,610 --> 00:05:03,400
+the real high resolution picture.
+
+91
+00:05:03,400 --> 00:05:06,000
+And so we can actually select four elements
+
+92
+00:05:06,000 --> 00:05:08,163
+which contain this property.
+
+93
+00:05:09,490 --> 00:05:11,390
+So if you're familiar with CSS,
+
+94
+00:05:11,390 --> 00:05:13,580
+maybe you know how to do that
+
+95
+00:05:13,580 --> 00:05:16,450
+but in case you're not, this is how it works.
+
+96
+00:05:16,450 --> 00:05:19,520
+So we select all the images which have
+
+97
+00:05:19,520 --> 00:05:24,160
+the property of data-src.
+
+98
+00:05:24,160 --> 00:05:24,993
+And that's it.
+
+99
+00:05:26,030 --> 00:05:29,870
+So, let's check that just to be sure
+
+100
+00:05:29,870 --> 00:05:31,163
+so that it's gonna work.
+
+101
+00:05:32,270 --> 00:05:35,860
+And so, indeed here we have these three images
+
+102
+00:05:38,310 --> 00:05:39,423
+and nothing else.
+
+103
+00:05:42,770 --> 00:05:45,460
+Then let's create our image observer
+
+104
+00:05:45,460 --> 00:05:47,253
+and so this is not always the same.
+
+105
+00:05:51,040 --> 00:05:52,400
+Here's our callback function,
+
+106
+00:05:52,400 --> 00:05:55,660
+which I'm gonna call load image in a second
+
+107
+00:05:55,660 --> 00:05:57,400
+and then all options.
+
+108
+00:05:57,400 --> 00:06:01,200
+And now, let's attach this image observer here basically
+
+109
+00:06:01,200 --> 00:06:03,533
+to all these targets.
+
+110
+00:06:04,880 --> 00:06:08,390
+So I'm gonna loop one more time over our targets
+
+111
+00:06:08,390 --> 00:06:10,913
+just like we did with this section previously.
+
+112
+00:06:14,590 --> 00:06:17,430
+And this time, let's actually use an arrow function
+
+113
+00:06:17,430 --> 00:06:20,970
+because all we want to do is to use the image observer
+
+114
+00:06:20,970 --> 00:06:25,540
+that we created previously to observe each image.
+
+115
+00:06:28,570 --> 00:06:31,140
+Now let's create that callback function
+
+116
+00:06:31,140 --> 00:06:33,593
+here also pretty fast.
+
+117
+00:06:37,528 --> 00:06:40,833
+So it gets the entries and also the observer.
+
+118
+00:06:45,410 --> 00:06:47,760
+Okay, that's always starting
+
+119
+00:06:47,760 --> 00:06:50,070
+with the options here and again,
+
+120
+00:06:50,070 --> 00:06:53,140
+the route set to the entire viewport
+
+121
+00:06:53,140 --> 00:06:56,333
+and let's start with the threshold at zero,
+
+122
+00:06:57,570 --> 00:07:00,240
+and then we can adjust it as we go.
+
+123
+00:07:00,240 --> 00:07:04,770
+But what matters really here is a disc callback function.
+
+124
+00:07:04,770 --> 00:07:07,793
+So as always, this is where our functionality is.
+
+125
+00:07:08,770 --> 00:07:13,603
+And so again, we have only one threshold, so only one entry.
+
+126
+00:07:14,510 --> 00:07:15,823
+So I'm getting that tier.
+
+127
+00:07:18,770 --> 00:07:23,523
+and now, let's check out actually this entry.
+
+128
+00:07:29,746 --> 00:07:32,983
+So here we already got three of them,
+
+129
+00:07:34,030 --> 00:07:37,020
+but all of them are not yet intersecting.
+
+130
+00:07:37,020 --> 00:07:39,020
+Well, actually it says that this one is,
+
+131
+00:07:40,600 --> 00:07:43,823
+well, but it isn't really because it's down here.
+
+132
+00:07:45,810 --> 00:07:47,183
+So, that's a bit weird.
+
+133
+00:07:48,070 --> 00:07:51,380
+Oh, but of course this still comes from the sections.
+
+134
+00:07:51,380 --> 00:07:54,033
+So this is still coming from up here somewhere.
+
+135
+00:07:55,020 --> 00:07:57,723
+Okay, let's delete it here from the sections.
+
+136
+00:08:03,390 --> 00:08:05,090
+And now, let's see if it's working
+
+137
+00:08:06,140 --> 00:08:08,363
+and now it is indeed an image.
+
+138
+00:08:10,270 --> 00:08:13,340
+Now, it appeared a little bit before
+
+139
+00:08:13,340 --> 00:08:16,050
+and that's because remember that our sections
+
+140
+00:08:16,050 --> 00:08:17,890
+are actually a little bit shifted
+
+141
+00:08:19,200 --> 00:08:21,980
+because of this hidden class that we added to them,
+
+142
+00:08:21,980 --> 00:08:23,963
+they are shifted 8rem down.
+
+143
+00:08:25,699 --> 00:08:27,193
+So remember that from here.
+
+144
+00:08:29,900 --> 00:08:31,010
+Let's see.
+
+145
+00:08:31,010 --> 00:08:33,720
+Yeah, so because of this translate here,
+
+146
+00:08:33,720 --> 00:08:35,930
+they have moved 8rem down.
+
+147
+00:08:35,930 --> 00:08:37,510
+And so, then therefore,
+
+148
+00:08:37,510 --> 00:08:40,270
+this event will fire a little bit early
+
+149
+00:08:40,270 --> 00:08:41,913
+but that's not a problem at all.
+
+150
+00:08:45,780 --> 00:08:48,660
+What matters is that the event fired correctly
+
+151
+00:08:48,660 --> 00:08:50,683
+and that it is indeed intersecting.
+
+152
+00:08:51,890 --> 00:08:54,900
+Let's just clear it here to wait for the next ones.
+
+153
+00:08:54,900 --> 00:08:58,493
+And so, here you get to the next one already.
+
+154
+00:09:00,315 --> 00:09:03,353
+And so, that is indeed this next lazy image here.
+
+155
+00:09:04,610 --> 00:09:06,853
+And then the next one here as well.
+
+156
+00:09:09,400 --> 00:09:12,620
+So this one, okay.
+
+157
+00:09:12,620 --> 00:09:14,680
+And then, as we're moving out of them,
+
+158
+00:09:14,680 --> 00:09:16,140
+then we get even more
+
+159
+00:09:17,040 --> 00:09:19,470
+because now they are no longer intersecting.
+
+160
+00:09:19,470 --> 00:09:20,303
+And so once again,
+
+161
+00:09:20,303 --> 00:09:22,290
+we need to only do something
+
+162
+00:09:22,290 --> 00:09:24,453
+if they are actually intersecting.
+
+163
+00:09:26,980 --> 00:09:30,720
+So we're gonna use the same guard clause as before.
+
+164
+00:09:30,720 --> 00:09:32,773
+So if they are not intersecting,
+
+165
+00:09:36,997 --> 00:09:39,333
+then we want an early return.
+
+166
+00:09:40,200 --> 00:09:45,160
+But otherwise we now want to replace the src attribute
+
+167
+00:09:45,160 --> 00:09:47,613
+with the data.src.
+
+168
+00:09:50,020 --> 00:09:51,400
+So as we reach the image,
+
+169
+00:09:51,400 --> 00:09:55,290
+it's finally time to replace the placeholder image,
+
+170
+00:09:55,290 --> 00:09:57,221
+which is at the src,
+
+171
+00:09:57,221 --> 00:10:00,620
+with the one we actually want, which is data-src.
+
+172
+00:10:00,620 --> 00:10:03,920
+So just like before, each of these images here
+
+173
+00:10:03,920 --> 00:10:08,183
+is at target or actually at entry.target
+
+174
+00:10:10,390 --> 00:10:14,090
+So that's the element that's currently being intersected
+
+175
+00:10:14,090 --> 00:10:19,090
+and then .src= entry.target.dataset.
+
+176
+00:10:21,200 --> 00:10:24,200
+Remember, that's where these special data properties
+
+177
+00:10:24,200 --> 00:10:27,713
+are stored and then .src from there.
+
+178
+00:10:29,850 --> 00:10:33,023
+So this is already the main functionality right here.
+
+179
+00:10:36,030 --> 00:10:41,030
+So let's try that, but you will not really see it happening
+
+180
+00:10:41,140 --> 00:10:45,140
+because there's still this blurry filter here on top.
+
+181
+00:10:45,140 --> 00:10:48,010
+But if we inspect it now, we should already see
+
+182
+00:10:48,010 --> 00:10:52,950
+that the src is now actually already the original image.
+
+183
+00:10:52,950 --> 00:10:55,160
+So you see it that it's the really big one
+
+184
+00:10:55,160 --> 00:10:58,700
+while the other ones are still the lazy ones.
+
+185
+00:10:58,700 --> 00:11:00,870
+Well, at least this one, the second one,
+
+186
+00:11:00,870 --> 00:11:03,650
+is already also the original one
+
+187
+00:11:03,650 --> 00:11:06,583
+because it's already in the viewport two.
+
+188
+00:11:08,970 --> 00:11:12,560
+So, that's great, that's working just fine.
+
+189
+00:11:12,560 --> 00:11:16,250
+Now, all we need to do is to then remove that class
+
+190
+00:11:16,250 --> 00:11:18,280
+that has this blurred filter.
+
+191
+00:11:18,280 --> 00:11:20,630
+So, that's the lazy image class.
+
+192
+00:11:20,630 --> 00:11:22,730
+Now, how do we do that?
+
+193
+00:11:22,730 --> 00:11:24,760
+Well, it's a little bit tricky
+
+194
+00:11:24,760 --> 00:11:28,100
+because this replacing of the src attribute
+
+195
+00:11:28,100 --> 00:11:31,370
+actually basically happens behind the scenes.
+
+196
+00:11:31,370 --> 00:11:33,463
+So JavaScript finds the new image
+
+197
+00:11:33,463 --> 00:11:36,220
+that it should load and display here.
+
+198
+00:11:36,220 --> 00:11:38,300
+And it does that behind the scenes.
+
+199
+00:11:38,300 --> 00:11:40,950
+And once it's finished loading that image
+
+200
+00:11:40,950 --> 00:11:43,063
+it will emit the load event.
+
+201
+00:11:44,290 --> 00:11:47,430
+And the load event is just like any other event.
+
+202
+00:11:47,430 --> 00:11:49,530
+And so we can just listen for it
+
+203
+00:11:49,530 --> 00:11:53,093
+and then do something so on that image.
+
+204
+00:11:53,093 --> 00:11:57,980
+So on that image, so that's entry.target,
+
+205
+00:11:57,980 --> 00:12:02,980
+we can do, addEventListener, and listen for the load event.
+
+206
+00:12:08,800 --> 00:12:11,613
+And actually, let me show you why it is important
+
+207
+00:12:11,613 --> 00:12:12,703
+that we do this.
+
+208
+00:12:14,200 --> 00:12:16,240
+So let's say that we removed
+
+209
+00:12:16,240 --> 00:12:18,440
+that lazy image class right away.
+
+210
+00:12:20,140 --> 00:12:24,557
+So entry.target.classList.remove lazy-img.
+
+211
+00:12:32,290 --> 00:12:34,533
+Let's scroll up here, reload.
+
+212
+00:12:36,990 --> 00:12:40,460
+And then, well, in this case, the loading happens so fast
+
+213
+00:12:40,460 --> 00:12:42,110
+that we don't even see a problem.
+
+214
+00:12:42,980 --> 00:12:45,773
+Maybe we can change that here in the network tab.
+
+215
+00:12:46,920 --> 00:12:49,440
+So this is a completely new tab
+
+216
+00:12:49,440 --> 00:12:53,733
+but what we can do here is to simulate or speed.
+
+217
+00:12:54,770 --> 00:12:58,423
+So this is a bit too big here, actually, I guess.
+
+218
+00:13:01,200 --> 00:13:03,150
+So I'm not used to the size,
+
+219
+00:13:03,150 --> 00:13:04,950
+Let me make it a little bit smaller.
+
+220
+00:13:07,160 --> 00:13:10,493
+So let's change the tier to fast or to slow 3G.
+
+221
+00:13:11,950 --> 00:13:14,803
+And maybe then, we can see what happens.
+
+222
+00:13:18,880 --> 00:13:20,730
+So it's not faking that these images
+
+223
+00:13:20,730 --> 00:13:22,910
+are loading really slow.
+
+224
+00:13:22,910 --> 00:13:25,060
+So did you see them here blurred now?
+
+225
+00:13:25,060 --> 00:13:28,040
+So it's really blurred, you see,
+
+226
+00:13:28,040 --> 00:13:30,830
+but we already removed the filter.
+
+227
+00:13:30,830 --> 00:13:32,950
+And so, here you can see how the image
+
+228
+00:13:32,950 --> 00:13:35,283
+is loading basically in the background.
+
+229
+00:13:36,280 --> 00:13:38,600
+And so it's doing that really slow now
+
+230
+00:13:38,600 --> 00:13:41,120
+because we said that we are on a slow network here
+
+231
+00:13:42,330 --> 00:13:44,140
+and now you see it's finished here
+
+232
+00:13:44,140 --> 00:13:47,900
+and now the original image is being displayed.
+
+233
+00:13:47,900 --> 00:13:49,810
+So, hopefully you could see that.
+
+234
+00:13:49,810 --> 00:13:51,430
+I'm not sure if the resolution
+
+235
+00:13:51,430 --> 00:13:54,600
+of the video is gonna be good enough to see it
+
+236
+00:13:54,600 --> 00:13:56,293
+but I did for sure see it.
+
+237
+00:13:57,510 --> 00:14:00,010
+And tear actually now the same as happening.
+
+238
+00:14:00,010 --> 00:14:02,610
+Let me increase the size of the window a bit, maybe.
+
+239
+00:14:05,160 --> 00:14:07,280
+So you see it's pretty blurred
+
+240
+00:14:07,280 --> 00:14:10,900
+but once it's gonna be finished you will then see the final
+
+241
+00:14:10,900 --> 00:14:13,313
+and beautiful version showing up here.
+
+242
+00:14:15,250 --> 00:14:17,450
+All right, so we're gonna come back
+
+243
+00:14:17,450 --> 00:14:21,740
+to this network tab later when we start loading data
+
+244
+00:14:21,740 --> 00:14:24,570
+from remote sources on the internet.
+
+245
+00:14:24,570 --> 00:14:28,620
+So this is a very important top in browser tools
+
+246
+00:14:30,320 --> 00:14:31,730
+but for now, it's also nice
+
+247
+00:14:31,730 --> 00:14:35,183
+to see the images loading over time behind the scenes.
+
+248
+00:14:36,200 --> 00:14:38,190
+Well, it's taking a lot of time
+
+249
+00:14:38,190 --> 00:14:40,403
+so let me just go back to the code here.
+
+250
+00:14:41,510 --> 00:14:44,920
+And so yeah, now it's finished actually.
+
+251
+00:14:44,920 --> 00:14:47,380
+And so by the time this loading finishes
+
+252
+00:14:47,380 --> 00:14:50,170
+it will emit this load event.
+
+253
+00:14:50,170 --> 00:14:53,790
+And so it is best to then only remove
+
+254
+00:14:53,790 --> 00:14:57,263
+that blurry filter once that's done.
+
+255
+00:15:04,920 --> 00:15:07,810
+So it's loading again very slow now
+
+256
+00:15:07,810 --> 00:15:10,660
+and you see that now it keeps being blurred
+
+257
+00:15:10,660 --> 00:15:12,470
+and it will only disappear
+
+258
+00:15:12,470 --> 00:15:14,903
+once the image is in fact loaded.
+
+259
+00:15:16,000 --> 00:15:17,550
+So I'm not gonna wait for that
+
+260
+00:15:17,550 --> 00:15:20,253
+because it seems like it's gonna take forever.
+
+261
+00:15:22,050 --> 00:15:25,150
+Oh, actually it's already done here.
+
+262
+00:15:25,150 --> 00:15:28,010
+And so, you'll see now the image is downloading
+
+263
+00:15:28,010 --> 00:15:30,660
+and at the same time the filter appeared
+
+264
+00:15:30,660 --> 00:15:32,590
+or actually disappeared.
+
+265
+00:15:32,590 --> 00:15:34,193
+Let's set it back to online.
+
+266
+00:15:35,100 --> 00:15:39,550
+And so now all of it happens basically at the same time
+
+267
+00:15:39,550 --> 00:15:44,040
+because we are working on our local development machine.
+
+268
+00:15:44,040 --> 00:15:46,580
+And so there of course the image
+
+269
+00:15:46,580 --> 00:15:48,563
+basically arrives instantaneously.
+
+270
+00:15:50,200 --> 00:15:54,580
+Now as a last step, we can just, as we did before
+
+271
+00:15:54,580 --> 00:15:59,170
+stop observing these images because it's no longer necessary
+
+272
+00:15:59,170 --> 00:16:02,053
+we already did our task of loading.
+
+273
+00:16:03,170 --> 00:16:05,380
+And so we no longer need this.
+
+274
+00:16:05,380 --> 00:16:09,563
+So entry.target and that's it.
+
+275
+00:16:10,470 --> 00:16:13,260
+So I hope that with this video,
+
+276
+00:16:13,260 --> 00:16:15,780
+I could convince you that it's really important
+
+277
+00:16:15,780 --> 00:16:20,050
+to implement this kind of functionality into your own sites.
+
+278
+00:16:20,050 --> 00:16:21,780
+So, all you really need to do
+
+279
+00:16:21,780 --> 00:16:24,790
+is to generate these placeholder images
+
+280
+00:16:24,790 --> 00:16:27,110
+and blurred them a little bit
+
+281
+00:16:27,110 --> 00:16:29,580
+and then implement this kind of logic,
+
+282
+00:16:29,580 --> 00:16:31,823
+which really shouldn't be too much work.
+
+283
+00:16:34,650 --> 00:16:36,933
+Let me just get rid of this console.log here.
+
+284
+00:16:38,150 --> 00:16:43,150
+That's a loaded again, because actually we want probably
+
+285
+00:16:43,560 --> 00:16:45,560
+to load the images a little bit
+
+286
+00:16:45,560 --> 00:16:48,060
+before we actually reached them.
+
+287
+00:16:48,060 --> 00:16:51,190
+So ideally we don't want our users to notice
+
+288
+00:16:51,190 --> 00:16:53,380
+that we are lazy loading these images
+
+289
+00:16:54,800 --> 00:16:56,580
+So all of this should basically happen
+
+290
+00:16:56,580 --> 00:17:00,340
+in the background without our user noticing that.
+
+291
+00:17:00,340 --> 00:17:01,930
+And so we should probably make these
+
+292
+00:17:01,930 --> 00:17:03,893
+images load a little bit earlier.
+
+293
+00:17:05,440 --> 00:17:07,870
+So to do that, we can again,
+
+294
+00:17:07,870 --> 00:17:11,160
+specify a negative root margin here.
+
+295
+00:17:11,160 --> 00:17:16,160
+So root margin of let's say minus 200 pixels.
+
+296
+00:17:19,213 --> 00:17:20,580
+And so this is just the same
+
+297
+00:17:20,580 --> 00:17:23,990
+as we did previously here with the navigation.
+
+298
+00:17:23,990 --> 00:17:26,320
+So to make the navigation load a little bit
+
+299
+00:17:26,320 --> 00:17:29,160
+before the threshold was actually reached
+
+300
+00:17:29,160 --> 00:17:31,170
+and here we are doing the same
+
+301
+00:17:31,170 --> 00:17:35,430
+so exactly 200 pixels before any of the images is loaded.
+
+302
+00:17:35,430 --> 00:17:38,220
+It should already start loading.
+
+303
+00:17:38,220 --> 00:17:41,440
+And by doing that we don't see any delay
+
+304
+00:17:41,440 --> 00:17:45,000
+in loading when we browse the page.
+
+305
+00:17:45,000 --> 00:17:48,090
+Well, actually that didn't quite work.
+
+306
+00:17:48,090 --> 00:17:50,490
+Maybe it should be plus 200.
+
+307
+00:17:50,490 --> 00:17:52,370
+So as you see, this is all a matter
+
+308
+00:17:52,370 --> 00:17:55,743
+of trying out and figuring out as we go here.
+
+309
+00:17:57,192 --> 00:17:59,950
+And so now indeed, as we approached the images,
+
+310
+00:17:59,950 --> 00:18:01,990
+they're already fully loaded.
+
+311
+00:18:01,990 --> 00:18:06,513
+So now that happens 200 pixels before we reach them.
+
+312
+00:18:09,280 --> 00:18:12,500
+And with that, our functionality here is complete
+
+313
+00:18:12,500 --> 00:18:16,800
+and we are now indeed almost finished with this project.
+
+314
+00:18:16,800 --> 00:18:21,363
+All that's left to implement is really this slider.
+
+315
+00:18:22,900 --> 00:18:24,840
+So this component here.
+
+316
+00:18:24,840 --> 00:18:27,803
+And so that is what we're gonna do in the next video.

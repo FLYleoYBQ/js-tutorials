@@ -1,0 +1,1451 @@
+1
+00:00:01,530 --> 00:00:03,340
+Now that you have a solid foundation
+
+2
+00:00:03,340 --> 00:00:06,130
+of JavaScript, I want to talk a little bit
+
+3
+00:00:06,130 --> 00:00:09,880
+about the actual process of learning how to code
+
+4
+00:00:09,880 --> 00:00:12,300
+and give you some motivation.
+
+5
+00:00:12,300 --> 00:00:16,510
+I think this is an important aspect of a course like this,
+
+6
+00:00:16,510 --> 00:00:19,780
+but everyone else simply seems to overlook this topic
+
+7
+00:00:19,780 --> 00:00:21,530
+for some reason.
+
+8
+00:00:21,530 --> 00:00:24,940
+So let me share my advice on how you should learn to code
+
+9
+00:00:24,940 --> 00:00:27,453
+as a complete beginner in this video.
+
+10
+00:00:28,440 --> 00:00:30,660
+And to make this a bit more fun,
+
+11
+00:00:30,660 --> 00:00:33,460
+I will start by telling you how to fail
+
+12
+00:00:33,460 --> 00:00:35,310
+at learning how to code.
+
+13
+00:00:35,310 --> 00:00:38,110
+And to do that, meet John.
+
+14
+00:00:38,110 --> 00:00:42,200
+So John has been learning how to code for some time now,
+
+15
+00:00:42,200 --> 00:00:45,090
+but he is failing miserably.
+
+16
+00:00:45,090 --> 00:00:47,430
+He's just not going anywhere.
+
+17
+00:00:47,430 --> 00:00:50,940
+I guess, he is just not receiving the right advice.
+
+18
+00:00:50,940 --> 00:00:54,750
+So let's see what John is doing wrong so that you can learn
+
+19
+00:00:54,750 --> 00:00:58,393
+from his mistakes and learn how to code in no time.
+
+20
+00:00:59,270 --> 00:01:01,930
+So the first mistake that John made
+
+21
+00:01:01,930 --> 00:01:05,100
+was that he didn't have a clear goal at the beginning
+
+22
+00:01:05,100 --> 00:01:06,670
+of his learning journey.
+
+23
+00:01:06,670 --> 00:01:09,440
+He simply started by watching some courses
+
+24
+00:01:09,440 --> 00:01:11,420
+and reading some tutorials,
+
+25
+00:01:11,420 --> 00:01:13,550
+but he would just blindly copy the code
+
+26
+00:01:13,550 --> 00:01:15,840
+without caring how it works.
+
+27
+00:01:15,840 --> 00:01:19,440
+Even worse, Sometimes he would just copy and paste code
+
+28
+00:01:19,440 --> 00:01:23,260
+from tutorials or sites like Stack Overflow.
+
+29
+00:01:23,260 --> 00:01:26,660
+While learning, he didn't reinforce what he was learning
+
+30
+00:01:26,660 --> 00:01:30,000
+in the courses and tutorials by doing small challenges
+
+31
+00:01:30,000 --> 00:01:31,640
+or taking notes.
+
+32
+00:01:31,640 --> 00:01:35,280
+He also didn't practice coding outside of the courses
+
+33
+00:01:35,280 --> 00:01:38,470
+and he didn't come up with his own project ideas
+
+34
+00:01:38,470 --> 00:01:40,690
+to improve his skills.
+
+35
+00:01:40,690 --> 00:01:43,280
+Then whenever he did code a bit,
+
+36
+00:01:43,280 --> 00:01:46,670
+John would quickly became frustrated whenever his code
+
+37
+00:01:46,670 --> 00:01:50,320
+was not perfectly clean or efficient.
+
+38
+00:01:50,320 --> 00:01:53,210
+John also lost motivation pretty quickly
+
+39
+00:01:53,210 --> 00:01:56,220
+because he thought he could never know enough.
+
+40
+00:01:56,220 --> 00:01:58,710
+He could never know all there is to know
+
+41
+00:01:58,710 --> 00:02:01,203
+and this is a really big mistake.
+
+42
+00:02:02,080 --> 00:02:06,110
+Also, he was just always learning in isolation
+
+43
+00:02:06,110 --> 00:02:08,640
+without sharing his process.
+
+44
+00:02:08,640 --> 00:02:11,930
+Finally, after finishing a couple of courses,
+
+45
+00:02:11,930 --> 00:02:14,600
+he thought he was now a web developer
+
+46
+00:02:14,600 --> 00:02:16,990
+and could start applying to jobs,
+
+47
+00:02:16,990 --> 00:02:21,230
+but no one would take him because recruiters soon found out
+
+48
+00:02:21,230 --> 00:02:24,683
+that he couldn't even build a simple app on his own.
+
+49
+00:02:25,620 --> 00:02:28,770
+So that's a long list of mistakes,
+
+50
+00:02:28,770 --> 00:02:31,850
+but it's not too late for John.
+
+51
+00:02:31,850 --> 00:02:35,080
+We can fix all these mistakes, right?
+
+52
+00:02:35,080 --> 00:02:36,473
+So let me show you how.
+
+53
+00:02:37,390 --> 00:02:41,280
+So the first mistake is relatively easy to fix.
+
+54
+00:02:41,280 --> 00:02:44,810
+What you need to do is to set a goal for yourself.
+
+55
+00:02:44,810 --> 00:02:47,410
+Think about this and actually write it down
+
+56
+00:02:47,410 --> 00:02:50,970
+on a paper or something, make this goal specific,
+
+57
+00:02:50,970 --> 00:02:54,500
+measurable, realistic, and time-based.
+
+58
+00:02:54,500 --> 00:02:56,620
+For example, your goal might be,
+
+59
+00:02:56,620 --> 00:03:00,610
+I want to become a front-end web developer within one year.
+
+60
+00:03:00,610 --> 00:03:04,690
+From there, you can then develop a plan on how to get there.
+
+61
+00:03:04,690 --> 00:03:08,780
+It also helps to know exactly why you are learning to code.
+
+62
+00:03:08,780 --> 00:03:11,570
+For example, are you trying to switch careers
+
+63
+00:03:11,570 --> 00:03:13,880
+or do you want to find a better job
+
+64
+00:03:13,880 --> 00:03:16,590
+or are you just starting a new hobby?
+
+65
+00:03:16,590 --> 00:03:19,890
+Whatever it is, it's important to be aware of the reason
+
+66
+00:03:19,890 --> 00:03:21,290
+why you're doing this,
+
+67
+00:03:21,290 --> 00:03:23,550
+because this will help you stay motivated
+
+68
+00:03:23,550 --> 00:03:27,120
+when learning becomes more and more difficult.
+
+69
+00:03:27,120 --> 00:03:31,300
+To stay motivated, it's also great to imagine a big project
+
+70
+00:03:31,300 --> 00:03:33,090
+that you want to be able to build
+
+71
+00:03:33,090 --> 00:03:35,380
+by the end of your learning journey.
+
+72
+00:03:35,380 --> 00:03:38,490
+This has always helped me tremendously.
+
+73
+00:03:38,490 --> 00:03:40,060
+With this project in mind,
+
+74
+00:03:40,060 --> 00:03:42,183
+you just need to research the technologies
+
+75
+00:03:42,183 --> 00:03:45,620
+that you need to learn and then learn them one by one,
+
+76
+00:03:45,620 --> 00:03:48,970
+step by step in a calm way.
+
+77
+00:03:48,970 --> 00:03:51,530
+Next up, instead of simply copying code
+
+78
+00:03:51,530 --> 00:03:53,600
+from a course or tutorial,
+
+79
+00:03:53,600 --> 00:03:56,800
+always make sure that you really understand the codes
+
+80
+00:03:56,800 --> 00:04:00,230
+that you're learning and typing into your editor.
+
+81
+00:04:00,230 --> 00:04:02,960
+Don't move on if you don't understand.
+
+82
+00:04:02,960 --> 00:04:05,920
+Also, always actually type code.
+
+83
+00:04:05,920 --> 00:04:08,670
+Don't just copy and pasted from a tutorial
+
+84
+00:04:08,670 --> 00:04:11,130
+or a site like Stack Overflow.
+
+85
+00:04:11,130 --> 00:04:13,070
+This way, you're training your brain
+
+86
+00:04:13,070 --> 00:04:14,863
+to remember the syntax letter.
+
+87
+00:04:15,720 --> 00:04:17,750
+Reinforcing is one of the most
+
+88
+00:04:17,750 --> 00:04:19,640
+important learning techniques.
+
+89
+00:04:19,640 --> 00:04:22,530
+It means that after you learn something new,
+
+90
+00:04:22,530 --> 00:04:25,470
+like a new JavaScript feature or a concept,
+
+91
+00:04:25,470 --> 00:04:28,970
+you use it immediately to make it really stick
+
+92
+00:04:28,970 --> 00:04:30,100
+in your brain.
+
+93
+00:04:30,100 --> 00:04:33,920
+You can do this by taking notes and by challenging yourself
+
+94
+00:04:33,920 --> 00:04:37,490
+with small coding exercises and challenges.
+
+95
+00:04:37,490 --> 00:04:40,440
+For example, let's say you just watched a lecture
+
+96
+00:04:40,440 --> 00:04:41,870
+about functions.
+
+97
+00:04:41,870 --> 00:04:44,060
+So now you know what functions are
+
+98
+00:04:44,060 --> 00:04:46,060
+and you saw some examples.
+
+99
+00:04:46,060 --> 00:04:50,500
+But now as a next step, you need to reinforce this knowledge
+
+100
+00:04:50,500 --> 00:04:54,350
+by writing a function for your own personal environment.
+
+101
+00:04:54,350 --> 00:04:57,230
+For example, you might need to calculate the average
+
+102
+00:04:57,230 --> 00:04:59,410
+of your university grades,
+
+103
+00:04:59,410 --> 00:05:02,010
+or you might need to convert recipe ingredients
+
+104
+00:05:02,010 --> 00:05:04,830
+from ounces to grams while cooking.
+
+105
+00:05:04,830 --> 00:05:08,170
+So just write a function that does this task for you
+
+106
+00:05:08,170 --> 00:05:10,090
+and have some fun with it.
+
+107
+00:05:10,090 --> 00:05:13,670
+Coming up with your own ideas like this and solving them,
+
+108
+00:05:13,670 --> 00:05:16,170
+will absolutely boost your confidence
+
+109
+00:05:16,170 --> 00:05:18,130
+in your programming skills
+
+110
+00:05:18,130 --> 00:05:20,060
+and really take your time with this.
+
+111
+00:05:20,060 --> 00:05:23,160
+There's absolutely no need to complete any course
+
+112
+00:05:23,160 --> 00:05:25,860
+as fast as possible, all right?
+
+113
+00:05:25,860 --> 00:05:28,700
+Now it's absolutely normal that in the beginning,
+
+114
+00:05:28,700 --> 00:05:31,380
+it's hard to come up with your own challenges.
+
+115
+00:05:31,380 --> 00:05:34,050
+That's why I included countless coding challenges
+
+116
+00:05:34,050 --> 00:05:36,010
+in this course for you.
+
+117
+00:05:36,010 --> 00:05:38,730
+You can also use a special challenge platform
+
+118
+00:05:38,730 --> 00:05:40,710
+like codewars.com,
+
+119
+00:05:40,710 --> 00:05:43,610
+where you can find thousands of coding challenges
+
+120
+00:05:43,610 --> 00:05:46,450
+for different skill levels for free.
+
+121
+00:05:46,450 --> 00:05:49,140
+I have actually solved some of Codewars challenges
+
+122
+00:05:49,140 --> 00:05:53,020
+in real life with some students and I can tell you,
+
+123
+00:05:53,020 --> 00:05:56,003
+it's a ton of fun and really helpful.
+
+124
+00:05:57,360 --> 00:06:01,210
+One of John's biggest mistakes was to not practice coding
+
+125
+00:06:01,210 --> 00:06:03,630
+outside of the course environment.
+
+126
+00:06:03,630 --> 00:06:05,390
+But practicing on your own,
+
+127
+00:06:05,390 --> 00:06:09,280
+is the single most important thing that you have to do.
+
+128
+00:06:09,280 --> 00:06:12,460
+And I can't stress this enough, okay?
+
+129
+00:06:12,460 --> 00:06:16,490
+Coding your own projects without any course guiding you
+
+130
+00:06:16,490 --> 00:06:18,650
+is really not optional.
+
+131
+00:06:18,650 --> 00:06:21,940
+If you just follow courses and don't code on your own,
+
+132
+00:06:21,940 --> 00:06:26,360
+you will never ever be able to write programs on your own.
+
+133
+00:06:26,360 --> 00:06:28,810
+So come up with your own project ideas,
+
+134
+00:06:28,810 --> 00:06:32,760
+no matter how small or big and just build them,
+
+135
+00:06:32,760 --> 00:06:36,890
+or you can copy parts of popular sites or applications.
+
+136
+00:06:36,890 --> 00:06:40,090
+No matter what you do, really challenge yourself,
+
+137
+00:06:40,090 --> 00:06:44,760
+make it difficult and grow by overcoming obstacles.
+
+138
+00:06:44,760 --> 00:06:47,960
+And then now it's scary to leave the comfortable environment
+
+139
+00:06:47,960 --> 00:06:51,480
+of a course where you just have to follow the teacher
+
+140
+00:06:51,480 --> 00:06:54,970
+because you will fail and you will make mistakes,
+
+141
+00:06:54,970 --> 00:06:58,130
+and it will be difficult to code on your own.
+
+142
+00:06:58,130 --> 00:07:00,240
+But getting out of our comfort zone,
+
+143
+00:07:00,240 --> 00:07:02,990
+is the only way we grow.
+
+144
+00:07:02,990 --> 00:07:06,260
+So don't be stuck in tutorial hell,
+
+145
+00:07:06,260 --> 00:07:09,050
+which is exactly the state of not being able
+
+146
+00:07:09,050 --> 00:07:10,780
+to leave tutorials.
+
+147
+00:07:10,780 --> 00:07:13,100
+There is more about this whole journey
+
+148
+00:07:13,100 --> 00:07:14,543
+at the end of this lecture.
+
+149
+00:07:15,530 --> 00:07:19,220
+Now, when you practice, you should never become frustrated
+
+150
+00:07:19,220 --> 00:07:21,630
+with the quality of your code.
+
+151
+00:07:21,630 --> 00:07:25,400
+Do not get stuck by trying to write a perfect code,
+
+152
+00:07:25,400 --> 00:07:28,210
+which is really clean or really efficient.
+
+153
+00:07:28,210 --> 00:07:30,770
+So none of that matters in the beginning.
+
+154
+00:07:30,770 --> 00:07:32,160
+You're still learning.
+
+155
+00:07:32,160 --> 00:07:34,830
+So just write as much code as you can,
+
+156
+00:07:34,830 --> 00:07:36,740
+no matter the quality.
+
+157
+00:07:36,740 --> 00:07:40,950
+Really, clean and efficient code will come with time,
+
+158
+00:07:40,950 --> 00:07:41,783
+all right?
+
+159
+00:07:41,783 --> 00:07:43,920
+It's just natural progress.
+
+160
+00:07:43,920 --> 00:07:46,660
+Also, you can always come back and refactor
+
+161
+00:07:46,660 --> 00:07:48,963
+and improve code later if you want to.
+
+162
+00:07:49,940 --> 00:07:52,770
+Another important piece of advice I can give you
+
+163
+00:07:52,770 --> 00:07:56,040
+and I actually give it to myself from time to time,
+
+164
+00:07:56,040 --> 00:07:59,820
+is to embrace the fact that you will never know everything
+
+165
+00:07:59,820 --> 00:08:02,450
+there is to know in web development.
+
+166
+00:08:02,450 --> 00:08:05,920
+Web development is this huge, huge field.
+
+167
+00:08:05,920 --> 00:08:08,770
+And so it's completely normal and acceptable
+
+168
+00:08:08,770 --> 00:08:12,240
+that you will never know everything about web development.
+
+169
+00:08:12,240 --> 00:08:15,290
+So don't put too much weight on your shoulders
+
+170
+00:08:15,290 --> 00:08:17,890
+and create too many expectations.
+
+171
+00:08:17,890 --> 00:08:21,180
+So in fact, the best developers and teachers
+
+172
+00:08:21,180 --> 00:08:23,200
+have no problem in admitting
+
+173
+00:08:23,200 --> 00:08:25,200
+that they do not know everything
+
+174
+00:08:25,200 --> 00:08:27,460
+like the legendary Kyle Simpson,
+
+175
+00:08:27,460 --> 00:08:30,160
+who admits that even after 20 years,
+
+176
+00:08:30,160 --> 00:08:33,110
+it's still a struggle to make his code work
+
+177
+00:08:33,110 --> 00:08:35,400
+and understand it the next day.
+
+178
+00:08:35,400 --> 00:08:39,330
+So do not lose motivation if you feel the same way.
+
+179
+00:08:39,330 --> 00:08:42,960
+Also, do not compare yourself to top developers
+
+180
+00:08:42,960 --> 00:08:45,270
+who do know a lot more than you,
+
+181
+00:08:45,270 --> 00:08:47,460
+because, of course, they do.
+
+182
+00:08:47,460 --> 00:08:50,440
+Many of them have been at this for over 10 years
+
+183
+00:08:50,440 --> 00:08:52,460
+or maybe even 20 years,
+
+184
+00:08:52,460 --> 00:08:56,080
+but nobody was born an expert and even experts
+
+185
+00:08:56,080 --> 00:08:58,900
+are still learning all the time.
+
+186
+00:08:58,900 --> 00:09:01,240
+Now here, it's actually pretty important
+
+187
+00:09:01,240 --> 00:09:04,500
+that you have a well-defined goal for yourself,
+
+188
+00:09:04,500 --> 00:09:05,850
+because if you do,
+
+189
+00:09:05,850 --> 00:09:08,400
+you can just focus on what you need to learn
+
+190
+00:09:08,400 --> 00:09:11,040
+in order to achieve that goal.
+
+191
+00:09:11,040 --> 00:09:14,460
+Everything else is unnecessary, it's just nice.
+
+192
+00:09:14,460 --> 00:09:17,770
+For example, if you don't need a backend in your app,
+
+193
+00:09:17,770 --> 00:09:20,643
+then you don't need to learn Node.js or PHP, okay?
+
+194
+00:09:22,700 --> 00:09:25,890
+The next mistake that is hopefully easy to fix,
+
+195
+00:09:25,890 --> 00:09:28,990
+is to not learn in isolation.
+
+196
+00:09:28,990 --> 00:09:31,840
+One great way to do that is to learn together
+
+197
+00:09:31,840 --> 00:09:36,390
+with other people, no matter if in person or online.
+
+198
+00:09:36,390 --> 00:09:38,240
+Whenever you learn something new,
+
+199
+00:09:38,240 --> 00:09:41,580
+explain it to them because explaining things,
+
+200
+00:09:41,580 --> 00:09:44,450
+forces you to really understand them first
+
+201
+00:09:44,450 --> 00:09:46,950
+and repeating a concept will then really
+
+202
+00:09:46,950 --> 00:09:49,260
+make it stick in your brain.
+
+203
+00:09:49,260 --> 00:09:52,530
+That's why many people say that the best way of learning
+
+204
+00:09:52,530 --> 00:09:57,060
+is to teach and I actually share that opinion too.
+
+205
+00:09:57,060 --> 00:09:59,730
+Another great technique that many people like,
+
+206
+00:09:59,730 --> 00:10:01,830
+is to share your goals publicly,
+
+207
+00:10:01,830 --> 00:10:04,270
+for example, on a social network,
+
+208
+00:10:04,270 --> 00:10:06,650
+to make yourself accountable.
+
+209
+00:10:06,650 --> 00:10:09,820
+You can also share your progress on social media
+
+210
+00:10:09,820 --> 00:10:12,720
+to motivate yourself and others.
+
+211
+00:10:12,720 --> 00:10:14,020
+For example, on Twitter,
+
+212
+00:10:14,020 --> 00:10:17,070
+there are some popular hashtags that people use,
+
+213
+00:10:17,070 --> 00:10:19,607
+like #100DaysOfCode, #CodeNewbie, and #weddev.
+
+214
+00:10:23,010 --> 00:10:25,230
+If you use these, you'll get feedback
+
+215
+00:10:25,230 --> 00:10:28,240
+and a boost of motivation from other people
+
+216
+00:10:28,240 --> 00:10:31,410
+that are on the same journey of learning to code.
+
+217
+00:10:31,410 --> 00:10:33,830
+It's a really nice and friendly community,
+
+218
+00:10:33,830 --> 00:10:37,140
+at least on Twitter, which is what I know and use.
+
+219
+00:10:37,140 --> 00:10:39,503
+So for sure, you should try it out.
+
+220
+00:10:40,340 --> 00:10:44,140
+And finally, the absolute biggest mistake that John made
+
+221
+00:10:44,140 --> 00:10:46,560
+was that, after he went through a couple
+
+222
+00:10:46,560 --> 00:10:48,280
+of web development courses,
+
+223
+00:10:48,280 --> 00:10:50,810
+he thought that he was now a web developer,
+
+224
+00:10:50,810 --> 00:10:52,780
+ready to take a job.
+
+225
+00:10:52,780 --> 00:10:56,050
+Now, this is probably the biggest misconception
+
+226
+00:10:56,050 --> 00:10:57,450
+that people have.
+
+227
+00:10:57,450 --> 00:11:00,450
+Just take a couple of courses and you're done,
+
+228
+00:11:00,450 --> 00:11:03,860
+but no, that is just not how it works.
+
+229
+00:11:03,860 --> 00:11:06,440
+So I'm sorry to bring you the bad news,
+
+230
+00:11:06,440 --> 00:11:10,630
+but courses like this one can only take you so far.
+
+231
+00:11:10,630 --> 00:11:13,610
+They will give you an amazing foundation, of course,
+
+232
+00:11:13,610 --> 00:11:16,230
+but they're just the beginning of your journey.
+
+233
+00:11:16,230 --> 00:11:18,310
+You need everything else that we just talked
+
+234
+00:11:18,310 --> 00:11:20,580
+about in this lecture in order to become
+
+235
+00:11:20,580 --> 00:11:22,860
+a successful web developer.
+
+236
+00:11:22,860 --> 00:11:25,360
+So let's talk a little bit more about this
+
+237
+00:11:25,360 --> 00:11:29,363
+and the journey of actually becoming a job-ready developer.
+
+238
+00:11:30,510 --> 00:11:33,710
+So here is a very true graph that shows you
+
+239
+00:11:33,710 --> 00:11:35,820
+how your confidence in your skills
+
+240
+00:11:35,820 --> 00:11:38,560
+changes as you become more and more competent
+
+241
+00:11:38,560 --> 00:11:40,610
+as a web developer.
+
+242
+00:11:40,610 --> 00:11:44,490
+And this is useful because it allows us to plan a strategy
+
+243
+00:11:44,490 --> 00:11:46,130
+for your learning journey.
+
+244
+00:11:46,130 --> 00:11:48,490
+So when you start, you are in the,
+
+245
+00:11:48,490 --> 00:11:51,110
+everything is awesome phase.
+
+246
+00:11:51,110 --> 00:11:54,560
+You are studying one or more or tutorials,
+
+247
+00:11:54,560 --> 00:11:56,670
+understanding how the code works
+
+248
+00:11:56,670 --> 00:11:58,600
+and taking a lot of challenges
+
+249
+00:11:58,600 --> 00:12:00,880
+just like I mentioned earlier.
+
+250
+00:12:00,880 --> 00:12:03,360
+Now you're not really competent yet,
+
+251
+00:12:03,360 --> 00:12:05,590
+but are starting to get confident
+
+252
+00:12:05,590 --> 00:12:08,240
+and are pumped to keep going.
+
+253
+00:12:08,240 --> 00:12:11,260
+So this is probably where you are right now
+
+254
+00:12:11,260 --> 00:12:13,130
+and will be throughout this course
+
+255
+00:12:13,130 --> 00:12:16,090
+or any other course that you take.
+
+256
+00:12:16,090 --> 00:12:19,080
+But then as you start practicing on your own,
+
+257
+00:12:19,080 --> 00:12:21,790
+you reach the cliff of confusion.
+
+258
+00:12:21,790 --> 00:12:25,020
+Here you realize that coding might be a lot harder
+
+259
+00:12:25,020 --> 00:12:28,910
+than you thought when you no longer can just follow a course
+
+260
+00:12:28,910 --> 00:12:31,310
+with a predefined path.
+
+261
+00:12:31,310 --> 00:12:34,960
+So your confidence is gonna start to drop a little bit
+
+262
+00:12:34,960 --> 00:12:38,540
+and you might realize you can't build anything meaningful
+
+263
+00:12:38,540 --> 00:12:40,290
+on your own yet.
+
+264
+00:12:40,290 --> 00:12:42,690
+But don't lose motivation here,
+
+265
+00:12:42,690 --> 00:12:46,100
+just keep writing lots and lots of code on your own
+
+266
+00:12:46,100 --> 00:12:49,540
+no matter how much time you need to spend fixing bugs
+
+267
+00:12:49,540 --> 00:12:51,750
+and searching for solution.
+
+268
+00:12:51,750 --> 00:12:55,870
+It's all part of the journey and it's still gonna be fun.
+
+269
+00:12:55,870 --> 00:12:58,960
+Slowly, you will become better at writing code,
+
+270
+00:12:58,960 --> 00:13:01,800
+so you will become more competent,
+
+271
+00:13:01,800 --> 00:13:04,870
+but your confidence might drop even further
+
+272
+00:13:04,870 --> 00:13:08,480
+because now you start to realize just how much more
+
+273
+00:13:08,480 --> 00:13:11,530
+you will need to practice until it can build a real
+
+274
+00:13:11,530 --> 00:13:14,250
+application on your own.
+
+275
+00:13:14,250 --> 00:13:18,640
+You are now in the so-called pit of despair, but believe me,
+
+276
+00:13:18,640 --> 00:13:21,490
+it's not as bad as it sounds.
+
+277
+00:13:21,490 --> 00:13:23,390
+You might start to feel lost,
+
+278
+00:13:23,390 --> 00:13:26,260
+but a great solution for this is to start learning
+
+279
+00:13:26,260 --> 00:13:28,950
+with other people like other beginners
+
+280
+00:13:28,950 --> 00:13:31,530
+or even other developers who might mentor
+
+281
+00:13:31,530 --> 00:13:33,750
+and help you along the way.
+
+282
+00:13:33,750 --> 00:13:35,600
+To leave the pit of despair,
+
+283
+00:13:35,600 --> 00:13:37,950
+you must keep challenging yourself.
+
+284
+00:13:37,950 --> 00:13:40,820
+You cannot stop here, okay?
+
+285
+00:13:40,820 --> 00:13:43,810
+So keep building bigger and bigger projects,
+
+286
+00:13:43,810 --> 00:13:47,870
+run into lots of problems and keep fixing them.
+
+287
+00:13:47,870 --> 00:13:51,320
+You really need to have this mindset of fixing problems
+
+288
+00:13:51,320 --> 00:13:53,750
+in order to become a web developer.
+
+289
+00:13:53,750 --> 00:13:57,210
+It's what we do all day long basically.
+
+290
+00:13:57,210 --> 00:14:00,230
+At this point, it's also important to keep in mind
+
+291
+00:14:00,230 --> 00:14:04,630
+that learning how to code is a really hard thing to do.
+
+292
+00:14:04,630 --> 00:14:08,830
+So don't beat yourself up for finding it too difficult
+
+293
+00:14:08,830 --> 00:14:11,280
+and for being stuck all the time.
+
+294
+00:14:11,280 --> 00:14:15,220
+It is difficult indeed, but it's gonna be worth it.
+
+295
+00:14:15,220 --> 00:14:18,290
+And trust me, we've all been in that place
+
+296
+00:14:18,290 --> 00:14:22,340
+and everyone who successfully works in the industry today,
+
+297
+00:14:22,340 --> 00:14:25,560
+just start out the same as you right now.
+
+298
+00:14:25,560 --> 00:14:30,030
+So really, congratulations for even starting this path.
+
+299
+00:14:30,030 --> 00:14:32,890
+It's already a great achievement in itself.
+
+300
+00:14:32,890 --> 00:14:35,500
+Now you just need to continue building stuff.
+
+301
+00:14:35,500 --> 00:14:37,960
+If you want to know about me personally,
+
+302
+00:14:37,960 --> 00:14:40,490
+I learned to code by starting projects
+
+303
+00:14:40,490 --> 00:14:43,770
+that were actually way too difficult for me at the time,
+
+304
+00:14:43,770 --> 00:14:45,600
+but that made them real challenges
+
+305
+00:14:45,600 --> 00:14:47,820
+that made me grow tremendously.
+
+306
+00:14:47,820 --> 00:14:50,720
+For example, I tried and failed
+
+307
+00:14:50,720 --> 00:14:55,180
+to a football simulation game with Visual Basic.
+
+308
+00:14:55,180 --> 00:14:58,900
+Then, I build a Content Management System in PHP
+
+309
+00:14:58,900 --> 00:15:02,670
+with really bad quality code, but it worked
+
+310
+00:15:02,670 --> 00:15:04,710
+and I actually sold it to a client
+
+311
+00:15:04,710 --> 00:15:06,280
+and made good money.
+
+312
+00:15:06,280 --> 00:15:09,770
+I also accepted some client projects for websites
+
+313
+00:15:09,770 --> 00:15:12,140
+that I didn't know how to deliver,
+
+314
+00:15:12,140 --> 00:15:14,170
+but I figured it all out in the end
+
+315
+00:15:14,170 --> 00:15:16,490
+and it made me grow so much.
+
+316
+00:15:16,490 --> 00:15:19,810
+And I'm sure that the same is gonna happen to you too.
+
+317
+00:15:19,810 --> 00:15:22,540
+Anyway, back to the journey here,
+
+318
+00:15:22,540 --> 00:15:25,900
+at a certain point, you will start to see the light.
+
+319
+00:15:25,900 --> 00:15:29,930
+So at this point, you are getting quite good at writing code
+
+320
+00:15:29,930 --> 00:15:33,800
+and your confidence will finally start to grow again.
+
+321
+00:15:33,800 --> 00:15:37,390
+You are now in the back to awesome phase.
+
+322
+00:15:37,390 --> 00:15:40,660
+Now you can either start learning new technologies
+
+323
+00:15:40,660 --> 00:15:43,570
+or you can start rounding up your skillset
+
+324
+00:15:43,570 --> 00:15:46,320
+with best coding practices and tools
+
+325
+00:15:46,320 --> 00:15:47,870
+that you will need for jobs,
+
+326
+00:15:47,870 --> 00:15:50,900
+for example, like version control, testing,
+
+327
+00:15:50,900 --> 00:15:53,440
+task runners, et cetera.
+
+328
+00:15:53,440 --> 00:15:55,680
+If your goal is to find a new job,
+
+329
+00:15:55,680 --> 00:15:59,740
+you're probably starting to be ready to apply for jobs.
+
+330
+00:15:59,740 --> 00:16:03,680
+You need many things for that, like a really good portfolio,
+
+331
+00:16:03,680 --> 00:16:06,270
+but that is a topic for another day.
+
+332
+00:16:06,270 --> 00:16:09,060
+Just be aware that even when you're working,
+
+333
+00:16:09,060 --> 00:16:11,580
+you will never stop learning.
+
+334
+00:16:11,580 --> 00:16:15,300
+So you're never really done learning how to code.
+
+335
+00:16:15,300 --> 00:16:18,200
+Web development changes really fast
+
+336
+00:16:18,200 --> 00:16:20,680
+and so you will need to be constantly adapting
+
+337
+00:16:20,680 --> 00:16:22,810
+to new technologies.
+
+338
+00:16:22,810 --> 00:16:26,350
+All right, and that is basically the typical journey
+
+339
+00:16:26,350 --> 00:16:29,100
+from start to job ready.
+
+340
+00:16:29,100 --> 00:16:33,300
+Now please, don't be scared by what I just told you.
+
+341
+00:16:33,300 --> 00:16:36,360
+I'm telling you all these things not to scare you,
+
+342
+00:16:36,360 --> 00:16:40,300
+but to prepare you because I really want you to succeed
+
+343
+00:16:40,300 --> 00:16:44,270
+on this path and I want you to achieve real success,
+
+344
+00:16:44,270 --> 00:16:46,830
+not like fake success.
+
+345
+00:16:46,830 --> 00:16:49,310
+There are just too many people out there
+
+346
+00:16:49,310 --> 00:16:51,740
+who will tell you that coding is easy
+
+347
+00:16:51,740 --> 00:16:54,350
+and that you will magically become a web developer
+
+348
+00:16:54,350 --> 00:16:57,930
+in two months if only you take their course,
+
+349
+00:16:57,930 --> 00:17:00,730
+but this is simply not true.
+
+350
+00:17:00,730 --> 00:17:03,180
+So I'm not gonna sit here and tell you
+
+351
+00:17:03,180 --> 00:17:05,060
+that coding is easy.
+
+352
+00:17:05,060 --> 00:17:06,570
+It's not easy.
+
+353
+00:17:06,570 --> 00:17:08,870
+But with the right attitude and the guidelines
+
+354
+00:17:08,870 --> 00:17:12,770
+I showed you in this lecture, you can totally do it.
+
+355
+00:17:12,770 --> 00:17:15,530
+And I mean that because I've seen it happening
+
+356
+00:17:15,530 --> 00:17:17,410
+time and time again.
+
+357
+00:17:17,410 --> 00:17:20,210
+So many people have learned how to code
+
+358
+00:17:20,210 --> 00:17:23,530
+from complete scratch, switched careers,
+
+359
+00:17:23,530 --> 00:17:27,740
+found better jobs and improved their lives dramatically.
+
+360
+00:17:27,740 --> 00:17:31,320
+And I mean many of my students and also many other people
+
+361
+00:17:31,320 --> 00:17:34,180
+that I know personally, it's real,
+
+362
+00:17:34,180 --> 00:17:36,510
+and you can achieve the same thing.
+
+363
+00:17:36,510 --> 00:17:40,023
+Just keep going, keep coding and keep building.

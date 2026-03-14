@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Handling Click Events</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        .code-comparison { display: flex; gap: 20px; margin: 24px 0; }
+        .code-panel { flex: 1; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        .panel-header { padding: 8px 16px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .panel-header.method1 { background: rgba(139, 233, 253, 0.1); color: var(--info-color); border-bottom: 1px solid rgba(139, 233, 253, 0.2); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
+        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        td a { color: var(--info-color); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar { position: static; width: 100%; height: auto; border-right: none; }
+            .main-content { margin-left: 0; padding: 24px 20px; }
+            .code-comparison { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-event-listener" class="nav-item">1. 事件监听器 (addEventListener)</a>
+            <a href="#section-function-value" class="nav-item">2. 核心概念：函数作为参数传递</a>
+            <a href="#section-game-logic" class="nav-item">3. 游戏逻辑的起点：类型转换与空值检测</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Handling Click Events</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：006 Handling Click Events.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>让网页变“活”起来的灵魂，就在于响应用户的操作。在 "Guess My Number" 游戏中，我们需要在用户点击「Check!」按钮时，读取输入框的数字并作出反馈。要实现这一点，我们需要祭出 DOM 操作中最强大的武器：<strong>事件监听器 (Event Listener)</strong>。</p>
+
+        <h2 id="section-event-listener">1. 事件监听器 (addEventListener)</h2>
+        <p>事件 (Event) 是页面上发生的动作，比如鼠标点击、键盘敲击、甚至是鼠标滑动。我们使用 <code>addEventListener</code> 方法在特定元素上“竖起耳朵”监听这些动作。</p>
+
+        <div class="code-panel" style="margin-bottom: 24px;">
+            <div class="panel-header method1">🛠️ 绑定点击事件的标准语法</div>
+            <pre><code class="language-javascript">
+document.querySelector('.check').addEventListener('click', function() {
+    console.log(document.querySelector('.guess').value);
+});
+            </code></pre>
+        </div>
+
+        <p>这段代码由两个关键参数组成：</p>
+        <ol>
+            <li><strong>事件的名称</strong>：第一个参数是一个字符串 <code>'click'</code>，指明我们在等什么事情发生。</li>
+            <li><strong>事件处理函数 (Event Handler)</strong>：第二个参数是一个<strong>函数 (Function)</strong>。这个函数体内包含了当事件发生时，我们到底想要执行什么代码。</li>
+        </ol>
+
+
+        <h2 id="section-function-value">2. 核心概念：将函数作为“值”传递给另一个函数</h2>
+        <div class="callout warning">
+            <p>🚨 <strong>千万不要在这儿把函数“调用”了！</strong></p>
+        </div>
+        
+        <p>初学者极易在这里犯错，写成类似 <code>addEventListener('click', myFunction())</code> 的代码。请记住：<strong>在 JavaScript 中，函数也只是一种特殊的数值 (Value) 罢了。</strong></p>
+        
+        <p>就像我们可以把字符串当参数传给函数一样，我们也可以把一整个函数当参数，原封不动地传给 <code>addEventListener</code> 这台机器。这叫<strong>回调函数 (Callback Function)</strong>。我们仅仅是把这行代码“告诉”了 JavaScript 引擎，引擎会将其默默存起来。<strong>只有当按钮真正被点击的那一刻</strong>，JavaScript 引擎才会帮我们执行这个函数！</p>
+
+
+        <h2 id="section-game-logic">3. 游戏逻辑的起点：类型转换与空值检测</h2>
+        <p>一旦按钮被点击，我们的处理函数就开始工作。通常第一件事是获取输入，并做两项非常重要的前置处理：</p>
+
+        <h3>① 强制转换数据类型 (String -> Number)</h3>
+        <p>不论用户在页面输入什么（哪怕是纯数字如 23），只要是通过 DOM 拿到的输入内容，它默认永远是 <strong>String 字符串类型</strong>！要拿去跟游戏底层的秘密数字比大小，第一步必须是将它转成数字。</p>
+        <pre><code class="language-javascript">
+const guess = Number(document.querySelector('.guess').value);
+console.log(guess, typeof guess); // 输出: 23, "number"
+        </code></pre>
+
+        <h3>② 首要逻辑防御：用户没输入时的提示</h3>
+        <p>如果用户没填任何数字直接点了 Check 按钮，<code>guess</code> 变量会被 <code>Number()</code> 转换成 <code>0</code>。在 JavaScript 中，<code>0</code> 是 <strong>falsy (假值)</strong>。</p>
+        <p>我们用非运算符 <code>!</code> 将这个 <code>false</code> 反转为 <code>true</code>，从而触发保护机制的 <code>if</code> 语句：</p>
+        
+        <pre><code class="language-javascript">
+if (!guess) {
+    // 操作 DOM 显示错误提示
+    document.querySelector('.message').textContent = '⛔ No number!';
+}
+        </code></pre>
+        <p>这就是实现任何带有输入框应用的第一准则：<strong>永远先假设用户没有给数据，然后针对这种情况做处理</strong>，再接着写后续成立后的游戏逻辑。</p>
+
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 下面这段代码为什么会一加载页面就执行了，而不是等点击按钮时执行？
+`document.querySelector('.btn').addEventListener('click', reactToClick());`</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为 JavaScript 会把页面上所有见到的函数立刻执行一遍。</div>
+                <div class="quiz-option" data-value="B">B) 因为末尾的括号 `()` 意味着“立刻调用该函数”。你应该移除括号，只传入函数的名称（即将函数本身作为值传递）。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。这大概是新手最容易犯的错误之一。一旦加了括号 `()`，函数就会在代码被初次解析时立即执行，然后把它的返回值（很可能是 undefined）交给了 addEventListener 当作第二个参数，这彻底破坏了事件监听的意图。
+            </div>
+        </div>
+        
+        <br>
+
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">2. 用户在数字输入框填了 18，不经过 `Number()` 处理直接读取并执行 `guess === 18`，结果会是怎样？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 返回 false。因为直接读取的必定是字符串 `'18'`，严格相等 (`===`) 时类型不同。</div>
+                <div class="quiz-option" data-value="B">B) 返回 true。JS 引擎知道这是一个数字输入框，会自动转换为数字类型 18。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：A</strong>。DOM 从 UI 接收到的一切交互内容（包括 number input），在 JS 侧统统都是纯字符串 (String)！如果不手动转成 Number，比较大小/做加法会导致可怕的 Bug。
+            </div>
+        </div>
+
+        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>添加事件监听器</td>
+                    <td><code>addEventListener()</code></td>
+                    <td>在指定 DOM 节点上安装监听卫士，当发生特定动作（如 click）时触发预设代码</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener" target="_blank">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>事件处理器 / 回调</td>
+                    <td>Event Handler / Callback Function</td>
+                    <td>作为第二个参数传递给 <code>addEventListener</code> 的核心函数，等待事件发生时由 JS 引擎派发执行</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Glossary/Callback_function" target="_blank">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>数字类型转换</td>
+                    <td><code>Number()</code></td>
+                    <td>内置函数包装器，用于将获取到的含数字字符的 String 安全转换为运算级 Number 类型</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Number/Number" target="_blank">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const opts = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.style.background = 'transparent');
+                if (opt.getAttribute('data-value') === correctVal) {
+                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--success-color)';
+                } else {
+                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--error-color)';
+                }
+                exp.style.display = 'block';
+            });
+        });
+    });
+</script>
+</body>
+</html>

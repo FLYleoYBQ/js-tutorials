@@ -1,0 +1,775 @@
+1
+00:00:01,080 --> 00:00:03,140
+So, we already saw two ways
+
+2
+00:00:03,140 --> 00:00:05,060
+of writing conditionals.
+
+3
+00:00:05,060 --> 00:00:09,290
+The regular if/else statement and the switch statement.
+
+4
+00:00:09,290 --> 00:00:11,150
+But there is another one.
+
+5
+00:00:11,150 --> 00:00:13,660
+And that is the conditional operator.
+
+6
+00:00:13,660 --> 00:00:16,120
+And this one is actually really nice.
+
+7
+00:00:16,120 --> 00:00:17,823
+So let's check it out.
+
+8
+00:00:19,300 --> 00:00:21,490
+So the conditional operator allows us
+
+9
+00:00:21,490 --> 00:00:24,630
+to write something similar to an if/else statement
+
+10
+00:00:24,630 --> 00:00:26,660
+but all in one line.
+
+11
+00:00:26,660 --> 00:00:30,980
+So let's again start by defining an age variable.
+
+12
+00:00:30,980 --> 00:00:34,530
+And this time I'm saying it to 23.
+
+13
+00:00:34,530 --> 00:00:39,530
+And now, let's write, age, greater or equal 18.
+
+14
+00:00:40,700 --> 00:00:45,700
+So this is your or test to check whether the age is
+
+15
+00:00:46,000 --> 00:00:47,400
+at least 18.
+
+16
+00:00:47,400 --> 00:00:49,920
+So basically if the person is of full age.
+
+17
+00:00:49,920 --> 00:00:52,580
+And then after this condition,
+
+18
+00:00:52,580 --> 00:00:54,800
+we use a question mark.
+
+19
+00:00:54,800 --> 00:00:58,400
+And then here we write essentially or if block.
+
+20
+00:00:58,400 --> 00:01:01,220
+So that's the code that we want to be executed
+
+21
+00:01:01,220 --> 00:01:04,443
+in case that disc condition here is true.
+
+22
+00:01:06,130 --> 00:01:08,767
+So let's say console dot log,
+
+23
+00:01:08,767 --> 00:01:13,767
+"I like to drink wine."
+
+24
+00:01:14,110 --> 00:01:16,623
+Let's again add a nice emoji here.
+
+25
+00:01:18,870 --> 00:01:20,834
+So basically if the person is of full age,
+
+26
+00:01:20,834 --> 00:01:23,533
+they are allowed to drink wine.
+
+27
+00:01:24,930 --> 00:01:27,040
+In this if blog, so to say,
+
+28
+00:01:27,040 --> 00:01:30,380
+we can only have essentially one line of code.
+
+29
+00:01:30,380 --> 00:01:34,490
+So only one thing can be done if this condition is true.
+
+30
+00:01:34,490 --> 00:01:37,890
+Then we also need basically a mandatory else block.
+
+31
+00:01:37,890 --> 00:01:40,543
+And that goes after this colon.
+
+32
+00:01:41,476 --> 00:01:43,203
+Let's just copy,
+
+33
+00:01:44,940 --> 00:01:45,773
+this code,
+
+34
+00:01:47,650 --> 00:01:50,667
+and say, "I like to drink water."
+
+35
+00:01:55,180 --> 00:01:57,930
+Okay, and that's actually it.
+
+36
+00:01:57,930 --> 00:02:02,570
+So let's check the result and then analyze this a bit more.
+
+37
+00:02:02,570 --> 00:02:05,227
+So in fact what gets logged to the console is,
+
+38
+00:02:05,227 --> 00:02:07,160
+"I like to drink wine."
+
+39
+00:02:07,160 --> 00:02:09,530
+And that's because the age is 23.
+
+40
+00:02:09,530 --> 00:02:11,793
+And so this condition is true.
+
+41
+00:02:13,330 --> 00:02:14,490
+Right.
+
+42
+00:02:14,490 --> 00:02:18,230
+And this means that this code here is gonna be executed
+
+43
+00:02:18,230 --> 00:02:19,730
+and this one is not.
+
+44
+00:02:19,730 --> 00:02:21,280
+So the second part here,
+
+45
+00:02:21,280 --> 00:02:24,320
+which is essentially the else part.
+
+46
+00:02:24,320 --> 00:02:26,113
+Now if we were 15,
+
+47
+00:02:26,980 --> 00:02:30,763
+then of course the second part is executed.
+
+48
+00:02:33,440 --> 00:02:34,570
+Okay.
+
+49
+00:02:34,570 --> 00:02:37,310
+So that's essentially writing an if/else statement
+
+50
+00:02:37,310 --> 00:02:38,800
+all in one line.
+
+51
+00:02:38,800 --> 00:02:40,680
+But instead of using a statement,
+
+52
+00:02:40,680 --> 00:02:43,150
+we use this conditional operator.
+
+53
+00:02:43,150 --> 00:02:45,460
+And the conditional operator is also called
+
+54
+00:02:45,460 --> 00:02:47,100
+the ternary operator.
+
+55
+00:02:47,100 --> 00:02:49,010
+Because it has three parts.
+
+56
+00:02:49,010 --> 00:02:50,990
+Unlike other operators.
+
+57
+00:02:50,990 --> 00:02:53,980
+For example the plus operator has only two parts.
+
+58
+00:02:53,980 --> 00:02:56,050
+For example, one plus two.
+
+59
+00:02:56,050 --> 00:02:58,530
+But this one has three parts,
+
+60
+00:02:58,530 --> 00:03:00,170
+so the condition,
+
+61
+00:03:00,170 --> 00:03:01,610
+then the if part,
+
+62
+00:03:01,610 --> 00:03:03,343
+and then the else part.
+
+63
+00:03:04,560 --> 00:03:09,460
+Okay, now the conditional operator is in fact an operator,
+
+64
+00:03:09,460 --> 00:03:11,840
+just as the name says.
+
+65
+00:03:11,840 --> 00:03:16,100
+And remember that an operator always produces a value.
+
+66
+00:03:16,100 --> 00:03:20,637
+So in other words an operator is an expression, right.
+
+67
+00:03:20,637 --> 00:03:24,500
+So what this means is that if we have a value,
+
+68
+00:03:24,500 --> 00:03:27,780
+we can then assign that value to a variable.
+
+69
+00:03:27,780 --> 00:03:31,720
+So with this we can make the ternary operator really useful
+
+70
+00:03:31,720 --> 00:03:36,110
+to basically conditionally declare variables.
+
+71
+00:03:36,110 --> 00:03:40,030
+So, what we did here is not so much used indeed.
+
+72
+00:03:40,030 --> 00:03:43,120
+Instead we do it more like this.
+
+73
+00:03:43,120 --> 00:03:45,543
+So we would still test for this condition.
+
+74
+00:03:47,189 --> 00:03:49,680
+So checking if the person is of full age.
+
+75
+00:03:49,680 --> 00:03:53,210
+And if that's true then all we want is essentially
+
+76
+00:03:53,210 --> 00:03:55,713
+to return this.
+
+77
+00:03:58,000 --> 00:04:02,253
+And if not we, only want this.
+
+78
+00:04:03,820 --> 00:04:04,653
+Okay.
+
+79
+00:04:04,653 --> 00:04:09,653
+And so again, this whole operator here is now an expression.
+
+80
+00:04:09,850 --> 00:04:12,080
+And an expression produces a value.
+
+81
+00:04:12,080 --> 00:04:15,230
+And so now, we can go ahead and store that value
+
+82
+00:04:15,230 --> 00:04:16,343
+into a variable.
+
+83
+00:04:18,240 --> 00:04:19,900
+So let's call that "Drink"
+
+84
+00:04:19,900 --> 00:04:24,230
+and then we can log this drink
+
+85
+00:04:25,850 --> 00:04:26,683
+to the console.
+
+86
+00:04:28,110 --> 00:04:29,960
+And let's comment out this part here.
+
+87
+00:04:31,840 --> 00:04:33,910
+And check.
+
+88
+00:04:33,910 --> 00:04:38,540
+And indeed we get wine as we declared up here.
+
+89
+00:04:38,540 --> 00:04:39,373
+Great.
+
+90
+00:04:39,373 --> 00:04:42,730
+So drink is now really defined conditionally,
+
+91
+00:04:42,730 --> 00:04:44,830
+based on this condition.
+
+92
+00:04:44,830 --> 00:04:47,150
+And all in one simple line.
+
+93
+00:04:47,150 --> 00:04:49,800
+So without the conditional operator,
+
+94
+00:04:49,800 --> 00:04:52,700
+we would have to use and if/else statement
+
+95
+00:04:52,700 --> 00:04:55,410
+and with that this wouldn't be so easy.
+
+96
+00:04:55,410 --> 00:04:58,040
+Remember, when we want to declare a variable
+
+97
+00:04:58,040 --> 00:05:00,850
+inside of an if or an else blog,
+
+98
+00:05:00,850 --> 00:05:03,383
+we need to first declare that variable outside.
+
+99
+00:05:05,060 --> 00:05:06,663
+Let's actually do that.
+
+100
+00:05:07,920 --> 00:05:09,730
+So simply call it "drink2"
+
+101
+00:05:11,330 --> 00:05:16,213
+and then we would say, if the age is at least 18,
+
+102
+00:05:18,320 --> 00:05:19,590
+then "drink2"...
+
+103
+00:05:21,060 --> 00:05:22,683
+is gonna be wine.
+
+104
+00:05:23,600 --> 00:05:25,343
+Just grab that here.
+
+105
+00:05:29,220 --> 00:05:30,200
+Or else...
+
+106
+00:05:32,797 --> 00:05:35,823
+"drink2" is gonna be this water here.
+
+107
+00:05:38,520 --> 00:05:39,353
+Okay.
+
+108
+00:05:39,353 --> 00:05:42,550
+And again we need to define a "drink2" variable
+
+109
+00:05:42,550 --> 00:05:45,970
+outside of the if and the else blogs,
+
+110
+00:05:45,970 --> 00:05:49,200
+because any variable that we define inside of a blog,
+
+111
+00:05:49,200 --> 00:05:51,500
+is not available outside.
+
+112
+00:05:51,500 --> 00:05:53,420
+So we declared a variable here
+
+113
+00:05:53,420 --> 00:05:56,233
+and then reassign it inside of the blogs.
+
+114
+00:05:59,340 --> 00:06:01,583
+So just to make sure it worked,
+
+115
+00:06:03,590 --> 00:06:05,930
+let's log this one here as well.
+
+116
+00:06:05,930 --> 00:06:09,453
+We really just did this for the sake of comparison.
+
+117
+00:06:11,300 --> 00:06:14,810
+Okay, just so you can see the tremendous difference
+
+118
+00:06:14,810 --> 00:06:18,530
+that the ternary operator introduces here in our code.
+
+119
+00:06:18,530 --> 00:06:19,410
+So if you ask me,
+
+120
+00:06:19,410 --> 00:06:22,090
+this one here is a lot easier to understand
+
+121
+00:06:22,090 --> 00:06:24,270
+and a lot easier to write.
+
+122
+00:06:24,270 --> 00:06:25,860
+Right.
+
+123
+00:06:25,860 --> 00:06:28,193
+So just changing this to something else here.
+
+124
+00:06:29,340 --> 00:06:33,620
+And yeah, in both cases we get water back.
+
+125
+00:06:33,620 --> 00:06:36,860
+So using the ternary operator we were really able
+
+126
+00:06:36,860 --> 00:06:40,330
+to transform this big block of code
+
+127
+00:06:40,330 --> 00:06:43,070
+all into one small operation like this.
+
+128
+00:06:43,070 --> 00:06:45,990
+And this is gonna be useful in so many cases.
+
+129
+00:06:45,990 --> 00:06:48,270
+And we will really take advantage of this
+
+130
+00:06:48,270 --> 00:06:51,370
+throughout the rest of the entire course.
+
+131
+00:06:51,370 --> 00:06:53,933
+And now we can take it even further.
+
+132
+00:06:54,810 --> 00:06:59,170
+Because since the ternary operator is really an expression,
+
+133
+00:06:59,170 --> 00:07:02,490
+we can now use it, for example, in a template literal.
+
+134
+00:07:02,490 --> 00:07:05,330
+So unlike a normal if/else statement,
+
+135
+00:07:05,330 --> 00:07:08,470
+like we tried and failed in the last lecture.
+
+136
+00:07:08,470 --> 00:07:09,303
+Remember?
+
+137
+00:07:10,310 --> 00:07:14,660
+It was here where I tried to insert the if statement here
+
+138
+00:07:14,660 --> 00:07:16,350
+and of course it didn't work.
+
+139
+00:07:16,350 --> 00:07:20,030
+But using the ternary operator, which produces a value,
+
+140
+00:07:20,030 --> 00:07:22,300
+we can actually have conditionals
+
+141
+00:07:22,300 --> 00:07:24,223
+inside of a template literal.
+
+142
+00:07:25,190 --> 00:07:29,283
+So let's simply try that.
+
+143
+00:07:30,190 --> 00:07:34,610
+And so I can now say, "I like to drink"
+
+144
+00:07:34,610 --> 00:07:38,920
+and then based on the age, I can say if I like to drink wine
+
+145
+00:07:38,920 --> 00:07:39,753
+or water.
+
+146
+00:07:40,960 --> 00:07:43,430
+So, here in this placeholder, remember,
+
+147
+00:07:43,430 --> 00:07:46,220
+I can put any expression that I want.
+
+148
+00:07:46,220 --> 00:07:48,920
+And this here is an expression.
+
+149
+00:07:48,920 --> 00:07:51,320
+Again because it produces a value.
+
+150
+00:07:51,320 --> 00:07:53,310
+So I grab it from here.
+
+151
+00:07:53,310 --> 00:07:54,283
+Paste it here,
+
+152
+00:07:55,860 --> 00:07:56,817
+and that's it.
+
+153
+00:07:56,817 --> 00:08:00,520
+The template literal will now use whatever result we get
+
+154
+00:08:00,520 --> 00:08:02,570
+from this operator.
+
+155
+00:08:02,570 --> 00:08:06,010
+So that's either gonna be wine or water.
+
+156
+00:08:06,010 --> 00:08:09,763
+And then it assembles that result into the final string.
+
+157
+00:08:11,010 --> 00:08:12,193
+So let's check.
+
+158
+00:08:13,330 --> 00:08:15,110
+And indeed, once more,
+
+159
+00:08:15,110 --> 00:08:17,393
+the conditional operator works just fine.
+
+160
+00:08:19,020 --> 00:08:21,393
+And with our age back to 23,
+
+161
+00:08:22,300 --> 00:08:25,510
+then we got, "I like to drink wine."
+
+162
+00:08:25,510 --> 00:08:29,420
+Great, so I hope that this makes sense.
+
+163
+00:08:29,420 --> 00:08:31,690
+I know that especially this part here
+
+164
+00:08:31,690 --> 00:08:34,550
+can be a little bit confusing for beginners.
+
+165
+00:08:34,550 --> 00:08:38,350
+So take a minute to really understand what happens here.
+
+166
+00:08:38,350 --> 00:08:41,660
+And always keep in mind the concept of operator
+
+167
+00:08:41,660 --> 00:08:42,980
+and of expression.
+
+168
+00:08:42,980 --> 00:08:45,780
+Which is something that produces a value.
+
+169
+00:08:45,780 --> 00:08:49,010
+And thanks to that we can then put that value
+
+170
+00:08:49,010 --> 00:08:52,370
+here in this placeholder in the template literal.
+
+171
+00:08:52,370 --> 00:08:53,203
+All right.
+
+172
+00:08:54,100 --> 00:08:56,300
+Now to finish, I just wanted to mention
+
+173
+00:08:56,300 --> 00:09:00,750
+that the ternary operator is not thought as a replacement
+
+174
+00:09:00,750 --> 00:09:03,250
+of if/else statements.
+
+175
+00:09:03,250 --> 00:09:05,700
+We still need if/else all the time.
+
+176
+00:09:05,700 --> 00:09:08,200
+For example when we have bigger blocks of code
+
+177
+00:09:08,200 --> 00:09:11,180
+that we need to execute based on a condition.
+
+178
+00:09:11,180 --> 00:09:14,690
+In that case the ternary operator is not gonna work.
+
+179
+00:09:14,690 --> 00:09:16,950
+But the ternary operator is perfect
+
+180
+00:09:16,950 --> 00:09:20,170
+when we just need to take a quick decision,
+
+181
+00:09:20,170 --> 00:09:22,900
+for example, like this one.
+
+182
+00:09:22,900 --> 00:09:25,040
+And that's especially true in places
+
+183
+00:09:25,040 --> 00:09:28,050
+where JavaScript really expects an expression,
+
+184
+00:09:28,050 --> 00:09:30,600
+just like here in this template literal.
+
+185
+00:09:30,600 --> 00:09:33,400
+So here we could not use an if/else statement
+
+186
+00:09:33,400 --> 00:09:37,660
+and so the ternary operator really comes to our rescue here.
+
+187
+00:09:37,660 --> 00:09:39,520
+So I think you can understand
+
+188
+00:09:39,520 --> 00:09:41,760
+that this one is really, really important.
+
+189
+00:09:41,760 --> 00:09:45,740
+So make sure that you absolutely understand how it works.
+
+190
+00:09:45,740 --> 00:09:47,360
+And once you do understand,
+
+191
+00:09:47,360 --> 00:09:50,781
+then let's move on to the final lecture of this section,
+
+192
+00:09:50,781 --> 00:09:54,190
+which is yet another coding challenge for you to see
+
+193
+00:09:54,190 --> 00:09:57,640
+if you did actually understand how the conditional
+
+194
+00:09:57,640 --> 00:09:59,703
+or ternary operator works.

@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debugging (Fixing Errors)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 什么是 Bug？</a>
+            <a href="#section-2" class="nav-item">2. 调试 (Debugging) 的四个生命周期步骤</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Debugging (Fixing Errors)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：010 Debugging (Fixing Errors).en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：基础代码编写能力</li>
+                <li><strong>后续扩展</strong>：学会熟练运用浏览器开发者调试大杀器 (Debugger)</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>你写出了代码，但它运行的结果不是你想要的。恭喜你，你遇到 <code>Bug</code> 了！本课是一节理论课，我们将了解什么是软件缺陷（Bug），并且学习专业开发者在面对报错代码时的通用“四步捉虫指南”。</p>
+
+        <h2 id="section-1">1. 什么是 Bug？</h2>
+        <p>简单来说，计算机程序中出现的<strong>任何意料之外、或者不符合最初设计意图的行为</strong>，都统称为 Bug（缺陷/错误）。</p>
+        
+        <p>早在 1940 年代，哈佛大学一台巨大的早期计算机频繁算错，工作人员后来居然在机器的继电器里夹死了一只真实的飞蛾（Bug），它导致了电路板短路。“Debug（捉除虫子）”这个高大上的行业术语由此诞生。</p>
+
+        > 💡 **专家提示**：不管你是第一天写代码的新手，还是拥有 20 年经验的大佬，写出含有 Bug 的代码是100%平常的事情。所有复杂的软件内部都藏有陈年暗病。因此，**遇到 Bug 时不要慌张自责，把“解救并治愈代码”当成职业常态就好！**
+
+        <h2 id="section-2">2. 调试 (Debugging) 的四个生命周期步骤</h2>
+        <p>面对发生异常的程序，我们必须像侦探追踪元凶一样严谨地执行完整的侦查链：</p>
+
+        <pre class="language-mermaid">
+        flowchart LR
+            A[👁️ 1. 识别 (Identify)] --> B[🎯 2. 隔离 (Isolate)]
+            B --> C[🔧 3. 修复 (Fix)]
+            C --> D[🛡️ 4. 预防 (Prevent)]
+        </pre>
+
+        <ul>
+            <li><strong>步骤一：识别感知 (Identify)</strong><br>
+                必须先知道 Bug 存在。在开发阶段测试出来是最好结果；如果代码已经上线才被真实用户反馈崩溃（Production Bug），则是最糟糕的情况。</li>
+            <li><strong>步骤二：精准隔离定位 (Isolate)</strong><br>
+                代码成千上万行，到底是哪一块在捣鬼？对于简单错误，我们可以依赖 <code>console.log()</code> 的输出来夹击。但对于复杂逻辑中的隐秘 Bug，这时候就必须请出究极武器——<strong>调试器 (Debugger) 软件</strong>了（下节课详解）。</li>
+            <li><strong>步骤三：动手修复 (Fix)</strong><br>
+                当你终于抓到那行写挫的代码，修复通常也是这四部分中最轻松惬意的一环 —— 替换为正确逻辑即可。</li>
+            <li><strong>步骤四：构建防线预防 (Prevent)</strong><br>
+                修复完就万事大吉了？老油条开发者会顺藤摸瓜：既然这边手滑了这个低级错误，系统中其他相似的代码块是不是也犯了同样的病？此外，高级预防手段还包括引入<strong>自动化测试代码</strong>层层设卡防范。</li>
+        </ul>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 关于 Bug 产生阶段造成的负面影像力，哪一种是最可怕的？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 在你敲完代码立即自己运行预览时发现的 Bug。</div>
+                <div class="quiz-option" data-value="B">B) 代码已经正式投产上线运行后，由大量真实用户遭遇的 Production Bug。</div>
+                <div class="quiz-option" data-value="C">C) 在自动化测试流程中运行拦截爆红的 Bug。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的选项</strong>。未在开发期被拦截、遗留到生产环境（Production）正式爆发的错误往往代价更惨重，会流失用户信任或产生数据安全风暴。
+            </div>
+        </div>
+        
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+</body>
+</html>

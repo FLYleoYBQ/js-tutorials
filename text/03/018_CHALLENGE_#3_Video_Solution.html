@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #3 Video Solution</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
+        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
+        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
+        .challenge-box { background: linear-gradient(145deg, rgba(59, 130, 246, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%); border: 1px solid var(--accent-color); border-radius: 12px; padding: 24px; margin: 24px 0; }
+        .challenge-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
+        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; font-weight: 600; }
+        .btn-run:active { transform: scale(0.95); }
+        .editor-textarea { width: 100%; height: 380px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
+        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        details { background-color: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-top: 30px; border: 1px solid var(--border-color); }
+        details summary { cursor: pointer; font-weight: 600; font-size: 18px; color: var(--warning-color); user-select: none; }
+        details summary:focus { outline: none; }
+        ul, ol { margin-top: 8px; }
+        li { margin-bottom: 8px; }
+        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
+        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">🏆 Coding Challenge</a>
+            <a href="#section-code" class="nav-item">💻 实战沙盒</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #3 Video Solution</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：018 CHALLENGE #3 Video Solution.en.srt</span>
+            <span>📂 章节：第 03 章</span>
+        </div>
+
+        <h2 id="section-overview">🏆 Coding Challenge：体重指数对决 (对象版)</h2>
+        
+        <div class="challenge-box">
+            <span class="challenge-icon">⚖️</span>
+            <p><strong>背景介绍：</strong><br>Mark 和 John 这两兄弟还在比拼他们的 BMI（体重指数）！但这次，我们不再写干瘪的变量。我们要运用刚刚掌握的**对象 (Objects)** 和 **方法 (Methods)** 技能，将他们的数据彻底武装重构！</p>
+            
+            <h3>📋 任务清单（Tasks）</h3>
+            <ol>
+                <li>为他们两人分别各建立一个对象（<code>mark</code> 和 <code>john</code>）。</li>
+                <li>对象中必须包含他们的个人属性：全名 (<code>fullName</code>)、体重 (<code>mass</code>) 和 身高 (<code>height</code>)。</li>
+                <li>分别为两个对象添加一个名为 <code>calcBMI</code> 的方法，作用是计算当前人员的 BMI。</li>
+                <li><strong>关键要求：</strong> 在方法中，要求直接将算出的 BMI 值新建为对应对象的新属性 (叫作 <code>bmi</code>)，并同时将此结果 `return`。</li>
+                <li>最后拼装出一句话打印："John Smith's BMI (28.3) is higher than Mark Miller's (23.9)!" （当然，根据实际数据情况输出胜者）。</li>
+            </ol>
+
+            <h3>🧪 测试数据集（Test Data）</h3>
+            <ul>
+                <li><strong>Mark Miller：</strong> 体重 78 kg，身高 1.69 m。</li>
+                <li><strong>John Smith：</strong> 体重 92 kg，身高 1.95 m。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-code">💻 实战沙盒</h2>
+        <p>牢记：任何在对象方法内部访问自身其他属性的尝试，都必须依靠神圣的 <code>this</code> 统帅。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge3.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行我的代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+const mark = {
+    fullName: 'Mark Miller',
+    mass: 78,
+    height: 1.69,
+    calcBMI: function() {
+        // 完成你的逻辑 (记得 this.bmi 缓存技巧！)
+        
+    }
+};
+
+const john = {
+    fullName: 'John Smith',
+    mass: 92,
+    height: 1.95,
+    calcBMI: function() {
+        
+    }
+};
+
+// 1. 启动两人的计算引擎！
+
+// 2. 利用 If/Else 制造播报结果
+
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <details>
+            <summary>💡 Jonas 官方解法揭秘 (Spoilers!)</summary>
+            
+            <p><strong>1️⃣ 定义与方法固化</strong>：</p>
+<pre><code class="language-javascript">const mark = {
+    fullName: 'Mark Miller',
+    mass: 78,
+    height: 1.69,
+    calcBMI: function() {
+        // 计算时即创建 'bmi' 属性
+        this.bmi = this.mass / this.height ** 2;
+        return this.bmi;
+    }
+};
+
+// 后期你将会学到 面向对象(OOP)，届时无需强行粘贴两份一样的方法代码！
+const john = {
+    fullName: 'John Smith',
+    mass: 92,
+    height: 1.95,
+    calcBMI: function() {
+        this.bmi = this.mass / this.height ** 2;
+        return this.bmi;
+    }
+};
+</code></pre>
+
+            <p><strong>2️⃣ 点火启动！</strong>：如果你只是在这边写 `if(mark.bmi > john.bmi)`，你会拿到巨大的 `undefined`。因为只有先触发了 `calcBMI` 这两个方法开关，内部的 `this.bmi` 才会顺理成章地诞生。方法不靠自己调用。</p>
+<pre><code class="language-javascript">mark.calcBMI();
+john.calcBMI();
+console.log(mark.bmi, john.bmi); // 终于有数字了！
+</code></pre>
+
+            <p><strong>3️⃣ 播报决胜</strong>：</p>
+<pre><code class="language-javascript">if (mark.bmi > john.bmi) {
+    console.log(`${mark.fullName}'s BMI (${mark.bmi}) is higher than ${john.fullName}'s (${john.bmi})!`);
+} else if (john.bmi > mark.bmi) {
+    console.log(`${john.fullName}'s BMI (${john.bmi}) is higher than ${mark.fullName}'s (${mark.bmi})!`);
+}
+</code></pre>
+
+            <div class="callout">
+                <p>恭喜你！通过这个挑战，你彻底掌控了 JavaScript 最早期的基石数据结构——对象！接下来我们将进入基础篇章最后且最为高能的模块：数据迭代与循环 (Loops)。</p>
+            </div>
+        </details>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const out = document.getElementById(consoleId);
+        out.innerHTML = '';
+        const originalLog = console.log;
+        const originalError = console.error;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push('> ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            originalLog.apply(console, args);
+        };
+        console.error = function(...args) {
+            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
+            originalError.apply(console, args);
+        };
+        try {
+            new Function(code)();
+            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+        } catch (e) {
+            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+        }
+        console.log = originalLog;
+        console.error = originalError;
+        out.innerHTML = logs.join('<br>');
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,667 @@
+1
+00:00:01,380 --> 00:00:03,920
+Our next topic is something called,
+
+2
+00:00:03,920 --> 00:00:07,240
+Immediately Invoked Function Expressions.
+
+3
+00:00:07,240 --> 00:00:09,703
+So let's take a look at what they are.
+
+4
+00:00:11,290 --> 00:00:13,460
+So sometimes in JavaScript,
+
+5
+00:00:13,460 --> 00:00:16,960
+we need a function that is only executed once.
+
+6
+00:00:16,960 --> 00:00:18,850
+And then never again.
+
+7
+00:00:18,850 --> 00:00:20,430
+So basically a function
+
+8
+00:00:20,430 --> 00:00:24,040
+that disappears right after it's called once.
+
+9
+00:00:24,040 --> 00:00:25,670
+And this might not appear
+
+10
+00:00:25,670 --> 00:00:27,870
+to make much sense right now.
+
+11
+00:00:27,870 --> 00:00:30,330
+But we actually need this technique later.
+
+12
+00:00:30,330 --> 00:00:33,950
+For example, with something called async/await.
+
+13
+00:00:33,950 --> 00:00:36,220
+So how could we do that?
+
+14
+00:00:36,220 --> 00:00:38,940
+Well, we could simply create a function.
+
+15
+00:00:38,940 --> 00:00:41,003
+And then only execute it once.
+
+16
+00:00:42,130 --> 00:00:46,913
+So, run, once, function.
+
+17
+00:00:51,600 --> 00:00:55,390
+This will never run again.
+
+18
+00:00:55,390 --> 00:00:56,933
+And then we can call it here.
+
+19
+00:00:59,700 --> 00:01:03,050
+However, we can actually run this function again.
+
+20
+00:01:03,050 --> 00:01:05,060
+At some other point in the code,
+
+21
+00:01:05,060 --> 00:01:07,120
+if we want it to, right?
+
+22
+00:01:07,120 --> 00:01:08,540
+There's nothing stopping us,
+
+23
+00:01:08,540 --> 00:01:13,540
+from later doing run once again, right?
+
+24
+00:01:14,040 --> 00:01:16,560
+And so this is not what we want to do.
+
+25
+00:01:16,560 --> 00:01:20,020
+We want to actually execute a function immediately.
+
+26
+00:01:20,020 --> 00:01:22,670
+And not even having to save it somewhere.
+
+27
+00:01:22,670 --> 00:01:25,550
+And so this is how we do that.
+
+28
+00:01:25,550 --> 00:01:29,483
+So we simply write the function expression itself.
+
+29
+00:01:31,700 --> 00:01:35,030
+So without assigning it to any variable.
+
+30
+00:01:35,030 --> 00:01:36,640
+Now, if we try to run this,
+
+31
+00:01:36,640 --> 00:01:38,673
+we will get an error for now.
+
+32
+00:01:40,020 --> 00:01:44,530
+So it says function statements require a function name.
+
+33
+00:01:44,530 --> 00:01:45,490
+And that's because
+
+34
+00:01:45,490 --> 00:01:49,970
+of course JavaScript here expects a function statement.
+
+35
+00:01:49,970 --> 00:01:53,000
+Because we simply started this line of code here
+
+36
+00:01:53,000 --> 00:01:54,940
+with the function keyword.
+
+37
+00:01:54,940 --> 00:01:57,920
+However, we can still trick JavaScript
+
+38
+00:01:57,920 --> 00:02:01,410
+into thinking that this is just an expression.
+
+39
+00:02:01,410 --> 00:02:03,700
+And we do that by simply wrapping all
+
+40
+00:02:03,700 --> 00:02:06,350
+of this into parentheses.
+
+41
+00:02:06,350 --> 00:02:07,970
+And so now,
+
+42
+00:02:07,970 --> 00:02:11,560
+we basically transformed the statement that we had before
+
+43
+00:02:11,560 --> 00:02:12,853
+into an expression.
+
+44
+00:02:13,780 --> 00:02:15,720
+And so now if we save this,
+
+45
+00:02:15,720 --> 00:02:17,350
+we get no error.
+
+46
+00:02:17,350 --> 00:02:20,960
+But also this function didn't execute yet, right?
+
+47
+00:02:20,960 --> 00:02:22,053
+We never called it.
+
+48
+00:02:23,290 --> 00:02:25,720
+So we know that this here is the function.
+
+49
+00:02:25,720 --> 00:02:28,700
+And so, we can then immediately call it.
+
+50
+00:02:28,700 --> 00:02:29,650
+And so with this,
+
+51
+00:02:29,650 --> 00:02:32,210
+we will get now this text here locked
+
+52
+00:02:32,210 --> 00:02:33,823
+to the console, to string.
+
+53
+00:02:34,880 --> 00:02:38,360
+And indeed here it is, alright?
+
+54
+00:02:38,360 --> 00:02:40,210
+So again this here,
+
+55
+00:02:40,210 --> 00:02:43,090
+is really just the function value.
+
+56
+00:02:43,090 --> 00:02:45,570
+So it's just a function expression.
+
+57
+00:02:45,570 --> 00:02:47,997
+And then immediately, we call it here.
+
+58
+00:02:47,997 --> 00:02:50,780
+And so this is why this pattern here,
+
+59
+00:02:50,780 --> 00:02:54,293
+is called the Immediately Invoked Function Expression.
+
+60
+00:02:55,280 --> 00:02:56,600
+Or IIFE for short.
+
+61
+00:02:56,600 --> 00:03:00,540
+So Immediately Invoked Function Expression.
+
+62
+00:03:00,540 --> 00:03:02,990
+And the same would of course,
+
+63
+00:03:02,990 --> 00:03:06,123
+also work for an arrow function.
+
+64
+00:03:07,760 --> 00:03:09,313
+So let's just copy this.
+
+65
+00:03:11,090 --> 00:03:14,470
+This will also never run again.
+
+66
+00:03:14,470 --> 00:03:17,910
+So if we try to call it like this,
+
+67
+00:03:17,910 --> 00:03:19,550
+then it would not work.
+
+68
+00:03:19,550 --> 00:03:21,090
+And so,
+
+69
+00:03:21,090 --> 00:03:22,700
+we actually don't get an error.
+
+70
+00:03:22,700 --> 00:03:24,470
+But also nothing happens.
+
+71
+00:03:24,470 --> 00:03:27,200
+So we first need to wrap this into parentheses.
+
+72
+00:03:27,200 --> 00:03:29,193
+And then as we called it.
+
+73
+00:03:30,610 --> 00:03:31,593
+Then here it is.
+
+74
+00:03:32,650 --> 00:03:34,910
+Okay, so two ways of writing
+
+75
+00:03:34,910 --> 00:03:37,543
+an Immediately Invoked Function Expression.
+
+76
+00:03:38,540 --> 00:03:39,850
+But you might be wondering,
+
+77
+00:03:39,850 --> 00:03:43,490
+why was this pattern actually invented?
+
+78
+00:03:43,490 --> 00:03:48,490
+Well, we already know that functions create scopes, right?
+
+79
+00:03:48,690 --> 00:03:49,950
+And what's important here
+
+80
+00:03:49,950 --> 00:03:52,530
+is that one scope does not have access
+
+81
+00:03:52,530 --> 00:03:56,300
+to variables from an inner scope, right?
+
+82
+00:03:56,300 --> 00:03:59,750
+For example, right here in this global scope.
+
+83
+00:03:59,750 --> 00:04:02,370
+We do not have access to any variables that
+
+84
+00:04:02,370 --> 00:04:04,170
+are defined in the scope
+
+85
+00:04:04,170 --> 00:04:06,823
+of any of these functions here, right?
+
+86
+00:04:07,870 --> 00:04:09,123
+So for example,
+
+87
+00:04:10,360 --> 00:04:12,763
+let's add a variable here.
+
+88
+00:04:14,220 --> 00:04:16,813
+Let's say, is private = 23.
+
+89
+00:04:18,040 --> 00:04:21,623
+And then as we tried to access it out here.
+
+90
+00:04:22,950 --> 00:04:26,970
+You already know that it's not going to work, right?
+
+91
+00:04:26,970 --> 00:04:28,570
+And that's because the scope chain
+
+92
+00:04:28,570 --> 00:04:31,410
+only works the other way around.
+
+93
+00:04:31,410 --> 00:04:33,410
+So the inner scope would have access
+
+94
+00:04:33,410 --> 00:04:35,700
+to anything defined outside,
+
+95
+00:04:35,700 --> 00:04:37,040
+here in the global scope.
+
+96
+00:04:37,040 --> 00:04:38,240
+But the other way around,
+
+97
+00:04:38,240 --> 00:04:40,963
+the global scope does not have access to anything,
+
+98
+00:04:40,963 --> 00:04:43,530
+that is inside of a scope.
+
+99
+00:04:43,530 --> 00:04:44,600
+So in this case,
+
+100
+00:04:44,600 --> 00:04:47,810
+of the scope created by this function here.
+
+101
+00:04:47,810 --> 00:04:50,490
+Therefore, we say that all data defined
+
+102
+00:04:50,490 --> 00:04:53,350
+inside a scope is private.
+
+103
+00:04:53,350 --> 00:04:56,720
+We also say that this data is encapsulated.
+
+104
+00:04:56,720 --> 00:04:59,230
+So for example, this is private here
+
+105
+00:04:59,230 --> 00:05:03,330
+is encapsulated inside of this function scope,
+
+106
+00:05:03,330 --> 00:05:04,960
+that's created here.
+
+107
+00:05:04,960 --> 00:05:08,120
+And data encapsulation and data privacy
+
+108
+00:05:08,120 --> 00:05:12,000
+are extremely important concepts in programming.
+
+109
+00:05:12,000 --> 00:05:16,040
+So many times we actually need to protect our variables,
+
+110
+00:05:16,040 --> 00:05:19,450
+from being accidentally overwritten by some other parts
+
+111
+00:05:19,450 --> 00:05:20,660
+of the program.
+
+112
+00:05:20,660 --> 00:05:24,070
+Or even with external scripts or libraries.
+
+113
+00:05:24,070 --> 00:05:25,980
+And I'm going to talk in detail about
+
+114
+00:05:25,980 --> 00:05:29,670
+these concepts in the object oriented programming section.
+
+115
+00:05:29,670 --> 00:05:32,360
+But for now, keep in mind that it's important
+
+116
+00:05:32,360 --> 00:05:33,550
+to hide variables.
+
+117
+00:05:33,550 --> 00:05:36,870
+And that scopes are a good tool for doing this.
+
+118
+00:05:36,870 --> 00:05:38,700
+And this is also the reason why
+
+119
+00:05:38,700 --> 00:05:43,030
+The Immediately Invoked Function Expressions were invented.
+
+120
+00:05:43,030 --> 00:05:45,120
+So basically, this pattern here.
+
+121
+00:05:45,120 --> 00:05:48,670
+So this is not really a feature, of the JavaScript language.
+
+122
+00:05:48,670 --> 00:05:52,350
+It's more of a pattern, that some developers came up with.
+
+123
+00:05:52,350 --> 00:05:54,570
+And that then started to being used,
+
+124
+00:05:54,570 --> 00:05:56,133
+by many other developers.
+
+125
+00:05:57,090 --> 00:06:01,193
+Now, do you remember what also creates a scope in ES6?
+
+126
+00:06:02,090 --> 00:06:03,170
+And that's right.
+
+127
+00:06:03,170 --> 00:06:06,310
+Variables declared with let or const create
+
+128
+00:06:06,310 --> 00:06:08,830
+their own scope inside a block.
+
+129
+00:06:08,830 --> 00:06:09,670
+And we learned that
+
+130
+00:06:09,670 --> 00:06:13,060
+in the behind the scenes section, remember?
+
+131
+00:06:13,060 --> 00:06:16,100
+So when we create a block, like this,
+
+132
+00:06:16,100 --> 00:06:18,963
+and declare is private in there.
+
+133
+00:06:22,730 --> 00:06:26,303
+Then the outside can still not access is private.
+
+134
+00:06:28,210 --> 00:06:30,150
+So let's comment out this one,
+
+135
+00:06:30,150 --> 00:06:31,253
+and paste it here.
+
+136
+00:06:32,180 --> 00:06:33,480
+And once again,
+
+137
+00:06:33,480 --> 00:06:36,000
+we cannot access this variable.
+
+138
+00:06:36,000 --> 00:06:37,363
+while on the other hand,
+
+139
+00:06:39,200 --> 00:06:40,670
+this one here,
+
+140
+00:06:40,670 --> 00:06:43,363
+would of course, be accessible.
+
+141
+00:06:46,350 --> 00:06:48,423
+And so again that's what we learned,
+
+142
+00:06:49,740 --> 00:06:52,140
+in one of the previous sections.
+
+143
+00:06:52,140 --> 00:06:55,900
+So that's because this one here was declared with var,
+
+144
+00:06:55,900 --> 00:06:58,770
+and therefore it does completely ignore
+
+145
+00:06:58,770 --> 00:07:00,930
+this block here essentially.
+
+146
+00:07:00,930 --> 00:07:03,140
+And this is the reason why now
+
+147
+00:07:03,140 --> 00:07:05,220
+in modern JavaScript.
+
+148
+00:07:05,220 --> 00:07:08,160
+Immediately Invoked Function Expressions are not
+
+149
+00:07:08,160 --> 00:07:09,520
+that used anymore.
+
+150
+00:07:09,520 --> 00:07:10,970
+Because if all we want
+
+151
+00:07:10,970 --> 00:07:13,890
+is to create a new scope for data privacy.
+
+152
+00:07:13,890 --> 00:07:15,110
+All we need to do,
+
+153
+00:07:15,110 --> 00:07:18,430
+is to just create a block like this, right?
+
+154
+00:07:18,430 --> 00:07:20,780
+There's no need to creating a function
+
+155
+00:07:20,780 --> 00:07:22,500
+to create a new scope.
+
+156
+00:07:22,500 --> 00:07:23,350
+Unless of course,
+
+157
+00:07:23,350 --> 00:07:26,490
+we want to use var for our variables.
+
+158
+00:07:26,490 --> 00:07:28,400
+But we already know,
+
+159
+00:07:28,400 --> 00:07:31,430
+we probably shouldn't do that. Right?
+
+160
+00:07:31,430 --> 00:07:32,840
+Now on the other hand,
+
+161
+00:07:32,840 --> 00:07:34,300
+if what you really need,
+
+162
+00:07:34,300 --> 00:07:38,290
+is to execute a function just once, then the IIFE.
+
+163
+00:07:38,290 --> 00:07:41,560
+So the Immediately Invoked Function Expression pattern
+
+164
+00:07:41,560 --> 00:07:43,260
+is still the way to go.
+
+165
+00:07:43,260 --> 00:07:45,860
+Even now with modern JavaScript.
+
+166
+00:07:45,860 --> 00:07:48,584
+And we will actually see a great use case a bit later
+
+167
+00:07:48,584 --> 00:07:50,253
+of doing an IIFE.

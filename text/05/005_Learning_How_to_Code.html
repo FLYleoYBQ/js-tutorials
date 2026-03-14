@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning How to Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>/* 极简暗色主题 CSS */</style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 如何在学编程中一败涂地？(反面教材)</a>
+            <a href="#section-2" class="nav-item">2. 高效学习的黄金法则</a>
+            <a href="#section-3" class="nav-item">3. 开发者信心演变曲线</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Learning How to Code</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：005 Learning How to Code.en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：无</li>
+                <li><strong>后续扩展</strong>：建立终身学习的开发者心态，避免中途放弃</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>很多课程只教语法而不教“如何学习”。本节课程是一碗真实的“鸡汤”也是避坑指南：带你了解初学者最易犯的致命错误，传授正确的学习策略，并揭示从小白到拿到 Offer 过程中的真实心理曲线。</p>
+
+        <h2 id="section-1">1. 如何在学编程中一败涂地？(反面教材)</h2>
+        <p>让我们看看虚构人物“小明”是怎么把学编程搞砸的。如果你踩中了以下几条，请立即警惕：</p>
+        
+        <ul>
+            <li>没有明确的终点目标（Goal），像无头苍蝇一样乱看教程。</li>
+            <li><strong>只看视频不写代码</strong>，或者只从 Stack Overflow 无脑“复制粘贴”。</li>
+            <li>不在课后用自己的个人小项目去<strong>强化（Reinforce）</strong>学到的知识。</li>
+            <li>从未走出课程的“温室”，从不去尝试从零开始写一个没有老师指导的项目。</li>
+            <li>陷入强迫症：代码不完美就极度受挫，觉得写得很丑。</li>
+            <li>误以为自己“必须学会所有知识”才能找工作（这是不可能的！）。</li>
+            <li>孤独学习，从不与他人交流或分享进度。</li>
+            <li>最大的误区：看完两部课程教程，就以为自己已经是合格的 Web 开发者了。</li>
+        </ul>
+
+        <h2 id="section-2">2. 高效学习的黄金法则</h2>
+        <p>针对“小明”的教训，我们应该制定如下策略以保证学习的成功率：</p>
+
+        <pre class="language-mermaid">
+        mindmap
+          root((高效学编程))
+            (1) 设定SMART目标
+              具体可衡量
+              以1个大项目为导向
+            (2) 拒绝复制粘贴
+              亲自敲击字母
+              强化记忆肌肉
+            (3) 立即学以致用
+              哪怕是算账的函数
+              动手去写！
+            (4) 逃脱教程地狱
+              别怂，走出舒适区
+              接纳难看的初版代码
+            (5) 拥抱“无知”
+              没有人全懂！
+              聚焦解决问题的工具
+        </pre>
+        
+        > 💡 **专家提示 (Tutorial Hell)**：当你能够跟着视频敲出花团锦簇的网页，但关掉视频面对空白文件却连一行代码都写不出时——恭喜你，你进入了“教程地狱”。唯一解药就是**构建完全属于你自己的小项目，并接受早期痛苦的犯错过程**。
+
+        <h2 id="section-3">3. 开发者信心演变曲线 (The Developer Confidence Graph)</h2>
+        <p>掌握心理预期，是抵抗放弃的利器。当你在学习中感到绝望时，请看看这张真实的心理演变图：</p>
+
+        <pre class="language-mermaid">
+        xychart-beta
+            title "开发者信心演变曲线"
+            x-axis ["起点", "教程期", "单飞期", "绝望之谷", "顿悟期", "可就业"]
+            y-axis "信心指数" 0 --> 100
+            line [20, 85, 40, 10, 60, 95]
+        </pre>
+
+        <ul>
+            <li>🚀 <strong>蜜月期 (Everything is awesome)</strong>：跟着视频敲，一切顺利，自信爆棚！</li>
+            <li>📉 <strong>困惑悬崖 (Cliff of confusion)</strong>：脱离教程自己写项目，发现什么都写不出来，自信暴跌。</li>
+            <li>🕳️ <strong>绝望之谷 (Pit of despair)</strong>：发现要学的东西如山海般庞大，陷入深度的自我怀疑。“我是不是太笨了？” <strong>注意：90% 的初学者都在这里放弃！</strong> 坚持下去，通过修复 Bug 会迎来转机。</li>
+            <li>✨ <strong>重获自信 (Back to awesome)</strong>：成功拼凑起功能，形成了解决问题的思维定势，技术终于能转化为生产力。你可以准备面试了！</li>
+        </ul>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 为什么“Tutorial Hell”（教程地狱）是初学者的致命伤？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为看太多教程会导致视力下降。</div>
+                <div class="quiz-option" data-value="B">B) 因为它让你产生了“我很懂”的错觉，但一旦脱离手把手指导就完全缺乏独自解决问题的能力。</div>
+                <div class="quiz-option" data-value="C">C) 因为大部分教程都是收费的，会让你破产。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的</strong>。在别人搭建好的框架内填空是容易的，只有自己由零开始面对白纸、查文档、修报错，才能长出真正的“开发者肌肉”。
+            </div>
+        </div>
+        
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+</body>
+</html>
