@@ -32,6 +32,12 @@
         .chapter-list a:last-child { border-bottom: none; }
         .chapter-list a:hover { background: rgba(247,223,30,0.06); color: var(--accent); padding-left: 36px; }
         .badge { background: var(--accent); color: #000; font-size: 11px; font-weight: 700; padding: 2px 8px; border-radius: 10px; }
+    
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 20px !important; z-index: 10 !important; }
+            .main-content { margin-left: 0 !important; padding: 24px 16px !important; width: 100% !important; max-width: 100% !important; }
+        }
     </style>
 </head>
 <body>

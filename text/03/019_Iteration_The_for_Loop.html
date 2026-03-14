@@ -50,6 +50,12 @@
         table { width: 100%; border-collapse: collapse; margin: 24px 0; }
         th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
         th { background-color: rgba(255,255,255,0.05); }
+    
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 20px !important; z-index: 10 !important; }
+            .main-content { margin-left: 0 !important; padding: 24px 16px !important; width: 100% !important; max-width: 100% !important; }
+        }
     </style>
 </head>
 <body>
