@@ -39,19 +39,19 @@
 5. <a href="./03/005_Arrow_Functions.html">函数</a>
 6. <a href="./03/006_Functions_Calling_Other_Functions.html">函数</a>
 7. <a href="./03/007_Reviewing_Functions.html">函数</a>
-8. <a href="./03/009_CHALLENGE_#1_Video_Solution.html">CHALLENGE #1 Video Solution</a>
+8. <a href="./03/009_CHALLENGE_1_Video_Solution.html">CHALLENGE #1 Video Solution</a>
 9. <a href="./03/010_Introduction_to_Arrays.html">数组简介</a>
 10. <a href="./03/011_Basic_Array_Operations_Methods.html">基本数组操作（方法）</a>
-11. <a href="./03/013_CHALLENGE_#2_Video_Solution.html">CHALLENGE #2 Video Solution</a>
+11. <a href="./03/013_CHALLENGE_2_Video_Solution.html">CHALLENGE #2 Video Solution</a>
 12. <a href="./03/014_Introduction_to_Objects.html">对象简介</a>
 13. <a href="./03/015_Dot_vs._Bracket_Notation.html">点号 vs. 方括号语法</a>
 14. <a href="./03/016_Object_Methods.html">对象方法</a>
-15. <a href="./03/018_CHALLENGE_#3_Video_Solution.html">CHALLENGE #3 Video Solution</a>
+15. <a href="./03/018_CHALLENGE_3_Video_Solution.html">CHALLENGE #3 Video Solution</a>
 16. <a href="./03/019_Iteration_The_for_Loop.html">迭代：for 循环</a>
 17. <a href="./03/020_Looping_Arrays,_Breaking_and_Continuing.html">循环数组，break 和 continue</a>
 18. <a href="./03/021_Looping_Backwards_and_Loops_in_Loops.html">反向循环和循环嵌套</a>
 19. <a href="./03/022_The_while_Loop.html">while 循环</a>
-20. <a href="./03/024_CHALLENGE_#4_Video_Solution.html">CHALLENGE #4 Video Solution</a>
+20. <a href="./03/024_CHALLENGE_4_Video_Solution.html">CHALLENGE #4 Video Solution</a>
 
 ## 第 04 章：课程学习向导 (How to Navigate This Course)
 1. <a href="./04/001_Pathways_and_Section_Roadmaps.html">学习路径和章节路线图</a>
@@ -65,9 +65,9 @@
 6. <a href="./05/009_Using_Google,_StackOverflow_and_MDN.html">使用 Google、StackOverflow 和 MDN</a>
 7. <a href="./05/010_Debugging_(Fixing_Errors).html">调试（修复错误）</a>
 8. <a href="./05/011_Debugging_with_the_Console_and_Breakpoints.html">使用控制台和断点调试</a>
-9. <a href="./05/012_CHALLENGE_#1.html">CHALLENGE #1</a>
+9. <a href="./05/012_CHALLENGE_1.html">CHALLENGE #1</a>
 10. <a href="./05/013_The_Rise_of_AI_Tools_(ChatGPT,_Copilot,_Cursor_AI,_etc.).html">AI 工具的崛起（ChatGPT、Copilot、Cursor 等）</a>
-11. <a href="./05/014_Solving_CHALLENGE_#2_With_AI.html">Solving CHALLENGE #2 With AI</a>
+11. <a href="./05/014_Solving_CHALLENGE_2_With_AI.html">Solving CHALLENGE #2 With AI</a>
 
 ## 第 06 章：HTML 和 CSS 速成 (HTML & CSS Crash Course)
 1. <a href="./06/001_Section_Intro.html">本章简介</a>
@@ -142,22 +142,22 @@
 6. <a href="./09/008_Short_Circuiting.html">短路计算</a>
 7. <a href="./09/009_The_Nullish_Coalescing_Operator.html">空值合并运算符</a>
 8. <a href="./09/010_Logical_Assignment_Operators.html">逻辑赋值运算符</a>
-9. <a href="./09/011_CHALLENGE_#1.html">CHALLENGE #1</a>
+9. <a href="./09/011_CHALLENGE_1.html">CHALLENGE #1</a>
 10. <a href="./09/012_Looping_Arrays_The_for-of_Loop.html">循环数组：for-of 循环</a>
 11. <a href="./09/013_Enhanced_Object_Literals.html">增强的对象字面量</a>
 12. <a href="./09/014_Optional_Chaining.html">可选链</a>
 13. <a href="./09/015_Looping_Objects_Object_Keys,_Values,_and_Entries.html">循环对象：键、值和条目</a>
-14. <a href="./09/016_CHALLENGE_#2.html">CHALLENGE #2</a>
+14. <a href="./09/016_CHALLENGE_2.html">CHALLENGE #2</a>
 15. <a href="./09/017_Sets.html">集合 (Sets)</a>
 16. <a href="./09/018_New_Operations_to_Make_Sets_Useful!.html">集合 (Sets)</a>
 17. <a href="./09/019_Maps_Fundamentals.html">映射 (Maps) 基础</a>
 18. <a href="./09/020_Maps_Iteration.html">映射 (Maps) 迭代</a>
 19. <a href="./09/021_Summary_Which_Data_Structure_to_Use.html">总结：应该使用哪种数据结构</a>
-20. <a href="./09/022_CHALLENGE_#3.html">CHALLENGE #3</a>
+20. <a href="./09/022_CHALLENGE_3.html">CHALLENGE #3</a>
 21. <a href="./09/023_Working_With_Strings_Part_1.html">处理字符串 - 第 1 部分</a>
 22. <a href="./09/024_Working_With_Strings_Part_2.html">处理字符串 - 第 2 部分</a>
 23. <a href="./09/025_Working_With_Strings_Part_3.html">处理字符串 - 第 3 部分</a>
-24. <a href="./09/026_CHALLENGE_#4.html">CHALLENGE #4</a>
+24. <a href="./09/026_CHALLENGE_4.html">CHALLENGE #4</a>
 25. <a href="./09/027_String_Methods_Practice.html">字符串方法练习</a>
 
 ## 第 10 章：深入理解函数 (A Closer Look at Functions)
@@ -169,9 +169,9 @@
 6. <a href="./10/007_Functions_Returning_Functions.html">函数</a>
 7. <a href="./10/008_The_call_and_apply_Methods.html">call 和 apply 方法</a>
 8. <a href="./10/009_The_bind_Method.html">bind 方法</a>
-9. <a href="./10/010_CHALLENGE_#1.html">CHALLENGE #1</a>
+9. <a href="./10/010_CHALLENGE_1.html">CHALLENGE #1</a>
 10. <a href="./10/011_Immediately_Invoked_Function_Expressions_(IIFE).html">立即调用的函数表达式 (IIFE)</a>
 11. <a href="./10/012_Closures.html">闭包</a>
 12. <a href="./10/013_More_Closure_Examples.html">更多闭包示例</a>
-13. <a href="./10/014_CHALLENGE_#2.html">CHALLENGE #2</a>
+13. <a href="./10/014_CHALLENGE_2.html">CHALLENGE #2</a>
 
