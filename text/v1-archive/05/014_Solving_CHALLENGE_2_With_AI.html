@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solving CHALLENGE #2 With AI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">需求描述</a>
+            <a href="#section-1" class="nav-item">1. 书写完美的 Prompt 提示词</a>
+            <a href="#section-2" class="nav-item">2. 多次要求 AI 迭代修改与修复盲区</a>
+            <a href="#section-3" class="nav-item">3. 反向倒逼：用它当做私人百科导师</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Solving CHALLENGE #2 With AI</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：014 Solving CHALLENGE #2 With AI.en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout callout-warning">
+            <strong>⚠️ 章节说明</strong>
+            <p>本章是一个特殊演示挑战。我们将彻底使用在上节课学会的基于 ChatGPT 的辅助重构技巧，兵不血刃地破解一道包含你也许还不会的高阶数组操作特性的考题。以此来展示真实环境中的破壳解闷之剑该如何拔出鞘。</p>
+        </div>
+
+        <h2 id="section-overview">📝 需求描述</h2>
+        <p>假设你目前在为自由职业者制作一个工时计时器 APP。你需要一个统计处理函数，可以按周吞入七个每天打卡的工时数值。并经过脑洞大开地运算后，全自动返回以下五大结果（用 Object 对象包裹打包带走）：</p>
+        <ul>
+            <li>整个打工周的总小时数</li>
+            <li>平均每个有效工时日的打卡均值</li>
+            <li>肝胆相照的爆肝日子（哪天卷得最狠最高）</li>
+            <li>有效上工了有产出的天数（剔除了摸大鱼休假的 0 小时日子）</li>
+            <li>判定这是否算是一个满血超载周工作全职周（标准线 >=35小时，布尔值真伪返回）</li>
+        </ul>
+
+        <p>你或许可以利用你仅有的所学大汗淋漓地拼凑出一套 for 循环版本，这完全是一项加分勇敢之举！不过本案例，我们将让 AI 为我们一码平川。</p>
+
+        <h2 id="section-1">1. 书写完美的 Prompt 提示词</h2>
+        <p>好的回复，永远奠基于精良、苛刻、无歧义的高密度约束 Prompt 指令。让我们打开 ChatGPT，输入这种工业级标准黑话：</p>
+        
+        <div style="background-color: var(--bg-card); padding: 15px; border-radius: 6px; border-left: 4px solid var(--info-color); margin-bottom: 20px;">
+            <p><em>“I'm building a time tracking application for freelancers. Write a function called <code>analyzeWorkWeek</code> that receives an array of daily work hours and returns an object with the following data: total hours, average daily hours, day with the most hours worked, the number of days working with more than 0 hours, and whether the week was full-time (>= 35 hours). Also, assume Monday is day 0 in the array and round daily hours to one decimal place.”</em></p>
+        </div>
+
+        <h2 id="section-2">2. 多次要求 AI 迭代修改与修复盲区</h2>
+        <p>ChatGPT 第一时间为我们吐出了夹杂有神乎其神高阶语法如 <code>reduce()</code>、<code>Math.max()</code> 的代码。我们将它拷贝到编辑器里运行测试时发现：</p>
+        
+        <p><strong>痛点一：不直观的爆肝日。</strong>当前 AI 返回的最卷工作日 <code>maxDay</code> 居然是干巴巴的数字比如 <code>4</code>，太不优雅了。于是我们要求它迭代修正：<br>
+        <code>“change maxDay to be an actual work day like Monday”</code><br>
+        聪明如它，理解后帮你在内部挂载了一个硬汉打卡天字版数组 <code>['Monday', 'Tuesday', ... ]</code> 中转映射，输出变回了悦目的 <code>"Friday"</code>。</p>
+
+        <p><strong>痛点二：对意外故障参数没有封堵。</strong>如果我们向新函数传入了只有 5 条记录的残废 Array，AI 写的方法并不会拦截，且导致一些均值除法被拉扯变形。我们需要追加防御：<br>
+        <code>“The function should require the input array to have exactly 7 days. Update the function accordingly.”</code><br>
+        AI 收得指令，便在方法进门顶端处写了个拦截过滤门神：如果 <code>length !== 7</code>，就让它无情报错被 <code>throw new Error(...)</code>。</p>
+
+        <h2 id="section-3">3. 反向倒逼：用它当做私人百科导师</h2>
+        <p>你在这几次代码生成交流期间，或许会产生恐慌。你看到了很多你一辈子都没听过的妖魔鬼怪方法比如 <code>filter</code> 甚至是 <code>callback</code>。<br>
+        不要逃避自己的懦弱瞎拷贝带过，利用它的无情碾压反杀变成学习契机！继续在此会话窗口连追发问：</p>
+        
+        <ul>
+            <li><code>"What does the filter method do? Why is it useful? Give me a few examples."</code></li>
+            <li><code>"What is a callback? Explain the filter method in simple terms to a JavaScript beginner."</code></li>
+        </ul>
+        
+        <p>这就是你所能拥有的跨越时区、绝对体贴包容的 AI 助教力量的极致展现。当你有且仅有在具备底线基础和解决宏观方案逻辑时，请用这股力量，加速横扫那些你看不懂或者写得累的任务，这才是未来开发工程师应有的格局。</p>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+</body>
+</html>

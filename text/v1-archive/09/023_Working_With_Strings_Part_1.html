@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working With Strings - Part 1</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">启航</a>
+            <a href="#section-1" class="nav-item">1. 基础索敌 (indexOf)</a>
+            <a href="#section-2" class="nav-item">2. 夺心切割刀 (slice)</a>
+            <a href="#section-3" class="nav-item">3. 实战：寻找夹心狗座</a>
+            <a href="#section-under-hood" class="nav-item">💎 究极装箱解析 (Boxing)</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Working With Strings - Part 1 (字符串狂徒重构记)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：023 Working With Strings - Part 1.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <p>我们终于开始摆脱饭店体系了。接下来的字符串三部曲，我们将以极高频的实景（大型国际机场）来推演系统代码中对于 String 的残暴手艺拆解流程。由于字符串在网页数据呈现占据绝大王位，这部分的方法我们未来一定会用爆。</p>
+        </div>
+
+        <h2 id="section-overview">✈️ 启航：如同数组般提取刻度</h2>
+        <p>跟数组完全一样，就算我们挂在这里的是一段单薄无辜的字符串实体，我们依然可以无视法则直接对文字套弄 <code>[]</code> 下拉数字提取某单体字母！以及测量整体的尺寸长度 <code>.length</code>。</p>
+
+        <pre><code class="language-javascript">const airline = 'TAP Air Portugal';
+
+console.log(airline[0]); // 'T' （严格从零刻度数起）
+console.log('B737'[0]); // 甚至可以直接徒手凭空对着野生字符串猛锤出 'B' !
+console.log(airline.length); // 探针报出尺长 16</code></pre>
+
+        <h2 id="section-1">1. 基础索敌探测仪 (indexOf 与 lastIndexOf)</h2>
+        <p>这是我们要拆解字符串前必备的声呐装备，用于锁定待砍单词首字母精准所在坑位。它们只会返回一个数字标号，探测查无此人时弹出负面绝望的 <code>-1</code>。</p>
+
+        <pre><code class="language-javascript">// 永远只在遇到第一个小写r的瞬间锁定标号就断网报点：
+console.log(airline.indexOf('r')); // 出现在 6 坑位 (注意，严格区分大小写敏感)
+
+// 哪怕这条大船上长了一万个r，我也只提取坠在船尾巴倒数最后一个的r：
+console.log(airline.lastIndexOf('r')); // 10
+
+// 轰炸精准整个词根
+console.log(airline.indexOf('Portugal')); // 8</code></pre>
+
+        <h2 id="section-2">2. 夺心切割刀 (slice)</h2>
+        <p>我们锁定坐标，到底是为了什么？为了发动手术级的 <strong><code>.slice(起针点, 拔针点)</code></strong> 彻底切割并抽离出血肉核心！</p>
+        <p><strong>注意：</strong>任何 String 方法的劈砍改造返回的都永远是一份克隆复制体，<strong>字符串这种基础源矿原生体，是绝对坚冰不可变质的！(Immutable Primitive)。它们不能被当场弄残缺，必须把切割后的变异接住赋值</strong>。</p>
+
+        <pre><code class="language-javascript">const airline = 'TAP Air Portugal';
+
+// 砍第一刀：只输入起刀点。
+// 它会从坑位 4 'A'字头一路杀到结尾。
+console.log(airline.slice(4)); // 结果：'Air Portugal'
+
+// 砍第二刀：精确控制拔针停靠点。
+// 从4开始，斩击到7(空格)停手，它不会包裹第7个字的肉。
+console.log(airline.slice(4, 7)); // 结果：'Air' 
+// 💡长轴密探：切割出的实体块长宽度，绝对 = (尾巴 7 减去 头部 4)。
+
+// --- 【高阶盲砍盲切手段】 ---
+// 在大型业务中系统是绝对不知道用户传的哪个公司的名字。如何抽取任意首个名字？
+// 以查出的第一个带空格的索引点位，充当强行拔针点停手！
+console.log(airline.slice(0, airline.indexOf(' '))); // 'TAP'
+
+// 抽取大长条后缀名：从最后探知到的末尾那个倒数空格，往后顺到死砍完。
+console.log(airline.slice(airline.lastIndexOf(' ') + 1)); // 'Portugal'
+
+// --- 【负数暗黑切割法】 ---
+// 从屁股末端开始倒扯起。
+console.log(airline.slice(-2)); // 'al'
+// 头部正攻法从位移1开始，并且刀法砍到屁股尾巴倒扯1单位就强行遏止。
+console.log(airline.slice(1, -1)); // 'AP Air Portuga'  (头尾切掉两端各一坨肉)</code></pre>
+
+        <h2 id="section-3">3. 机场实战：恶心的候机夹心座位</h2>
+        <p>波音单排拥有 A, B, C / D, E, F 六个座位，通常坐 B (左中间位) 以及 E (右中间位) 意味着你要全程被压在两头恶汉中间喘不过气。写个雷达监测用户传进来的座位码是不是毒药区：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行夹心检查器</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const checkMiddleSeat = function (seat) {
+  // B 和 E 处于极度不适宜人类生存中间夹心带
+  
+  // 核心雷达法：只要硬性用负1 (-1) 劈掉末尾标出来的一个单个字拿捏判断即可！
+  const s = seat.slice(-1);
+  if (s === 'B' || s === 'E') {
+    console.log(`😭 完蛋，${seat} 这是一个被两头大汉夹爆的中间座位。`);
+  } else {
+    console.log(`🎉 恭喜，${seat} 是一个很棒舒适的通透走廊或看云座位。`);
+  }
+};
+
+checkMiddleSeat('11B');
+checkMiddleSeat('23C');
+checkMiddleSeat('3E');</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-under-hood">💎 究极装箱解析 (Boxing: 引擎到底怎么作弊的？)</h2>
+        <p>很多学得深的人内心这时候会爆炸：<strong>不对啊！前面讲过，String 是绝对的最基层原始类型 (Primitives) 原矿，不是高级 Object（对象），那它怎么配拥有 <code>slice / indexOf</code> 等等这么一长串的 Methods 方法？只有 Object 才长有那些狗爪子附带法术体呢？</strong></p>
+
+        <div class="callout">
+            <strong>🎩 揭秘 JavaScript 底层光速诡术：暗影装箱 (Boxing)</strong>
+            <p>其实当我们对一条朴素的字符串疯狂按压下那个 <code>.</code> (点) 的瞬息，JS 底层马达极为疯狂地进行了一次替身重塑！它把这段小小的野生命根词组套上包裹，强制转化并<strong>生掰出了一个具有同等词文的替身使者对象体 <code>new String('TAP')</code></strong>！</p>
+            <p>这个对象上自然附带好了方法链群。等大招放完一刹那，返回新修改完成的字符串结果给外界。然后底层又把那个强行生成的假面具壳子打烂毁尸粉碎！变回普通形态退居幕后。<br>
+            这就叫极其神速智能的“幕布装箱”操作。你表面上仿佛在操作最弱的个体，而实际上内部调用了极度豪华的对象装甲工厂。这就解释了 <code>typeof new String('ha').slice(1)</code> 的最终回卷反馈为何还是一个弱者 <code>'string'</code>。</p>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

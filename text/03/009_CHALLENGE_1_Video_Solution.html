@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CHALLENGE #1 Video Solution</title>
+    <title>🏆 Coding Challenge #1</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,213 +11,757 @@
     <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
-            --bg-color: #0f111a;
-            --surface-color: #1a1d27;
-            --text-primary: #f8f9fa;
-            --text-secondary: #a0aec0;
-            --accent-color: #3b82f6;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
-        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
-        .app-container { display: flex; width: 100%; min-height: 100vh; }
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
-        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
-        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
-        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
-        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
-        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
-        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
-        .challenge-box { background: linear-gradient(145deg, rgba(59, 130, 246, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%); border: 1px solid var(--accent-color); border-radius: 12px; padding: 24px; margin: 24px 0; }
-        .challenge-icon { font-size: 32px; margin-bottom: 16px; display: block; }
-        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
-        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
-        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
-        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; font-weight: 600; }
-        .btn-run:active { transform: scale(0.95); }
-        .editor-textarea { width: 100%; height: 400px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
-        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
-        details { background-color: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-top: 30px; border: 1px solid var(--border-color); }
-        details summary { cursor: pointer; font-weight: 600; font-size: 18px; color: var(--warning-color); user-select: none; }
-        details summary:focus { outline: none; }
-        ul, ol { margin-top: 8px; }
-        li { margin-bottom: 8px; }
-        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
-    
-        
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 03 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">🏆 Coding Challenge</a>
-            <a href="#section-code" class="nav-item">💻 实战沙盒</a>
+            <a href="#section-0" class="nav-item active">🏆 Coding Challenge #1</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">📋 Tasks（任务清单）</a>
+            <a href="#section-4" class="nav-item">📊 Test Data（测试数据）</a>
+            <a href="#section-5" class="nav-item">🧪 实战沙盒</a>
+            <a href="#section-6" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-7" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>CHALLENGE #1 Video Solution</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：009 CHALLENGE #1 Video Solution.en.srt</span>
-            <span>📂 章节：第 03 章</span>
-        </div>
+<h1 id="section-0">🏆 Coding Challenge #1</h1>
 
-        <h2 id="section-overview">🏆 Coding Challenge：体操比赛裁决者</h2>
-        
-        <div class="challenge-box">
-            <span class="challenge-icon">🤸‍♂️</span>
-            <p><strong>背景介绍：</strong><br>海豚队（Dolphins）和考拉队（Koalas）正在进行一项全新的体操比赛大奖赛。每次比赛共有3次试跳得分，通过计算全部三跳的平均分来决定整支队伍的分数。</p>
-            
-            <h3>📋 任务清单（Tasks）</h3>
-            <ol>
-                <li>写一个<strong>箭头函数</strong> <code>calcAverage</code>，用来求出3个数字的平均值。</li>
-                <li>用上面的函数计算出海豚队和考拉队各自的平均分。</li>
-                <li>写一个普通函数 <code>checkWinner</code>。这个函数接受队伍两边的平均分为参数（<code>avgDolphins</code>, <code>avgKoalas</code>）。</li>
-                <li>在 <code>checkWinner</code> 内部执行胜负判定公式：<strong>只有当一队的平均分达到另一队平均分的 2 倍（或以上）时，该队才算获胜。</strong> 如果符合条件，使用 `console.log` 打印出 `Dolphins win the trophy (30 vs. 13)`，否则打印并没有队伍获胜。</li>
-                <li>在 Data 1 和 Data 2 的数据集上分别算出结果！提示：判定2倍的公式为 `A >= 2 * B`。</li>
-            </ol>
+<div class="callout"><p>📺 来源：009 CHALLENGE #1 Video Solution.en.srt<br>📂 章节：第 03 章</p></div>
 
-            <h3>🧪 测试数据集（Test Data）</h3>
-            <ul>
-                <li><strong>Data 1</strong>：海豚队得分 44, 23, 71。考拉队得分 65, 54, 49。</li>
-                <li><strong>Data 2</strong>：海豚队得分 85, 54, 41。考拉队得分 23, 34, 27。</li>
-            </ul>
-        </div>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <h2 id="section-code">💻 实战沙盒</h2>
-        <p>在看官方解析前，请在下方的编辑器中动用你新学的各种函数知识写出代码！遇到坎儿切记保持冷静，这正是将知识化为肌肉记忆的必经之路。</p>
+<ul>
+<li><strong>前置知识</strong>：函数声明 / 函数表达式 / 箭头函数、参数与返回值、<code>if/else</code> 条件语句、模板字符串</li>
+<li><strong>后续扩展</strong>：数组（Array）、循环（Loop）</li>
+</ul>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">challenge.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行我的代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+<h2 id="section-2">🎯 概述</h2>
 
-// 1. 写个箭头函数 calcAverage
-const calcAverage = // 你来补全！
+<p>本挑战综合运用函数相关知识，模拟一场"海豚 vs 考拉"的体操比赛。你需要编写计算平均分的函数和判断胜负的函数，并处理"必须至少双倍分数才能获胜"的特殊规则。</p>
 
-// 2. 利用测试数据 Data 1 计算出首发回合的两队平均分
-let scoreDolphins = 
-let scoreKoalas = 
+<hr>
 
-// 3. 编写判定获胜队伍的 checkWinner 函数
-const checkWinner = function(avgDolphins, avgKoalas) {
-    // 你的判断逻辑 if...
-}
+<h2 id="section-3">📋 Tasks（任务清单）</h2>
+
+<ol>
+<li>创建<strong>箭头函数</strong> <code>calcAverage</code>，接收 3 个分数，返回平均值</li>
+<li>用 <code>calcAverage</code> 分别计算海豚队（Dolphins）和考拉队（Koalas）的平均分</li>
+<li>创建函数 <code>checkWinner</code>，接收两队的平均分作为参数</li>
+<li>判断规则：<strong>一队只有在平均分至少是对方两倍时才能获胜</strong></li>
+<li>获胜时在控制台打印 <code>&quot;Dolphins win 🏆 (XX vs. YY)&quot;</code>，否则打印 <code>&quot;No team wins...&quot;</code></li>
+<li>本题忽略平局情况</li>
+</ol>
+
+<h2 id="section-4">📊 Test Data（测试数据）</h2>
+
+<p><strong>数据集 1：</strong></p>
+
+<ul>
+<li>🐬 Dolphins: 44, 23, 71</li>
+<li>🐨 Koalas: 65, 54, 49</li>
+</ul>
+
+<p><strong>数据集 2：</strong></p>
+
+<ul>
+<li>🐬 Dolphins: 85, 54, 41</li>
+<li>🐨 Koalas: 23, 34, 27</li>
+</ul>
+
+<div class="callout"><p>💡 <strong>提示</strong>：判断 A 是否至少是 B 的两倍 → <code>A &gt;= 2 * B</code></p></div>
+
+<hr>
+
+<h2 id="section-5">🧪 实战沙盒</h2>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">challenge1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+// 1. 创建 calcAverage 箭头函数（接收 3 个参数）
+
+
+// 2. 用 calcAverage 计算两队的平均分
+// 数据集 1：Dolphins: 44, 23, 71 | Koalas: 65, 54, 49
+
+
+// 3. 创建 checkWinner 函数
+// - 判断是否有队伍达到对方两倍分数
+// - 在控制台打印获胜信息或 &quot;No team wins...&quot;
+
 
 // 4. 调用 checkWinner
-checkWinner(scoreDolphins, scoreKoalas);
 
-// 5. 替换成试炼数据 Data 2，再次计算平均分并调用 checkWinner
-// scoreDolphins = ...
-</textarea>
-            </div>
-            <div id="console1" class="console-output"></div>
-        </div>
 
-        <details>
-            <summary>💡 Jonas 官方解法揭秘 (Spoilers! 先自己试哦)</summary>
-            
-            <p>如果你已经成功做出来了，或者卡在某一步无法动弹，别怕！下面是我本人（Jonas）的思维拆解：</p>
-            
-            <p><strong>第一步</strong>：创造能通用一切三连数的 <code>calcAverage</code> 箭头机器：我们不要把函数名限制死在算跳水成绩上，所以我们就使用 <code>a, b, c</code> 代替参数。</p>
-<pre><code class="language-javascript">const calcAverage = (a, b, c) => (a + b + c) / 3;
-</code></pre>
+// 🔁 用数据集 2 再测试一次
+// Dolphins: 85, 54, 41 | Koalas: 23, 34, 27</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
 
-            <p><strong>第二步</strong>：应用算出的平均分。因为我们要算两次不同的数据，如果希望重复利用这两个变量赋值，那么我们要用 <code>let</code> 声明，而不是没法改写的 <code>const</code>。</p>
-<pre><code class="language-javascript">let scoreDolphins = calcAverage(44, 23, 71);
+<hr>
+
+<details><summary>💡 Jonas 官方解法拆解</summary>
+
+<h3>思考链路</h3>
+
+<div class="mermaid">
+    A["📝 分析任务需求"] --> B["1⃣ 需要一个算平均分的函数"]
+    B --> C["calcAverage(a, b, c)<br/>return (a+b+c)/3"]
+    C --> D["2⃣ 分别计算两队平均分"]
+    D --> E["scoreDolphins = calcAverage(44,23,71)"]
+    D --> F["scoreKoalas = calcAverage(65,54,49)"]
+    E --> G["3⃣ 判断胜负"]
+    F --> G
+    G --> H{"dolphins ≥ 2 × koalas?"}
+    H -- "✅" --> I["🐬 Dolphins win!"]
+    H -- "❌" --> J{"koalas ≥ 2 × dolphins?"}
+    J -- "✅" --> K["🐨 Koalas win!"]
+    J -- "❌" --> L["No team wins"]
+    
+    style I fill:#51cf66,stroke:#333,color:#fff
+    style K fill:#51cf66,stroke:#333,color:#fff
+    style L fill:#ff6b6b,stroke:#333,color:#fff
+
+</div>
+
+<h3>完整代码</h3>
+
+<pre><code class="language-javascript">
+// 1. 箭头函数计算平均值
+const calcAverage = (a, b, c) =&gt; (a + b + c) / 3;
+
+// 2. 计算两队平均分 —— 数据集 1
+let scoreDolphins = calcAverage(44, 23, 71);
 let scoreKoalas = calcAverage(65, 54, 49);
-</code></pre>
+console.log(scoreDolphins, scoreKoalas); // 46 56
 
-            <p><strong>第三步</strong>：写判定法则。这是非常优美的独立判定模块：</p>
-<pre><code class="language-javascript">const checkWinner = function(avgDolphins, avgKoalas) {
-    if (avgDolphins >= 2 * avgKoalas) {
-        console.log(`Dolphins win the trophy 🏆 (${avgDolphins} vs. ${avgKoalas})`);
-    } else if (avgKoalas >= 2 * avgDolphins) {
-        console.log(`Koalas win the trophy 🏆 (${avgKoalas} vs. ${avgDolphins})`);
-    } else {
-        console.log('No team wins... 😢');
-    }
-}
-</code></pre>
+// 3. 判断胜负
+const checkWinner = function (avgDolphins, avgKoalas) {
+  if (avgDolphins &gt;= 2 <em> avgKoalas) {
+    console.log(<code>Dolphins win 🏆 (${avgDolphins} vs. ${avgKoalas})</code>);
+  } else if (avgKoalas &gt;= 2 </em> avgDolphins) {
+    console.log(<code>Koalas win 🏆 (${avgKoalas} vs. ${avgDolphins})</code>);
+  } else {
+    console.log('No team wins...');
+  }
+};
 
-            <p><strong>最后</strong>：执行。并在第二组数据中直接覆盖变量执行！</p>
-<pre><code class="language-javascript">checkWinner(scoreDolphins, scoreKoalas);
-// 第一波数据测试完成。没有任何队伍获胜（因为都没有到达对面 2 倍）
+// 4. 测试数据集 1
+checkWinner(scoreDolphins, scoreKoalas);
+// No team wins...（56 不足 46 的两倍）
 
-// 开始更新数据注入
+// 🔁 测试数据集 2
 scoreDolphins = calcAverage(85, 54, 41);
 scoreKoalas = calcAverage(23, 34, 27);
+console.log(scoreDolphins, scoreKoalas); // 60 28
 checkWinner(scoreDolphins, scoreKoalas);
-// 神奇的事情发生了：Dolphins 的 60 刚好打败了 Koalas 的 28。海豚队胜利！
+// Dolphins win 🏆 (60 vs. 28)（60 ≥ 28 × 2 = 56 ✅）
 </code></pre>
 
-            <p>希望你也能独立走到这一步！如果卡住了去喝杯水复习下前几节课。编程是一场马拉松！</p>
-        </details>
+<h3>🔍 执行追踪（数据集 2）</h3>
 
+<table>
+    <thead><tr><th>步骤</th><th>代码</th><th>变量</th><th>说明</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>calcAverage(85,54,41)</code></td><td><code>scoreDolphins = 60</code></td><td>(85+54+41)/3</td></tr>
+<tr><td>②</td><td><code>calcAverage(23,34,27)</code></td><td><code>scoreKoalas = 28</code></td><td>(23+34+27)/3</td></tr>
+<tr><td>③</td><td><code>60 &gt;= 2 * 28</code> ?</td><td><code>60 &gt;= 56</code> → ✅</td><td>海豚分数是考拉两倍以上</td></tr>
+<tr><td>④</td><td><code>console.log(...)</code></td><td>—</td><td>输出: Dolphins win 🏆</td></tr></tbody>
+</table>
+<h3>关键设计要点</h3>
+
+<ul>
+<li><code>calcAverage</code> 是<strong>通用函数</strong>——不关心输入来自哪里（分数/身高/钱都行）</li>
+<li><code>checkWinner</code> 也是<strong>独立函数</strong>——可以传入任意两个数字，不绑定特定数据</li>
+<li>用 <code>let</code> 声明分数变量，因为数据集 2 需要<strong>重新赋值</strong></li>
+</ul>
+</details>
+
+<hr>
+
+<h2 id="section-6">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>平均值</td><td>Average</td><td>所有数之和除以个数</td><td><code>(a+b+c)/3</code></td><td>—</td></tr>
+<tr><td>箭头函数</td><td>Arrow Function</td><td>ES6 简写函数</td><td><code>(a,b) =&gt; a+b</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Functions/Arrow_functions" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>函数表达式</td><td>Function Expression</td><td>匿名函数赋给变量</td><td><code>const fn = function(){}</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/function" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-7">🧪 学习验证</h2>
+
+<h3 id="section-8">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">判断 A 是否至少是 B 的两倍，正确的表达式是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `A &gt; B * 2`</div>
+<div class="quiz-option" data-value="B">B) `A &gt;= 2 * B`</div>
+<div class="quiz-option" data-value="C">C) `A === B * 2`</div>
+<div class="quiz-option" data-value="D">D) `A * 2 &gt;= B`</div>
+    </div>
+    <div class="quiz-explanation">
+        "至少两倍"用 <code>&gt;=</code>（大于等于）而非 <code>&gt;</code>（大于），因为等于两倍也算赢。<code>A &gt;= 2 * B</code> 读作"A 大于等于 B 的两倍"。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">为什么 <code>scoreDolphins</code> 和 <code>scoreKoalas</code> 用 <code>let</code> 而不是 <code>const</code>？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `let` 更安全</div>
+<div class="quiz-option" data-value="B">B) `const` 不能存储数字</div>
+<div class="quiz-option" data-value="C">C) 需要在数据集 2 时重新赋值，`const` 不可重赋值</div>
+<div class="quiz-option" data-value="D">D) 函数返回值只能存在 `let` 变量中</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>const</code> 声明的变量不可重新赋值。因为我们需要用数据集 2 覆盖之前的分数值，所以必须用 <code>let</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question"><code>calcAverage</code> 函数为什么设计成通用的而不是专门计算"海豚平均分"？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 遵循 DRY 原则，通用函数可以在不同场景下复用</div>
+<div class="quiz-option" data-value="B">B) JavaScript 要求函数不能使用特定名称</div>
+<div class="quiz-option" data-value="C">C) 通用函数运行更快</div>
+<div class="quiz-option" data-value="D">D) 特定名称的函数不能接收参数</div>
+    </div>
+    <div class="quiz-explanation">
+        函数应该是<strong>通用的、可复用的</strong>。<code>calcAverage</code> 不关心输入是什么——分数、身高、收入都行。这遵循了 DRY 原则和函数设计的最佳实践。
+    </div>
+</div>
+
+<h3 id="section-9">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    const calcAverage = (a, b, c) =&gt; <input type="text" class="blank-input" data-answer="( a + b + c ) / 3" placeholder="1">;<br>
+    <br>
+    const scoreDolphins = calcAverage(44, 23, <input type="text" class="blank-input" data-answer="71" placeholder="2">);<br>
+    const scoreKoalas = <input type="text" class="blank-input" data-answer="calcAverage" placeholder="3">(65, 54, 49);
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
-<!-- 依赖脚本 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
     function runCode(editorId, consoleId) {
         const code = document.getElementById(editorId).value;
-        const out = document.getElementById(consoleId);
-        out.innerHTML = '';
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
         const originalLog = console.log;
-        const originalError = console.error;
-        let logs = [];
         console.log = function(...args) {
-            logs.push('> ' + args.join(' '));
-            originalLog.apply(console, args);
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
         };
-        console.error = function(...args) {
-            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
-            originalError.apply(console, args);
-        };
+
         try {
+            // Evaluates code in local scope to prevent global leak
             new Function(code)();
-            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
         } catch (e) {
-            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
         }
-        console.log = originalLog;
-        console.error = originalError;
-        out.innerHTML = logs.join('<br>');
     }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
 </script>
+
 </body>
 </html>

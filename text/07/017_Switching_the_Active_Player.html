@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Switching the Active Player</title>
+    <title>切换活跃玩家 (Switching the Active Player)</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,221 +11,963 @@
     <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
             --bg-color: #0d0d0d;
             --surface-color: #1a1a1a;
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
-            --warning-color: #f1fa8c;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
             --radius-md: 8px;
             --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
-        .app-container { display: flex; min-height: 100vh; }
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
-        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
 
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
         h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
         p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
-        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
-        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
-        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
-        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
-        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        td a { color: var(--info-color); text-decoration: none; }
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
 
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
         
-        
-    
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
         }
 
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 07 章 / 进度</div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
             <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">概述</a>
-            <a href="#section-active-player" class="nav-item">1. 状态：谁在掷骰子？</a>
-            <a href="#section-dynamic-id" class="nav-item">2. 高级技巧：动态拼接 ID</a>
-            <a href="#section-toggle" class="nav-item">3. 视觉切换神器：classList.toggle()</a>
-            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
-            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+            <a href="#section-0" class="nav-item active">切换活跃玩家 Switching the Active Player</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>Switching the Active Player</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：017 Switching the Active Player.en.srt</span>
-            <span>📂 章节：第 07 章</span>
-        </div>
+<h1 id="section-0">切换活跃玩家 (Switching the Active Player)</h1>
 
-        <h2 id="section-overview">🎯 概述</h2>
-        <p>上节课我们把增加的分数死死地挂在了 Player 1 身上。这节课我们来修复这个问题，实现两人游戏的精髓：<strong>回合切换</strong>。</p>
-        <p>当某位玩家不幸掷出 1 点时，他当前回合的累积积分会归零，并强制切换到下一位玩家。这中间涉及到数据状态的管理，以及 UI 视觉层面的平滑过渡。</p>
+<div class="callout"><p>📺 来源：<code>017 Switching the Active Player.en.srt</code><br>📂 章节：第 07 章</p></div>
 
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <h2 id="section-active-player">1. 状态：谁在掷骰子？</h2>
-        <p>要让程序知道现在该给谁加分，我们需要在全局环境（外部）新建一个 <strong>状态变量 (State Variable)</strong>。这就是为什么我们在写 HTML 的时候，把玩家分为 Player 0 和 Player 1，而不是 1 和 2。</p>
+<ul>
+<li><strong>前置知识</strong>：三元运算符、<code>getElementById</code> 动态选取元素、<code>classList.add/remove</code>、<code>currentScore</code> 变量管理</li>
+<li><strong>后续扩展</strong>：Hold（保住分数）功能、游戏获胜判断、<code>classList.toggle</code> 切换类、游戏重置</li>
+</ul>
 
-        <pre><code class="language-javascript">
-// 全局状态变量：0 代表 Player 1, 1 代表 Player 2
-let activePlayer = 0; 
+<h2 id="section-2">🎯 概述</h2>
 
-// ... 然后在丢出 1 的时候（之前写的 else 块里）切换玩家
-if (dice !== 1) {
-    // 加分逻辑...
+<p>本节课实现 Pig Game 的<strong>玩家切换机制</strong>。当骰子掷到 1 时，需要：①清零当前回合分数、②切换活跃玩家编号、③用<strong>动态 ID 拼接</strong>更新正确玩家的 DOM 元素、④用 <code>classList.toggle</code> 切换玩家的视觉高亮。核心技巧是将玩家编号（0/1）嵌入 ID 字符串来动态选取 DOM 元素。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 动态 ID 拼接选取元素</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：你在酒店前台，告诉服务员"请打扫 {楼层}{房号} 的房间"。楼层和房号是变量，拼接后得到具体房间号如 "3-05"。同理，将 <code>activePlayer</code> 拼入 ID 名，得到 <code>current--0</code> 或 <code>current--1</code>。</p></div>
+
+<pre><code class="language-javascript">// 根据活跃玩家动态选取元素
+document.getElementById(`current--${activePlayer}`).textContent = currentScore;</code></pre>
+
+<div class="mermaid">
+flowchart LR
+    A["activePlayer = 0"] --> B["拼接: 'current--' + 0"]
+    B --> C["getElementById('current--0')"]
+    C --> D["选中玩家 0 的回合分数元素"]
+    
+    E["activePlayer = 1"] --> F["拼接: 'current--' + 1"]
+    F --> G["getElementById('current--1')"]
+    G --> H["选中玩家 1 的回合分数元素"]
+</div>
+
+<p><strong>为什么这比硬编码更好？</strong></p>
+
+<div class="code-comparison">
+    <div class="code-panel">
+        <div class="panel-header method2">🚨 硬编码：需要 if/else 判断</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">if (activePlayer === 0) {
+  current0El.textContent = currentScore;
 } else {
-    // 掷出了 1 的惩罚逻辑：
-    // 1. 把当前玩家 UI 上的临时分数清零
-    document.getElementById(`current--${activePlayer}`).textContent = 0;
-    
-    // 2. 状态里的当前分数也归零
-    currentScore = 0; 
-    
-    // 3. ⭐️ 核心玩家切换，利用三元运算符：如果等于 0 那么就变 1，否则变 0
-    activePlayer = activePlayer === 0 ? 1 : 0;
-}
-        </code></pre>
+  current1El.textContent = currentScore;
+}</code></pre>
+    </div>
+    <div class="code-panel">
+        <div class="panel-header method1">✨ 动态拼接：一行搞定</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">document.getElementById(
+  `current--${activePlayer}`
+).textContent = currentScore;</code></pre>
+    </div>
+</div>
 
-        <h2 id="section-dynamic-id">2. 高级技巧：动态拼接 ID</h2>
-        <p>注意到我们在上一段代码里使用的高级技巧了吗？</p>
-        <p>以前我们要修改一个文本，必须明确指明元素的名字：<code>getElementById('current--0')</code>。<br>
-        但在不知道当前到底是谁的回合时，我们可以借助 <strong>模板字符串</strong> 将 <code>activePlayer</code> 状态变出作为 ID 的一部分组合起来！</p>
+<p><strong>🔍 执行追踪：</strong></p>
 
-        <pre><code class="language-javascript">
-// 魔法拼接！如果 activePlayer 是 0，它就会选中 'current--0'；
-// 如果换人了，activePlayer 变成了 1，它就会选中 'current--1'
-// 我们从此再也不用写两套 if-else 去硬编码查找 DOM 元素了！
-document.getElementById(`current--${activePlayer}`).textContent = currentScore;
-        </code></pre>
-        <div class="callout success">
-            <p>💡 <strong>设计之美：</strong> 当你的内部状态数据结构（0 和 1）能与外部 UI 的类名或 ID 号（如 <code>player--0</code>, <code>player--1</code>）完全匹配时，DOM 的操纵就会变成世界上最简单的事。</p>
-        </div>
+<table>
+    <thead><tr><th>activePlayer</th><th>拼接结果</th><th>选中元素</th><th>操作</th></tr></thead>
+    <tbody><tr><td><code>0</code></td><td><code>'current--0'</code></td><td>玩家 0 的回合分数</td><td>设置 textContent</td></tr>
+<tr><td><code>1</code></td><td><code>'current--1'</code></td><td>玩家 1 的回合分数</td><td>设置 textContent</td></tr></tbody>
+</table>
 
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"ID 拼变量，一行选两人"</strong> —— 利用模板字面量把玩家编号变量拼入 ID 名，避免为每个玩家写重复代码。</p></div>
 
-        <h2 id="section-toggle">3. 视觉切换神器：classList.toggle()</h2>
-        <p>数据层面的换人已经完成了，但 UI 界面上代表活跃玩家的那个“半边白亮背景”并没有切过去。在 HTML 中，这个高亮样式是由 <code>player--active</code> 类控制的（默认挂在玩家 0 身上）。</p>
-        
-        <p>我们当然可以用 <code>contains</code> 检查类名，有就 <code>remove</code>，没有就 <code>add</code>。但这太麻烦了！在这种“非黑即白、非开即关”的场景里，JavaScript 提供了一个终极封装：<strong><code>toggle</code> (切换按钮)</strong>。</p>
+<hr>
 
-        <pre><code class="language-javascript">
-// 这是上方的 else 块内部增加的视觉切换代码
-const player0El = document.querySelector('.player--0');
-const player1El = document.querySelector('.player--1');
+<h3 id="section-5">2. 玩家切换逻辑</h3>
 
-// toggle 的魔力：如果你有这个类，就移除它；如果没有，就加上它！
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：乒乓球发球权切换——如果轮到"这边"（0），下一个就是"那边"（1）；如果轮到"那边"（1），下一个就是"这边"（0）。用三元运算符就能表达这种"非此即彼"的翻转。</p></div>
+
+<p>切换活跃玩家时需要完成三个步骤（顺序很重要）：</p>
+
+<pre><code class="language-javascript">// 掷到 1 时触发的切换逻辑
+// ① 重置当前回合分数变量
+currentScore = 0;
+
+// ② 将当前玩家的 DOM 显示归零（在切换前执行！）
+document.getElementById(`current--${activePlayer}`).textContent = 0;
+
+// ③ 切换活跃玩家编号
+activePlayer = activePlayer === 0 ? 1 : 0;</code></pre>
+
+<div class="mermaid">
+flowchart TD
+    A["🎲 掷到 1！"] --> B["① currentScore = 0"]
+    B --> C["② DOM: 当前玩家回合分数 → 0"]
+    C --> D["③ 切换 activePlayer"]
+    D --> E{"activePlayer 原来是?"}
+    E -->|"0"| F["activePlayer = 1"]
+    E -->|"1"| G["activePlayer = 0"]
+    style A fill:#991b1b,stroke:#f87171,color:#fff
+</div>
+
+<p><strong>⚠️ 顺序陷阱</strong>：步骤 ② 必须在步骤 ③ <strong>之前</strong>执行。因为步骤 ② 需要知道"当前是谁"来清零他的 DOM 显示。如果先切换了玩家，就会清错人的分数。</p>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<p>假设 <code>activePlayer = 0</code>，<code>currentScore = 13</code>，掷到 1：</p>
+
+<table>
+    <thead><tr><th>步骤</th><th>代码</th><th>变量变化</th><th>DOM 变化</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>currentScore = 0</code></td><td><code>currentScore: 13 → 0</code></td><td>—</td></tr>
+<tr><td>②</td><td><code>getElementById('current--0').textContent = 0</code></td><td>—</td><td>玩家 0 的回合分数显示 <code>0</code></td></tr>
+<tr><td>③</td><td><code>activePlayer = 0 === 0 ? 1 : 0</code></td><td><code>activePlayer: 0 → 1</code></td><td>—</td></tr></tbody>
+</table>
+
+<hr>
+
+<h3 id="section-6">3. classList.toggle 切换视觉高亮</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>toggle</code> 就像房间的灯光开关 —— 灯亮着就关掉，灯灭了就打开。对两个玩家<strong>同时 toggle</strong> 同一个类，就能保证始终只有一个玩家被高亮。</p></div>
+
+<pre><code class="language-javascript">// 同时对两个玩家 toggle player--active 类
 player0El.classList.toggle('player--active');
-player1El.classList.toggle('player--active');
-        </code></pre>
-        <p>因为 <code>player--active</code> 这个高亮类最开始只存在于玩家 0 身上，所以无论这两个 <code>toggle</code> 怎么“翻转抽脸”，总是保证有且仅有一个玩家亮起白底！</p>
+player1El.classList.toggle('player--active');</code></pre>
 
+<div class="mermaid">
+flowchart LR
+    subgraph "初始状态"
+        A["玩家 0: player--active ✅"]
+        B["玩家 1: (无) ❌"]
+    end
+    subgraph "toggle 后"
+        C["玩家 0: (无) ❌"]
+        D["玩家 1: player--active ✅"]
+    end
+    A -->|"toggle: 有则移除"| C
+    B -->|"toggle: 无则添加"| D
+</div>
 
-        <h2 id="section-quiz">🧪 学习验证</h2>
+<p><strong>为什么 toggle 比 add/remove 更适合这里？</strong></p>
 
-        <div class="quiz-card" data-correct="A">
-            <div class="quiz-question">1. 我们在切换玩家时使用的 `classList.toggle('my-class')` 的工作原理是什么？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) 它自动检查元素是否包含该类：如果不包含就添加该类，如果包含则移除该类。</div>
-                <div class="quiz-option" data-value="B">B) 强制将指定的类添加到元素上，如果已经有了就不做任何事（等同于 add）。</div>
-                <div class="quiz-option" data-value="C">C) 用新提供的类替换掉该元素当前所有的其它类。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>正确答案：A</strong>。Toggle 就像真实的房间电灯开关，只需按就完事了，它会自动根据现在的状态（亮或暗）执行相反的动作。
-            </div>
-        </div>
+<table>
+    <thead><tr><th>方法</th><th>玩家切换需要的代码量</th></tr></thead>
+    <tbody><tr><td>add + remove</td><td>4 行：先 remove 旧玩家的类，再 add 新玩家的类</td></tr>
+<tr><td>toggle × 2</td><td>2 行：两个玩家同时 toggle，自动正确切换</td></tr></tbody>
+</table>
 
-        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>中文术语</th>
-                    <th>代码</th>
-                    <th>简明释义</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>动态 ID 拼接</td>
-                    <td><code>`element--${activePlayer}`</code></td>
-                    <td>利用 ES6 模板字符串，将状态变量（如 0/1 整数）动态嵌入到 DOM ID 或 Class 查询字符串中，极大简化条件分支代码。</td>
-                </tr>
-                <tr>
-                    <td>切换 CSS 类</td>
-                    <td><code>.classList.toggle('类名')</code></td>
-                    <td>开关方法。检查元素是否含有该类：有则删除，无则添加。（这也是前端做手风琴折叠菜单、暗色模式切换最为神级的 API）。</td>
-                </tr>
-            </tbody>
-        </table>
+<pre><code class="language-javascript">// ❌ 用 add/remove 需要更多代码
+player0El.classList.remove('player--active');
+player1El.classList.add('player--active');
+// 但还要考虑反方向...
 
+// ✅ toggle 自动处理两个方向
+player0El.classList.toggle('player--active');
+player1El.classList.toggle('player--active');</code></pre>
+
+<p><strong>📊 toggle 在不同状态下的行为：</strong></p>
+
+<table>
+    <thead><tr><th>调用</th><th>玩家 0 原状态</th><th>玩家 0 后状态</th><th>玩家 1 原状态</th><th>玩家 1 后状态</th></tr></thead>
+    <tbody><tr><td>第 1 次 toggle</td><td>有 <code>active</code></td><td>❌ 移除</td><td>无 <code>active</code></td><td>✅ 添加</td></tr>
+<tr><td>第 2 次 toggle</td><td>无 <code>active</code></td><td>✅ 添加</td><td>有 <code>active</code></td><td>❌ 移除</td></tr></tbody>
+</table>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：<code>classList.toggle</code> 在实际项目中用途广泛——深色/浅色模式切换、侧边栏展开/收起、选项卡的激活/非激活状态、复选框的选中/取消等。</p></div>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你在开发一个回合制对战游戏的 UI，两个玩家面板需要交替高亮，同时各自的得分需要动态更新。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">switch_player_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 模拟玩家切换系统
+let activePlayer = 0;
+let currentScore = 0;
+const scores = [0, 0];
+
+// 模拟 DOM
+const dom = {
+  'current--0': 0,
+  'current--1': 0,
+  player0Active: true,
+  player1Active: false,
+};
+
+function displayState() {
+  console.log(`  👤 活跃玩家: ${activePlayer}`);
+  console.log(`  📊 回合分数: ${currentScore}`);
+  console.log(`  🏠 P0 当前: ${dom['current--0']} | P1 当前: ${dom['current--1']}`);
+  console.log(`  🎨 P0 高亮: ${dom.player0Active} | P1 高亮: ${dom.player1Active}`);
+}
+
+function switchPlayer() {
+  // ① 清零当前回合分数
+  currentScore = 0;
+  
+  // ② 清零当前玩家的 DOM 显示
+  dom[`current--${activePlayer}`] = 0;
+  
+  // ③ 切换玩家编号
+  activePlayer = activePlayer === 0 ? 1 : 0;
+  
+  // ④ toggle 视觉高亮
+  dom.player0Active = !dom.player0Active;
+  dom.player1Active = !dom.player1Active;
+}
+
+function rollDice() {
+  const dice = Math.trunc(Math.random() * 6) + 1;
+  console.log(`\n🎲 掷出: ${dice}`);
+  
+  if (dice !== 1) {
+    currentScore += dice;
+    dom[`current--${activePlayer}`] = currentScore;
+    console.log(`  ➕ 加分，回合累计: ${currentScore}`);
+  } else {
+    console.log(`  💥 掷到 1！切换玩家`);
+    switchPlayer();
+  }
+  displayState();
+}
+
+// 模拟 8 次掷骰
+console.log('=== Pig Game 玩家切换演示 ===');
+displayState();
+for (let i = 0; i &lt; 8; i++) {
+  rollDice();
+}</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+sequenceDiagram
+    participant P0 as 👤 玩家 0
+    participant G as 🎮 游戏逻辑
+    participant P1 as 👤 玩家 1
+
+    Note over P0: 当前活跃 (高亮)
+    P0->>G: 掷骰子 → 4
+    G->>P0: currentScore += 4 → 4
+    P0->>G: 掷骰子 → 6
+    G->>P0: currentScore += 6 → 10
+    P0->>G: 掷骰子 → 1 💥
+    G->>G: currentScore = 0
+    G->>G: activePlayer = 1
+    G->>P0: 移除高亮
+    G->>P1: 添加高亮
+    Note over P1: 当前活跃 (高亮)
+    P1->>G: 掷骰子 → 3
+    G->>P1: currentScore += 3 → 3
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>操作</th><th>dice</th><th>activePlayer</th><th>currentScore</th><th>P0 DOM</th><th>P1 DOM</th><th>P0 高亮</th><th>P1 高亮</th></tr></thead>
+    <tbody><tr><td>初始</td><td>—</td><td>0</td><td>0</td><td>0</td><td>0</td><td>✅</td><td>❌</td></tr>
+<tr><td>掷骰</td><td>4</td><td>0</td><td>4</td><td>4</td><td>0</td><td>✅</td><td>❌</td></tr>
+<tr><td>掷骰</td><td>6</td><td>0</td><td>10</td><td>10</td><td>0</td><td>✅</td><td>❌</td></tr>
+<tr><td>掷骰</td><td>1</td><td>0→1</td><td>0</td><td>0</td><td>0</td><td>❌</td><td>✅</td></tr>
+<tr><td>掷骰</td><td>5</td><td>1</td><td>5</td><td>0</td><td>5</td><td>❌</td><td>✅</td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ 利用模板字面量 `<code> </code>current--${activePlayer}<code> </code>` <strong>动态拼接</strong> ID 名，避免重复代码</li>
+<li>✅ 三元运算符 <code>activePlayer === 0 ? 1 : 0</code> 实现 0/1 之间的切换</li>
+<li>✅ <code>classList.toggle</code> 同时对两个元素操作，保证<strong>始终只有一个</strong>被高亮</li>
+<li>✅ 切换前必须<strong>先清零当前玩家的 DOM 显示</strong>，再改变 <code>activePlayer</code> 的值</li>
+<li>✅ <code>currentScore</code> 在切换时必须重置为 <code>0</code></li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：先切换 <code>activePlayer</code> 再清零 DOM 显示。这会导致清错玩家的分数——本该清玩家 0 的分数，结果清了玩家 1 的。</li>
+<li>⚠️ <strong>误区 2</strong>：用 <code>if/else</code> 硬编码两个玩家的切换逻辑。虽然能工作，但不如动态 ID 拼接简洁。如果未来扩展到 3-4 人游戏，硬编码会变得非常冗长。</li>
+<li>⚠️ <strong>误区 3</strong>：只 toggle 一个玩家的高亮类。必须同时对两个玩家 toggle，才能保证一个添加时另一个移除，维持"互斥高亮"效果。</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">// 动态 ID 拼接时使用了普通字符串
+document.getElementById('current--activePlayer').textContent = 0;
+// ⛔ 查找的是 ID 为 &quot;current--activePlayer&quot; 的元素（不存在！）</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught TypeError: Cannot set properties of null (setting 'textContent')</code></pre>
+
+<p><strong>🔑 解读</strong>：普通字符串 <code>'current--activePlayer'</code> 不会将 <code>activePlayer</code> 变量的值插入。必须使用模板字面量 `<code> </code>current--${activePlayer}<code> </code>` 才能实现变量插值。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>切换类</td><td>classList.toggle</td><td>有则移除，无则添加</td><td><code>el.classList.toggle('active')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMTokenList/toggle" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>三元运算符</td><td>Ternary Operator</td><td><code>条件 ? 真值 : 假值</code></td><td><code>x === 0 ? 1 : 0</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Conditional_operator" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>模板字面量</td><td>Template Literal</td><td>反引号 + <code>${}</code> 插值</td><td>`<code> </code>id-${n}<code> </code>`</td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Template_literals" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>按 ID 获取</td><td>getElementById</td><td>通过 ID 获取唯一元素</td><td><code>document.getElementById('id')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/getElementById" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：实现 3 人轮换机制</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 扩展为 3 个玩家的轮换：0 → 1 → 2 → 0 → ...
+let activePlayer = 0;
+
+function switchToNextPlayer() {
+  // 你的代码：实现 0→1→2→0 的循环切换
+}
+
+// 测试
+for (let i = 0; i &lt; 6; i++) {
+  console.log(`当前玩家: ${activePlayer}`);
+  switchToNextPlayer();
+}</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">
+function switchToNextPlayer() {
+  activePlayer = (activePlayer + 1) % 3;
+  // 或者用三元：activePlayer = activePlayer === 2 ? 0 : activePlayer + 1;
+}
+
+for (let i = 0; i &lt; 6; i++) {
+  console.log(<code>当前玩家: ${activePlayer}</code>);
+  switchToNextPlayer();
+}
+// 输出: 0, 1, 2, 0, 1, 2
+</code></pre>
+
+<strong>解题思路</strong>：<code>% 3</code>（取模运算）是循环切换的通用方案：<code>(0+1)%3=1</code>、<code>(1+1)%3=2</code>、<code>(2+1)%3=0</code>，完美实现循环。
+
+</details>
+
+<p><strong>练习 2：实现互斥高亮效果</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 模拟 classList.toggle 的互斥效果
+const tabs = [
+  { name: 'Tab A', active: true },
+  { name: 'Tab B', active: false },
+  { name: 'Tab C', active: false },
+];
+
+function switchTab(index) {
+  // 你的代码：将 index 对应的 tab 设为 active，其他设为 false
+}
+
+function displayTabs() {
+  tabs.forEach(t =&gt; console.log(`  ${t.active ? '✅' : '❌'} ${t.name}`));
+}
+
+console.log('初始:'); displayTabs();
+switchTab(1);
+console.log('\n切换到 Tab B:'); displayTabs();
+switchTab(2);
+console.log('\n切换到 Tab C:'); displayTabs();</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  for (let i = 0; i &lt; tabs.length; i++) {
+    tabs[i].active = (i === index);
+  }
+}
+
+console.log('初始:'); displayTabs();
+switchTab(1);
+console.log('\n切换到 Tab B:'); displayTabs();
+switchTab(2);
+console.log('\n切换到 Tab C:'); displayTabs();
+</code></pre>
+
+<strong>解题思路</strong>：遍历所有 tab，只有当索引匹配时设为 <code>true</code>，其他全部设为 <code>false</code>。这是"互斥选择"的通用模式。
+
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>activePlayer = activePlayer === 0 ? 1 : 0</code> 这行代码的效果是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 将 activePlayer 始终设为 0</div>
+<div class="quiz-option" data-value="B">B) 将 activePlayer 始终设为 1</div>
+<div class="quiz-option" data-value="C">C) 如果 activePlayer 是 0 则变为 1，如果是 1 则变为 0</div>
+<div class="quiz-option" data-value="D">D) 检查 activePlayer 是否等于 0，但不修改它</div>
+    </div>
+    <div class="quiz-explanation">
+        三元运算符先判断 <code>activePlayer === 0</code>，为 <code>true</code> 则返回 <code>1</code>，为 <code>false</code> 则返回 <code>0</code>。返回值赋给 <code>activePlayer</code>，实现了 0↔1 的来回切换。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">为什么切换玩家时 DOM 清零操作必须在修改 <code>activePlayer</code> 之前执行？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) JavaScript 要求变量修改必须按顺序执行</div>
+<div class="quiz-option" data-value="B">B) 需要在知道&quot;当前是谁&quot;的情况下清零正确玩家的 DOM</div>
+<div class="quiz-option" data-value="C">C) 否则 `classList.toggle` 会失效</div>
+<div class="quiz-option" data-value="D">D) 因为 DOM 操作比变量赋值慢</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>getElementById(</code>current--${activePlayer}<code>)</code> 使用 <code>activePlayer</code> 来选取元素。如果先切换了 <code>activePlayer</code>（从 0 变 1），然后再清零 DOM，就会错误地清零玩家 1 的分数而非玩家 0 的。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">对两个元素同时调用 <code>classList.toggle('player--active')</code> 为什么能保证互斥高亮？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 因为初始状态只有一个元素有该类，toggle 会让它们永远处于相反状态</div>
+<div class="quiz-option" data-value="B">B) 因为 toggle 会自动检测其他元素是否有相同的类</div>
+<div class="quiz-option" data-value="C">C) 因为 DOM 不允许两个元素有相同的类名</div>
+<div class="quiz-option" data-value="D">D) 因为 toggle 内部有互斥锁机制</div>
+    </div>
+    <div class="quiz-explanation">
+        初始时只有玩家 0 有 <code>player--active</code> 类。toggle 玩家 0 时移除该类，toggle 玩家 1 时添加该类。下次再 toggle，玩家 0 又得到了类（添加），玩家 1 失去了类（移除）。两者始终处于相反状态。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 清零当前玩家的回合分数显示<br>
+    document.getElementById(`current--<input type="text" class="blank-input" data-answer="${activePlayer}" placeholder="1">`).textContent = 0;<br>
+    <br>
+    // 切换活跃玩家<br>
+    activePlayer = activePlayer === 0 <input type="text" class="blank-input" data-answer="?" placeholder="2"> 1 <input type="text" class="blank-input" data-answer=":" placeholder="3"> 0;<br>
+    <br>
+    // 切换视觉高亮<br>
+    player0El.classList.<input type="text" class="blank-input" data-answer="toggle" placeholder="4">('player--active');<br>
+    player1El.classList.<input type="text" class="blank-input" data-answer="toggle" placeholder="5">('player--active');
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
-<!-- 依赖脚本 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
                 document.querySelectorAll('.nav-item').forEach(nav => {
                     nav.classList.remove('active');
-                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
                 });
             }
         });
     }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
     document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
 
     window.addEventListener('scroll', () => {
@@ -236,25 +978,29 @@ player1El.classList.toggle('player--active');
         document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
     });
 
-    document.querySelectorAll('.quiz-card').forEach(card => {
-        const correctVal = card.getAttribute('data-correct');
-        const opts = card.querySelectorAll('.quiz-option');
-        const exp = card.querySelector('.quiz-explanation');
-        
-        opts.forEach(opt => {
-            opt.addEventListener('click', () => {
-                opts.forEach(o => o.style.background = 'transparent');
-                if (opt.getAttribute('data-value') === correctVal) {
-                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--success-color)';
-                } else {
-                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--error-color)';
-                }
-                exp.style.display = 'block';
-            });
-        });
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
     });
+
 </script>
+
 </body>
 </html>

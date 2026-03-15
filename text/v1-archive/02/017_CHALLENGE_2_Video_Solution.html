@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编程挑战 #2 视频解答 (Challenge #2 Solution)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 250px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+    
+        
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 直写式条件语句</a>
+            <a href="#section-2" class="nav-item">2. 模板字面量的升华版本</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>编程挑战 #2 视频解答</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：017 CHALLENGE #2 Video Solution.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <p>上一个挑战中我们建立了一个布尔变量，只是呆板无趣的输出了一个 true 或是 false。这一次，我们要将 <code>If/Else 语句</code> 和 <code>模板字面量 (Template Literal)</code> 缝合进程序代码之中，使其开口说人话！</p>
+
+        <h2 id="section-1">1. 抛弃死板变量，采用直写式条件</h2>
+        <p>我们不再将两个人的数值运算比对结果预先存在一个无聊的变量里，而是直接将其填装进 if 分支的判决庭——括号表达式内：</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge2-part1.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+const massMark = 78;
+const heightMark = 1.69;
+const massJohn = 92;
+const heightJohn = 1.95;
+
+const BMIMark = massMark / (heightMark ** 2);
+const BMIJohn = massJohn / (heightJohn ** 2);
+
+// 【进化！】直接比较，并将输出转化为人类自然语言
+if (BMIMark > BMIJohn) {
+    console.log("Mark's BMI is higher than John's!");
+} else {
+    console.log("John's BMI is higher than Mark's!");
+}</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-2">2. 模板字面量的升华：填补内嵌数据</h2>
+        <p>为了做到图文并茂、数据翔实，我们可以在上一回合输出的人类语言中，用我们早前学到的反引号 <code>` `</code> 和占位符 <code>${}</code> 给输出信息做个全面升舱填满数据。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge2-part2.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
+// 测试数据2（我们试着换血看自动反转）：
+const massMark = 95;
+const heightMark = 1.88;
+const massJohn = 85;
+const heightJohn = 1.76;
+
+const BMIMark = massMark / (heightMark ** 2);
+const BMIJohn = massJohn / (heightJohn ** 2);
+
+if (BMIMark > BMIJohn) {
+    // 【终极重构！】
+    console.log(`Mark's BMI (${BMIMark}) is higher than John's (${BMIJohn})!`);
+} else {
+    // 由于此情况约翰获胜，数据自动颠倒
+    console.log(`John's BMI (${BMIJohn}) is higher than Mark's (${BMIMark})!`);
+}</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+        
+        <p>太酷了！无论你是采用我书写的方式，还是有着自己截然不同的写法，只要程序成功执行并给出了相应的输出，你就是最棒的。<br>找到自己的代码风格是一件值得骄傲的事！不要强迫自己盲目背写和完全复刻教程的每一个按键。</p>
+
+    </main>
+</div>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n');
+        } catch (e) {
+            outConsole.innerHTML = `<span style="color:var(--error-color)">⚠️ ${e.name} : ${e.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+</script>
+</body>
+</html>

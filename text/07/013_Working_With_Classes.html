@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Working With Classes</title>
+    <title>使用 CSS 类操作 (Working With Classes)</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,234 +11,1003 @@
     <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
             --bg-color: #0d0d0d;
             --surface-color: #1a1a1a;
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
-            --warning-color: #f1fa8c;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
             --radius-md: 8px;
             --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
-        .app-container { display: flex; min-height: 100vh; }
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
-        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
 
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
         h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
         p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
-        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
-        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
-        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
-        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
-        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        td a { color: var(--info-color); text-decoration: none; }
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
 
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
         
-        
-    
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
         }
 
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 07 章 / 进度</div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
             <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">概述</a>
-            <a href="#section-classlist" class="nav-item">1. 神器：classList API</a>
-            <a href="#section-dry-events" class="nav-item">2. DRY 继续：复用事件处理函数</a>
-            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
-            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+            <a href="#section-0" class="nav-item active">使用 CSS 类操作 Working With Classes</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>Working With Classes</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：013 Working With Classes.en.srt</span>
-            <span>📂 章节：第 07 章</span>
-        </div>
+<h1 id="section-0">使用 CSS 类操作 (Working With Classes)</h1>
 
-        <h2 id="section-overview">🎯 概述</h2>
-        <p>上一个项目中，我们通过 <code>element.style.property</code> 的方式逐一修改 CSS 行内样式。但如果一个状态（比如“激活”、“隐藏”）包含十几个 CSS 属性，每次都用 JS 逐行去写简直是恶梦。现代前端开发中，<strong>我们更喜欢把样式打包进一个 CSS Class 里，然后通过 JavaScript 去“开关”这个 Class。</strong></p>
+<div class="callout"><p>📺 来源：<code>013 Working With Classes.en.srt</code><br>📂 章节：第 07 章</p></div>
 
-        <h2 id="section-classlist">1. 神器：classList API</h2>
-        <p>在这个项目中，模态框和黑色遮罩层默认都带有一个叫做 <code>hidden</code> 的类，这个类的 CSS 代码其实就是一句 <code>display: none;</code>。想要让它们显示出来，我们只需要<strong>移除</strong>这个类。</p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <pre><code class="language-javascript">
-for (let i = 0; i < btnsOpenModal.length; i++) {
-    btnsOpenModal[i].addEventListener('click', function() {
-        // ❌ 以前的做法：(繁琐，且会覆盖内联样式)
-        // modal.style.display = 'block';
-        
-        // ✅ 现在的做法：移除 'hidden' 类
-        // 注意：传入的类名 string 前面绝对不要加点 (.)
-        modal.classList.remove('hidden');
-        overlay.classList.remove('hidden');
-    });
-}
-        </code></pre>
+<ul>
+<li><strong>前置知识</strong>：DOM 选择器（<code>querySelector</code>/<code>querySelectorAll</code>）、事件监听（<code>addEventListener</code>）、<code>for</code> 循环遍历 NodeList、CSS <code>display</code> 属性</li>
+<li><strong>后续扩展</strong>：<code>classList.contains()</code> 判断类是否存在、键盘事件（<code>keydown</code>/<code>keyup</code>）、CSS 过渡动画与类切换配合、事件委托模式</li>
+</ul>
 
-        <p>同样地，当我们需要关闭模态框时，只需要把这个类<strong>添加</strong>回去即可：</p>
-        <pre><code class="language-javascript">
-// 当点击“关闭(X)”按钮时
-btnCloseModal.addEventListener('click', function() {
-    modal.classList.add('hidden');
-    overlay.classList.add('hidden');
-});
-        </code></pre>
+<h2 id="section-2">🎯 概述</h2>
 
-        <div class="callout success">
-            <p>💡 <strong>最佳实践：</strong> CSS 负责管样式（把所有的属性写在新 Class 里），JavaScript 负责管逻辑（决定在什么时候给元素加上或移除这个 Class）。这种分离能让你的代码更干净、更易维护。</p>
-        </div>
+<p>本节课实现模态窗口的<strong>打开与关闭</strong>功能。核心知识点是通过 <code>classList.add()</code> 和 <code>classList.remove()</code> 操作 CSS 类来控制元素的显示/隐藏。这是 Web 开发中<strong>最主流的样式操控方式</strong>，比直接修改 <code>style</code> 属性更优雅、更高效。此外，还涉及将事件处理逻辑提取为<strong>命名函数</strong>以实现多处复用。</p>
 
+<h2 id="section-3">核心知识点</h2>
 
-        <h2 id="section-dry-events">2. DRY 继续：复用事件处理函数</h2>
-        <p>现代交互设计中，除了点右上角的 X 能关闭弹窗外，<strong>点击弹窗外部的黑色遮罩层 (overlay) 通常也能关闭弹窗</strong>。按照目前的学识，你可能会把上面的代码复制一份给 overlay：</p>
+<h3 id="section-4">1. classList API：添加与移除类</h3>
 
-        <pre><code class="language-javascript">
-// ❌ 糟糕的做法：重复写相同的回调函数逻辑
-overlay.addEventListener('click', function() {
-    modal.classList.add('hidden');
-    overlay.classList.add('hidden');
-});
-        </code></pre>
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：CSS 类就像手机的"勿扰模式"开关。打开勿扰模式（添加 <code>hidden</code> 类），所有通知都被屏蔽（元素隐藏）；关闭勿扰模式（移除 <code>hidden</code> 类），通知恢复（元素显示）。你不需要逐个关闭每个 App 的通知，一个开关搞定一切。</p></div>
 
-        <p>为了遵守 DRY 原则，我们可以把这段关闭逻辑提取为一个有名字的函数，然后在两个 <code>addEventListener</code> 中把它当作参数传进去：</p>
-
-        <pre><code class="language-javascript">
-// 1. 声明一个带名字的函数表达式
-const closeModal = function() {
-    modal.classList.add('hidden');
-    overlay.classList.add('hidden');
+<pre><code class="language-javascript">// 打开模态窗口：移除 hidden 类
+const openModal = function () {
+  modal.classList.remove('hidden');     // 模态窗口显示
+  overlay.classList.remove('hidden');   // 背景遮罩显示
 };
 
-// 2. 把函数【扔给】addEventListener 老板，让它在合适的时候去执行
+// 关闭模态窗口：添加 hidden 类
+const closeModal = function () {
+  modal.classList.add('hidden');        // 模态窗口隐藏
+  overlay.classList.add('hidden');      // 背景遮罩隐藏
+};</code></pre>
+
+<div class="mermaid">
+flowchart LR
+    subgraph "classList 操作"
+        A["元素.classList.remove('hidden')"] -->|"移除类"| B["元素可见 👀"]
+        C["元素.classList.add('hidden')"] -->|"添加类"| D["元素隐藏 🙈"]
+    end
+    E["CSS: .hidden { display: none }"] -.->|"定义隐藏样式"| A
+    E -.-> C
+</div>
+
+<p><strong>⚠️ 注意</strong>：<code>classList.add()</code> 和 <code>classList.remove()</code> 中的类名<strong>不需要</strong>加 <code>.</code> 前缀。<code>.hidden</code> 是 CSS 选择器语法，而 <code>classList</code> 操作的是纯类名 <code>'hidden'</code>。</p>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<p>点击 "Show modal" 按钮：</p>
+
+<table>
+    <thead><tr><th>步骤</th><th>操作</th><th>modal 的 class</th><th>overlay 的 class</th><th>页面效果</th></tr></thead>
+    <tbody><tr><td>初始</td><td>—</td><td><code>modal hidden</code></td><td><code>overlay hidden</code></td><td>两者都不可见</td></tr>
+<tr><td>①</td><td><code>modal.classList.remove('hidden')</code></td><td><code>modal</code></td><td><code>overlay hidden</code></td><td>模态窗口出现</td></tr>
+<tr><td>②</td><td><code>overlay.classList.remove('hidden')</code></td><td><code>modal</code></td><td><code>overlay</code></td><td>背景遮罩出现</td></tr></tbody>
+</table>
+
+<p>点击关闭按钮：</p>
+
+<table>
+    <thead><tr><th>步骤</th><th>操作</th><th>modal 的 class</th><th>overlay 的 class</th><th>页面效果</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>modal.classList.add('hidden')</code></td><td><code>modal hidden</code></td><td><code>overlay</code></td><td>模态窗口消失</td></tr>
+<tr><td>②</td><td><code>overlay.classList.add('hidden')</code></td><td><code>modal hidden</code></td><td><code>overlay hidden</code></td><td>背景遮罩消失</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"remove 就是秀，add 就是藏"</strong> —— <code>remove('hidden')</code> 移除隐藏类让元素登场，<code>add('hidden')</code> 添加隐藏类让元素退场。</p></div>
+
+<hr>
+
+<h3 id="section-5">2. classList vs style 直接操作</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：假设你要把房间布置成"派对模式"——灯光调暗、音乐打开、窗帘拉上。用 <code>style</code> 就像手动一个一个去做；用 <code>classList</code> 就像按下预设好的"派对模式"按钮，一键完成所有设置。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    A["🎯 需求：隐藏一个元素"] --> B{"选择方式"}
+    B -->|"classList"| C["modal.classList.add('hidden')"]
+    B -->|"style 直接操作"| D["modal.style.display = 'none'"]
+    C --> E["✅ 一行代码控制所有样式"]
+    D --> F["❌ 只能设置一个属性"]
+    E --> G["类中可包含 10+ 个 CSS 属性"]
+    F --> H["如果 hidden 有多个属性，需逐个设置"]
+    style C fill:#166534,stroke:#4ade80,color:#fff
+    style D fill:#991b1b,stroke:#f87171,color:#fff
+</div>
+
+<p><strong>📊 两种方式对比：</strong></p>
+
+<table>
+    <thead><tr><th>维度</th><th><code>classList</code> 操作</th><th><code>style</code> 直接操作</th></tr></thead>
+    <tbody><tr><td>语法</td><td><code>el.classList.add('hidden')</code></td><td><code>el.style.display = 'none'</code></td></tr>
+<tr><td>批量修改</td><td>✅ 一个类包含多个 CSS 属性</td><td>❌ 每个属性需单独设置</td></tr>
+<tr><td>样式与逻辑分离</td><td>✅ 样式定义在 CSS 中</td><td>❌ 样式写在 JS 中</td></tr>
+<tr><td>可维护性</td><td>✅ 改 CSS 即可，JS 不动</td><td>❌ 每处都要改 JS</td></tr>
+<tr><td>适用场景</td><td>大多数场景（推荐）</td><td>需要动态计算的样式（如动画位置）</td></tr></tbody>
+</table>
+
+<pre><code class="language-javascript">// ❌ 如果 hidden 类有多个属性，style 方式要逐个设置
+modal.style.display = 'none';
+modal.style.opacity = '0';
+modal.style.visibility = 'hidden';
+modal.style.transform = 'translateY(-100px)';
+
+// ✅ classList 方式一行搞定
+modal.classList.add('hidden');
+// CSS 中: .hidden { display: none; opacity: 0; visibility: hidden; transform: translateY(-100px); }</code></pre>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：在真实项目中，一个 <code>hidden</code> 类可能同时控制 <code>display: none</code>、<code>opacity: 0</code>、<code>transform: scale(0)</code> 和 <code>transition</code> 动画。使用 <code>classList</code> 只需一行 JS 代码即可切换所有这些样式，而用 <code>style</code> 则需要 4+ 行。</p></div>
+
+<hr>
+
+<h3 id="section-6">3. 命名函数与事件处理器复用</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：匿名函数就像一个没有名字的临时工——只能干一次活。命名函数就像正式员工——有名字，哪个部门需要都可以调过去干活。当多个事件都需要执行同样的操作时，你需要一个"正式员工"。</p></div>
+
+<p>关闭模态窗口的操作需要在<strong>两个地方</strong>触发：点击关闭按钮（×）和点击背景遮罩。如果用匿名函数，代码会重复：</p>
+
+<div class="code-comparison">
+    <div class="code-panel">
+        <div class="panel-header method2">🚨 重复的匿名函数</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">// 关闭按钮
+btnCloseModal.addEventListener('click', function () {
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
+});
+
+// 背景遮罩（完全重复！）
+overlay.addEventListener('click', function () {
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
+});</code></pre>
+    </div>
+    <div class="code-panel">
+        <div class="panel-header method1">✨ 提取为命名函数</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">// 定义一次
+const closeModal = function () {
+  modal.classList.add('hidden');
+  overlay.classList.add('hidden');
+};
+
+// 复用多次
 btnCloseModal.addEventListener('click', closeModal);
-overlay.addEventListener('click', closeModal);
-        </code></pre>
+overlay.addEventListener('click', closeModal);</code></pre>
+    </div>
+</div>
 
-        <div class="callout error">
-            <p>🚨 <strong>致命易错点提醒：</strong> 在传参时，写的是 <code>closeModal</code>，绝对不能写成 <code>closeModal()</code>！<br>
-            一旦加上括号 <code>()</code>，JavaScript 会在解析到这一行时<strong>立刻执行</strong>这个函数。我们不希望一刷新页面窗口就关了，我们希望的是<strong>当点击发生时，由浏览器代我们去执行它</strong>。</p>
-        </div>
+<div class="mermaid">
+flowchart TD
+    A["closeModal 函数"] 
+    B["btnCloseModal 点击事件"] -->|"传入 closeModal"| A
+    C["overlay 点击事件"] -->|"传入 closeModal"| A
+    A --> D["modal.classList.add('hidden')"]
+    A --> E["overlay.classList.add('hidden')"]
+    style A fill:#1e40af,stroke:#60a5fa,color:#fff
+</div>
 
+<p><strong>⚠️ 关键陷阱：传入函数引用 vs 调用函数</strong></p>
 
-        <h2 id="section-quiz">🧪 学习验证</h2>
+<pre><code class="language-javascript">// ✅ 正确：传入函数引用（不加括号）
+btnCloseModal.addEventListener('click', closeModal);
 
-        <div class="quiz-card" data-correct="B">
-            <div class="quiz-question">1. 关于添加或移除 CSS 类的语法，以下哪项是正确的？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) `modal.classList.remove('.hidden');`</div>
-                <div class="quiz-option" data-value="B">B) `modal.classList.remove('hidden');`</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>正确答案：B</strong>。这是一个每天都能坑死无数新手的点。`querySelector` 里必须要传 `.` 因为它要区分标签和类；但在 `classList.add / remove` 方法里，明确规定只接受“纯类名”，所以前面的点 `.` 绝对不能加！
-            </div>
-        </div>
-        <br>
-        <div class="quiz-card" data-correct="A">
-            <div class="quiz-question">2. 为什么在绑定事件时写 `btnCloseModal.addEventListener('click', closeModal)` 而不是 `closeModal()`？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) 因为加上圆括号意味着“立即调用并获取返回值”，我们不希望它马上执行。我们只想把函数体本身作为参数传给事件监听器，让监听器在检测到点击时再去调用它。</div>
-                <div class="quiz-option" data-value="B">B) 因为 JavaScript 在事件监听器中不支持使用带括号的函数调用。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>正确答案：A</strong>。把函数本身当作一个值传递（不加括号），而不是传递它的执行结果（加上括号），这是 JavaScript 【一等公民函数】的核心魅力之一。
-            </div>
-        </div>
+// ❌ 错误：调用函数（加了括号）—— 页面加载时立即执行！
+btnCloseModal.addEventListener('click', closeModal());</code></pre>
 
-        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>中文术语</th>
-                    <th>代码</th>
-                    <th>简明释义</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>移除 CSS 类</td>
-                    <td><code>.classList.remove('类名')</code></td>
-                    <td>将指定的类名从元素的 class 列表中移除（注意不带 <code>.</code>）</td>
-                </tr>
-                <tr>
-                    <td>添加 CSS 类</td>
-                    <td><code>.classList.add('类名')</code></td>
-                    <td>将指定的类名添加到元素的 class 列表中（注意不带 <code>.</code>）</td>
-                </tr>
-            </tbody>
-        </table>
+<p>加了 <code>()</code> 会<strong>立即调用</strong>函数并把返回值（<code>undefined</code>）传给 <code>addEventListener</code>，而不是把函数本身传进去。</p>
 
+<hr>
+
+<h3 id="section-7">4. 为多个按钮批量绑定事件</h3>
+
+<p>使用 <code>for</code> 循环遍历 NodeList，为每个 "Show modal" 按钮绑定 <code>openModal</code> 事件：</p>
+
+<pre><code class="language-javascript">// 为所有打开按钮绑定事件
+for (let i = 0; i &lt; btnsOpenModal.length; i++) {
+  btnsOpenModal[i].addEventListener('click', openModal);
+}</code></pre>
+
+<div class="mermaid">
+flowchart LR
+    L["for 循环"] --> A["btnsOpenModal[0]"]
+    L --> B["btnsOpenModal[1]"]
+    L --> C["btnsOpenModal[2]"]
+    A -->|".addEventListener('click', openModal)"| D["openModal 函数"]
+    B -->|".addEventListener('click', openModal)"| D
+    C -->|".addEventListener('click', openModal)"| D
+</div>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你正在开发一个任务管理应用。每个任务卡片都有一个"完成"按钮，点击后需要为该任务卡片添加一个 <code>completed</code> 类（显示删除线和半透明效果）。再次点击则移除该类。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">classlist_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 模拟 classList 操作（纯 JS 环境没有真实 DOM，这里用对象模拟）
+class MockElement {
+  constructor(name) {
+    this.name = name;
+    this.classes = new Set();
+  }
+  get classList() {
+    const self = this;
+    return {
+      add(cls) {
+        self.classes.add(cls);
+        console.log(`  ➕ ${self.name}.classList.add('${cls}') → [${[...self.classes]}]`);
+      },
+      remove(cls) {
+        self.classes.delete(cls);
+        console.log(`  ➖ ${self.name}.classList.remove('${cls}') → [${[...self.classes]}]`);
+      },
+      contains(cls) {
+        return self.classes.has(cls);
+      },
+      toggle(cls) {
+        if (self.classes.has(cls)) {
+          self.classes.delete(cls);
+          console.log(`  🔄 ${self.name}.classList.toggle('${cls}') → 移除 → [${[...self.classes]}]`);
+        } else {
+          self.classes.add(cls);
+          console.log(`  🔄 ${self.name}.classList.toggle('${cls}') → 添加 → [${[...self.classes]}]`);
+        }
+      }
+    };
+  }
+}
+
+// 模拟模态窗口操作
+const modal = new MockElement('modal');
+const overlay = new MockElement('overlay');
+
+// 初始状态：都有 hidden 类
+modal.classList.add('hidden');
+overlay.classList.add('hidden');
+
+console.log('\n=== 打开模态窗口 ===');
+modal.classList.remove('hidden');
+overlay.classList.remove('hidden');
+
+console.log('\n=== 关闭模态窗口 ===');
+modal.classList.add('hidden');
+overlay.classList.add('hidden');
+
+console.log('\n=== toggle 演示 ===');
+const task = new MockElement('task-card');
+task.classList.toggle('completed'); // 添加
+task.classList.toggle('completed'); // 移除
+task.classList.toggle('completed'); // 再添加</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["📱 页面加载"] --> B["modal: class='modal hidden'"]
+    B --> C["用户点击 Show modal"]
+    C --> D["openModal()"]
+    D --> E["modal.classList.remove('hidden')"]
+    D --> F["overlay.classList.remove('hidden')"]
+    E --> G["modal: class='modal' ← 可见！"]
+    F --> H["overlay: class='overlay' ← 可见！"]
+    G --> I["用户点击 × 或 overlay"]
+    I --> J["closeModal()"]
+    J --> K["modal.classList.add('hidden')"]
+    J --> L["overlay.classList.add('hidden')"]
+    K --> M["回到初始隐藏状态"]
+    L --> M
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>操作</th><th>classList 方法</th><th>执行前 class</th><th>执行后 class</th><th>元素状态</th></tr></thead>
+    <tbody><tr><td>打开模态</td><td><code>remove('hidden')</code></td><td><code>modal hidden</code></td><td><code>modal</code></td><td>可见</td></tr>
+<tr><td>关闭模态</td><td><code>add('hidden')</code></td><td><code>modal</code></td><td><code>modal hidden</code></td><td>隐藏</td></tr>
+<tr><td>切换完成</td><td><code>toggle('completed')</code></td><td><code>task</code></td><td><code>task completed</code></td><td>有删除线</td></tr>
+<tr><td>再次切换</td><td><code>toggle('completed')</code></td><td><code>task completed</code></td><td><code>task</code></td><td>无删除线</td></tr></tbody>
+</table>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ <strong><code>classList.add/remove</code></strong> 是操控样式的首选方式，比直接修改 <code>style</code> 属性更优雅</li>
+<li>✅ 类名参数<strong>不加 <code>.</code> 前缀</strong>——<code>'hidden'</code> 而非 <code>'.hidden'</code></li>
+<li>✅ 一个 CSS 类可以包含<strong>多个属性</strong>，<code>classList</code> 操作相当于一键批量切换</li>
+<li>✅ 多个事件需要相同逻辑时，提取为<strong>命名函数</strong>传入 <code>addEventListener</code></li>
+<li>✅ 传入事件处理器时<strong>不加括号</strong>——<code>closeModal</code> 而非 <code>closeModal()</code></li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：在 <code>classList.add()</code> 中加了 <code>.</code> 前缀。<code>classList.add('.hidden')</code> 会添加一个叫 <code>&quot;.hidden&quot;</code> 的类（含点号），而不是 <code>hidden</code>。正确写法是 <code>classList.add('hidden')</code>。</li>
+<li>⚠️ <strong>误区 2</strong>：传入事件处理器时加了 <code>()</code>。<code>addEventListener('click', closeModal())</code> 会立即执行 <code>closeModal</code> 并把返回值（<code>undefined</code>）作为处理器，导致点击时什么也不会发生。</li>
+<li>⚠️ <strong>误区 3</strong>：只隐藏了模态窗口但忘记同时隐藏遮罩层。如果只执行 <code>modal.classList.add('hidden')</code> 而遗漏了 <code>overlay.classList.add('hidden')</code>，页面会被半透明遮罩覆盖且无法点击。</li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">// classList 方法名拼写错误
+modal.classlist.add('hidden'); // ⛔ classlist 首字母小写</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught TypeError: Cannot read properties of undefined (reading 'add')</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>classList</code> 是正确的拼写（大写 L），而 <code>classlist</code>（全小写）是 <code>undefined</code>。JavaScript 区分大小写，<code>classList</code> 是 DOM 元素的内置属性名，必须严格匹配。</p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>类列表</td><td>classList</td><td>操作元素 CSS 类的 API</td><td><code>el.classList.add('x')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Element/classList" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>添加类</td><td>classList.add</td><td>为元素添加一个或多个 CSS 类</td><td><code>el.classList.add('hidden')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMTokenList/add" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>移除类</td><td>classList.remove</td><td>从元素移除一个或多个 CSS 类</td><td><code>el.classList.remove('hidden')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMTokenList/remove" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>切换类</td><td>classList.toggle</td><td>有则移除、无则添加</td><td><code>el.classList.toggle('active')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMTokenList/toggle" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>函数表达式</td><td>Function Expression</td><td>将函数赋值给变量</td><td><code>const fn = function() {}</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/function" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>事件监听器</td><td>addEventListener</td><td>为元素绑定事件处理函数</td><td><code>el.addEventListener('click', fn)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：实现深色模式切换</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 模拟一个深色模式切换按钮
+// 点击按钮 → 如果 body 没有 'dark-mode' 类就添加，有就移除
+
+const body = { classes: new Set(), classList: null };
+body.classList = {
+  add(c) { body.classes.add(c); },
+  remove(c) { body.classes.delete(c); },
+  contains(c) { return body.classes.has(c); },
+  toggle(c) {
+    if (body.classes.has(c)) { body.classes.delete(c); return false; }
+    else { body.classes.add(c); return true; }
+  }
+};
+
+function toggleDarkMode() {
+  // 你的代码：使用 classList 切换 dark-mode 类
+  // 输出当前模式
+}
+
+// 测试
+toggleDarkMode(); // 应输出：深色模式已开启
+toggleDarkMode(); // 应输出：深色模式已关闭
+toggleDarkMode(); // 应输出：深色模式已开启</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  const isDark = body.classList.toggle('dark-mode');
+  console.log(isDark ? '🌙 深色模式已开启' : '☀️ 深色模式已关闭');
+  console.log(<code>  当前 class: [${[...body.classes]}]</code>);
+}
+
+toggleDarkMode(); // 🌙 深色模式已开启
+toggleDarkMode(); // ☀️ 深色模式已关闭
+toggleDarkMode(); // 🌙 深色模式已开启
+</code></pre>
+
+<strong>解题思路</strong>：<code>classList.toggle()</code> 是最简洁的方案——它返回 <code>true</code>（添加了类）或 <code>false</code>（移除了类），可以直接用来判断当前状态。
+
+</details>
+
+<p><strong>练习 2：创建通用的 showElement 和 hideElement 工具函数</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 创建两个工具函数，接收元素对象，控制其显示/隐藏
+// 要求：同时处理模态窗口和遮罩层
+
+function showElement(element) {
+  // 你的代码
+}
+
+function hideElement(element) {
+  // 你的代码
+}
+
+// 测试（模拟）
+const mockEl = { name: 'test', classes: new Set(['hidden']) };
+console.log(`初始: classes = [${[...mockEl.classes]}]`);
+// showElement(mockEl); → 移除 hidden
+// hideElement(mockEl); → 添加 hidden</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  element.classList.remove('hidden');
+}
+
+function hideElement(element) {
+  element.classList.add('hidden');
+}
+
+// 在模态窗口项目中使用
+const openModal = function () {
+  showElement(modal);
+  showElement(overlay);
+};
+
+const closeModal = function () {
+  hideElement(modal);
+  hideElement(overlay);
+};
+</code></pre>
+
+<strong>解题思路</strong>：将 <code>classList.add/remove('hidden')</code> 封装为语义化的工具函数，提高代码可读性。<code>showElement</code> 和 <code>hideElement</code> 比直接的 <code>classList</code> 操作更容易理解意图。
+
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">为什么推荐使用 <code>classList</code> 操作而非直接修改 <code>style</code> 属性？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `classList` 操作性能更高</div>
+<div class="quiz-option" data-value="B">B) 一个 CSS 类可以包含多个属性，`classList` 可以一行代码批量切换</div>
+<div class="quiz-option" data-value="C">C) `style` 属性不支持 `display: none`</div>
+<div class="quiz-option" data-value="D">D) `classList` 可以跨浏览器兼容</div>
+    </div>
+    <div class="quiz-explanation">
+        核心优势在于 CSS 类是"属性集合"——一个 <code>hidden</code> 类可能同时定义 <code>display: none</code>、<code>opacity: 0</code>、<code>transform</code> 等多个属性。用 <code>classList.add('hidden')</code> 一行代码就能切换所有这些样式，而用 <code>style</code> 则需要逐个设置。此外，样式定义保留在 CSS 中，实现了样式与逻辑分离。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">以下哪种写法会导致事件处理器失效？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `btn.addEventListener('click', closeModal)`</div>
+<div class="quiz-option" data-value="B">B) `btn.addEventListener('click', function() { closeModal(); })`</div>
+<div class="quiz-option" data-value="C">C) `btn.addEventListener('click', closeModal())`</div>
+<div class="quiz-option" data-value="D">D) `btn.addEventListener('click', () =&gt; closeModal())`</div>
+    </div>
+    <div class="quiz-explanation">
+        选项 C 中 <code>closeModal()</code> 加了括号，会<strong>立即执行</strong>函数并将返回值（<code>undefined</code>）传给 <code>addEventListener</code>。这意味着点击时没有可执行的函数。A 传入函数引用、B 和 D 用包装函数延迟调用，都是正确的。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question"><code>classList.add('hidden')</code> 和 <code>classList.add('.hidden')</code> 的区别是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 前者添加名为 `hidden` 的类，后者添加名为 `.hidden` 的类（含点号，不正确）</div>
+<div class="quiz-option" data-value="B">B) 两者完全等价</div>
+<div class="quiz-option" data-value="C">C) 前者是 CSS 选择器语法，后者是 classList 语法</div>
+<div class="quiz-option" data-value="D">D) 后者会自动识别并移除点号</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>classList</code> 操作的是纯类名，<strong>不需要</strong>加 CSS 选择器的 <code>.</code> 前缀。如果写 <code>classList.add('.hidden')</code>，会在元素上添加一个名为 <code>&quot;.hidden&quot;</code>（包含点号）的类，这与 CSS 中定义的 <code>.hidden</code> 不匹配，样式不会生效。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 打开模态窗口<br>
+    const openModal = function () {<br>
+      modal.classList.<input type="text" class="blank-input" data-answer="remove" placeholder="1">('hidden');<br>
+      overlay.classList.<input type="text" class="blank-input" data-answer="remove" placeholder="2">('hidden');<br>
+    };<br>
+    <br>
+    // 关闭模态窗口<br>
+    const closeModal = function () {<br>
+      modal.classList.<input type="text" class="blank-input" data-answer="add" placeholder="3">('hidden');<br>
+      overlay.classList.<input type="text" class="blank-input" data-answer="add" placeholder="4">('hidden');<br>
+    };<br>
+    <br>
+    // 绑定事件（不加括号！）<br>
+    btnCloseModal.addEventListener('click', <input type="text" class="blank-input" data-answer="closeModal" placeholder="5">);<br>
+    overlay.addEventListener('click', <input type="text" class="blank-input" data-answer="closeModal" placeholder="6">);
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
-<!-- 依赖脚本 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
                 document.querySelectorAll('.nav-item').forEach(nav => {
                     nav.classList.remove('active');
-                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
                 });
             }
         });
     }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
     document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
 
     window.addEventListener('scroll', () => {
@@ -249,25 +1018,29 @@ overlay.addEventListener('click', closeModal);
         document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
     });
 
-    document.querySelectorAll('.quiz-card').forEach(card => {
-        const correctVal = card.getAttribute('data-correct');
-        const opts = card.querySelectorAll('.quiz-option');
-        const exp = card.querySelector('.quiz-explanation');
-        
-        opts.forEach(opt => {
-            opt.addEventListener('click', () => {
-                opts.forEach(o => o.style.background = 'transparent');
-                if (opt.getAttribute('data-value') === correctVal) {
-                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--success-color)';
-                } else {
-                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--error-color)';
-                }
-                exp.style.display = 'block';
-            });
-        });
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
     });
+
 </script>
+
 </body>
 </html>

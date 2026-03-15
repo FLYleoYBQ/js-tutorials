@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>章节介绍 (Section Intro)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        
+        
+        
+    
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 02 章</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">🎯 概述</a>
+            <a href="#section-goals" class="nav-item">🏆 本章目标</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>章节介绍 (Section Intro)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：001 Section Intro.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>欢迎来到课程的第一大战役。在这一章，你将开始学习 JavaScript 语言的**最底层基础**。</p>
+        <p>我们将探索诸如<strong>变量（Variables）</strong>、<strong>数据类型（Data Types）</strong>、<strong>运算符（Operators）</strong>以及<strong>if-else 语句（if-else statements）</strong>等核心概念。在深入构建漂亮的网页用户界面之前，我们必须先打好语言逻辑的基础结构。</p>
+
+        <h2 id="section-goals">🏆 本章目标</h2>
+        <div class="callout" style="border-left-color: var(--accent-color)">
+            <p>本章的讲义专为您“夯实根基”而设计。这期间我们不会立刻去操纵 DOM（操作网页标签），而是聚焦于语言本身，也就是如何利用 JavaScript 表达逻辑和处理数据。</p>
+            <p>准备好了吗？让我们立即开启这段奇妙的旅程！</p>
+        </div>
+
+    </main>
+</div>
+
+</body>
+</html>

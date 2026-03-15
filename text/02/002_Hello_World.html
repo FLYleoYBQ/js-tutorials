@@ -8,8 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
             /* Anti-Corporate-AI Minimalist Dark Theme */
             --bg-color: #0d0d0d;
@@ -17,7 +19,8 @@
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
@@ -30,207 +33,784 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
 
         /* Layout */
-        .app-container { display: flex; min-height: 100vh; }
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
 
-        /* Sidebar */
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
-        
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
 
         /* Main Content */
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
-        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
-        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
         .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
 
-        /* Code Editor */
-        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
-        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
         .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
-        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
-        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
         .editor-container { position: relative; }
-        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
-        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
         .console-output.visible { display: block; }
         .console-output.error { color: var(--error-color); }
 
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
-        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
-        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
-        
-        
-        
-    
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
         }
 
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
-            <div class="sidebar-title">第 02 章</div>
+            <div class="sidebar-title">第 02 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">🎯 概述</a>
-            <a href="#section-1" class="nav-item">1. 打开控制台大门</a>
-            <a href="#section-2" class="nav-item">2. 你的第一行代码</a>
-            <a href="#section-3" class="nav-item">3. 变量与逻辑初探</a>
-            <a href="#section-cheat" class="nav-item">📖 速查表</a>
+            <a href="#section-0" class="nav-item active">Hello World!</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>Hello World!</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：002 Hello World!.en.srt</span>
-            <span>📂 章节：第 02 章</span>
-        </div>
+<h1 id="section-0">Hello World!</h1>
 
-        <div class="callout">
-            <strong>📌 知识脉络</strong>
-            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
-                <li><strong>前置知识</strong>：无</li>
-                <li><strong>后续扩展</strong>：连接外部的 JavaScript 文件</li>
-            </ul>
-        </div>
+<div class="callout"><p>📺 来源：002 Hello World!.en.srt<br>📂 章节：第 02 章</p></div>
 
-        <h2 id="section-overview">🎯 概述</h2>
-        <p>在接通正式武器编辑器之前，我们将直接借助**浏览器开发者工具（Developer Tools）**里的控制台（Console），写出你的第一行 JavaScript 语句。</p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <h2 id="section-1">1. 打开控制台大门</h2>
-        <p>你可以直接通过浏览器和 JavaScript 交互，这常用于报错检查或临时代码测试：</p>
-        <ul>
-            <li><strong>Mac 捷径：</strong> <code>Command + Option + J</code></li>
-            <li><strong>Windows 捷径：</strong> <code>Ctrl + Alt + J</code></li>
-            <li><strong>右键直达：</strong> 页面空白处右键选择“检查 (Inspect)”，然后切换到 Console 面板。</li>
-        </ul>
+<ul>
+<li><strong>前置知识</strong>：已安装 Google Chrome 浏览器、了解基本计算机操作</li>
+<li><strong>后续扩展</strong>：JavaScript 简史与语言特性、连接 JavaScript 文件到 HTML、变量与数据类型</li>
+</ul>
 
-        <h2 id="section-2">2. 你的第一行代码</h2>
-        <p>我们来调用一个弹窗函数（Function），并传入一段作为文本的字符串（String）：</p>
+<h2 id="section-2">🎯 概述</h2>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">index.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
-// 弹出一个提示框，注意括号里用引号括起来的字符串文本
-alert("Hello world!");
+<p>本节课带领你写出人生第一行 JavaScript 代码。我们将使用 Chrome 开发者工具的控制台（Console）来运行 <code>alert()</code> 函数，体验 JavaScript 的即时执行能力，并通过简单的变量和条件判断初步感受 JavaScript 的编程逻辑。</p>
 
-// 也可以把它当计算器用
-40 + 8 + 23 - 10;</textarea>
-            </div>
-            <div id="console1" class="console-output"></div>
-        </div>
-        
-        <p>当你按下回车时，弹窗立刻出现。这证明代码一旦被输入便会被 JavaScript **立即求值（Evaluated）**执行。</p>
+<h2 id="section-3">核心知识点</h2>
 
-        <h2 id="section-3">3. 变量与控制逻辑初探</h2>
-        <p>虽然我们还没正式学到，但我先展示一下 JavaScript 是如何通过判断数据来做出决定的：</p>
-        
-        <div class="callout warning">
-            <p>💡 <strong>温馨提示：</strong>以下演示中你不需要也不指望现在立刻搞懂所有细节，只管体会它的逻辑流即可。</p>
-        </div>
+<h3 id="section-4">1. 打开 Chrome 开发者工具</h3>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">logic.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
-// 1. 我们声明了一个“变量” (variable)，并给它赋予文本 "amazing"
-let js = "amazing";
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：开发者工具就像汽车的引擎盖 — 普通用户只需开车（浏览网页），但开发者需要打开引擎盖（开发者工具）来检查和调试引擎（代码）。</p></div>
 
-// 2. 如果等于 amazing，就会触发弹窗。
-if (js === "amazing") {
-  alert("JavaScript is fun!");
+<p>Chrome 提供了三种打开开发者工具的方式：</p>
+
+<div class="mermaid">
+flowchart TD
+    A["🔧 打开开发者工具"] --> B["⌨️ 方式一：快捷键"]
+    A --> C["🖱️ 方式二：右键菜单"]
+    A --> D["📋 方式三：Chrome 菜单"]
+    B --> B1["Mac: Cmd + Option + J\nWindows: Ctrl + Alt + J"]
+    C --> C1["右键 → 检查 → Console 标签"]
+    D --> D1["菜单 → 视图 → 开发者 → JavaScript 控制台"]
+    B1 --> E["📟 Console 控制台"]
+    C1 --> E
+    D1 --> E
+    style A fill:#4CAF50,color:#fff
+    style E fill:#FF9800,color:#fff
+</div>
+
+<p><strong>📊 三种方式对比：</strong></p>
+
+<table>
+    <thead><tr><th>方式</th><th>操作</th><th>直接到达 Console？</th><th>推荐场景</th></tr></thead>
+    <tbody><tr><td>快捷键</td><td><code>Ctrl + Alt + J</code> (Win) / <code>Cmd + Option + J</code> (Mac)</td><td>✅ 是</td><td>日常开发（最快）</td></tr>
+<tr><td>右键菜单</td><td>右键 → 检查 → Console 标签</td><td>❌ 先到 Elements</td><td>需要检查具体元素时</td></tr>
+<tr><td>Chrome 菜单</td><td>菜单 → 视图 → 开发者 → JavaScript 控制台</td><td>✅ 是</td><td>初学者/不记得快捷键时</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：「快捷最快，右键最灵，菜单保底」</p></div>
+
+<hr>
+
+<h3 id="section-5">2. <code>alert()</code> 函数 — 第一行代码</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>alert()</code> 就像一个弹窗通知 — 你给它一条消息，它就弹出来展示给用户，就像手机的推送通知一样。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">hello_world.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 你的第一行 JavaScript 代码！
+alert(&quot;Hello World!&quot;);</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>代码</th><th>发生了什么</th><th>结果</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>alert(&quot;Hello World!&quot;)</code></td><td>浏览器弹出一个模态对话框</td><td>显示文字 "Hello World!"</td></tr>
+<tr><td>②</td><td>用户点击「确定」</td><td>对话框关闭</td><td>代码执行完毕</td></tr></tbody>
+</table>
+
+<div class="mermaid">
+sequenceDiagram
+    participant 👨‍💻 as 你（开发者）
+    participant 🖥️ as 浏览器引擎
+    participant 📺 as 弹窗
+
+    👨‍💻->>🖥️: 输入 alert("Hello World!")
+    🖥️->>🖥️: 解析代码
+    🖥️->>📺: 创建弹窗，内容 = "Hello World!"
+    📺-->>👨‍💻: 展示弹窗
+    👨‍💻->>📺: 点击"确定"
+    📺-->>🖥️: 弹窗关闭，继续执行
+</div>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<code>alert()</code> = 弹窗提醒，括号里放消息</p></div>
+
+<hr>
+
+<h3 id="section-6">3. 变量与简单条件判断（预览）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：变量就像一个贴了标签的盒子 — <code>let JS = &quot;amazing&quot;</code> 就是在一个叫做 <code>JS</code> 的盒子里放入了 <code>&quot;amazing&quot;</code> 这个值。条件判断则像门禁系统 — 只有满足条件才能通过。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">first_logic.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// ① 声明变量并赋值
+let JS = &quot;amazing&quot;;
+
+// ② 条件判断：如果 JS 等于 &quot;amazing&quot;，就弹窗
+if (JS === &quot;amazing&quot;) {
+  alert(&quot;JavaScript is fun!&quot;); // 会弹出！
 }
 
-// ⚠️ 试着将 let js 里的文本改成 "boring" 再次运行看看？</textarea>
-            </div>
-            <div id="console2" class="console-output"></div>
-        </div>
+// ③ 改变变量的值
+JS = &quot;boring&quot;;
 
-        <div class="mermaid">
-        flowchart TD
-            A["声明变量: js = 'amazing'"] --> B{"判定:<br>js 等于 'amazing' 吗？"}
-            B -- "✅ 是 (true)" --> C["触发弹窗:<br>alert('JavaScript is fun!')"]
-            B -- "❌ 否 (false)" --> D["跳过，什么也不发生"]
-        </div>
+// ④ 再次判断（这次不会弹窗，因为 JS 不再是 &quot;amazing&quot;）
+if (JS === &quot;amazing&quot;) {
+  alert(&quot;JavaScript is fun!&quot;); // 不会执行
+}
 
-        <h2 id="section-cheat">📖 词汇速查表 (Cheat Sheet)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>中文术语</th>
-                    <th>英文术语</th>
-                    <th>简明释义</th>
-                    <th>速查代码</th>
-                    <th>📚 官方文档溯源</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>弹窗函数</td>
-                    <td><code>alert</code></td>
-                    <td>在浏览器里弹出一个警告框，展示指定文本。阻塞渲染。</td>
-                    <td><code>alert("信息");</code></td>
-                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/alert" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
-                </tr>
-                <tr>
-                    <td>字符串</td>
-                    <td><code>String</code></td>
-                    <td>包裹在双引号或单引号里的一连串文本字符。</td>
-                    <td><code>"Hello"</code>, <code>'JS'</code></td>
-                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
-                </tr>
-            </tbody>
-        </table>
+console.log(&quot;JS 现在的值是：&quot; + JS);</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
 
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>代码</th><th><code>JS</code> 的值</th><th>条件结果</th><th>弹窗？</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>let JS = &quot;amazing&quot;</code></td><td><code>&quot;amazing&quot;</code></td><td>—</td><td>—</td></tr>
+<tr><td>②</td><td><code>if (JS === &quot;amazing&quot;)</code></td><td><code>&quot;amazing&quot;</code></td><td><code>true</code> ✅</td><td>✅ 弹出</td></tr>
+<tr><td>③</td><td><code>JS = &quot;boring&quot;</code></td><td><code>&quot;boring&quot;</code></td><td>—</td><td>—</td></tr>
+<tr><td>④</td><td><code>if (JS === &quot;amazing&quot;)</code></td><td><code>&quot;boring&quot;</code></td><td><code>false</code> ❌</td><td>❌ 不弹</td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart TD
+    A["let JS = 'amazing'"] --> B{"JS === 'amazing' ?"}
+    B -->|"✅ true"| C["alert('JavaScript is fun!')"]
+    B -->|"❌ false"| D["跳过，什么都不做"]
+    C --> E["JS = 'boring'"]
+    D --> E
+    E --> F{"JS === 'amazing' ?"}
+    F -->|"✅ true"| G["alert(...)"]
+    F -->|"❌ false"| H["跳过 ❌"]
+    style B fill:#FF9800,color:#fff
+    style F fill:#FF9800,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style H fill:#f44336,color:#fff
+</div>
+
+<hr>
+
+<h3 id="section-7">4. Console 当计算器</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：Console 不仅是调试工具，还可以当一个随时待命的计算器 — 输入数学表达式，立即返回结果。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">calculator.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// Console 可以直接做数学运算
+console.log(40 + 8 + 23 - 10); // 61
+
+// 更多运算
+console.log(100 * 2);   // 200（乘法）
+console.log(81 / 9);    // 9（除法）
+console.log(2 ** 10);   // 1024（幂运算）
+console.log(17 % 5);    // 2（取余）</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>输入表达式</th><th>输出</th><th>运算类型</th></tr></thead>
+    <tbody><tr><td><code>40 + 8 + 23 - 10</code></td><td><code>61</code></td><td>加减混合</td></tr>
+<tr><td><code>100 * 2</code></td><td><code>200</code></td><td>乘法</td></tr>
+<tr><td><code>81 / 9</code></td><td><code>9</code></td><td>除法</td></tr>
+<tr><td><code>2 ** 10</code></td><td><code>1024</code></td><td>幂运算</td></tr>
+<tr><td><code>17 % 5</code></td><td><code>2</code></td><td>取余（模运算）</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你是一名新入职的前端开发实习生，第一天被要求在浏览器控制台中验证一个简单的用户欢迎逻辑。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">welcome_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 模拟用户登录后的欢迎逻辑
+let userName = &quot;小明&quot;;
+let isVIP = true;
+
+if (isVIP === true) {
+  console.log(&quot;🌟 尊敬的 VIP 用户 &quot; + userName + &quot;，欢迎回来！&quot;);
+} else {
+  console.log(&quot;👋 你好，&quot; + userName + &quot;，欢迎使用我们的服务！&quot;);
+}
+
+// 简单计算：VIP 折扣
+let originalPrice = 299;
+let discount = 0.8; // 8 折
+let finalPrice = originalPrice * discount;
+console.log(&quot;💰 原价：&quot; + originalPrice + &quot; 元&quot;);
+console.log(&quot;🎫 VIP 折后价：&quot; + finalPrice + &quot; 元&quot;);
+console.log(&quot;💵 节省了：&quot; + (originalPrice - finalPrice) + &quot; 元&quot;);</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["🔐 用户登录"] --> B{"isVIP === true？"}
+    B -->|"✅ 是 VIP"| C["🌟 显示 VIP 欢迎语"]
+    B -->|"❌ 非 VIP"| D["👋 显示普通欢迎语"]
+    C --> E["💰 计算 VIP 折扣价"]
+    D --> F["💰 显示原价"]
+    style B fill:#FF9800,color:#fff
+    style C fill:#4CAF50,color:#fff
+    style D fill:#2196F3,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>userName</th><th>isVIP</th><th>originalPrice</th><th>输出折后价</th><th>说明</th></tr></thead>
+    <tbody><tr><td><code>&quot;小明&quot;</code></td><td><code>true</code></td><td><code>299</code></td><td><code>239.2</code></td><td>VIP 8 折</td></tr>
+<tr><td><code>&quot;小红&quot;</code></td><td><code>false</code></td><td><code>299</code></td><td><code>299</code></td><td>非 VIP 原价</td></tr></tbody>
+</table>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ Chrome 开发者工具的 Console 是学习和调试 JavaScript 的最佳入口</li>
+<li>✅ <code>alert()</code> 函数可以弹出一个模态对话框，展示字符串消息</li>
+<li>✅ <code>let</code> 关键字用于声明变量，变量的值可以被改变</li>
+<li>✅ <code>if</code> 语句可以根据条件决定是否执行某段代码</li>
+<li>✅ Console 可以像计算器一样直接执行数学运算</li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ 误区 1：「Console 里写的代码就是正式代码」— Console 只用于临时测试和调试，正式代码应该写在 <code>.js</code> 文件中</li>
+<li>⚠️ 误区 2：「<code>=</code> 和 <code>===</code> 是一样的」— <code>=</code> 是赋值运算符（给变量赋值），<code>===</code> 是严格相等比较运算符（判断两个值是否完全相同）</li>
+<li>⚠️ 误区 3：「alert 和 console.log 功能相同」— <code>alert()</code> 弹出阻塞性模态框，<code>console.log()</code> 仅在控制台输出，不打断用户操作</li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<div class="callout"><p>主动展示错误写法及报错信息，教你看懂错误提示</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">// 忘记引号，把字符串当成变量
+alert(Hello World);</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught SyntaxError: Unexpected identifier 'World'</code></pre>
+
+<p><strong>🔑 解读</strong>：JavaScript 把 <code>Hello</code> 当成了一个变量名，遇到 <code>World</code> 时不知道该如何处理（两个连续的标识符没有运算符连接）。字符串必须用引号包裹：<code>&quot;Hello World&quot;</code> 或 <code>'Hello World'</code>。</p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>控制台</td><td>Console</td><td>浏览器开发者工具中的代码执行环境</td><td><code>console.log(&quot;hi&quot;)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/console" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>弹窗</td><td>Alert</td><td>显示模态对话框的全局函数</td><td><code>alert(&quot;消息&quot;)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/alert" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>变量</td><td>Variable</td><td>存储数据的命名容器</td><td><code>let x = 10;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Learn/JavaScript/First_steps/Variables" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>字符串</td><td>String</td><td>用引号包裹的文本数据</td><td><code>&quot;Hello&quot;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>严格相等</td><td>Strict Equality</td><td>不做类型转换的相等比较</td><td><code>5 === 5</code> → <code>true</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Strict_equality" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：弹窗你的名字</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 使用 alert() 弹出你自己的名字
+// 在下面写你的代码
+</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">// 或者使用变量
+let myName = &quot;小明&quot;;
+alert(&quot;我的名字是 &quot; + myName);
+</code></pre>
+<strong>解题思路</strong>：使用 <code>alert()</code> 函数，括号内填入用引号包裹的字符串即可。
+</details>
+
+<p><strong>练习 2：条件弹窗</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 声明一个变量 weather，赋值 &quot;sunny&quot; 或 &quot;rainy&quot;
+// 如果 weather === &quot;sunny&quot;，弹出 &quot;出去玩吧！&quot;
+// 在下面写你的代码
+</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">
+if (weather === &quot;sunny&quot;) {
+  alert(&quot;出去玩吧！☀️&quot;);
+}
+
+// 测试：把 &quot;sunny&quot; 改成 &quot;rainy&quot;，弹窗就不会出现了
+</code></pre>
+<strong>解题思路</strong>：先用 <code>let</code> 声明变量并赋值字符串，再用 <code>if</code> 和 <code>===</code> 进行严格比较。
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">以下哪个是打开 Chrome Console 的快捷键（Windows）？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) Ctrl + Shift + C</div>
+<div class="quiz-option" data-value="B">B) F12</div>
+<div class="quiz-option" data-value="C">C) Ctrl + Alt + J</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>Ctrl + Alt + J</code> 直接打开 Console 标签。<code>F12</code> 也能打开开发者工具，但默认可能停在 Elements 标签。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question"><code>let JS = &quot;amazing&quot;</code> 这行代码做了什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 创建了一个叫 `amazing` 的变量</div>
+<div class="quiz-option" data-value="B">B) 声明了一个变量 `JS`，并将字符串 `&quot;amazing&quot;` 赋值给它</div>
+<div class="quiz-option" data-value="C">C) 检查 JS 是否等于 amazing</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>let</code> 用于声明变量，<code>=</code> 是赋值运算符（不是比较），<code>&quot;amazing&quot;</code> 是字符串值。所以这行代码是 "创建一个叫 JS 的变量，里面存着 amazing"。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">为什么第二次执行 <code>if (JS === &quot;amazing&quot;)</code> 时不会弹窗？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 因为 JS 已经被改为 &quot;boring&quot;，条件不成立</div>
+<div class="quiz-option" data-value="B">B) 因为 alert 只能执行一次</div>
+<div class="quiz-option" data-value="C">C) 因为 if 语句只能使用一次</div>
+    </div>
+    <div class="quiz-explanation">
+        执行 <code>JS = &quot;boring&quot;</code> 后，变量 <code>JS</code> 的值变成了 <code>&quot;boring&quot;</code>。此时 <code>JS === &quot;amazing&quot;</code> 返回 <code>false</code>，<code>if</code> 块内的代码不会执行。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 弹出一个显示 &quot;Hello World!&quot; 的对话框<br>
+    <input type="text" class="blank-input" data-answer="alert" placeholder="1">("Hello World!");<br>
+    <br>
+    // 声明一个变量并赋值<br>
+    <input type="text" class="blank-input" data-answer="let" placeholder="2"> myVar = "JavaScript";
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
-<!-- Interactive Logic Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
     function runCode(editorId, consoleId) {
         const code = document.getElementById(editorId).value;
         const outConsole = document.getElementById(consoleId);
@@ -238,6 +818,7 @@ if (js === "amazing") {
         outConsole.classList.add('visible');
         outConsole.classList.remove('error');
 
+        // Mock console.log to trap output
         let consoleOutput = [];
         const originalLog = console.log;
         console.log = function(...args) {
@@ -245,12 +826,8 @@ if (js === "amazing") {
         };
 
         try {
-            // Evaluates code in local scope
-            const res = new Function(`return eval(${JSON.stringify(code)})`)();
-            // Show result block if code evaluated has return value and no console logs yet
-            if(consoleOutput.length === 0 && res !== undefined) {
-                consoleOutput.push("<- " + res);
-            }
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
             outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
         } catch (e) {
             outConsole.classList.add('error');
@@ -259,14 +836,55 @@ if (js === "amazing") {
             console.log = originalLog;
         }
     }
-</script>
 
-<script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
-</script>
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
 
-<script>
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -280,7 +898,39 @@ if (js === "amazing") {
             }
         });
     }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
     document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
 </script>
 
 </body>

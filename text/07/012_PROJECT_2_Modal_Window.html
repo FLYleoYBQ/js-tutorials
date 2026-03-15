@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PROJECT #2: Modal Window</title>
+    <title>项目 #2：模态窗口 (PROJECT #2: Modal Window)</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,211 +11,947 @@
     <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
             --bg-color: #0d0d0d;
             --surface-color: #1a1a1a;
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
-            --warning-color: #f1fa8c;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
             --radius-md: 8px;
             --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
-        .app-container { display: flex; min-height: 100vh; }
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
-        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
 
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
         h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
         p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
-        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
-        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
-        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
-        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
-        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        td a { color: var(--info-color); text-decoration: none; }
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
 
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
         
-        
-    
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
         }
 
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 07 章 / 进度</div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
             <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">概述</a>
-            <a href="#section-setup" class="nav-item">1. 项目准备：变量集中管理</a>
-            <a href="#section-queryselectorall" class="nav-item">2. 批量选取的利器：querySelectorAll</a>
-            <a href="#section-nodelist" class="nav-item">3. 遍历 NodeList</a>
-            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
-            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+            <a href="#section-0" class="nav-item active">项目 #2：模态窗口 PROJECT #2: Modal Window</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>PROJECT #2: Modal Window</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：012 PROJECT #2 Modal Window.en.srt</span>
-            <span>📂 章节：第 07 章</span>
-        </div>
+<h1 id="section-0">项目 #2：模态窗口 (PROJECT #2: Modal Window)</h1>
 
-        <h2 id="section-overview">🎯 概述</h2>
-        <p>欢迎来到本章的第二个实战项目 —— <strong>模态窗口 (Modal Window)</strong>。模态窗口是现代网页设计中极为常见的 UI 组件，通常用于显示重要信息、登录框或警告提示，它会在当前页面之上弹出一个浮层，并强制用户与之交互。</p>
-        <p>在这个项目中，我们不再像之前那样通过 JavaScript 创建 HTML 结构或者写繁琐的内联样式。相反，模态窗口的 HTML 和 CSS 早就写好了，只是被 <code>display: none;</code> 隐藏了起来。我们将学习如何通过 JavaScript <strong>操控 CSS 类 (Classes)</strong> 来实现元素的显示与隐藏。</p>
+<div class="callout"><p>📺 来源：<code>012 PROJECT #2 Modal Window.en.srt</code><br>📂 章节：第 07 章</p></div>
 
-        <h2 id="section-setup">1. 项目准备：变量集中管理</h2>
-        <p>为了避免像上个项目那样到处书写重复的 <code>document.querySelector</code>，这次我们要养成良好的工程习惯：<strong>在文件顶部，把所有需要操作的 DOM 元素一次性选中，并妥善存放到变量中。</strong></p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <pre><code class="language-javascript">
-// 使用与类名相近的变量名，增强代码可读性
+<ul>
+<li><strong>前置知识</strong>：DOM 选择器（<code>querySelector</code>）、事件监听（<code>addEventListener</code>）、CSS <code>display: none</code> 隐藏元素</li>
+<li><strong>后续扩展</strong>：CSS 类操作（<code>classList.add/remove</code>）、键盘事件（<code>keydown</code>）、CSS 过渡动画（<code>transition</code>）、事件冒泡与委托</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节课开启第二个 DOM 操作项目 —— <strong>模态窗口（Modal Window）</strong>。这是 Web 开发中最常见的 UI 组件之一。核心学习点包括：使用 <code>querySelectorAll</code> 选取多个同类元素、将 DOM 选择结果存储到变量中以便复用、以及使用 <code>for</code> 循环遍历 <code>NodeList</code>。模态窗口的 HTML 结构已预置在页面中，通过 CSS 类 <code>hidden</code> 控制显示/隐藏。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 项目结构与 CSS 隐藏机制</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：模态窗口就像剧院的幕布 —— 幕布一直在台上，只是观众看不见后面的布景。拉开幕布（移除 <code>hidden</code> 类）布景就显示了，放下幕布（添加 <code>hidden</code> 类）布景就隐藏了。你不需要每次演出时重新搭建布景。</p></div>
+
+<p>模态窗口的 HTML 结构已经存在于页面中，并不需要通过 JavaScript 动态创建：</p>
+
+<pre><code class="language-html">&lt;!-- 三个触发按钮 --&gt;
+&lt;button class=&quot;show-modal&quot;&gt;Show modal 1&lt;/button&gt;
+&lt;button class=&quot;show-modal&quot;&gt;Show modal 2&lt;/button&gt;
+&lt;button class=&quot;show-modal&quot;&gt;Show modal 3&lt;/button&gt;
+
+&lt;!-- 模态窗口（默认隐藏） --&gt;
+&lt;div class=&quot;modal hidden&quot;&gt;
+  &lt;button class=&quot;close-modal&quot;&gt;&amp;times;&lt;/button&gt;
+  &lt;h1&gt;I'm a modal window 😍&lt;/h1&gt;
+  &lt;p&gt;内容文本...&lt;/p&gt;
+&lt;/div&gt;
+
+&lt;!-- 背景遮罩（默认隐藏） --&gt;
+&lt;div class=&quot;overlay hidden&quot;&gt;&lt;/div&gt;</code></pre>
+
+<pre><code class="language-css">/* hidden 类的 CSS 定义 */
+.hidden {
+  display: none;
+}</code></pre>
+
+<div class="mermaid">
+flowchart TD
+    subgraph 🖥️ 页面结构
+        A["按钮 1: Show modal"] 
+        B["按钮 2: Show modal"]
+        C["按钮 3: Show modal"]
+        D["div.modal.hidden 🙈"]
+        E["div.overlay.hidden 🙈"]
+    end
+    A -->|"点击"| F["移除 hidden 类"]
+    B -->|"点击"| F
+    C -->|"点击"| F
+    F --> G["div.modal 👀 可见"]
+    F --> H["div.overlay 👀 可见"]
+    style D fill:#991b1b,stroke:#f87171,color:#fff
+    style E fill:#991b1b,stroke:#f87171,color:#fff
+    style G fill:#166534,stroke:#4ade80,color:#fff
+    style H fill:#166534,stroke:#4ade80,color:#fff
+</div>
+
+<p><strong>为什么不用 JavaScript 动态创建 HTML？</strong></p>
+
+<p>对于简单的模态窗口，HTML 已经写好并通过 CSS 隐藏是更高效的做法 —— 省去了 <code>createElement</code>、<code>appendChild</code> 等复杂操作。JavaScript 只负责<strong>切换可见性</strong>（添加/移除 CSS 类）。</p>
+
+<hr>
+
+<h3 id="section-5">2. DOM 元素选择与变量存储</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：你去图书馆找一本书。第一次需要走到书架上翻找（DOM 查询）。如果你之后还要反复翻这本书，更好的做法是把它借走放在桌上（存入变量），而不是每次都跑回书架找。</p></div>
+
+<p>与上一个项目不同，本项目在文件开头<strong>统一选择</strong>所有需要的 DOM 元素并存储到变量中：</p>
+
+<pre><code class="language-javascript">'use strict';
+
+// ① 一次性选择所有需要的 DOM 元素
 const modal = document.querySelector('.modal');
 const overlay = document.querySelector('.overlay');
 const btnCloseModal = document.querySelector('.close-modal');
+const btnsOpenModal = document.querySelectorAll('.show-modal');</code></pre>
 
-// 重点：触发弹窗的按钮有三个！
-const btnsOpenModal = document.querySelector('.show-modal');
-console.log(btnsOpenModal); // ⚠️ 结果：只选中了页面里的第一个按钮！
-        </code></pre>
+<p><strong>🔍 执行追踪：</strong></p>
 
+<table>
+    <thead><tr><th>变量名</th><th>选择器</th><th>选中的元素</th><th>元素数量</th></tr></thead>
+    <tbody><tr><td><code>modal</code></td><td><code>.modal</code></td><td><code>&lt;div class=&quot;modal hidden&quot;&gt;</code></td><td>1 个</td></tr>
+<tr><td><code>overlay</code></td><td><code>.overlay</code></td><td><code>&lt;div class=&quot;overlay hidden&quot;&gt;</code></td><td>1 个</td></tr>
+<tr><td><code>btnCloseModal</code></td><td><code>.close-modal</code></td><td><code>&lt;button class=&quot;close-modal&quot;&gt;</code></td><td>1 个</td></tr>
+<tr><td><code>btnsOpenModal</code></td><td><code>.show-modal</code></td><td><code>NodeList[button, button, button]</code></td><td>3 个</td></tr></tbody>
+</table>
 
-        <h2 id="section-queryselectorall">2. 批量选取的利器：querySelectorAll</h2>
-        <p>上面的代码中，我们遇到了第一个坑。页面上有三个 <code>class="show-modal"</code> 的按钮，但 <code>querySelector</code> <strong>只会返回它在文档里找到的第一个匹配元素</strong>，然后就收工了。</p>
+<p><strong>📊 querySelector vs querySelectorAll 对比：</strong></p>
 
-        <p>如果要一次性把所有符合条件的元素都抓出来，我们必须请出它的终极形态：<strong><code>querySelectorAll</code></strong>。</p>
+<table>
+    <thead><tr><th>方法</th><th>返回值</th><th>匹配多个时</th><th>无匹配时</th></tr></thead>
+    <tbody><tr><td><code>querySelector()</code></td><td>单个 Element</td><td>只返回<strong>第一个</strong></td><td>返回 <code>null</code></td></tr>
+<tr><td><code>querySelectorAll()</code></td><td>NodeList</td><td>返回<strong>全部</strong></td><td>返回空 NodeList</td></tr></tbody>
+</table>
 
-        <pre><code class="language-javascript">
-// 正确做法：加上 'All'
-const btnsOpenModal = document.querySelectorAll('.show-modal');
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"querySelector 独生子，querySelectorAll 一家人"</strong> —— 前者只找第一个，后者找齐全部。</p></div>
 
-// 打印出来看看是什么？
-console.log(btnsOpenModal); 
-// 输出: NodeList(3) [button.show-modal, button.show-modal, button.show-modal]
-        </code></pre>
+<hr>
 
-        <div class="callout info">
-            <p>💡 <strong>什么是 NodeList？</strong> <br><code>querySelectorAll</code> 返回的并不是一个真正的数组 (Array)，而是一个叫做 <strong>NodeList（节点列表）</strong> 的结构。虽然它不是纯血统的数组，但它长得像数组，有下标 <code>[0]</code>，也有 <code>.length</code> 属性，最重要的是，<strong>我们可以用 <code>for</code> 循环来遍历它！</strong></p>
-        </div>
+<h3 id="section-6">3. NodeList 与 for 循环遍历</h3>
 
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>NodeList</code> 就像一串珍珠项链 —— 它把所有同类的 DOM 元素串在了一起。你可以像数珍珠一样，用 <code>for</code> 循环逐个访问每一颗。</p></div>
 
-        <h2 id="section-nodelist">3. 遍历 NodeList</h2>
-        <p>既然拿到了包含 3 个按钮的集合，接下来我们就可以用传统的 <code>for</code> 循环，逐一为它们挂载事件或者读取属性了。</p>
+<p><code>querySelectorAll</code> 返回的不是数组（Array），而是 <strong>NodeList</strong> —— 一种类数组对象。它有 <code>.length</code> 属性和数字索引，可以用 <code>for</code> 循环遍历：</p>
 
-        <pre><code class="language-javascript">
-// 遍历 NodeList，打印每个按钮上的文字
-for (let i = 0; i < btnsOpenModal.length; i++) {
-    console.log(btnsOpenModal[i].textContent);
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">nodelist_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 模拟 NodeList 遍历
+const buttons = ['Show modal 1', 'Show modal 2', 'Show modal 3'];
+
+// 用 for 循环遍历（与真实 NodeList 遍历方式相同）
+for (let i = 0; i &lt; buttons.length; i++) {
+  console.log(`按钮 ${i}: ${buttons[i]}`);
+}</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<p>在真实项目中，遍历 NodeList 为每个按钮添加事件：</p>
+
+<pre><code class="language-javascript">// 遍历 NodeList，为每个按钮添加点击事件
+for (let i = 0; i &lt; btnsOpenModal.length; i++) {
+  console.log(btnsOpenModal[i].textContent);
+  // 后续课程将在这里添加事件监听器
+}</code></pre>
+
+<div class="mermaid">
+flowchart LR
+    A["btnsOpenModal (NodeList)"] --> B["[0] button.show-modal"]
+    A --> C["[1] button.show-modal"]
+    A --> D["[2] button.show-modal"]
+    E["for 循环 i=0,1,2"] --> B
+    E --> C
+    E --> D
+</div>
+
+<p><strong>补充说明：</strong> <code>for</code> 循环体只有一行代码时，可以省略大括号 <code>{}</code>：</p>
+
+<pre><code class="language-javascript">// 有大括号（标准写法）
+for (let i = 0; i &lt; btnsOpenModal.length; i++) {
+  console.log(btnsOpenModal[i].textContent);
 }
 
-// 注意：如果 for 循环体只有一行代码，你可以省略大括号 {}
-// for (let i = 0; i < btnsOpenModal.length; i++) console.log(btnsOpenModal[i].textContent);
-        </code></pre>
+// 无大括号（单行简写）
+for (let i = 0; i &lt; btnsOpenModal.length; i++)
+  console.log(btnsOpenModal[i].textContent);</code></pre>
 
+<div class="callout"><p><strong>💼 业务场景</strong>：在真实的电商网站中，你可能有多个"加入购物车"按钮分布在不同的商品卡片上。使用 <code>querySelectorAll('.add-to-cart')</code> 选中所有按钮，然后用 <code>for</code> 循环为每一个添加事件监听器，这就是 <code>querySelectorAll</code> + 循环的典型应用。</p></div>
 
-        <h2 id="section-quiz">🧪 学习验证</h2>
+<hr>
 
-        <div class="quiz-card" data-correct="B">
-            <div class="quiz-question">1. 关于 `querySelector` 和 `querySelectorAll`，下面哪种说法是正确的？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) `querySelector` 性能很差，所以我们应该总是使用 `querySelectorAll`。</div>
-                <div class="quiz-option" data-value="B">B) `querySelector` 只返回第一个查找到的元素，而 `querySelectorAll` 会返回包含所有符合条件元素的 NodeList 集合。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>正确答案：B</strong>。根据你的需求精准用药。如果你确定页面上只有唯一的一个 ID 或 Class 需要操作（如前一个项目），使用 `querySelector` 会更快捷简便。
-            </div>
-        </div>
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
 
-        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>中文术语</th>
-                    <th>代码 / 英文术语</th>
-                    <th>简明释义</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>批量查询选择器</td>
-                    <td><code>document.querySelectorAll(...)</code></td>
-                    <td>获取文档中所有匹配指定 CSS 选择器的元素，返回一个 NodeList</td>
-                </tr>
-                <tr>
-                    <td>节点列表</td>
-                    <td>NodeList</td>
-                    <td>类数组对象，包含了提取出来的多个 DOM 元素节点。可通过索引访问，支持 <code>length</code> 属性和简单遍历方法</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="callout"><p><strong>💼 业务场景</strong>：构建一个产品页面，有多个"查看详情"按钮，点击后应显示对应的详情弹窗。第一步是选取所有按钮并验证它们的信息。</p></div>
 
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">select_elements_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 模拟项目初始化：选取并验证所有 DOM 元素
+// （这里用对象模拟 DOM 行为）
+
+const mockDOM = {
+  querySelector: function(selector) {
+    const elements = {
+      '.modal': { className: 'modal hidden', textContent: 'Modal Window' },
+      '.overlay': { className: 'overlay hidden', textContent: '' },
+      '.close-modal': { className: 'close-modal', textContent: '×' },
+    };
+    return elements[selector] || null;
+  },
+  querySelectorAll: function(selector) {
+    if (selector === '.show-modal') {
+      return [
+        { textContent: 'Show modal 1', className: 'show-modal' },
+        { textContent: 'Show modal 2', className: 'show-modal' },
+        { textContent: 'Show modal 3', className: 'show-modal' },
+      ];
+    }
+    return [];
+  }
+};
+
+// 选取元素
+const modal = mockDOM.querySelector('.modal');
+const overlay = mockDOM.querySelector('.overlay');
+const btnCloseModal = mockDOM.querySelector('.close-modal');
+const btnsOpenModal = mockDOM.querySelectorAll('.show-modal');
+
+// 验证选取结果
+console.log('✅ modal:', modal ? modal.className : '❌ 未找到');
+console.log('✅ overlay:', overlay ? overlay.className : '❌ 未找到');
+console.log('✅ btnCloseModal:', btnCloseModal ? btnCloseModal.textContent : '❌ 未找到');
+console.log(`✅ btnsOpenModal: 共 ${btnsOpenModal.length} 个按钮`);
+
+// 遍历所有打开按钮
+for (let i = 0; i &lt; btnsOpenModal.length; i++) {
+  console.log(`  📌 按钮 ${i + 1}: &quot;${btnsOpenModal[i].textContent}&quot;`);
+}</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["📄 页面加载"] --> B["选取 DOM 元素"]
+    B --> C["modal = querySelector('.modal')"]
+    B --> D["overlay = querySelector('.overlay')"]
+    B --> E["btnCloseModal = querySelector('.close-modal')"]
+    B --> F["btnsOpenModal = querySelectorAll('.show-modal')"]
+    F --> G["遍历 NodeList"]
+    G --> H["为每个按钮添加事件"]
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>选择器</th><th>方法</th><th>返回值类型</th><th>结果</th></tr></thead>
+    <tbody><tr><td><code>.modal</code></td><td><code>querySelector</code></td><td>Element</td><td><code>&lt;div class=&quot;modal hidden&quot;&gt;</code></td></tr>
+<tr><td><code>.overlay</code></td><td><code>querySelector</code></td><td>Element</td><td><code>&lt;div class=&quot;overlay hidden&quot;&gt;</code></td></tr>
+<tr><td><code>.close-modal</code></td><td><code>querySelector</code></td><td>Element</td><td><code>&lt;button class=&quot;close-modal&quot;&gt;</code></td></tr>
+<tr><td><code>.show-modal</code></td><td><code>querySelectorAll</code></td><td>NodeList (3)</td><td>三个 button 元素</td></tr>
+<tr><td><code>.nonexistent</code></td><td><code>querySelector</code></td><td>null</td><td><code>null</code></td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ 模态窗口的 HTML 预置在页面中，通过 CSS <code>hidden</code> 类<strong>隐藏</strong>，JavaScript 只负责切换可见性</li>
+<li>✅ 项目开头<strong>统一选取</strong>所有需要的 DOM 元素并存入变量，避免重复查询</li>
+<li>✅ <code>querySelectorAll</code> 返回 <strong>NodeList</strong>，可用 <code>for</code> 循环遍历</li>
+<li>✅ <code>querySelector</code> 匹配多个元素时只返回<strong>第一个</strong>，需要全部时用 <code>querySelectorAll</code></li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：用 <code>querySelector</code> 选取多个同类元素。当页面上有多个 <code>.show-modal</code> 按钮时，<code>querySelector('.show-modal')</code> 只返回第一个，后两个被忽略。必须使用 <code>querySelectorAll</code>。</li>
+<li>⚠️ <strong>误区 2</strong>：选择器类名拼写不一致。在 HTML 中是 <code>show-modal</code>，但在 JS 中写成了 <code>open-modal</code>，导致返回 <code>null</code>。选择器的类名必须与 HTML 中大小写、连字符<strong>完全一致</strong>。</li>
+<li>⚠️ <strong>误区 3</strong>：将 NodeList 当作真正的数组。NodeList 没有 <code>push</code>、<code>map</code>、<code>filter</code> 等数组方法（现代浏览器中 <code>forEach</code> 可用）。如需使用数组方法，需先用 <code>Array.from()</code> 转换。</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">// 选择器类名写错
+const btnsOpenModal = document.querySelectorAll('.open-modal');
+console.log(btnsOpenModal.length); // 0
+
+// 尝试遍历空 NodeList 不会报错，但也不会执行任何操作
+for (let i = 0; i &lt; btnsOpenModal.length; i++) {
+  console.log(btnsOpenModal[i].textContent); // 永远不会执行
+}</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>（无报错，但行为异常）
+btnsOpenModal.length 为 0
+for 循环体不执行
+页面上没有任何按钮响应点击</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>querySelectorAll</code> 在找不到匹配元素时不会抛错，只会返回一个空的 NodeList（<code>length === 0</code>）。这导致 bug 很难发现 —— 代码"正常运行"但什么都没做。养成习惯在开发时 <code>console.log</code> 选择结果来验证。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>模态窗口</td><td>Modal Window</td><td>覆盖在页面上的弹窗组件</td><td>—</td><td>—</td></tr>
+<tr><td>遮罩层</td><td>Overlay</td><td>模态窗口背后的半透明遮罩</td><td><code>&lt;div class=&quot;overlay&quot;&gt;</code></td><td>—</td></tr>
+<tr><td>全部选择器</td><td>querySelectorAll</td><td>选取所有匹配的 DOM 元素</td><td><code>document.querySelectorAll('.cls')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/querySelectorAll" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>节点列表</td><td>NodeList</td><td><code>querySelectorAll</code> 的返回类型</td><td><code>nodeList[0]</code>, <code>nodeList.length</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/NodeList" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>严格模式</td><td>Strict Mode</td><td>启用更严格的 JS 语法检查</td><td><code>'use strict';</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>显示属性</td><td>display</td><td>CSS 属性，控制元素是否渲染</td><td><code>display: none;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/display" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：选取并统计页面上的所有链接</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 假设页面上有多个链接
+// 用 querySelectorAll 选取它们，并输出每个链接的 href 和文本
+
+// 模拟 DOM
+const links = [
+  { href: 'https://example.com', textContent: 'Example' },
+  { href: 'https://mdn.dev', textContent: 'MDN' },
+  { href: 'https://github.com', textContent: 'GitHub' },
+];
+
+// 你的代码：用 for 循环遍历并输出每个链接信息</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  { href: 'https://example.com', textContent: 'Example' },
+  { href: 'https://mdn.dev', textContent: 'MDN' },
+  { href: 'https://github.com', textContent: 'GitHub' },
+];
+
+console.log(<code>📊 页面共有 ${links.length} 个链接：</code>);
+for (let i = 0; i &lt; links.length; i++) {
+  console.log(<code>  ${i + 1}. 「${links[i].textContent}」→ ${links[i].href}</code>);
+}
+</code></pre>
+
+<strong>解题思路</strong>：<code>querySelectorAll('a')</code> 返回所有 <code>&lt;a&gt;</code> 标签的 NodeList，用 <code>for</code> 循环遍历，通过索引 <code>[i]</code> 访问每个元素的 <code>href</code> 和 <code>textContent</code> 属性。
+
+</details>
+
+<p><strong>练习 2：实现元素存在性验证工具</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 创建一个函数，接收选择器字符串，返回选取结果和数量
+// 如果未找到，输出警告
+
+function checkElement(selector) {
+  // 你的代码
+  // 提示：如果结果为 null 或空 NodeList，输出警告
+}
+
+// 测试
+// checkElement('.modal');       // ✅ 找到 1 个
+// checkElement('.show-modal');  // ✅ 找到 3 个
+// checkElement('.nonexistent'); // ⚠️ 未找到</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  // 先尝试 querySelectorAll 获取全部匹配
+  const elements = document.querySelectorAll(selector);
+
+  if (elements.length === 0) {
+    console.warn(<code>⚠️ 选择器 &amp;quot;${selector}&amp;quot; 未匹配到任何元素！</code>);
+    return null;
+  }
+
+  console.log(<code>✅ 选择器 &amp;quot;${selector}&amp;quot; 匹配到 ${elements.length} 个元素</code>);
+  for (let i = 0; i &lt; elements.length; i++) {
+    console.log(<code>  [${i}] ${elements[i].tagName}.${elements[i].className}</code>);
+  }
+  return elements;
+}
+
+// 在浏览器控制台中测试：
+// checkElement('.modal');       // ✅ 找到 1 个
+// checkElement('.show-modal');  // ✅ 找到 3 个
+// checkElement('.nonexistent'); // ⚠️ 未找到
+</code></pre>
+
+<strong>解题思路</strong>：统一使用 <code>querySelectorAll</code>，通过 <code>length</code> 判断是否找到元素。这样无论目标是单个还是多个元素，都能正确处理。
+
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question"><code>document.querySelectorAll('.show-modal')</code> 返回的是什么类型？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) Array（数组）</div>
+<div class="quiz-option" data-value="B">B) NodeList（节点列表）</div>
+<div class="quiz-option" data-value="C">C) HTMLCollection</div>
+<div class="quiz-option" data-value="D">D) Object（普通对象）</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>querySelectorAll</code> 返回的是 <strong>NodeList</strong>，它是类数组对象，有 <code>length</code> 属性和数字索引，但不具备数组的 <code>push</code>、<code>map</code> 等方法。注意与 <code>getElementsByClassName</code> 返回的 HTMLCollection 不同。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">模态窗口为什么初始不可见？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 因为它的 HTML 代码被注释掉了</div>
+<div class="quiz-option" data-value="B">B) 因为 JavaScript 在页面加载时将其隐藏</div>
+<div class="quiz-option" data-value="C">C) 因为它有 `hidden` CSS 类，该类设置了 `display: none`</div>
+<div class="quiz-option" data-value="D">D) 因为它被绝对定位到了屏幕外</div>
+    </div>
+    <div class="quiz-explanation">
+        模态窗口的 <code>&lt;div&gt;</code> 标签自带 <code>hidden</code> 类，而 CSS 中 <code>.hidden { display: none; }</code> 将其从页面渲染中完全移除。JavaScript 后续通过添加/移除这个类来切换可见性。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">以下哪种做法更推荐？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 在文件开头统一选取 DOM 元素存入变量，后续复用变量</div>
+<div class="quiz-option" data-value="B">B) 每次需要操作元素时都调用 `querySelector` 重新选取</div>
+<div class="quiz-option" data-value="C">C) 将选择器字符串存入变量，每次操作时传入</div>
+<div class="quiz-option" data-value="D">D) 使用全局变量存储 HTML 字符串</div>
+    </div>
+    <div class="quiz-explanation">
+        统一选取并存入变量有两大好处：①<strong>性能更优</strong> —— DOM 查询只执行一次；②<strong>代码更清晰</strong> —— 变量名比选择器字符串更直观。每次都调用 <code>querySelector</code> 是不必要的重复操作。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 选取单个元素<br>
+    const modal = document.<input type="text" class="blank-input" data-answer="querySelector" placeholder="1">('.modal');<br>
+    <br>
+    // 选取多个同类元素<br>
+    const btnsOpenModal = document.<input type="text" class="blank-input" data-answer="querySelectorAll" placeholder="2">('.show-modal');<br>
+    <br>
+    // 遍历 NodeList<br>
+    for (let i = 0; i < btnsOpenModal.<input type="text" class="blank-input" data-answer="length" placeholder="3">; i++) {<br>
+      console.log(btnsOpenModal[<input type="text" class="blank-input" data-answer="i" placeholder="4">].textContent);<br>
+    }
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
-<!-- 依赖脚本 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
                 document.querySelectorAll('.nav-item').forEach(nav => {
                     nav.classList.remove('active');
-                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
                 });
             }
         });
     }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
     document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
 
     window.addEventListener('scroll', () => {
@@ -226,25 +962,29 @@ for (let i = 0; i < btnsOpenModal.length; i++) {
         document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
     });
 
-    document.querySelectorAll('.quiz-card').forEach(card => {
-        const correctVal = card.getAttribute('data-correct');
-        const opts = card.querySelectorAll('.quiz-option');
-        const exp = card.querySelector('.quiz-explanation');
-        
-        opts.forEach(opt => {
-            opt.addEventListener('click', () => {
-                opts.forEach(o => o.style.background = 'transparent');
-                if (opt.getAttribute('data-value') === correctVal) {
-                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--success-color)';
-                } else {
-                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--error-color)';
-                }
-                exp.style.display = 'block';
-            });
-        });
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
     });
+
 </script>
+
 </body>
 </html>

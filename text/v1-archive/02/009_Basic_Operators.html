@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>基础运算符 (Basic Operators)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+    
+        
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 数学运算符</a>
+            <a href="#section-2" class="nav-item">2. 赋值运算符 (合并重构)</a>
+            <a href="#section-3" class="nav-item">3. 比较运算符</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>基础运算符 (Basic Operators)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：009 Basic Operators.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <p>能够计算出数值或产生布尔结果的特殊记号被称为“运算符”。它们能帮助我们执行运算或合并数据。</p>
+
+        <h2 id="section-1">1. 数学运算符 (Math Operators)</h2>
+        <p>包括我们最熟悉的加减乘除 <code>+ - * /</code>，以及 ES6 引入的强力指数运算符（计算几次方） <code>**</code>。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">math.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+const now = 2037;
+const ageJonas = now - 1991;
+const ageSarah = now - 2018;
+
+console.log(ageJonas, ageSarah);
+console.log(ageJonas * 2, ageJonas / 10, 2 ** 3); 
+// 2 ** 3 代表 2 的 3 次幂： 2 * 2 * 2 = 8</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+        
+        <p>💡 提示：神奇的是 <code>+</code> 号还能用于<strong>字符串缝合</strong>。<code>"Jonas" + " " + "Schmedtmann"</code> 结果将会是 <code>"Jonas Schmedtmann"</code>。</p>
+
+        <h2 id="section-2">2. 赋值运算符 (Assignment Operators)</h2>
+        <p>等号 <code>=</code> 是最基底的赋值运算符（将右边的结果给予左边）。除此之外，还有用于简写的强力突变运算符。</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">assignment.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
+let x = 10 + 5; // x 初始化为 15
+
+// += 语法糖合并： x = x + 10
+x += 10; 
+console.log(x); // 25
+
+x *= 4; // x = x * 4
+console.log(x); // 100
+
+x++; // 终极糖精：增加 1 (x = x + 1)
+console.log(x); // 101
+x--; // 减少 1
+console.log(x); // 100</textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+
+        <h2 id="section-3">3. 比较运算符 (Comparison Operators)</h2>
+        <p>我们用它们来提问！最终的结果永远是 <strong>Boolean (true / false)</strong>：</p>
+        <ul>
+            <li><code>&gt;</code> (大于) 和 <code>&lt;</code> (小于)</li>
+            <li><code>&gt;=</code> (大于或等于) 比如测试某人是否满 18 岁（可涵盖18）</li>
+            <li><code>&lt;=</code> (小于或等于)</li>
+        </ul>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">comparison.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">
+const ageJonas = 46;
+const ageSarah = 19;
+
+// 发出灵魂提问：Jonas 的年纪比 Sarah 大吗？
+console.log(ageJonas > ageSarah); // 将打印出 true
+
+// 测试：Sarah 是否成色（大于等于18岁）
+const isFullAge = ageSarah >= 18;
+console.log(isFullAge); // true
+
+// 高级连写操作，一行搞定对比
+console.log(2037 - 1991 > 2037 - 2018);</textarea>
+            </div>
+            <div id="console3" class="console-output"></div>
+        </div>
+        
+        <p>你可能会好奇，在高级连写 <code>2037 - 1991 &gt; 2037 - 2018</code> 中，JS 怎么知道应该是先算减号，再进行大于比较的呢？下一节探讨运算优先级！</p>
+
+    </main>
+</div>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+</script>
+</body>
+</html>

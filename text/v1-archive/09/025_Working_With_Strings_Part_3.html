@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working With Strings - Part 3</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 碎尸万段法 (split)</a>
+            <a href="#section-2" class="nav-item">2. 亡魂拼阵 (join)</a>
+            <a href="#section-3" class="nav-item">3. 首尾补位法 (padStart/End)</a>
+            <a href="#section-4" class="nav-item">4. 残暴的克隆复制器 (repeat)</a>
+            <a href="#section-challenge" class="nav-item">大演兵：遮罩银行卡</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Working With Strings - Part 3 (字符串最终大裁决)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：025 Working With Strings - Part 3.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 终点脉络</strong>
+            <p>我们终于来到了文字操控术的最后一页！这一卷充满了神级黑带招数：如何把一条毫无破绽的文字猛砍成一个个 Array（数组）碎肉阵？又如何通过重构阵列给它贴上接合胶水 <code>.join()</code> 缝回成人形？最后我们将触碰真实世界金融级应用场景：<strong>屏蔽银行卡隐藏数字位数！</strong></p>
+        </div>
+
+        <h2 id="section-1">1. 万宗归一阵列碎尸法 (split)</h2>
+        <p>这是极其恐怖且高频的重要大法！它能按你给出的「菜刀」将一整行连续的字符串全部剁成一小块一小块，并丢进一个标准的 Array 盒子里端出来。</p>
+
+        <pre><code class="language-javascript">console.log('a+very+nice+string'.split('+')); 
+// 输出一个阵列：['a', 'very', 'nice', 'string'] （所有 + 号像骨架一样被抽离消解掉）
+
+// ★ 巅峰套招：与高阶解构配合，抽人名秒杀建档 
+const [firstName, lastName] = 'Jonas Schmedtmann'.split(' '); 
+console.log(firstName, lastName); // 'Jonas', 'Schmedtmann'
+// 用切刀（空格）瞬间一刀划作两人头！</code></pre>
+
+        <h2 id="section-2">2. 万法同源：亡魂拼合胶水 (join)</h2>
+        <p>当咱们把人在数组里切碎后好好的整了容（改了大小写等等），用这个反向胶水函数，向每个数组骨节中央强行浇筑进去粘合剂，让它们首尾相连活成了一条新的巨长字符串链！</p>
+
+        <pre><code class="language-javascript">const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' '); 
+console.log(newName); // 'Mr. Jonas SCHMEDTMANN'</code></pre>
+
+        <div class="callout callout-important">
+            <strong>✨ 高阶整合洗礼实战：无定式长度人名一键大修王</strong>
+            <p>来个女明星 'jessica ann smith davis'，把它全阵的所有头字抹上大写！我们把前面的切割术和这里的重组胶水来一次大荟萃狂欢。</p>
+            <pre><code class="language-javascript">const capitalizeName = function(name) {
+  const names = name.split(' '); // 切成独立碎末阵列！
+  const namesUpper = []; // 准备骨灰盒收集新重塑成果
+  
+  for (const n of names) { // 开始在血池迭代！
+    // 方案1：切刀生拼硬缝 
+    // namesUpper.push(n[0].toUpperCase() + n.slice(1));
+    
+    // 方案2：使用黑科技置换大法 replace() (高段位黑客推崇)
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase())); 
+  }
+  
+  // 拼合亡魂大军并对外丢还完整尸体文本！
+  console.log(namesUpper.join(' ')); 
+};
+
+capitalizeName('jessica ann smith davis'); // 'Jessica Ann Smith Davis'</code></pre>
+        </div>
+
+        <h2 id="section-3">3. 缺口强硬补齐法 (padStart / padEnd)</h2>
+        <p>经常在填满一些固定格式要求位数的字符里，如果客户只输入了三个字，但系统非要逼它满 25 长度位数！那这招就是往里猛塞防震泡沫垫（你自选的填充符号）。</p>
+
+        <pre><code class="language-javascript">const message = 'Go to gate 23!';
+
+// 往头部死命硬顶填充满，务必撑长至总体格拥有 25 个占位长
+console.log(message.padStart(25, '+')); 
+// 第一个参数是“达到多长的长轴”，第二个参数是用什么符号作塞子。
+// 输出：+++++++++++Go to gate 23!
+console.log('Jonas'.padStart(25, '+')); 
+// 输出：++++++++++++++++++++Jonas
+
+// 接着往尾巴死命猛灌，撑填到30总长（连击链）：
+console.log(message.padStart(25, '+').padEnd(30, '+'));</code></pre>
+
+        <h2 id="section-4">4. 残暴克隆流水线 (repeat)</h2>
+        <p>这最简单，比如机场航班晚点刷红字霸屏大告示：</p>
+        <pre><code class="language-javascript">const message2 = 'Bad weather... All Departures Delayed... ';
+console.log(message2.repeat(5)); 
+// 不讲道理地原地生生印出连体的 5 个满红字警告狂扫输出大回环！
+
+const planesInLine = function(n) {
+  console.log(`There are ${n} planes in line ${'✈️'.repeat(n)}`);
+};
+planesInLine(5); // 一次生出 5 只飞机符号的狂潮！</code></pre>
+
+        <h2 id="section-challenge">💻 高能金融实景大演兵：银行卡后四位遮罩技术</h2>
+        <p>你永远不能在前端暴露整截 16 位的神圣密码阵。用什么方法掏出长尾最后的 4 个数字孤星在外面招摇，并把所有前半截死命按成 `*` 号星阵遮幕掩下呢？</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行隐形遮罩</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const maskCreditCard = function (number) {
+  // ①: 无论前端强传进来的是个整型纯数骨还是文本。
+  // 我们教你一招老怪物的黑科技盲压转换成 String 大法！
+  // 我们直接拿它加一条空白的强字符，逼它强制异化变形成文本段：
+  const str = number + ''; 
+
+  // ②: 后部神圣裁断！只切走最后的肉！(负面截断刀光)
+  const last = str.slice(-4);
+  
+  // ③: 前部黑星天降覆盖闭幕！
+  // 它要求把剩下的总长度缺口全在头部用星号填死补绝！
+  return last.padStart(str.length, '*');
+}
+
+console.log(maskCreditCard(4338947382283944)); 
+// 终局屏蔽结果：************3944
+console.log(maskCreditCard('3478932479201944')); 
+console.log(maskCreditCard(838383383)); </textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

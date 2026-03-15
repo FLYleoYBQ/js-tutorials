@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Optional Chaining (?.)</title>
+    <title>可选链（Optional Chaining `?.`）</title>
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
 
@@ -17,7 +19,8 @@
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
@@ -30,234 +33,844 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
 
         /* Layout */
-        .app-container { display: flex; min-height: 100vh; }
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
 
-        /* Sidebar */
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
-        
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
 
         /* Main Content */
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
-        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
-        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
         .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
 
-        /* Code Editor */
-        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
-        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
         .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
-        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
-        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
         .editor-container { position: relative; }
-        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
-        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
         .console-output.visible { display: block; }
         .console-output.error { color: var(--error-color); }
 
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
-        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
-        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
-        
-        
-        
-    
-    
-/* 极简暗色主题 CSS */
-
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
         }
 
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 09 章 / 进度</div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
             <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">概述</a>
-            <a href="#section-1" class="nav-item">逃离 undefined.xxx 引起的地狱崩溃</a>
-            <a href="#section-2" class="nav-item">与 ?? 空值合并结为伴侣使用</a>
-            <a href="#section-3" class="nav-item">兼容性延伸：侦测方法和数组</a>
-            <a href="#section-quiz" class="nav-item">验证评估</a>
+            <a href="#section-0" class="nav-item active">可选链（Optional Chaining ?.）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>Optional Chaining (?.)</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：014 Optional Chaining.en.srt</span>
-            <span>📂 章节：第 09 章</span>
-        </div>
+<h1 id="section-0">可选链（Optional Chaining <code>?.</code>）</h1>
 
-        <div class="callout">
-            <strong>📌 知识脉络</strong>
-            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
-                <li><strong>前置基础</strong>：从外部 Web API 拉取充满不确定性的深深嵌套且部分内容残缺缺失的 JSON 数据流。</li>
-                <li><strong>ES2020 究级武器</strong>：配合我们学果的那位叫 <code>??</code> 的英雄，我们彻底告别了一层一层的冗爆了的无聊防爆 <code>If</code> 检查语句。</li>
-            </ul>
-        </div>
+<div class="callout"><p>📺 来源：014 Optional Chaining (.).en.srt<br>📂 章节：第 09 章</p></div>
 
-        <h2 id="section-overview">🎯 概述</h2>
-        <p>你有没有尝过被满屏惨烈的控制台红字 <strong><code>TypeError: Cannot read properties of undefined</code></strong> 支配的恐惧？当我们在一个巨大的未知嵌套数据里向深处试探获取变量时，如果这条途径中间断开了（遇到了不存在或者空包），继续往深处挖掘，就会遭受 JS 毫不留情的红屏击鼓。现在，<strong>可选链 (Optional Chaining `?.`) </strong>像铺上了软垫一样帮你安静化解这场致命碰撞。</p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <h2 id="section-1">1. 逃离 undefined.xxx 引起的地狱崩溃</h2>
-        <p>当我们要获知在礼拜一这一天，餐厅到底是几点关门的时候，麻烦悄然逼近：餐厅根本没写星期一（mon）营业这个属性！</p>
+<ul>
+<li><strong>前置知识</strong>：空值合并运算符（<code>??</code>）、Nullish 概念、属性访问（<code>.</code> 和 <code>[]</code>）</li>
+<li><strong>后续扩展</strong>：遍历对象（<code>Object.keys/values/entries</code>）、<code>Map</code> 和 <code>Set</code> 数据结构</li>
+</ul>
 
-        <div class="code-comparison">
-            <div class="code-column">
-                <div class="code-header">💣 常规硬闯引发车祸</div>
-<pre><code class="language-javascript">const restaurant = {
-    openingHours: {
-        fri: { open: 11, close: 23 }
-    }
+<h2 id="section-2">🎯 概述</h2>
+
+<p>可选链（Optional Chaining <code>?.</code>）是 ES2020 引入的语法，当访问对象的深层嵌套属性时，如果中间某个属性不存在（<code>null</code> / <code>undefined</code>），会<strong>立即返回 <code>undefined</code></strong> 而不报错。它常与 <code>??</code> 配合使用，一对黄金搭档。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 基础用法</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：可选链就像带安全绳的攀岩——每爬一步先检查抓手是否存在，如果不存在就立刻停下（返回 <code>undefined</code>），而不是直接摔下去（报错）。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">optional_chaining.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const restaurant = {
+  openingHours: {
+    thu: { open: 12, close: 22 },
+    fri: { open: 11, close: 23 },
+  },
 };
 
-// 'mon' 是不存在（undefined）的。
-// 所以你等同于在执行 undefined.open
-// 这直接导致引擎立刻红字报错崩溃！
-console.log(restaurant.openingHours.mon.open);</code></pre>
-            </div>
-            <div class="code-column">
-                <div class="code-header">🛡️ 史前人类的老实搭桥护栏法</div>
-<pre><code class="language-javascript">// 以前想安全爬出大坑，我们不得不一步一回头铺满啰嗦的 if 护栏探测垫脚石：
-if (restaurant.openingHours && restaurant.openingHours.mon) {
-    console.log(restaurant.openingHours.mon.open);
-}</code></pre>
-            </div>
-        </div>
+// 没有可选链 — 可能报错
+// console.log(restaurant.openingHours.mon.open); // ❌ TypeError!
 
-        <p><strong>👑 现世代魔法：可选链 <code>?.</code> 侦查防撞机制：</strong></p>
-        <p>只要在 <code>.</code> 之前塞入 <code>?</code>，就如同在探照灯上加上安全护罩：<strong>只要问号前面的东西不存在或者是一个坑（nullish概念：null / undefined），那么引擎立马收起探测针，和平归还一个 <code>undefined</code> 停手退步！</strong>绝不动手导致崩溃报错。</p>
-        
-        <pre><code class="language-javascript">// 问号放置在要踏下去的前进跳板前：
-// 翻译：只有当 mon 本身真的客观存在 (不空塌)，我才敢往下走去读 open
-console.log(restaurant.openingHours.mon?.open); // 返回: undefined
+// ✅ 有可选链 — 安全返回 undefined
+console.log(restaurant.openingHours.mon?.open); // undefined
+console.log(restaurant.openingHours?.mon?.open); // undefined（多层保护）</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
 
-// 多重安全防爆叠加探测（极度深层结构）：
-console.log(restaurant.openingHours?.mon?.open); // 安全返回: undefined</code></pre>
+<div class="mermaid">
+flowchart TD
+    OBJ["restaurant"] --> OH{"openingHours 存在？"}
+    OH -->|"✅ 存在"| MON{"mon 存在？"}
+    MON -->|"❌ undefined"| RESULT["立即返回 undefined ⬅️"]
+    MON -->|"✅ 存在"| OPEN["读取 .open"]
+</div>
 
-        <h2 id="section-2">2. 最强羁绊：与 <code>??</code> 空值合并结为伴侣使用</h2>
-        <p>既然 <code>?.</code> 会在遇到深坑撞车时，聪明地软着陆并返回给你一个不报错的 <code>undefined</code>，那么谁是拦截兜底 <code>undefined</code> 给它设置默认替补变量的之王呢？当然是和它一母同胞的亲兄弟 <strong><code>??</code></strong> 咯！</p>
+<div class="callout"><p>💡 <code>?.</code> 基于 <strong>Nullish 概念</strong>：属性为 <code>null</code> 或 <code>undefined</code> 时才停止。<code>0</code>、<code>''</code>、<code>false</code> 都算"存在"。</p></div>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">index.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行组合神拳</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const restaurant = {
-    openingHours: {
-        sat: { open: 0, close: 24 } // 周六因为是凌晨0点开门！如果用旧式 || 会踩雷翻车
-    }
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th>表达式</th><th>步骤</th><th>结果</th></tr></thead>
+    <tbody><tr><td><code>restaurant.openingHours.mon?.open</code></td><td><code>mon</code> 是 <code>undefined</code> → 停止</td><td><code>undefined</code></td></tr>
+<tr><td><code>restaurant.openingHours.fri?.open</code></td><td><code>fri</code> 存在 → 读取 <code>open</code></td><td><code>11</code></td></tr></tbody>
+</table>
+
+<hr>
+
+<h3 id="section-5">2. 与 <code>??</code> 搭配设置默认值</h3>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">with_nullish.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const restaurant = {
+  openingHours: {
+    thu: { open: 12, close: 22 },
+    fri: { open: 11, close: 23 },
+    sat: { open: 0, close: 24 },
+  },
 };
 
 const days = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
+for (const d of days) {
+  const open = restaurant.openingHours[d]?.open ?? 'closed';
+  console.log(`On ${d}, we open at ${open}`);
+}
+// On mon, we open at closed
+// ...
+// On thu, we open at 12
+// On fri, we open at 11
+// On sat, we open at 0  ← ?? 正确处理了 0！</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
 
-for (const day of days) {
-    // 联合大阵法：
-    // ?. 探测这条路通不通，不通则返回 undefined 交给后面的网。
-    // ?? 守住最后一张兜底捕捞网：把 undefined 或 null 转换为 'closed' 托底，但绝不会杀错 0。
-    const openStatus = restaurant.openingHours[day]?.open ?? 'closed';
-    console.log(`在周 ${day} 时我们开门于：${openStatus}`);
-}</textarea>
-            </div>
-            <div id="console1" class="console-output"></div>
-        </div>
+<div class="callout warning"><p>⚠️ 这里用 <code>??</code> 而非 <code>||</code> 是因为周六的 <code>open: 0</code> 是合法值。<code>||</code> 会把 <code>0</code> 当假值返回 <code>'closed'</code>。</p></div>
 
-        <h2 id="section-3">3. 兼容性延伸：不仅能防参数塌楼，更能探路方法和数组！</h2>
-        <p>在企业深层应用里，它不仅仅可以用在读取不知猴年马月是否存在下落的对象属性。如果你甚至不知道它身上<strong>挂没挂上这个执行函数</strong>！或者该<strong>数组有没越界为空值</strong>！同样一把通吃照样可以用 <code>?.</code>：</p>
+<hr>
 
-        <pre><code class="language-javascript">// 🕵️‍♂️ 探测内部深层函数执行存活状况：
-// 翻译：只有 order 这把武器确实攥在手里存在且是个实体函数，那才打响后面它()内部的弹药！否则直接短路默认不存在！ 
-console.log(restaurant.order?.(0, 1) ?? 'Method does not exist'); 
-console.log(restaurant.orderRisotto?.(0, 1) ?? 'Method does not exist'); // 方法未登记，拦截生效
+<h3 id="section-6">3. 调用方法前检查存在性</h3>
 
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">method_check.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const restaurant = {
+  order(starterIdx, mainIdx) {
+    return ['Focaccia', 'Bruschetta'][starterIdx];
+  },
+};
 
-// 🕵️‍♂️ 探测数组首坑位存活状况防空军：
-const users = [{ name: 'Jonas', email: 'hello@jonas.io' }];
-// 翻译：只有这头数组队列里它的零号铁王座上面有人坐，才读他的名字。
-console.log(users[0]?.name ?? 'User array empty'); // 'Jonas'
+// 方法存在 → 正常调用
+console.log(restaurant.order?.(0, 1) ?? 'Method not found');
+// &quot;Focaccia&quot;
 
-const emptyUsers = [];
-console.log(emptyUsers[0]?.name ?? 'User array empty'); // 'User array empty'</code></pre>
+// 方法不存在 → 返回 undefined → ?? 触发
+console.log(restaurant.orderRisotto?.() ?? 'Method not found');
+// &quot;Method not found&quot;</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
 
-        <h2 id="section-quiz">🧪 学习验证</h2>
+<hr>
 
-        <h3>❓ 理解检测</h3>
-        <div class="quiz-card" data-correct="B">
-            <div class="quiz-question">1. 为什么我们认为 `?.` 和 `??` 在新法典里是配合起来天衣无缝的双生伴侣？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) 它们其实是对立竞争关系的，两者在性能优化上打成平手。</div>
-                <div class="quiz-option" data-value="B">B) 因为 `?.` （可选链防撞墙）在侦查前方道路遇到塌陷空洞时，它拦截后静默抛出/退回的一定且永远是一个名为 Nullish (undefined) 的信号火炬。而恰巧 `??`（空值合并兜底）的作用靶心触发名单里仅关注拦截并转化这种特殊的核心火炬信号。</div>
-                <div class="quiz-option" data-value="C">C) 因为它们都是包含 "?" 符号组成家族。属于格式上的美学追求而已。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>B 是正确的选项</strong>。这是 ES2020 顶层建筑大师级组合操作：前锋用 <code>?.</code> 以 Nullish 原理进行前路探查排雷，后防用 <code>??</code> 靠 Nullish 原理接收抛出失败弹道并安上防滑锁。组合起来所向无敌。
-            </div>
-        </div>
+<h3 id="section-7">4. 数组元素检查</h3>
 
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">array_check.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">const users = [{ name: 'Jonas', email: 'hello@jonas.io' }];
+
+// 检查第一个元素是否存在
+console.log(users[0]?.name ?? 'User array empty'); // &quot;Jonas&quot;
+
+// 空数组测试
+const empty = [];
+console.log(empty[0]?.name ?? 'User array empty'); // &quot;User array empty&quot;</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<div class="code-comparison">
+    <div class="code-panel">
+        <div class="panel-header method2">🚨 传统写法（繁琐）</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">if (users.length &gt; 0) {
+  console.log(users[0].name);
+} else {
+  console.log('User array empty');
+}</code></pre>
+    </div>
+    <div class="code-panel">
+        <div class="panel-header method1">✨ 可选链 + ??</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">console.log(users[0]?.name ?? 'User array empty');</code></pre>
+    </div>
+</div>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：安全访问深层嵌套的 API 响应数据。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">api_safe_access.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">const apiResponse = {
+  data: {
+    user: {
+      profile: {
+        address: { city: 'Shanghai' },
+      },
+    },
+  },
+};
+
+// 安全访问深层数据
+const city = apiResponse?.data?.user?.profile?.address?.city ?? '未知城市';
+console.log(city); // &quot;Shanghai&quot;
+
+// 某个中间层不存在
+const phone = apiResponse?.data?.user?.contact?.phone ?? '未提供';
+console.log(phone); // &quot;未提供&quot;</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    API["apiResponse"] -->|"?."| DATA["data"]
+    DATA -->|"?."| USER["user"]
+    USER -->|"?."| PROFILE["profile"]
+    PROFILE -->|"?."| ADDR["address"]
+    ADDR -->|"?."| CITY["city = 'Shanghai' ✅"]
+    
+    USER -->|"?."| CONTACT{"contact 存在？"}
+    CONTACT -->|"❌"| UNDEF["undefined → ?? '未提供'"]
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>访问路径</th><th>是否存在</th><th><code>?.</code> 结果</th><th><code>?? 默认值</code> 后</th></tr></thead>
+    <tbody><tr><td><code>data.user.profile.address.city</code></td><td>✅</td><td><code>'Shanghai'</code></td><td><code>'Shanghai'</code></td></tr>
+<tr><td><code>data.user.contact.phone</code></td><td>❌</td><td><code>undefined</code></td><td><code>'未提供'</code></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ <code>?.</code> 在属性不存在（<code>null</code>/<code>undefined</code>）时立即返回 <code>undefined</code>，避免 TypeError</li>
+<li>✅ 可用于属性访问、方法调用、数组元素</li>
+<li>✅ 几乎总是与 <code>??</code> 搭配使用，提供安全的默认值</li>
+<li>✅ 基于 Nullish 概念——<code>0</code> 和 <code>''</code> 算"存在"</li>
+<li>✅ ES2020 引入，与 <code>??</code> 同年同源</li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>过度使用</strong>：不要在每个 <code>.</code> 前都加 <code>?.</code>，只在你<strong>不确定</strong>属性是否存在时使用</li>
+<li>⚠️ <strong>误用 <code>||</code> 替代 <code>??</code></strong>：<code>?.</code> 返回的 <code>0</code> 或 <code>''</code> 会被 <code>||</code> 错误跳过，用 <code>??</code></li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<p><strong>❌ 没有可选链时的错误：</strong></p>
+
+<pre><code class="language-javascript">const obj = {};
+console.log(obj.a.b.c); // ❌ TypeError: Cannot read properties of undefined</code></pre>
+
+<p><strong>✅ 有可选链的安全写法：</strong></p>
+
+<pre><code class="language-javascript">console.log(obj.a?.b?.c); // undefined（不报错）</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>obj.a</code> 是 <code>undefined</code>，继续读 <code>.b</code> 会报错。加了 <code>?.</code> 后，<code>undefined</code> 直接返回。</p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>可选链</td><td>Optional Chaining</td><td>安全访问可能不存在的属性</td><td><code>obj?.prop</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Optional_chaining" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>空值合并</td><td>Nullish Coalescing</td><td>配合 ?. 设默认值</td><td><code>val ?? default</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Nullish_coalescing" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：安全读取嵌套配置</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">const config = { db: { host: 'localhost', port: 5432 } };
+// 安全读取 config.db.credentials.password，默认值为 'no password'</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">console.log(password); // &quot;no password&quot;
+</code></pre>
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>obj?.a?.b</code> 在什么情况下返回 <code>undefined</code>？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 当 `obj.a.b` 的值为 `0` 时</div>
+<div class="quiz-option" data-value="B">B) 当 `obj.a.b` 的值为 `false` 时</div>
+<div class="quiz-option" data-value="C">C) 当 `obj` 或 `obj.a` 为 `null`/`undefined` 时</div>
+    </div>
+    <div class="quiz-explanation">
+        可选链基于 Nullish 概念，只在 null/undefined 时短路。0 和 false 不触发。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question"><code>?.</code> 通常应该和哪个运算符配合使用？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `||`</div>
+<div class="quiz-option" data-value="B">B) `??`</div>
+<div class="quiz-option" data-value="C">C) `&amp;&amp;`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>?.</code> 和 <code>??</code> 都基于 Nullish 概念，天生搭配。<code>||</code> 会误判 0 和 ''。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">可选链可以用在以下哪些场景？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 属性访问、方法调用、数组元素</div>
+<div class="quiz-option" data-value="B">B) 仅属性访问</div>
+<div class="quiz-option" data-value="C">C) 仅方法调用</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>?.</code> 支持三种用法：<code>obj?.prop</code>、<code>obj?.method()</code>、<code>arr?.[index]</code>。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 安全调用方法<br>
+    const result = obj.method<input type="text" class="blank-input" data-answer="?." placeholder="1">() <input type="text" class="blank-input" data-answer="??" placeholder="2"> 'fallback';<br>
+    <br>
+    // 安全访问数组<br>
+    const first = arr<input type="text" class="blank-input" data-answer="?." placeholder="3">[0]<input type="text" class="blank-input" data-answer="?." placeholder="4">name;
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
-    function runCode(inputId, outputId) {
-        const code = document.getElementById(inputId).value;
-        const outputDiv = document.getElementById(outputId);
-        outputDiv.innerHTML = '';
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
         const originalLog = console.log;
-        let output = [];
         console.log = function(...args) {
-            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
         };
+
         try {
-            eval(code);
-            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
-        } catch (error) {
-            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
         } finally {
             console.log = originalLog;
         }
     }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
 </script>
+
 </body>
 </html>

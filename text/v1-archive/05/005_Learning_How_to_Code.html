@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning How to Code</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 如何在学编程中一败涂地？(反面教材)</a>
+            <a href="#section-2" class="nav-item">2. 高效学习的黄金法则</a>
+            <a href="#section-3" class="nav-item">3. 开发者信心演变曲线</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Learning How to Code</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：005 Learning How to Code.en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：无</li>
+                <li><strong>后续扩展</strong>：建立终身学习的开发者心态，避免中途放弃</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>很多课程只教语法而不教“如何学习”。本节课程是一碗真实的“鸡汤”也是避坑指南：带你了解初学者最易犯的致命错误，传授正确的学习策略，并揭示从小白到拿到 Offer 过程中的真实心理曲线。</p>
+
+        <h2 id="section-1">1. 如何在学编程中一败涂地？(反面教材)</h2>
+        <p>让我们看看虚构人物“小明”是怎么把学编程搞砸的。如果你踩中了以下几条，请立即警惕：</p>
+        
+        <ul>
+            <li>没有明确的终点目标（Goal），像无头苍蝇一样乱看教程。</li>
+            <li><strong>只看视频不写代码</strong>，或者只从 Stack Overflow 无脑“复制粘贴”。</li>
+            <li>不在课后用自己的个人小项目去<strong>强化（Reinforce）</strong>学到的知识。</li>
+            <li>从未走出课程的“温室”，从不去尝试从零开始写一个没有老师指导的项目。</li>
+            <li>陷入强迫症：代码不完美就极度受挫，觉得写得很丑。</li>
+            <li>误以为自己“必须学会所有知识”才能找工作（这是不可能的！）。</li>
+            <li>孤独学习，从不与他人交流或分享进度。</li>
+            <li>最大的误区：看完两部课程教程，就以为自己已经是合格的 Web 开发者了。</li>
+        </ul>
+
+        <h2 id="section-2">2. 高效学习的黄金法则</h2>
+        <p>针对“小明”的教训，我们应该制定如下策略以保证学习的成功率：</p>
+
+        <pre class="language-mermaid">
+        mindmap
+          root((高效学编程))
+            (1) 设定SMART目标
+              具体可衡量
+              以1个大项目为导向
+            (2) 拒绝复制粘贴
+              亲自敲击字母
+              强化记忆肌肉
+            (3) 立即学以致用
+              哪怕是算账的函数
+              动手去写！
+            (4) 逃脱教程地狱
+              别怂，走出舒适区
+              接纳难看的初版代码
+            (5) 拥抱“无知”
+              没有人全懂！
+              聚焦解决问题的工具
+        </pre>
+        
+        > 💡 **专家提示 (Tutorial Hell)**：当你能够跟着视频敲出花团锦簇的网页，但关掉视频面对空白文件却连一行代码都写不出时——恭喜你，你进入了“教程地狱”。唯一解药就是**构建完全属于你自己的小项目，并接受早期痛苦的犯错过程**。
+
+        <h2 id="section-3">3. 开发者信心演变曲线 (The Developer Confidence Graph)</h2>
+        <p>掌握心理预期，是抵抗放弃的利器。当你在学习中感到绝望时，请看看这张真实的心理演变图：</p>
+
+        <pre class="language-mermaid">
+        xychart-beta
+            title "开发者信心演变曲线"
+            x-axis ["起点", "教程期", "单飞期", "绝望之谷", "顿悟期", "可就业"]
+            y-axis "信心指数" 0 --> 100
+            line [20, 85, 40, 10, 60, 95]
+        </pre>
+
+        <ul>
+            <li>🚀 <strong>蜜月期 (Everything is awesome)</strong>：跟着视频敲，一切顺利，自信爆棚！</li>
+            <li>📉 <strong>困惑悬崖 (Cliff of confusion)</strong>：脱离教程自己写项目，发现什么都写不出来，自信暴跌。</li>
+            <li>🕳️ <strong>绝望之谷 (Pit of despair)</strong>：发现要学的东西如山海般庞大，陷入深度的自我怀疑。“我是不是太笨了？” <strong>注意：90% 的初学者都在这里放弃！</strong> 坚持下去，通过修复 Bug 会迎来转机。</li>
+            <li>✨ <strong>重获自信 (Back to awesome)</strong>：成功拼凑起功能，形成了解决问题的思维定势，技术终于能转化为生产力。你可以准备面试了！</li>
+        </ul>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 为什么“Tutorial Hell”（教程地狱）是初学者的致命伤？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为看太多教程会导致视力下降。</div>
+                <div class="quiz-option" data-value="B">B) 因为它让你产生了“我很懂”的错觉，但一旦脱离手把手指导就完全缺乏独自解决问题的能力。</div>
+                <div class="quiz-option" data-value="C">C) 因为大部分教程都是收费的，会让你破产。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的</strong>。在别人搭建好的框架内填空是容易的，只有自己由零开始面对白纸、查文档、修报错，才能长出真正的“开发者肌肉”。
+            </div>
+        </div>
+        
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+</body>
+</html>

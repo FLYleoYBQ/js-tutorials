@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Short Circuiting (&& and ||)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. OR 短路操作：设防保底 (||)</a>
+            <a href="#section-2" class="nav-item">2. AND 短路操作：阻断行刑 (&&)</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Short Circuiting (&& and ||)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：008 Short Circuiting (&& and ).en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置基础</strong>：逻辑运算符入门，什么是 Truthy 和 Falsy 值。</li>
+                <li><strong>突破认知</strong>：逻辑运算符 <code>||</code> 和 <code>&&</code> 不只用于返回布尔值的 <code>true/false</code>，更有跨越类型返回各种奇怪数据类型的魔法隐藏属性——<strong>短路计算机制</strong>。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>一直以来我们被骗了，以为 <code>|| (OR)</code> 和 <code>&& (AND)</code> 必须要跟一堆 <code>if/else</code> 捆绑在一起使用，只能输出布尔值。今天，要教你黑客级的三大新隐藏特性：<br>
+        1. 它们可以吃进<strong>任意类型的值</strong>。<br>
+        2. 它们可以吐出/返回<strong>任意类型的值</strong>。<br>
+        3. 它们具有极速断电的 <strong>短路计算机制 (Short-circuit Evaluation)</strong> ！</p>
+
+        <h2 id="section-1">1. OR (||) 短路操作：寻找第一个真理光束并保底</h2>
+        <p>OR 短路逻辑的心智模型：引擎像探照灯一样顺藤摸瓜，<strong>谁在这个链路里第一个呈现 Truthy（闪光真理），我就立即逮捕它并带着它停跳下车返回</strong>，此后排队的任何人我都闭上眼不检查了！</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">console.log(3 || 'Jonas'); // 打印 3。因为 3 是 truthy，直接拦截并收手返回数字 3！
+console.log('' || 'Jonas'); // 打印 'Jonas'。空串是 falsy，继续往后退一步找到了 'Jonas'
+console.log(true || 0);     // 打印 true。
+console.log(undefined || null); // 打印 null。如果全是 falsy 一摸到底黑，直接含恨返回最底层那个垫底黑包袱。
+
+// 连续多条大乱斗短路：
+console.log(undefined || 0 || '' || 'Hello' || 23 || null);
+// 可以猜猜打印什么？答案是 'Hello'。</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <p><strong>🛠️ 经典重构场景应用：默认值设防</strong></p>
+        <p>假设我们正在开发一个订餐系统，需要访问餐厅当今晚上的客座数 <code>restaurant.numGuests</code>。如果是初学小猿，我们可能会使用三元表达式费劲撰写兜底方案，但现在有了一刀斩的手段：</p>
+        
+        <pre><code class="language-javascript">const restaurant = {}; // 空餐厅无客人数数据定义
+
+// 菜鸟时代（复杂且带有陈腐感）：
+const guests1 = restaurant.numGuests ? restaurant.numGuests : 10;
+
+// 短路宗师级手段（优雅地提供 Default 备胎 10 给前端界面防撞）：
+const guests2 = restaurant.numGuests || 10;
+console.log(guests2); // 10</code></pre>
+        <p><em>⚠️ 警告暗礁：如果我们今晚有客人数数据，但是数据偏巧是极端的 <code>0</code> 呢？此时 0 触发 falsy 降级导致误送人头保底到了 10。别急，下一节课的高科技符号会完美根治它。</em></p>
+
+        <h2 id="section-2">2. AND (&&) 短路操作：寻找第一块绊脚石并阻断</h2>
+        <p>AND 短路逻辑永远与 OR 背道而驰：<strong>谁若是队伍里的第一个 Falsy 败类，就立刻封杀执行并返回这块老鼠屎！</strong>只有大家都品学兼优 (全是 truthy) 才会通过走廊直达最后一人（然后返回最后那个成员）。</p>
+
+        <pre><code class="language-javascript">console.log(0 && 'Jonas'); // 迅速阻断，输出 0 
+console.log(7 && 'Jonas'); // 放行通过第一关，输出 'Jonas'
+
+console.log('Hello' && 23 && null && 'Jonas'); // 输出 null，在第三关被无情截获阻断</code></pre>
+
+        <p><strong>🛠️ 经典重构场景应用：替代防爆 if 语句检查器</strong><br>
+        很多时候你需要确认挂在对象上的这个组件模块存在不存在（毕竟不存在的东西乱跑函数会招致惨烈的红屏报错崩溃），这属于防崩溃兜底的常见手段。</p>
+        
+        <div class="code-comparison">
+            <div class="code-column">
+                <div class="code-header">💣 常规冗长核查式</div>
+<pre><code class="language-javascript">if (restaurant.orderPizza) {
+    restaurant.orderPizza('mushrooms', 'spinach');
+}</code></pre>
+            </div>
+            <div class="code-column">
+                <div class="code-header">🛡️ AND 极速护栏式断链</div>
+<pre><code class="language-javascript">// 前置守卫。
+// 只要前面存在，就拉闸放开电闸执行后面开路的杀招
+restaurant.orderPizza && restaurant.orderPizza('mushrooms', 'spinach');</code></pre>
+            </div>
+        </div>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 关于短路现象（Short Circuiting），正确的说法是？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 在包含不同类型值得 AND（&&）运算链条中，引擎会扫描计算所有的对象的值直到句子末尾并返回真假。</div>
+                <div class="quiz-option" data-value="B">B) OR（||）会敏捷抓取第一束出现的 Truthy 光，拦截剩余判定；而 AND（&&）则是残酷找寻第一颗绊死树杈的 Falsy。两者都能跨类型返回真实的本体目标值而非强制布尔。</div>
+                <div class="quiz-option" data-value="C">C) 要使用默认值保底技巧时，应该统一使用 && 号。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的选项</strong>。不仅不用死磕 boolean 值，还能巧妙提炼为执行栅栏和默认备份变量。这也是现代框架和底层库极爱到处使用的浓缩语法糖。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

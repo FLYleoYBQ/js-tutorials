@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The while Loop</title>
+    <title>while 循环（The while Loop）</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,164 +11,777 @@
     <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
-            --bg-color: #0f111a;
-            --surface-color: #1a1d27;
-            --text-primary: #f8f9fa;
-            --text-secondary: #a0aec0;
-            --accent-color: #3b82f6;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
-        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
-        .app-container { display: flex; width: 100%; min-height: 100vh; }
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
-        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
-        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
-        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
-        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
-        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
-        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
-        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
-        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
-        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
-        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
-        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; font-weight: 600;}
-        .btn-run:active { transform: scale(0.95); }
-        .editor-textarea { width: 100%; height: 350px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
-        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
-        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
-        pre[class*="language-"] { margin: 0; padding: 16px; border-radius: 0; background: transparent; }
-    
-        
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 03 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-anatomy" class="nav-item active">解剖 While 循环体</a>
-            <a href="#section-when" class="nav-item">哲学问题：何时拔出 While 之剑？</a>
+            <a href="#section-0" class="nav-item active">while 循环（The while Loop）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>The while Loop (While 循环)</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：022 The while Loop.en.srt</span>
-            <span>📂 章节：第 03 章</span>
-        </div>
+<h1 id="section-0">while 循环（The while Loop）</h1>
 
-        <h2 id="section-anatomy">🔬 解剖 While 循环体</h2>
-        <p>我们已经知道 <code>For loop</code> 那非常整齐的组件阵列（起点、极限、递推）。但是有另一种循环极其奔放叛逆：<strong><code>while</code> 循环</strong>。</p>
-        <p>While 循环内部被剥除到了极致，<strong>它只要求一样东西：循环条件(Condition)</strong>。至于起跑线放哪，怎么向前递推，全部由你在外面手动操刀控制！</p>
+<div class="callout"><p>📺 来源：022 The while Loop.en.srt<br>📂 章节：第 03 章</p></div>
 
-<pre><code class="language-javascript">let rep = 1;  // 起点：必须扔到外部独立定义
+<h2 id="section-1">📌 知识脉络</h2>
 
-while (rep <= 10) {  // 宇宙真理：当括号内依然成立，它将至死方休。
-    console.log(`Lifting weights repetition ${rep} 🏋️`);
-    rep++; // 你必须在代码块的最末尾手动挂推挡齿轮。否则浏览器将卡死(死循环)！
-}
-</code></pre>
+<ul>
+<li><strong>前置知识</strong>：<code>for</code> 循环、布尔条件、<code>Math.random()</code>、<code>Math.trunc()</code></li>
+<li><strong>后续扩展</strong>：<code>do...while</code> 循环、<code>for...of</code> 循环、异步编程中的循环</li>
+</ul>
 
-        <h2 id="section-when">⚔️ 哲学难题：何时拔出 While 之剑？</h2>
+<h2 id="section-2">🎯 概述</h2>
 
-        <p>既然能用 For，为何还需要残废版的 While？</p>
-        <p>因为 While 循环其实具有比 For 极度广泛的适用性：<strong>当你不知道你要做多少次迭代才能完成任务的时候。</strong></p>
-        <p>比如：你要不停地掷骰子，直到掷出极品数字 “6” 才会停下！因为都是随机概率，这一路可能走 1 步，也可能走 800 步。这种没有任何定长数量级的悬疑地带，正是 While 循环降维打击的地方。</p>
+<p><code>while</code> 循环是另一种循环结构。与 <code>for</code> 循环不同，<code>while</code> 只需要一个<strong>条件</strong>——只要条件为真就一直执行。当你<strong>不知道需要循环多少次</strong>时，<code>while</code> 比 <code>for</code> 更适合。</p>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">random-dice.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 掷出奇迹！</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+<h2 id="section-3">核心知识点</h2>
 
-// 构建骰子的混沌引擎
+<h3 id="section-4">1. for vs while 对比</h3>
+
+<div class="mermaid">
+flowchart TD
+    subgraph forLoop["🔢 for 循环"]
+        A["✅ 知道循环次数"]
+        B["内置计数器"]
+    end
+    
+    subgraph whileLoop["🔄 while 循环"]
+        C["✅ 不知道循环次数"]
+        D["只需要条件"]
+    end
+    
+    style forLoop fill:#667eea,stroke:#333,color:#fff
+    style whileLoop fill:#51cf66,stroke:#333,color:#fff
+</div>
+
+<div class="code-comparison">
+    <div class="code-panel">
+        <div class="panel-header method2">🔢 for 循环</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">for (let rep = 1; rep &lt;= 10; rep++) {
+  console.log(`Rep ${rep} 🏋️`);
+}</code></pre>
+    </div>
+    <div class="code-panel">
+        <div class="panel-header method1">🔄 while 循环（同等效果）</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">let rep = 1;
+while (rep &lt;= 10) {
+  console.log(`Rep ${rep} 🏋️`);
+  rep++;
+}</code></pre>
+    </div>
+</div>
+
+<hr>
+
+<h3 id="section-5">2. while 循环的真正优势</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>while</code> 就像掷骰子🎲——你不知道需要掷多少次才能掷到 6，你只知道"还没掷到 6 就继续掷"。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">dice_roll.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
 let dice = Math.trunc(Math.random() * 6) + 1;
 
-// 只要不是6，机器就不要停！
 while (dice !== 6) {
-    console.log(`你掷出了 ${dice}`);
+  console.log(`You rolled a ${dice} 🎲`);
+  dice = Math.trunc(Math.random() * 6) + 1;
+  if (dice === 6) console.log('Loop is about to end... 🎉');
+}</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["生成随机骰子值"] --> B{"dice !== 6 ?"}
+    B -- "✅ 不是 6" --> C["输出骰子值"]
+    C --> D["重新掷骰子"]
+    D --> B
+    B -- "❌ 是 6" --> E["⛔ 循环结束 🎉"]
     
-    // 你必须在循环里重新进行一次随机翻盘，否则 dice 永远变不了！！
-    dice = Math.trunc(Math.random() * 6) + 1;
-    
-    if (dice === 6) console.log('神圣宣告：掷出 6 啦！游戏终止！');
+    style B fill:#ffd43b,stroke:#333
+    style E fill:#51cf66,stroke:#333,color:#fff
+</div>
+
+<div class="callout"><p>💡 <strong>何时用 <code>while</code>？</strong> 当你<strong>不依赖计数器</strong>，只关心<strong>某个条件何时变为 false</strong> 时。</p></div>
+
+<hr>
+
+<h3 id="section-6">3. for vs while 使用场景</h3>
+
+<table>
+    <thead><tr><th>场景</th><th>推荐循环</th><th>原因</th></tr></thead>
+    <tbody><tr><td>遍历数组</td><td><code>for</code></td><td>已知长度，需要计数器</td></tr>
+<tr><td>重复固定次数</td><td><code>for</code></td><td>次数确定</td></tr>
+<tr><td>等待条件满足</td><td><code>while</code></td><td>不知道需要多少次</td></tr>
+<tr><td>用户输入验证</td><td><code>while</code></td><td>直到输入正确才停止</td></tr>
+<tr><td>游戏循环</td><td><code>while</code></td><td>直到游戏结束</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：密码重试机制——用户输入错误密码时持续提示，直到正确或超过最大尝试次数。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">retry.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">'use strict';
+
+// 模拟：随机生成&quot;用户输入&quot;直到匹配目标
+const targetPassword = 'abc123';
+let attempts = 0;
+const maxAttempts = 10;
+
+// 模拟输入
+let userInput = '';
+
+while (userInput !== targetPassword &amp;&amp; attempts &lt; maxAttempts) {
+  attempts++;
+  // 模拟随机输入（实际场景用 prompt 或表单）
+  userInput = Math.random() &gt; 0.8 ? 'abc123' : 'wrong' + attempts;
+  console.log(`🔐 第 ${attempts} 次尝试: ${userInput}`);
 }
 
-// 疯狂点击运行，看看每次的结果悬殊有多大！
-</textarea>
-            </div>
-            <div id="console1" class="console-output"></div>
-        </div>
+if (userInput === targetPassword) {
+  console.log(`✅ 密码正确！共尝试 ${attempts} 次`);
+} else {
+  console.log(`❌ 超过最大尝试次数 (${maxAttempts})`);
+}</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
 
-        <div class="callout">
-            <p><strong>💡 实战选择指南：</strong><br>
-            当你明确知道你要循环某个阵列，哪怕不知道具体长度但用 <code>.length</code> 已经获取到总额度数字了——<strong>永远果断使用 For 循环</strong>。<br>
-            当你对何时停手一无所知，只能把希望寄托给运行时诞生的某种条件时，请点燃 <strong>While 循环</strong> 的火花。</p>
-        </div>
+<h2 id="section-8">💡 关键要点</h2>
 
+<ul>
+<li>✅ <code>while</code> 只需要一个<strong>条件</strong>，没有内置计数器</li>
+<li>✅ 当<strong>不知道需要循环多少次</strong>时，用 <code>while</code> 而不是 <code>for</code></li>
+<li>✅ 必须确保条件<strong>最终会变为 false</strong>，否则死循环</li>
+<li>✅ <code>for</code> 循环能做的，<code>while</code> 都能做（只是写法不同）</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：忘记在循环体内更新条件变量——导致<strong>死循环</strong></li>
+<li>⚠️ <strong>误区 2</strong>：以为 <code>while</code> 和 <code>for</code> 完全不同——本质上都是"条件为真就执行"</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">'use strict';
+
+let i = 0;
+while (i &lt; 5) {
+  console.log(i);
+  // ⚠️ 忘记 i++！
+}
+// 死循环：0, 0, 0, 0, ... 永远不停</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>i</code> 永远是 <code>0</code>，条件 <code>0 &lt; 5</code> 永远为真。必须在循环体内更新条件变量。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>while 循环</td><td>while Loop</td><td>条件为真就持续执行</td><td><code>while(cond){}</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/while" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>随机数</td><td>Math.random</td><td>生成 0~1 之间的随机数</td><td><code>Math.random()</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math/random" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>截断取整</td><td>Math.trunc</td><td>去掉小数部分</td><td><code>Math.trunc(4.7)</code> → 4</td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Math/trunc" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">什么时候应该用 <code>while</code> 而不是 <code>for</code>？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 需要遍历数组时</div>
+<div class="quiz-option" data-value="B">B) 不知道需要循环多少次，只知道停止条件时</div>
+<div class="quiz-option" data-value="C">C) 需要计数器时</div>
+<div class="quiz-option" data-value="D">D) 任何时候都应该优先用 `while`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>while</code> 的优势在于不依赖计数器，只关心条件。当循环次数不确定时（如等待用户输入、掷骰子），<code>while</code> 更合适。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>Math.trunc(Math.random() * 6) + 1</code> 生成的范围是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 0~5</div>
+<div class="quiz-option" data-value="B">B) 0~6</div>
+<div class="quiz-option" data-value="C">C) 1~6</div>
+<div class="quiz-option" data-value="D">D) 1~5</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>Math.random()</code> 生成 <code>[0, 1)</code>，乘 6 得 <code>[0, 6)</code>，<code>trunc</code> 后得 <code>0~5</code>，加 1 得 <code>1~6</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">while 循环和 for 循环在功能上有什么关系？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 功能相同，for 循环能做的 while 都能做</div>
+<div class="quiz-option" data-value="B">B) for 循环只能向前计数，while 可以向后</div>
+<div class="quiz-option" data-value="C">C) while 循环不能使用 break</div>
+<div class="quiz-option" data-value="D">D) for 循环不能使用条件判断</div>
+    </div>
+    <div class="quiz-explanation">
+        两者在功能上等价，任何 <code>for</code> 循环都可以改写为 <code>while</code> 循环。区别只在于语法结构和适用场景。
+    </div>
+</div>
+
+<h3 id="section-14">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    let dice = Math.trunc(Math.<input type="text" class="blank-input" data-answer="random" placeholder="1">() * 6) + 1;<br>
+    <br>
+    <input type="text" class="blank-input" data-answer="while" placeholder="2"> (dice !== 6) {<br>
+      console.log(`🎲 ${dice}`);<br>
+      dice = Math.trunc(Math.random() * <input type="text" class="blank-input" data-answer="6" placeholder="3">) + 1;<br>
+    }
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
-<!-- 依赖脚本 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
     function runCode(editorId, consoleId) {
         const code = document.getElementById(editorId).value;
-        const out = document.getElementById(consoleId);
-        out.innerHTML = '';
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
         const originalLog = console.log;
-        const originalError = console.error;
-        let logs = [];
         console.log = function(...args) {
-            logs.push('> ' + args.join(' '));
-            originalLog.apply(console, args);
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
         };
-        console.error = function(...args) {
-            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
-            originalError.apply(console, args);
-        };
+
         try {
+            // Evaluates code in local scope to prevent global leak
             new Function(code)();
-            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
         } catch (e) {
-            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
         }
-        console.log = originalLog;
-        console.error = originalError;
-        out.innerHTML = logs.join('<br>');
     }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
 </script>
+
 </body>
 </html>

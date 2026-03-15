@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Functions</title>
+    <title>函数（Functions）</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,316 +11,954 @@
     <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
-            --bg-color: #0f111a;
-            --surface-color: #1a1d27;
-            --text-primary: #f8f9fa;
-            --text-secondary: #a0aec0;
-            --accent-color: #3b82f6;
-            --success-color: #10b981;
-            --warning-color: #f59e0b;
-            --danger-color: #ef4444;
-            --border-color: rgba(255, 255, 255, 0.1);
-        }
-        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
-        .app-container { display: flex; width: 100%; min-height: 100vh; }
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
-        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
-        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
-        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
-        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
-        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
-        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
-        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
-        .callout { background-color: rgba(59, 130, 246, 0.1); border-left: 4px solid var(--accent-color); padding: 16px; margin: 24px 0; border-radius: 0 8px 8px 0; }
-        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
-        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
-        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
-        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; }
-        .btn-run:active { transform: scale(0.95); }
-        .editor-textarea { width: 100%; height: 250px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
-        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
-        th, td { border: 1px solid var(--border-color); padding: 12px; text-align: left; }
-        th { background-color: rgba(255,255,255,0.05); }
-        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
-        .quiz-card { background: var(--surface-color); padding: 20px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 16px; }
-        .quiz-question { font-weight: 600; margin-bottom: 12px; }
-        .quiz-options { display: flex; flex-direction: column; gap: 8px; }
-        .quiz-option { padding: 12px; border: 1px solid var(--border-color); border-radius: 6px; cursor: pointer; transition: all 0.2s; }
-        .quiz-option:hover { background: rgba(255,255,255,0.05); }
-        .quiz-option.selected.correct { background: rgba(16, 185, 129, 0.2); border-color: var(--success-color); }
-        .quiz-option.selected.wrong { background: rgba(239, 68, 68, 0.2); border-color: var(--danger-color); }
-        .quiz-explanation { display: none; margin-top: 12px; padding: 12px; background: rgba(255,255,255,0.05); border-radius: 6px; font-size: 14px; }
-    
-        
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 03 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">概述</a>
-            <a href="#section-1" class="nav-item">1. 什么是函数？</a>
-            <a href="#section-2" class="nav-item">2. 函数的核心机制：参数与返回值</a>
-            <a href="#section-quiz" class="nav-item">验证评估</a>
+            <a href="#section-0" class="nav-item active">函数（Functions）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-10" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-11" class="nav-item">💡 关键要点</a>
+            <a href="#section-12" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-13" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-14" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-15" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>Functions</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：003 Functions.en.srt</span>
-            <span>📂 章节：第 03 章</span>
-        </div>
+<h1 id="section-0">函数（Functions）</h1>
 
-        <div class="callout">
-            <strong>📌 知识脉络</strong>
-            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
-                <li><strong>前置知识</strong>：变量与表达式。</li>
-                <li><strong>后续扩展</strong>：函数是 JS 的一等公民，掌握它将为你开启高阶函数、回调机制和对象方法的大门。</li>
-            </ul>
-        </div>
+<div class="callout"><p>📺 来源：003 Functions.en.srt<br>📂 章节：第 03 章</p></div>
 
-        <h2 id="section-overview">🎯 概述</h2>
-        <p>如果说变量是存储数据的“盒子”，那函数就是处理数据的“加工厂”。本节课我们将深入了解在 JavaScript 中最为重要的构件——函数（Functions）。学完后，你的代码将从此拥抱极致的复用性（DRY 原则）。</p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <h2 id="section-1">1. 什么是函数？</h2>
-        
-        <p>简单来说，函数就是一段<strong>可以在代码中重复使用的代码块</strong>。当你需要完成某项特定任务时，只需把这段代码“打包”成一个函数。日后就可以随时随地调用它，避免一遍又一遍地复制粘贴（DRY 原则：Don't Repeat Yourself）。</p>
+<ul>
+<li><strong>前置知识</strong>：变量声明（<code>let</code>、<code>const</code>）、数据类型（String / Number）、严格模式（<code>'use strict'</code>）</li>
+<li><strong>后续扩展</strong>：函数声明 vs 函数表达式、箭头函数（Arrow Function）、函数调用函数、作用域链（Scope Chain）</li>
+</ul>
 
-        <p>我们先来看一个最基础的函数构建与调用：</p>
+<h2 id="section-2">🎯 概述</h2>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">logger.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+<p>函数（Function）是 JavaScript 最基本的构建模块之一。它是一段<strong>可复用的代码块</strong>，可以接收输入（参数），执行操作，并返回输出（返回值）。掌握函数是编写可维护代码和践行 DRY 原则（Don't Repeat Yourself）的关键。</p>
 
-// 1. 声明（Declare）一个函数
-function logger() {
-    console.log('大家好，我是一个简单的函数！');
-}
+<h2 id="section-3">核心知识点</h2>
 
-// 2. 调用（Call / Invoke / Execute）该函数
-logger();
-logger(); // 你可以无限次调用！
-</textarea>
-            </div>
-            <div id="console1" class="console-output"></div>
-        </div>
+<h3 id="section-4">1. 函数的基本概念</h3>
 
-        <h2 id="section-2">2. 函数的核心机制：参数与返回值</h2>
-
-        <p>仅仅能执行固定代码的函数虽然有用，但略显死板。通常我们需要给函数传递一些数据（顺手比作原料），让函数帮我们加工，最后把成品还给我们。</p>
-
-        <blockquote>
-            <p>🧩 <strong>生活类比：榨汁机（Food Processor）</strong><br>
-            想象一台榨汁机：你投入几颗苹果和几颗橙子（<strong>参数 Parameters</strong>），机器开启加工运转（<strong>函数体体内的代码</strong>），最终顺着出口流出了一杯混合果汁（<strong>返回值 Return Value</strong>）。</p>
-        </blockquote>
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：函数就像一台<strong>榨汁机</strong>🧃——你往里面放入水果（参数/输入），按下启动按钮（调用函数），它内部经过一系列处理（函数体），最后吐出果汁（返回值/输出）。你可以用同一台榨汁机处理不同的水果组合，得到不同的果汁。</p></div>
 
 <div class="mermaid">
 flowchart LR
-    A[苹果 (5)] & B[橙子 (2)] -->|传入 (Arguments)| C((榨汁机 函数<br>fruitProcessor))
-    C -->|加工生成字符串<br>Return| D[一杯 5 苹果 2 橙子的混合果汁!]
+    A["🍎 输入<br/>(参数 Parameters)"] --> B["⚙️ 函数体<br/>(Function Body)<br/>处理逻辑"]
+    B --> C["🧃 输出<br/>(返回值 Return)"]
     
-    classDef func fill:#3b82f6,stroke:#1d4ed8,color:#fff;
-    class C func;
+    style A fill:#ff6b6b,stroke:#333,color:#fff
+    style B fill:#ffd43b,stroke:#333
+    style C fill:#51cf66,stroke:#333,color:#fff
 </div>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">processor.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">'use strict';
+<p><strong>函数的三个关键概念：</strong></p>
 
+<table>
+    <thead><tr><th>概念</th><th>英文</th><th>说明</th><th>类比</th></tr></thead>
+    <tbody><tr><td><strong>参数</strong></td><td>Parameter</td><td>函数定义时的占位符变量</td><td>榨汁机上写的"水果入口"</td></tr>
+<tr><td><strong>实参</strong></td><td>Argument</td><td>调用函数时传入的实际值</td><td>你真正放进去的苹果和橙子</td></tr>
+<tr><td><strong>返回值</strong></td><td>Return Value</td><td>函数执行后输出的结果</td><td>榨出来的果汁</td></tr></tbody>
+</table>
+
+<hr>
+
+<h3 id="section-5">2. 定义与调用函数</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<strong>定义函数</strong> = 设计一份食谱；<strong>调用函数</strong> = 照着食谱做菜。食谱写好后可以反复使用。</p></div>
+
+<h4 id="section-6">① 无参数、无返回值的简单函数</h4>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">simple_function.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+// 定义函数
+function logger() {
+  console.log('My name is Jonas');
+}
+
+// 调用（执行）函数 —— 可以多次调用
+logger(); // My name is Jonas
+logger(); // My name is Jonas
+logger(); // My name is Jonas</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<h4 id="section-6">② 有参数、有返回值的完整函数</h4>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">fruit_processor.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">'use strict';
+
+// 定义函数：接收 apples 和 oranges 两个参数
 function fruitProcessor(apples, oranges) {
-    // apples 和 oranges 是形参（Parameters）
-    console.log(`收到：${apples} 个苹果，${oranges} 个橙子`);
-    
-    // 加工数据
-    const juice = `这是一杯用 ${apples} 个苹果和 ${oranges} 个橙子榨的果汁。`;
-    
-    // 输出成品（返回值）
-    return juice; 
+  console.log(apples, oranges);
+  const juice = `Juice with ${apples} apples and ${oranges} oranges.`;
+  return juice; // 将 juice 返回给调用者
 }
 
-// 调用函数，并传入实参（Arguments）5 和 2
-// 我们必须用一个变量（appleJuice）来接收它返回（return）的成品数据！
-const appleJuice = fruitProcessor(5, 2);
+// 调用函数并捕获返回值
+const appleJuice = fruitProcessor(5, 0);
 console.log(appleJuice);
+// 输出: Juice with 5 apples and 0 oranges.
 
-// 再次复用！这次做全橙汁
-const orangeJuice = fruitProcessor(0, 4);
-console.log(orangeJuice);
-</textarea>
-            </div>
-            <div id="console2" class="console-output"></div>
-        </div>
-        
-        <p><strong>🔁 数据传递流向图 (Data Flow) 追踪：</strong></p>
-        <ol>
-            <li>我们调用 <code>fruitProcessor(5, 2)</code>，数字 <code>5</code> 赋予了变量 <code>apples</code>，数字 <code>2</code> 赋予了 <code>oranges</code>。（实际传入的具体数值称为<strong>实参 Argument</strong>）。</li>
-            <li>函数执行时，内部拼装出 <code>juice</code> 字符串变量。</li>
-            <li>关键词 <code>return</code> 将 <code>juice</code> 抛出函数外部。一旦代码执行到 <code>return</code>，函数运行立即结束并交出数据。</li>
-            <li>在外部，我们将抛出来的结果捕获，并赋值给常量 <code>appleJuice</code>。</li>
-        </ol>
+// 再次调用，传入不同的参数
+const appleOrangeJuice = fruitProcessor(2, 4);
+console.log(appleOrangeJuice);
+// 输出: Juice with 2 apples and 4 oranges.</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
 
-        <hr>
+<p><strong>🔍 执行追踪</strong>：<code>fruitProcessor(5, 0)</code> 的执行过程</p>
 
-        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>中文术语</th>
-                    <th>英文术语</th>
-                    <th>简明释义</th>
-                    <th>速查代码</th>
-                    <th>📚 官方文档溯源</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>函数</td>
-                    <td>Function</td>
-                    <td>可重用的代码块</td>
-                    <td><code>function name() {}</code></td>
-                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Functions" target="_blank" style="color:var(--accent-color);">MDN Docs</a></td>
-                </tr>
-                <tr>
-                    <td>形参</td>
-                    <td>Parameter</td>
-                    <td>定义函数时括号内的占位符变量</td>
-                    <td><code>function log(msg) {}</code></td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>实参</td>
-                    <td>Argument</td>
-                    <td>调用函数时真实传入的具体数据</td>
-                    <td><code>log('Hello')</code></td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>返回值</td>
-                    <td>Return Value</td>
-                    <td>函数加工完毕后向外抛出的最终结果</td>
-                    <td><code>return data;</code></td>
-                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/return" target="_blank" style="color:var(--accent-color);">MDN Docs</a></td>
-                </tr>
-            </tbody>
-        </table>
+<table>
+    <thead><tr><th>步骤</th><th>代码行</th><th><code>apples</code></th><th><code>oranges</code></th><th><code>juice</code></th><th>说明</th></tr></thead>
+    <tbody><tr><td>①</td><td>调用 <code>fruitProcessor(5, 0)</code></td><td><code>5</code></td><td><code>0</code></td><td>—</td><td>实参 5→apples, 0→oranges</td></tr>
+<tr><td>②</td><td><code>console.log(apples, oranges)</code></td><td><code>5</code></td><td><code>0</code></td><td>—</td><td>控制台输出 <code>5 0</code></td></tr>
+<tr><td>③</td><td><code>const juice = ...</code></td><td><code>5</code></td><td><code>0</code></td><td><code>&quot;Juice with 5 apples and 0 oranges.&quot;</code></td><td>字符串拼接</td></tr>
+<tr><td>④</td><td><code>return juice</code></td><td>—</td><td>—</td><td>—</td><td>将 juice 返回，函数结束</td></tr>
+<tr><td>⑤</td><td><code>const appleJuice = ...</code></td><td>—</td><td>—</td><td>—</td><td>接收返回值</td></tr></tbody>
+</table>
 
-        <h2 id="section-quiz">🧪 学习验证</h2>
+<div class="mermaid">
+flowchart TD
+    A["📞 fruitProcessor(5, 0)"] --> B["apples = 5<br/>oranges = 0"]
+    B --> C["juice = 'Juice with 5 apples<br/>and 0 oranges.'"]
+    C --> D["return juice"]
+    D --> E["appleJuice = 返回值"]
+    
+    style A fill:#667eea,stroke:#333,color:#fff
+    style D fill:#f093fb,stroke:#333
+    style E fill:#51cf66,stroke:#333,color:#fff
+</div>
 
-        <h3>📝 动手练习</h3>
-        <p><strong>练习 1：算账机</strong><br>
-        写一个名叫 <code>calcTotal</code> 的函数。它接收两个参数：<code>price</code>（单价）和 <code>quantity</code>（数量）。函数内部计算总价并返回（return）。然后调用它计算 单价 50，数量 3 的总价，并打印到控制台。</p>
-        <details>
-            <summary>💡 参考答案</summary>
-            <pre><code class="language-javascript">function calcTotal(price, quantity) {
-    return price * quantity;
+<hr>
+
+<h3 id="section-6">3. 参数（Parameter）vs 实参（Argument）</h3>
+
+<div class="mermaid">
+flowchart LR
+    subgraph 定义时["📝 函数定义"]
+        P["参数 (Parameters)<br/>apples, oranges<br/>= 空白占位符"]
+    end
+    subgraph 调用时["📞 函数调用"]
+        AR["实参 (Arguments)<br/>5, 0<br/>= 具体的值"]
+    end
+    AR -->|"填入"| P
+    
+    style P fill:#ffd43b,stroke:#333
+    style AR fill:#51cf66,stroke:#333,color:#fff
+</div>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>参数是坑，实参是萝卜</strong> —— 定义函数时挖好坑（Parameters），调用时把具体的萝卜种进去（Arguments）。</p></div>
+
+<hr>
+
+<h3 id="section-7">4. <code>return</code> 关键字与函数的返回值</h3>
+
+<ul>
+<li><code>return</code> 做两件事：① 将一个值<strong>送出函数</strong>；② <strong>终止函数</strong>执行</li>
+<li>没有 <code>return</code> 的函数返回 <code>undefined</code></li>
+<li>可以直接使用返回值，也可以存入变量</li>
+</ul>
+
+<pre><code class="language-javascript">// 直接使用返回值（不存入变量）
+console.log(fruitProcessor(3, 1));
+// 输出: Juice with 3 apples and 1 oranges.</code></pre>
+
+<hr>
+
+<h3 id="section-8">5. DRY 原则与函数的价值</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：在快餐店里，你不需要每次都从头做汉堡——只需要按一次「汉堡按钮」，机器就会重复同样的步骤。函数就是你的「汉堡按钮」。</p></div>
+
+<p><strong>DRY = Don't Repeat Yourself（不要重复自己）</strong></p>
+
+<p>函数让代码不重复——定义一次，调用多次。这是编写<strong>可维护、可读</strong>代码的核心原则。</p>
+
+<hr>
+
+<h3 id="section-9">6. 内置函数：你一直在使用函数！</h3>
+
+<pre><code class="language-javascript">// console.log() 是一个内置函数
+console.log('Hello'); // 调用 console.log，传入参数 'Hello'
+
+// Number() 也是一个内置函数
+const num = Number('23'); // 将字符串 '23' 转为数字 23</code></pre>
+
+<hr>
+
+<h2 id="section-10">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：电商平台需要计算商品总价（含税），你可以写一个通用的计算函数，传入商品单价和数量即可。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">price_calculator.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">'use strict';
+
+function calculateTotal(unitPrice, quantity, taxRate) {
+  const subtotal = unitPrice * quantity;          // 小计
+  const tax = subtotal * taxRate;                 // 税额
+  const total = subtotal + tax;                   // 总价
+  return `商品总价: ¥${total.toFixed(2)} (含税 ¥${tax.toFixed(2)})`;
 }
-const total = calcTotal(50, 3);
-console.log(total); // 150</code></pre>
-        </details>
 
-        <br>
-        <h3>❓ 理解检测</h3>
-        
-        <div class="quiz-card" data-correct="B">
-            <div class="quiz-question">1. 关于 <code>console.log()</code> 和 <code>return</code> 的区别，以下哪项最贴切？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) 它们是同一个东西，都用于输出结果。</div>
-                <div class="quiz-option" data-value="B">B) console.log 只是在开发者面板打印文字用于查看；return 则是将真正的值从函数内部交出来，以便赋值给新的变量继续使用。</div>
-                <div class="quiz-option" data-value="C">C) return 会在网页屏幕上弹出一个内容框反馈。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>解析：</strong> B 是正确的。<code>console.log</code> 不会交出任何数据，如果尝试用变量接收它只会得到 <code>undefined</code>；而只有用 <code>return</code> 才能拿到真真实实的数据用于下一次运算。
-            </div>
-        </div>
+// 调用函数：单价 99 元，数量 3，税率 13%
+const result1 = calculateTotal(99, 3, 0.13);
+console.log(result1);
+// 输出: 商品总价: ¥335.61 (含税 ¥38.61)
 
+// 再次调用：不同参数
+const result2 = calculateTotal(29.9, 10, 0.06);
+console.log(result2);
+// 输出: 商品总价: ¥316.94 (含税 ¥17.94)</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["📞 calculateTotal(99, 3, 0.13)"] --> B["unitPrice=99<br/>quantity=3<br/>taxRate=0.13"]
+    B --> C["subtotal = 99 × 3 = 297"]
+    C --> D["tax = 297 × 0.13 = 38.61"]
+    D --> E["total = 297 + 38.61 = 335.61"]
+    E --> F["return '商品总价: ¥335.61 (含税 ¥38.61)'"]
+    
+    style A fill:#667eea,stroke:#333,color:#fff
+    style F fill:#51cf66,stroke:#333,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>单价 (unitPrice)</th><th>数量 (quantity)</th><th>税率 (taxRate)</th><th>输出</th></tr></thead>
+    <tbody><tr><td><code>99</code></td><td><code>3</code></td><td><code>0.13</code></td><td>商品总价: ¥335.61 (含税 ¥38.61)</td></tr>
+<tr><td><code>29.9</code></td><td><code>10</code></td><td><code>0.06</code></td><td>商品总价: ¥316.94 (含税 ¥17.94)</td></tr>
+<tr><td><code>1000</code></td><td><code>1</code></td><td><code>0</code></td><td>商品总价: ¥1000.00 (含税 ¥0.00)</td></tr></tbody>
+</table>
+
+<h2 id="section-11">💡 关键要点</h2>
+
+<ul>
+<li>✅ 函数是<strong>可复用的代码块</strong>，用于避免代码重复（DRY 原则）</li>
+<li>✅ <strong>参数（Parameter）</strong>是函数定义时的占位符，<strong>实参（Argument）</strong>是调用时传入的具体值</li>
+<li>✅ <code>return</code> 将值从函数送出并终止函数执行</li>
+<li>✅ 返回值可以<strong>存入变量</strong>，也可以<strong>直接使用</strong></li>
+<li>✅ <code>console.log()</code> 和 <code>Number()</code> 都是内置函数</li>
+</ul>
+
+<h2 id="section-12">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：混淆 <code>console.log()</code> 和 <code>return</code>——<code>console.log()</code> 只是把值打印到控制台，<strong>不等于</strong>从函数返回值</li>
+<li>⚠️ <strong>误区 2</strong>：定义了函数但忘记调用——函数体中的代码只有在<strong>调用时</strong>才会执行</li>
+<li>⚠️ <strong>误区 3</strong>：以为 <code>return</code> 后面的代码还会执行——<code>return</code> 一旦执行，函数立即终止</li>
+</ul>
+
+<h2 id="section-13">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">'use strict';
+
+function greet(name) {
+  console.log(`Hello, ${name}!`);
+  return;                         // return 后面没有值
+}
+
+const message = greet('Alice');
+console.log(message);
+// Hello, Alice!
+// undefined   ← 意料之外！</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>（无报错，但 message 为 undefined）</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>return;</code> 不带任何值等同于 <code>return undefined;</code>。如果你想返回一个值，必须写 <code>return 值;</code>。这里 <code>console.log</code> 确实在控制台打印了消息，但函数并没有<strong>返回</strong>任何有用的值。</p>
+
+<hr>
+
+<h2 id="section-14">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>函数</td><td>Function</td><td>可复用的代码块</td><td><code>function fn() {}</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Functions" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>参数</td><td>Parameter</td><td>函数定义中的占位变量</td><td><code>function fn(param) {}</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Parameter" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>实参</td><td>Argument</td><td>调用函数时传入的实际值</td><td><code>fn(42)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Argument" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>返回值</td><td>Return Value</td><td>函数输出的结果</td><td><code>return value;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/return" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>DRY 原则</td><td>Don't Repeat Yourself</td><td>避免代码重复</td><td>—</td><td>—</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-15">🧪 学习验证</h2>
+
+<h3 id="section-16">📝 动手练习</h3>
+
+<p><strong>练习 1：温度转换器</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">'use strict';
+
+// 编写一个函数 celsiusToFahrenheit，接收摄氏温度，返回华氏温度
+// 公式：F = C × 9/5 + 32
+// 你的代码写在这里：
+
+
+// 测试
+console.log(celsiusToFahrenheit(0));    // 应输出 32
+console.log(celsiusToFahrenheit(100));  // 应输出 212
+console.log(celsiusToFahrenheit(37));   // 应输出 98.6</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">
+function celsiusToFahrenheit(celsius) {
+  return celsius * 9 / 5 + 32;
+}
+
+console.log(celsiusToFahrenheit(0));    // 32
+console.log(celsiusToFahrenheit(100));  // 212
+console.log(celsiusToFahrenheit(37));   // 98.6
+</code></pre>
+<strong>解题思路</strong>：定义函数接收一个参数 <code>celsius</code>，在函数体内按公式计算并用 <code>return</code> 返回结果。
+</details>
+
+<p><strong>练习 2：自我介绍生成器</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">'use strict';
+
+// 编写函数 introduce，接收 name（字符串）和 age（数字）
+// 返回格式：「我叫{name}，今年{age}岁，出生于{当前年-age}年。」
+// 提示：用 new Date().getFullYear() 获取当前年份
+
+
+// 测试
+console.log(introduce('小明', 20));
+console.log(introduce('小红', 28));</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">
+function introduce(name, age) {
+  const birthYear = new Date().getFullYear() - age;
+  return <code>我叫${name}，今年${age}岁，出生于${birthYear}年。</code>;
+}
+
+console.log(introduce('小明', 20));
+// 我叫小明，今年20岁，出生于2006年。
+console.log(introduce('小红', 28));
+// 我叫小红，今年28岁，出生于1998年。
+</code></pre>
+<strong>解题思路</strong>：在函数内部用 <code>new Date().getFullYear()</code> 获取当前年份减去年龄得到出生年，然后用模板字符串拼接并返回。
+</details>
+
+<h3 id="section-17">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">以下代码输出什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `7` 然后 `7`</div>
+<div class="quiz-option" data-value="B">B) `7` 然后什么都没有</div>
+<div class="quiz-option" data-value="C">C) `7` 然后 `undefined`</div>
+<div class="quiz-option" data-value="D">D) `undefined` 然后 `7`</div>
+    </div>
+    <div class="quiz-explanation">
+        函数 <code>add</code> 只有 <code>console.log</code>，没有 <code>return</code>。因此 <code>add(3,4)</code> 执行时输出 <code>7</code>，但返回值为 <code>undefined</code>，所以 <code>result</code> 是 <code>undefined</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">参数（Parameter）和实参（Argument）的区别是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 它们是完全一样的，只是叫法不同</div>
+<div class="quiz-option" data-value="B">B) Parameter 是函数定义时的占位符，Argument 是调用时传入的实际值</div>
+<div class="quiz-option" data-value="C">C) Parameter 只能是字符串，Argument 可以是任何类型</div>
+<div class="quiz-option" data-value="D">D) 一个函数只能有一个 Parameter 但可以有多个 Arguments</div>
+    </div>
+    <div class="quiz-explanation">
+        Parameter 是定义函数时在括号内声明的变量名（如 <code>function fn(a, b)</code>），而 Argument 是调用函数时传入的实际值（如 <code>fn(3, 5)</code>）。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">DRY 原则的核心思想是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 通过复用代码（如函数）来避免重复</div>
+<div class="quiz-option" data-value="B">B) 代码应该尽可能短</div>
+<div class="quiz-option" data-value="C">C) 每个变量只能使用一次</div>
+<div class="quiz-option" data-value="D">D) 函数应该尽量不接收参数</div>
+    </div>
+    <div class="quiz-explanation">
+        DRY（Don't Repeat Yourself）的核心是避免代码重复。当同一段逻辑出现多次时，应将其抽取为函数，需要时调用即可。
+    </div>
+</div>
+
+<h3 id="section-18">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    function greet(<input type="text" class="blank-input" data-answer="name" placeholder="1">) {<br>
+      <input type="text" class="blank-input" data-answer="return" placeholder="2"> `Hello, ${name}!`;<br>
+    }<br>
+    <br>
+    const msg = <input type="text" class="blank-input" data-answer="greet" placeholder="3">('World');<br>
+    console.log(msg); // Hello, World!
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
-<!-- 依赖脚本 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
 <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
 </script>
+
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
     function runCode(editorId, consoleId) {
         const code = document.getElementById(editorId).value;
-        const out = document.getElementById(consoleId);
-        out.innerHTML = '';
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
         const originalLog = console.log;
-        const originalError = console.error;
-        let logs = [];
         console.log = function(...args) {
-            logs.push('> ' + args.join(' '));
-            originalLog.apply(console, args);
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
         };
-        console.error = function(...args) {
-            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
-            originalError.apply(console, args);
-        };
+
         try {
+            // Evaluates code in local scope to prevent global leak
             new Function(code)();
-            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
         } catch (e) {
-            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
         }
-        console.log = originalLog;
-        console.error = originalError;
-        out.innerHTML = logs.join('<br>');
     }
 
+    // 2. Quiz Logic
     document.querySelectorAll('.quiz-option').forEach(option => {
         option.addEventListener('click', function() {
             const card = this.closest('.quiz-card');
-            if (card.querySelector('.selected')) return;
-            const correctVal = card.getAttribute('data-correct');
-            const selectedVal = this.getAttribute('data-value');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
             this.classList.add('selected');
-            if (correctVal === selectedVal) {
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
                 this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
             } else {
-                this.classList.add('wrong');
-                card.querySelector(`[data-value="${correctVal}"]`).classList.add('correct', 'selected');
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
             }
-            card.querySelector('.quiz-explanation').style.display = 'block';
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
         });
     });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
 </script>
+
 </body>
 </html>

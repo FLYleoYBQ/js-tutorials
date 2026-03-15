@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Working With Strings - Part 3</title>
+    <title>字符串操作 - Part 3（Working With Strings - Part 3）</title>
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
 
@@ -17,7 +19,8 @@
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
@@ -30,228 +33,955 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
 
         /* Layout */
-        .app-container { display: flex; min-height: 100vh; }
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
 
-        /* Sidebar */
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
-        
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
 
         /* Main Content */
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
-        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
-        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
         .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
 
-        /* Code Editor */
-        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
-        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
         .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
-        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
-        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
         .editor-container { position: relative; }
-        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
-        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
         .console-output.visible { display: block; }
         .console-output.error { color: var(--error-color); }
 
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
-        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
-        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
-        
-        
-        
-    
-    
-/* 极简暗色主题 CSS */
-
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
         }
 
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 09 章 / 进度</div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
             <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-1" class="nav-item active">1. 碎尸万段法 (split)</a>
-            <a href="#section-2" class="nav-item">2. 亡魂拼阵 (join)</a>
-            <a href="#section-3" class="nav-item">3. 首尾补位法 (padStart/End)</a>
-            <a href="#section-4" class="nav-item">4. 残暴的克隆复制器 (repeat)</a>
-            <a href="#section-challenge" class="nav-item">大演兵：遮罩银行卡</a>
+            <a href="#section-0" class="nav-item active">字符串操作 - Part 3（Working With Strings - Part 3）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-9" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-10" class="nav-item">💡 关键要点</a>
+            <a href="#section-11" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-12" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-13" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-14" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>Working With Strings - Part 3 (字符串最终大裁决)</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：025 Working With Strings - Part 3.en.srt</span>
-            <span>📂 章节：第 09 章</span>
-        </div>
+<h1 id="section-0">字符串操作 - Part 3（Working With Strings - Part 3）</h1>
 
-        <div class="callout">
-            <strong>📌 终点脉络</strong>
-            <p>我们终于来到了文字操控术的最后一页！这一卷充满了神级黑带招数：如何把一条毫无破绽的文字猛砍成一个个 Array（数组）碎肉阵？又如何通过重构阵列给它贴上接合胶水 <code>.join()</code> 缝回成人形？最后我们将触碰真实世界金融级应用场景：<strong>屏蔽银行卡隐藏数字位数！</strong></p>
-        </div>
+<div class="callout"><p>📺 来源：025 Working With Strings - Part 3.en.srt<br>📂 章节：第 09 章</p></div>
 
-        <h2 id="section-1">1. 万宗归一阵列碎尸法 (split)</h2>
-        <p>这是极其恐怖且高频的重要大法！它能按你给出的「菜刀」将一整行连续的字符串全部剁成一小块一小块，并丢进一个标准的 Array 盒子里端出来。</p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <pre><code class="language-javascript">console.log('a+very+nice+string'.split('+')); 
-// 输出一个阵列：['a', 'very', 'nice', 'string'] （所有 + 号像骨架一样被抽离消解掉）
+<ul>
+<li><strong>前置知识</strong>：字符串基础方法（<code>indexOf</code>、<code>slice</code>、<code>toLowerCase</code>、<code>replace</code>、<code>includes</code>）—— Part 1 & Part 2 内容</li>
+<li><strong>后续扩展</strong>：编码挑战 #4（综合字符串方法应用）、正则表达式（RegExp）高级模式匹配、模板字面量（Template Literals）</li>
+</ul>
 
-// ★ 巅峰套招：与高阶解构配合，抽人名秒杀建档 
-const [firstName, lastName] = 'Jonas Schmedtmann'.split(' '); 
-console.log(firstName, lastName); // 'Jonas', 'Schmedtmann'
-// 用切刀（空格）瞬间一刀划作两人头！</code></pre>
+<h2 id="section-2">🎯 概述</h2>
 
-        <h2 id="section-2">2. 万法同源：亡魂拼合胶水 (join)</h2>
-        <p>当咱们把人在数组里切碎后好好的整了容（改了大小写等等），用这个反向胶水函数，向每个数组骨节中央强行浇筑进去粘合剂，让它们首尾相连活成了一条新的巨长字符串链！</p>
+<p>本节介绍字符串方法的最后一组核心工具：<strong><code>split()</code></strong> 将字符串拆分为数组、<strong><code>join()</code></strong> 将数组合并为字符串、<strong><code>padStart()</code>/<code>padEnd()</code></strong> 将字符串填充到指定长度、以及 <strong><code>repeat()</code></strong> 重复字符串。<code>split()</code> 和 <code>join()</code> 是一对"黄金搭档"，在处理文本数据时使用频率极高。</p>
 
-        <pre><code class="language-javascript">const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' '); 
-console.log(newName); // 'Mr. Jonas SCHMEDTMANN'</code></pre>
+<hr>
 
-        <div class="callout callout-important">
-            <strong>✨ 高阶整合洗礼实战：无定式长度人名一键大修王</strong>
-            <p>来个女明星 'jessica ann smith davis'，把它全阵的所有头字抹上大写！我们把前面的切割术和这里的重组胶水来一次大荟萃狂欢。</p>
-            <pre><code class="language-javascript">const capitalizeName = function(name) {
-  const names = name.split(' '); // 切成独立碎末阵列！
-  const namesUpper = []; // 准备骨灰盒收集新重塑成果
-  
-  for (const n of names) { // 开始在血池迭代！
-    // 方案1：切刀生拼硬缝 
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. <code>split()</code> —— 字符串拆分为数组</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>split()</code> 就像一把刀按指定"切割线"把一根长面包切成多段——你告诉它在哪里切（分隔符），它就把字符串切成多个小块，放进一个数组里。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">split.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 按空格拆分
+console.log('a+very+nice+string'.split('+'));
+// ['a', 'very', 'nice', 'string']
+
+console.log('Jonas Schmedtmann'.split(' '));
+// ['Jonas', 'Schmedtmann']
+
+// 配合解构赋值直接提取
+const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+console.log(firstName); // 'Jonas'
+console.log(lastName);  // 'Schmedtmann'</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    A["'a+very+nice+string'"] -->|"split('+')"| B["['a', 'very', 'nice', 'string']"]
+    style B fill:#4CAF50,color:#fff
+</div>
+
+<hr>
+
+<h3 id="section-5">2. <code>join()</code> —— 数组合并为字符串</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>join()</code> 是 <code>split()</code> 的反操作——就像用胶水和指定"连接符"把碎片粘回一根完整的面包。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">join.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
+
+// 用 join 重新组合，插入自定义连接符
+const newName = ['Mr.', firstName, lastName.toUpperCase()].join(' ');
+console.log(newName); // 'Mr. Jonas SCHMEDTMANN'</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<p><strong>📊 split 与 join 对比：</strong></p>
+
+<table>
+    <thead><tr><th>方法</th><th>方向</th><th>输入</th><th>输出</th></tr></thead>
+    <tbody><tr><td><code>split(separator)</code></td><td>字符串 → 数组</td><td><code>'a-b-c'</code></td><td><code>['a', 'b', 'c']</code></td></tr>
+<tr><td><code>join(separator)</code></td><td>数组 → 字符串</td><td><code>['a', 'b', 'c']</code></td><td><code>'a-b-c'</code></td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<code>split</code> 拆开，<code>join</code> 粘合，一对互逆好搭档！</p></div>
+
+<hr>
+
+<h3 id="section-6">3. <code>split()</code> + <code>join()</code> 实战：首字母大写</h3>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">capitalize.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const capitalizeName = function (name) {
+  const names = name.split(' ');
+  const namesUpper = [];
+
+  for (const n of names) {
+    // 方法 1：取首字母大写 + 拼接剩余
     // namesUpper.push(n[0].toUpperCase() + n.slice(1));
-    
-    // 方案2：使用黑科技置换大法 replace() (高段位黑客推崇)
-    namesUpper.push(n.replace(n[0], n[0].toUpperCase())); 
+
+    // 方法 2：用 replace 替换首字母
+    namesUpper.push(n.replace(n[0], n[0].toUpperCase()));
   }
-  
-  // 拼合亡魂大军并对外丢还完整尸体文本！
-  console.log(namesUpper.join(' ')); 
+
+  console.log(namesUpper.join(' '));
 };
 
-capitalizeName('jessica ann smith davis'); // 'Jessica Ann Smith Davis'</code></pre>
-        </div>
+capitalizeName('jessica ann smith davis');
+// 'Jessica Ann Smith Davis'
 
-        <h2 id="section-3">3. 缺口强硬补齐法 (padStart / padEnd)</h2>
-        <p>经常在填满一些固定格式要求位数的字符里，如果客户只输入了三个字，但系统非要逼它满 25 长度位数！那这招就是往里猛塞防震泡沫垫（你自选的填充符号）。</p>
+capitalizeName('jonas schmedtmann');
+// 'Jonas Schmedtmann'</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
 
-        <pre><code class="language-javascript">const message = 'Go to gate 23!';
+<p><strong>🔍 执行追踪：</strong></p>
 
-// 往头部死命硬顶填充满，务必撑长至总体格拥有 25 个占位长
-console.log(message.padStart(25, '+')); 
-// 第一个参数是“达到多长的长轴”，第二个参数是用什么符号作塞子。
-// 输出：+++++++++++Go to gate 23!
-console.log('Jonas'.padStart(25, '+')); 
-// 输出：++++++++++++++++++++Jonas
+<table>
+    <thead><tr><th>步骤</th><th><code>n</code></th><th><code>n[0].toUpperCase()</code></th><th>拼接结果</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>'jessica'</code></td><td><code>'J'</code></td><td><code>'Jessica'</code></td></tr>
+<tr><td>2</td><td><code>'ann'</code></td><td><code>'A'</code></td><td><code>'Ann'</code></td></tr>
+<tr><td>3</td><td><code>'smith'</code></td><td><code>'S'</code></td><td><code>'Smith'</code></td></tr>
+<tr><td>4</td><td><code>'davis'</code></td><td><code>'D'</code></td><td><code>'Davis'</code></td></tr></tbody>
+</table>
 
-// 接着往尾巴死命猛灌，撑填到30总长（连击链）：
-console.log(message.padStart(25, '+').padEnd(30, '+'));</code></pre>
+<div class="mermaid">
+flowchart LR
+    A["'jessica ann smith davis'"] -->|"split(' ')"| B["['jessica','ann','smith','davis']"]
+    B -->|"首字母大写"| C["['Jessica','Ann','Smith','Davis']"]
+    C -->|"join(' ')"| D["'Jessica Ann Smith Davis'"]
+    style D fill:#4CAF50,color:#fff
+</div>
 
-        <h2 id="section-4">4. 残暴克隆流水线 (repeat)</h2>
-        <p>这最简单，比如机场航班晚点刷红字霸屏大告示：</p>
-        <pre><code class="language-javascript">const message2 = 'Bad weather... All Departures Delayed... ';
-console.log(message2.repeat(5)); 
-// 不讲道理地原地生生印出连体的 5 个满红字警告狂扫输出大回环！
+<hr>
 
-const planesInLine = function(n) {
-  console.log(`There are ${n} planes in line ${'✈️'.repeat(n)}`);
-};
-planesInLine(5); // 一次生出 5 只飞机符号的狂潮！</code></pre>
+<h3 id="section-7">4. <code>padStart()</code> / <code>padEnd()</code> —— 字符串填充</h3>
 
-        <h2 id="section-challenge">💻 高能金融实景大演兵：银行卡后四位遮罩技术</h2>
-        <p>你永远不能在前端暴露整截 16 位的神圣密码阵。用什么方法掏出长尾最后的 4 个数字孤星在外面招摇，并把所有前半截死命按成 `*` 号星阵遮幕掩下呢？</p>
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>padStart()</code> 就像在你的号码牌前面补零——把"7"变成"007"；<code>padEnd()</code> 则是在后面补字符，直到总长度达到指定值。</p></div>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">index.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行隐形遮罩</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const maskCreditCard = function (number) {
-  // ①: 无论前端强传进来的是个整型纯数骨还是文本。
-  // 我们教你一招老怪物的黑科技盲压转换成 String 大法！
-  // 我们直接拿它加一条空白的强字符，逼它强制异化变形成文本段：
-  const str = number + ''; 
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">padding.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">const message = 'Go to gate 23!';
 
-  // ②: 后部神圣裁断！只切走最后的肉！(负面截断刀光)
-  const last = str.slice(-4);
-  
-  // ③: 前部黑星天降覆盖闭幕！
-  // 它要求把剩下的总长度缺口全在头部用星号填死补绝！
+// padStart：在开头填充字符，直到总长度为 25
+console.log(message.padStart(25, '+'));
+// '+++++++++++Go to gate 23!'
+
+// padEnd：在末尾填充字符
+console.log('Jonas'.padStart(25, '+').padEnd(30, '+'));
+// '++++++++++++++++++++Jonas+++++'
+
+// 🎯 实战：信用卡号码遮罩
+function maskCreditCard(number) {
+  const str = number + ''; // 数字转字符串（利用 + '' 技巧）
+  const last = str.slice(-4); // 取最后 4 位
   return last.padStart(str.length, '*');
 }
 
-console.log(maskCreditCard(4338947382283944)); 
-// 终局屏蔽结果：************3944
-console.log(maskCreditCard('3478932479201944')); 
-console.log(maskCreditCard(838383383)); </textarea>
-            </div>
-            <div id="console1" class="console-output"></div>
-        </div>
+console.log(maskCreditCard(43378463864647));   // '**********4647'
+console.log(maskCreditCard('3345892834923847')); // '************3847'</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
 
+<p><strong>🔍 执行追踪（信用卡遮罩）：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>表达式</th><th>值</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>number + ''</code></td><td><code>'43378463864647'</code>（14 位）</td></tr>
+<tr><td>2</td><td><code>str.slice(-4)</code></td><td><code>'4647'</code></td></tr>
+<tr><td>3</td><td><code>'4647'.padStart(14, '*')</code></td><td><code>'**********4647'</code> ✅</td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart TD
+    A["43378463864647"] -->|"+ ''"| B["'43378463864647'（14位）"]
+    B -->|"slice(-4)"| C["'4647'"]
+    C -->|"padStart(14, '*')"| D["'**********4647'"]
+    style D fill:#4CAF50,color:#fff
+</div>
+
+<hr>
+
+<h3 id="section-8">5. <code>repeat()</code> —— 重复字符串</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>repeat()</code> 就像复印机——告诉它复印几份，它就给你几份一模一样的副本拼在一起。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">repeat.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 重复字符串
+const message = 'Bad weather... All departures delayed... ';
+console.log(message.repeat(3));
+
+// 实战：用 emoji 可视化数量
+const planesInLine = function (n) {
+  console.log(`There are ${n} planes in line ${'✈️'.repeat(n)}`);
+};
+
+planesInLine(5);  // There are 5 planes in line ✈️✈️✈️✈️✈️
+planesInLine(3);  // There are 3 planes in line ✈️✈️✈️
+planesInLine(12); // There are 12 planes in line ✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️✈️</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<hr>
+
+<h2 id="section-9">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：CSV 数据解析与格式化——将逗号分隔的数据转换为格式化的报表输出。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">csv_parser.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 模拟 CSV 行数据
+const csvData = 'name,age,city,role\nAlice,30,Beijing,Engineer\nBob,25,Shanghai,Designer\nCharlie,35,Shenzhen,Manager';
+
+const rows = csvData.split('\n'); // 按行分割
+const headers = rows[0].split(','); // 提取表头
+
+console.log('📊 员工花名册');
+console.log('='.repeat(50));
+
+// 格式化表头
+console.log(
+  headers.map(h =&gt; h.toUpperCase().padEnd(12)).join('│')
+);
+console.log('-'.repeat(50));
+
+// 格式化数据行
+for (let i = 1; i &lt; rows.length; i++) {
+  const cols = rows[i].split(',');
+  console.log(
+    cols.map(c =&gt; c.padEnd(12)).join('│')
+  );
+}</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["CSV 字符串"] -->|"split('\\n')"| B["行数组"]
+    B -->|"[0].split(',')"| C["表头数组"]
+    B -->|"[1..n].split(',')"| D["数据行数组"]
+    C -->|"map + padEnd + join"| E["格式化表头"]
+    D -->|"map + padEnd + join"| F["格式化数据"]
+    style E fill:#2196F3,color:#fff
+    style F fill:#4CAF50,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>操作</th><th>输入/方法</th><th>输出</th></tr></thead>
+    <tbody><tr><td>按行分割</td><td><code>csvData.split('\n')</code></td><td><code>['name,age,...', 'Alice,30,...', ...]</code></td></tr>
+<tr><td>提取表头</td><td><code>'name,age,city'.split(',')</code></td><td><code>['name', 'age', 'city']</code></td></tr>
+<tr><td>填充对齐</td><td><code>'Alice'.padEnd(12)</code></td><td><code>'Alice       '</code></td></tr>
+<tr><td>拼接显示</td><td><code>['A','B'].join('│')</code></td><td><code>'A│B'</code></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-10">💡 关键要点</h2>
+
+<ul>
+<li>✅ <code>split(separator)</code> 将字符串按分隔符拆分为数组——处理 CSV、URL 等结构化文本</li>
+<li>✅ <code>join(separator)</code> 将数组用连接符拼接成字符串——<code>split</code> 的逆操作</li>
+<li>✅ <code>padStart(len, char)</code> / <code>padEnd(len, char)</code> 填充字符串到指定长度</li>
+<li>✅ <code>repeat(n)</code> 将字符串重复 n 次</li>
+<li>✅ 数字转字符串的简便技巧：<code>number + ''</code></li>
+</ul>
+
+<h2 id="section-11">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>混淆 <code>split</code> 和 <code>slice</code></strong>：<code>split</code> 按分隔符拆成<strong>数组</strong>，<code>slice</code> 按位置提取<strong>子串</strong></li>
+<li>⚠️ <strong>忘记 <code>padStart</code> 的第一个参数是"目标总长度"而非"填充数量"</strong></li>
+</ul>
+
+<h2 id="section-12">🐛 报错实验室</h2>
+
+<div class="callout"><p>主动展示错误写法及报错信息</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">const str = 'hello';
+// 以为 padStart 的第一个参数是填充数量
+console.log(str.padStart(3, '*'));</code></pre>
+
+<p><strong>浏览器输出：</strong></p>
+
+<pre><code>hello</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>padStart(3, '*')</code> 的第一个参数是<strong>目标总长度</strong>。<code>'hello'</code> 已经有 5 个字符，大于 3，所以不会填充任何东西。应改为 <code>str.padStart(8, '*')</code> 才能在前面加 3 个星号。</p>
+
+<hr>
+
+<h2 id="section-13">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>拆分</td><td>split</td><td>按分隔符拆分为数组</td><td><code>str.split(',')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/split" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>合并</td><td>join</td><td>将数组元素用连接符拼接</td><td><code>arr.join('-')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/join" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>前填充</td><td>padStart</td><td>在开头填充字符到指定长度</td><td><code>str.padStart(10, '0')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/padStart" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>后填充</td><td>padEnd</td><td>在末尾填充字符到指定长度</td><td><code>str.padEnd(10, '.')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/padEnd" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>重复</td><td>repeat</td><td>将字符串重复 n 次</td><td><code>str.repeat(3)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/String/repeat" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-14">🧪 学习验证</h2>
+
+<h3 id="section-15">📝 动手练习</h3>
+
+<p><strong>练习 1：将连字符命名转为驼峰命名</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor7', 'console7')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor7" class="editor-textarea" spellcheck="false">// 将 CSS 风格的连字符命名转为 JS 的驼峰命名
+// 例如: 'background-color' → 'backgroundColor'
+const cssProperty = 'border-bottom-width';
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console7" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const parts = cssProperty.split('-');
+const camel = parts[0] + parts.slice(1).map(
+  w =&gt; w[0].toUpperCase() + w.slice(1)
+).join('');
+console.log(camel); // 'borderBottomWidth'
+</code></pre>
+<strong>解题思路</strong>：先 <code>split('-')</code> 拆分，保留第一个词不变，后续每个词首字母大写，最后 <code>join('')</code> 无缝拼接。
+</details>
+
+<p><strong>练习 2：生成密码进度条</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor8', 'console8')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor8" class="editor-textarea" spellcheck="false">// 根据密码强度（0-10）生成可视化进度条
+function passwordStrength(score) {
+  // 在这里写你的代码
+  // 输出格式: [████████░░] 8/10
+}
+
+passwordStrength(8);
+passwordStrength(3);
+passwordStrength(10);</textarea>
+    </div>
+    <div id="console8" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  const filled = '█'.repeat(score);
+  const empty = '░'.repeat(10 - score);
+  console.log(<code>[${filled}${empty}] ${score}/10</code>);
+}
+
+passwordStrength(8);  // [████████░░] 8/10
+passwordStrength(3);  // [███░░░░░░░] 3/10
+passwordStrength(10); // [██████████] 10/10
+</code></pre>
+<strong>解题思路</strong>：用 <code>repeat(score)</code> 生成填充部分，<code>repeat(10 - score)</code> 生成空白部分。
+</details>
+
+<h3 id="section-16">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question"><code>'one-two-three'.split('-').join('_')</code> 的结果是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `'one-two-three'`</div>
+<div class="quiz-option" data-value="B">B) `'one_two_three'`</div>
+<div class="quiz-option" data-value="C">C) `['one', 'two', 'three']`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>split('-')</code> 得到 <code>['one','two','three']</code>，<code>join('_')</code> 用下划线拼接回字符串。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>'Hi'.padStart(5, '*')</code> 的结果是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `'*****Hi'`</div>
+<div class="quiz-option" data-value="B">B) `'**Hi**'`</div>
+<div class="quiz-option" data-value="C">C) `'***Hi'`</div>
+    </div>
+    <div class="quiz-explanation">
+        目标总长度是 5。<code>'Hi'</code> 已占 2 位，需要填充 3 个 <code>'*'</code> 在前面。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question"><code>'abc'.repeat(0)</code> 的结果是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `''`（空字符串）</div>
+<div class="quiz-option" data-value="B">B) `'abc'`</div>
+<div class="quiz-option" data-value="C">C) `undefined`</div>
+    </div>
+    <div class="quiz-explanation">
+        重复 0 次得到空字符串。
+    </div>
+</div>
+
+<h3 id="section-17">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 将字符串拆分为数组<br>
+    const words = sentence.<input type="text" class="blank-input" data-answer="split" placeholder="1">(' ');<br>
+    <br>
+    // 将数组拼接为字符串<br>
+    const result = words.<input type="text" class="blank-input" data-answer="join" placeholder="2">('-');<br>
+    <br>
+    // 信用卡遮罩：取最后 4 位并前填充<br>
+    const masked = str.slice(-4).<input type="text" class="blank-input" data-answer="padStart" placeholder="3">(str.length, '*');
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
-    function runCode(inputId, outputId) {
-        const code = document.getElementById(inputId).value;
-        const outputDiv = document.getElementById(outputId);
-        outputDiv.innerHTML = '';
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
         const originalLog = console.log;
-        let output = [];
         console.log = function(...args) {
-            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
         };
+
         try {
-            eval(code);
-            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
-        } catch (error) {
-            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
         } finally {
             console.log = originalLog;
         }
     }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
 </script>
+
 </body>
 </html>

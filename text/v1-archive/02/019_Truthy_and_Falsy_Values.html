@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>真实与虚无：Truthy 和 Falsy (Truthy and Falsy Values)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 250px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+    
+        
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 五大 Falsy 护法</a>
+            <a href="#section-2" class="nav-item">2. 隐式布尔转换的魔法</a>
+            <a href="#section-3" class="nav-item">3. 致命的零之坑</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>真实与虚无：Truthy 和 Falsy Values</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：019 Truthy and Falsy Values.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <p>上节课我们讨论了数字和字符串的互相转换。那么布尔值（Boolean）呢？在 JavaScript 中，世界并不局限于绝对的 <code>true</code> 和 <code>false</code>。所有存在的事物，即使它不是布尔类型，当它被“强行”放入需要判别真假的语境时，它都会自动显形为“真实相 (Truthy)”或“虚无相 (Falsy)”。</p>
+
+        <h2 id="section-1">1. 五大 Falsy 护法法则</h2>
+        <p>记住！在整个庞大的 JavaScript 世界里，<strong>只有五种值在被转换为布尔类型时，会死死地变成 <code>false</code>（除了 false 本身以外）</strong>。它们是虚无的代表：</p>
+        <ol>
+            <li><strong><code>0</code></strong> —— 数字零</li>
+            <li><strong><code>""</code></strong> —— 里面连个空格都没有的空字符串</li>
+            <li><strong><code>undefined</code></strong> —— 未定义的空物质</li>
+            <li><strong><code>null</code></strong> —— 刻意指派的空</li>
+            <li><strong><code>NaN</code></strong> —— 无效的数字错乱物</li>
+        </ol>
+        <p>上面没点到名的任何东西（包括哪怕仅仅是写了空格的字符串），统统都是 <strong>Truthy</strong>（它会转换成 <code>true</code>）。</p>
+
+        <h2 id="section-2">2. 隐式布尔转换的魔法</h2>
+        <p>在日常写代码中，我们几乎绝不手动去调用 <code>Boolean()</code> 函数。我们靠的是隐式的自动化转换。这最常发生在 <code>If...Else</code> 逻辑判定墙当中！</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">check_existence.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+const money = 0;
+
+// 如果 money 里面是 0，因为 0 属于 5 大 Falsy 护法之一，系统判定该句为 false 
+if (money) {
+    console.log("不要把钱全都挥霍了啊！");
+} else {
+    console.log("快去打工赚钱！"); // 它执行了这个
+}
+
+// 常见应用：检查一个变量是否被赋予了实质生命
+let height;
+// 因为没赋值，height 自动持有 undefined。而 undefined 是 Falsy！
+if (height) {
+    console.log("YAY! Height 目前是有明确数值滴。");
+} else {
+    console.log("Height 目前没有被定义 (Undefined)。");
+}</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-3">3. 致命的 0 之巨坑 (The Bug of Zero)</h2>
+        <p>细心的人可能发现了一个恐怖的逻辑漏洞。<br>如果高度确实存在，且用户输入的就是极为合理的数值 <code>0</code> 米（例如海平面）呢？</p>
+
+        <div class="callout warning">
+            <p><strong>🚨 系统误判预警</strong></p>
+            <p>如果 <code>height = 0;</code> ，系统同样会把它当作 Falsy 值并跳转到 <code>else: "Height 目前没有被定义"</code>。这就是为什么一昧依赖 Truthy/Falsy 来检查一个值是否存在，在对方刚好合情合理地输入了数字 `0` 的时候，会成为一个坑爹的 Bug。</p>
+            <p>我们未来会用逻辑运算符（如 `??` Nullish Coalescing）来修补这种特殊情况！</p>
+        </div>
+
+    </main>
+</div>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n');
+        } catch (e) {
+            outConsole.innerHTML = `<span style="color:var(--error-color)">⚠️ ${e.name} : ${e.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+</script>
+</body>
+</html>

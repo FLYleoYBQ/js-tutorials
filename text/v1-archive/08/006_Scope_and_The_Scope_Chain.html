@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scope and The Scope Chain</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        .code-comparison { display: flex; gap: 20px; margin: 24px 0; }
+        .code-panel { flex: 1; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        .panel-header { padding: 8px 16px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .panel-header.method1 { background: rgba(255, 85, 85, 0.1); color: var(--error-color); border-bottom: 1px solid rgba(255, 85, 85, 0.2); }
+        .panel-header.method2 { background: rgba(80, 250, 123, 0.1); color: var(--success-color); border-bottom: 1px solid rgba(80, 250, 123, 0.2); }
+
+        .mermaid { background: var(--surface-color); padding: 24px; border-radius: var(--radius-lg); display: flex; justify-content: center; margin: 24px 0; border: 1px solid var(--surface-border); }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
+        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        td a { color: var(--info-color); text-decoration: none; }
+
+        
+        
+    
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 08 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-concepts" class="nav-item">1. 什么是作用域 (Scoping)？</a>
+            <a href="#section-chain" class="nav-item">2. 作用域链 (The Scope Chain) 的探照灯法则</a>
+            <a href="#section-vs" class="nav-item">3. 作用域链 vs 调用栈</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Scope and The Scope Chain (作用域与作用域链)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：006 Scope and The Scope Chain.en.srt</span>
+            <span>📂 章节：第 08 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>上节课我们探讨了引擎是如何通过调用栈记住“运行到哪了”。这节课我们要解决另一个核心问题：<strong>引擎是如何记住“变量去哪找”的？</strong> 为什么内部函数能用外部变量，外部却不能用内部的？答案就在大名鼎鼎的<strong>词法作用域 (Lexical Scoping)</strong> 和 <strong>作用域链 (Scope Chain)</strong> 中。</p>
+
+        <h2 id="section-concepts">1. 什么是作用域 (Scoping)？</h2>
+        <p>简单来说，作用域回答的问题是：<strong>“我的变量住在哪里？”或者“我在这个位置能访问到哪些变量？”</strong></p>
+        <p>JavaScript 采用的是 <strong>词法作用域 (Lexical Scoping)</strong>。这意味着：一个变量能不能被访问到，完全取决于当初这行代码**“写在了哪个物理位置”**（比如有没有被包裹在大括号里）。</p>
+
+        <h3>JS 中的三种作用域</h3>
+        <ul>
+            <li><strong>全局作用域 (Global Scope)</strong>：写在所有函数外面的顶级代码。全世界都能访问这里的变量。</li>
+            <li><strong>函数作用域 (Function Scope)</strong>：写在函数内部的变量，只有在这函数内部（包括它的子函数里）才能用。<br><em>注意：有些老教程管它叫“局部作用域 (Local Scope)”。</em></li>
+            <li><strong>块级作用域 (Block Scope / ES6 新增)</strong>：写在 <code>if</code>、<code>for</code> 等大括号 <code>{}</code> 内部的代码块。
+                <div class="callout">
+                    🚨 <strong>极其重要的例外！核心考点！</strong><br>
+                    <strong>只有 <code>let</code> 和 <code>const</code> 声明的变量，才会被块级大括号锁住！</strong> 如果你在 `if {}` 里用老旧的 <code>var</code> 声明了一个变量，它会像鬼一样穿透大括号，直接依附到最近的外层**函数作用域**去！这也是如今为什么要彻底封杀 `var` 的原因。
+                </div>
+            </li>
+        </ul>
+
+        <h2 id="section-chain">2. 作用域链 (The Scope Chain) 的探照灯法则</h2>
+        <p>现在到了见证奇迹的时刻。假设我们在最深处的一个孙子函数里，想要访问一个全局变量，它是怎么做到的？</p>
+
+        <pre><code class="language-javascript">
+const myName = 'Jonas';
+
+function first() {
+    const age = 30;
+
+    if (age >= 30) {
+        // 这是 if 的块级作用域
+        const decade = 3;
+        var millenial = true; // ⚠️ var 不受块级限制！
+    }
+
+    function second() {
+        // 这是 second 的函数作用域
+        const job = 'teacher';
+        console.log(`${myName} is a ${age}-old ${job}`);
+    }
+    second();
+}
+first();
+        </code></pre>
+
+        <p>来看 JS 引擎的幕后追踪图解：</p>
+
+        <div class="mermaid">
+        flowchart BT
+            subgraph Inner["第二层：second() 的内部作用域"]
+                J["job = 'teacher'"]
+            end
+            
+            subgraph Parent["第一层：first() 的父级作用域"]
+                A["age = 30"]
+                M["millenial = true (var 穿透了 if 块来到这里)"]
+            end
+            
+            subgraph Global["第零层：全局作用域"]
+                MN["myName = 'Jonas'"]
+            end
+            
+            Inner -- "🔎 找不到 age 和 myName？\n顺着线向上找父级！" --> Parent
+            Parent -- "🔎 还是找不到 myName？\n继续向上找全局！" --> Global
+            
+            style Inner fill:#50fa7b,color:#000,stroke:#333
+            style Parent fill:#8be9fd,color:#000,stroke:#333
+            style Global fill:#f7df1e,color:#000,stroke:#333
+        </div>
+
+        <h3>单向街探照灯法则：</h3>
+        <p>这就是作用域链的核心机密：</p>
+        <ol>
+            <li><strong>变量查找 (Variable Lookup)</strong>：如果在当前层找不到变量，JS 就会顺着“作用域链”向上看一眼父级有没有。找到了就停止。</li>
+            <li><strong>永远单向向上，绝不向下/向侧</strong>：子作用域可以肆无忌惮地偷窥父级、爷爷级的变量；<strong>但父级绝对不能向下索取子级内部的变量！</strong> 同理，兄弟作用域（比如并排写的两个函数）互相绝对看不见彼此内部的东西。</li>
+        </ol>
+
+        <h2 id="section-vs">3. 作用域链 vs 调用栈（请死死刻在脑子里）</h2>
+        <p>还记得上节课学的“调用栈 (Call Stack)”吗？它们之间有什么关系？</p>
+        <div class="callout info">
+            <p>💡 <strong>真理：作用域链的攀爬路径，和代码执行的“调用顺序（调用栈）”半毛钱关系都没有！</strong></p>
+            <p>作用域链的结构，在代码被写成文本的那个物理瞬间，就已经被<strong>“谁包裹在谁里面”</strong>的物理书写结构钉死了（这就叫“词法作用域”）。哪怕函数 A 在天涯海角被远隔千山万水地调用了，它的作用域链依然只能顺着代码写死的原始父级向外寻找变量，绝不会顺着调用栈去借别人的锅做饭！</p>
+        </div>
+
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 在 `if (true) { var test = "hello"; }` 之后，在 `if` 块的外面能否 `console.log(test)`？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 报错 ReferenceError，因为 `test` 被困在 if 的块级作用域里了。</div>
+                <div class="quiz-option" data-value="B">B) 会成功打印 "hello"。因为 var 声明的变量**不具备**块级作用域约束，穿透了 if 块。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。<code>let</code> 和 <code>const</code> 才是正经的 ES6 块级公民。<code>var</code> 就像个幽灵，只有函数大括号能关得住它，<code>if</code>、<code>for</code> 等代码块的大括号对它无效。
+            </div>
+        </div>
+        
+        <br>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">2. 假设 函数A() 内部声明了一个变量 x，然后 函数A() 在内部调用了 函数B()。请问 函数B() 里面能访问这个变量 x 吗？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 能访问，因为 B 是被 A 调用的，都在同一个调用栈脉络里。</div>
+                <div class="quiz-option" data-value="B">B) 除非 函数B 的代码物理上就写死在 函数A 的花括号内部，否则绝对访问不到！这就是词法作用域。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。必须分清“在哪里被调用”和“代码写在哪里”。作用域链只在乎代码是被包裹在谁的花括号里写的。调用栈的顺序不能借变量。
+            </div>
+        </div>
+
+        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>词法作用域</td>
+                    <td>Lexical Scoping</td>
+                    <td>变量的作用范围由它在源代码中被书写的物理位置（嵌套结构）决定</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Closures#lexical_scoping" target="_blank">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>作用域链</td>
+                    <td>Scope Chain</td>
+                    <td>内层找变量时向外层父级逐级攀登寻找的过程轨迹，单向向上</td>
+                    <td>-</td>
+                </tr>
+                <tr>
+                    <td>变量提升</td>
+                    <td>Hoisting</td>
+                    <td>(此概念将在后续课程展开) 历史遗留问题，表现为 var 可提升等现象</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Glossary/Hoisting" target="_blank">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const opts = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.style.background = 'transparent');
+                if (opt.getAttribute('data-value') === correctVal) {
+                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--success-color)';
+                } else {
+                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--error-color)';
+                }
+                exp.style.display = 'block';
+            });
+        });
+    });
+</script>
+</body>
+</html>

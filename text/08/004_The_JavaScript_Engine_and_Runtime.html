@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The JavaScript Engine and Runtime</title>
+    <title>JavaScript 引擎与运行时</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,268 +11,971 @@
     <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
             --bg-color: #0d0d0d;
             --surface-color: #1a1a1a;
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
             --radius-md: 8px;
             --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
-        .app-container { display: flex; min-height: 100vh; }
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
-        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
 
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
         h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
         p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
-        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
-        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
-        
-        .code-comparison { display: flex; gap: 20px; margin: 24px 0; }
-        .code-panel { flex: 1; border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
-        .panel-header { padding: 8px 16px; font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-        .panel-header.method1 { background: rgba(255, 85, 85, 0.1); color: var(--error-color); border-bottom: 1px solid rgba(255, 85, 85, 0.2); }
-        .panel-header.method2 { background: rgba(80, 250, 123, 0.1); color: var(--success-color); border-bottom: 1px solid rgba(80, 250, 123, 0.2); }
-        
-        .mermaid { background: var(--surface-color); padding: 24px; border-radius: var(--radius-lg); display: flex; justify-content: center; margin: 24px 0; border: 1px solid var(--surface-border); }
-        
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
-        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
-        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        td a { color: var(--info-color); text-decoration: none; }
-        td a:hover { text-decoration: underline; }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
         
-        
-    
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
         }
 
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 08 章 / 进度</div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
             <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">概述</a>
-            <a href="#section-engine" class="nav-item">1. JavaScript 引擎是怎么工作的？(JIT)</a>
-            <a href="#section-runtime" class="nav-item">2. JavaScript 运行时架构 (Runtime)</a>
-            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
-            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+            <a href="#section-0" class="nav-item active">JavaScript 引擎与运行时</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>The JavaScript Engine and Runtime (JS 引擎与运行时架构)</h1>
+<h1 id="section-0">JavaScript 引擎与运行时</h1>
+
+<div class="callout"><p>📺 来源：004 The JavaScript Engine and Runtime.en.srt<br>📂 章节：第 08 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：JavaScript 高级概览（高级语言、垃圾回收、JIT 编译概念）</li>
+<li><strong>后续扩展</strong>：执行上下文与调用栈、作用域链、Event Loop 深入</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节深入解析 JavaScript 引擎（Engine）的内部结构——<strong>调用栈（Call Stack）</strong> 和 <strong>堆（Heap）</strong>，以及代码从源码到机器码的完整编译流程：<strong>解析（Parsing）→ AST → 编译（Compilation）→ 执行（Execution）→ 优化（Optimization）</strong>。同时介绍 JavaScript <strong>运行时（Runtime）</strong> 的全景架构，包括 Web APIs、回调队列和事件循环。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. JavaScript 引擎的内部结构</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：JavaScript 引擎就像一座工厂——<strong>调用栈（Call Stack）</strong> 是生产线（按顺序执行），<strong>堆（Heap）</strong> 是仓库（存放原材料/对象）。没有工厂就没有产品，没有引擎就没有 JavaScript。</p></div>
+
+<div class="mermaid">
+flowchart TB
+    subgraph Engine["⚙️ JavaScript 引擎（如 V8）"]
+        direction LR
+        subgraph Stack["📚 调用栈 Call Stack"]
+            S1["代码在此执行"]
+        end
+        subgraph Heap["🗄️ 堆 Heap"]
+            H1["对象存储在此"]
+        end
+    end
+    
+    style Engine fill:#2C3E50,color:#fff
+    style Stack fill:#3498DB,color:#fff
+    style Heap fill:#E74C3C,color:#fff
+</div>
+
+<p>每个 JavaScript 引擎都包含两个核心组件：</p>
+
+<table>
+    <thead><tr><th>组件</th><th>英文</th><th>职责</th></tr></thead>
+    <tbody><tr><td><strong>调用栈</strong></td><td>Call Stack</td><td>代码实际执行的地方（通过执行上下文）</td></tr>
+<tr><td><strong>堆</strong></td><td>Heap</td><td>存储程序中所有对象的非结构化内存池</td></tr></tbody>
+</table>
+
+<p>最知名的 JavaScript 引擎包括 Google 的 <strong>V8</strong>（驱动 Chrome 和 Node.js）、Mozilla 的 <strong>SpiderMonkey</strong>（驱动 Firefox）和 Apple 的 <strong>JavaScriptCore</strong>（驱动 Safari）。</p>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>栈管执行，堆管存储</strong> — Call Stack 是流水线，Heap 是仓库。</p></div>
+
+<hr>
+
+<h3 id="section-5">2. 从源码到机器码：编译流水线</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：想象把一篇中文文章翻译成英文并出版。先要<strong>解析</strong>原文理解语法结构（AST），再<strong>翻译/编译</strong>成英文（机器码），最后<strong>印刷发行/执行</strong>。现代 JS 引擎甚至在读者还没读完时就在后台偷偷润色优化！</p></div>
+
+<div class="mermaid">
+flowchart LR
+    A["📝 源代码\nJavaScript"] -->|① 解析 Parse| B["🌳 AST\n抽象语法树"]
+    B -->|② 编译 Compile| C["⚙️ 机器码\n(未优化版)"]
+    C -->|③ 执行 Execute| D["💻 调用栈\nCall Stack"]
+    D -.->|④ 分析热点代码| E["🔥 优化编译器\n(后台线程)"]
+    E -.->|⑤ 替换为优化版| D
+    
+    style A fill:#FFEAA7,color:#000
+    style B fill:#81ECEC,color:#000
+    style C fill:#A29BFE,color:#000
+    style D fill:#55EFC4,color:#000
+    style E fill:#FF7675,color:#fff
+</div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th>阶段</th><th>步骤</th><th>发生了什么</th><th>所在线程</th></tr></thead>
+    <tbody><tr><td>①</td><td>解析（Parse）</td><td>代码被拆分为有意义的片段（token），构建 AST</td><td>主线程</td></tr>
+<tr><td>②</td><td>编译（Compile）</td><td>AST 被编译为机器码（未优化的初版）</td><td>主线程</td></tr>
+<tr><td>③</td><td>执行（Execute）</td><td>机器码在调用栈中立即执行</td><td>主线程</td></tr>
+<tr><td>④</td><td>分析</td><td>引擎识别热点代码（频繁执行的部分）</td><td>后台线程</td></tr>
+<tr><td>⑤</td><td>优化替换</td><td>优化后的机器码替换旧版，无需停止执行</td><td>后台线程</td></tr></tbody>
+</table>
+
+<h4 id="section-6">AST（抽象语法树）示例</h4>
+
+<pre><code class="language-javascript">const x = 23;</code></pre>
+
+<p>这行简单代码生成的 AST 结构大致如下：</p>
+
+<div class="mermaid">
+flowchart TD
+    A["📄 Program"] --> B["📋 VariableDeclaration\n(kind: const)"]
+    B --> C["🏷️ VariableDeclarator"]
+    C --> D["📌 Identifier\n(name: x)"]
+    C --> E["🔢 NumericLiteral\n(value: 23)"]
+    
+    style A fill:#DFE6E9,color:#000
+    style B fill:#74B9FF,color:#000
+    style C fill:#A29BFE,color:#000
+    style D fill:#55EFC4,color:#000
+    style E fill:#FFEAA7,color:#000
+</div>
+
+<div class="callout warning"><p>⚠️ <strong>AST 与 DOM 树无关</strong>！AST 是代码的语法结构表示，DOM 树是 HTML 文档的结构表示，两者完全不同。</p></div>
+
+<hr>
+
+<h3 id="section-6">3. 编译 vs 解释 vs JIT 编译</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<br>- <strong>编译（Compilation）</strong>= 先把整本书翻译完再出版 → 读者直接读成品书<br>- <strong>解释（Interpretation）</strong>= 现场同声传译，翻一句读一句 → 慢但即时<br>- <strong>JIT 编译</strong>= 先快速口头翻译让你马上能读，同时后台慢慢打磨出精装版替换 → 兼顾速度和质量</p></div>
+
+<div class="mermaid">
+flowchart TB
+    subgraph compile["📦 传统编译 (Compilation)"]
+        direction LR
+        C1["源代码"] -->|编译| C2["可执行文件\n(.exe)"]
+        C2 -->|之后| C3["执行"]
+    end
+    
+    subgraph interpret["🔄 纯解释 (Interpretation)"]
+        direction LR
+        I1["源代码"] -->|逐行| I2["直接执行\n（慢）"]
+    end
+    
+    subgraph jit["⚡ JIT 编译"]
+        direction LR
+        J1["源代码"] -->|编译| J2["机器码"]
+        J2 -->|立即| J3["执行"]
+    end
+    
+    style compile fill:#74B9FF,color:#000
+    style interpret fill:#FF7675,color:#000
+    style jit fill:#55EFC4,color:#000
+</div>
+
+<p><strong>📊 三种模式对比：</strong></p>
+
+<table>
+    <thead><tr><th>特征</th><th>传统编译</th><th>纯解释</th><th>JIT 编译</th></tr></thead>
+    <tbody><tr><td>转换时机</td><td>执行前全部编译</td><td>运行时逐行转换</td><td>运行时全部编译</td></tr>
+<tr><td>中间产物</td><td>生成可执行文件</td><td>无文件</td><td>无可执行文件</td></tr>
+<tr><td>执行速度</td><td>🚀 最快</td><td>🐌 最慢</td><td>⚡ 很快</td></tr>
+<tr><td>代表语言</td><td>C, C++</td><td>早期 JavaScript</td><td>现代 JavaScript</td></tr></tbody>
+</table>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：Google Maps 这样的重型 Web 应用，如果使用纯解释方式，拖动地图每次都要等一秒——完全不可接受。JIT 编译让 JavaScript 的性能接近编译型语言。</p></div>
+
+<hr>
+
+<h3 id="section-7">4. JavaScript 运行时（Runtime）全景</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：JavaScript 引擎是"心脏"，但光有心脏不能活——运行时就是整个"身体"，包含心脏（引擎）、手脚（Web APIs）、消化系统（回调队列）和神经中枢（事件循环）。</p></div>
+
+<div class="mermaid">
+flowchart TB
+    subgraph Runtime["🌐 浏览器 JavaScript 运行时"]
+        direction TB
+        subgraph Engine["⚙️ JS 引擎"]
+            CS["📚 调用栈\nCall Stack"]
+            HP["🗄️ 堆\nHeap"]
+        end
         
-        <div class="meta-info">
-            <span>📺 来源：004 The JavaScript Engine and Runtime.en.srt</span>
-            <span>📂 章节：第 08 章</span>
-        </div>
-
-        <h2 id="section-overview">🎯 概述</h2>
-        <p>你知道当你写下一段 JS 代码到它真正在浏览器中跑起来，中间经历了什么吗？本节课我们将深入剖析 JS 引擎的黑盒（以 Google V8 为代表），揭秘 <strong>JIT 编译</strong>和<strong>抽象语法树 (AST)</strong>。随后，我们会将视线拉远，来看涵盖了引擎、Web API 及事件循环的庞大 <strong>运行时 (Runtime) 架构图</strong>。</p>
-
-        <h2 id="section-engine">1. JavaScript 引擎是怎么工作的？(JIT)</h2>
-        <p>经常有人说“JavaScript 是一门解释型语言”。这在 15 年前是正确的，但放到现在<strong>完全错误</strong>。如果现代复杂的单页应用还慢吞吞地一行一行解释执行，用 Google Maps 拖拽地图时恐怕卡得像看 PPT。</p>
-        <p>现代引擎（如 Chrome 的 V8）使用的是 <strong>即时编译 (Just-In-Time Compilation, JIT)</strong>。</p>
-
-        <div class="mermaid">
-        flowchart LR
-            Source["📄 源代码 (JS)"] --> Parse
-            
-            subgraph 引擎工作流
-                Parse["🔍 解析 (Parsing)"] -- "生成 AST" --> Compile
-                Compile["⚙️ 编译 (Compilation)"] -- "机器码" --> Execute
-                Execute["🚀 执行 (Execution)"]
-                
-                Execute -- "后台多线程持续打磨" --> Optimize["✨ 优化 (Optimization)"]
-                Optimize -- "热替换更快的机器码" --> Execute
-            end
-            
-            style Optimize fill:#50fa7b,color:#000
-        </div>
-
-        <h3>引擎处理步骤拆解</h3>
-        <ul>
-            <li><strong>解析 (Parsing)</strong>：引擎先读代码，将其拆分为有意义的片段，然后组装成 <strong>抽象语法树 (AST)</strong>。注意：AST 仅仅是代码的内部数据结构表示，和我们在控制台看到的 DOM 树没有任何关系！</li>
-            <li><strong>编译 (Compilation)</strong>：获取 AST，并在一瞬间将其编译为计算机 CPU 认识的机器码 (`010101`)。</li>
-            <li><strong>执行 (Execution)</strong>：机器码被立刻扔进<strong>调用栈 (Call Stack)</strong> 中执行。</li>
-            <li><strong>优化 (Optimization)</strong>：魔法时刻！为了让代码光速启动，引擎一开始生成的是极其粗糙、未优化的机器码。而在后台的秘密线程中，引擎会一边看着你的代码跑，一边持续不断地将它重新编译为更优化的版本，并在不打断主线程的情况下完成“热替换”！这就是 V8 引擎能如此之快的原因。</li>
-        </ul>
-
-        <h2 id="section-runtime">2. JavaScript 运行时架构 (Runtime)</h2>
-        <p>引擎只是心脏。但要让一个 JS 程序在浏览器里活过来，还需要一个巨大的容器包装好所有基础设施，这个容器就是 <strong>运行时 (Runtime)</strong>。</p>
-
-        <div class="mermaid">
-        flowchart TB
-            subgraph Browser_Runtime["🌐 浏览器 JS 运行时 (Browser Runtime)"]
-                
-                subgraph JS_Engine["💛 JS 引擎 (Engine)"]
-                    Heap["📦 内存堆 (Memory Heap)"]
-                    Stack["🥞 调用栈 (Call Stack)"]
-                end
-                
-                WebAPIs["🛠️ Web APIs (DOM, fetch, timer...)"]
-                CallbackQueue["📋 回调队列 (Callback Queue)"]
-                EventLoop(("⏳ 事件循环\n(Event Loop)"))
-                
-            end
-            
-            JS_Engine <--> WebAPIs
-            WebAPIs -- "定时器到了/点击事件" --> CallbackQueue
-            CallbackQueue -- "推送任务" --> EventLoop
-            EventLoop -- "栈空了就从队列抓取任务" --> Stack
-            
-            style Browser_Runtime fill:#1a1a1a,stroke:#333
-            style EventLoop fill:#f7df1e,color:#000
-        </div>
-
-        <h3>运行时架构核心成员</h3>
-        <ol>
-            <li><strong>JS 引擎</strong>：负责执行 JS 代码（包含内存堆存储对象、调用栈执行指令）。</li>
-            <li><strong>Web APIs</strong>：DOM 操作（`document.querySelector`）、定时器（`setTimeout`）、控制台输出（`console.log`）...等等，<strong>它们根本不是 JavaScript 语言的一部分！</strong> 它们是浏览器用 C++ 写的附加功能，直接通过 <code>window</code> 全局对象暴露给 JS 引擎调用。</li>
-            <li><strong>回调队列 (Callback Queue)</strong>：专门收容那些因为异步事件触发而排队等待执行的回调函数（例如给按钮挂载的 <code>onClick</code> 函数）。</li>
-            <li><strong>事件循环 (Event Loop)</strong>：它是整个非阻塞架构的指挥官！它时刻死盯着 **调用栈** 和 **回调队列**。如果发现调用栈空了，就把回调队列里排在第一名的函数一把抓进调用栈里执行。这就是这门语言永不卡死的奥秘。</li>
-        </ol>
-
-        <div class="callout info">
-            <p>💡 提示：这也是为什么不仅浏览器可以跑 JS。Node.js 也有自己的一套运行时，只不过它没有了浏览器的 Web APIs (没有 DOM)，而是替换成了 C++ 绑定和线程池等后端武器。</p>
-        </div>
-
-
-        <h2 id="section-quiz">🧪 学习验证</h2>
-
-        <div class="quiz-card" data-correct="B">
-            <div class="quiz-question">1. JS 引擎中的 AST (抽象语法树) 和前端的 DOM 树有什么关系？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) AST 是 DOM 树的旧版本称呼。</div>
-                <div class="quiz-option" data-value="B">B) 毫无关系。AST 仅仅是引擎用来理解并编译 JS 源代码的数据格式。</div>
-                <div class="quiz-option" data-value="C">C) 引擎通过将 AST 渲染到屏幕上来生成 DOM 树。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>正确答案：B</strong>。这是一个常见考点。AST (Abstract Syntax Tree) 只是把 JS 代码字符串拆成语法对象树的过程，用于后续编译翻译机器码，与处理 HTML 节点的 DOM API 没有任何交集。
-            </div>
-        </div>
+        subgraph WebAPIs["🔧 Web APIs"]
+            DOM["DOM"]
+            Timer["Timers"]
+            Fetch["Fetch API"]
+            CL["console.log"]
+        end
         
-        <br>
+        subgraph CBQ["📋 回调队列 (Callback Queue)"]
+            CB1["onClick()"]
+            CB2["onLoad()"]
+            CB3["onTimer()"]
+        end
+        
+        EL["🔄 事件循环\n(Event Loop)"]
+        
+        CBQ -->|"当调用栈为空时"| EL
+        EL -->|"将回调放入"| CS
+        WebAPIs -->|"完成后将回调放入"| CBQ
+    end
+    
+    style Runtime fill:#1a1a2e,color:#fff
+    style Engine fill:#16213e,color:#fff
+    style WebAPIs fill:#0f3460,color:#fff
+    style CBQ fill:#533483,color:#fff
+    style EL fill:#e94560,color:#fff
+</div>
 
-        <div class="quiz-card" data-correct="A">
-            <div class="quiz-question">2. `document.querySelector` 和 `console.log` 是 JavaScript 语言的核心特性吗？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) 不是，它们是浏览器提供的 Web APIs，被挂载到 JS 引擎可访问的运行环境中。</div>
-                <div class="quiz-option" data-value="B">B) 是的，没有它们 JavaScript 语言本身就不完整了。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>正确答案：A</strong>。如果你离开了浏览器环境去写裸的 JS（或者刚诞生时的 Node.js），你是根本不可能能够直接操作 <code>document</code> 的。它们是寄宿环境（如浏览器）提供给引擎把玩的外部接口。
-            </div>
-        </div>
+<p>运行时的四大组件协作流程：</p>
 
-        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>中文术语</th>
-                    <th>英文术语</th>
-                    <th>简明释义</th>
-                    <th>📚 官方文档溯源</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>抽象语法树</td>
-                    <td>AST (Abstract Syntax Tree)</td>
-                    <td>引擎解析源码后生成的中间树状数据结构，用于编译机器码</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>运行时架构</td>
-                    <td>JavaScript Runtime</td>
-                    <td>JS 运行的整个大容器环境，包含引擎本体、外接 APIs 和事件循环队列</td>
-                    <td>-</td>
-                </tr>
-                <tr>
-                    <td>Web API</td>
-                    <td>Web APIs</td>
-                    <td>浏览器(非原生 JS 语言)提供的强大接口功能群(如 DOM/Timer/Fetch)</td>
-                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/API" target="_blank">MDN Docs</a></td>
-                </tr>
-                <tr>
-                    <td>回调队列</td>
-                    <td>Callback Queue</td>
-                    <td>等待获取主线程执行权的异步回调函数排队的集结地</td>
-                    <td>-</td>
-                </tr>
-            </tbody>
-        </table>
+<ol>
+<li><strong>引擎</strong>：解析编译并执行 JavaScript 代码</li>
+<li><strong>Web APIs</strong>：浏览器提供的额外功能（DOM 操作、定时器、网络请求等），<strong>不是 JavaScript 语言本身的一部分</strong></li>
+<li><strong>回调队列</strong>：存放等待执行的回调函数</li>
+<li><strong>事件循环</strong>：当调用栈为空时，从回调队列取出回调放入调用栈执行</li>
+</ol>
 
+<h4 id="section-8">浏览器 vs Node.js 运行时对比</h4>
+
+<div class="mermaid">
+flowchart LR
+    subgraph Browser["🌐 浏览器运行时"]
+        BE["⚙️ JS 引擎"]
+        BW["🔧 Web APIs"]
+        BCQ["📋 回调队列"]
+        BEL["🔄 事件循环"]
+    end
+    
+    subgraph NodeJS["🖥️ Node.js 运行时"]
+        NE["⚙️ JS 引擎 (V8)"]
+        NC["🔧 C++ Bindings"]
+        NT["🔧 线程池"]
+        NCQ["📋 回调队列"]
+        NEL["🔄 事件循环"]
+    end
+    
+    style Browser fill:#3498DB,color:#fff
+    style NodeJS fill:#27AE60,color:#fff
+</div>
+
+<table>
+    <thead><tr><th>组件</th><th>浏览器运行时</th><th>Node.js 运行时</th></tr></thead>
+    <tbody><tr><td>引擎</td><td>V8 / SpiderMonkey 等</td><td>V8</td></tr>
+<tr><td>外部功能</td><td>Web APIs (DOM, Fetch...)</td><td>C++ Bindings + 线程池</td></tr>
+<tr><td>回调队列</td><td>✅</td><td>✅</td></tr>
+<tr><td>事件循环</td><td>✅</td><td>✅</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：理解事件循环如何工作——当用户点击按钮触发网络请求时，运行时的各组件如何协作。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">runtime_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 模拟运行时组件的协作过程
+
+console.log('① 同步代码 → 调用栈立即执行');
+
+// setTimeout 交给 Web API 处理，不阻塞调用栈
+setTimeout(() =&gt; {
+  console.log('④ 定时器回调 → 从回调队列通过事件循环进入调用栈');
+}, 0);
+
+// Promise 使用微任务队列（优先于回调队列）
+Promise.resolve().then(() =&gt; {
+  console.log('③ Promise 微任务 → 优先于宏任务执行');
+});
+
+console.log('② 同步代码 → 调用栈继续执行');
+
+// 输出顺序：① → ② → ③ → ④
+// 这就是事件循环的实际工作方式！</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+sequenceDiagram
+    participant CS as 📚 调用栈
+    participant WA as 🔧 Web API
+    participant MQ as ⚡ 微任务队列
+    participant CQ as 📋 回调队列
+    participant EL as 🔄 事件循环
+    
+    CS->>CS: ① console.log('同步代码1')
+    CS->>WA: setTimeout(cb, 0) → 交给Web API
+    CS->>MQ: Promise.then(cb) → 入微任务队列
+    CS->>CS: ② console.log('同步代码2')
+    Note over CS: 调用栈清空
+    EL->>MQ: 先检查微任务队列
+    MQ->>CS: ③ Promise 回调执行
+    WA->>CQ: 定时器完成 → 回调入队
+    EL->>CQ: 再检查回调队列
+    CQ->>CS: ④ setTimeout 回调执行
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>代码</th><th>执行顺序</th><th>说明</th></tr></thead>
+    <tbody><tr><td><code>console.log('①')</code></td><td>1️⃣</td><td>同步代码，立即执行</td></tr>
+<tr><td><code>console.log('②')</code></td><td>2️⃣</td><td>同步代码，继续执行</td></tr>
+<tr><td><code>Promise.then(...)</code></td><td>3️⃣</td><td>微任务，优先于宏任务</td></tr>
+<tr><td><code>setTimeout(...)</code></td><td>4️⃣</td><td>宏任务，最后执行</td></tr></tbody>
+</table>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ JavaScript 引擎由<strong>调用栈</strong>（执行代码）和<strong>堆</strong>（存储对象）组成</li>
+<li>✅ 现代 JavaScript 使用 <strong>JIT 编译</strong> — 编译后立即执行，无中间文件</li>
+<li>✅ 编译流水线：<strong>解析 → AST → 编译 → 执行 → 后台优化</strong></li>
+<li>✅ 运行时 = 引擎 + Web APIs + 回调队列 + 事件循环</li>
+<li>✅ Web APIs <strong>不是 JavaScript 语言本身的一部分</strong>，是浏览器/Node.js 提供的额外功能</li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>"AST 和 DOM 树是同一个东西"</strong>：完全不同！AST 是代码的语法结构，DOM 是 HTML 文档的结构</li>
+<li>⚠️ <strong>"JavaScript 是纯解释型语言"</strong>：现代引擎使用 JIT 编译，性能远超纯解释</li>
+<li>⚠️ <strong>"setTimeout(fn, 0) 会立即执行"</strong>：即使延迟为 0，回调仍需等调用栈清空后才能通过事件循环执行</li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<div class="callout"><p>解析阶段如何捕获语法错误</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">// 语法错误在解析（Parsing）阶段就会被捕获
+const x = ;  // 缺少值</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>SyntaxError: Unexpected token ';'</code></pre>
+
+<p><strong>🔑 解读</strong>：JavaScript 引擎在<strong>解析阶段</strong>（构建 AST 之前）就会检查语法。当代码不符合语法规则时，整个脚本都不会执行——连第一行 <code>console.log</code> 都不会运行。这就是为什么语法错误（SyntaxError）和运行时错误（TypeError/ReferenceError）的表现完全不同。</p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>调用栈</td><td>Call Stack</td><td>管理代码执行顺序的 LIFO 栈</td><td>—</td><td><a href="https://developer.mozilla.org/en-US/docs/Glossary/Call_stack" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>堆</td><td>Heap</td><td>存储对象的非结构化内存区域</td><td>—</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Memory_management#data_structures" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>抽象语法树</td><td>AST</td><td>代码的树形语法结构表示</td><td>—</td><td>—</td></tr>
+<tr><td>即时编译</td><td>JIT Compilation</td><td>运行时编译并立即执行</td><td>—</td><td><a href="https://developer.mozilla.org/en-US/docs/Glossary/Just-In-Time_Compilation" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>运行时</td><td>Runtime</td><td>执行 JS 代码所需的全部环境</td><td>—</td><td>—</td></tr>
+<tr><td>Web APIs</td><td>Web APIs</td><td>浏览器提供的功能接口</td><td><code>setTimeout()</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/API" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>回调队列</td><td>Callback Queue</td><td>等待执行的回调函数队列</td><td>—</td><td>—</td></tr>
+<tr><td>事件循环</td><td>Event Loop</td><td>协调调用栈和回调队列的机制</td><td>—</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Event_loop" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：预测执行顺序</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 预测以下代码的输出顺序，然后运行验证
+console.log('A');
+
+setTimeout(() =&gt; console.log('B'), 0);
+
+console.log('C');
+
+// 你的预测：A → ? → ?</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">console.log('A');           // ① 同步 → 立即执行
+setTimeout(() =&gt; console.log('B'), 0); // ③ 宏任务 → 最后执行
+console.log('C');           // ② 同步 → 继续执行
+</code></pre>
+<strong>解题思路</strong>：即使 <code>setTimeout</code> 的延迟是 0ms，回调也不会立即执行。它被交给 Web API 处理，完成后放入回调队列，等调用栈清空后才通过事件循环执行。
+</details>
+
+<p><strong>练习 2：识别运行时组件</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 标注每行代码涉及的运行时组件
+
+// 涉及哪个组件？_______
+document.querySelector('.btn');
+
+// 涉及哪个组件？_______
+const obj = { name: '测试' };
+
+// 涉及哪个组件？_______
+setTimeout(() =&gt; {}, 1000);
+
+// 涉及哪个组件？_______
+function add(a, b) { return a + b; }
+add(1, 2);
+
+console.log('练习完成！');</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const obj = { name: '测试' };      // 堆 (Heap) — 对象存储在堆中
+setTimeout(() =&gt; {}, 1000);         // Web API (Timer API) + 回调队列
+function add(a, b) { return a + b; }
+add(1, 2);                          // 调用栈 (Call Stack) — 函数执行
+</code></pre>
+<strong>解题思路</strong>：DOM 操作和定时器属于 Web APIs，对象存储在堆中，函数调用在调用栈中执行。理解每行代码涉及哪个组件是深入理解运行时架构的基础。
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">JavaScript 引擎的两个核心组件是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) DOM 和 BOM</div>
+<div class="quiz-option" data-value="B">B) 调用栈（Call Stack）和堆（Heap）</div>
+<div class="quiz-option" data-value="C">C) 回调队列和事件循环</div>
+<div class="quiz-option" data-value="D">D) 编译器和解释器</div>
+    </div>
+    <div class="quiz-explanation">
+        每个 JavaScript 引擎（如 V8）都包含调用栈（代码执行的地方）和堆（对象存储的地方）。DOM/BOM 是 Web APIs，回调队列和事件循环是运行时的组件。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">在 JIT 编译中，代码的编译和执行是什么关系？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 先全部编译，生成 .exe 文件，再执行</div>
+<div class="quiz-option" data-value="B">B) 完全不编译，逐行解释执行</div>
+<div class="quiz-option" data-value="C">C) 编译后立即执行，无中间可执行文件</div>
+<div class="quiz-option" data-value="D">D) 每次执行前都重新编译一次</div>
+    </div>
+    <div class="quiz-explanation">
+        JIT（Just-In-Time）编译的核心是"即时"——代码被编译为机器码后立即执行，不生成独立的可执行文件。引擎还会在后台持续优化热点代码。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">Web APIs 与 JavaScript 语言的关系是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) Web APIs 不是 JavaScript 语言本身的一部分，是浏览器提供的</div>
+<div class="quiz-option" data-value="B">B) Web APIs 是 JavaScript 核心语法</div>
+<div class="quiz-option" data-value="C">C) Web APIs 只在 Node.js 中可用</div>
+<div class="quiz-option" data-value="D">D) 所有 Web APIs 都存储在调用栈中</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>setTimeout</code>、DOM 操作、<code>fetch</code> 等都是浏览器环境提供的 Web APIs，通过 <code>window</code> 全局对象暴露给 JavaScript 使用。JavaScript 语言规范（ECMAScript）本身不包含这些内容。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // JIT 编译流水线<br>
+    const jitPipeline = [<br>
+      '① 解析源代码 → 生成 <input type="text" class="blank-input" data-answer="AST" placeholder="1">',<br>
+      '② 将 AST <input type="text" class="blank-input" data-answer="编译" placeholder="2"> 为机器码',<br>
+      '③ 在 <input type="text" class="blank-input" data-answer="调用栈" placeholder="3"> 中立即执行',<br>
+      '④ 后台线程持续 <input type="text" class="blank-input" data-answer="优化" placeholder="4"> 热点代码',<br>
+    ];
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
-<!-- 依赖脚本 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
 <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
 </script>
 
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
                 document.querySelectorAll('.nav-item').forEach(nav => {
                     nav.classList.remove('active');
-                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
                 });
             }
         });
     }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
     document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
 
     window.addEventListener('scroll', () => {
@@ -283,28 +986,29 @@
         document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
     });
 
-    // 简单 Quiz 逻辑
-    document.querySelectorAll('.quiz-card').forEach(card => {
-        const correctVal = card.getAttribute('data-correct');
-        const opts = card.querySelectorAll('.quiz-option');
-        const exp = card.querySelector('.quiz-explanation');
-        
-        opts.forEach(opt => {
-            opt.addEventListener('click', () => {
-                // reset
-                opts.forEach(o => o.style.background = 'transparent');
-                
-                if (opt.getAttribute('data-value') === correctVal) {
-                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--success-color)';
-                } else {
-                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--error-color)';
-                }
-                exp.style.display = 'block';
-            });
-        });
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
     });
+
 </script>
+
 </body>
 </html>

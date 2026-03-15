@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Execution Contexts and The Call Stack</title>
+    <title>执行上下文与调用栈</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,271 +11,1013 @@
     <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
             --bg-color: #0d0d0d;
             --surface-color: #1a1a1a;
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
             --radius-md: 8px;
             --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
-        .app-container { display: flex; min-height: 100vh; }
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
-        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
 
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
         h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
         p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
-        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
-        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
-        
-        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
-        
-        .mermaid { background: var(--surface-color); padding: 24px; border-radius: var(--radius-lg); display: flex; justify-content: center; margin: 24px 0; border: 1px solid var(--surface-border); }
-        
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
-        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
-        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        td a { color: var(--info-color); text-decoration: none; }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
         
-        
-    
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
         }
 
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 08 章 / 进度</div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
             <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">概述</a>
-            <a href="#section-context" class="nav-item">1. 什么是执行上下文 (Execution Contexts)？</a>
-            <a href="#section-stack" class="nav-item">2. 调用栈 (The Call Stack) 是如何运作的？</a>
-            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+            <a href="#section-0" class="nav-item active">执行上下文与调用栈</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>Execution Contexts and The Call Stack (执行上下文与调用栈)</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：005 Execution Contexts and The Call Stack.en.srt</span>
-            <span>📂 章节：第 08 章</span>
-        </div>
+<h1 id="section-0">执行上下文与调用栈</h1>
 
-        <h2 id="section-overview">🎯 概述</h2>
-        <p>假设你的代码编译完毕准备运行，JS 引擎究竟是如何知道运行到哪一行的？如果出现了函数嵌套调用，引擎是如何保证不迷路的？本节我们将揭晓引擎内部的“行车记录仪”：<strong>执行上下文 (Execution Context)</strong> 与 <strong>调用栈 (Call Stack)</strong>。</p>
+<div class="callout"><p>📺 来源：005 Execution Contexts and The Call Stack.en.srt<br>📂 章节：第 08 章</p></div>
 
-        <h2 id="section-context">1. 什么是执行上下文 (Execution Contexts)？</h2>
-        <p>当 JavaScript 代码编译完成后，引擎会立刻为其创建一个 <strong>全局执行上下文 (Global Execution Context)</strong>。它是用来执行代码的环境（你可以把它想象成一个包含了执行代码所需所有材料的包裹或者箱子）。</p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <div class="callout analogy">
-            <p>📦 <strong>生活类比</strong>：假设我们要吃比萨。你不能让比萨飘在空中吃，必须找一个“桌子（环境）”，桌子上要有“餐具（变量环境）”，还有“谁买单（<code>this</code> 关键字）”。执行上下文就是这张桌子。</p>
-        </div>
+<ul>
+<li><strong>前置知识</strong>：JavaScript 引擎结构（调用栈 + 堆）、JIT 编译流水线</li>
+<li><strong>后续扩展</strong>：作用域与作用域链、变量提升（Hoisting）与 TDZ、闭包（Closures）</li>
+</ul>
 
-        <p>引擎在运行时的第一法则是这三步：</p>
-        <ol>
-            <li>为不在任何函数内部的顶层代码 (Top-level code) 创建 <strong>全局执行上下文</strong>。</li>
-            <li>执行这段顶层代码。</li>
-            <li><strong>每当调用一个函数时，引擎会立刻为该函数创建一个属于它自己的全新执行上下文。</strong></li>
-        </ol>
+<h2 id="section-2">🎯 概述</h2>
 
-        <h3>一个执行上下文里面到底装了什么？</h3>
-        <p>每个上下文包裹里包含三大核心物件（这在随后的几节课会反复考到！）：</p>
+<p>本节深入讲解 JavaScript 代码执行的核心机制：<strong>执行上下文（Execution Context）</strong> 是代码运行的"环境容器"，每次函数调用都会创建一个；<strong>调用栈（Call Stack）</strong> 则是管理这些执行上下文的 LIFO 栈结构，确保代码执行顺序永不混乱。理解这两个概念是掌握作用域、<code>this</code> 和闭包的基础。</p>
 
-        <div class="mermaid">
-        flowchart TD
-            EC["📦 执行上下文 (Execution Context)"]
-            
-            subgraph 内容
-                VE["📝 变量环境 (Variable Environment)\n- 所有的 let/const/var 声明\n- 所有的子函数声明\n- arguments 对象 (箭头函数除外)"]
-                SC["🔗 作用域链 (Scope Chain)\n让当前函数能查找到外部的变量"]
-                TK["👉 this 关键字 (This Keyword)\n(箭头函数除外)"]
-            end
-            
-            EC --> VE & SC & TK
-            
-            style EC fill:#8be9fd,color:#000,stroke:#333
-        </div>
+<h2 id="section-3">核心知识点</h2>
 
-        <div class="callout">
-            <p>🚨 <strong>关键考点（面试常客）</strong>：请死记硬背！<strong>箭头函数 (Arrow Functions) 的执行上下文里，没有自己的 <code>arguments</code> 对象，也没有自己的 <code>this</code> 关键字！</strong> 它们是借用离自己最近的普通父级函数的。这就是箭头函数的命相所在。</p>
-        </div>
+<h3 id="section-4">1. 什么是执行上下文（Execution Context）？</h3>
 
-        <h2 id="section-stack">2. 调用栈 (The Call Stack) 是如何运作的？</h2>
-        <p>我们讲了每次调用函数就会产生一个上下文包裹。那如果函数 A 调用函数 B，函数 B 又调用函数 C 呢？引擎要如何保证记住执行的顺序，并且在 C 执行完后准确退回到 B？</p>
-        <p>答案是：<strong>调用栈 (Call Stack)</strong>。这是 JS 引擎用来跟踪程序执行状态的数据结构（LIFO：后进先出栈）。<strong>不管什么代码，必须在调用栈的最顶端（Top of the stack）才能被执行。</strong></p>
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：执行上下文就像一个"任务信封"——你接到一个任务（函数调用），信封里装着你需要的所有工具和信息（变量、函数引用、<code>this</code>）。任务完成后，信封被丢弃。</p></div>
 
-        <h3>让我们来人肉单步调试一段代码的调用栈变化：</h3>
-        <pre><code class="language-javascript">
-const name = 'Jonas'; // 顶层代码
+<div class="mermaid">
+flowchart TD
+    subgraph EC["📋 执行上下文 (Execution Context)"]
+        direction TB
+        VE["📦 变量环境\n(Variable Environment)\n• let, const, var 声明\n• 函数声明\n• arguments 对象"]
+        SC["🔗 作用域链\n(Scope Chain)\n• 对外部变量的引用"]
+        TK["👆 this 关键字\n(this keyword)\n• 指向调用者"]
+    end
+    
+    style EC fill:#2C3E50,color:#fff
+    style VE fill:#3498DB,color:#fff
+    style SC fill:#E74C3C,color:#fff
+    style TK fill:#27AE60,color:#fff
+</div>
 
-const first = () => {
-    let a = 1;
-    const b = second(7, 9); // 函数调函数
-    a = a + b;
-    return a;
-};
+<p>执行上下文包含三个核心组成部分：</p>
 
-function second(x, y) {
-    var c = 2;
-    return c;
+<table>
+    <thead><tr><th>组件</th><th>英文</th><th>作用</th><th>创建时机</th></tr></thead>
+    <tbody><tr><td><strong>变量环境</strong></td><td>Variable Environment</td><td>存储 <code>let</code>/<code>const</code>/<code>var</code> 声明、函数声明、<code>arguments</code></td><td>创建阶段</td></tr>
+<tr><td><strong>作用域链</strong></td><td>Scope Chain</td><td>引用外部（父级）作用域的变量</td><td>创建阶段</td></tr>
+<tr><td><strong>this 关键字</strong></td><td>this Keyword</td><td>指向当前上下文的调用对象</td><td>创建阶段</td></tr></tbody>
+</table>
+
+<div class="callout warning"><p>⚠️ <strong>箭头函数的特殊性</strong>：箭头函数<strong>没有自己的 <code>arguments</code> 对象和 <code>this</code> 关键字</strong>，它们使用最近的普通函数父级的 <code>arguments</code> 和 <code>this</code>。</p></div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<pre><code class="language-javascript">const name = 'Jonas';
+
+function first() {
+  const a = 1;
+  const b = second(7, 9);
+  return a + b;
 }
 
-const x = first(); // 触发全栈！
-        </code></pre>
+function second(x, y) {
+  const c = 2;
+  return c;
+}
 
-        <p>不要读字，直接看下方生动的可视化弹栈全过程！⬇️</p>
+const x = first();</code></pre>
 
-        <!-- Mermaid 的 Stack 堆叠视角可视化 -->
-        <div class="mermaid">
-        flowchart BT
-            subgraph Step 1: 顶层代码准备就绪
-                G1["Global Execution Context (Active)"]
-            end
-            
-            subgraph Step 2: 遇到 const x = first()
-                F2["first() Execution Context (Active)"]
-                G2["Global Execution Context (Paused)"]
-                G2 -.- F2
-            end
-            
-            subgraph Step 3: first 内部遇到 second()
-                S3["second() Execution Context (Active)"]
-                F3["first() Execution Context (Paused)"]
-                G3["Global Execution Context (Paused)"]
-                G3 -.- F3 -.- S3
-            end
-            
-            subgraph Step 4: second() 跑完 return 弹出
-                F4["first() Execution Context (Active again)"]
-                G4["Global Execution Context (Paused)"]
-                G4 -.- F4
-            end
-            
-            subgraph Step 5: first() 也跑完了，全部退出
-                G5["Global Execution Context (Active again)"]
-            end
-            
-            Step_1 --> Step_2 --> Step_3 --> Step_4 --> Step_5
-            
-            style G1 fill:#f7df1e,color:#000
-            style F2 fill:#8be9fd,color:#000
-            style S3 fill:#50fa7b,color:#000
-            style F4 fill:#8be9fd,color:#000
-            style G5 fill:#f7df1e,color:#000
-        </div>
+<table>
+    <thead><tr><th>执行上下文</th><th>变量环境</th><th>说明</th></tr></thead>
+    <tbody><tr><td><strong>全局 EC</strong></td><td><code>name = 'Jonas'</code>, <code>first = &lt;fn&gt;</code>, <code>second = &lt;fn&gt;</code>, <code>x = &lt;unknown&gt;</code></td><td>顶层代码</td></tr>
+<tr><td><strong>first() EC</strong></td><td><code>a = 1</code>, <code>b = &lt;unknown&gt;</code></td><td>调用 first() 时创建</td></tr>
+<tr><td><strong>second() EC</strong></td><td><code>c = 2</code>, <code>arguments = [7, 9]</code></td><td>调用 second() 时创建</td></tr></tbody>
+</table>
 
-        <p><strong>原理解析追踪</strong>：</p>
-        <ul style="color:var(--text-secondary); line-height: 1.8;">
-            <li>1. 引擎一启动，先压入<strong>Global（黄底）</strong>。它是万物的基石。</li>
-            <li>2. JS 单线程向下扫描，最后一行发现调用了 <code>first()</code>，立马为它创建崭新的蓝底上下文并<strong>压入栈顶 (Push)</strong>。此时，蓝底是 Active 状态，黄底 Global 被迫暂停 (Paused)。JS 单线程永远只处理栈顶。</li>
-            <li>3. <code>first</code> 运行到一半，惊呼又调用了 <code>second()</code>！引擎立马为其创建绿底的上下文并压栈登顶。此时蓝色和黄色全被封冻暂停。</li>
-            <li>4. 绿色的 <code>second</code> 执行到 <code>return c;</code> 完成任务，绿底上下文瞬间被<strong>弹出栈并销毁 (Popped off)</strong>。控制权完美交还给下方的蓝底 <code>first()</code> 上下文，它苏醒后继续执行剩余加法。</li>
-            <li>5. 蓝底也完成任务 return。整个程序只剩下黄底的 Global，直到你关闭浏览器 Tab 页，连它也被摧毁。</li>
-        </ul>
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>执行上下文 = 变量环境 + 作用域链 + this</strong> — 三位一体的"代码运行环境袋"。</p></div>
 
-        <div class="callout info">
-            <p>💡 <strong>总结引申</strong>：这就是为什么很多人说 JS 代码运行在“调用栈”里（确切地说，是运行在位于栈顶的执行上下文里）。由于栈结构永远不会乱，JS 引擎就像拿了一份永不丢失的 <strong>地图 (Map)</strong>，随时知道自己身在何处，该回到哪里。</p>
-        </div>
+<hr>
 
+<h3 id="section-5">2. 全局执行上下文（Global Execution Context）</h3>
 
-        <h2 id="section-quiz">🧪 学习验证</h2>
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：全局执行上下文就像一栋大楼的"大堂"——所有人进入大楼（程序启动）都要先来大堂，全局变量和函数就像大堂里的公共设施，人人都可以使用。</p></div>
 
-        <div class="quiz-card" data-correct="A">
-            <div class="quiz-question">1. 下列关于“箭头函数”执行上下文包裹的说法，最致命的（也是最正确的）不同点是什么？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) 它没有属于自己的 `arguments` 对象，也没有指向自己的 `this` 关键字。</div>
-                <div class="quiz-option" data-value="B">B) 它无法被推入调用栈 (Call Stack) 中执行。</div>
-                <div class="quiz-option" data-value="C">C) 它没有自身的变量环境 (Variable Environment)，里面的变量全是对外层的引用。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>正确答案：A</strong>。这是无数面试和复杂 bug 的出处！箭头函数有它自己声明内部变量的 Variable Environment，也能压入调用栈。但它丧失了普通函数拥有的 <code>this</code> 主动权和 <code>arguments</code> 对象特权，只能“啃老”去向它的父级要。
-            </div>
-        </div>
-        
-        <br>
+<div class="mermaid">
+flowchart TD
+    A["📝 JavaScript 代码编译完成"] --> B["🌍 创建全局执行上下文\n(Global EC)"]
+    B --> C["📚 放入调用栈底部"]
+    C --> D["▶️ 执行顶层代码"]
+    
+    style A fill:#FFEAA7,color:#000
+    style B fill:#74B9FF,color:#000
+    style C fill:#A29BFE,color:#000
+    style D fill:#55EFC4,color:#000
+</div>
 
-        <div class="quiz-card" data-correct="C">
-            <div class="quiz-question">2. 为什么 JavaScript 被称为“单线程”语言，这与调用栈有什么关系？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) 因为它只能用到 CPU 的一个物理核心。</div>
-                <div class="quiz-option" data-value="B">B) 因为它没有对象，只有一个大包厢存放变量。</div>
-                <div class="quiz-option" data-value="C">C) 因为它的核心只有一个调用栈 (Call Stack)，同一时刻只有栈顶端的那一个上下文 (Context) 在执行，其余都在排队或暂停。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>正确答案：C</strong>。JS 在运行时只有一个调用栈（主厨），一次只能炒一口锅里的菜（栈顶那个活跃的 Context）。一旦遇到嵌套函数调用，下方的原功能必须乖乖立正暂停，无法“同时处理”。
-            </div>
-        </div>
+<p>关键特征：</p>
 
+<ul>
+<li><strong>有且仅有一个</strong>全局执行上下文（每个页面/模块一个）</li>
+<li>所有<strong>非函数内部</strong>的代码（顶层代码）都在这里执行</li>
+<li>在程序整个生命周期中<strong>始终存在</strong>，只有关闭浏览器标签页时才被销毁</li>
+<li>包含全局变量声明和函数声明</li>
+</ul>
+
+<hr>
+
+<h3 id="section-6">3. 调用栈（Call Stack）的工作机制</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：调用栈就像一摞披萨盒——每叫一个外卖（函数调用），就在最上面放一个盒子。吃完一个（函数返回）就拿走最上面的盒子，露出下一个。你永远只能操作最上面那个盒子（当前正在执行的函数）。</p></div>
+
+<div class="mermaid">
+flowchart TB
+    subgraph step1["步骤 ① 程序启动"]
+        S1["🌍 Global EC"]
+    end
+    
+    subgraph step2["步骤 ② 调用 first()"]
+        S2a["📋 first() EC"]
+        S2b["🌍 Global EC"]
+    end
+    
+    subgraph step3["步骤 ③ 调用 second()"]
+        S3a["📋 second() EC ← 当前"]
+        S3b["📋 first() EC ⏸️ 暂停"]
+        S3c["🌍 Global EC"]
+    end
+    
+    subgraph step4["步骤 ④ second() 返回"]
+        S4a["📋 first() EC ← 恢复"]
+        S4b["🌍 Global EC"]
+    end
+    
+    subgraph step5["步骤 ⑤ first() 返回"]
+        S5["🌍 Global EC"]
+    end
+    
+    step1 -->|"first()"| step2
+    step2 -->|"second(7,9)"| step3
+    step3 -->|"return c"| step4
+    step4 -->|"return a+b"| step5
+    
+    style S3a fill:#E74C3C,color:#fff
+    style S4a fill:#E74C3C,color:#fff
+</div>
+
+<p><strong>🔍 执行追踪（完整流程）：</strong></p>
+
+<pre><code class="language-javascript">const name = 'Jonas';
+
+function first() {
+  const a = 1;
+  const b = second(7, 9);
+  return a + b; // ← ⑤ second() 返回后继续
+}
+
+function second(x, y) {
+  const c = 2;
+  return c; // ← ④ 返回 → EC 出栈
+}
+
+const x = first(); // ← ② 调用 → 创建 first() EC</code></pre>
+
+<table>
+    <thead><tr><th>步骤</th><th>动作</th><th>调用栈状态（顶→底）</th><th>说明</th></tr></thead>
+    <tbody><tr><td>①</td><td>程序启动</td><td><code>[Global]</code></td><td>全局 EC 入栈</td></tr>
+<tr><td>②</td><td>调用 <code>first()</code></td><td><code>[first, Global]</code></td><td>first EC 入栈，成为当前</td></tr>
+<tr><td>③</td><td>调用 <code>second(7,9)</code></td><td><code>[second, first, Global]</code></td><td>second EC 入栈，first <strong>暂停</strong></td></tr>
+<tr><td>④</td><td><code>second()</code> 返回</td><td><code>[first, Global]</code></td><td>second EC 出栈，first <strong>恢复</strong></td></tr>
+<tr><td>⑤</td><td><code>first()</code> 返回</td><td><code>[Global]</code></td><td>first EC 出栈</td></tr>
+<tr><td>⑥</td><td>程序空闲</td><td><code>[Global]</code></td><td>全局 EC 始终存在</td></tr></tbody>
+</table>
+
+<div class="callout warning"><p>⚠️ <strong>关键：JavaScript 是单线程的！</strong> 当 <code>second()</code> 在执行时，<code>first()</code> 被完全暂停。同一时刻只有栈顶的执行上下文在运行。</p></div>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>调用就压栈，返回就弹栈，栈顶在执行，底层在等待</strong></p></div>
+
+<hr>
+
+<h3 id="section-7">4. 执行上下文的创建阶段 vs 执行阶段</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：就像演出前的"布景"（创建阶段：搭好舞台、准备道具）和"开演"（执行阶段：演员按剧本表演）。</p></div>
+
+<div class="mermaid">
+flowchart LR
+    subgraph creation["🏗️ 创建阶段 (Creation Phase)"]
+        C1["① 创建变量环境"]
+        C2["② 建立作用域链"]
+        C3["③ 确定 this 值"]
+    end
+    
+    subgraph execution["▶️ 执行阶段 (Execution Phase)"]
+        E1["① 逐行执行代码"]
+        E2["② 变量赋值"]
+        E3["③ 函数调用"]
+    end
+    
+    creation --> execution
+    
+    style creation fill:#74B9FF,color:#000
+    style execution fill:#55EFC4,color:#000
+</div>
+
+<table>
+    <thead><tr><th>阶段</th><th>时机</th><th>内容</th></tr></thead>
+    <tbody><tr><td><strong>创建阶段</strong></td><td>函数被调用，代码执行前</td><td>创建变量环境（变量声明提升）、建立作用域链、确定 <code>this</code></td></tr>
+<tr><td><strong>执行阶段</strong></td><td>创建阶段完成后</td><td>逐行执行代码、给变量赋值、调用函数</td></tr></tbody>
+</table>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：在大型 SPA 应用中，每个组件方法调用都会创建新的执行上下文。理解这个机制能帮你预判变量查找路径，快速定位"变量未定义"或"this 指向错误"的 Bug。</p></div>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：模拟一个简单的订单处理系统，通过调用栈追踪函数执行流程。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">call_stack_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 订单处理系统 — 追踪调用栈的变化
+
+function processOrder(orderId) {
+  console.log(`📋 [调用栈: processOrder] 开始处理订单 #${orderId}`);
+  const total = calculateTotal(orderId);
+  console.log(`📋 [调用栈: processOrder] 订单 #${orderId} 总价: ¥${total}`);
+  return total;
+}
+
+function calculateTotal(orderId) {
+  console.log(`  📋 [调用栈: calculateTotal &gt; processOrder] 计算中...`);
+  const basePrice = getBasePrice(orderId);
+  const tax = basePrice * 0.13; // 13% 增值税
+  console.log(`  📋 [调用栈: calculateTotal &gt; processOrder] 基价:¥${basePrice} 税:¥${tax}`);
+  return basePrice + tax;
+}
+
+function getBasePrice(orderId) {
+  console.log(`    📋 [调用栈: getBasePrice &gt; calculateTotal &gt; processOrder] 查询价格...`);
+  // 模拟数据库查询
+  const prices = { 1001: 299, 1002: 599, 1003: 199 };
+  const price = prices[orderId] || 0;
+  console.log(`    📋 [调用栈: getBasePrice 返回] 价格: ¥${price}`);
+  return price;
+  // ← getBasePrice EC 出栈
+}
+
+// 顶层代码在全局执行上下文中运行
+console.log('🌍 [全局执行上下文] 程序启动');
+const orderTotal = processOrder(1001);
+console.log(`🌍 [全局执行上下文] 最终结果: ¥${orderTotal}`);</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    subgraph CallStack["📚 调用栈变化过程"]
+        direction LR
+        subgraph S1["① 启动"]
+            G1["🌍 Global"]
+        end
+        subgraph S2["② 处理订单"]
+            P1["processOrder"]
+            G2["🌍 Global"]
+        end
+        subgraph S3["③ 计算总价"]
+            C1["calculateTotal"]
+            P2["processOrder"]
+            G3["🌍 Global"]
+        end
+        subgraph S4["④ 查基价"]
+            B1["getBasePrice ← 顶"]
+            C2["calculateTotal"]
+            P3["processOrder"]
+            G4["🌍 Global"]
+        end
+    end
+    
+    S1 --> S2 --> S3 --> S4
+    S4 -->|"返回"| S3
+    S3 -->|"返回"| S2
+    S2 -->|"返回"| S1
+    
+    style B1 fill:#E74C3C,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>输入</th><th>输出</th><th>说明</th></tr></thead>
+    <tbody><tr><td><code>processOrder(1001)</code></td><td><code>337.87</code></td><td>299 + 299×0.13 = 337.87</td></tr>
+<tr><td><code>processOrder(1002)</code></td><td><code>676.87</code></td><td>599 + 599×0.13</td></tr>
+<tr><td><code>processOrder(9999)</code></td><td><code>0</code></td><td>找不到价格，返回 0</td></tr></tbody>
+</table>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ <strong>执行上下文</strong>是代码运行的环境容器，包含变量环境、作用域链和 this</li>
+<li>✅ 每次函数调用都会创建一个<strong>新的执行上下文</strong></li>
+<li>✅ <strong>全局执行上下文</strong>在程序启动时创建，贯穿整个生命周期</li>
+<li>✅ <strong>调用栈</strong>是 LIFO 结构，栈顶是当前执行的上下文，返回时出栈</li>
+<li>✅ 箭头函数<strong>没有自己的</strong> <code>arguments</code> 和 <code>this</code>，使用父级的</li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>"每个函数声明都会创建执行上下文"</strong>：错！执行上下文只在函数<strong>被调用</strong>时创建，声明时不会</li>
+<li>⚠️ <strong>"调用栈中的函数是并行执行的"</strong>：JavaScript 是单线程的，栈中的函数是<strong>顺序执行</strong>的，下面的被暂停</li>
+<li>⚠️ <strong>"执行上下文出栈后立即被销毁"</strong>：不完全正确。出栈后通常会被垃圾回收，但<strong>闭包</strong>会让部分变量环境保留</li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<div class="callout"><p>调用栈溢出——无限递归</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">function chicken() {
+  return egg(); // 鸡调用蛋
+}
+
+function egg() {
+  return chicken(); // 蛋调用鸡
+}
+
+chicken(); // 无限互相调用</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>RangeError: Maximum call stack size exceeded</code></pre>
+
+<p><strong>🔑 解读</strong>：每次函数调用都往调用栈中压入一个新的执行上下文。无限递归意味着不停地压栈但永远不弹栈，最终超出调用栈的容量限制（通常约 10,000-25,000 层）。这就是著名的"栈溢出（Stack Overflow）"。修复方法：确保递归函数有明确的<strong>终止条件</strong>。</p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>执行上下文</td><td>Execution Context</td><td>代码运行的环境容器</td><td>—</td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/this#description" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>变量环境</td><td>Variable Environment</td><td>存储当前上下文中的变量声明</td><td>—</td><td>—</td></tr>
+<tr><td>调用栈</td><td>Call Stack</td><td>管理执行上下文的 LIFO 栈</td><td>—</td><td><a href="https://developer.mozilla.org/en-US/docs/Glossary/Call_stack" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>全局执行上下文</td><td>Global EC</td><td>程序启动时创建的顶层上下文</td><td>—</td><td>—</td></tr>
+<tr><td>arguments 对象</td><td>arguments object</td><td>函数接收的所有参数的类数组</td><td><code>arguments[0]</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/arguments" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>栈溢出</td><td>Stack Overflow</td><td>调用栈超出容量限制</td><td>—</td><td>—</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：调用栈追踪</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 在每个 console.log 后面标注当前调用栈的状态
+
+function a() {
+  console.log('a 开始'); // 调用栈: [a, Global]
+  b();
+  console.log('a 结束'); // 调用栈: ?
+}
+
+function b() {
+  console.log('b 开始'); // 调用栈: ?
+  c();
+  console.log('b 结束'); // 调用栈: ?
+}
+
+function c() {
+  console.log('c 执行'); // 调用栈: ?
+}
+
+a();</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  console.log('a 开始'); // 调用栈: [a, Global]
+  b();
+  console.log('a 结束'); // 调用栈: [a, Global]（b 已出栈）
+}
+
+function b() {
+  console.log('b 开始'); // 调用栈: [b, a, Global]
+  c();
+  console.log('b 结束'); // 调用栈: [b, a, Global]（c 已出栈）
+}
+
+function c() {
+  console.log('c 执行'); // 调用栈: [c, b, a, Global]（栈最深处）
+}
+
+a();
+// 输出顺序：a 开始 → b 开始 → c 执行 → b 结束 → a 结束
+</code></pre>
+<strong>解题思路</strong>：每次函数调用压栈、返回后出栈。<code>console.log('b 结束')</code> 的时候 <code>c</code> 已经返回出栈了，但 <code>b</code> 和 <code>a</code> 仍在栈中。
+</details>
+
+<p><strong>练习 2：执行上下文组件识别</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 分析这段代码会创建几个执行上下文？
+// 每个执行上下文的变量环境包含什么？
+
+const globalVar = '全局';
+
+function outer(x) {
+  const outerVar = '外层';
+  
+  function inner(y) {
+    const innerVar = '内层';
+    return x + y;
+  }
+  
+  return inner(10);
+}
+
+const result = outer(5);
+console.log(result);
+
+// 问题：共创建了几个执行上下文？
+// 答：____个</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">// 1. 全局 EC: { globalVar: '全局', outer: &lt;fn&gt;, result: 15 }
+// 2. outer() EC: { x: 5, outerVar: '外层', inner: &lt;fn&gt; }
+// 3. inner() EC: { y: 10, innerVar: '内层' }
+
+const result = outer(5); // outer EC 入栈 → inner EC 入栈 → inner 返回出栈 → outer 返回出栈
+console.log(result); // 15
+</code></pre>
+<strong>解题思路</strong>：全局代码创建全局 EC，<code>outer(5)</code> 调用创建 outer EC，<code>inner(10)</code> 调用创建 inner EC。虽然代码中定义了两个函数，但只有<strong>被调用</strong>时才创建执行上下文。
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">执行上下文在什么时候被创建？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 函数被声明时</div>
+<div class="quiz-option" data-value="B">B) 函数被调用时</div>
+<div class="quiz-option" data-value="C">C) 代码被编译时</div>
+<div class="quiz-option" data-value="D">D) 变量被赋值时</div>
+    </div>
+    <div class="quiz-explanation">
+        函数声明（<code>function foo() {}</code>）只是在当前变量环境中注册函数，不会创建新的执行上下文。只有当函数被<strong>调用</strong>（<code>foo()</code>）时，引擎才会创建对应的执行上下文并压入调用栈。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">关于箭头函数的执行上下文，以下哪项正确？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 箭头函数不会创建执行上下文</div>
+<div class="quiz-option" data-value="B">B) 箭头函数的执行上下文与普通函数完全相同</div>
+<div class="quiz-option" data-value="C">C) 箭头函数的执行上下文没有自己的 arguments 和 this</div>
+<div class="quiz-option" data-value="D">D) 箭头函数没有变量环境</div>
+    </div>
+    <div class="quiz-explanation">
+        箭头函数<strong>会创建</strong>执行上下文，但其中<strong>不包含自己的 <code>arguments</code> 对象和 <code>this</code> 关键字</strong>。它们使用从最近的普通函数父级继承的值。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">调用栈溢出（Stack Overflow）的根本原因是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 函数递归调用没有终止条件，导致无限压栈</div>
+<div class="quiz-option" data-value="B">B) 全局变量过多占满内存</div>
+<div class="quiz-option" data-value="C">C) 堆内存不足</div>
+<div class="quiz-option" data-value="D">D) 事件循环停止工作</div>
+    </div>
+    <div class="quiz-explanation">
+        每次函数调用都会在调用栈中压入一个执行上下文。如果函数无限递归调用自己（没有终止条件），栈会不断增长直到超出浏览器限制，抛出 <code>RangeError</code>。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 执行上下文的三大组成部分<br>
+    const executionContext = {<br>
+      variableEnvironment: '<input type="text" class="blank-input" data-answer="变量环境" placeholder="1">',  // 存储变量和函数声明<br>
+      scopeChain: '<input type="text" class="blank-input" data-answer="作用域链" placeholder="2">',           // 引用外部变量<br>
+      thisKeyword: '<input type="text" class="blank-input" data-answer="this 关键字" placeholder="3">',       // 指向调用对象<br>
+    };<br>
+    <br>
+    // 调用栈的操作<br>
+    // 函数调用 → <input type="text" class="blank-input" data-answer="压栈 / push" placeholder="4"><br>
+    // 函数返回 → <input type="text" class="blank-input" data-answer="出栈 / pop" placeholder="5">
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
-<!-- 依赖脚本 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
 <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
 </script>
 
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
                 document.querySelectorAll('.nav-item').forEach(nav => {
                     nav.classList.remove('active');
-                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
                 });
             }
         });
     }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
     document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
 
     window.addEventListener('scroll', () => {
@@ -286,26 +1028,29 @@ const x = first(); // 触发全栈！
         document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
     });
 
-    // 简单 Quiz 逻辑
-    document.querySelectorAll('.quiz-card').forEach(card => {
-        const correctVal = card.getAttribute('data-correct');
-        const opts = card.querySelectorAll('.quiz-option');
-        const exp = card.querySelector('.quiz-explanation');
-        
-        opts.forEach(opt => {
-            opt.addEventListener('click', () => {
-                opts.forEach(o => o.style.background = 'transparent');
-                if (opt.getAttribute('data-value') === correctVal) {
-                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--success-color)';
-                } else {
-                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--error-color)';
-                }
-                exp.style.display = 'block';
-            });
-        });
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
     });
+
 </script>
+
 </body>
 </html>

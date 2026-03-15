@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Methods Practice</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">狂欢大演兵</a>
+            <a href="#section-code" class="nav-item">大满贯清洗方案</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>String Methods Practice (超凡实战大拉练演兵)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：027 String Methods Practice.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 终点脉络</strong>
+            <p>无数人在学会了那些零碎的一大堆切割去皮拔脏等基础刀具后并不知道怎么应用到一套极为复杂的流水线上。下面，我们将接到一坨后端 API 狂暴输出喷给你的无法入目的极长天书！将各种方法连招串在一起，将丑陋之书打造成神级右对齐航站楼起降信息大屏。</p>
+        </div>
+
+        <h2 id="section-overview">✈️ 脏数据与目标墙的战前校场对望</h2>
+        <p>我们收到了这样一条极恶臭纠缠的乱坨文本（代表 4 次航班）：<br>
+        <code>_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30</code>
+        <br><br>
+        而产品经理丢出来的终极渲染大屏设计稿，要求它们华丽变身变成极其严密高贵的右置对齐信息通告（并且延误起降的航班还要单独贴上危险警报旗帜）：</p>
+        <pre><code>  🔴 Delayed Departure from FAO to TXL (11h25)
+               Arrival from BRU to FAO (11h45)
+    🔴 Delayed Arrival from HEL to FAO (12h05)
+             Departure from FAO to LIS (12h30)</code></pre>
+
+
+        <h2 id="section-code">💻 大满贯流星锤清洗方案全链路解剖</h2>
+        <p>观看下方的重组清洗全流水线！我们在 13 行核心操作里完成所有神话（包含 2 重斩劈 + 抽取变身重构 + 黑洞级垫长填充拉对齐）：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 启动航站大屏控制中枢</button>
+            </div>
+            
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false" style="height: 500px;">const flightsRaw = '_Delayed_Departure;fao93766109;txl2133758440;11:25+_Arrival;bru0943384722;fao93766109;11:45+_Delayed_Arrival;hel7439299980;fao93766109;12:05+_Departure;fao93766109;lis2323639855;12:30';
+
+// [核子外提取器]：由于机场的名称是一串极长杂码 fao93766109， 
+// 我们只取开头头3块大部，并且暴力轰成神圣大写。
+const getCode = str => str.slice(0, 3).toUpperCase();
+
+// 【全域第一刀】：认准大界线大鸿沟 `+` 斩劈切肉，把四趟航班分开成一个数组里四大独行大块头
+// [['_Delayed_...', ...], [...], [...], [...]]
+for (const flight of flightsRaw.split('+')) {
+
+  // 【微粒第二刀】：对每次降临来的单边大块头，找准其内部极其碎密的老分号界碑`;`
+  // 直接动刀肢分解体它！同时上祭出霸王破坏型取用武器【数组解构阵】
+  const [type, from, to, time] = flight.split(';');
+
+  // 【微粒重造】：分别净化改造内部元素
+  // 1. 对于首头的类别字眼里的阴间_线，我们在 ES2021 系统上利用 replaceAll 直接全部置于空格强光下消杀！
+  // 2. 对于 from 和 to ，扔进我们的上面提取大写的【核子外提取器】 getCode。
+  // 3. 把冒号斩首换成了 H 当做单位。
+  // 4. 注意看我们神乎其技的警示牌挂载：startsWith 判断这个家伙是不是以字眼 'Delayed' 为前导？是就塞上红色血腥大球🔴，不是那就赐予毫无分量的狗空段 '' 空白骨。
+  const output = `${type.startsWith('_Delayed') ? '🔴' : ''}${type.replaceAll(
+    '_',
+    ' '
+  )} from ${getCode(from)} to ${getCode(to)} (${time.replace(':', 'h')})`;
+
+  // 【最末终极撑填拉齐巨炮】
+  // 我们怎么才能把上面的这几段各种奇奇怪怪、长长短短不等粗的拼接结果弄上去像航母登舰大墙般肃穆工整齐刷刷右站位呢？
+  // 用垫料！！把一切产出的长短棒从前往外生推推至同样的极其统一の长极限总格长度：36！
+  console.log(output.padStart(36));
+}
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode() {
+        const code = document.getElementById('codeEditor1').value;
+        const outputDiv = document.getElementById('console1');
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' && !Array.isArray(a) ? JSON.stringify(a) : a).join(' ').replace(/ /g, '&nbsp;'));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = `<pre style="font-family: 'JetBrains Mono', monospace; margin: 0; padding: 0;">${output.join('<br>')}</pre>` || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

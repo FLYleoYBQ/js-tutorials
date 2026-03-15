@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Working With Strings - Part 2</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 洗盘重构 (Capitalization)</a>
+            <a href="#section-2" class="nav-item">2. 首尾剔毛 (trim) & 归一化</a>
+            <a href="#section-3" class="nav-item">3. 重大黑工：一键换皮 (replace)</a>
+            <a href="#section-4" class="nav-item">4. 高级断言 Boolean 检测器</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Working With Strings - Part 2 (字符串狂暴置换改建)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：024 Working With Strings - Part 2.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <p>在了解了上一节“雷达索点切块”手法后。这一部的重心将聚焦到极其暴力的修改面上——清洗用户肮脏打反了的字符名，消杀两侧残留怪异字符，以及用重火力完成文字的整体面貌大面积换皮重塑。</p>
+        </div>
+
+        <h2 id="section-1">1. 基础洗盘 (Lowercase) 与 修复失控大小写</h2>
+        <p>几乎全系统代码世界的第一法则：所有进来的野生比较输入串，请无脑先上强力洗衣机给它褪色碾碎成小写！</p>
+
+        <pre><code class="language-javascript">console.log('jOnAS'.toLowerCase()); // 'jonas'
+console.log('jonas'.toUpperCase()); // 'JONAS'</code></pre>
+
+        <p><strong>实战：把瞎子打的 'jOnAS' 洗回标准的 'Jonas'。</strong></p>
+        <pre><code class="language-javascript">const passenger = 'jOnAS';
+const passengerLower = passenger.toLowerCase();
+
+// 拼积木：抽出第 0 位字母强行升级成霸道大号 + 将后面被切过洗成弱极小的长串重新用 + 凝固封胶补上去
+const passengerCorrect = passengerLower[0].toUpperCase() + passengerLower.slice(1);
+console.log(passengerCorrect); // 大功告成 'Jonas'</code></pre>
+
+        <h2 id="section-2">2. 首尾剔毛 (trim) 与 账号合规归一化 (Normalize)</h2>
+        <p>登录邮箱界面的灾难时刻总发生于用户颤抖的手不小心敲进了极其恶心的空格缩进及无语的回车符 <code>\n</code>。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行一键归一除尘</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const email = 'hello@jonas.io';
+const loginEmail = '  Hello@Jonas.Io \n'; // 一坨惨不忍睹但真实的数据源
+
+// 我们由于刚才知道了 string 对象调完方法后原地生成的正是另一只 string 对象。
+// 我们可以疯狂地使出一套链式长锁鞭打！(Chain Method)
+const normalizedEmail = loginEmail.toLowerCase().trim();
+
+console.log('还原成绝对纯洁净态：', normalizedEmail);
+console.log('两者是否能匹配登录？', email === normalizedEmail); 
+// 另外，在 ES2019 还引入了 `.trimStart()` 和 `.trimEnd()` 来提供单边精准剃毛。</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-3">3. 重大黑工：一键换皮 (replace / replaceAll)</h2>
+        <p>比如把腐国的英镑账单转成老美的计价法汇率格式：</p>
+
+        <pre><code class="language-javascript">const priceGB = '288,97£';
+
+// 继续利用链鞭：第一手把英镑号干掉顶上老美的美元符，紧接着对那老外习惯的逗号小数点发动点杀干回大圆点。
+const priceUS = priceGB.replace('£', '$').replace(',', '.');
+console.log(priceUS); // '288.97$'</code></pre>
+
+        <div class="callout callout-warning">
+            <strong>⚠️ replace() 的先天胆怯</strong>
+            <p>当用在一个漫长的文书长句里：<code>"前往 23号大门！再通知一遍这是最后 23号大门！"</code> 。假如你使用了 <code>announcement.replace('大门', '登机闸口')</code>，原版的它就跟一个打卡下班不负责的工人一样，<strong>仅仅改完第一个找到的大门两字，就立马闪电消失</strong>，剩下后边成百上千个“大门”错字它会漠不关心留置不管！</p>
+            <p><strong>✅ 拯救方案 1 (新纪元 ES2021)</strong>：直接用最新的硬核清缴法 <code>announcement.replaceAll('大门', '登机闸口')</code>！</p>
+            <p><strong>✅ 拯救方案 2 (老黑客正则暴改)</strong>：在正则表达式区用斜杠把字符圈起，并挂接全球无尽剿杀标识 G (Global) 炸弹： <code>announcement.replace(/大门/g, '登机闸口')</code>。</p>
+        </div>
+
+        <h2 id="section-4">4. 高级断言 Boolean 检测器</h2>
+        <p>有三个轻量但超级重要的特工雷达函数，它们啥新字符串也干造不出来，干干脆脆的只吐 <code>true / false</code> 的布尔宣判。经常作为 <code>if()</code> 内部最香甜的润滑剂使用：</p>
+
+        <pre><code class="language-javascript">const plane = 'Airbus A320neo';
+console.log(plane.includes('A320')); // true 有这个字眼埋在肚子里吗？
+console.log(plane.startsWith('Airb')); // true 你开头四个门神是不是这几位？
+console.log(plane.endsWith('neo')); // true 如果你屁股落点坐着新世代家族后缀，那算你是豪车版。</code></pre>
+
+        <p><strong>🔥 小练习：机场过机安检雷达机拦截器</strong></p>
+        <pre><code class="language-javascript">const checkBaggage = function (items) {
+  // ① 不管顾客瞎嚷嚷啥乱七八糟的大小写混合报备词，先把他们全部洗成同归一档。
+  const baggage = items.toLowerCase();
+  // ② 开启高危词根刺杀探雷针
+  if (baggage.includes('knife') || baggage.includes('gun')) {
+    console.log('🚨 按着，直接击毙不准登机！');
+  } else {
+    console.log('✅ 感谢配合，一路顺畅登机。');
+  }
+};
+
+checkBaggage('I have a laptop, some Food and a pocket Knife'); // 大写的刀依然在安检第一层去归一化中原形毕露暴露马脚并遭到截杀
+checkBaggage('Socks and camera'); // 放行</code></pre>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

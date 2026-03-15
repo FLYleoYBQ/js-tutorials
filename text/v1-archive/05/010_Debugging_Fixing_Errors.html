@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debugging (Fixing Errors)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 什么是 Bug？</a>
+            <a href="#section-2" class="nav-item">2. 调试 (Debugging) 的四个生命周期步骤</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Debugging (Fixing Errors)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：010 Debugging (Fixing Errors).en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：基础代码编写能力</li>
+                <li><strong>后续扩展</strong>：学会熟练运用浏览器开发者调试大杀器 (Debugger)</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>你写出了代码，但它运行的结果不是你想要的。恭喜你，你遇到 <code>Bug</code> 了！本课是一节理论课，我们将了解什么是软件缺陷（Bug），并且学习专业开发者在面对报错代码时的通用“四步捉虫指南”。</p>
+
+        <h2 id="section-1">1. 什么是 Bug？</h2>
+        <p>简单来说，计算机程序中出现的<strong>任何意料之外、或者不符合最初设计意图的行为</strong>，都统称为 Bug（缺陷/错误）。</p>
+        
+        <p>早在 1940 年代，哈佛大学一台巨大的早期计算机频繁算错，工作人员后来居然在机器的继电器里夹死了一只真实的飞蛾（Bug），它导致了电路板短路。“Debug（捉除虫子）”这个高大上的行业术语由此诞生。</p>
+
+        > 💡 **专家提示**：不管你是第一天写代码的新手，还是拥有 20 年经验的大佬，写出含有 Bug 的代码是100%平常的事情。所有复杂的软件内部都藏有陈年暗病。因此，**遇到 Bug 时不要慌张自责，把“解救并治愈代码”当成职业常态就好！**
+
+        <h2 id="section-2">2. 调试 (Debugging) 的四个生命周期步骤</h2>
+        <p>面对发生异常的程序，我们必须像侦探追踪元凶一样严谨地执行完整的侦查链：</p>
+
+        <pre class="language-mermaid">
+        flowchart LR
+            A[👁️ 1. 识别 (Identify)] --> B[🎯 2. 隔离 (Isolate)]
+            B --> C[🔧 3. 修复 (Fix)]
+            C --> D[🛡️ 4. 预防 (Prevent)]
+        </pre>
+
+        <ul>
+            <li><strong>步骤一：识别感知 (Identify)</strong><br>
+                必须先知道 Bug 存在。在开发阶段测试出来是最好结果；如果代码已经上线才被真实用户反馈崩溃（Production Bug），则是最糟糕的情况。</li>
+            <li><strong>步骤二：精准隔离定位 (Isolate)</strong><br>
+                代码成千上万行，到底是哪一块在捣鬼？对于简单错误，我们可以依赖 <code>console.log()</code> 的输出来夹击。但对于复杂逻辑中的隐秘 Bug，这时候就必须请出究极武器——<strong>调试器 (Debugger) 软件</strong>了（下节课详解）。</li>
+            <li><strong>步骤三：动手修复 (Fix)</strong><br>
+                当你终于抓到那行写挫的代码，修复通常也是这四部分中最轻松惬意的一环 —— 替换为正确逻辑即可。</li>
+            <li><strong>步骤四：构建防线预防 (Prevent)</strong><br>
+                修复完就万事大吉了？老油条开发者会顺藤摸瓜：既然这边手滑了这个低级错误，系统中其他相似的代码块是不是也犯了同样的病？此外，高级预防手段还包括引入<strong>自动化测试代码</strong>层层设卡防范。</li>
+        </ul>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 关于 Bug 产生阶段造成的负面影像力，哪一种是最可怕的？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 在你敲完代码立即自己运行预览时发现的 Bug。</div>
+                <div class="quiz-option" data-value="B">B) 代码已经正式投产上线运行后，由大量真实用户遭遇的 Production Bug。</div>
+                <div class="quiz-option" data-value="C">C) 在自动化测试流程中运行拦截爆红的 Bug。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的选项</strong>。未在开发期被拦截、遗留到生产环境（Production）正式爆发的错误往往代价更惨重，会流失用户信任或产生数据安全风暴。
+            </div>
+        </div>
+        
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Variable Environment: Hoisting and The TDZ</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
+        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        td a { color: var(--info-color); text-decoration: none; }
+
+        
+        
+    
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 08 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-hoisting" class="nav-item">1. 什么是变量提升 (Hoisting)？</a>
+            <a href="#section-tdz" class="nav-item">2. 暂时性死区 (TDZ) 及其存在的意义</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Variable Environment: Hoisting and The TDZ (变量提升与暂时性死区)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：008 Variable Environment Hoisting and The TDZ.en.srt</span>
+            <span>📂 章节：第 08 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>JavaScript 中有一种长期存在、让无数新手困惑甚至抓狂的机制——<strong>变量怎么能在声明之前就使用呢？</strong> 这种现象叫做 <strong>变量提升 (Hoisting)</strong>。本小节我们将剖析 Hoisting 的本质，以及 ES6 是如何引入 <strong>暂时性死区 (TDZ)</strong> 来挽救这个历史遗留错误的。</p>
+
+        <h2 id="section-hoisting">1. 什么是变量提升 (Hoisting)？</h2>
+        <p>很多简单的教程会告诉你："Hoisting 就是 JS 引擎施展魔法，把所有的变量声明神不知鬼不觉地移动到了代码的最顶端"。<strong>虽然表面看起来如此，但在幕后并非如此。</strong></p>
+
+        <p>真实的原理发生在我们在前面学到的<strong>“执行上下文创建阶段 (Creation Phase)”</strong>。在正儿八经执行代码之前，引擎会先“扫描”一遍全盘代码，把所有要用的变量名字提前注册进 <strong>变量环境 (Variable Environment)</strong> 中。</p>
+        
+        <h3>大杀器：JS 中各类声明的提升表现总览（重要考点）</h3>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>声明方式</th>
+                    <th>是否被提升？(Hoisted?)</th>
+                    <th>提升后的初始值</th>
+                    <th>作用域类型</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td style="color:var(--success-color);"><strong><code>function</code> (函数声明)</strong></td>
+                    <td>✅ 是的</td>
+                    <td><strong>实际的函数体</strong> (可在声明前安全调用)</td>
+                    <td>块级作用域 (严格模式下)</td>
+                </tr>
+                <tr>
+                    <td style="color:var(--error-color);"><strong><code>var</code> 变量</strong></td>
+                    <td>✅ 是的</td>
+                    <td><strong><code>undefined</code></strong> (极易引发隐蔽的 Bug!)</td>
+                    <td>函数作用域</td>
+                </tr>
+                <tr>
+                    <td style="color:var(--info-color);"><strong><code>let</code> / <code>const</code> 变量</strong></td>
+                    <td>❌ 否 (技术上提升了，但不能用)</td>
+                    <td><strong>Uninitialized (未初始化)</strong> -> 报错</td>
+                    <td>块级作用域</td>
+                </tr>
+                <tr>
+                    <td><strong>函数表达式 & 箭头函数</strong></td>
+                    <td colspan="3" style="text-align:center;">取决于它是用 <code>var</code> 还是 <code>let/const</code> 声明的，行为等同于普通变量。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="callout error">
+            <p>🚨 <strong>万恶之源 <code>var</code></strong>：如果你在 <code>var x = 10;</code> 这行代码的上一行，去 <code>console.log(x)</code>。你不会像其他语言那样得到报错，而是会得到一个 <code>undefined</code>！这是极度危险的，因为程序会带着一个半成品状态继续运算下去，导致灾难性的后果。</p>
+        </div>
+
+
+        <h2 id="section-tdz">2. 暂时性死区 (Temporal Dead Zone, TDZ)</h2>
+        <p>为了擦亮 <code>var</code> 犯下的错，ES6 设计者引入了 <code>let</code> 和 <code>const</code>，并附赠了 <strong>暂时性死区 (TDZ)</strong> 机制。</p>
+
+        <pre><code class="language-javascript">
+const myName = 'Jonas';
+
+if (myName === 'Jonas') {
+    // -------------------------
+    // ☠️ TDZ 死亡地带开始
+    // console.log(job); -> ReferenceError: Cannot access 'job' before initialization
+    // ☠️ TDZ 死亡地带依然在持续...
+    // -------------------------
+    const job = 'teacher'; // ✅ TDZ 在此行结束，变量诞生！
+    
+    console.log(job); // 正常输出 'teacher'
+}
+        </code></pre>
+
+        <h3>TDZ 存在的两大意义是什么？</h3>
+        <ol>
+            <li><strong>防弹衣（更容易发现 Bug）</strong>：和 <code>var</code> 悄悄咪咪给个 <code>undefined</code> 不同，如果你敢在 TDZ 区域内触碰 <code>let/const</code> 变量，引擎会毫不留情地当面扇你一巴掌（抛出 <code>ReferenceError</code> 异常）。这迫使你养成良好的习惯：**先声明后使用**。</li>
+            <li><strong>保卫 <code>const</code> 的尊严</strong>：<code>const</code> 变量是常量，一旦定格就终生不可更改。如果它像 <code>var</code> 那样被提升为 <code>undefined</code>，那它后来怎么被赋予真正的常量值呢？为了让常量名副其实，它必须在声明的那一刻才被赋予生命。</li>
+        </ol>
+
+        <div class="callout info">
+            <p>💡 <strong>拓展阅读</strong>：既然提升(Hoisting) 这么扯淡，为什么 JS 的造物主 Brendan Eich 当初要发明它呢？这是因为他想让开发者实现<strong>相互递归 (Mutual Recursion)</strong>——即函数 A 可以调用底下的 函数 B，函数 B 又能调用上方的 函数 A。为了让函数能被无序散落并随意调用，引擎才搞出了先横扫一圈“提升”所有函数声明的设计。只是顺手把 <code>var</code> 也给波及了进去了而已。</p>
+        </div>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 关于箭头函数的变量提升，以下哪种说法是正确的？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 只要是函数，无论哪种形式，都会被整体提升，可以在上面随便调用。</div>
+                <div class="quiz-option" data-value="B">B) 箭头函数本质上是被赋值给一个变量的，所以提升的表现完全取决于它是用 var 还是 const/let 声明的。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。<code>const calcAge = arg => arg * 2;</code> 这个写法本质是声明一个 <code>const</code> 变量！在这个变量正式初始化完毕前，调用它是会触发 TDZ 报错的。
+            </div>
+        </div>
+        
+        <br>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">2. 为什么在 ES6 及更高版本中，我们绝对应该避免使用 `var`？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 因为 var 声明的变量会拖慢引擎的速度。</div>
+                <div class="quiz-option" data-value="B">B) var 不仅无视块级作用域(甚至穿透 if/for)，提升时还会初始化为不安全的 undefined。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。<code>var</code> 的作用域泄露和不报错的提升表现，是以前 JS 大型项目极难调试的元凶。永远拥抱 <code>let/const</code>。
+            </div>
+        </div>
+
+        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>变量提升</td>
+                    <td>Hoisting</td>
+                    <td>引擎在扫描阶段预先记录声明，造成变量看似能在声明前访问的错觉</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Glossary/Hoisting" target="_blank">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>暂时性死区</td>
+                    <td>TDZ (Temporal Dead Zone)</td>
+                    <td>作用域起点到 let/const 变量被准确声明和初始化之间的那段“禁入区”</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/let#temporal_dead_zone_tdz" target="_blank">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const opts = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.style.background = 'transparent');
+                if (opt.getAttribute('data-value') === correctVal) {
+                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--success-color)';
+                } else {
+                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--error-color)';
+                }
+                exp.style.display = 'block';
+            });
+        });
+    });
+</script>
+</body>
+</html>

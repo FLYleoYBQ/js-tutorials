@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Maps: Fundamentals</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. Map 与对象的致命分歧：打破字符串诅咒</a>
+            <a href="#section-2" class="nav-item">2. 高能神操作法：利用真假运算逻辑调用门牌</a>
+            <a href="#section-3" class="nav-item">3. 复杂巨兽对象挂靠及内存地址天坑</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Maps: Fundamentals (哈希图根基)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：019 Maps Fundamentals.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置基础</strong>：千百年来，我们把键值对（Key-Value）存储任务无脑且悲凉地托付给了普通 Object（对象）。</li>
+                <li><strong>究极痛点洗脑逆转</strong>：在传统对象地牢里，所有钥匙名称会被强行诅咒成只剩下<strong>死板的字符串 (String) </strong>。这一次，神级万金万物钥匙体系 — <code>Map</code> 就此解锁诞生！</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>跟真实世界迷路的地图不同，代码世界里的 Map 就是最顶级的字典密码锁保险柜。<br>
+        相较于前一节像乞丐残缺的 Set 集合，Map 是在真实业务与引擎底层被疯狂频繁压榨调用的明星数据结构。它同样提供了存储与索引，但是具备了 <strong>任意跨数据维度作键名 (Any Datatype as Key)</strong> 这项惊人超能力！</p>
+
+        <h2 id="section-1">1. Map 与对象的致命分歧：打破字符串诅咒编织链条</h2>
+        <p>我们依然是通过 <code>new Map()</code> 发射起手势，然后利用神枪 <code>set</code> 打孔存入数据，用钩子 <code>get</code> 摸出数据：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行挂载组合拳</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const rest = new Map();
+
+// 普通的文字作为钥匙扣 (和传统对象没什么区别)
+rest.set('name', 'Classico Italiano');
+
+// 💡破防大招环节：既然 set 调用后竟然会原路返回改写好的总 Map 庞然本尊。
+// 我们可以疯狂进行狂暴尾鞭链式狂叠 (Chain)：
+rest
+  .set(1, 'Firenze, Italy') // 数字作为了钥匙扣！
+  .set(2, 'Lisbon, Portugal')
+  .set('categories', ['Italian', 'Pizzeria', 'Vegetarian'])
+  .set('open', 11)
+  .set('close', 23)
+  .set(true, '太棒啦！店里现在是大门敞开的营业时间！') // 布尔真理作钥匙扣！
+  .set(false, '非常抱歉，我们大闸已关门歇业。');
+
+console.log('直接查询数字 1 :', rest.get(1));
+console.log('看看整个 Map 体制内包含了：', rest);</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-2">2. 高能神操作法：利用布尔逻辑运算强娶门牌信息</h2>
+        <p>基于 Map 可以安放纯粹的 <code>true</code> 和 <code>false</code> 两枚布尔逻辑当做柜门的指纹扫描仪这一强力设定。你可以不写一句啰嗦恶臭的 if 或三元表达式，直接借计算的力反馈砸开那只正确的门：</p>
+        
+        <pre><code class="language-javascript">const time = 21; // 假装现在是晚上九点
+
+// 核心杀招：我们比对当前时间是不是在开门期间之内。
+// 这截逻辑链条会产出一枚布尔结晶 (true/false)。
+// 直接把这枚结晶像钥匙一样塞进锁孔！太过于天才和可怕的设计。
+console.log(
+    rest.get(time > rest.get('open') && time < rest.get('close'))
+);
+// 输出：'太棒啦！店里现在是大门敞开的营业时间！'</code></pre>
+        <p><em>(注：虽然这么炫技装逼很刺眼非常过瘾甚至可以卖弄，但太紧绷不利于后来接手你项目的新入行小弟维护代码。尽量不要滥用形成病态代码。😄)</em></p>
+
+
+        <h2 id="section-3">3. 复杂巨兽对象挂靠及：内存堆积地址暴踩天坑</h2>
+        <p>除了刚才玩的原生小元素。Map 的最高狂野法术是可以将 <strong>一个完全臃肿庞大的数组，甚至另一个对象，甚至屏幕上的 HTML 一个实体 DOM 标签化身成为一枚 Key 指纹扣！</strong></p>
+
+        <pre><code class="language-javascript">const arr = [1, 2];
+
+// 将数组当做钥匙放进去。
+rest.set(arr, '被隐藏掩盖在数组底下的大绝密资料！');
+
+// 💣 菜鸟死亡盲区：不要尝试这样做！！！
+console.log(rest.get([1, 2])); // 将会爆出尴尬的 undefined 提取失败
+
+// 🛡️ 正确破解方式：
+console.log(rest.get(arr)); // 绝杀！顺利提取：'被隐藏掩盖在数组底下的大绝密资料！'</code></pre>
+
+        <div class="callout callout-warning">
+            <strong>⚠️ 内存地址天堑！不要被长得一样的孪生假象蒙蔽：</strong>
+            <p>为什么上面的 <code>rest.get([1, 2])</code> 抽不出钥匙拔不出数据了？那是因为在堆区庞大的底层内存银河网格网段里面。一开始存放并拿去挂靠定形的 <code>arr</code> 指向了一栋叫 A 区别馆内存。你后来强塞去探路的 <code>[1, 2]</code> 在底层只是被引擎刚出场盖起了一栋看着完全重长相的孪生大楼 B 区罢了！去扫描指纹当然认证无法匹配通过。一定要死死攥着<strong>指向同一个唯一内存引用地皮</strong>的变量本身。这就是高维物种的对象内存机制。</p>
+        </div>
+        
+        <p>连前端的 HTML 外壳按钮节点都能充当一枚大锁扣呢！<br>
+        <code>rest.set(document.querySelector('h1'), '这就是主标题本体');</code><br>
+        (想象一下在非常巨大且复杂的 Web 系统里，你可以随时抽查 HTML 节点本身上面私下粘着挂靠的什么神仙数据流)</p>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="A">
+            <div class="quiz-question">1. Map 与长得跟它差不多老祖先 Object 的根本灵魂剥离性特点在于？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 在它内部设做 Key（钥匙、查询键名）的物质，完全不受到任何形态种族属性的设限。无论是数字 1、对象数组 [a]、乃至纯正的布尔体 false、甚至是 DOM 树页面元件，它都能精准挂载上数据。</div>
+                <div class="quiz-option" data-value="B">B) Map 和 Object 本质全一样，只为多增加个好记且名字短的对象形式罢了。</div>
+                <div class="quiz-option" data-value="C">C) Map 可以调用 sort 去让里面的东西疯狂排序打圈。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>A 是正确的选项</strong>。打破字符串 <code>String</code> 死板当钥匙盘的百年结界，就是 Map 横空出世在这个武林里的最高存在意义！它让映射技术有了极强的可拓宽想象延展边界。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => {
+                if (typeof a === 'object' && !(a instanceof Map)) return JSON.stringify(a);
+                if (a instanceof Map) {
+                    let entries = [];
+                    for (let [k,v] of a.entries()) entries.push(`${k} => ${v}`);
+                    return `Map(${a.size}) {${entries.join(', ')}}`;
+                }
+                return a;
+            }).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Using Google, StackOverflow and MDN</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-1" class="nav-item">1. 问题拆解：计算温度振幅</a>
+            <a href="#section-2" class="nav-item">2. 借力 Stack Overflow：寻找最大值</a>
+            <a href="#section-3" class="nav-item">3. 借力 MDN 文档：合并数组</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Using Google, StackOverflow and MDN</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：009 Using Google, StackOverflow and MDN.en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：解决问题的四步框架、循环结构</li>
+                <li><strong>后续扩展</strong>：养成面向 Google 和官方文档独立解决困难问题的极客作风</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>上节课我们学习了“四步框架”，今天我们要用它来实战！假设你入职了一家生产智能温度计的公司，经理派给你一个任务：<strong>“给定一个包含一天中温度数据的数组，计算出当天的 温度振幅（Temperature Amplitude）。注意，传感器偶尔会报错。”</strong> 让我们看看如何用 Google 取长补短，破局解题。</p>
+
+        <h2 id="section-1">1. 问题拆解：计算温度振幅</h2>
+        <p>面对这个需求，我们首先按照四步法进行拆分（Divide and Conquer）：</p>
+        
+        <ul>
+            <li><strong>搞懂问题：</strong> 什么是“温度振幅”？答：最高温与最低温之间的差值。传感器报错长什么样？答：一个写着 <code>'error'</code> 的字符串，我们需要忽略它。</li>
+            <li><strong>打碎子任务清单：</strong>
+                <ol>
+                    <li>如何遍历数组并跳过 <code>'error'</code>？</li>
+                    <li>如何找出数组中的最大值？</li>
+                    <li>如何找出数组中的最小值？</li>
+                    <li>将最大值减去最小值，返回结果。</li>
+                </ol>
+            </li>
+        </ul>
+
+        <h2 id="section-2">2. 借力 Stack Overflow：寻找最大/最小值</h2>
+        <p>你可能不知道该怎么在 JavaScript 中找出数组里最大的数字。遇到这种常见的“轮子”，千万别觉得羞愧，直接在 Google 搜索：<code>javascript get max value in array</code>。通常第一个结果就会把你引向全球最著名的程序员问答社区 —— <strong>Stack Overflow</strong>。</p>
+        
+        <p>你可能会在上面看到很多看不懂的高级写法（比如 <code>Math.max.apply</code>），但通常往下多翻一两层，就会找到最原始易懂的基础写法：<strong>假定第一个元素最大，然后用 for 循环依次PK</strong>。让我们自己动手融合刚才的排除错误逻辑实现一遍：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">index.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const calcTempAmplitude = function(temps) {
+    let max = temps[0];
+    let min = temps[0];
+
+    for (let i = 0; i < temps.length; i++) {
+        const curTemp = temps[i];
+
+        // 子任务 1：忽略传感器错误
+        if (typeof curTemp !== 'number') continue;
+
+        // 子任务 2：不断刷新最高温纪录
+        if (curTemp > max) max = curTemp;
+
+        // 子任务 3：不断刷新最低温纪录
+        if (curTemp < min) min = curTemp;
+    }
+
+    // 子任务 4：返回振幅
+    return max - min;
+};
+
+const amplitude = calcTempAmplitude([3, -2, -6, -1, 'error', 9, 13, 17, 15, 14, 9, 5]);
+console.log(amplitude);</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <p><strong>🔍 执行追踪：</strong></p>
+        <p>假设刚开始 <code>max = 3</code>。下一轮循环碰到 <code>-2</code> 时，<code>-2 > 3</code> 为假，<code>max</code> 不变。一直比对到碰到 <code>9</code> 时，<code>9 > 3</code> 为真，于是 <code>max</code> 瞬间刷新为 <code>9</code>！<code>continue</code> 则完美地确保了循环在碰到 <code>'error'</code> 时立刻跳到下一轮，防止乱认数字。</p>
+
+        <br>
+        <h2 id="section-3">3. 借力 MDN 文档：合并数组</h2>
+        <p>新需求来了！经理要你现在支持同时传入 <strong>两个</strong> 数组算振幅。怎么做最好？写两遍上面的逻辑？不，正确的做法是<strong>先把两个数组合并成一个数组</strong>，然后原来的逻辑一行都不用改！</p>
+        
+        <p>Google 一下 <code>javascript merge two arrays</code>，你会发现第一条就是指向 <strong>MDN (Mozilla Developer Network) Web Docs</strong> 关于 <code>Array.prototype.concat()</code> 的百科。MDN 是目前最权威无死角的 JS 官方词典。</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header"><span class="editor-title">index.js</span></div>
+            <div class="editor-container">
+                <textarea class="editor-textarea" spellcheck="false" readonly>// 利用 MDN 查到的神器实现升级版
+const calcTempAmplitudeNew = function(t1, t2) {
+    // 缝合为全新的一体数组
+    const temps = t1.concat(t2);
+    
+    // ...下方的找最大最小值逻辑照旧
+    console.log(temps);
+};
+calcTempAmplitudeNew([3, 5, 1], [9, 0, 5]);</textarea>
+            </div>
+        </div>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <h3>❓ 理解检测</h3>
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 在开发中，Stack Overflow 和 MDN 的主要区别侧重点是什么？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) Stack Overflow 是官方教程，MDN 是网友吹水论坛。</div>
+                <div class="quiz-option" data-value="B">B) Stack Overflow 是互助问答社区（主治疑难杂症，看大家怎么修轮子），MDN 则是官方词典规范（主查 API 参数、长啥样）。</div>
+                <div class="quiz-option" data-value="C">C) 两者完全一样，没有区别。</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>B 是正确的选项</strong>。前者提供人们踩坑后的经验拼凑解决方案；后者提供精确、详实的原生函数运作机制说明。
+            </div>
+        </div>
+        
+        <br>
+        
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>数组拼接</td>
+                    <td>Concat</td>
+                    <td>不会更改现有数组，而是返回一个新数组，其中包含被连接数组的值</td>
+                    <td><code>arr1.concat(arr2)</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/concat" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+</body>
+</html>

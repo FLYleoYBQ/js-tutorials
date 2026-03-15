@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>基础运算符 (Basic Operators)</title>
+    <title>基本运算符（Basic Operators）</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
             /* Anti-Corporate-AI Minimalist Dark Theme */
             --bg-color: #0d0d0d;
@@ -17,7 +19,8 @@
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
@@ -29,172 +32,803 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
-        .app-container { display: flex; min-height: 100vh; }
-        
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
-        
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
 
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
-        
-        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
-        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
-        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
-        strong { color: var(--text-primary); }
-
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
-
-        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
-        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
-        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
-        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
-        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
-        .editor-container { position: relative; }
-        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
-        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
-        .console-output.visible { display: block; }
-
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
-        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
-        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-    
-        
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
-        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 02 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
         <nav id="toc">
-            <a href="#section-1" class="nav-item active">1. 数学运算符</a>
-            <a href="#section-2" class="nav-item">2. 赋值运算符 (合并重构)</a>
-            <a href="#section-3" class="nav-item">3. 比较运算符</a>
+            <a href="#section-0" class="nav-item active">基本运算符（Basic Operators）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>基础运算符 (Basic Operators)</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：009 Basic Operators.en.srt</span>
-            <span>📂 章节：第 02 章</span>
-        </div>
+<h1 id="section-0">基本运算符（Basic Operators）</h1>
 
-        <p>能够计算出数值或产生布尔结果的特殊记号被称为“运算符”。它们能帮助我们执行运算或合并数据。</p>
+<div class="callout"><p>📺 来源：009 Basic Operators.en.srt<br>📂 章节：第 02 章</p></div>
 
-        <h2 id="section-1">1. 数学运算符 (Math Operators)</h2>
-        <p>包括我们最熟悉的加减乘除 <code>+ - * /</code>，以及 ES6 引入的强力指数运算符（计算几次方） <code>**</code>。</p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">math.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
-const now = 2037;
+<ul>
+<li><strong>前置知识</strong>：值与变量（Values and Variables）、数据类型（Data Types）、let/const 声明</li>
+<li><strong>后续扩展</strong>：运算符优先级（Operator Precedence）、相等运算符（Equality Operators）、逻辑运算符（Logical Operators）</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>运算符（Operator）是对值进行操作和变换的特殊符号。本节课涵盖三大类运算符：<strong>算术运算符</strong>（加减乘除、求幂、字符串拼接）、<strong>赋值运算符</strong>（<code>=</code>、<code>+=</code>、<code>*=</code>、<code>++</code>、<code>--</code>）以及<strong>比较运算符</strong>（<code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code>），并展示如何用比较运算符产生 Boolean 值。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 算术运算符（Math Operators）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：算术运算符就像计算器上的按钮——加号是"增加"，减号是"减少"，乘号是"倍增"，除号是"均分"，幂号是"指数级增长"。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">math_operators.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const now = 2037;
 const ageJonas = now - 1991;
 const ageSarah = now - 2018;
+console.log(ageJonas, ageSarah); // 46 19
 
-console.log(ageJonas, ageSarah);
-console.log(ageJonas * 2, ageJonas / 10, 2 ** 3); 
-// 2 ** 3 代表 2 的 3 次幂： 2 * 2 * 2 = 8</textarea>
-            </div>
-            <div id="console1" class="console-output"></div>
-        </div>
-        
-        <p>💡 提示：神奇的是 <code>+</code> 号还能用于<strong>字符串缝合</strong>。<code>"Jonas" + " " + "Schmedtmann"</code> 结果将会是 <code>"Jonas Schmedtmann"</code>。</p>
+// 基本四则运算 + 求幂
+console.log(ageJonas * 2);        // 92  （乘法）
+console.log(ageJonas / 10);       // 4.6 （除法）
+console.log(2 ** 3);              // 8   （2 的 3 次方，求幂）
 
-        <h2 id="section-2">2. 赋值运算符 (Assignment Operators)</h2>
-        <p>等号 <code>=</code> 是最基底的赋值运算符（将右边的结果给予左边）。除此之外，还有用于简写的强力突变运算符。</p>
-        
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">assignment.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
-let x = 10 + 5; // x 初始化为 15
+// 字符串拼接（+ 运算符的特殊用途）
+const firstName = &quot;Jonas&quot;;
+const lastName = &quot;Schmedtmann&quot;;
+console.log(firstName + &quot; &quot; + lastName); // &quot;Jonas Schmedtmann&quot;</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
 
-// += 语法糖合并： x = x + 10
-x += 10; 
-console.log(x); // 25
+<p><strong>🔍 执行追踪：</strong></p>
 
-x *= 4; // x = x * 4
-console.log(x); // 100
+<table>
+    <thead><tr><th>步骤</th><th>表达式</th><th>计算过程</th><th>结果</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>now - 1991</code></td><td><code>2037 - 1991</code></td><td><code>46</code></td></tr>
+<tr><td>②</td><td><code>now - 2018</code></td><td><code>2037 - 2018</code></td><td><code>19</code></td></tr>
+<tr><td>③</td><td><code>ageJonas * 2</code></td><td><code>46 * 2</code></td><td><code>92</code></td></tr>
+<tr><td>④</td><td><code>2 ** 3</code></td><td><code>2×2×2</code></td><td><code>8</code></td></tr>
+<tr><td>⑤</td><td><code>firstName + &quot; &quot; + lastName</code></td><td>字符串连接</td><td><code>&quot;Jonas Schmedtmann&quot;</code></td></tr></tbody>
+</table>
 
-x++; // 终极糖精：增加 1 (x = x + 1)
-console.log(x); // 101
-x--; // 减少 1
-console.log(x); // 100</textarea>
-            </div>
-            <div id="console2" class="console-output"></div>
-        </div>
+<div class="mermaid">
+graph LR
+    A["🔢 算术运算符"] --> B["`+ 加法 / 拼接`"]
+    A --> C["`- 减法`"]
+    A --> D["`* 乘法`"]
+    A --> E["`/ 除法`"]
+    A --> F["`** 求幂`"]
+    A --> G["`% 取余`"]
+    
+    style A fill:#2d3748,stroke:#e2e8f0,color:#e2e8f0
+    style B fill:#38a169,stroke:#c6f6d5,color:#c6f6d5
+    style F fill:#d69e2e,stroke:#fefcbf,color:#1a202c
+</div>
 
-        <h2 id="section-3">3. 比较运算符 (Comparison Operators)</h2>
-        <p>我们用它们来提问！最终的结果永远是 <strong>Boolean (true / false)</strong>：</p>
-        <ul>
-            <li><code>&gt;</code> (大于) 和 <code>&lt;</code> (小于)</li>
-            <li><code>&gt;=</code> (大于或等于) 比如测试某人是否满 18 岁（可涵盖18）</li>
-            <li><code>&lt;=</code> (小于或等于)</li>
-        </ul>
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"<code>+</code> 号身兼两职"</strong> —— 用于数字是加法运算，用于字符串是拼接（Concatenation）。</p></div>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">comparison.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">
-const ageJonas = 46;
+<hr>
+
+<h3 id="section-5">2. 赋值运算符（Assignment Operators）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：赋值运算符就像"记账本的简写"——<code>x += 10</code> 就是"在原来的基础上加 10"，免去了写出完整公式的麻烦。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">assignment_operators.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// ① 基本赋值：= 本身就是运算符
+let x = 10 + 5; // x = 15
+console.log(x);
+
+// ② 复合赋值 += ：x = x + 10
+x += 10; // x = 25
+console.log(x);
+
+// ③ 复合赋值 *= ：x = x * 4
+x *= 4;  // x = 100
+console.log(x);
+
+// ④ 自增 ++ ：x = x + 1
+x++;     // x = 101
+console.log(x);
+
+// ⑤ 自减 -- ：x = x - 1
+x--;     // x = 100
+x--;     // x = 99
+console.log(x);</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>代码</th><th>等价写法</th><th>x 的值</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>let x = 10 + 5</code></td><td>—</td><td><code>15</code></td></tr>
+<tr><td>②</td><td><code>x += 10</code></td><td><code>x = x + 10</code></td><td><code>25</code></td></tr>
+<tr><td>③</td><td><code>x *= 4</code></td><td><code>x = x * 4</code></td><td><code>100</code></td></tr>
+<tr><td>④</td><td><code>x++</code></td><td><code>x = x + 1</code></td><td><code>101</code></td></tr>
+<tr><td>⑤</td><td><code>x--</code> × 2</td><td><code>x = x - 1</code> × 2</td><td><code>99</code></td></tr></tbody>
+</table>
+
+<p><strong>📊 赋值运算符速查：</strong></p>
+
+<table>
+    <thead><tr><th>运算符</th><th>等价形式</th><th>示例</th></tr></thead>
+    <tbody><tr><td><code>=</code></td><td>直接赋值</td><td><code>x = 5</code></td></tr>
+<tr><td><code>+=</code></td><td><code>x = x + n</code></td><td><code>x += 3</code> → <code>x = x + 3</code></td></tr>
+<tr><td><code>-=</code></td><td><code>x = x - n</code></td><td><code>x -= 2</code> → <code>x = x - 2</code></td></tr>
+<tr><td><code>*=</code></td><td><code>x = x * n</code></td><td><code>x *= 4</code> → <code>x = x * 4</code></td></tr>
+<tr><td><code>/=</code></td><td><code>x = x / n</code></td><td><code>x /= 2</code> → <code>x = x / 2</code></td></tr>
+<tr><td><code>++</code></td><td><code>x = x + 1</code></td><td><code>x++</code></td></tr>
+<tr><td><code>--</code></td><td><code>x = x - 1</code></td><td><code>x--</code></td></tr></tbody>
+</table>
+
+<hr>
+
+<h3 id="section-6">3. 比较运算符（Comparison Operators）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：比较运算符就像一个裁判——你问它"A 是否比 B 大？"，它只会回答"是"（<code>true</code>）或"不是"（<code>false</code>）。结果永远是布尔值。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">comparison_operators.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const ageJonas = 46;
 const ageSarah = 19;
 
-// 发出灵魂提问：Jonas 的年纪比 Sarah 大吗？
-console.log(ageJonas > ageSarah); // 将打印出 true
+// 比较运算符产生 Boolean 值
+console.log(ageJonas &gt; ageSarah);   // true  （46 &gt; 19）
+console.log(ageSarah &lt; ageJonas);   // true  （19 &lt; 46）
+console.log(ageSarah &gt;= 18);        // true  （19 &gt;= 18）
+console.log(ageSarah &gt;= 20);        // false （19 &gt;= 20）
 
-// 测试：Sarah 是否成色（大于等于18岁）
-const isFullAge = ageSarah >= 18;
-console.log(isFullAge); // true
+// 可以将比较结果存入变量
+const isFullAge = ageSarah &gt;= 18;
+console.log(isFullAge); // true</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
 
-// 高级连写操作，一行搞定对比
-console.log(2037 - 1991 > 2037 - 2018);</textarea>
-            </div>
-            <div id="console3" class="console-output"></div>
-        </div>
-        
-        <p>你可能会好奇，在高级连写 <code>2037 - 1991 &gt; 2037 - 2018</code> 中，JS 怎么知道应该是先算减号，再进行大于比较的呢？下一节探讨运算优先级！</p>
+<div class="mermaid">
+flowchart TD
+    A["ageSarah >= 18 ?"] --> B{"19 >= 18 ?"}
+    B -->|"✅ 满足"| C["true<br/>已成年"]
+    B -->|"❌ 不满足"| D["false<br/>未成年"]
+    
+    style A fill:#2d3748,stroke:#e2e8f0,color:#e2e8f0
+    style C fill:#38a169,stroke:#c6f6d5,color:#c6f6d5
+    style D fill:#e53e3e,stroke:#fed7d7,color:#fed7d7
+</div>
 
+<p><strong>📊 比较运算符速查：</strong></p>
+
+<table>
+    <thead><tr><th>运算符</th><th>含义</th><th>示例</th><th>结果</th></tr></thead>
+    <tbody><tr><td><code>&gt;</code></td><td>大于</td><td><code>5 &gt; 3</code></td><td><code>true</code></td></tr>
+<tr><td><code>&lt;</code></td><td>小于</td><td><code>5 &lt; 3</code></td><td><code>false</code></td></tr>
+<tr><td><code>&gt;=</code></td><td>大于或等于</td><td><code>5 &gt;= 5</code></td><td><code>true</code></td></tr>
+<tr><td><code>&lt;=</code></td><td>小于或等于</td><td><code>4 &lt;= 3</code></td><td><code>false</code></td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"比较出对错"</strong> —— 比较运算符的结果永远是布尔值（<code>true</code> 或 <code>false</code>）。</p></div>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：电商网站的折扣计算器——计算商品的折后价，并判断是否符合包邮条件。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    A["🛒 商品原价 ¥200"] --> B["🔢 折扣 20%<br/>200 * 0.8"]
+    B --> C["💰 折后价 ¥160"]
+    C --> D{">=  ¥99 包邮？"}
+    D -->|"✅ 160 >= 99"| E["🚚 包邮"]
+    D -->|"❌ < 99"| F["💸 需支付运费"]
+    
+    style A fill:#2d3748,stroke:#e2e8f0,color:#e2e8f0
+    style C fill:#d69e2e,stroke:#fefcbf,color:#1a202c
+    style E fill:#38a169,stroke:#c6f6d5,color:#c6f6d5
+    style F fill:#e53e3e,stroke:#fed7d7,color:#fed7d7
+</div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">discount_calculator.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 电商折扣计算器
+const originalPrice = 200;
+const discount = 0.8; // 8 折
+const finalPrice = originalPrice * discount;
+
+console.log(&quot;原价: ¥&quot; + originalPrice);
+console.log(&quot;折后价: ¥&quot; + finalPrice);
+
+// 判断是否包邮（满 99 包邮）
+const freeShipping = finalPrice &gt;= 99;
+console.log(&quot;是否包邮: &quot; + freeShipping); // true
+
+// 使用赋值运算符累加购物车
+let cartTotal = 0;
+cartTotal += finalPrice;     // 第一件商品
+cartTotal += 49;             // 第二件商品
+console.log(&quot;购物车总价: ¥&quot; + cartTotal); // ¥209</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>原价</th><th>折扣</th><th>折后价</th><th><code>&gt;= 99</code></th><th>是否包邮</th></tr></thead>
+    <tbody><tr><td>¥200</td><td>8折</td><td>¥160</td><td><code>true</code></td><td>✅</td></tr>
+<tr><td>¥80</td><td>8折</td><td>¥64</td><td><code>false</code></td><td>❌</td></tr>
+<tr><td>¥125</td><td>8折</td><td>¥100</td><td><code>true</code></td><td>✅</td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ <code>+</code> 运算符对数字做加法，对字符串做<strong>拼接</strong>（Concatenation）</li>
+<li>✅ <code>**</code> 是求幂运算符，<code>2 ** 3</code> 等于 <code>Math.pow(2, 3)</code> 即 8</li>
+<li>✅ <code>+=</code>、<code>*=</code>、<code>++</code>、<code>--</code> 等复合赋值运算符是简写形式</li>
+<li>✅ 比较运算符（<code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code>）的结果始终是 <strong>Boolean 值</strong></li>
+<li>✅ 比较结果可以存入变量供后续逻辑判断使用</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：混淆 <code>=</code>（赋值）和 <code>==</code>（比较）。<code>x = 5</code> 是把 5 赋给 x，<code>x == 5</code> 是判断 x 是否等于 5。</li>
+<li>⚠️ <strong>误区 2</strong>：以为 <code>&quot;5&quot; + 3</code> 结果是 <code>8</code>。实际结果是字符串 <code>&quot;53&quot;</code>——当 <code>+</code> 有一边是字符串时，会进行拼接而非加法。</li>
+<li>⚠️ <strong>误区 3</strong>：写 <code>=&gt;</code> 代替 <code>&gt;=</code>。<code>=&gt;</code> 是箭头函数语法，<code>&gt;=</code> 才是"大于等于"比较运算符。</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：对 const 变量使用 ++ 自增</strong></p>
+
+<pre><code class="language-javascript">const count = 10;
+count++; // 尝试自增</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught TypeError: Assignment to constant variable.</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>count++</code> 等价于 <code>count = count + 1</code>，是一种<strong>重新赋值</strong>操作。<code>const</code> 声明的变量不允许重新赋值。如果需要自增，请改用 <code>let</code> 声明。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>算术运算符</td><td>Arithmetic Operator</td><td>执行数学运算</td><td><code>+  -  *  /  **  %</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Expressions_and_operators#arithmetic_operators" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>赋值运算符</td><td>Assignment Operator</td><td>给变量赋值</td><td><code>=  +=  -=  *=  /=</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Expressions_and_operators#assignment_operators" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>比较运算符</td><td>Comparison Operator</td><td>比较两个值，返回布尔</td><td><code>&gt;  &lt;  &gt;=  &lt;=</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Guide/Expressions_and_operators#comparison_operators" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>字符串拼接</td><td>Concatenation</td><td>用 <code>+</code> 连接字符串</td><td><code>&quot;a&quot; + &quot;b&quot; // &quot;ab&quot;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Addition" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>求幂运算符</td><td>Exponentiation</td><td>计算幂</td><td><code>2 ** 3 // 8</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Exponentiation" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：BMI 计算器</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 计算 Mark 和 John 的 BMI（体重 / 身高²）
+// Mark: 78kg, 1.69m
+// John: 92kg, 1.95m
+// 1. 计算两人的 BMI
+// 2. 判断 Mark 的 BMI 是否大于 John 的 BMI
+
+// 在这里写你的代码</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const heightMark = 1.69;
+const massJohn = 92;
+const heightJohn = 1.95;
+
+const bmiMark = massMark / heightMark <strong> 2;
+const bmiJohn = massJohn / heightJohn </strong> 2;
+
+console.log(&quot;Mark 的 BMI:&quot;, bmiMark);   // ≈ 27.31
+console.log(&quot;John 的 BMI:&quot;, bmiJohn);   // ≈ 24.19
+console.log(&quot;Mark 的 BMI 更高:&quot;, bmiMark &gt; bmiJohn); // true
+</code></pre>
+<strong>解题思路</strong>：用 <code>**</code> 求幂计算身高的平方，再用 <code>/</code> 除法得到 BMI，最后用 <code>&gt;</code> 比较两个值。
+</details>
+
+<p><strong>练习 2：累加器</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 使用赋值运算符模拟以下场景：
+// 1. 初始分数为 0
+// 2. 第一关 +25 分
+// 3. 第二关 +35 分
+// 4. 失误扣 10 分
+// 5. 奖励分数翻倍
+// 6. 打印最终分数
+
+// 在这里写你的代码</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">score += 25;  // 25
+score += 35;  // 60
+score -= 10;  // 50
+score <em>= 2;   // 100
+console.log(&quot;最终分数:&quot;, score); // 100
+</code></pre>
+<strong>解题思路</strong>：按顺序使用 <code>+=</code>、<code>-=</code>、<code>&lt;/em&gt;=</code> 复合赋值运算符逐步修改变量值。
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question"><code>&quot;Hello&quot; + 5</code> 的结果是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `&quot;Hello5&quot;` 且类型为 number</div>
+<div class="quiz-option" data-value="B">B) `&quot;Hello5&quot;` 且类型为 string</div>
+<div class="quiz-option" data-value="C">C) 报错</div>
+    </div>
+    <div class="quiz-explanation">
+        当 <code>+</code> 运算符的任意一侧是字符串时，会执行字符串拼接。数字 <code>5</code> 被自动转换为字符串 <code>&quot;5&quot;</code>，结果为 <code>&quot;Hello5&quot;</code>，类型为 <code>string</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>let x = 10; x += 5; x *= 2;</code> 执行后 x 的值是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `20`</div>
+<div class="quiz-option" data-value="B">B) `25`</div>
+<div class="quiz-option" data-value="C">C) `30`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>x = 10</code> → <code>x += 5</code> 即 <code>x = 15</code> → <code>x *= 2</code> 即 <code>x = 30</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">比较运算符的返回值是什么类型？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) Boolean（布尔值）</div>
+<div class="quiz-option" data-value="B">B) Number（数字）</div>
+<div class="quiz-option" data-value="C">C) String（字符串）</div>
+    </div>
+    <div class="quiz-explanation">
+        比较运算符（<code>&gt;</code>、<code>&lt;</code>、<code>&gt;=</code>、<code>&lt;=</code>）的结果永远是布尔值：<code>true</code> 或 <code>false</code>。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 求幂运算符：2 的 4 次方<br>
+    const result = 2 <input type="text" class="blank-input" data-answer="**" placeholder="1"> 4; // 16<br>
+    <br>
+    // 复合赋值：在原值基础上加 10<br>
+    let count = 5;<br>
+    count <input type="text" class="blank-input" data-answer="+=" placeholder="2"> 10; // 15<br>
+    <br>
+    // 比较运算符：判断是否大于等于 18<br>
+    const isAdult = 20 <input type="text" class="blank-input" data-answer="&gt;=" placeholder="3"> 18; // true
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
     function runCode(editorId, consoleId) {
         const code = document.getElementById(editorId).value;
         const outConsole = document.getElementById(consoleId);
@@ -202,6 +836,7 @@ console.log(2037 - 1991 > 2037 - 2018);</textarea>
         outConsole.classList.add('visible');
         outConsole.classList.remove('error');
 
+        // Mock console.log to trap output
         let consoleOutput = [];
         const originalLog = console.log;
         console.log = function(...args) {
@@ -209,6 +844,7 @@ console.log(2037 - 1991 > 2037 - 2018);</textarea>
         };
 
         try {
+            // Evaluates code in local scope to prevent global leak
             new Function(code)();
             outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
         } catch (e) {
@@ -219,6 +855,54 @@ console.log(2037 - 1991 > 2037 - 2018);</textarea>
         }
     }
 
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -232,7 +916,40 @@ console.log(2037 - 1991 > 2037 - 2018);</textarea>
             }
         });
     }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
     document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
 </script>
+
 </body>
 </html>

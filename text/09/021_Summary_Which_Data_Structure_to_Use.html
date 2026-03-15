@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Summary: Which Data Structure to Use</title>
+    <title>数据结构选型总结（Summary: Which Data Structure to Use?）</title>
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
 
@@ -17,7 +19,8 @@
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
@@ -30,214 +33,922 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
 
         /* Layout */
-        .app-container { display: flex; min-height: 100vh; }
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
 
-        /* Sidebar */
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
-        
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
 
         /* Main Content */
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
-        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
-        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
         .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
 
-        /* Code Editor */
-        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
-        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
         .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
-        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
-        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
         .editor-container { position: relative; }
-        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
-        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
         .console-output.visible { display: block; }
         .console-output.error { color: var(--error-color); }
 
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
-        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
-        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
-        
-        
-        
-    
-    
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
 
-        /* 增加高逼格表格对照系统 CSS */
-        .comparison-table {
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin: 20px 0;
-            background: var(--bg-card);
-            border-radius: 8px;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border: 1px solid var(--surface-border);
         }
-        .comparison-table th, .comparison-table td {
-            padding: 15px;
+
+        th, td {
+            padding: 14px 20px;
             text-align: left;
-            border-bottom: 1px solid var(--border-color);
+            border-bottom: 1px solid var(--surface-border);
         }
-        .comparison-table th {
-            background-color: var(--primary-color);
-            color: #fff;
-            font-weight: 600;
-        }
-        .comparison-table td:first-child {
-            font-weight: 600;
-            color: var(--text-primary);
-            border-right: 1px solid var(--border-color);
-            width: 30%;
-        }
-        .highlight-red { color: #ff5555; }
-        .highlight-green { color: #50fa7b; }
-    
 
-        /* 强制移动端适配 */
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
         @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
         }
 
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 09 章 / 进度</div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
             <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">选择指南决战图</a>
-            <a href="#section-list" class="nav-item">简单的列表类 (List) 决断</a>
-            <a href="#section-keyvalue" class="nav-item">键值对查询类 (Key-Value) 决断</a>
-            <a href="#section-json" class="nav-item">Web API / JSON 归宿</a>
+            <a href="#section-0" class="nav-item active">数据结构选型总结（Summary: Which Data Structure to Use?）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>Summary: Which Data Structure to Use?</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：021 Summary Which Data Structure to Use.en.srt</span>
-            <span>📂 章节：第 09 章</span>
-        </div>
+<h1 id="section-0">数据结构选型总结（Summary: Which Data Structure to Use?）</h1>
 
-        <div class="callout">
-            <strong>📌 终点回顾之巅</strong>
-            <p>我们手上已囊括 JavaScript 里的四大基本核弹器：<strong>大组 (Array)</strong>，<strong>对象 (Object)</strong>，以及刚入库收割的高精端 <strong>图集 (Map)</strong> 与 <strong>去重洗涤器 (Set)</strong>。面对海量奔涌而来的代码业务情境，什么阶段拔什么尺寸的剑，在这里将获得终极梳理。</p>
-        </div>
+<div class="callout"><p>📺 来源：021 Summary Which Data Structure to Use.en.srt<br>📂 章节：第 09 章</p></div>
 
-        <h2 id="section-overview">🎯 数据集的第一岔路口抉择图</h2>
-        <p>每次遇到需要存放一大堆数据的地步，请脑内浮起这个问题：<br>
-        <strong>我是仅仅需要存放一排纯粹孤立的数值连成的线索？ 还是需要把每一根数值旁边都挂靠着有极强描述性意味的文字标牌（挂门牌）？</strong></p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <ul style="line-height: 1.8; color: var(--text-secondary);">
-            <li>👉 只是单纯首尾堆砌的值排列 (Simple List)：往左边走进入 <strong>Arrays（大组）与 Sets（集合）</strong> 阵痛选择台。</li>
-            <li>👉 带有严格上下溯源名字标牌的抽屉 (Key/Value pairs)：往右走来到 <strong>Objects（对象）与 Maps（哈希表图集）</strong> 的战场中心。</li>
-        </ul>
+<ul>
+<li><strong>前置知识</strong>：数组（Array）、对象（Object）、集合（Set）、映射（Map）的基本操作</li>
+<li><strong>后续扩展</strong>：Web API 与 JSON 数据处理、高阶数组方法（map/filter/reduce）、WeakSet 与 WeakMap</li>
+</ul>
 
-        <h2 id="section-list">⚔️ 阵列队列赛道：Array 🆚 Set</h2>
-        
-        <table class="comparison-table">
-            <thead>
-                <tr>
-                    <th>选择阵列利刃</th>
-                    <th>使用心法与特性</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>🗂️ <strong>Array (数组大组)</strong> <br><span style="font-size: 12px; font-weight: normal; color: var(--text-secondary);">最泛滥最中坚主力存在</span></td>
-                    <td>
-                        • 当你必须必须维持数据被送入时的<strong>先后顺序不容乱动打散</strong>！<br>
-                        • 当数据列表里允许并需要收纳<strong>多个并排行走的无耻克隆复制体数据</strong>。<br>
-                        • 当你后续还要对它施展<strong>天花乱坠的大改操盘变形法术</strong> (后面大篇幅学习的一堆 Array 方法)。
-                    </td>
-                </tr>
-                <tr>
-                    <td>🧼 <strong>Set (去重洗碗池)</strong> <br><span style="font-size: 12px; font-weight: normal; color: var(--text-secondary);">专情纯粹的高速杀器</span></td>
-                    <td>
-                        • 当你<strong>绝无法容忍</strong>一丁点重复病菌残体存在于系统时！<br>
-                        • 当你要最极速压榨性能。在极其厚重的巨海数据里，要删除某个东西、搜索是否存在它，Set 会比 Array 甚至狂甩出 <strong>10 倍的光速响应断层差</strong>。
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<h2 id="section-2">🎯 概述</h2>
 
-        <h2 id="section-keyvalue">⚔️ 保险箱键值抽屉赛道：Object 🆚 Map</h2>
-        
-        <p>这绝对是重头戏。由于 JS 前十多年的发展历史只有畸形霸场的 Object，所以一直拿它疯狂客串键值缓存库。但是在拥有 Map 后的新纪元，天枰被血腥逆转。</p>
+<p>本节是对 JavaScript 四种内建数据结构的<strong>选型总结</strong>。作为开发者，处理数据是核心工作，而选择正确的数据结构直接影响代码的可读性和性能。本节帮助你建立清晰的<strong>决策框架</strong>：什么时候用数组、什么时候用 Set、什么时候用对象、什么时候用 Map。</p>
 
-        <table class="comparison-table">
-            <thead>
-                <tr>
-                    <th>柜体选型决战</th>
-                    <th>统治与退场理由</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>📦 <strong>Object (古老地基霸主)</strong></td>
-                    <td>
-                        <span class="highlight-green">继续留用的护体金牌：</span><br>
-                        • 写起来写烂了闭着眼都会，就是简单粗暴直接点出 <code>obj.name</code> 与 <code>obj['age']</code> 的极速穿透提取快感。<br>
-                        • <strong>必须内挂捆绑各种活动功能函数方法 (Methods) 时！</strong> Object 内带天生 <code>this</code> 光环机制指路自己，但 Map 直接断代此能力。<br>
-                        • 与大后端 API 传输返回 JSON 的天然适配转换（后续会提）。
-                    </td>
-                </tr>
-                <tr>
-                    <td>🗺️ <strong>Map (全能超维图解柜)</strong></td>
-                    <td>
-                        <span class="highlight-green">夺权上位的顶级理由：</span><br>
-                        • 完全不受制于只许传字符串拉胯当 Key 钥匙的诅咒约束锁链！<strong>万物皆可为键</strong>！<br>
-                        • 自生骨血兼容 Iterable，自带 <code>for-of</code> 和 <code>.size</code>。而笨重的 Object 每一次都要靠别人破相借尸还魂去转。<br>
-                        • 极端大型并极度频繁挂拆门牌与加进加出 Key 时候，引擎底下有着远高于对象的底层狂暴加速优越感性能。
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+<hr>
 
-        <h2 id="section-json">🔌 彩蛋扩展认知：Web API 与 JSON 的绝对领海归宿</h2>
-        <p>几乎 99% 从后场外部真实世界上获取的天外飞仙 Web 数据请求，砸扁到我们前端机器里时都是长成一幅 <strong>阵列列车厢内部包裹着无数只小对象盒子的 <code>JSON 格式体 (Array of Objects)</code> </strong>的混合拼接骨架。</p>
-        <p>比如 <code>[ {name:'Pizza', price:10}, {name:'Pasta', price:15} ]</code>。虽然我们知道 Map 性能狂霸，但<strong>我们极少吃饱了撑了费力气手操把这种飞来的天然 JSON 客船全给拆装倒腾改写为 Map 挂载架构</strong>。依然还是大面积使用传统天生相合贴合的 Object 骨架作为承接器去消化它。只有极其复杂的偏方黑科技功能模块内，才会专程调用建图。</p>
+<h2 id="section-3">核心知识点</h2>
 
+<h3 id="section-4">1. 数据从哪里来？</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：数据就像食材——可以从<strong>自家花园</strong>种（源码中硬编码）、从<strong>市场</strong>买（用户输入/DOM）、或者<strong>外卖</strong>送来（Web API）。不管食材从哪来，都需要合适的<strong>容器</strong>来存放。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    A["📊 数据来源"] --> B["1️⃣ 源码中的数据<br>状态消息、配置常量"]
+    A --> C["2️⃣ 用户界面<br>表单输入、DOM 数据"]
+    A --> D["3️⃣ 外部 API<br>天气、电影、汇率..."]
+    B --> E["📦 数据集合"]
+    C --> E
+    D --> E
+    E --> F{"需要描述数据吗？<br>（用键标注值）"}
+    F -->|"❌ 不需要"| G["📝 简单列表<br>Array / Set"]
+    F -->|"✅ 需要"| H["🔑 键值对<br>Object / Map"]
+    style G fill:#2196F3,color:#fff
+    style H fill:#FF9800,color:#fff
+</div>
+
+<p><strong>Web API 数据示例（JSON 格式）：</strong></p>
+
+<pre><code class="language-javascript">// JSON 数据通常是&quot;对象数组&quot;的形式
+const recipes = [
+  { title: 'Pizza', publisher: 'Jonas', id: 1 },    // 对象 → 键值对描述
+  { title: 'Pasta', publisher: 'Jonas', id: 2 },     // 数组 → 简单列表
+  { title: 'Risotto', publisher: 'Jonas', id: 3 },
+];</code></pre>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：JSON 数据 = 对象数组！对象描述"是什么"，数组收集"有哪些"。</p></div>
+
+<hr>
+
+<h3 id="section-5">2. Array vs Set —— 简单值列表的选择</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：数组像一个<strong>有编号的抽屉柜</strong>——每个抽屉有编号（索引），可以放重复的东西；Set 像一个<strong>VIP 签到本</strong>——每个名字只能出现一次，且没有页码。</p></div>
+
+<p><strong>📊 Array vs Set 详细对比：</strong></p>
+
+<table>
+    <thead><tr><th>特性</th><th>Array 数组</th><th>Set 集合</th></tr></thead>
+    <tbody><tr><td>元素是否可重复</td><td>✅ 可重复</td><td>❌ 自动去重</td></tr>
+<tr><td>有无索引/顺序</td><td>✅ 有索引，保序</td><td>❌ 无索引，顺序不重要</td></tr>
+<tr><td>数据操作方法</td><td>⭐⭐⭐ 丰富（push/pop/splice/map/filter...）</td><td>⭐ 少量（add/delete/has）</td></tr>
+<tr><td>查找性能</td><td>O(n)（<code>includes</code> 需遍历）</td><td>O(1)（<code>has</code> 近似常数时间）</td></tr>
+<tr><td><strong>适用场景</strong></td><td>需要有序、可重复、需要操作数据</td><td>需要唯一值、高性能查找/删除</td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart TD
+    A{"需要简单值列表"} --> B{"值可以重复吗？"}
+    B -->|"✅ 可以"| C{"需要操作/排序数据？"}
+    C -->|"✅"| D["📦 Array"]
+    B -->|"❌ 必须唯一"| E["🎯 Set"]
+    C -->|"也可以"| D
+    A --> F{"需要高性能查找？"}
+    F -->|"✅"| E
+    style D fill:#2196F3,color:#fff
+    style E fill:#4CAF50,color:#fff
+</div>
+
+<hr>
+
+<h3 id="section-6">3. Object vs Map —— 键值对的选择</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：Object 像一本<strong>老式地址簿</strong>——每页只能用人名（字符串）索引，但翻起来很顺手、人人都会用；Map 像一本<strong>数字通讯录</strong>——可以用号码、照片、指纹等<strong>任何东西</strong>索引，查找更快，功能更强。</p></div>
+
+<p><strong>📊 Object vs Map 详细对比：</strong></p>
+
+<table>
+    <thead><tr><th>特性</th><th>Object 对象</th><th>Map 映射</th></tr></thead>
+    <tbody><tr><td>键的类型</td><td>仅字符串 / Symbol</td><td>⭐ 任意类型（数字、布尔、对象...）</td></tr>
+<tr><td>迭代方式</td><td>需 <code>Object.entries()</code></td><td>直接 <code>for-of</code></td></tr>
+<tr><td>获取大小</td><td><code>Object.keys(obj).length</code>（需计算）</td><td><code>map.size</code>（直接读取）</td></tr>
+<tr><td>性能</td><td>一般</td><td>⭐ 频繁增删时更优</td></tr>
+<tr><td>可作 JSON</td><td>✅ 原生支持</td><td>❌ 需手动转换</td></tr>
+<tr><td>可含方法</td><td>✅ 支持（<code>this</code> 关键字）</td><td>❌ 不支持</td></tr>
+<tr><td>书写便利性</td><td>⭐⭐⭐ 字面量语法 <code>{}</code></td><td>⭐⭐ 需 <code>new Map()</code></td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart TD
+    A{"需要键值对"} --> B{"键需要非字符串类型？"}
+    B -->|"✅ 需要"| C["🗺️ Map"]
+    B -->|"❌ 字符串足够"| D{"需要方法（函数值）？"}
+    D -->|"✅"| E["📦 Object"]
+    D -->|"❌"| F{"来自 JSON？"}
+    F -->|"✅"| E
+    F -->|"❌ 简单映射"| C
+    style C fill:#FF9800,color:#fff
+    style E fill:#2196F3,color:#fff
+</div>
+
+<hr>
+
+<h3 id="section-7">4. 终极选型决策树</h3>
+
+<div class="mermaid">
+flowchart TD
+    START["🤔 我该用哪种数据结构？"] --> Q1{"需要用键描述值吗？"}
+    Q1 -->|"❌ 只要值列表"| Q2{"值需要唯一吗？"}
+    Q1 -->|"✅ 需要键值对"| Q3{"键是非字符串？<br>或需要高性能？"}
+    Q2 -->|"❌ 可重复"| ARR["📦 Array<br>有序 · 可重复 · 方法丰富"]
+    Q2 -->|"✅ 必须唯一"| SET["🎯 Set<br>唯一 · 高性能查找"]
+    Q3 -->|"✅"| MAP["🗺️ Map<br>任意键类型 · 高性能"]
+    Q3 -->|"❌ 字符串键就够"| Q4{"需要方法/JSON？"}
+    Q4 -->|"✅"| OBJ["📦 Object<br>JSON 友好 · 支持方法"]
+    Q4 -->|"❌ 简单映射"| MAP
+    style ARR fill:#2196F3,color:#fff
+    style SET fill:#4CAF50,color:#fff
+    style MAP fill:#FF9800,color:#fff
+    style OBJ fill:#9C27B0,color:#fff
+</div>
+
+<p><strong>🔍 各数据结构的"一句话定位"：</strong></p>
+
+<table>
+    <thead><tr><th>数据结构</th><th>一句话</th></tr></thead>
+    <tbody><tr><td><strong>Array</strong></td><td>需要有序列表、支持重复、需要丰富的数据操作方法</td></tr>
+<tr><td><strong>Set</strong></td><td>需要唯一值集合、需要高性能的存在性检查</td></tr>
+<tr><td><strong>Object</strong></td><td>需要字符串键值对、需要方法、需要 JSON 兼容</td></tr>
+<tr><td><strong>Map</strong></td><td>需要任意类型键值对、需要高性能增删查、需要简单遍历</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>实际开发中</strong>：数组和对象依然是最常用的。Set 用于去重场景，Map 用于需要非字符串键或高性能键值存储的场景。</p></div>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：电商后台数据展示——根据不同数据需求选择合适的数据结构。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">data_structure_choice.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 1️⃣ 商品列表 → Array（有序、可重复、需要操作）
+const products = [
+  { id: 1, name: 'iPhone', price: 999, category: 'electronics' },
+  { id: 2, name: 'MacBook', price: 1999, category: 'electronics' },
+  { id: 3, name: '围巾', price: 29, category: 'clothing' },
+];
+console.log('商品数量:', products.length);
+
+// 2️⃣ 用户已查看的类别 → Set（去重）
+const viewedCategories = new Set();
+for (const p of products) viewedCategories.add(p.category);
+console.log('浏览类别:', [...viewedCategories]); // ['electronics', 'clothing']
+
+// 3️⃣ 用户信息 → Object（字符串键、含方法、JSON 友好）
+const user = {
+  name: 'Alice',
+  email: 'alice@example.com',
+  getDisplayName() {
+    return `👤 ${this.name}`;
+  },
+};
+console.log(user.getDisplayName());
+
+// 4️⃣ 权限到描述的映射 → Map（可能需要非字符串键）
+const permissions = new Map([
+  ['read', '可以查看内容'],
+  ['write', '可以编辑内容'],
+  ['admin', '拥有完全控制权'],
+]);
+console.log('read 权限:', permissions.get('read'));</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    A["📦 商品列表"] -->|"有序+操作"| B["Array"]
+    C["🏷️ 已查看类别"] -->|"去重"| D["Set"]
+    E["👤 用户信息"] -->|"方法+JSON"| F["Object"]
+    G["🔑 权限映射"] -->|"键值对"| H["Map"]
+    style B fill:#2196F3,color:#fff
+    style D fill:#4CAF50,color:#fff
+    style F fill:#9C27B0,color:#fff
+    style H fill:#FF9800,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>数据需求</th><th>选用结构</th><th>理由</th></tr></thead>
+    <tbody><tr><td>存储商品列表</td><td>Array</td><td>需要有序、可操作（排序/筛选）</td></tr>
+<tr><td>记录浏览过的类别</td><td>Set</td><td>只需唯一值</td></tr>
+<tr><td>用户信息含方法</td><td>Object</td><td>需要 <code>this</code> 关键字</td></tr>
+<tr><td>配置映射</td><td>Map</td><td>纯键值映射，无需方法</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ <strong>Array</strong>：有序列表 + 可重复 + 丰富的操作方法——最常用</li>
+<li>✅ <strong>Set</strong>：唯一值 + 高性能查找——用于去重和存在性检查</li>
+<li>✅ <strong>Object</strong>：字符串键值对 + 支持方法 + JSON 兼容——最传统</li>
+<li>✅ <strong>Map</strong>：任意键类型 + 高性能 + 直接迭代——现代键值存储首选</li>
+<li>✅ JSON 数据几乎总是"<strong>对象数组</strong>"的形式</li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>所有键值对都用 Object</strong>：简单的键值映射考虑用 Map（性能更好、键类型灵活）</li>
+<li>⚠️ <strong>所有列表都用 Array</strong>：如果只关心"某值是否存在"且不需要索引，Set 更合适</li>
+<li>⚠️ <strong>忽视 WeakSet / WeakMap</strong>：它们允许垃圾回收，适合临时缓存和私有数据存储</li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<div class="callout"><p>主动展示错误写法及报错信息</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">// 试图在 Map 上调用 JSON.stringify
+const myMap = new Map([['a', 1], ['b', 2]]);
+const json = JSON.stringify(myMap);
+console.log(json);</code></pre>
+
+<p><strong>浏览器输出：</strong></p>
+
+<pre><code>&quot;{}&quot;</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>JSON.stringify()</code> 不知道如何序列化 Map。它只会串行化普通对象的属性。如需序列化 Map，先转为对象或二维数组：<code>JSON.stringify([...myMap])</code> 或 <code>JSON.stringify(Object.fromEntries(myMap))</code>。</p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>数组</td><td>Array</td><td>有序可重复的值列表</td><td><code>[1, 2, 3]</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>集合</td><td>Set</td><td>唯一值的无序集合</td><td><code>new Set([1, 2])</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>对象</td><td>Object</td><td>字符串键值对 + 方法</td><td><code>{ key: value }</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>映射</td><td>Map</td><td>任意类型键值对</td><td><code>new Map()</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>JSON</td><td>JSON</td><td>JavaScript 对象表示法</td><td><code>JSON.parse(str)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>Web API</td><td>Web API</td><td>从外部获取数据的接口</td><td><code>fetch(url)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Fetch_API" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：为场景选择合适的数据结构</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 根据注释中的场景，选择合适的数据结构来存储数据
+
+// 场景 1: 存储一个班级的学生成绩（姓名 → 分数）
+// 选择: ???
+// 在这里写你的代码
+
+
+// 场景 2: 存储用户的购物车商品（有序、可重复）
+// 选择: ???
+// 在这里写你的代码
+
+
+// 场景 3: 记录网站访客的IP地址（不重复）
+// 选择: ???
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const grades = new Map([
+  ['Alice', 95],
+  ['Bob', 88],
+  ['Charlie', 92],
+]);
+
+// 场景 2: Array（有序列表，可重复——同一商品可能买多个）
+const cart = [
+  { name: 'iPhone', qty: 1, price: 999 },
+  { name: '手机壳', qty: 2, price: 29 },
+];
+
+// 场景 3: Set（只关心唯一 IP）
+const visitors = new Set(['192.168.1.1', '10.0.0.1', '192.168.1.1']);
+console.log(visitors.size); // 2
+</code></pre>
+<strong>解题思路</strong>：根据决策树——需要键描述值？→ Map/Object。有序可重复？→ Array。唯一值？→ Set。
+</details>
+
+<p><strong>练习 2：将 Map 转为 JSON 并转回</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 将 Map 转为 JSON 字符串，再转回 Map
+const config = new Map([
+  ['theme', 'dark'],
+  ['language', 'zh-CN'],
+  ['fontSize', 16],
+]);
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  ['theme', 'dark'],
+  ['language', 'zh-CN'],
+  ['fontSize', 16],
+]);
+
+// Map → JSON
+const json = JSON.stringify([...config]); // 先转二维数组
+console.log(json); // '[[&quot;theme&quot;,&quot;dark&quot;],[&quot;language&quot;,&quot;zh-CN&quot;],[&quot;fontSize&quot;,16]]'
+
+// JSON → Map
+const restored = new Map(JSON.parse(json));
+console.log(restored.get('theme')); // 'dark'
+</code></pre>
+<strong>解题思路</strong>：Map 不能直接 <code>JSON.stringify</code>，需先 <code>[...map]</code> 展开为二维数组。恢复时 <code>JSON.parse</code> 得到二维数组，直接传入 <code>new Map()</code> 构造器。
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">如果你需要存储一组唯一的标签（tags），应该用什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) Array</div>
+<div class="quiz-option" data-value="B">B) Set</div>
+<div class="quiz-option" data-value="C">C) Object</div>
+    </div>
+    <div class="quiz-explanation">
+        标签需要<strong>唯一性</strong>（不重复），且不需要键值描述——Set 是最佳选择。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">以下哪种数据结构的键可以是布尔值？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) Object（键会被转为字符串 `'true'`）</div>
+<div class="quiz-option" data-value="B">B) Array</div>
+<div class="quiz-option" data-value="C">C) Map</div>
+    </div>
+    <div class="quiz-explanation">
+        Map 的键可以是任意类型。Object 的键如果是布尔值会自动转为字符串 <code>'true'</code>/<code>'false'</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">JSON 数据通常以什么形式组织？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 对象数组（Array of Objects）</div>
+<div class="quiz-option" data-value="B">B) Map 的 Map</div>
+<div class="quiz-option" data-value="C">C) Set 嵌套 Set</div>
+    </div>
+    <div class="quiz-explanation">
+        JSON 数据最常见的形式是"对象数组"——数组充当列表容器，对象充当每个条目的键值描述。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 数组去重<br>
+    const unique = [...new <input type="text" class="blank-input" data-answer="Set" placeholder="1">(arr)];<br>
+    <br>
+    // 对象转 Map<br>
+    const map = new Map(<input type="text" class="blank-input" data-answer="Object.entries" placeholder="2">(obj));<br>
+    <br>
+    // Map 转数组<br>
+    const arr2 = [<input type="text" class="blank-input" data-answer="..." placeholder="3">map];
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
 </body>
 </html>

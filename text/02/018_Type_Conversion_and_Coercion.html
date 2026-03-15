@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>类型转换与强制转换 (Type Conversion and Coercion)</title>
+    <title>类型转换与类型强制（Type Conversion and Coercion）</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
             /* Anti-Corporate-AI Minimalist Dark Theme */
             --bg-color: #0d0d0d;
@@ -17,7 +19,8 @@
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
@@ -29,174 +32,785 @@
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
-        .app-container { display: flex; min-height: 100vh; }
-        
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
-        
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
 
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
-        
-        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
-        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
-        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
-        strong { color: var(--text-primary); }
-
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
-
-        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
-        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
-        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
-        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
-        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
-        .editor-container { position: relative; }
-        .editor-textarea { width: 100%; min-height: 200px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
-        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
-        .console-output.visible { display: block; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
-        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
-        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-    
-        
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
         }
 
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
-        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 02 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
         <nav id="toc">
-            <a href="#section-1" class="nav-item active">1. 手动类型转换 (Conversion)</a>
-            <a href="#section-2" class="nav-item">2. 自动隐式转换 (Coercion)</a>
-            <a href="#section-3" class="nav-item">3. 猜数字游戏：脑筋急转弯</a>
+            <a href="#section-0" class="nav-item active">类型转换与类型强制（Type Conversion and Coercion）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>类型转换与强制转换</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：018 Type Conversion and Coercion.en.srt</span>
-            <span>📂 章节：第 02 章</span>
-        </div>
+<h1 id="section-0">类型转换与类型强制（Type Conversion and Coercion）</h1>
 
-        <p>在 JavaScript 中，数据处理常常会面临“类型不匹配”的尴尬局面（比如想把带有数字的文字拿去做数学计算）。这时候，我们就需要了解类型的<strong>显式转换 (Conversion)</strong> 和<strong>隐式强制转换 (Coercion)</strong>。</p>
+<div class="callout"><p>📺 来源：018 Type Conversion and Coercion.en.srt<br>📂 章节：第 02 章</p></div>
 
-        <h2 id="section-1">1. 手动明文转换 (Type Conversion)</h2>
-        <p>当你明确知道想要把一个字符串转为数字（如处理网页表单输入的值时，它们默认总是字符串），你可以主动召唤官方的类型转换函数：<code>Number()</code> 和 <code>String()</code>。</p>
-        <p>⚠️ 注意：函数的首字母<strong>必须是大写！</strong></p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">conversion.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
-const inputYear = '1991'; // 这是一个字符串
+<ul>
+<li><strong>前置知识</strong>：数据类型（Data Types）、基本运算符、<code>typeof</code> 运算符</li>
+<li><strong>后续扩展</strong>：真值与假值（Truthy and Falsy Values）、相等运算符（<code>==</code> vs <code>===</code>）</li>
+</ul>
 
-// 错误示范：字符串和数字相加会被视为拼接
-console.log(inputYear + 18); // "199118"
+<h2 id="section-2">🎯 概述</h2>
 
-// 正确示范：手动转成数字
+<p>JavaScript 有两种改变数据类型的机制：<strong>类型转换（Type Conversion）</strong> 是开发者手动执行的显式转换，而<strong>类型强制（Type Coercion）</strong> 是 JavaScript 在不同类型的值之间运算时自动执行的隐式转换。本节课揭示 <code>+</code> 运算符触发字符串拼接、而 <code>-</code> <code>*</code> <code>/</code> 触发数字转换的关键区别。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 类型转换（Type Conversion）—— 手动显式转换</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：类型转换就像翻译官——你明确地告诉它"请把这个英文翻译成中文"，它就帮你转换。<code>Number()</code> 把字符串翻译成数字，<code>String()</code> 把数字翻译成字符串。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">type_conversion.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 字符串 → 数字：使用 Number() 函数
+const inputYear = &quot;1991&quot;;
+console.log(Number(inputYear)); // 1991（数字）
 console.log(Number(inputYear) + 18); // 2009
 
-// 恶作剧示范：如果你试图将纯字母砖成数字
-console.log(Number('Jonas')); 
-// 将抛出 NaN (Not a Number)。其实 NaN 的类型依然是 number，只是它意味着 "这是一个无效的死数字"</textarea>
-            </div>
-            <div id="console1" class="console-output"></div>
-        </div>
+// 无法转换的情况 → NaN
+console.log(Number(&quot;Jonas&quot;)); // NaN（Not a Number）
+console.log(typeof NaN);      // &quot;number&quot;（虽然名字叫&quot;不是数字&quot;，类型却是 number！）
 
-        <h2 id="section-2">2. 黑魔法：自动强制转换 (Type Coercion)</h2>
-        <p>如果你一直手动转换那得多麻烦？作为一门灵活（也有些随性）的语言，JavaScript 会在幕后自动猜测你的意图，偷偷把类型进行转换。这就是<strong>强制隐式转换 (Type Coercion)</strong>。但这其中存在着一套诡异的加减法则！</p>
+// 数字 → 字符串：使用 String() 函数
+console.log(String(23));       // &quot;23&quot;（字符串）
+console.log(typeof String(23)); // &quot;string&quot;</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
 
-        <table>
-            <thead>
-                <tr>
-                    <th>运算符</th>
-                    <th>偏好阵营</th>
-                    <th>行为规律</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td><code>+</code> (加号)</td>
-                    <td>✨ <strong>崇拜字符串</strong></td>
-                    <td>只要遇到字符串，立刻将旁边的数字统统同化成字符串，然后粗暴连接。</td>
-                </tr>
-                <tr>
-                    <td><code>- * /</code> (减乘除)</td>
-                    <td>⚙️ <strong>崇拜数学</strong></td>
-                    <td>遇到混合计算，会主动把伪装成字符串的数字剥掉引号，变成真正的数字进行计算。</td>
-                </tr>
-            </tbody>
-        </table>
+<p><strong>🔍 执行追踪：</strong></p>
 
-        <h2 id="section-3">3. 🧠 猜数字游戏：引擎脑力测试</h2>
-        <p>很多新手会在这里翻车，让我们来玩一个著名的“JS 猜猜看”连环坑游戏：</p>
+<table>
+    <thead><tr><th>步骤</th><th>表达式</th><th>结果</th><th>类型</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>Number(&quot;1991&quot;)</code></td><td><code>1991</code></td><td><code>number</code></td></tr>
+<tr><td>②</td><td><code>Number(&quot;Jonas&quot;)</code></td><td><code>NaN</code></td><td><code>number</code></td></tr>
+<tr><td>③</td><td><code>String(23)</code></td><td><code>&quot;23&quot;</code></td><td><code>string</code></td></tr></tbody>
+</table>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">guess-the-output.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
-let n = '1' + 1;  
-// 加号崇拜字符串：把旁边的 1 变成字符。结果 n = '11'（字符串）
+<div class="mermaid">
+flowchart LR
+    A["📝 '1991'<br/>(string)"] -->|"Number()"| B["🔢 1991<br/>(number)"]
+    C["🔢 23<br/>(number)"] -->|"String()"| D["📝 '23'<br/>(string)"]
+    E["📝 'Jonas'<br/>(string)"] -->|"Number()"| F["⚠️ NaN<br/>(number)"]
+    
+    style A fill:#d69e2e,stroke:#fefcbf,color:#1a202c
+    style B fill:#38a169,stroke:#c6f6d5,color:#c6f6d5
+    style C fill:#38a169,stroke:#c6f6d5,color:#c6f6d5
+    style D fill:#d69e2e,stroke:#fefcbf,color:#1a202c
+    style F fill:#e53e3e,stroke:#fed7d7,color:#fed7d7
+</div>
 
-n = n - 1; 
-// 减号崇拜数学：把 '11' 褪皮变成数字 11，然后减去 1。结果 n = 10（数字）
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"NaN 是数字界的'无效值'标签"</strong> —— <code>typeof NaN</code> 返回 <code>&quot;number&quot;</code>，它表示"转换失败的数字"。</p></div>
 
-console.log(n); // 会打印出 10
+<p><strong>JavaScript 只能转换为三种类型：</strong></p>
 
-// 终极连环计
-console.log(2 + 3 + 4 + '5'); 
-// 2+3+4 都是纯数字运算先变成了 9，然后 9 遇到了加号和字符串 '5'。结果变成了 '95'！
+<ul>
+<li><code>Number()</code> → 转为数字</li>
+<li><code>String()</code> → 转为字符串</li>
+<li><code>Boolean()</code> → 转为布尔（下一课详解）</li>
+</ul>
 
-console.log('10' - '4' - '3' - 2 + '5'); 
-// 减号疯狂剥皮，前排一顿猛减变成了数字 1，然后数字 1 遇到 加号和 '5'，被同化为字符串连接。最终输出 '15'！</textarea>
-            </div>
-            <div id="console2" class="console-output"></div>
-        </div>
-        
+<hr>
+
+<h3 id="section-5">2. 类型强制（Type Coercion）—— 自动隐式转换</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：类型强制就像一个"善解人意的服务员"——你点了一杯"23号饮品"又点了一个"苹果"，服务员自己猜测你要的组合，自动帮你混搭。有时猜对了，有时猜错了。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">type_coercion.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// + 运算符：遇到字符串 → 数字转字符串（拼接）
+console.log(&quot;I am &quot; + 23 + &quot; years old&quot;); 
+// &quot;I am 23 years old&quot;
+
+// - * / 运算符：字符串转数字（运算）
+console.log(&quot;23&quot; - &quot;10&quot; - 3); // 10（全部转为数字）
+console.log(&quot;23&quot; * &quot;2&quot;);      // 46（转为数字后做乘法）
+console.log(&quot;23&quot; / &quot;2&quot;);      // 11.5（转为数字后做除法）
+
+// ⚠️ + 运算符是唯一触发字符串拼接的！
+console.log(&quot;23&quot; + &quot;10&quot; + 3); // &quot;23103&quot;（全部变字符串拼接）</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+graph TD
+    A["🔀 运算符遇到混合类型"] --> B{"是 + 运算符？"}
+    B -->|"✅ 是"| C["📝 数字 → 字符串<br/>执行拼接"]
+    B -->|"❌ 不是（- * /）"| D["🔢 字符串 → 数字<br/>执行算术"]
+    
+    style A fill:#2d3748,stroke:#e2e8f0,color:#e2e8f0
+    style C fill:#d69e2e,stroke:#fefcbf,color:#1a202c
+    style D fill:#38a169,stroke:#c6f6d5,color:#c6f6d5
+</div>
+
+<p><strong>📊 运算符类型强制规则：</strong></p>
+
+<table>
+    <thead><tr><th>运算符</th><th>强制方向</th><th>示例</th><th>结果</th></tr></thead>
+    <tbody><tr><td><code>+</code>（有字符串时）</td><td>数字 → 字符串</td><td><code>&quot;5&quot; + 3</code></td><td><code>&quot;53&quot;</code></td></tr>
+<tr><td><code>-</code></td><td>字符串 → 数字</td><td><code>&quot;5&quot; - 3</code></td><td><code>2</code></td></tr>
+<tr><td><code>*</code></td><td>字符串 → 数字</td><td><code>&quot;5&quot; * 3</code></td><td><code>15</code></td></tr>
+<tr><td><code>/</code></td><td>字符串 → 数字</td><td><code>&quot;6&quot; / 3</code></td><td><code>2</code></td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"加号爱拼接，减乘除爱数学"</strong> —— <code>+</code> 遇到字符串做拼接，其他运算符做数学运算。</p></div>
+
+<hr>
+
+<h3 id="section-6">3. 🎮 猜输出游戏</h3>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">guess_output.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 🎮 先在脑中推算，再运行验证！
+
+let n = &quot;1&quot; + 1; // ?
+n = n - 1;       // ?
+console.log(n);  // ?
+
+console.log(2 + 3 + 4 + &quot;5&quot;); // ?
+console.log(&quot;10&quot; - &quot;4&quot; - &quot;3&quot; - 2 + &quot;5&quot;); // ?</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<p><strong>🔍 执行追踪——谜题 1：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>代码</th><th>过程</th><th><code>n</code> 的值</th><th>类型</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>&quot;1&quot; + 1</code></td><td><code>+</code> 触发字符串拼接</td><td><code>&quot;11&quot;</code></td><td><code>string</code></td></tr>
+<tr><td>②</td><td><code>n - 1</code></td><td><code>-</code> 触发数字转换：<code>11 - 1</code></td><td><code>10</code></td><td><code>number</code></td></tr></tbody>
+</table>
+
+<p><strong>🔍 执行追踪——谜题 2：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>表达式</th><th>过程</th><th>中间结果</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>2 + 3</code></td><td>数字加法</td><td><code>5</code></td></tr>
+<tr><td>②</td><td><code>5 + 4</code></td><td>数字加法</td><td><code>9</code></td></tr>
+<tr><td>③</td><td><code>9 + &quot;5&quot;</code></td><td><code>+</code> 遇字符串 → 拼接</td><td><code>&quot;95&quot;</code></td></tr></tbody>
+</table>
+
+<p><strong>🔍 执行追踪——谜题 3：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>表达式</th><th>过程</th><th>中间结果</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>&quot;10&quot; - &quot;4&quot;</code></td><td><code>-</code> 转数字</td><td><code>6</code></td></tr>
+<tr><td>②</td><td><code>6 - &quot;3&quot;</code></td><td><code>-</code> 转数字</td><td><code>3</code></td></tr>
+<tr><td>③</td><td><code>3 - 2</code></td><td>数字减法</td><td><code>1</code></td></tr>
+<tr><td>④</td><td><code>1 + &quot;5&quot;</code></td><td><code>+</code> 遇字符串 → 拼接</td><td><code>&quot;15&quot;</code></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：表单数据处理——用户输入的所有值都是字符串，需要转换为数字后进行计算。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    A["📝 表单输入<br/>(全部是字符串)"] --> B["Number() 转换"]
+    B --> C{"转换成功？"}
+    C -->|"✅ 是数字"| D["🔢 做计算"]
+    C -->|"❌ NaN"| E["⚠️ 提示用户<br/>输入无效"]
+    
+    style A fill:#d69e2e,stroke:#fefcbf,color:#1a202c
+    style D fill:#38a169,stroke:#c6f6d5,color:#c6f6d5
+    style E fill:#e53e3e,stroke:#fed7d7,color:#fed7d7
+</div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">form_processing.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 模拟表单输入（用户输入的值都是字符串）
+const inputPrice = &quot;199&quot;;
+const inputQty = &quot;3&quot;;
+
+// 方式 1：显式转换（推荐）
+const total1 = Number(inputPrice) * Number(inputQty);
+console.log(&quot;显式转换:&quot;, total1); // 597
+
+// 方式 2：利用类型强制（- * / 自动转换）
+const total2 = inputPrice * inputQty;
+console.log(&quot;隐式转换:&quot;, total2); // 597
+
+// ⚠️ 用 + 号的陷阱！
+const wrongTotal = inputPrice + inputQty;
+console.log(&quot;错误结果:&quot;, wrongTotal); // &quot;1993&quot;（字符串拼接！）</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>输入价格</th><th>输入数量</th><th><code>*</code> 运算</th><th><code>+</code> 运算</th><th>正确结果</th></tr></thead>
+    <tbody><tr><td><code>&quot;199&quot;</code></td><td><code>&quot;3&quot;</code></td><td><code>597</code>（数字）</td><td><code>&quot;1993&quot;</code>（字符串❌）</td><td><code>597</code></td></tr>
+<tr><td><code>&quot;50&quot;</code></td><td><code>&quot;10&quot;</code></td><td><code>500</code>（数字）</td><td><code>&quot;5010&quot;</code>（字符串❌）</td><td><code>500</code></td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ <strong>类型转换</strong>是手动的：<code>Number()</code>、<code>String()</code>、<code>Boolean()</code></li>
+<li>✅ <strong>类型强制</strong>是自动的：运算符遇到不同类型时触发</li>
+<li>✅ <code>+</code> 运算符遇到字符串时做<strong>拼接</strong>（数字转字符串）</li>
+<li>✅ <code>-</code> <code>*</code> <code>/</code> 运算符把字符串转成<strong>数字</strong>做运算</li>
+<li>✅ <code>NaN</code> 的类型是 <code>&quot;number&quot;</code>——它表示"无效的数字转换结果"</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：以为 <code>&quot;5&quot; + 3</code> 等于 <code>8</code>。实际等于 <code>&quot;53&quot;</code>（字符串拼接）。</li>
+<li>⚠️ <strong>误区 2</strong>：以为 <code>NaN</code> 不是数字类型。<code>typeof NaN</code> 返回 <code>&quot;number&quot;</code>。</li>
+<li>⚠️ <strong>误区 3</strong>：表单输入直接用 <code>+</code> 求和。用户输入都是字符串，<code>+</code> 会拼接而非加法。</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：表单输入直接相加</strong></p>
+
+<pre><code class="language-javascript">const price = &quot;100&quot;;
+const tax = &quot;20&quot;;
+const total = price + tax;
+console.log(total);</code></pre>
+
+<p><strong>浏览器输出：</strong></p>
+
+<pre><code>10020</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>+</code> 遇到字符串做拼接，<code>&quot;100&quot; + &quot;20&quot;</code> 变成 <code>&quot;10020&quot;</code> 而非 <code>120</code>。修复：先用 <code>Number()</code> 转换，或用 <code>-</code> 运算符（<code>price - (-tax)</code>）。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>类型转换</td><td>Type Conversion</td><td>手动显式转换数据类型</td><td><code>Number(&quot;23&quot;)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Type_Conversion" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>类型强制</td><td>Type Coercion</td><td>运算符自动隐式转换</td><td><code>&quot;5&quot; - 3 // 2</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Type_coercion" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>NaN</td><td>Not a Number</td><td>无效的数字转换结果</td><td><code>Number(&quot;abc&quot;) // NaN</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/NaN" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：猜输出</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 先用脑推算，再运行验证！
+console.log(&quot;10&quot; - &quot;5&quot; + &quot;3&quot;);   // ?
+console.log(&quot;10&quot; + &quot;5&quot; - &quot;3&quot;);   // ?
+console.log(&quot;5&quot; * &quot;4&quot; + &quot;2&quot;);    // ?</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">console.log(&quot;10&quot; + &quot;5&quot; - &quot;3&quot;);   // 102  — 先+拼接得&quot;105&quot;，再-转数字减3
+console.log(&quot;5&quot; <em> &quot;4&quot; + &quot;2&quot;);    // &quot;202&quot; — 先</em>乘得20(数字)，再+字串拼接
+</code></pre>
+<strong>解题思路</strong>：从左到右逐个运算符分析，<code>+</code> 遇字符串拼接，<code>-</code><code>*</code><code>/</code> 转数字。
+</details>
+
+<p><strong>练习 2：安全的表单计算</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 用户在表单中输入了价格和折扣：
+const userPrice = &quot;299&quot;;
+const userDiscount = &quot;15&quot;; // 百分比
+
+// 请安全地计算折后价（先转换再计算）
+// 在这里写你的代码</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const userDiscount = &quot;15&quot;;
+
+const price = Number(userPrice);
+const discount = Number(userDiscount);
+const finalPrice = price * (1 - discount / 100);
+
+console.log(<code>原价: ¥${price}, 折扣: ${discount}%, 折后价: ¥${finalPrice}</code>);
+// 原价: ¥299, 折扣: 15%, 折后价: ¥254.15
+</code></pre>
+<strong>解题思路</strong>：表单输入都是字符串，必须先用 <code>Number()</code> 转换后再做计算。
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question"><code>&quot;6&quot; / &quot;2&quot;</code> 的结果是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `3`（数字）</div>
+<div class="quiz-option" data-value="B">B) `&quot;3&quot;`（字符串）</div>
+<div class="quiz-option" data-value="C">C) `NaN`</div>
+    </div>
+    <div class="quiz-explanation">
+        除法 <code>/</code> 运算符触发类型强制，将两个字符串都转换为数字后做除法，结果为数字 <code>3</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>typeof NaN</code> 返回什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `&quot;NaN&quot;`</div>
+<div class="quiz-option" data-value="B">B) `&quot;undefined&quot;`</div>
+<div class="quiz-option" data-value="C">C) `&quot;number&quot;`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>NaN</code> 虽然意为"Not a Number"，但它的数据类型仍然是 <code>number</code>。它代表的是"无效的数字运算结果"。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">以下哪个选项中两个表达式的结果相同？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `&quot;5&quot; + 3` 和 `&quot;5&quot; - 3`</div>
+<div class="quiz-option" data-value="B">B) `&quot;5&quot; * 2` 和 `&quot;5&quot; - (-2) * 0 + 5 * 2`</div>
+<div class="quiz-option" data-value="C">C) `&quot;5&quot; + &quot;3&quot;` 和 `Number(&quot;5&quot;) + Number(&quot;3&quot;)`</div>
+    </div>
+    <div class="quiz-explanation">
+        C 选项中 <code>&quot;5&quot; + &quot;3&quot;</code> 得到 <code>&quot;53&quot;</code>（拼接），而 <code>Number(&quot;5&quot;) + Number(&quot;3&quot;)</code> 得到 <code>8</code>（加法），结果不同。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 手动转换字符串为数字<br>
+    const age = <input type="text" class="blank-input" data-answer="Number" placeholder="1">("25"); // 25<br>
+    <br>
+    // + 号遇到字符串做<input type="text" class="blank-input" data-answer="拼接" placeholder="2"><br>
+    console.log(&quot;3&quot; + 5); // &quot;35&quot;<br>
+    <br>
+    // - 号遇到字符串做<input type="text" class="blank-input" data-answer="数学运算" placeholder="3"><br>
+    console.log(&quot;10&quot; - 5); // 5
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
     function runCode(editorId, consoleId) {
         const code = document.getElementById(editorId).value;
         const outConsole = document.getElementById(consoleId);
         outConsole.innerHTML = '';
         outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
 
+        // Mock console.log to trap output
         let consoleOutput = [];
         const originalLog = console.log;
         console.log = function(...args) {
@@ -204,15 +818,65 @@ console.log('10' - '4' - '3' - 2 + '5');
         };
 
         try {
+            // Evaluates code in local scope to prevent global leak
             new Function(code)();
-            outConsole.innerHTML = consoleOutput.join('\n');
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
         } catch (e) {
-            outConsole.innerHTML = `<span style="color:var(--error-color)">⚠️ ${e.name} : ${e.message}</span>`;
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
         } finally {
             console.log = originalLog;
         }
     }
 
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
@@ -226,7 +890,40 @@ console.log('10' - '4' - '3' - 2 + '5');
             }
         });
     }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
     document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
 </script>
+
 </body>
 </html>

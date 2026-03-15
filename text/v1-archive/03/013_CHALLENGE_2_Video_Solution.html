@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #2 Video Solution</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0f111a;
+            --surface-color: #1a1d27;
+            --text-primary: #f8f9fa;
+            --text-secondary: #a0aec0;
+            --accent-color: #3b82f6;
+            --success-color: #10b981;
+            --warning-color: #f59e0b;
+            --danger-color: #ef4444;
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; display: flex; }
+        .app-container { display: flex; width: 100%; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--border-color); padding: 24px; position: sticky; top: 0; height: 100vh; overflow-y: auto; box-sizing: border-box;}
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 24px; }
+        .nav-item { display: block; padding: 10px 16px; color: var(--text-secondary); text-decoration: none; border-radius: 8px; margin-bottom: 8px; transition: all 0.2s ease; }
+        .nav-item:hover, .nav-item.active { background-color: rgba(59, 130, 246, 0.1); color: var(--accent-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 800px; margin: 0 auto; box-sizing: border-box;}
+        h1 { font-size: 32px; margin-bottom: 16px; font-weight: 700; }
+        h2 { font-size: 24px; margin-top: 48px; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        .meta-info { display: flex; gap: 16px; margin-bottom: 32px; color: var(--text-secondary); font-size: 14px;}
+        .challenge-box { background: linear-gradient(145deg, rgba(59, 130, 246, 0.1) 0%, rgba(16, 185, 129, 0.05) 100%); border: 1px solid var(--accent-color); border-radius: 12px; padding: 24px; margin: 24px 0; }
+        .challenge-icon { font-size: 32px; margin-bottom: 16px; display: block; }
+        .runnable-editor { background-color: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: var(--text-secondary); }
+        .btn-run { background-color: var(--success-color); color: white; border: none; padding: 6px 16px; border-radius: 4px; cursor: pointer; font-size: 14px; transition: transform 0.1s; font-weight: 600; }
+        .btn-run:active { transform: scale(0.95); }
+        .editor-textarea { width: 100%; height: 380px; background-color: transparent; color: white; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 14px; border: none; resize: vertical; outline: none; box-sizing: border-box; }
+        .console-output { padding: 16px; background-color: rgba(0, 0, 0, 0.4); font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a3be8c; min-height: 40px; border-top: 1px solid var(--border-color); white-space: pre-wrap; }
+        details { background-color: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-top: 30px; border: 1px solid var(--border-color); }
+        details summary { cursor: pointer; font-weight: 600; font-size: 18px; color: var(--warning-color); user-select: none; }
+        details summary:focus { outline: none; }
+        ul, ol { margin-top: 8px; }
+        li { margin-bottom: 8px; }
+        code { background-color: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-family: 'JetBrains Mono', monospace; font-size: 14px;}
+    
+        
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">🏆 Coding Challenge</a>
+            <a href="#section-code" class="nav-item">💻 实战沙盒</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #2 Video Solution</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：013 CHALLENGE #2 Video Solution.en.srt</span>
+            <span>📂 章节：第 03 章</span>
+        </div>
+
+        <h2 id="section-overview">🏆 Coding Challenge：智能小费计算器 2.0版</h2>
+        
+        <div class="challenge-box">
+            <span class="challenge-icon">💰</span>
+            <p><strong>背景介绍：</strong><br>又到了该死的小费环节！上次你帮 Steven 用 if/else 写了一次小费计算器，现在你学会了超酷的数组和函数技术，是时候把它升级成可以批量处理多个账单的究极版本了！</p>
+            
+            <h3>📋 任务清单（Tasks）</h3>
+            <ol>
+                <li>写一个函数 <code>calcTip</code>。该函数仅接收任意一笔账单金额 <code>bill</code>。</li>
+                <li>在函数内必须使用你学过的<strong>三元运算符 (Ternary Operator)</strong>，返回该账单应付的小费：<br>规则：如果账单金额在 50 到 300 之间（含两端），则小费为 15%；其他金额的小费则一律为 20%。</li>
+                <li>建立一个名为 <code>bills</code> 的数组对象，里面含有这三次大餐的花费测试数据。</li>
+                <li>建立第二个数组叫做 <code>tips</code>。要求：在里面调用 <code>calcTip</code> 计算出 <code>bills</code> 对应位置每一个账单的小费！</li>
+                <li>🏅 <i>Bonus:</i> 建立第三个名为 <code>totals</code> 的数组对象，计算每一顿饭总共花出去的最终打款数字 (老规矩：Bill + Tip)</li>
+            </ol>
+
+            <h3>🧪 测试数据集（Test Data）</h3>
+            <ul>
+                <li>三天晚上的饭钱分别是：<strong>125, 555, 和 44</strong>。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-code">💻 实战沙盒</h2>
+        <p>你已经学会向 Array 丢入带有返回值的 Function 表达式了，所以 <code>tips</code> 数组里你该怎么堆叠它？切记：数组和数组绝不可直接相加减！</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge2.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行我的代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+// 1. 实现 calcTip 小费计算函数
+const calcTip = function(bill) {
+    // 你的三元运算逻辑在这（别忘了 return）
+}
+
+// 2. 账单数组
+const bills = // [125, 555, 44]
+
+// 3. 小费数组 (使用 calcTip 并传入 bills 数组具体的一个位置元素)
+const tips = [
+    // calcTip(bills[0]),
+    // ...
+];
+
+// 4. 重磅 Bonus：总消费大核算！
+const totals = [
+    // bills[0] + tips[0],
+    // ...
+];
+
+console.log('账单:', bills);
+console.log('小费:', tips);
+console.log('总计出账:', totals);
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <details>
+            <summary>💡 Jonas 官方解法揭秘 (Spoilers! 先自己试哦)</summary>
+            
+            <p>如果在 <code>totals</code> 的计算里，你试图使出 <code>bills + tips</code> 这种骚操作，还记得上一节课你看到了什么下场吗？（它们会被强行黏合成没意义的字符串！）正确的做法始终是精确制导到数组里的某个“槽位”。</p>
+            
+            <p><strong>1️⃣ 核心引擎 <code>calcTip</code></strong>：由于三元运算符太完美了，只需一行即可。你可以写成标准表达式或者箭头函数，这里我们保留老手最爱的普通函数写法增加可读性：</p>
+<pre><code class="language-javascript">const calcTip = function(bill) {
+    return bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.20;
+}
+/* 激进极简党的箭头函数版本：
+const calcTip = bill => bill >= 50 && bill <= 300 ? bill * 0.15 : bill * 0.20;
+*/
+</code></pre>
+
+            <p><strong>2️⃣ 基础账单阵列</strong>：一定要用复数名称养成好习惯！</p>
+<pre><code class="language-javascript">const bills = [125, 555, 44];
+</code></pre>
+
+            <p><strong>3️⃣ 动态核算阵列 <code>tips</code></strong>：这是本节课的王牌杀招。我们在构建一个新数组时，塞进去的并不是定值的死数字，而是<strong>实时的函数调用指令</strong>！JavaScript 会贴心帮你把值算出来再排进数组的新坑位：</p>
+<pre><code class="language-javascript">const tips = [
+   calcTip(bills[0]), 
+   calcTip(bills[1]), 
+   calcTip(bills[2])
+];
+</code></pre>
+
+            <p><strong>4️⃣ 最终加总汇总阵列</strong>：</p>
+<pre><code class="language-javascript">const totals = [
+    bills[0] + tips[0],
+    bills[1] + tips[1],
+    bills[2] + tips[2]
+];
+
+console.log(bills, tips, totals);
+// Output: 
+// [125, 555, 44]
+// [18.75, 111, 8.8]
+// [143.75, 666, 52.8]
+</code></pre>
+
+            <p>大功告成！通过巧妙利用数组元素的解包重组，我们把干瘪的代码变成了极具威力的数据处理车间。</p>
+        </details>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const out = document.getElementById(consoleId);
+        out.innerHTML = '';
+        const originalLog = console.log;
+        const originalError = console.error;
+        let logs = [];
+        console.log = function(...args) {
+            logs.push('> ' + args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            originalLog.apply(console, args);
+        };
+        console.error = function(...args) {
+            logs.push('<span style="color:#ef4444;">> Error: ' + args.join(' ') + '</span>');
+            originalError.apply(console, args);
+        };
+        try {
+            new Function(code)();
+            if(logs.length === 0) logs.push('(Code executed successfully with no output)');
+        } catch (e) {
+            logs.push('<span style="color:#ef4444;">> ' + e.toString() + '</span>');
+        }
+        console.log = originalLog;
+        console.error = originalError;
+        out.innerHTML = logs.join('<br>');
+    }
+</script>
+</body>
+</html>

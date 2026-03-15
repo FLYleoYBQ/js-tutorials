@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #1: Print Forecast</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+    .solution-btn {
+        background-color: var(--primary-color);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        font-family: inherit;
+        font-weight: 600;
+        margin-top: 15px;
+        display: block;
+        width: 100%;
+        text-align: left;
+    }
+    .solution-btn:hover { background-color: var(--primary-color-hover); }
+    .solution-content {
+        margin-top: 15px;
+        padding: 15px;
+        border-left: 3px solid var(--primary-color);
+        background-color: var(--bg-card);
+        display: none;
+    }
+    .solution-content.show { display: block; }
+    
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">需求描述</a>
+            <a href="#section-test-data" class="nav-item">测试数据</a>
+            <a href="#section-code-area" class="nav-item">实战演练</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #1: Print Forecast</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：012 CHALLENGE #1.en.srt</span>
+            <span>📂 章节：第 05 章</span>
+        </div>
+
+        <div class="callout callout-warning">
+            <strong>⚠️ 挑战时刻！</strong>
+            <p>我们已经学习了理论知识并体验了用四步框架推导解题。现在，是时候独立把这一切应用到实际业务中了。千万不要急着看答案！先尝试按步就班地做出来。</p>
+        </div>
+
+        <h2 id="section-overview">📝 需求描述</h2>
+        <p>给定一个表示<strong>预报最高气温</strong>的数据数组。我们正负责构建的“前端温度计面板”需要将这组庞大的数据输出渲染为一句特定格式的长字符串。</p>
+        
+        <p>你需要创建一个名为 <code>printForecast</code> 的函数。<br>它接收一个数组 <code>arr</code> 作为输入，并将上述格式的长字符串直接打印 (<code>console.log</code>) 在控制台上。</p>
+
+        <p><strong>🎯 输出格式示范：</strong><br>
+        如果输入数组是 <code>[17, 21, 23]</code>，预期的打印结构必须如下：<br>
+        <code>"... 17ºC in 1 days ... 21ºC in 2 days ... 23ºC in 3 days ..."</code>
+        </p>
+        
+        <p><strong>💡 破题心法：</strong></p>
+        <ul>
+            <li>请使用本章节刚刚提及的“解决问题四步法”先拆分框架。</li>
+            <li>如何把原本零散的多个元素打包成一条又长又连贯的麻绳？想想那几个小段是如何无缝对接“加起来”的。</li>
+            <li>你需要什么类型的循环构造？</li>
+        </ul>
+
+        <h2 id="section-test-data">🧪 测试数据</h2>
+        <ul>
+            <li><strong>Data 1:</strong> <code>[17, 21, 23]</code></li>
+            <li><strong>Data 2:</strong> <code>[12, 5, -5, 0, 4]</code></li>
+        </ul>
+
+        <h2 id="section-code-area">💻 实战演练</h2>
+        <p>在下方的沙盒中书写你的实现，并对 <code>Data 1</code> 和 <code>Data 2</code> 进行验证测试：</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge.js</span>
+                <button class="btn-run" onclick="runCode('codeEditorChallenge', 'consoleChallenge')">▶ 运行你的解答</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditorChallenge" class="editor-textarea" spellcheck="false">// 1. 尝试理解问题，列出子任务
+// 2. 将每个元素转化为 "XºC in Y days" 的字符串
+// 3. 把所有的局部字符串和 "..." 桥接拼凑起来，构成超大变体字符串
+
+const data1 = [17, 21, 23];
+const data2 = [12, 5, -5, 0, 4];
+
+// 在这里编写你名为 printForecast 的函数：
+
+
+
+
+
+</textarea>
+            </div>
+            <div id="consoleChallenge" class="console-output">控制台输出区域...</div>
+        </div>
+
+        <button class="solution-btn" onclick="document.getElementById('solutionContent').classList.toggle('show')">👁️ 实在卡住了？点击查阅 Jonas 的重构路线与答案</button>
+
+        <div id="solutionContent" class="solution-content">
+            <h3>Jonas 的 4 步拆解法演示</h3>
+            <p><strong>理解问题：</strong></p>
+            <ul>
+                <li>核心挑战在于需要把整堆 Array 转换为一个一体的 String，它们由 <code>...</code> 间隔符拼接。</li>
+                <li>X 天代表什么？就是我们常说的第 1 天、第 2 天。本质上就是<strong>数组当前索引 (index) 加上 1</strong>。</li>
+            </ul>
+            
+            <p><strong>拆分为子任务：</strong></p>
+            <ol>
+                <li>遍历数组元素并将元素转为其等效的格式：<code>"XºC in Y days"</code>。</li>
+                <li>需要有个外部大字符串把这些小零碎像吸尘器一样全部聚合到一块。</li>
+                <li>处理起始和接驳处的 <code>"..."</code> 逻辑。</li>
+            </ol>
+
+            <div class="code-comparison">
+                <div class="code-column">
+                    <div class="code-header">🔥 进阶：如何拼接超级长字符串</div>
+                    <p style="font-size: 14px; margin-bottom: 10px; color: var(--text-secondary);">回顾一下计算总和。那也是在循环外声明一个 `sum = 0` 做容器。我们现在依葫芦画瓢，只是这次容器是一个空皮囊 `""`。</p>
+<pre><code class="language-javascript">const printForecast = function(arr) {
+    // 蓄水池变量，初始极净为空白
+    let str = '';
+
+    for (let i = 0; i < arr.length; i++) {
+        // 利用模板字符串魔幻拼接，每次都向旧蓄水池填充水
+        str += `${arr[i]}ºC in ${i + 1} days ... `;
+    }
+    
+    // 我们发现上面的结果首部还缺一个 `...` 
+    // 于是在全局输出打印的时候人工补充一个领班
+    console.log('... ' + str);
+};
+
+printForecast([17, 21, 23]);</code></pre>
+                </div>
+            </div>
+            
+            <p>巧妙利用空的 String <code>str</code> 并在执行内部打补丁式向后累加 <code>+=</code>！这是编程里非常经典的模式。</p>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode(inputId, outputId) {
+        const code = document.getElementById(inputId).value;
+        const outputDiv = document.getElementById(outputId);
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            output.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = output.join('<br>') || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selecting and Manipulating Elements</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
+        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        td a { color: var(--info-color); text-decoration: none; }
+
+        
+        
+    
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-read-write" class="nav-item">1. 读取和写入文本内容</a>
+            <a href="#section-input" class="nav-item">2. 操作输入框 (Input Fields) 的特殊之处</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Selecting and Manipulating Elements</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：005 Selecting and Manipulating Elements.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>上节课我们懂得了 DOM 是什么，这节课我们终于要动手施展魔法了！我们将通过 JavaScript 来“选中”网页里的元素，然后随心所欲地去“篡改”它们显示的内容。掌握这套擒拿手，你就是网页的主宰！</p>
+
+        <h2 id="section-read-write">1. 读取和写入文本内容 (textContent)</h2>
+        <p>如果你想修改普通 HTML 元素里夹着的文字（比如 <code>&lt;p&gt;</code>、<code>&lt;h1&gt;</code>、<code>&lt;div&gt;</code>），最核心的属性叫做 <strong><code>textContent</code></strong>。</p>
+
+        <p>下面这行代码分为非常清晰的两部分：<strong>先用选择器抓取，再操作属性。</strong></p>
+
+        <pre><code class="language-javascript">
+// 步骤一：抓取 HTML 里 class 名为 'message' 的元素
+// 步骤二：篡改它的 textContent 属性
+
+document.querySelector('.message').textContent = '🎉 Correct Number!';
+        </code></pre>
+
+        <p>你可以用这个属性读取网页现有的字，也可以给它塞新字进去。这就像变量的读和写一样自然：</p>
+
+        <pre><code class="language-javascript">
+// 读操作 (Read)
+console.log(document.querySelector('.message').textContent); 
+// 输出: "Start guessing..." (假设这是原来的字)
+
+// 写操作 (Write/Mutate)
+document.querySelector('.score').textContent = 10;
+document.querySelector('.number').textContent = 13;
+        </code></pre>
+
+        <div class="callout info">
+            <p>💡 <strong>小提示：</strong> <code>querySelector</code> 里的字符串用法和你在 CSS 里写选择器一模一样：点号 <code>.</code> 代表 <code>class</code>，井号 <code>#</code> 代表 <code>id</code>。如果你想选某个标签（比如 <code>body</code>），直接写 <code>'body'</code> 即可。</p>
+        </div>
+
+
+        <h2 id="section-input">2. 操作输入框 (Input Fields) 的特殊之处</h2>
+        <p>我们要在 "Guess My Number" 游戏里让玩家输入数字，所以我们需要用到 <code>&lt;input&gt;</code> 元素。但是请注意！<strong>Input 标签是个奇葩，它不能用 <code>textContent</code> 操作！</strong></p>
+
+        <p>为什么？因为 <code>&lt;input&gt;</code> 是一个自闭合标签（没有结束标签，中间夹不了东西），用户的输入都存在了一个叫做 <strong><code>value</code></strong> 的内部属性里。</p>
+
+        <pre><code class="language-javascript">
+// ❌ 错误做法：企图用 textContent 操作输入框
+document.querySelector('.guess').textContent = 23; // 这毫无反应！
+
+// ✅ 正确做法：读取和设置输入框的 value 属性
+document.querySelector('.guess').value = 23; // 代码自动在页面输入框填入 23
+console.log(document.querySelector('.guess').value); // 读取当前输入框里的内容
+        </code></pre>
+
+        <p>现在我们已经能用意念（代码）控制页面元素了，接下来的终极挑战是：我们希望<strong>当玩家真正去用鼠标点击按钮时</strong>，代码才开始运行！这就要涉及“事件监听”了。</p>
+
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 我们需要将页面上一个带有 class 名为 "btn-submit" 的按钮上的文字修改为 "提交"，正确的代码是？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) `document.querySelector('btn-submit').textContent = '提交';`</div>
+                <div class="quiz-option" data-value="B">B) `document.querySelector('.btn-submit').textContent = '提交';`</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。`querySelector` 里面需要传入合法的 CSS 选择器字符串。对于 class，必须在前面加上点号 `.`。否则引擎会傻傻地去 HTML 里寻找叫 `<btn-submit>` 的原生标签。
+            </div>
+        </div>
+        
+        <br>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">2. 用户在一个邮箱输入框 `&lt;input class="email" type="email"&gt;` 里面敲了一串拼音。为了用 JS 获取他敲的内容，应该访问哪个属性？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) `textContent`</div>
+                <div class="quiz-option" data-value="B">B) `value`</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。一切供用户输入的表单元素（`<input>`, `<textarea>`, `<select>` 等），它的内容都存活在 `value` 属性中，而不是 `textContent` 中！死记硬背！
+            </div>
+        </div>
+
+        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>寻找首个匹配元素</td>
+                    <td><code>document.querySelector()</code></td>
+                    <td>万能抓取手，接收 CSS 选择器，返回文档中匹配的第一个 Element 对象</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector" target="_blank">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>文本内容属性</td>
+                    <td><code>textContent</code></td>
+                    <td>用于读/写普通元素（如 p / div / h1 等）内部的纯文本</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Node/textContent" target="_blank">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>输入值属性</td>
+                    <td><code>value</code></td>
+                    <td>专属于表单输入元素的值属性。用于读取用户的输入，或者用代码往里填默认值</td>
+                    <td><a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input#value" target="_blank">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const opts = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.style.background = 'transparent');
+                if (opt.getAttribute('data-value') === correctVal) {
+                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--success-color)';
+                } else {
+                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--error-color)';
+                }
+                exp.style.display = 'block';
+            });
+        });
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>let, const and var 声明与常量</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+        .callout.best-practice { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+    
+        
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 变量变异者：let</a>
+            <a href="#section-2" class="nav-item">2. 绝对不可动摇者：const</a>
+            <a href="#section-bp" class="nav-item">🏆 最佳实践哲学</a>
+            <a href="#section-3" class="nav-item">3. 历史幽魂与无耻裸写：var 与隐式污染</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>let, const 和 var 声明与常量</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：008 let, const and var.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <p>一直以来我们都在用 <code>let</code> 来声明变量。但其实在现代 JavaScript（ES6及之后）中，创建变量的主力有两员大将：<code>let</code> 和 <code>const</code>。而 <code>var</code> 则是一个已被淘汰的老古董。</p>
+
+        <h2 id="section-1">1. 变量变异者：let (可突变)</h2>
+        <p>我们使用 <code>let</code> 来声明那些<strong>在程序运行的过程中注定会被改变（重新赋值）的变量</strong>。比如一个人的年龄会随着时间增长。</p>
+        <p>在专业术语中，重新赋值被称作<strong>突变 (Mutate)</strong> 一个变量。</p>
+        <pre><code class="language-javascript">let age = 30;
+age = 31; // 完美突变，30 岁变成了 31 岁
+let currentYear; // let 允许你先造一个空箱子 (undefined) 等待后续发落
+currentYear = 2024;</code></pre>
+
+        <h2 id="section-2">2. 绝对不可动摇者：const (不可突变常量)</h2>
+        <p><code>const</code> 意为 Constant (常量)。使用 <code>const</code> 声明的变量，它的值被焊死了，在未来的任何时候都<strong>绝对不允许被修改和突变</strong>。</p>
+        <p>因为它的值必须是铁打的，所以你<strong>不能创造一个空的 const 变量</strong>。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">const-rules.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+const birthYear = 1991;
+
+// 尝试修改出生年份（显然这违背常理）
+birthYear = 1990; // 🚨 点击运行，欣赏一下爆红的 TypeError 崩溃！
+
+// 尝试创建一个没有任何数据的空常量也是犯法的：
+// const job; // 🚨 Uncaught SyntaxError: Missing initializer in const declaration</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <h2 id="section-bp">🏆 最佳实践哲学</h2>
+        <div class="callout best-practice">
+            <p><strong>💡 黄金法则：默认始终使用 <code>const</code>！</strong></p>
+            <p>作为编写整洁、安全代码的最佳实践：<strong>只有当你100%确信这个变量在未来必须发生变化时（比如循环计数器），才使用 <code>let</code>。</strong></p>
+            <p>为什么？因为允许变量随意突变 (Mutate) 是程序引发 Bug 的万恶之源。尽可能把不需要变化的量封死成 <code>const</code>，能帮助你避免大量低级错误。</p>
+        </div>
+
+        <h2 id="section-3">3. 历史幽魂与无耻裸写：var 与隐式污染</h2>
+        
+        <p><strong>关于 <code>var</code> (已被时代淘汰)：</strong><br>
+        <code>var</code> 是 ES5 时代（2015年以前）声明变量老方法。表面上它能像 <code>let</code> 一样随意改变值。但实际上引擎底层的挂载方式（函数作用域 vs 块级作用域）截然不同。对于你而言，<strong>在平时编码时应当把它视作毒药，绝对不要使用</strong>，只要知道它的存在是为了看懂史前老代码即可。</p>
+
+        <p><strong>关于裸写赋值 (未声明污染)：</strong><br>
+        初学者可能会发现，即使不用 let/const/var，直接写 <code>lastName = "Schmedtmann";</code> 程序也能跑！</p>
+        <p><strong>🚨 警告：这是开发中最臭名昭著的毒瘤！</strong><br>
+        这样做并没有在当前作用域创建合法的变量，而是将它挂载为了全局对象 (Global Object) 上的一个恐怖属性，这将导致严重的命名污染。一定要养成加上声明前缀的习惯！</p>
+
+    </main>
+</div>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Implementing the Game Logic</title>
+    <title>实现游戏核心逻辑</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -11,243 +11,841 @@
     <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
             --bg-color: #0d0d0d;
             --surface-color: #1a1a1a;
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
-            --warning-color: #f1fa8c;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
             --radius-md: 8px;
             --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
             --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
             --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
-        .app-container { display: flex; min-height: 100vh; }
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
-        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
-        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
 
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
         h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
         p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
-        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
-        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
-        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
-        
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
-        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
-        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        td a { color: var(--info-color); text-decoration: none; }
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
 
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
         
-        
-    
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
         }
 
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 07 章 / 进度</div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
             <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">概述</a>
-            <a href="#section-state" class="nav-item">1. 至关重要：应用状态 (Application State)</a>
-            <a href="#section-logic" class="nav-item">2. 核心逻辑：If-Else 嵌套与分数判断</a>
-            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
-            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+            <a href="#section-0" class="nav-item active">实现游戏核心逻辑</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-6" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-7" class="nav-item">💡 关键要点</a>
+            <a href="#section-8" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-9" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-10" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-11" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>Implementing the Game Logic</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：007 Implementing the Game Logic.en.srt</span>
-            <span>📂 章节：第 07 章</span>
-        </div>
+<h1 id="section-0">实现游戏核心逻辑</h1>
 
-        <h2 id="section-overview">🎯 概述</h2>
-        <p>上节课我们成功拦截了用户的点击事件并拿到了输入的数字。现在我们要构建 "Guess My Number" 的核心大脑：比较数字、更新生命值（Score），并且判断游戏是赢了还是输了。</p>
+<div class="callout"><p>📺 来源：007 Implementing the Game Logic.en.srt<br>📂 章节：第 07 章</p></div>
 
-        <h2 id="section-state">1. 至关重要：应用状态 (Application State)</h2>
-        <p>在游戏中，我们需要记录玩家的当前生命值（初始为 20）。每猜错一次，数字就要减 1。</p>
-        
-        <p>很多新手会这么做：先用 <code>document.querySelector</code> 把页面上的 <code>20</code> 读出来，减去 1，然后再写回页面。<strong>这是一种非常初级且危险的做法！</strong></p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <div class="callout error">
-            <p>🚨 <strong>千万不要只把数据存在 DOM（网页界面）里！</strong> 因为一旦页面显示异常，或者你想在代码别的地方使用这个数字，你将无从下手。DOM 只是用来“显示”界面的，它不该用来“存储”数据。</p>
-        </div>
+<ul>
+<li><strong>前置知识</strong>：DOM 元素选择与文本修改、点击事件监听（Event Listener）、<code>if...else if</code> 条件判断</li>
+<li><strong>后续扩展</strong>：CSS 样式操作（DOM 样式操作）、高分记录（Highscore）逻辑、代码重构（DRY 原则）</li>
+</ul>
 
-        <p>正确的做法是：在代码中声明专门的变量来存储这些核心数据，这被称为<strong>应用状态 (Application State)</strong>。</p>
+<h2 id="section-2">🎯 概述</h2>
 
-        <pre><code class="language-javascript">
-// 定义在最外层的状态变量
+<p>本节课的核心是利用条件判断实现“猜数字”游戏的完整逻辑分支。我们将学习如何生成随机的秘密数字，引入<strong>状态变量（State Variable）</strong>来管理游戏分数，并处理猜中、猜高、猜低以及游戏失败（分数归零）等多种场景。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 生成随机数字与作用域隔离</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：在一场有主持人的猜数字游戏中，主持人必须在游戏<strong>开始前</strong>就把神秘数字写在纸上，而不是每次玩家开口猜的时候，主持人都重新想一个新数字。</p></div>
+
+<p>在代码中，我们不能将生成秘密数字的逻辑写在点击事件的函数内部，否则每次点击按钮都会生成一个新的秘密数字，游戏就毫无意义了。</p>
+
+<pre><code class="language-javascript">// 必须在事件监听器外部生成神秘数字（只生成一次）
 const secretNumber = Math.trunc(Math.random() * 20) + 1;
-let score = 20; // 必须用 let，因为分数会递减
+
+// 仅在开发测试阶段显示秘密数字
+document.querySelector('.number').textContent = secretNumber;
 
 document.querySelector('.check').addEventListener('click', function() {
-    // ... 后续逻辑中，我们只修改 score 变量，然后再把变量的值映射到 DOM 上
-});
-        </code></pre>
+  const guess = Number(document.querySelector('.guess').value);
+  // ... 比较逻辑
+});</code></pre>
 
+<p><strong>📊 <code>Math.random()</code> 到 1-20 整数的演变表：</strong></p>
 
-        <h2 id="section-logic">2. 核心逻辑：If-Else 嵌套与分数判断</h2>
-        <p>现在我们把所有的逻辑分支全铺开。游戏共有 4 种主分支情况：没写数字、猜中了、猜大了、猜小了。</p>
+<table>
+    <thead><tr><th>代码片段</th><th>返回值范围</th><th>说明</th></tr></thead>
+    <tbody><tr><td><code>Math.random()</code></td><td><code>0.000...</code> 到 <code>0.999...</code></td><td>生成 0 到 1 之间（不含 1）的随机小数</td></tr>
+<tr><td><code>Math.random() * 20</code></td><td><code>0.000...</code> 到 <code>19.999...</code></td><td>放大 20 倍</td></tr>
+<tr><td><code>Math.trunc(...)</code></td><td><code>0</code> 到 <code>19</code></td><td>截断小数部分，保留整数</td></tr>
+<tr><td><code>Math.trunc(...) + 1</code></td><td><code>1</code> 到 <code>21</code>（实际上不会到 21，因为 trunc 的结果最大是 19，加 1 后范围是 1 到 20）</td><td>加 1 使得范围变为 1 到 20</td></tr></tbody>
+</table>
 
-        <p>特别注意，在“猜大了”和“猜小了”的情况下，我们要执行扣分操作。但程序是个瞎子，如果我们不告诉它什么时候停止，即便分数被扣到了 <code>-5</code>，它依然会说“猜大了”。所以我们必须在扣分前<strong>额外增加一层守卫条件，判断分数是否还大于 1。</strong></p>
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：先随机，后放大，截小数，再加一。</p></div>
 
-        <pre><code class="language-javascript">
-const guess = Number(document.querySelector('.guess').value);
+<hr>
 
-// 场景 1：没有输入
-if (!guess) {
-    document.querySelector('.message').textContent = '⛔ No number!';
+<h3 id="section-5">2. 状态变量（State Variable）与数据驱动</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：玩街机游戏时，虽然屏幕上显示了你的得分（DOM），但游戏主板的内存里一定也存着你的真实分数（State）。不能仅靠“看着屏幕念分数”来判断输赢。</p></div>
+
+<p>我们将分数保存在 JavaScript 代码中的一个变量里，而不是每次都去读取 DOM 里的文本。这种变量被称为<strong>状态变量（State Variable）</strong>。</p>
+
+<div class="mermaid">
+flowchart LR
+    A["🕹️ 用户猜错"] --> B["💻 代码状态更新<br/>score--"]
+    B --> C["🖥️ DOM 更新<br/>更新 .score 文本内容"]
     
-// 场景 2：玩家获胜
-} else if (guess === secretNumber) {
-    document.querySelector('.message').textContent = '🎉 Correct Number!';
-    
-// 场景 3：猜得太大
-} else if (guess > secretNumber) {
-    if (score > 1) { // 守卫：只要命还没掉完
-        document.querySelector('.message').textContent = '📈 Too high!';
-        score--; // 状态变量减 1
-        document.querySelector('.score').textContent = score; // 更新 DOM
+    style B fill:#3498db,stroke:#2980b9,color:#fff
+    style C fill:#2ecc71,stroke:#27ae60,color:#fff
+</div>
+
+<pre><code class="language-javascript">// 初始状态变量定义
+let score = 20;
+
+document.querySelector('.check').addEventListener('click', function() {
+  const guess = Number(document.querySelector('.guess').value);
+  
+  // 当猜错时...
+  if (guess !== secretNumber) {
+    if (score &gt; 1) {
+      score--; // 更新代码中的状态
+      document.querySelector('.score').textContent = score; // 同步到 DOM
     } else {
-        // 命掉完了，游戏结束
-        document.querySelector('.message').textContent = '💥 You lost the game!';
-        document.querySelector('.score').textContent = 0;
+      document.querySelector('.message').textContent = '💥 你输了！';
+      document.querySelector('.score').textContent = 0;
     }
-    
-// 场景 4：猜得太小 (由于逻辑雷同，日后我们将学习 DRY 原则重构它)
-} else if (guess < secretNumber) {
-    if (score > 1) {
-        document.querySelector('.message').textContent = '📉 Too low!';
-        score--;
-        document.querySelector('.score').textContent = score;
+  }
+});</code></pre>
+
+<p><strong>🔍 执行追踪（猜测错误的场景）：</strong></p>
+
+<ol>
+<li>初始 <code>score</code> 为 20</li>
+<li>玩家猜错，判断 <code>score &gt; 1</code> (20 > 1) 成立</li>
+<li><code>score--</code>，<code>score</code> 变为 19</li>
+<li>执行 <code>document.querySelector('.score').textContent = 19</code></li>
+<li>（重复 18 次后）当 <code>score</code> 为 1 时，玩家再次猜错</li>
+<li>判断 <code>score &gt; 1</code> (1 > 1) 不成立，进入 <code>else</code> 分支</li>
+<li>显示“💥 你输了！”，分数文本重置为 0</li>
+</ol>
+
+<hr>
+
+<h2 id="section-6">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：实现“猜数字”游戏的完整比较逻辑。包含边界检查（没有输入）、猜中、猜高、猜低，以及生命值扣除到 0 时的失败判定。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">game_logic.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 生成秘密数字（1 到 20）
+const secretNumber = Math.trunc(Math.random() * 20) + 1;
+// 状态变量：分数
+let score = 20;
+
+document.querySelector('.check').addEventListener('click', function () {
+  const guess = Number(document.querySelector('.guess').value);
+
+  // 场景 1：没有输入
+  if (!guess) {
+    document.querySelector('.message').textContent = '⛔ 没有数字！';
+  
+  // 场景 2：玩家胜利
+  } else if (guess === secretNumber) {
+    document.querySelector('.message').textContent = '🎉 猜选正确！';
+  
+  // 场景 3：猜得太高
+  } else if (guess &gt; secretNumber) {
+    if (score &gt; 1) {
+      document.querySelector('.message').textContent = '📈 太高了！';
+      score--;
+      document.querySelector('.score').textContent = score;
     } else {
-        document.querySelector('.message').textContent = '💥 You lost the game!';
-        document.querySelector('.score').textContent = 0;
+      document.querySelector('.message').textContent = '💥 你输了！';
+      document.querySelector('.score').textContent = 0;
     }
+
+  // 场景 4：猜得太低
+  } else if (guess &lt; secretNumber) {
+    if (score &gt; 1) {
+      document.querySelector('.message').textContent = '📉 太低了！';
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else {
+      document.querySelector('.message').textContent = '💥 你输了！';
+      document.querySelector('.score').textContent = 0;
+    }
+  }
+});</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["🔘 用户点击 Check"] --> B{"是否有输入？ (!guess)"}
+    B -->|是| M1["显示：⛔ 没有数字！"]
+    B -->|否| C{"guess === secretNumber?"}
+    
+    C -->|等于| M2["显示：🎉 猜选正确！"]
+    C -->|大于| D1{"score > 1?"}
+    C -->|小于| D2{"score > 1?"}
+    
+    D1 -->|是| S1["显示：📈 太高了！<br/>score--<br/>更新分数显示"]
+    D1 -->|否| L1["显示：💥 你输了！<br/>分数设为 0"]
+    
+    D2 -->|是| S2["显示：📉 太低了！<br/>score--<br/>更新分数显示"]
+    D2 -->|否| L2["显示：💥 你输了！<br/>分数设为 0"]
+    
+    style A fill:#3498db,stroke:#2980b9,color:#fff
+    style M2 fill:#2ecc71,stroke:#27ae60,color:#fff
+    style L1 fill:#e74c3c,stroke:#c0392b,color:#fff
+    style L2 fill:#e74c3c,stroke:#c0392b,color:#fff
+</div>
+
+<h2 id="section-7">💡 关键要点</h2>
+
+<ul>
+<li>✅ 秘密数字必须在事件监听器<strong>外部</strong>生成，保证整个游戏过程中只有唯一一个正确答案。</li>
+<li>✅ <strong>状态变量（State Variable）</strong>是应用中非常重要的概念，所有相关数据（如分数、秘密数字）应存储在代码变量中，而不只是在 DOM 中显示。</li>
+<li>✅ <code>score--</code> 是 <code>score = score - 1</code> 的简写，常用于递减操作。</li>
+<li>✅ 嵌套 <code>if...else</code> 语句可用于处理多层逻辑分支，例如在“猜错”的前提下再判断“分数是否大于 1”。</li>
+</ul>
+
+<h2 id="section-8">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1：在点击事件中生成随机数</strong>。如果把 <code>Math.random()</code> 放到 <code>addEventListener</code> 回调函数中，每次点击都会换一个新答案，玩家永远摸不透。</li>
+<li>⚠️ <strong>误区 2：使用 <code>const</code> 声明分数</strong>。因为分数在游戏过程中会减少（被重新赋值），所以必须使用 <code>let score = 20</code>，如果使用 <code>const</code> 会报错。</li>
+</ul>
+
+<h2 id="section-9">🐛 报错实验室</h2>
+
+<div class="callout"><p>错误地将不断变化的数据用 <code>const</code> 声明，是新手使用状态变量时的通病。</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">const score = 20;
+
+document.querySelector('.check').addEventListener('click', function () {
+  // ... 其他逻辑
+  score--; // 尝试修改常量
+});</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>TypeError: Assignment to constant variable.</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>const</code> 声明的变量是不可修改（Immutable）的。<code>score--</code> 本质上是给 <code>score</code> 重新赋值，因此必须将声明方式改为 <code>let</code>。</p>
+
+<hr>
+
+<h2 id="section-10">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>截断小数</td><td>Math.trunc()</td><td>去除数字的小数部分，仅保留整数</td><td><code>Math.trunc(19.99) // 19</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/trunc" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>随机数</td><td>Math.random()</td><td>生成 0 到 1 之间的伪随机小数</td><td><code>Math.random()</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Math/random" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>状态变量</td><td>State Variable</td><td>在代码内存中持有应用状态的数据</td><td><code>let score = 20;</code></td><td>—</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-11">🧪 学习验证</h2>
+
+<h3 id="section-12">📝 动手练习</h3>
+
+<p><strong>练习 1：生成指定范围内的随机整数</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 编写一个函数，接收两个参数 min 和 max
+// 返回包含 min 和 max 的随机整数
+function getRandomInt(min, max) {
+  // 在这里写你的代码
 }
-        </code></pre>
 
+console.log(getRandomInt(5, 10)); // 可能输出 5, 6, 7, 8, 9, 10 中的任意一个</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
 
-        <h2 id="section-quiz">🧪 学习验证</h2>
+<details><summary>💡 参考答案</summary>
 
-        <div class="quiz-card" data-correct="B">
-            <div class="quiz-question">1. 什么是 "Application State" (应用状态)？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) 它是浏览器提供的一个内置检查网页是否存活的 Web API。</div>
-                <div class="quiz-option" data-value="B">B) 指的是我们在 JavaScript 代码中专门用于保存应用程序一切相关核心数据（比如当前得分、是否登录等）的变量集合。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>正确答案：B</strong>。应用状态是现代前端开发最核心的概念之一（特别是进入 React/Vue 等框架后）。数据永远应该保存在代码（内存）中，而 DOM 只是这些状态在用户屏幕上的一层倒影。
-            </div>
-        </div>
-        
-        <br>
+<pre><code class="language-javascript">  return Math.trunc(Math.random() * (max - min + 1)) + min;
+}
+</code></pre>
+<strong>解题思路</strong>：<code>Math.random()</code> 生成 0~0.99，乘以 <code>(max - min + 1)</code> 将范围扩展。<code>Math.trunc</code> 取整后范围变为 <code>0</code> 到 <code>max - min</code>。最后加上 <code>min</code>，将整个区间平移至 <code>min</code> 到 <code>max</code>。
+</details>
 
-        <div class="quiz-card" data-correct="A">
-            <div class="quiz-question">2. 在上述代码的守卫条件中，为什么我们写的是 `if (score > 1)` 而不是 `if (score > 0)`？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) 因为这发生在玩家点击按钮“消耗”生命值之前。如果当前分数是 1，玩家一旦点错，分数就会变成 0，此时应该宣布游戏结束，而不是还能继续减。</div>
-                <div class="quiz-option" data-value="B">B) 因为 JavaScript 在处理 0 的时候会自动将其忽略。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>正确答案：A</strong>。这是非常典型的编程边界情况考察。由于我们的逻辑是先判断、再减分、再显示。如果不拦截 `>1` 的情况，当得分为 1 时玩家猜错，程序会说“太高了”，并把分数降为 0。但此时游戏其实已经输了，所以必须在最后一步操作发生前卡死！
-            </div>
-        </div>
+<p><strong>练习 2：重构重复代码的思考</strong><br>仔细观察本节课实战中的“猜得太高”和“猜得太低”两段代码。</p>
 
-        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>中文术语</th>
-                    <th>英文术语</th>
-                    <th>简明释义</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>应用状态</td>
-                    <td>Application State</td>
-                    <td>用存放于 JS 代码内存中的变量（如 score），集中管理程序正在发生的一切事实数据</td>
-                </tr>
-                <tr>
-                    <td>自减操作符</td>
-                    <td><code>--</code></td>
-                    <td>将变量的值减 1，是 <code>score = score - 1</code> 的语法糖短写</td>
-                </tr>
-                <tr>
-                    <td>重复的冗余代码</td>
-                    <td>Duplicate Code</td>
-                    <td>程序中相似或完全一致的大段判断逻辑，违背了优雅编程的原则，后续会被提炼重构</td>
-                </tr>
-            </tbody>
-        </table>
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 你能发现如下两个代码块之间的相似之处吗？
+// 如何用一句人类语言描述可以怎么合并它们？
 
+// 代码块A：
+} else if (guess &gt; secretNumber) {
+    if (score &gt; 1) {
+      document.querySelector('.message').textContent = '📈 太高了！';
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else { // ... }
+}
+
+// 代码块B：
+} else if (guess &lt; secretNumber) {
+    if (score &gt; 1) {
+      document.querySelector('.message').textContent = '📉 太低了！';
+      score--;
+      document.querySelector('.score').textContent = score;
+    } else { // ... }
+}</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+除了输出的提示文本（'📈 太高了！' 或 '📉 太低了！'），以及入口的条件 (<code>guess &gt; secretNumber</code> vs <code>guess &lt; secretNumber</code>) 外，其余所有的业务逻辑（判定 <code>score &gt; 1</code>、自减、更新 DOM、失败提示）是完全一模一样的（违反了 DRY 原则）。
+<strong>重构思路</strong>：可以将条件合并为 <code>guess !== secretNumber</code>（只要猜错了），然后在内部专门决定要显示哪句提示语，以此来消除整块冗余的逻辑结构。后面章节会教大家如何利用这种思路重构代码。
+</details>
+
+<h3 id="section-13">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">关于状态变量（State Variable），下列说法正确的是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 我们应该每次都从 HTML DOM 元素中读取数据并进行计算</div>
+<div class="quiz-option" data-value="B">B) 状态变量必须用 `const` 声明以防被意外修改</div>
+<div class="quiz-option" data-value="C">C) 它是在 JavaScript 代码中保存应用数据的一种方式，以便代码随时知晓当前的进度（如分数）</div>
+    </div>
+    <div class="quiz-explanation">
+        正确做法是将应用的数据作为状态保存在代码变量中，当发生变化后，再将新的状态“镜像”更新到 DOM 界面中。这种代码与显示分离的思想在现代应用开发中至关重要。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">若我们要生成 1 到 50 的随机整数，正确的代码是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `Math.trunc(Math.random() * 50) + 1`</div>
+<div class="quiz-option" data-value="B">B) `Math.trunc(Math.random() * 51)`</div>
+<div class="quiz-option" data-value="C">C) `Math.random(1, 50)`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>Math.random() * 50</code> 产生 <code>0</code> 到 <code>49.99</code> 的数值，经过 <code>Math.trunc</code> 截断后为 <code>0</code> 到 <code>49</code>，加 1 后范围正是 <code>1</code> 到 <code>50</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">为什么秘密数字 <code>secretNumber</code> 需要在事件监听器外部声明？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 因为它是一个常量（`const`）</div>
+<div class="quiz-option" data-value="B">B) 以确保游戏每次运行只生成一个固定的神秘数字</div>
+<div class="quiz-option" data-value="C">C) 因为事件监听器内无法使用 `Math.random()`</div>
+    </div>
+    <div class="quiz-explanation">
+        事件监听器会在每次尝试时执行。如果把逻辑放内部，每次验证按钮点击后答案都在随之改变，游戏将由于缺乏固定的判断标准而无法游玩。
+    </div>
+</div>
+
+<h3 id="section-14">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 玩家猜错了，扣除 1 分<br>
+    let score = 20;<br>
+    <br>
+    if (guess !== secretNumber) {<br>
+      <input type="text" class="blank-input" data-answer="score--" placeholder="1">; // 或 score = score - 1<br>
+      document.querySelector('.score').<input type="text" class="blank-input" data-answer="textContent" placeholder="2"> = score;<br>
+    }
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
-<!-- 依赖脚本 -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
 <script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 const id = entry.target.getAttribute('id');
                 document.querySelectorAll('.nav-item').forEach(nav => {
                     nav.classList.remove('active');
-                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
                 });
             }
         });
     }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
     document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
 
     window.addEventListener('scroll', () => {
@@ -258,25 +856,29 @@ if (!guess) {
         document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
     });
 
-    document.querySelectorAll('.quiz-card').forEach(card => {
-        const correctVal = card.getAttribute('data-correct');
-        const opts = card.querySelectorAll('.quiz-option');
-        const exp = card.querySelector('.quiz-explanation');
-        
-        opts.forEach(opt => {
-            opt.addEventListener('click', () => {
-                opts.forEach(o => o.style.background = 'transparent');
-                if (opt.getAttribute('data-value') === correctVal) {
-                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--success-color)';
-                } else {
-                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
-                    opt.style.borderLeft = '4px solid var(--error-color)';
-                }
-                exp.style.display = 'block';
-            });
-        });
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
     });
+
 </script>
+
 </body>
 </html>

@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>陈述 (Statement) vs 表达式 (Expression)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+        code { font-family: var(--font-mono); font-size: 0.9em; background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+    
+        
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header"><div class="sidebar-title">第 02 章</div></div>
+        <nav id="toc">
+            <a href="#section-1" class="nav-item active">1. 本质区别：出不产出结果？</a>
+            <a href="#section-2" class="nav-item">2. 模板字面量里的禁忌</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>声明陈述 vs 表达式 (Statements vs Expressions)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：026 Statements and Expressions.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <p>在向 JavaScript 高阶语法冲刺前，我们需要花几分钟理清一个所有新手都必须经历的理论门槛。到底什么是“陈述句”，什么情况被称为“表达式”？</p>
+
+        <h2 id="section-1">1. 本质区别：产出结果 vs 执行动作</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>概念</th>
+                    <th>人类语言隐喻</th>
+                    <th>核心特征</th>
+                    <th>经典例子</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>表达式 (Expression)</strong></td>
+                    <td>像构成句子的名次/单词</td>
+                    <td><strong>它一定会产生、或化简为一个具体的“值 (Value)”</strong></td>
+                    <td><code>3 + 4</code><br><code>1991</code><br><code>true && false && !false</code><br>它们最终都会提炼变成一个数字或布尔值</td>
+                </tr>
+                <tr>
+                    <td><strong>陈述/声明 (Statement)</strong></td>
+                    <td>像一个完整的祈使句</td>
+                    <td>是一个被执行的大块运作动作，通常带着分号收尾。它下达了操作指令，但<strong>它自己并不变成一个值</strong>。</td>
+                    <td><code>if (23>10) { let a = "big"; }</code><br><code>switch</code> 语句。<br>它运作了内部变量，但 <code>if</code> 这个语法块本身无法变成数据给别人用。</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h2 id="section-2">2. 模板字面量里的禁忌坑点</h2>
+        <p>理清上面的概念不是为了考试背书，而是因为在后面学习中：<strong>JavaScript 引擎在很多地方极其挑食，它明确规定哪些孔洞只能塞“表达式”，哪些只能塞“声明”！</strong></p>
+
+        <p>例如，最著名的字面量嵌入：<code>${ }</code> 。它只能接受能够产出确切大小数值的<strong>表达式</strong>！如果你在里面塞了一个巨大的陈述句动作系统，它直接喷红报错：</p>
+
+        <pre><code>// 🟢 完美：这是一个表达式，最终会化简为 46 这个数字
+console.log(`我朋友今年 ${ 2037 - 1991 } 岁了。`);
+
+// 🔴 灾难：你把一个庞大的条件判决动作机制塞进了一个需要单词的坑位！
+console.log(`我朋友今年 ${ if (23>10) { const str = '大'; } } 岁了。`);
+// 浏览器会直接当场掀桌：Unexpected token 'if'
+</code></pre>
+
+    </main>
+</div>
+</body>
+</html>

@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Basic HTML Structure and Elements</title>
+    <title>HTML 基础结构与元素</title>
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
+
         :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
             --bg-color: #0d0d0d;
             --surface-color: #1a1a1a;
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
             --accent-hover: #e0c810;
             --error-color: #ff5555;
             --success-color: #50fa7b;
@@ -32,11 +31,7 @@
             --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: var(--font-sans);
@@ -53,7 +48,7 @@
             min-height: 100vh;
         }
 
-        /* Sidebar */
+        /* Sidebar (Progress & Nav) */
         .sidebar {
             width: 280px;
             background-color: var(--surface-color);
@@ -122,38 +117,14 @@
             max-width: 900px;
         }
 
-        h1 {
-            font-size: 36px;
-            font-weight: 700;
-            margin-bottom: 16px;
-            letter-spacing: -0.5px;
-        }
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
 
-        h2 {
-            font-size: 24px;
-            font-weight: 600;
-            margin: 40px 0 20px;
-            border-bottom: 1px solid var(--surface-border);
-            padding-bottom: 10px;
-        }
-
-        h3 {
-            font-size: 20px;
-            font-weight: 600;
-            margin: 32px 0 16px;
-            color: var(--accent-color);
-        }
-
-        p {
-            margin-bottom: 16px;
-            font-size: 16px;
-            color: var(--text-secondary);
-        }
-
-        strong {
-            color: var(--text-primary);
-        }
-
+        /* Meta Info Block */
         .meta-info {
             background: var(--surface-color);
             border: 1px solid var(--surface-border);
@@ -165,13 +136,9 @@
             font-size: 14px;
             color: var(--text-secondary);
         }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        .meta-info span {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
+        /* Alerts & Callouts */
         .callout {
             background: var(--surface-color);
             border-left: 4px solid var(--info-color);
@@ -179,17 +146,10 @@
             border-radius: 0 var(--radius-md) var(--radius-md) 0;
             margin: 24px 0;
         }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
 
-        .callout.analogy {
-            border-color: var(--accent-color);
-            background: rgba(247, 223, 30, 0.05);
-        }
-
-        .callout.warning {
-            border-color: var(--error-color);
-            background: rgba(255, 85, 85, 0.05);
-        }
-
+        /* Code Blocks */
         pre[class*="language-"] {
             border-radius: var(--radius-lg);
             background: var(--surface-color) !important;
@@ -199,12 +159,9 @@
             font-family: var(--font-mono) !important;
             font-size: 14px;
         }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
 
-        code[class*="language-"],
-        pre[class*="language-"] {
-            text-shadow: none !important;
-        }
-
+        /* Runnable Code Editor */
         .runnable-editor {
             background: var(--surface-color);
             border: 1px solid var(--surface-border);
@@ -212,7 +169,7 @@
             margin: 24px 0;
             overflow: hidden;
         }
-
+        
         .editor-header {
             display: flex;
             justify-content: space-between;
@@ -222,11 +179,7 @@
             border-bottom: 1px solid var(--surface-border);
         }
 
-        .editor-title {
-            font-size: 13px;
-            font-family: var(--font-mono);
-            color: var(--text-secondary);
-        }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
 
         .btn-run {
             background: transparent;
@@ -248,13 +201,10 @@
             color: var(--bg-color);
         }
 
-        .editor-container {
-            position: relative;
-        }
-
+        .editor-container { position: relative; }
         .editor-textarea {
             width: 100%;
-            min-height: 150px;
+            min-height: 450px;
             background: transparent;
             color: var(--text-primary);
             font-family: var(--font-mono);
@@ -266,21 +216,21 @@
             line-height: 1.5;
         }
 
-        /* Here we change display to iframe for HTML preview */
-        .preview-output {
-            background: #fff;
-            /* HTML preview needs white background usually */
+        .console-output {
+            background: #000;
             border-top: 1px solid var(--surface-border);
-            width: 100%;
-            height: 150px;
-            border: none;
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
             display: none;
         }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
 
-        .preview-output.visible {
-            display: block;
-        }
-
+        /* Mermaid Charts */
         .mermaid {
             background: var(--surface-color);
             padding: 32px;
@@ -291,6 +241,7 @@
             margin: 24px 0;
         }
 
+        /* Quiz Component */
         .quiz-card {
             background: var(--surface-color);
             border: 1px solid var(--surface-border);
@@ -299,18 +250,9 @@
             margin: 24px 0;
         }
 
-        .quiz-question {
-            font-size: 16px;
-            font-weight: 500;
-            margin-bottom: 20px;
-            color: var(--text-primary);
-        }
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
 
-        .quiz-options {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-        }
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
 
         .quiz-option {
             background: var(--bg-color);
@@ -324,25 +266,10 @@
             align-items: center;
         }
 
-        .quiz-option:hover {
-            border-color: var(--text-secondary);
-        }
-
-        .quiz-option.selected {
-            border-color: var(--info-color);
-        }
-
-        .quiz-option.correct {
-            border-color: var(--success-color);
-            background: rgba(80, 250, 123, 0.1);
-            color: var(--success-color);
-        }
-
-        .quiz-option.incorrect {
-            border-color: var(--error-color);
-            background: rgba(255, 85, 85, 0.1);
-            color: var(--error-color);
-        }
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
 
         .quiz-explanation {
             margin-top: 20px;
@@ -354,6 +281,7 @@
             border-left: 3px solid var(--info-color);
         }
 
+        /* Fill in the blanks */
         .fill-blank-container {
             font-family: var(--font-mono);
             background: var(--surface-color);
@@ -379,20 +307,11 @@
             transition: var(--transition);
         }
 
-        .blank-input:focus {
-            border-bottom-color: var(--accent-color);
-        }
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
 
-        .blank-input.correct {
-            border-bottom-color: var(--success-color);
-            color: var(--success-color);
-        }
-
-        .blank-input.incorrect {
-            border-bottom-color: var(--error-color);
-            color: var(--error-color);
-        }
-
+        /* Tables */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -403,366 +322,639 @@
             border: 1px solid var(--surface-border);
         }
 
-        th,
-        td {
+        th, td {
             padding: 14px 20px;
             text-align: left;
             border-bottom: 1px solid var(--surface-border);
         }
 
-        th {
-            background: rgba(0, 0, 0, 0.2);
-            font-weight: 600;
-            color: var(--text-primary);
-        }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
 
-        tr:last-child td {
-            border-bottom: none;
-        }
-
-        .hidden {
-            display: none !important;
-        }
-
-        .fade-in {
-            animation: fadeIn 0.3s ease-in-out;
-        }
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
 
         @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        
-        
-    
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
 
-        .btn-run:focus-visible,
-        .editor-textarea:focus-visible,
-        .quiz-option:focus-visible {
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
             outline: 2px solid var(--accent-color);
             outline-offset: 2px;
         }
-    
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
-        }
 
+    
     </style>
 </head>
-
 <body>
 
-    <div class="app-container">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-title">第 06 章 / 进度</div>
-                <div class="progress-container">
-                    <div class="progress-bar" id="progressBar"></div>
-                </div>
-                <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;"
-                    id="progressText">0%</div>
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 06 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
             </div>
-            <nav id="toc">
-                <a href="#section-overview" class="nav-item active">概述</a>
-                <a href="#section-1" class="nav-item">1. HTML 极简基础框架</a>
-                <a href="#section-2" class="nav-item">2. 标题和段落标签</a>
-                <a href="#section-3" class="nav-item">3. VS Code 快速生成模板工具</a>
-                <a href="#section-quiz" class="nav-item">验证评估</a>
-            </nav>
-        </aside>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">HTML 基础结构与元素</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
 
-        <main class="main-content">
-            <h1>Basic HTML Structure and Elements (基础的 HTML 结构和元素)</h1>
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">HTML 基础结构与元素</h1>
 
-            <div class="meta-info">
-                <span>📺 来源：002 Basic HTML Structure and Elements.en.srt</span>
-                <span>📂 章节：第 06 章</span>
-            </div>
+<div class="callout"><p>📺 来源：002 Basic HTML Structure and Elements.en.srt<br>📂 章节：第 06 章</p></div>
 
-            <div class="callout">
-                <strong>📌 知识脉络</strong>
-                <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
-                    <li><strong>前置知识</strong>：无</li>
-                    <li><strong>后续扩展</strong>：利用 JavaScript 选择 HTML 元素进行 DOM（文档对象模型）操作</li>
-                </ul>
-            </div>
+<h2 id="section-1">📌 知识脉络</h2>
 
-            <h2 id="section-overview">🎯 概述</h2>
-            <p>如果你已经准备好学习 HTML 的基础，那就和我们一起动手吧。这节课将带你熟悉 HTML 的核心概念：<strong>元素（Elements）</strong> 与
-                <strong>标签（Tags）</strong>，并梳理一个标准 HTML 文件的基本结构模型。</p>
+<ul>
+<li><strong>前置知识</strong>：VS Code 编辑器基础操作、文件创建与保存、Live Server 插件使用</li>
+<li><strong>后续扩展</strong>：HTML 属性/类/ID、CSS 样式、DOM 操作中的元素选取</li>
+</ul>
 
-            <h2 id="section-1">1. HTML 极简基础框架</h2>
-            <p>HTML 全称是 <strong>超文本标记语言（HyperText Markup Language）</strong>。我们主要用它来描绘网页的基本内容结构。HTML
-                文档由各种各样的<strong>元素（Elements）</strong>组合而成。</p>
-            <p>写一个元素，我们通常需要一个<strong>起始标签（Opening tag）</strong>和一个<strong>闭合标签（Closing tag）</strong>。</p>
+<h2 id="section-2">🎯 概述</h2>
 
-            <div class="callout analogy">
-                <p>🧩 <strong>生活类比</strong>：在 HTML 中写作，就像把一个个物品放进专属的储物盒（即元素）。比如把一句话放入 `&lt;h1&gt;` 这个盒子，为了说明放完了，我们要用
-                    `&lt;/h1&gt;` 这个带斜杠的盖子把盒子盖上。</p>
-            </div>
+<p>本节课介绍 HTML（超文本标记语言/HyperText Markup Language）的基本结构。你将学会如何构建一个标准的 HTML 文档骨架，理解元素（Element）由开标签和闭标签组成的语法，以及 <code>&lt;head&gt;</code> 和 <code>&lt;body&gt;</code> 两大区域的用途区别。通过标题（Heading）和段落（Paragraph）元素，你会亲手写出第一个网页。</p>
 
-            <p>所有的 HTML 项目，都通常始于一个名叫 `index.html` 的核心文件。当我们打开这个文件，它的顶层建筑应该如下所示：</p>
+<h2 id="section-3">核心知识点</h2>
 
-            <div class="mermaid">
-                flowchart TD
-                A["🌐 &lt;html&gt;\n(包裹着网页上所有的东西)"] --> B("⚙️ &lt;head&gt;\n(网页的设置参数区)")
-                A --> C("🧱 &lt;body&gt;\n(网页的可见肉身区)")
-                B --> D["🏷️ &lt;title&gt;\n(网页的浏览器页签名称)"]
-                C --> E["📝 所有你写在页面上的元素...\n(标题、段落、图片等)"]
+<h3 id="section-4">1. HTML 文档的基本骨架</h3>
 
-                style A fill:#2e0618,stroke:#f03c15
-                style B fill:#1a1005,stroke:#f78c25
-                style C fill:#0f1d10,stroke:#3bb44a
-            </div>
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：把 HTML 文档想象成一封正式的信件——信封上的标注（收件人、地址）就像 <code>&lt;head&gt;</code>，是给邮局看的"元信息"；而内信纸上你写的正文内容就像 <code>&lt;body&gt;</code>，是给读者看的"真正内容"。</p></div>
 
-            <p>① 首先，<code>&lt;html&gt;</code> 标签告诉系统：“你好，这是一个 HTML 文档！”<br>
-                ② 在内部我们分化出 <code>&lt;head&gt;</code> 和 <code>&lt;body&gt;</code> 两部分。<br>
-                ③ <strong>&lt;head&gt; 区域</strong>存放的是“给浏览器看的”设置，比如页签上的标题 <code>&lt;title&gt;</code>，或将来要关联的样式和图标等。<br>
-                ④ <strong>&lt;body&gt; 区域</strong>存放的是“给读者看的”实质性内容，这是我们将来主要的工作舞台。</p>
+<p>HTML 文档的标准结构如下：</p>
 
-            <h2 id="section-2">2. 标题和段落标签</h2>
+<div class="mermaid">
+flowchart TB
+    subgraph HTML["🌐 &lt;html&gt; 根元素"]
+        direction TB
+        subgraph HEAD["⚙️ &lt;head&gt; 页面设置区"]
+            T["📝 &lt;title&gt; 页面标题"]
+            META["🔧 其他元数据（CSS、favicon 等）"]
+        end
+        subgraph BODY["👁️ &lt;body&gt; 可见内容区"]
+            H1["📰 &lt;h1&gt; 标题"]
+            P["📄 &lt;p&gt; 段落"]
+            OTHER["🔗 链接、图片等"]
+        end
+    end
+    style HTML fill:#1a1a2e,color:#fff
+    style HEAD fill:#16213e,color:#fff
+    style BODY fill:#0f3460,color:#fff
+    style T fill:#e94560,color:#fff
+    style META fill:#533483,color:#fff
+    style H1 fill:#4CAF50,color:#fff
+    style P fill:#2196F3,color:#fff
+    style OTHER fill:#FF9800,color:#fff
+</div>
 
-            <p>现在，我们将视线聚焦在 <code>&lt;body&gt;</code> 内。我们可以给页面添加各种各样有特定功能的元素。</p>
+<p><strong>基本代码结构：</strong></p>
 
-            <p><strong>大标题（Heading）：</strong> HTML 提供 6 个等级的标题标签，从 <code>&lt;h1&gt;</code> 一直到
-                <code>&lt;h6&gt;</code>。数字越大，标题级别越低，在浏览器中的默认字号也越小。</p>
-            <p><strong>段落（Paragraph）：</strong> 标记普通文本内容的，往往是 <code>&lt;p&gt;</code> 标签。</p>
-
-            <div class="runnable-editor">
-                <div class="editor-header">
-                    <span class="editor-title">index.html</span>
-                    <button class="btn-run" onclick="runHTML('codeEditor1', 'preview1')">▶ 预览网页</button>
-                </div>
-                <div class="editor-container">
-                    <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
-<html>
-  <head>
-    <title>Learning HTML and CSS</title>
-  </head>
-  <body>
-    <h1>JavaScript 很有趣，HTML 和 CSS 也是！</h1>
-    <p>你可以不用掌握 HTML 去学习 JS，但为了学习 DOM 操作，最好还是懂一点基础。</p>
-    <h2>这是第二级标题 (H2)</h2>
-    <h6>而这是最小的第六级标题 (H6)</h6>
-  </body>
-</html></textarea>
-                </div>
-                <iframe id="preview1" class="preview-output"></iframe>
-            </div>
-
-            <div class="callout warning">
-                ⚠️ <strong>常见误区</strong>：新手容易忘记写闭合标签（比如只写了 <code>&lt;h1&gt;</code>，迟迟不写
-                <code>&lt;/h1&gt;</code>），这会导致在那之后所有的文本都被当成了标题，使得排版彻底崩溃！不过在现代编辑器如 VS Code 中，有很多扩展（如 Auto Close
-                Tag）能够自动帮你补全斜杠结束标签。
-            </div>
-
-            <h2 id="section-3">3. VS Code 快速生成模板工具</h2>
-            <p>每一次都去手写 `&lt;html&gt;`, `&lt;head&gt;`, `&lt;body&gt;` 实在是太费体力了。在 VS Code（Visual Studio
-                Code）编辑器中，我们有一个绝妙的技巧来自动生成一个带标准前缀的网页骨架：</p>
-
-            <p>💡 <strong>神奇快捷键</strong>：在一个完全空白的 HTML 文件中，输入英文感叹号 <code>!</code> ，然后立刻按下 <code>Tab</code>
-                键。奇迹发生了——你会看到一整段标准的 <strong>HTML5 Boilerplate（样板代码）</strong>！</p>
-
-            <pre><code class="language-html">&lt;!DOCTYPE html&gt;  &lt;!-- 此标记明确告诉浏览器，这是 HTML5 规范的文档 --&gt;
-&lt;html lang="en"&gt;  &lt;!-- 顺便标注了这个页面的主语言是英文 --&gt;
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;en&quot;&gt;
 &lt;head&gt;
-  &lt;meta charset="UTF-8"&gt;
-  &lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;
-  &lt;title&gt;Document&lt;/title&gt;
+    &lt;meta charset=&quot;UTF-8&quot; /&gt;
+    &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot; /&gt;
+    &lt;title&gt;Learning HTML and CSS&lt;/title&gt;  &lt;!-- 浏览器标签页显示的标题 --&gt;
 &lt;/head&gt;
 &lt;body&gt;
-  &lt;!-- 我们的舞台 --&gt;
+    &lt;!-- 这里放用户可见的内容 --&gt;
+    &lt;h1&gt;JavaScript is fun, but so is HTML and CSS&lt;/h1&gt;
+    &lt;p&gt;You can learn JavaScript without HTML and CSS...&lt;/p&gt;
 &lt;/body&gt;
 &lt;/html&gt;</code></pre>
 
-            <h2 id="section-quiz">🧪 学习验证</h2>
+<div class="callout"><p>💡 <strong>VS Code 快捷技巧</strong>：在空白 HTML 文件中输入 <code>!</code> 然后按 <code>Tab</code> 键，即可自动生成完整的 HTML5 骨架代码！</p></div>
 
-            <!-- Quiz 组件 -->
-            <h3>❓ 理解检测</h3>
-            <div class="quiz-card" data-correct="B">
-                <div class="quiz-question">1. 在 HTML 中，下列哪一项内容会直接显示在网页的纯白画布（主视觉区）上供读者阅读？</div>
-                <div class="quiz-options">
-                    <div class="quiz-option" data-value="A">A) 放在 &lt;head&gt; 内部的 &lt;title&gt; 标签</div>
-                    <div class="quiz-option" data-value="B">B) 放在 &lt;body&gt; 内部的 &lt;p&gt; 标签</div>
-                    <div class="quiz-option" data-value="C">C) &lt;html&gt; 外围的所有声明</div>
-                </div>
-                <div class="quiz-explanation">
-                    <strong>👍 正确！</strong> 解析：&lt;head&gt; 里的内容主要是设置（如浏览器顶部页签名字），而肉眼真实可见的页面主体全部都要塞到 &lt;body&gt; 中。
-                </div>
-            </div>
+<p><strong>关键结构规则：</strong></p>
 
-            <div class="quiz-card" data-correct="A">
-                <div class="quiz-question">2. HTML5 标题的大小顺序是如何排列的？</div>
-                <div class="quiz-options">
-                    <div class="quiz-option" data-value="A">A) 从 &lt;h1&gt; (最大) 一直到 &lt;h6&gt; (最小)</div>
-                    <div class="quiz-option" data-value="B">B) 从 &lt;h1&gt; (最小) 一直到 &lt;h6&gt; (最大)</div>
-                </div>
-                <div class="quiz-explanation">
-                    <strong>👍 正确！</strong> 解析：数字标志了"重要性级别"。H1 是最重要的顶级大标题，字号最大；H6 则是层级最深的副副副标题，因此字号极小。
-                </div>
-            </div>
+<table>
+    <thead><tr><th>区域</th><th>标签</th><th>用途</th><th>是否直接可见</th></tr></thead>
+    <tbody><tr><td>文档声明</td><td><code>&lt;!DOCTYPE html&gt;</code></td><td>声明文档类型为 HTML5</td><td>❌</td></tr>
+<tr><td>根元素</td><td><code>&lt;html&gt;</code></td><td>包裹整个页面</td><td>❌</td></tr>
+<tr><td>头部</td><td><code>&lt;head&gt;</code></td><td>页面设置（标题、样式、编码）</td><td>❌</td></tr>
+<tr><td>主体</td><td><code>&lt;body&gt;</code></td><td>所有用户可见内容</td><td>✅</td></tr></tbody>
+</table>
 
-            <!-- 代码填空组件 -->
-            <h3>🔧 代码填空</h3>
-            <p>尝试补全这段残缺的 HTML 结构代码。保证 `段落` 正确显示在 `大标题` 下方。</p>
-            <div class="fill-blank-container" id="fillBlankDemo1">
-                &lt;html&gt;<br>
-                &nbsp;&nbsp;&lt;head&gt;<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;title&gt;我的第一页&lt;/title&gt;<br>
-                &nbsp;&nbsp;&lt;/<input type="text" class="blank-input" data-answer="head" placeholder="1">&gt;<br>
-                &nbsp;&nbsp;&lt;body&gt;<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;<input type="text" class="blank-input" data-answer="h1"
-                    placeholder="2">&gt;我是大标题&lt;/h1&gt;<br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;我是一个段落哟&lt;/<input type="text" class="blank-input" data-answer="p"
-                    placeholder="3">&gt;<br>
-                &nbsp;&nbsp;&lt;/body&gt;<br>
-                &lt;/<input type="text" class="blank-input" data-answer="html" placeholder="4">&gt;<br><br>
-                <button class="btn-run" onclick="checkFillBlanks('fillBlankDemo1')"
-                    style="display:inline-flex;margin-top:10px;">✓ 检查答案</button>
-            </div>
+<hr>
 
-        </main>
+<h3 id="section-5">2. 元素与标签（Elements & Tags）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：HTML 元素就像一对书立（开标签和闭标签），中间夹着的书就是内容。缺少任何一个书立，书就会倒。</p></div>
+
+<p>HTML 元素由三部分组成：</p>
+
+<div class="mermaid">
+flowchart LR
+    A["🏷️ 开标签<br/>&lt;h1&gt;"] --> B["📝 内容<br/>Hello World"] --> C["🏷️ 闭标签<br/>&lt;/h1&gt;"]
+    style A fill:#4CAF50,color:#fff
+    style B fill:#2196F3,color:#fff
+    style C fill:#e94560,color:#fff
+</div>
+
+<pre><code class="language-html">&lt;!-- 元素 = 开标签 + 内容 + 闭标签 --&gt;
+&lt;h1&gt;JavaScript is fun&lt;/h1&gt;
+&lt;!--  ↑ 开标签   ↑ 内容    ↑ 闭标签（注意 / 斜杠） --&gt;</code></pre>
+
+<p><strong>🔍 执行追踪：</strong> 当浏览器解析 HTML 时的处理过程：</p>
+
+<table>
+    <thead><tr><th>步骤</th><th>浏览器行为</th><th>结果</th></tr></thead>
+    <tbody><tr><td>①</td><td>遇到 <code>&lt;h1&gt;</code> 开标签</td><td>创建一个标题元素节点</td></tr>
+<tr><td>②</td><td>读取文本内容 <code>JavaScript is fun</code></td><td>将文本添加为该元素的子节点</td></tr>
+<tr><td>③</td><td>遇到 <code>&lt;/h1&gt;</code> 闭标签</td><td>关闭该元素，应用浏览器默认样式（加粗、大字号）</td></tr></tbody>
+</table>
+
+<hr>
+
+<h3 id="section-6">3. 常用 HTML 元素：标题与段落</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：标题 <code>&lt;h1&gt;</code> ~ <code>&lt;h6&gt;</code> 就像报纸版面——头版大标题是 <code>&lt;h1&gt;</code>，栏目小标题是 <code>&lt;h3&gt;</code>，脚注提示是 <code>&lt;h6&gt;</code>。重要性和字号逐级递减。</p></div>
+
+<p>HTML 提供 6 级标题元素，字号和重要性逐级递减：</p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">headings_demo.html</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
     </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 这段代码展示的是 HTML 标题层级（在浏览器中效果更直观）
+// 以下用 document.write 模拟输出
+document.write('&lt;h1&gt;H1 — 最大的标题（每页只用一个）&lt;/h1&gt;');
+document.write('&lt;h2&gt;H2 — 二级标题&lt;/h2&gt;');
+document.write('&lt;h3&gt;H3 — 三级标题&lt;/h3&gt;');
+document.write('&lt;h6&gt;H6 — 最小的标题（甚至比正文还小）&lt;/h6&gt;');
+document.write('&lt;p&gt;P — 这是一个段落元素&lt;/p&gt;');</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
 
-    <!-- 依赖脚本 -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
-    <script type="module">
-        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-        mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
-    </script>
+<p><strong>📊 标题层级对比：</strong></p>
 
-    <!-- 交互逻辑 -->
-    <script>
-        // 渲染 HTML 预览
-        function runHTML(editorId, previewId) {
-            const code = document.getElementById(editorId).value;
-            const previewEl = document.getElementById(previewId);
-            previewEl.classList.add('visible');
+<table>
+    <thead><tr><th>元素</th><th>典型用途</th><th>浏览器默认样式</th></tr></thead>
+    <tbody><tr><td><code>&lt;h1&gt;</code></td><td>页面主标题（每页仅一个）</td><td>最大、加粗</td></tr>
+<tr><td><code>&lt;h2&gt;</code></td><td>章节标题</td><td>较大、加粗</td></tr>
+<tr><td><code>&lt;h3&gt;</code> ~ <code>&lt;h5&gt;</code></td><td>子标题</td><td>逐渐缩小</td></tr>
+<tr><td><code>&lt;h6&gt;</code></td><td>最小标题</td><td>比正文 <code>&lt;p&gt;</code> 还小</td></tr>
+<tr><td><code>&lt;p&gt;</code></td><td>正文段落</td><td>正常大小、无加粗</td></tr></tbody>
+</table>
 
-            // Populate the iframe
-            const doc = previewEl.contentWindow.document;
-            doc.open();
-            doc.write(`
-            <html><head><style>
-                body { font-family: sans-serif; padding: 10px; color: #333; margin:0; }
-                h1, h2, h6, p { margin: 5px 0 10px 0; }
-            </style></head><body>
-            ${code}
-            </body></html>
-        `);
-            doc.close();
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>H</strong>eading 1~6 = 标题六兄弟，老大 <code>h1</code> 最显眼，老六 <code>h6</code> 最低调；<strong>P</strong>aragraph = 正文"平民"。</p></div>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你是一名前端开发者，需要为公司新产品创建一个落地页（Landing Page）的基本 HTML 结构。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    START["🚀 创建 index.html"] --> DOCTYPE["声明 DOCTYPE"]
+    DOCTYPE --> HTML["添加 &lt;html&gt; 根标签"]
+    HTML --> HEAD["设置 &lt;head&gt;（标题、编码）"]
+    HTML --> BODY["编写 &lt;body&gt; 内容"]
+    BODY --> H1_TAG["添加 &lt;h1&gt; 产品名称"]
+    BODY --> P_TAG["添加 &lt;p&gt; 产品描述"]
+    BODY --> H2_TAG["添加 &lt;h2&gt; 功能亮点"]
+    style START fill:#4CAF50,color:#fff
+    style H1_TAG fill:#e94560,color:#fff
+    style P_TAG fill:#2196F3,color:#fff
+    style H2_TAG fill:#FF9800,color:#fff
+</div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">landing_page.html</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 模拟一个简单的产品落地页结构
+const htmlStructure = `
+&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;meta charset=&quot;UTF-8&quot;&gt;
+    &lt;title&gt;TaskFlow — 智能任务管理&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;TaskFlow&lt;/h1&gt;
+    &lt;p&gt;让团队协作更高效的智能任务管理工具。&lt;/p&gt;
+    &lt;h2&gt;核心功能&lt;/h2&gt;
+    &lt;p&gt;自动任务分配、实时进度追踪、智能优先级排序。&lt;/p&gt;
+    &lt;h2&gt;为什么选择我们？&lt;/h2&gt;
+    &lt;p&gt;超过 10,000 个团队的信赖之选。&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+`;
+
+console.log('=== HTML 文档结构 ===');
+console.log(htmlStructure);
+console.log('✅ 这就是一个完整的 HTML5 页面骨架！');</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>编写的 HTML</th><th>浏览器渲染结果</th><th>说明</th></tr></thead>
+    <tbody><tr><td><code>&lt;h1&gt;TaskFlow&lt;/h1&gt;</code></td><td><strong>大号加粗文字</strong></td><td>页面主标题</td></tr>
+<tr><td><code>&lt;p&gt;让团队协作更高效...&lt;/p&gt;</code></td><td>正常大小文字</td><td>段落内容</td></tr>
+<tr><td><code>&lt;h2&gt;核心功能&lt;/h2&gt;</code></td><td><strong>中号加粗文字</strong></td><td>二级标题</td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ 每个 HTML 文档必须有 <code>&lt;html&gt;</code>、<code>&lt;head&gt;</code>、<code>&lt;body&gt;</code> 三层结构</li>
+<li>✅ <code>&lt;head&gt;</code> 存放页面元信息（标题、编码等），<code>&lt;body&gt;</code> 存放可见内容</li>
+<li>✅ 元素由开标签 <code>&lt;tag&gt;</code> + 内容 + 闭标签 <code>&lt;/tag&gt;</code> 三部分组成</li>
+<li>✅ VS Code 中输入 <code>! + Tab</code> 可快速生成 HTML5 骨架</li>
+<li>✅ <code>&lt;h1&gt;</code> ~ <code>&lt;h6&gt;</code> 是标题元素，<code>&lt;p&gt;</code> 是段落元素</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>忘记闭标签</strong>：写了 <code>&lt;h1&gt;Hello</code> 却漏掉 <code>&lt;/h1&gt;</code>，虽然浏览器可能"容错渲染"，但这是不规范的行为，在复杂页面中会导致不可预测的布局问题</li>
+<li>⚠️ <strong><code>&lt;head&gt;</code> 和 <code>&lt;body&gt;</code> 混淆</strong>：把 <code>&lt;title&gt;</code> 写在 <code>&lt;body&gt;</code> 里或把可见内容写在 <code>&lt;head&gt;</code> 中。记住：<code>&lt;head&gt;</code> = 设置，<code>&lt;body&gt;</code> = 内容</li>
+<li>⚠️ <strong>滥用 <code>&lt;h1&gt;</code></strong>：一个页面应该只有一个 <code>&lt;h1&gt;</code> 主标题，多个 <code>&lt;h1&gt;</code> 不利于 SEO 和可访问性</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-html">&lt;html&gt;
+&lt;body&gt;
+    &lt;h1&gt;Hello World
+    &lt;p&gt;This paragraph has no closing tag
+&lt;/body&gt;</code></pre>
+
+<p><strong>浏览器行为：</strong></p>
+
+<pre><code>浏览器不会报错（HTML 容错性强），但会产生意外的嵌套关系：
+段落文字可能被浏览器当作 &lt;h1&gt; 的一部分来渲染，导致段落也变成大号加粗字体。</code></pre>
+
+<p><strong>🔑 解读</strong>：HTML 不像 JavaScript 会抛出异常，浏览器会尝试"猜测"你的意图进行修复。但这种自动修复往往不符合预期，所以<strong>始终确保标签成对出现</strong>。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>超文本标记语言</td><td>HTML</td><td>描述网页内容结构的标记语言</td><td><code>&lt;html&gt;...&lt;/html&gt;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>元素</td><td>Element</td><td>由开标签+内容+闭标签组成的 HTML 单元</td><td><code>&lt;p&gt;text&lt;/p&gt;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Element" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>标题</td><td>Heading</td><td>6 级标题元素 h1~h6</td><td><code>&lt;h1&gt;Title&lt;/h1&gt;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/Heading_Elements" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>段落</td><td>Paragraph</td><td>文本段落元素</td><td><code>&lt;p&gt;text&lt;/p&gt;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/p" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>文档类型</td><td>DOCTYPE</td><td>声明 HTML 版本</td><td><code>&lt;!DOCTYPE html&gt;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Doctype" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：创建个人简介页</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.html</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 请创建一个包含以下内容的 HTML 字符串：
+// 1. &lt;h1&gt; 标签显示你的名字
+// 2. &lt;p&gt; 标签显示一段自我介绍
+// 3. &lt;h2&gt; 标签显示&quot;我的爱好&quot;
+// 4. &lt;p&gt; 标签列出你的爱好
+
+// 在下方编写你的代码：
+const myPage = `
+
+`;
+
+console.log(myPage);</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;title&gt;个人简介&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;张三&lt;/h1&gt;
+    &lt;p&gt;我是一名前端开发者，热爱编程和设计。&lt;/p&gt;
+    &lt;h2&gt;我的爱好&lt;/h2&gt;
+    &lt;p&gt;编程、阅读、徒步旅行。&lt;/p&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+<code>;
+console.log(myPage);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;strong&gt;解题思路&lt;/strong&gt;：按照 HTML 标准骨架结构 </code>html > head + body<code>，在 </code>body<code> 中使用 </code><h1><code> 作为主标题、</code><p><code> 写正文、</code><h2>` 做子标题。
+</details>
+
+<p><strong>练习 2：修复 HTML 结构错误</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.html</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 以下 HTML 存在结构错误，请找出并修复
+const brokenHTML = `
+&lt;html&gt;
+&lt;head&gt;
+    &lt;h1&gt;这不应该在 head 里&lt;/h1&gt;
+&lt;body&gt;
+    &lt;title&gt;错位的标题&lt;/title&gt;
+    &lt;p&gt;缺少闭标签的段落
+    &lt;h2&gt;另一个标题&lt;/h3&gt;
+&lt;/body&gt;
+`;
+
+// 请写出修复后的正确版本：
+const fixedHTML = `
+
+`;
+
+console.log('修复后的 HTML：');
+console.log(fixedHTML);</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+    &lt;title&gt;正确的标题&lt;/title&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;这应该在 body 里&lt;/h1&gt;
+    &lt;p&gt;闭合的段落&lt;/p&gt;
+    &lt;h2&gt;另一个标题&lt;/h2&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+<code>;
+console.log('修复后的 HTML：');
+console.log(fixedHTML);
+&lt;/code&gt;&lt;/pre&gt;
+&lt;strong&gt;解题思路&lt;/strong&gt;：
+1. </code><h1><code> 是可见内容，应在 </code><body><code> 而非 </code><head><code> 中
+2. </code><title><code> 是元信息，应在 </code><head><code> 中
+3. </code><p><code> 缺少闭标签 </code></p><code>
+4. </code><h2><code> 与 </code></h3><code> 不匹配，应使用 </code></h2><code>
+5. 缺少 </code></html><code> 和 </code><!DOCTYPE html>`
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question"><code>&lt;head&gt;</code> 元素中应该放什么内容？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 用户可以在网页上看到的文字和图片</div>
+<div class="quiz-option" data-value="B">B) 页面设置信息，如标题、字符编码、CSS 样式链接</div>
+<div class="quiz-option" data-value="C">C) JavaScript 的 console.log 输出</div>
+<div class="quiz-option" data-value="D">D) 只能放 `&lt;h1&gt;` 标题</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>&lt;head&gt;</code> 是页面的"幕后设置区"，存放 <code>&lt;title&gt;</code>（标签页标题）、<code>&lt;meta&gt;</code>（字符编码）、CSS 链接等元信息。所有用户可见的内容应该放在 <code>&lt;body&gt;</code> 中。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">以下哪个是正确的 HTML 元素写法？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `&lt;p&gt;Hello World`</div>
+<div class="quiz-option" data-value="B">B) `&lt;p&gt;Hello World&lt;p&gt;`</div>
+<div class="quiz-option" data-value="C">C) `&lt;p&gt;Hello World&lt;/p&gt;`</div>
+<div class="quiz-option" data-value="D">D) `&lt;/p&gt;Hello World&lt;p&gt;`</div>
+    </div>
+    <div class="quiz-explanation">
+        完整的 HTML 元素由<strong>开标签</strong> <code>&lt;p&gt;</code> + <strong>内容</strong> + <strong>闭标签</strong> <code>&lt;/p&gt;</code> 组成。闭标签必须带有 <code>/</code> 斜杠。选项 A 缺少闭标签，B 的第二个标签缺少 <code>/</code>，D 的开闭标签顺序颠倒。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">如何在 VS Code 中快速生成 HTML5 基础结构？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 输入 `!` 然后按 Tab 键</div>
+<div class="quiz-option" data-value="B">B) 输入 `html5` 然后按 Enter</div>
+<div class="quiz-option" data-value="C">C) 使用快捷键 Ctrl + H</div>
+<div class="quiz-option" data-value="D">D) 右键选择 &quot;Generate HTML&quot;</div>
+    </div>
+    <div class="quiz-explanation">
+        VS Code 内置 Emmet 快捷指令，输入 <code>!</code> 后按 <code>Tab</code> 会自动展开为完整的 HTML5 文档骨架，包含 <code>&lt;!DOCTYPE html&gt;</code>、<code>&lt;html&gt;</code>、<code>&lt;head&gt;</code> 和 <code>&lt;body&gt;</code> 等必要结构。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    <!DOCTYPE <input type="text" class="blank-input" data-answer="html" placeholder="1">><br>
+    <<input type="text" class="blank-input" data-answer="html" placeholder="2">  lang="en"><br>
+    <head><br>
+        <<input type="text" class="blank-input" data-answer="title" placeholder="3">>My Page</<input type="text" class="blank-input" data-answer="title" placeholder="4">><br>
+    </head><br>
+    <<input type="text" class="blank-input" data-answer="body" placeholder="5">><br>
+        <h1>Hello World</h1><br>
+    </<input type="text" class="blank-input" data-answer="body" placeholder="6">><br>
+    </html>
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
         }
+    }
 
-        // Quiz 逻辑
-        document.querySelectorAll('.quiz-option').forEach(option => {
-            option.addEventListener('click', function () {
-                const card = this.closest('.quiz-card');
-                const correctAnswer = card.getAttribute('data-correct');
-                const explanation = card.querySelector('.quiz-explanation');
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
 
-                card.querySelectorAll('.quiz-option').forEach(opt => {
-                    opt.classList.remove('selected', 'correct', 'incorrect');
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
                 });
-                this.classList.add('selected');
-
-                if (this.getAttribute('data-value') === correctAnswer) {
-                    this.classList.add('correct');
-                    explanation.style.borderColor = 'var(--success-color)';
-                } else {
-                    this.classList.add('incorrect');
-                    explanation.style.borderColor = 'var(--error-color)';
-                }
-                explanation.style.display = 'block';
-                explanation.classList.add('fade-in');
-            });
+            }
         });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
 
-        // 填空验证逻辑
-        function checkFillBlanks(containerId) {
-            const container = document.getElementById(containerId);
-            const inputs = container.querySelectorAll('.blank-input');
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
 
-            inputs.forEach(input => {
-                const userAnswer = input.value.trim().toLowerCase();
-                const correctAnswer = input.getAttribute('data-answer').toLowerCase();
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
 
-                input.classList.remove('correct', 'incorrect');
-                if (userAnswer === correctAnswer) {
-                    input.classList.add('correct');
-                } else {
-                    input.classList.add('incorrect');
-                }
-            });
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
         }
 
-        // 目录滚动激活功能
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    const id = entry.target.getAttribute('id');
-                    document.querySelectorAll('.nav-item').forEach(nav => {
-                        nav.classList.remove('active');
-                        if (nav.getAttribute('href') === `#${id}`) {
-                            nav.classList.add('active');
-                        }
-                    });
-                }
-            });
-        }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
-        document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
 
-        // 进度条功能
-        window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            const scrolled = (winScroll / height) * 100;
-            document.getElementById('progressBar').style.width = scrolled + "%";
-            document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
-        });
+</script>
 
-        // 键盘操作：Ctrl+Enter 运行
-        document.addEventListener('keydown', function (e) {
-            const activeEl = document.activeElement;
-            if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
-
-            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
-                e.preventDefault();
-                const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
-                if (runBtn) runBtn.click();
-            }
-            if (e.key === 'Tab') {
-                e.preventDefault();
-                const start = activeEl.selectionStart;
-                const end = activeEl.selectionEnd;
-                activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
-                activeEl.selectionStart = activeEl.selectionEnd = start + 2;
-            }
-        });
-
-    </script>
 </body>
-
 </html>

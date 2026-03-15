@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The this Keyword in Practice</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root { --bg-color: #121212; --surface-color: #1e1e1e; --primary-color: #f7df1e; --text-primary: #e0e0e0; --text-secondary: #a0a0a0; --border-color: #333; --info-color: #4da6ff; --danger-color: #ff5252; --success-color: #4caf50; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); margin: 0; line-height: 1.6; }
+        .app-container { display: flex; max-width: 1400px; margin: 0 auto; }
+        .sidebar { width: 260px; padding: 24px; border-right: 1px solid var(--border-color); position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+        .nav-item { display: block; padding: 10px 12px; color: var(--text-primary); text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 14px; transition: background 0.2s; }
+        .nav-item:hover, .nav-item.active { background: rgba(247, 223, 30, 0.1); color: var(--primary-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 900px; }
+        h1, h2, h3 { color: #fff; }
+        .meta-info { display: flex; gap: 16px; font-size: 14px; color: var(--text-secondary); margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--primary-color); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 24px 0; }
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { background: rgba(0, 0, 0, 0.2); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-secondary); }
+        .btn-run { background: var(--primary-color); color: #000; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-run:hover { opacity: 0.9; }
+        .editor-container { padding: 16px; }
+        .editor-textarea { width: 100%; height: 200px; background: transparent; color: #d4d4d4; border: none; font-family: 'JetBrains Mono', monospace; font-size: 14px; resize: vertical; outline: none; }
+        .console-output { background: #000; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a6e22e; white-space: pre-wrap; min-height: 40px; border-top: 1px solid var(--border-color); }
+        
+        .code-comparison { display: flex; gap: 16px; margin: 24px 0; flex-wrap: wrap; }
+        .code-panel { flex: 1; min-width: 300px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+        .panel-header { padding: 12px 16px; font-weight: 600; font-size: 14px; color: #fff; }
+        .panel-header.method1 { background: rgba(255, 82, 82, 0.2); border-bottom: 1px solid rgba(255, 82, 82, 0.3); }
+        .panel-header.method2 { background: rgba(76, 175, 80, 0.2); border-bottom: 1px solid rgba(76, 175, 80, 0.3); }
+        
+        .quiz-card { background: var(--surface-color); padding: 24px; border-radius: 8px; border: 1px solid var(--border-color); margin-top: 16px; }
+        .quiz-question { font-weight: 600; margin-bottom: 16px; }
+        .quiz-option { padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
+        .quiz-option:hover { background: rgba(255,255,255,0.05); }
+        .quiz-option.selected { border-color: var(--primary-color); background: rgba(247, 223, 30, 0.1); }
+        .quiz-explanation { margin-top: 16px; padding: 12px; border-radius: 6px; background: rgba(255,255,255,0.05); display: none; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background: rgba(255,255,255,0.05); font-weight: 600; }
+        
+        details { background: var(--surface-color); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 16px; }
+        summary { font-weight: 600; cursor: pointer; outline: none; }
+        summary:hover { color: var(--primary-color); }
+    
+        
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 08 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">🎯 概述</a>
+            <a href="#section-1" class="nav-item">1. 全局和函数中的 this</a>
+            <a href="#section-2" class="nav-item">2. 箭头函数中的 this</a>
+            <a href="#section-3" class="nav-item">3. 对象方法与 Method Borrowing</a>
+            <a href="#section-practice" class="nav-item">📝 动手练习</a>
+            <a href="#section-quiz" class="nav-item">❓ 理解检测</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>The this Keyword in Practice</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：011 The this Keyword in Practice.en.srt</span>
+            <span>📂 章节：第 08 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：执行上下文</li>
+                <li><strong>核心突破</strong>：彻底掌握 <code>this</code> 关键字在不同场景（普通函数、箭头函数、对象方法）下到底指向谁。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>上节课我们提到，每个执行上下文都会分配一个 <code>this</code> 变量。它到底代表了什么对象？这完全取决于该函数是如何被<strong>调用</strong>的，与它是如何被编写的无关。今天通过四组真实代码实验，一次性看透 <code>this</code>！</p>
+
+
+        <h2 id="section-1">1. 全局和普通函数中的 this</h2>
+        <p>首先，在全局最高层面上（不包裹在任何函数内），<code>this</code> 就是大写的 Global Object。在浏览器环境下，它就是 <code>window</code>。</p>
+        <p>但在普通的函数里，情况就有变化了：</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">this_in_funcs.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+'use strict'; // 开启严格模式！这很重要！
+
+console.log('全局最高层的 this:', this); // 浏览器中通常是 window
+
+function calcAge(birthYear) {
+    console.log('calcAge 里的 this:', this); // 严格模式下是 undefined！
+}
+
+calcAge(1991);
+                </textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+        <div class="callout">
+            <strong>⚠️ 严格模式防线</strong>
+            <p>在普通函数内部，如果不是通过对象调用，<code>this</code> 默认是 <code>undefined</code>（在使用 `'use strict'` 时）。如果没开严格模式，JS 引擎会“好心办坏事”地把它设为全局 Window 对象，引发难以追查的 Bug！</p>
+        </div>
+
+
+        <h2 id="section-2">2. 箭头函数中的 this (Lexical this)</h2>
+        <p>箭头函数根本就<strong>没有自己的 <code>this</code> 关键字</strong>！当你在箭头函数里使用 <code>this</code> 时，它会去它的外层作用域（也就是声明它的父级词法环境）“借”一个 <code>this</code> 过来使用。我们称之为 Lexical this。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">arrow_func_this.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
+const calcAgeArrow = (birthYear) => {
+    // 这个 this 是从外层的全局中借来的
+    console.log('calcAgeArrow 里的 this:', this); 
+};
+
+calcAgeArrow(1980);
+                </textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+
+        <p><strong>🧠 底层原理视图：词法 this (Lexical this) 的寻址</strong></p>
+        <pre class="language-mermaid">
+            graph BT
+            A[calcAgeArrow 箭头函数<br>🚨 内部发现没有 this!] -->|↑ 向上找| B[全局词法环境 Window]
+            B -.-> C[箭头函数将 this 当作普通变量处理<br>直接拿走 Window 引用]
+            
+            style A fill:#331,stroke:#f7df1e,color:#fff
+            style B fill:#131,stroke:#4caf50,color:#fff
+        </pre>
+
+
+        <h2 id="section-3">3. 对象方法与 Method Borrowing</h2>
+        <p>这是 <code>this</code> 最常见也是最有用的形态！当一个函数作为对象的<strong>方法</strong>被调用时，<code>this</code> 将指向<strong>调用</strong>它的那个对象！</p>
+        
+        <div class="code-comparison">
+            <div class="code-panel">
+                <div class="panel-header method1">👤 Jonas 对象调用</div>
+<pre style="margin:0; border:none; border-radius:0; background:transparent"><code class="language-javascript">const jonas = {
+    year: 1991,
+    calcAge: function () {
+        console.log(this);
+        return 2037 - this.year;
+    }
+};
+
+jonas.calcAge(); 
+// 输出 46。因为是谁调用的？是 jonas!
+// 所以内部的 this.year 等于 jonas.year!
+</code></pre>
+            </div>
+            <div class="code-panel">
+                <div class="panel-header method2">🔄 Matilda 借用方法 (Method Borrowing)</div>
+<pre style="margin:0; border:none; border-radius:0; background:transparent"><code class="language-javascript">const matilda = {
+    year: 2017
+};
+
+// 我们可以直接把 jonas.calcAge 的内存引用抄送给 matilda
+matilda.calcAge = jonas.calcAge;
+
+// 现在是谁调用的？是 matilda!
+matilda.calcAge(); // 输出 20
+// this.year 变成了 matilda.year!
+</code></pre>
+            </div>
+        </div>
+        <blockquote>
+            💡 **核心口诀**：看 <code>this</code>，别看函数是在哪里写好的，要看此时此刻这行代码到底是<strong>谁</strong>点了它（谁调用的它）！<code>调用对象.方法名()</code>，这个 <code>调用对象</code> 就是 <code>this</code>。
+        </blockquote>
+
+
+        <h2 id="section-practice">📝 动手练习</h2>
+        
+        <p><strong>练习 1：把借来的方法独立成普通函数后再调用</strong></p>
+        <p>如果我把 <code>calcAge</code> 方法抽出来，变成一个完全没有附主（Object）的普通变量。它的 <code>this</code> 命运会如何？</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">exercise_this.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">
+'use strict';
+const jonas = {
+    year: 1991,
+    calcAge: function () {
+        console.log(this); // 请观察！
+        console.log(2037 - this.year); // 会发生什么？
+    }
+};
+
+// 将函数剥离出对象
+const f = jonas.calcAge;
+console.log('准备调用 f()');
+
+// 请取消下面这行代码的注释，并观察运行结果
+// f();
+                </textarea>
+            </div>
+            <div id="console3" class="console-output"></div>
+        </div>
+
+        <details>
+            <summary>💡 参考答案</summary>
+            <p>由于代码只写了 <code>f()</code> 而不是 <code>someObject.f()</code>，它被当作了一个普通函数。在严格模式下，普通函数的 <code>this</code> 是 <code>undefined</code>。</p>
+            <p>接下去在代码中执行到 <code>this.year</code>，即相当于试图去读取 <code>undefined.year</code>，引爆类型错误：<code>TypeError: Cannot read properties of undefined</code>。</p>
+        </details>
+
+
+        <h2 id="section-quiz">❓ 理解检测</h2>
+        
+        <div class="quiz-card" data-correct="A" data-content="解析：calcAge 方法内包含了一个箭头函数 `printScope`。我们说过，箭头函数不拥有自己的 this，而是使用父级的 this。此时父级是 `calcAge` 的执行上下文，它的 this 是调用者 user，所以箭头函数内的 this 也是 user 对象。">
+            <div class="quiz-question">1. 当运行 `user.calcAge()` 时，箭头函数 `printScope` 中打印出来的 this 是什么？</div>
+            <pre><code class="language-javascript">
+const user = {
+    firstName: "Jonas",
+    calcAge: function() {
+        const printScope = () => {
+            console.log(this.firstName);
+        };
+        printScope();
+    }
+};
+            </code></pre>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 打印出 "Jonas" 因为箭头函数的 this 就是外层 calcAge 方法的 this (user 对象)</div>
+                <div class="quiz-option" data-value="B">B) 打印出 undefined 或者抛错，因为箭头函数没有 this</div>
+                <div class="quiz-option" data-value="C">C) 打印出 Window 对象的某属性</div>
+            </div>
+            <div class="quiz-explanation"></div>
+        </div>
+
+
+        <h3>🔧 代码填空</h3>
+        <p>我们有一个独立的函数 <code>greet</code>，想要将它的 <code>this</code> 指向到 <code>person</code> 对象并执行。除了使用我们之前提到的 <code>Method Borrowing</code> 修改原对象，在 JS 中其实还有个内置函数可以临时改变 this。它的名字叫 <code>call</code>：</p>
+<pre><code class="language-javascript">
+const person = { name: "Alice" };
+function greet() {
+    console.log(`Hello, ${this.name}!`);
+}
+
+// 补全代码：让 greet 在执行时立即绑定 this 为 person
+greet._______(person); // 输出 "Hello, Alice!"
+</code></pre>
+        <details><summary>💡 答案</summary>
+<pre><code class="language-javascript">greet.call(person); // 或者是 apply</code></pre>
+        </details>
+
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>严格模式</td>
+                    <td>Strict Mode</td>
+                    <td>防止常见陷阱的 JS 限制模式。会导致普通函数中 this 变为 undefined。</td>
+                    <td><code>'use strict';</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>词法 this</td>
+                    <td>Lexical this</td>
+                    <td>箭头函数特有行为，它自身没有 this，只继承声明它时外围作用域的 this。</td>
+                    <td><code>() => console.log(this)</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/this" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const out = document.getElementById(consoleId);
+        const code = document.getElementById(editorId).value;
+        const oldLog = console.log;
+        let output = [];
+        console.log = function(...args) { output.push(args.map(x => typeof x === 'object' ? JSON.stringify(x) : x).join(' ')); };
+        try { 
+            eval(code); 
+            out.innerHTML = output.join('<br>') || '代码执行成功，无输出'; 
+        } catch(e) { 
+            out.innerHTML = `<span style="color: var(--danger-color)">${e.toString()}</span>`; 
+        }
+        console.log = oldLog;
+    }
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correct = card.getAttribute('data-correct');
+        const options = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                exp.style.display = 'block';
+                if(opt.getAttribute('data-value') === correct) {
+                    exp.innerHTML = `<strong>✅ 回答正确！</strong><br>` + card.getAttribute('data-content');
+                    exp.style.color = "var(--success-color)";
+                } else {
+                    exp.innerHTML = `<strong>❌ 回答错误。</strong><br>` + card.getAttribute('data-content');
+                    exp.style.color = "var(--danger-color)";
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

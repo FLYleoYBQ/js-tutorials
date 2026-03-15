@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulating CSS Styles</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; transition: background-color 0.3s; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--accent-color); border: 1px solid var(--accent-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; display: flex; align-items: center; transition: all 0.2s; }
+        .btn-run:hover { background: var(--accent-color); color: #000; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+
+        .demo-box { width: 150px; height: 100px; background: #333; display: flex; align-items: center; justify-content: center; font-size: 24px; font-weight: bold; border-radius: 8px; margin: 20px 0; transition: all 0.3s ease; }
+
+        .quiz-card { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); padding: 24px; margin: 24px 0; }
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+        .quiz-option { background: var(--bg-color); border: 1px solid var(--surface-border); padding: 14px 20px; margin-bottom: 10px; border-radius: var(--radius-md); cursor: pointer; }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+        .quiz-explanation { margin-top: 20px; padding: 16px; background: rgba(255, 255, 255, 0.03); border-radius: var(--radius-md); display: none; border-left: 3px solid var(--info-color); font-size: 14px; }
+
+        
+        
+    
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-intro" class="nav-item active">1. 操纵 CSS 样式</a>
+            <a href="#section-camelcase" class="nav-item">2. 骆驼拼写法 (CamelCase) 铁律</a>
+            <a href="#section-strings" class="nav-item">3. 必须是字符串 (String)</a>
+            <a href="#section-quiz" class="nav-item">验证评估</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Manipulating CSS Styles (动态修改 CSS 样式)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：008 Manipulating CSS Styles.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <p>除了文字内容，DOM 树同样包含了所有元素的样式排版信息。通过 JavaScript 来瞬间改变页面颜色或排版，是网页动效和游戏反馈的重要手段。</p>
+        <p>在猜数字游戏中，当玩家猜中数字（胜利）时，我们将做两件事：把背景变成代表胜利的亮绿色，并把页面中间的那个问号方块横向拉宽两倍以示庆祝！</p>
+
+        <h2 id="section-intro">1. 操纵 CSS 样式的基础写法</h2>
+        <p>要想更改样式，我们仍需先用 <code>document.querySelector</code> 揪出那个元素，随后接上 <code>.style</code> 属性进入样式库，最后再跟上你想要更改的具体 CSS 属性名。</p>
+
+        <pre><code class="language-javascript">// 选中全网页身体，将其背景色改为绿色 (#60b347)
+document.querySelector('body').style.backgroundColor = '#60b347';</code></pre>
+
+        <div class="callout info">
+            <p>💡 <strong>底层实质</strong>：当你在 JavaScript 中执行上述代码时，浏览器其实是在帮你在那个 HTML 元素的标签里，写了一个叫做 <code>style="..."</code> 的<strong>内联样式 (Inline Styles)</strong>。<br>
+            这并不是去真正修改你的 <code>.css</code> 文件。内联样式的显示优先级很高，所以屏幕上立刻就能生效覆盖。</p>
+        </div>
+
+        <h2 id="section-camelcase">2. 骆驼拼写法 (CamelCase) 铁律</h2>
+        <p>这可能是编写 DOM CSS 时最大的槽点与坑！</p>
+        <p>在原来的 CSS 文件中，背景色的写法是带有连字符减号的：<code>background-color</code>。<br>
+        然而，<strong>在 JavaScript 里决不允许在变量名里出现减号 <code>-</code> (会被当成减法运算)</strong>。</p>
+        
+        <p>因此，所有的两单词以上的 CSS 属性，到了 JavaScript 中，都必须无缝切换为 <strong>骆驼拼写法 (CamelCase)</strong>，即去掉减号，第二个单词首字母大写：</p>
+        <ul>
+            <li>❌ <code>style.background-color</code> (语法错误)</li>
+            <li>✅ <code>style.backgroundColor</code> (正确)</li>
+            <li>❌ <code>style.border-radius</code> </li>
+            <li>✅ <code>style.borderRadius</code></li>
+        </ul>
+
+        <h2 id="section-strings">3. 赋值必须是字符串 (String)！</h2>
+        <p>你在等号右边指派的 CSS 值，<strong>永远必须用引号包裹起来变成字符串</strong>，哪怕它看起来是由数字组成的也是如此。并且不可遗漏像 <code>px</code>, <code>rem</code> 这样的单位。</p>
+
+        <pre><code class="language-javascript">const numberBox = document.querySelector('.number');
+
+// ❌ 错误：纯数字或未加引号的组合，浏览器将无法解析
+numberBox.style.width = 30; 
+numberBox.style.width = 30rem; 
+
+// ✅ 正确：带引号的纯种文本字符串
+numberBox.style.width = '30rem';</code></pre>
+
+        <hr style="border:1px solid var(--surface-border); margin:40px 0;">
+        
+        <p>快来下面的交互练习框亲自体验一下这个施法过程吧！</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">魔法施展区</span>
+                <button class="btn-run" onclick="runStyleDemo()">▶ 执行魔法变身</button>
+            </div>
+            
+            <div style="padding: 20px; background: #000; border-top: 1px solid var(--surface-border);">
+                <div id="demoMagicBox" class="demo-box">?</div>
+            </div>
+
+            <div class="editor-container">
+                <textarea id="codeStyle" class="editor-textarea" spellcheck="false" readonly>
+// 当点击执行魔法按钮后，这些代码将被运行：
+
+// 1. 让中间的问号盒子背景变成代表胜利的亮绿色
+document.querySelector('#demoMagicBox').style.backgroundColor = '#60b347';
+
+// 2. 将盒子的宽度由原来的 150px 拉扯展宽至 300px (注意是字符串)
+document.querySelector('#demoMagicBox').style.width = '300px';
+
+// 3. 把里边的问号变成猜中的数字 13
+document.querySelector('#demoMagicBox').textContent = 13;
+</textarea>
+            </div>
+        </div>
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+        
+        <div class="quiz-card" data-correct="C">
+            <div class="quiz-question">1. 若想利用 JavaScript 将元素的上下外边距（在 CSS 里叫 `margin-top`）设置为 25 像素，以下哪句代码不报错且最正确？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) element.style.margin-top = 25px;</div>
+                <div class="quiz-option" data-value="B">B) element.style.marginTop = 25;</div>
+                <div class="quiz-option" data-value="C">C) element.style.marginTop = '25px';</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>👍 正确！</strong> 解析：要闯过两道关卡：第一卡（去中划线改用 marginTop 骆驼式拼写）；第二卡（等号右侧的值必须套上引号变成字符串，并写上单位 px）。
+            </div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script>
+    function runStyleDemo() {
+        const box = document.querySelector('#demoMagicBox');
+        
+        // 执行等效的 JS DOM 代码
+        box.style.backgroundColor = '#60b347';
+        box.style.width = '300px';
+        box.textContent = 13;
+        
+        // 视觉提示
+        const btn = document.querySelector('.btn-run');
+        const oldText = btn.innerText;
+        btn.innerText = "✨ 修改成功！";
+        setTimeout(()=> {
+            btn.innerText = oldText;
+            // 3秒后复原，以便重复体验
+            setTimeout(() => {
+                box.style.backgroundColor = '#333';
+                box.style.width = '150px';
+                box.textContent = '?';
+            }, 3000);
+        }, 800);
+    }
+
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+
+            card.querySelectorAll('.quiz-option').forEach(opt => { opt.classList.remove('selected', 'correct', 'incorrect'); });
+            this.classList.add('selected');
+
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+        });
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+</script>
+</body>
+</html>

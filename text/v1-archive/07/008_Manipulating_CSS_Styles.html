@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manipulating CSS Styles</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --warning-color: #f1fa8c;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--error-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.info { border-color: var(--info-color); border-left-color: var(--info-color); }
+        .callout.success { border-color: var(--success-color); background: rgba(80, 250, 123, 0.05); }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: var(--surface-color) !important; border: 1px solid var(--surface-border); margin: 24px 0; padding: 20px !important; font-size: 14px; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; border: 1px solid var(--surface-border); border-radius: var(--radius-lg); overflow: hidden; }
+        th, td { padding: 12px 16px; text-align: left; border-bottom: 1px solid var(--surface-border); font-size: 14px; }
+        th { background: rgba(255, 255, 255, 0.05); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        td a { color: var(--info-color); text-decoration: none; }
+
+        
+        
+    
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-style" class="nav-item">1. 使用 style 属性更改 CSS</a>
+            <a href="#section-rules" class="nav-item">2. JavaScript 操作 CSS 的两大数据法则</a>
+            <a href="#section-inline" class="nav-item">3. 本质探秘：这修改的是什么 CSS？</a>
+            <a href="#section-quiz" class="nav-item">🧪 学习验证</a>
+            <a href="#section-cheat-sheet" class="nav-item">📖 词汇速查表</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Manipulating CSS Styles</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：008 Manipulating CSS Styles.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>在获胜的那一刻，我们希望游戏背景变成满屏的代表胜利的绿色，并且把揭晓的数字变宽拉长，营造出强烈的视觉反馈！这意味着我们不仅要操作文本或数字，现在我们还要用 JavaScript 去篡改网页的外观（CSS）。</p>
+
+        <h2 id="section-style">1. 使用 style 属性更改 CSS</h2>
+        <p>要通过 JavaScript 操作 DOM 元素的样式，我们需要魔法入口：<strong><code>.style</code> 属性</strong>。当我们选中元素后，在此基础上加上 <code>.style.属性名</code> 就可以进行修改了。</p>
+
+        <p>下面这行代码，能将整个页面的背景颜色瞬间变为清爽的胜利绿：</p>
+        <pre><code class="language-javascript">
+// 当玩家猜对时执行：
+document.querySelector('body').style.backgroundColor = '#60b347';
+        </code></pre>
+
+
+        <h2 id="section-rules">2. JavaScript 操作 CSS 的两大数据法则</h2>
+        <p>如果你仔细看上面代码，会发现它跟平时写 CSS 似乎有点不一样。没错，有两条你必须死记硬背的法则，违背任何一个，页面都不会有任何反应：</p>
+
+        <h3>① 驼峰命名法 (Camel Case) 替代横杠连写</h3>
+        <p>在原生的 CSS 中，我们习惯使用连字符（横杠）来写属性名，如 <code>background-color</code>、<code>font-size</code>。但是，在 JavaScript 中，横杠 <code>-</code> 意味着“减法运算”！为了解决冲突，<strong>所有带横杠的属性名，到了 JS 这里必须全部改为小驼峰式命名。</strong></p>
+        <ul>
+            <li>❌ <code>document.querySelector('body').style.background-color</code> (SyntaxError: 引擎以为你在做减法)</li>
+            <li>✅ <code>document.querySelector('body').style.backgroundColor</code></li>
+        </ul>
+
+        <h3>② 值必须是字符串 (String)，且必须带单位</h3>
+        <p>当你设置高度、宽度或任何值的时候，你传给右边的值<strong>必须是被引号包裹的纯字符串 (String)！</strong> 哪怕是数字也必须套进字符串里，并且如果它需要单位，也必须一并带上。</p>
+
+        <pre><code class="language-javascript">
+// 把包含数字框的宽度增加一倍 (原来的 CSS 设定是 15rem)
+
+// ❌ 错误：给了个光秃秃的 Number 数字
+document.querySelector('.number').style.width = 30;
+
+// ✅ 正确：给的是包含了单位的完整字符串
+document.querySelector('.number').style.width = '30rem';
+        </code></pre>
+
+
+        <h2 id="section-inline">3. 本质探秘：这修改的是什么 CSS？</h2>
+        <p>你可能会好奇，用这种方式修改，我的 <code>style.css</code> 文件会被强行重写吗？</p>
+        <p><strong>答案是：绝无可能！</strong></p>
+        <p>你在 JS 里执行的这些代码，会在浏览器实时渲染的 HTML 标签上，贴贴纸一样加上一个 <strong>内联样式 (Inline Style) 属性</strong>。</p>
+        <pre><code class="language-html">
+<!-- 运行 JS 前 -->
+&lt;body&gt;
+
+<!-- 运行 JS 后，你在浏览器的开发者工具 (F12) 里会看到如下盛况： -->
+&lt;body style="background-color: rgb(96, 179, 71);"&gt;
+        </code></pre>
+        <div class="callout success">
+            <p>💡 <strong>科普提示：</strong> 在 CSS 权重 (Specificity) 原则中，内联样式的权重极高，会瞬间盖过你写在 `style.css` 文件里的正常样式。这就是为什么 JS 修改外观总是立竿见影的原理。</p>
+        </div>
+
+
+        <h2 id="section-quiz">🧪 学习验证</h2>
+
+        <div class="quiz-card" data-correct="B">
+            <div class="quiz-question">1. 我们想用 JS 把 `#title` 的外边距 (margin-top) 设为 50 像素。正确的代码是？</div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) `document.querySelector('#title').style.marginTop = 50;`</div>
+                <div class="quiz-option" data-value="B">B) `document.querySelector('#title').style.marginTop = '50px';`</div>
+            </div>
+            <div class="quiz-explanation">
+                <strong>正确答案：B</strong>。必须同时满足两大准则：属性名用小驼峰 (`marginTop`)，且赋予的值必须是一个带着有效 CSS 单位的字符串 (`'50px'`)。
+            </div>
+        </div>
+
+        <h2 id="section-cheat-sheet">📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>样式对象接口</td>
+                    <td><code>HTMLElement.style</code></td>
+                    <td>允许通过 JS 操作该元素的所有 CSS 属性入口（会自动注入至内联样式）</td>
+                </tr>
+                <tr>
+                    <td>驼峰式命名法</td>
+                    <td>Camel Case</td>
+                    <td>用大小写转折来替代连字符的命名法。如将 <code>border-radius</code> 变为 <code>borderRadius</code></td>
+                </tr>
+                <tr>
+                    <td>内联样式</td>
+                    <td>Inline Style</td>
+                    <td>直接写在 HTML 标签内部 <code>style="..."</code> 的属性中，拥有极高的覆盖优先级</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correctVal = card.getAttribute('data-correct');
+        const opts = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        
+        opts.forEach(opt => {
+            opt.addEventListener('click', () => {
+                opts.forEach(o => o.style.background = 'transparent');
+                if (opt.getAttribute('data-value') === correctVal) {
+                    opt.style.background = 'rgba(80, 250, 123, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--success-color)';
+                } else {
+                    opt.style.background = 'rgba(255, 85, 85, 0.2)';
+                    opt.style.borderLeft = '4px solid var(--error-color)';
+                }
+                exp.style.display = 'block';
+            });
+        });
+    });
+</script>
+</body>
+</html>

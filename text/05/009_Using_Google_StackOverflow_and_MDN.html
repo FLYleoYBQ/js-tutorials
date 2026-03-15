@@ -3,10 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Using Google, StackOverflow and MDN</title>
+    <title>使用 Google、Stack Overflow 和 MDN</title>
+    <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
     <style>
 
@@ -17,7 +19,8 @@
             --surface-border: #333333;
             --text-primary: #ededed;
             --text-secondary: #a0a0a0;
-            --accent-color: #f7df1e;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
             --error-color: #ff5555;
             --success-color: #50fa7b;
             --info-color: #8be9fd;
@@ -30,234 +33,963 @@
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
 
         /* Layout */
-        .app-container { display: flex; min-height: 100vh; }
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
 
-        /* Sidebar */
-        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
-        .sidebar-header { margin-bottom: 32px; }
-        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
-        
-        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
-        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
-        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
 
         /* Main Content */
-        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
-        
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
         h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
         h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
-        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
         strong { color: var(--text-primary); }
 
-        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
 
-        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
         .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
 
-        /* Code Editor */
-        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
-        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
         .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
-        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
-        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
         .editor-container { position: relative; }
-        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
-        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
         .console-output.visible { display: block; }
         .console-output.error { color: var(--error-color); }
 
-        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
-        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
-        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
-        tr:last-child td { border-bottom: none; }
-        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
-        
-        
-        
-    
-    
-/* 极简暗色主题 CSS */
-
-        /* 强制移动端适配 */
-        @media (max-width: 768px) {
-            .app-container { flex-direction: column !important; }
-            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
-            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
-            h1 { font-size: 24px !important; }
-            h2 { font-size: 20px !important; }
-            .meta-info { flex-direction: column !important; gap: 8px !important; }
-            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
-            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
-            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
-            .runnable-editor { margin: 16px 0 !important; }
-            .mermaid { padding: 16px !important; overflow-x: auto !important; }
-            img { max-width: 100% !important; height: auto !important; }
-            .code-comparison { flex-direction: column !important; }
-            .code-comparison > div { width: 100% !important; }
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
         }
 
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
     </style>
 </head>
 <body>
 
 <div class="app-container">
+    <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-title">第 05 章 / 进度</div>
-            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
             <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
         </div>
         <nav id="toc">
-            <a href="#section-overview" class="nav-item active">概述</a>
-            <a href="#section-1" class="nav-item">1. 问题拆解：计算温度振幅</a>
-            <a href="#section-2" class="nav-item">2. 借力 Stack Overflow：寻找最大值</a>
-            <a href="#section-3" class="nav-item">3. 借力 MDN 文档：合并数组</a>
-            <a href="#section-quiz" class="nav-item">验证评估</a>
+            <a href="#section-0" class="nav-item active">使用 Google、Stack Overflow 和 MDN</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
         </nav>
     </aside>
 
+    <!-- Main Content -->
     <main class="main-content">
-        <h1>Using Google, StackOverflow and MDN</h1>
-        
-        <div class="meta-info">
-            <span>📺 来源：009 Using Google, StackOverflow and MDN.en.srt</span>
-            <span>📂 章节：第 05 章</span>
-        </div>
+<h1 id="section-0">使用 Google、Stack Overflow 和 MDN</h1>
 
-        <div class="callout">
-            <strong>📌 知识脉络</strong>
-            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
-                <li><strong>前置知识</strong>：解决问题的四步框架、循环结构</li>
-                <li><strong>后续扩展</strong>：养成面向 Google 和官方文档独立解决困难问题的极客作风</li>
-            </ul>
-        </div>
+<div class="callout"><p>📺 来源：009 Using Google, StackOverflow and MDN.en.srt<br>📂 章节：第 05 章</p></div>
 
-        <h2 id="section-overview">🎯 概述</h2>
-        <p>上节课我们学习了“四步框架”，今天我们要用它来实战！假设你入职了一家生产智能温度计的公司，经理派给你一个任务：<strong>“给定一个包含一天中温度数据的数组，计算出当天的 温度振幅（Temperature Amplitude）。注意，传感器偶尔会报错。”</strong> 让我们看看如何用 Google 取长补短，破局解题。</p>
+<h2 id="section-1">📌 知识脉络</h2>
 
-        <h2 id="section-1">1. 问题拆解：计算温度振幅</h2>
-        <p>面对这个需求，我们首先按照四步法进行拆分（Divide and Conquer）：</p>
-        
-        <ul>
-            <li><strong>搞懂问题：</strong> 什么是“温度振幅”？答：最高温与最低温之间的差值。传感器报错长什么样？答：一个写着 <code>'error'</code> 的字符串，我们需要忽略它。</li>
-            <li><strong>打碎子任务清单：</strong>
-                <ol>
-                    <li>如何遍历数组并跳过 <code>'error'</code>？</li>
-                    <li>如何找出数组中的最大值？</li>
-                    <li>如何找出数组中的最小值？</li>
-                    <li>将最大值减去最小值，返回结果。</li>
-                </ol>
-            </li>
-        </ul>
+<ul>
+<li><strong>前置知识</strong>：四步问题解决框架、JavaScript 基础（函数、数组、循环）、<code>typeof</code> 运算符</li>
+<li><strong>后续扩展</strong>：调试（Debug）技巧、阅读官方文档能力、开源社区参与</li>
+</ul>
 
-        <h2 id="section-2">2. 借力 Stack Overflow：寻找最大/最小值</h2>
-        <p>你可能不知道该怎么在 JavaScript 中找出数组里最大的数字。遇到这种常见的“轮子”，千万别觉得羞愧，直接在 Google 搜索：<code>javascript get max value in array</code>。通常第一个结果就会把你引向全球最著名的程序员问答社区 —— <strong>Stack Overflow</strong>。</p>
-        
-        <p>你可能会在上面看到很多看不懂的高级写法（比如 <code>Math.max.apply</code>），但通常往下多翻一两层，就会找到最原始易懂的基础写法：<strong>假定第一个元素最大，然后用 for 循环依次PK</strong>。让我们自己动手融合刚才的排除错误逻辑实现一遍：</p>
+<h2 id="section-2">🎯 概述</h2>
 
-        <div class="runnable-editor">
-            <div class="editor-header">
-                <span class="editor-title">index.js</span>
-                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
-            </div>
-            <div class="editor-container">
-                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const calcTempAmplitude = function(temps) {
-    let max = temps[0];
-    let min = temps[0];
+<p>本节课通过一个完整的实战案例（计算温度振幅 + 合并两个数组）演示如何在真实开发中使用 <strong>Google</strong>、<strong>Stack Overflow</strong> 和 <strong>MDN Web Docs</strong> 三大搜索研究工具来解决编程问题。</p>
 
-    for (let i = 0; i < temps.length; i++) {
-        const curTemp = temps[i];
+<h2 id="section-3">核心知识点</h2>
 
-        // 子任务 1：忽略传感器错误
-        if (typeof curTemp !== 'number') continue;
+<h3 id="section-4">1. 实战案例：计算温度振幅</h3>
 
-        // 子任务 2：不断刷新最高温纪录
-        if (curTemp > max) max = curTemp;
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：温度振幅就像股票的"波动幅度"——你需要找出最高价和最低价，然后算出它们的差值。</p></div>
 
-        // 子任务 3：不断刷新最低温纪录
-        if (curTemp < min) min = curTemp;
-    }
+<p><strong>问题描述</strong>：给定一个温度数组（可能包含错误元素如字符串 <code>'error'</code>），计算<strong>最高温度与最低温度的差值（振幅）</strong>。</p>
 
-    // 子任务 4：返回振幅
-    return max - min;
-};
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">temp_amplitude.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 实战：计算温度振幅
+const temperatures = [3, -2, -6, -1, 'error', 9, 13, 17, 15, 14, 9, 5];
 
-const amplitude = calcTempAmplitude([3, -2, -6, -1, 'error', 9, 13, 17, 15, 14, 9, 5]);
-console.log(amplitude);</textarea>
-            </div>
-            <div id="console1" class="console-output"></div>
-        </div>
-
-        <p><strong>🔍 执行追踪：</strong></p>
-        <p>假设刚开始 <code>max = 3</code>。下一轮循环碰到 <code>-2</code> 时，<code>-2 > 3</code> 为假，<code>max</code> 不变。一直比对到碰到 <code>9</code> 时，<code>9 > 3</code> 为真，于是 <code>max</code> 瞬间刷新为 <code>9</code>！<code>continue</code> 则完美地确保了循环在碰到 <code>'error'</code> 时立刻跳到下一轮，防止乱认数字。</p>
-
-        <br>
-        <h2 id="section-3">3. 借力 MDN 文档：合并数组</h2>
-        <p>新需求来了！经理要你现在支持同时传入 <strong>两个</strong> 数组算振幅。怎么做最好？写两遍上面的逻辑？不，正确的做法是<strong>先把两个数组合并成一个数组</strong>，然后原来的逻辑一行都不用改！</p>
-        
-        <p>Google 一下 <code>javascript merge two arrays</code>，你会发现第一条就是指向 <strong>MDN (Mozilla Developer Network) Web Docs</strong> 关于 <code>Array.prototype.concat()</code> 的百科。MDN 是目前最权威无死角的 JS 官方词典。</p>
-        
-        <div class="runnable-editor">
-            <div class="editor-header"><span class="editor-title">index.js</span></div>
-            <div class="editor-container">
-                <textarea class="editor-textarea" spellcheck="false" readonly>// 利用 MDN 查到的神器实现升级版
-const calcTempAmplitudeNew = function(t1, t2) {
-    // 缝合为全新的一体数组
-    const temps = t1.concat(t2);
+function calcTempAmplitude(temps) {
+  let max = temps[0]; // 用第一个元素初始化（不能用 0！）
+  let min = temps[0];
+  
+  for (let i = 0; i &lt; temps.length; i++) {
+    const curTemp = temps[i];
     
-    // ...下方的找最大最小值逻辑照旧
-    console.log(temps);
-};
-calcTempAmplitudeNew([3, 5, 1], [9, 0, 5]);</textarea>
-            </div>
-        </div>
+    // 跳过非数字元素（如 'error'）
+    if (typeof curTemp !== 'number') continue;
+    
+    if (curTemp &gt; max) max = curTemp; // 更新最大值
+    if (curTemp &lt; min) min = curTemp; // 更新最小值
+  }
+  
+  console.log(`🌡️ 最高温: ${max}°C`);
+  console.log(`🌡️ 最低温: ${min}°C`);
+  return max - min; // 振幅 = 最高 - 最低
+}
 
-        <h2 id="section-quiz">🧪 学习验证</h2>
+const amplitude = calcTempAmplitude(temperatures);
+console.log(`📊 温度振幅: ${amplitude}°C`);</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
 
-        <h3>❓ 理解检测</h3>
-        <div class="quiz-card" data-correct="B">
-            <div class="quiz-question">1. 在开发中，Stack Overflow 和 MDN 的主要区别侧重点是什么？</div>
-            <div class="quiz-options">
-                <div class="quiz-option" data-value="A">A) Stack Overflow 是官方教程，MDN 是网友吹水论坛。</div>
-                <div class="quiz-option" data-value="B">B) Stack Overflow 是互助问答社区（主治疑难杂症，看大家怎么修轮子），MDN 则是官方词典规范（主查 API 参数、长啥样）。</div>
-                <div class="quiz-option" data-value="C">C) 两者完全一样，没有区别。</div>
-            </div>
-            <div class="quiz-explanation">
-                <strong>B 是正确的选项</strong>。前者提供人们踩坑后的经验拼凑解决方案；后者提供精确、详实的原生函数运作机制说明。
-            </div>
-        </div>
-        
-        <br>
-        
-        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>中文术语</th>
-                    <th>英文术语</th>
-                    <th>简明释义</th>
-                    <th>速查代码</th>
-                    <th>📚 官方文档溯源</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                    <td>数组拼接</td>
-                    <td>Concat</td>
-                    <td>不会更改现有数组，而是返回一个新数组，其中包含被连接数组的值</td>
-                    <td><code>arr1.concat(arr2)</code></td>
-                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/concat" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
-                </tr>
-            </tbody>
-        </table>
+<p><strong>🔍 执行追踪：循环遍历温度数组</strong></p>
 
+<table>
+    <thead><tr><th>迭代 (i)</th><th>curTemp</th><th>typeof</th><th>max</th><th>min</th><th>动作</th></tr></thead>
+    <tbody><tr><td>0</td><td>3</td><td>number</td><td>3</td><td>3</td><td>初始值</td></tr>
+<tr><td>1</td><td>-2</td><td>number</td><td>3</td><td>-2</td><td>更新 min</td></tr>
+<tr><td>2</td><td>-6</td><td>number</td><td>3</td><td>-6</td><td>更新 min</td></tr>
+<tr><td>3</td><td>-1</td><td>number</td><td>3</td><td>-6</td><td>无变化</td></tr>
+<tr><td>4</td><td>'error'</td><td>string</td><td>3</td><td>-6</td><td><strong>continue 跳过</strong></td></tr>
+<tr><td>5</td><td>9</td><td>number</td><td>9</td><td>-6</td><td>更新 max</td></tr>
+<tr><td>6</td><td>13</td><td>number</td><td>13</td><td>-6</td><td>更新 max</td></tr>
+<tr><td>7</td><td>17</td><td>number</td><td>17</td><td>-6</td><td>更新 max</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：「初始首元素，continue 跳杂质，逐个比大小，振幅等差值」</p></div>
+
+<hr>
+
+<h3 id="section-5">2. 为什么 max/min 不能初始化为 0</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：想象你在评选班级最矮的同学，但你一开始就参照了一个"虚拟人"的身高 0 厘米。由于所有真人都比 0 高，"虚拟人"永远是最矮的——你的评选从一开始就出错了。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    A["❌ 错误：max = 0, min = 0"] --> B["数组: [3, 5, 1, 4, 9]"]
+    B --> C["循环结束后: max = 9 ✅"]
+    B --> D["循环结束后: min = 0 ❌<br/>（0 比所有正数都小，永远不会被替换）"]
+    D --> E["振幅 = 9 - 0 = 9 ❌<br/>（正确答案应该是 9 - 1 = 8）"]
+    
+    style A fill:#e74c3c,stroke:#c0392b,color:#fff
+    style D fill:#e74c3c,stroke:#c0392b,color:#fff
+    style E fill:#e74c3c,stroke:#c0392b,color:#fff
+</div>
+
+<div class="code-comparison">
+    <div class="code-panel">
+        <div class="panel-header method2">🚨 错误初始化 (Bug!)</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">// ❌ 用 0 初始化 max 和 min
+let max = 0;
+let min = 0;
+
+// 如果所有温度都是正数
+// min 永远是 0（不是数组中的最小值）
+// 如果所有温度都是负数
+// max 永远是 0（不是数组中的最大值）</code></pre>
+    </div>
+    <div class="code-panel">
+        <div class="panel-header method1">✨ 正确初始化</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">// ✅ 用数组第一个元素初始化
+let max = temps[0];
+let min = temps[0];
+
+// 这样 max/min 有了真实的起始参照
+// 后续比较才能正确找出最大/最小值</code></pre>
+    </div>
+</div>
+
+<hr>
+
+<h3 id="section-6">3. 搜索工具实战：合并两个数组</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：你有两副不同的扑克牌，需要合在一起洗牌。你不知道怎么做，于是 Google 搜索"如何合并扑克牌"——Stack Overflow 告诉你"把两副叠在一起然后洗"——MDN 告诉你具体的洗牌方法文档。</p></div>
+
+<p>当函数需要接收两个温度数组时，我们需要搜索"如何合并两个数组"：</p>
+
+<div class="mermaid">
+sequenceDiagram
+    participant D as 开发者
+    participant G as Google
+    participant SO as Stack Overflow
+    participant M as MDN Web Docs
+    
+    D->>G: 搜索 "JavaScript merge two arrays"
+    G->>D: 返回 SO 和 MDN 结果
+    D->>SO: 查看投票最高的回答
+    SO->>D: 推荐使用 array.concat() 方法
+    D->>M: 查阅 concat() 官方文档
+    M->>D: 提供完整用法、参数说明和示例
+    D->>D: 理解后应用到自己的代码中
+</div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">merge_arrays.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 使用 concat() 合并两个数组 —— 通过搜索学到的！
+const temps1 = [3, 5, 1];
+const temps2 = [9, 0, 5];
+
+// concat() 不会修改原数组，而是返回新数组
+const allTemps = temps1.concat(temps2);
+console.log('合并后:', allTemps); // [3, 5, 1, 9, 0, 5]
+
+// 改进后的函数：接收两个数组
+function calcTempAmplitudeNew(t1, t2) {
+  const temps = t1.concat(t2); // 合并两个数组
+  
+  let max = temps[0];
+  let min = temps[0];
+  
+  for (let i = 0; i &lt; temps.length; i++) {
+    if (typeof temps[i] !== 'number') continue;
+    if (temps[i] &gt; max) max = temps[i];
+    if (temps[i] &lt; min) min = temps[i];
+  }
+  
+  return max - min;
+}
+
+const amplitude = calcTempAmplitudeNew(temps1, temps2);
+console.log(`📊 合并后温度振幅: ${amplitude}°C`); // 9</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<p><strong>📊 三大搜索工具对比：</strong></p>
+
+<table>
+    <thead><tr><th>工具</th><th>最佳场景</th><th>特点</th><th>使用频率</th></tr></thead>
+    <tbody><tr><td><strong>Google</strong></td><td>初步搜索，不知道用什么方法时</td><td>最广泛，可找到各种资源</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td><strong>Stack Overflow</strong></td><td>具体代码问题的解决方案</td><td>有投票系统，质量参差不齐</td><td>⭐⭐⭐⭐</td></tr>
+<tr><td><strong>MDN Web Docs</strong></td><td>查阅 API 的官方说明和用法</td><td>最权威，示例丰富</td><td>⭐⭐⭐⭐⭐</td></tr></tbody>
+</table>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：Jonas 强调 MDN 是他学习 JavaScript 最重要的资源——很多你在课程中学到的知识，他都是从 MDN 上首先学到的。MDN 的侧边栏列出了每种数据类型的所有方法，是探索 JavaScript 能力的"百科全书"。</p></div>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你需要构建一个天气分析工具，处理多个城市的温度数据，计算整体温度振幅。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">weather_analyzer.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 天气分析工具 — 处理多城市温度数据
+function analyzeWeather(city1Temps, city2Temps) {
+  const allTemps = city1Temps.concat(city2Temps);
+  
+  let max = allTemps[0];
+  let min = allTemps[0];
+  let sum = 0;
+  let validCount = 0;
+  
+  for (let i = 0; i &lt; allTemps.length; i++) {
+    if (typeof allTemps[i] !== 'number') continue;
+    
+    if (allTemps[i] &gt; max) max = allTemps[i];
+    if (allTemps[i] &lt; min) min = allTemps[i];
+    sum += allTemps[i];
+    validCount++;
+  }
+  
+  const avg = sum / validCount;
+  const amplitude = max - min;
+  
+  return { max, min, avg: Math.round(avg * 10) / 10, amplitude, dataPoints: validCount };
+}
+
+const beijing = [2, 5, -3, 8, 'error', 12, 7];
+const shanghai = [15, 18, 12, 20, 16, 'error', 14];
+
+const result = analyzeWeather(beijing, shanghai);
+console.log('🌍 双城天气分析:');
+console.log(`  🌡️ 最高温: ${result.max}°C`);
+console.log(`  🌡️ 最低温: ${result.min}°C`);
+console.log(`  📊 平均温: ${result.avg}°C`);
+console.log(`  📈 温度振幅: ${result.amplitude}°C`);
+console.log(`  📋 有效数据点: ${result.dataPoints}`);</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["📥 输入: 两个城市温度数组"] --> B["concat() 合并数据"]
+    B --> C["for 循环遍历"]
+    C --> D{"typeof === 'number' ?"}
+    D -->|"否"| E["continue 跳过"]
+    D -->|"是"| F["更新 max/min/sum"]
+    E --> C
+    F --> C
+    C -->|"循环结束"| G["计算 avg = sum / count"]
+    G --> H["计算 amplitude = max - min"]
+    H --> I["📤 返回分析结果"]
+    
+    style A fill:#3498db,stroke:#2980b9,color:#fff
+    style I fill:#27ae60,stroke:#1e8449,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>城市</th><th>温度数据</th><th>有效数据点</th></tr></thead>
+    <tbody><tr><td>北京</td><td>[2, 5, -3, 8, 'error', 12, 7]</td><td>6</td></tr>
+<tr><td>上海</td><td>[15, 18, 12, 20, 16, 'error', 14]</td><td>6</td></tr>
+<tr><td><strong>合并结果</strong></td><td>max=20, min=-3, amplitude=23</td><td>12</td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ <strong>Google 搜索</strong>是开发者每天使用最多的工具——搜索"JavaScript + 你要做的事"</li>
+<li>✅ <strong>Stack Overflow</strong> 适合找具体问题的代码解决方案，注意看投票最高的回答</li>
+<li>✅ <strong>MDN Web Docs</strong> 是 JavaScript 最权威的文档，学习新方法的首选资源</li>
+<li>✅ <code>typeof</code> 配合 <code>continue</code> 可以跳过数组中的无效数据</li>
+<li>✅ <code>concat()</code> 方法合并数组但<strong>不修改原数组</strong>，返回新数组</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1：用 0 初始化 max/min</strong>。如果数组全是正数，min 永远是 0（不是真正的最小值）；如果全是负数，max 永远是 0。应该用 <code>temps[0]</code> 初始化。</li>
+<li>⚠️ <strong>误区 2：concat 会修改原数组</strong>。真相是 <code>concat()</code> 返回新数组，原数组不变。如果需要修改原数组，应该用 <code>push()</code> 或展开运算符 <code>[...arr1, ...arr2]</code>。</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误做法：不过滤错误数据</strong></p>
+
+<pre><code class="language-javascript">const temps = [3, 5, 'error', 9];
+let max = temps[0]; // 3
+
+for (let i = 0; i &lt; temps.length; i++) {
+  if (temps[i] &gt; max) max = temps[i]; // ❌ 字符串 'error' 参与比较
+}
+console.log(max); // 输出什么？</code></pre>
+
+<p><strong>浏览器输出：</strong></p>
+
+<pre><code>error  // 字符串 'error' 在比较中被认为&quot;大于&quot;数字 9
+// 因为 JS 在 &gt; 比较时会做类型转换，'error' &gt; 9 的结果取决于隐式转换</code></pre>
+
+<p><strong>🔑 解读</strong>：当字符串与数字进行 <code>&gt;</code> 比较时，JavaScript 尝试将字符串转为数字（得到 <code>NaN</code>），<code>NaN &gt; 9</code> 为 <code>false</code>。但不同场景下可能产生不同的意外结果。使用 <code>typeof</code> 检查 + <code>continue</code> 可以安全跳过非数字元素。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>数组合并</td><td>Array.concat()</td><td>将多个数组合并为一个新数组</td><td><code>[1,2].concat([3,4])</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/concat" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>类型检测</td><td>typeof</td><td>返回值的类型字符串</td><td><code>typeof 42 // 'number'</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>跳过当前迭代</td><td>continue</td><td>跳过循环当前迭代的剩余代码</td><td><code>if (...) continue;</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/continue" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>温度振幅</td><td>Temperature Amplitude</td><td>最高温与最低温的差值</td><td><code>max - min</code></td><td>—</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：查找所有大于平均值的温度</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">above_average.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 找出温度数组中所有高于平均值的温度
+const temps = [5, 10, 15, 20, 25, 30];
+
+function findAboveAverage(arr) {
+  // 1. 计算平均值
+  // 2. 筛选出大于平均值的元素
+  // 提示：先算 sum，再算 avg，最后用循环筛选
+}
+
+console.log(findAboveAverage(temps)); // 应输出 [20, 25, 30]</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  let sum = 0;
+  for (let i = 0; i &lt; arr.length; i++) {
+    sum += arr[i];
+  }
+  const avg = sum / arr.length;
+  
+  const result = [];
+  for (let i = 0; i &lt; arr.length; i++) {
+    if (arr[i] &gt; avg) result.push(arr[i]);
+  }
+  return result;
+}
+// avg = 17.5, 所以 20, 25, 30 &gt; 17.5
+</code></pre>
+<strong>解题思路</strong>：分两步——先遍历算平均值，再遍历找出大于平均值的元素。
+</details>
+
+<p><strong>练习 2：合并并去重</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">merge_unique.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 合并两个数组并去除重复元素
+const arr1 = [1, 3, 5, 7];
+const arr2 = [3, 5, 8, 10];
+
+function mergeUnique(a, b) {
+  // 提示：先 concat 合并，然后遍历检查是否重复
+}
+
+console.log(mergeUnique(arr1, arr2)); // [1, 3, 5, 7, 8, 10]</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  const merged = a.concat(b);
+  const result = [];
+  for (let i = 0; i &lt; merged.length; i++) {
+    let isDuplicate = false;
+    for (let j = 0; j &lt; result.length; j++) {
+      if (merged[i] === result[j]) {
+        isDuplicate = true;
+        break;
+      }
+    }
+    if (!isDuplicate) result.push(merged[i]);
+  }
+  return result;
+}
+</code></pre>
+<strong>解题思路</strong>：先 <code>concat</code> 合并，然后用嵌套循环检查每个元素是否已在结果数组中。（后续课程会学到更优雅的 <code>Set</code> 方式）
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">为什么 Jonas 认为 MDN 是最重要的学习资源？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 因为 MDN 有视频教程</div>
+<div class="quiz-option" data-value="B">B) 因为 MDN 是付费的高级文档</div>
+<div class="quiz-option" data-value="C">C) 因为 MDN 是 JavaScript 最权威、最完整的官方文档，且免费</div>
+    </div>
+    <div class="quiz-explanation">
+        MDN（Mozilla Developer Network）是 JavaScript、HTML、CSS 的<strong>非官方但最权威</strong>的文档网站。Jonas 表示他大量的 JavaScript 知识来自 MDN。它免费、示例丰富、持续更新。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">在温度振幅函数中，为什么 max 和 min 应该用 <code>temps[0]</code> 初始化？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 因为 0 是一个特殊的 JavaScript 值</div>
+<div class="quiz-option" data-value="B">B) 因为用 0 初始化可能导致 min 或 max 永远不被更新</div>
+<div class="quiz-option" data-value="C">C) 因为 temps[0] 总是最大的值</div>
+    </div>
+    <div class="quiz-explanation">
+        如果用 <code>0</code> 初始化 <code>min</code>，而数组全是正数，那么 <code>min</code> 永远停留在 <code>0</code>（真实最小值永远大于 0）。用 <code>temps[0]</code> 初始化确保 max/min 有一个真实的起始参照。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question"><code>concat()</code> 方法的特性是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 返回新数组，不修改原数组</div>
+<div class="quiz-option" data-value="B">B) 直接修改原数组</div>
+<div class="quiz-option" data-value="C">C) 只能合并两个数组</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>concat()</code> 是<strong>不可变方法</strong>——它返回一个包含所有元素的新数组，原数组保持不变。它实际上可以接收多个参数来合并多个数组。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 合并两个数组<br>
+    const merged = arr1.<input type="text" class="blank-input" data-answer="concat" placeholder="1">(arr2);<br>
+    <br>
+    // 跳过非数字元素<br>
+    if (<input type="text" class="blank-input" data-answer="typeof" placeholder="2"> curTemp !== 'number') <input type="text" class="blank-input" data-answer="continue" placeholder="3">;<br>
+    <br>
+    // 用数组第一个元素初始化 max<br>
+    let max = temps[<input type="text" class="blank-input" data-answer="0" placeholder="4">];
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
     </main>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
 </body>
 </html>

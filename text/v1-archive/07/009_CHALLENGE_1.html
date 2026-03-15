@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #1: Implement Game Reset</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --warning-color: #f1fa8c;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+        .app-container { display: flex; min-height: 100vh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); font-weight: 700; }
+        .progress-container { margin-top: 16px; background: var(--surface-border); height: 6px; border-radius: 3px; overflow: hidden; }
+        .progress-bar { height: 100%; background: var(--accent-color); width: 0%; transition: all 0.2s; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; border-left: 2px solid transparent; }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        
+        .challenge-box { background: rgba(139, 233, 253, 0.05); border: 1px solid var(--info-color); border-radius: var(--radius-lg); padding: 24px; margin: 32px 0; }
+        .challenge-box h3 { margin-top: 0; color: var(--info-color); display: flex; align-items: center; gap: 8px; }
+        .challenge-box ul { margin-left: 24px; margin-bottom: 0; }
+        .challenge-box li { margin-bottom: 8px; }
+
+        .solution-spoiler { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); padding: 24px; margin: 32px 0; }
+        .solution-spoiler summary { font-weight: 600; cursor: pointer; color: var(--accent-color); outline: none; }
+        .solution-spoiler summary:hover { opacity: 0.8; }
+        .solution-content { margin-top: 20px; }
+
+        pre[class*="language-"] { border-radius: var(--radius-lg); background: #111 !important; border: 1px solid var(--surface-border); margin: 16px 0; padding: 20px !important; font-size: 14px; }
+        
+        
+        
+    
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">概述</a>
+            <a href="#section-challenge" class="nav-item">🏆 挑战任务</a>
+            <a href="#section-solution" class="nav-item">💡 官方题解</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #1: Implement Game Reset</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：009 CHALLENGE #1.en.srt</span>
+            <span>📂 章节：第 07 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>这是本课程的第一个代码实战挑战！目前我们的游戏玩完一局后就“死”了，除非刷新整个网页。但如果每次都刷新网页，我们不仅会丢失体验连贯性，更致命的是后面章节里我们要做的 <strong>Highscore (最高分)</strong> 数据也会一并灰飞烟灭！因此，我们需要利用 JavaScript 给左上角的 <code>Again!</code> 按钮编写重置功能。</p>
+
+        <h2 id="section-challenge">🏆 挑战任务</h2>
+        
+        <div class="challenge-box">
+            <h3>📝 你的任务清单：</h3>
+            <p>不要复制粘贴！尝试脱离教程独立手敲完成以下步骤：</p>
+            <ul>
+                <li><strong>步骤 1：</strong> 选择 HTML 中 class 为 <code>again</code> 的按钮元素。</li>
+                <li><strong>步骤 2：</strong> 用 <code>addEventListener</code> 给它绑定一个 <code>'click'</code> 事件，并在回调函数中执行接下来的所有步骤。</li>
+                <li><strong>步骤 3（核心）：</strong> 在代码中，将控制命数的 <code>score</code> 变量恢复杂复为 <code>20</code>。并且一定要重新生成一个新的 <code>secretNumber</code>（秘密数字）。</li>
+                <li><strong>步骤 4（恢复文本）：</strong> 将那些通过 DOM 修改过的文本全部变回默认状态。
+                    <ul>
+                        <li>提示语应该变回: <code>'Start guessing...'</code></li>
+                        <li>生命值分数应该变回 <code>score</code> 变量对应的 <code>20</code>。</li>
+                        <li>中央显示的神秘数字应该变回 <code>'?'</code>。</li>
+                    </ul>
+                </li>
+                <li><strong>步骤 5（清空输入）：</strong> 将输入框的 <code>value</code> 赋值为一个<strong>空字符串</strong> <code>''</code>。</li>
+                <li><strong>步骤 6（恢复 CSS）：</strong> 将 <code>body</code> 的 <code>backgroundColor</code> 恢复至黑灰色的 <code>'#222'</code>；将 <code>.number</code> 的 <code>width</code> 恢复到正常的 <code>'15rem'</code>。</li>
+            </ul>
+        </div>
+
+
+        <h2 id="section-solution">💡 官方题解 (Solution)</h2>
+        
+        <details class="solution-spoiler">
+            <summary>👉 点击这里展开查看 Jonas 的标准答案逻辑 👈</summary>
+            
+            <div class="solution-content">
+                <p>如果你已经尝试过了，请对照下方代码检查你的思路。特别注意<strong>状态变量 (State Variables) 的更新和 let 的重要性</strong>。</p>
+
+<pre><code class="language-javascript">
+// 最顶部的全局变量，由于重置游戏时我们需要重新计算并赋值，
+// 所以当初声明 secretNumber 时，它必须是 let 类型，不能是 const！
+let secretNumber = Math.trunc(Math.random() * 20) + 1;
+let score = 20;
+
+document.querySelector('.again').addEventListener('click', function () {
+    // 1. 恢复核心状态变量 (重定义生命和再选一次随机数)
+    score = 20;
+    secretNumber = Math.trunc(Math.random() * 20) + 1;
+
+    // 2. 恢复最初始状态的提示信息 (DOM Text)
+    document.querySelector('.message').textContent = 'Start guessing...';
+    document.querySelector('.score').textContent = score;
+    document.querySelector('.number').textContent = '?';
+    
+    // 3. 将输入框输入的内容强行清空 (DOM Value)
+    document.querySelector('.guess').value = '';
+
+    // 4. 重置页面获胜留下来的 CSS 内联样式 (DOM Style)
+    document.querySelector('body').style.backgroundColor = '#222';
+    document.querySelector('.number').style.width = '15rem';
+});
+</code></pre>
+
+                <p><strong>💡 易错点解析：匿名函数 (Anonymous Function)</strong></p>
+                <p>注意在这个 <code>addEventListener</code> 里，作为第二个参数传进去打工的函数，它是没有名字的，我们称之为 <strong>匿名函数</strong>。由于它只为这个按钮点击服务一次，我们不需要给它起名或是用变量单独存起来。</p>
+
+                <p>通过这套连招组合拳，我们的应用现在就能在不刷新浏览器的情况下“涅槃重生”了！为接下来的“永久保存最高分”做好了完美的铺垫。</p>
+            </div>
+        </details>
+
+    </main>
+</div>
+
+<!-- 依赖脚本 -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) nav.classList.add('active');
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+</script>
+</body>
+</html>

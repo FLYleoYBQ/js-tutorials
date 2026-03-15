@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoisting and TDZ in Practice</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root { --bg-color: #121212; --surface-color: #1e1e1e; --primary-color: #f7df1e; --text-primary: #e0e0e0; --text-secondary: #a0a0a0; --border-color: #333; --info-color: #4da6ff; --danger-color: #ff5252; --success-color: #4caf50; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg-color); color: var(--text-primary); margin: 0; line-height: 1.6; }
+        .app-container { display: flex; max-width: 1400px; margin: 0 auto; }
+        .sidebar { width: 260px; padding: 24px; border-right: 1px solid var(--border-color); position: sticky; top: 0; height: 100vh; overflow-y: auto; }
+        .sidebar-title { font-size: 14px; font-weight: 600; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 12px; }
+        .nav-item { display: block; padding: 10px 12px; color: var(--text-primary); text-decoration: none; border-radius: 6px; margin-bottom: 4px; font-size: 14px; transition: background 0.2s; }
+        .nav-item:hover, .nav-item.active { background: rgba(247, 223, 30, 0.1); color: var(--primary-color); }
+        .main-content { flex: 1; padding: 48px; max-width: 900px; }
+        h1, h2, h3 { color: #fff; }
+        .meta-info { display: flex; gap: 16px; font-size: 14px; color: var(--text-secondary); margin-bottom: 32px; padding-bottom: 16px; border-bottom: 1px solid var(--border-color); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--primary-color); padding: 16px 20px; border-radius: 0 8px 8px 0; margin: 24px 0; }
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; margin: 24px 0; }
+        .editor-header { background: rgba(0, 0, 0, 0.2); padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); }
+        .editor-title { font-family: 'JetBrains Mono', monospace; font-size: 13px; color: var(--text-secondary); }
+        .btn-run { background: var(--primary-color); color: #000; border: none; padding: 6px 12px; border-radius: 4px; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+        .btn-run:hover { opacity: 0.9; }
+        .editor-container { padding: 16px; }
+        .editor-textarea { width: 100%; height: 200px; background: transparent; color: #d4d4d4; border: none; font-family: 'JetBrains Mono', monospace; font-size: 14px; resize: vertical; outline: none; }
+        .console-output { background: #000; padding: 16px; font-family: 'JetBrains Mono', monospace; font-size: 13px; color: #a6e22e; white-space: pre-wrap; min-height: 40px; border-top: 1px solid var(--border-color); }
+        
+        .code-comparison { display: flex; gap: 16px; margin: 24px 0; flex-wrap: wrap; }
+        .code-panel { flex: 1; min-width: 300px; background: var(--surface-color); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; }
+        .panel-header { padding: 12px 16px; font-weight: 600; font-size: 14px; color: #fff; }
+        .panel-header.method1 { background: rgba(255, 82, 82, 0.2); border-bottom: 1px solid rgba(255, 82, 82, 0.3); }
+        .panel-header.method2 { background: rgba(76, 175, 80, 0.2); border-bottom: 1px solid rgba(76, 175, 80, 0.3); }
+        
+        .quiz-card { background: var(--surface-color); padding: 24px; border-radius: 8px; border: 1px solid var(--border-color); margin-top: 16px; }
+        .quiz-question { font-weight: 600; margin-bottom: 16px; }
+        .quiz-option { padding: 12px 16px; border: 1px solid var(--border-color); border-radius: 6px; margin-bottom: 8px; cursor: pointer; transition: all 0.2s; }
+        .quiz-option:hover { background: rgba(255,255,255,0.05); }
+        .quiz-option.selected { border-color: var(--primary-color); background: rgba(247, 223, 30, 0.1); }
+        .quiz-explanation { margin-top: 16px; padding: 12px; border-radius: 6px; background: rgba(255,255,255,0.05); display: none; }
+        
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid var(--border-color); }
+        th { background: rgba(255,255,255,0.05); font-weight: 600; }
+        
+        details { background: var(--surface-color); padding: 12px 16px; border-radius: 8px; border: 1px solid var(--border-color); margin-bottom: 16px; }
+        summary { font-weight: 600; cursor: pointer; outline: none; }
+        summary:hover { color: var(--primary-color); }
+    
+        
+    
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 08 章 / 进度</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">🎯 概述</a>
+            <a href="#section-1" class="nav-item">1. 变量提升机制探秘</a>
+            <a href="#section-2" class="nav-item">2. 函数提升与毁灭性Bug</a>
+            <a href="#section-practice" class="nav-item">📝 动手练习</a>
+            <a href="#section-quiz" class="nav-item">❓ 理解检测</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>Hoisting and TDZ in Practice</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：009 Hoisting and TDZ in Practice.en.srt</span>
+            <span>📂 章节：第 08 章</span>
+        </div>
+
+        <div class="callout">
+            <strong>📌 知识脉络</strong>
+            <ul style="margin-top: 8px; margin-left: 20px; color: var(--text-secondary);">
+                <li><strong>前置知识</strong>：执行上下文（Execution Context），变量生成周期</li>
+                <li><strong>核心突破</strong>：彻底掌握 Hoisting（提升）的机制，搞懂 <code>var</code> 的假值缺陷。</li>
+            </ul>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>上一次我们了解了 Hoisting（提升）模型，本节课我们将通过错误日志实验，在真实战场中验证它的威力。并利用一个模拟电商删除购物车的灾难现场，彻底告别旧时代的 <code>var</code>。</p>
+
+        <h2 id="section-1">1. 变量提升机制探秘</h2>
+        <p>我们尝试违反直觉，在代码最顶部读取尚未宣告的变量。你会发现引擎处理它们的态度截然不同。</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">hoisting.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">
+// 🚨 直接在声明前读取它们！
+console.log('读取 me:', me); // var 被提升并设置为 undefined
+// console.log('读取 job:', job); // 报错 ReferenceError
+// console.log('读取 year:', year); // 报错 ReferenceError
+
+var me = 'Jonas';
+let job = 'teacher';
+const year = 1991;
+                </textarea>
+            </div>
+            <div id="console1" class="console-output">控制台输出将显示在这里...</div>
+        </div>
+        
+        <p><strong>🧠 底层原理视图：提升在内存构建阶段的过程</strong></p>
+        <pre class="language-mermaid">
+            graph TD
+            A[JS 引擎扫瞄代码] --> B[创建阶段 / Creation Phase]
+            B --> C{遇到 var me}
+            C --> D[存入内存，并初始化为 undefined ✅]
+            B --> E{遇到 const year / let job}
+            E --> F[存入内存，但未初始化 / 进入 TDZ 🚫]
+        </pre>
+
+
+        <h2 id="section-2">2. 函数提升极其引发的灾难 Bug</h2>
+        <p>我们来看一个大型开源项目中都可能犯下的失误。我们要在当前购物车商品为零时，清理系统。但是由于把重要变量置为 <code>var</code> 而引发了致命的 <code>undefined</code> 渗透假值操作。</p>
+
+        <div class="code-comparison">
+            <div class="code-panel">
+                <div class="panel-header method1">🚨 毁灭性的 Bug (使用 var)</div>
+<pre style="margin:0; border:none; border-radius:0; background:transparent"><code class="language-javascript">if (!numProducts) {
+    // 因为 numProducts 会被提升但是是 undefined
+    // !undefined === true，于是这里不该执的动作被执行了！
+    deleteShoppingCart(); 
+}
+
+var numProducts = 10; // 即使你明明写了有 10 个！
+
+function deleteShoppingCart() {
+    console.log('商品已被全部删除！');
+}</code></pre>
+            </div>
+            <div class="code-panel">
+                <div class="panel-header method2">✨ DRY 清晰写法 (The Refactored Way)</div>
+<pre style="margin:0; border:none; border-radius:0; background:transparent"><code class="language-javascript">
+const numProducts = 10; // 遵循规范：先声明！而且使用 const！
+
+if (!numProducts) {
+    // 此时一切逻辑如常运转，如果不为0，则跳过
+    deleteShoppingCart(); 
+}
+
+function deleteShoppingCart() {
+    console.log('商品已被全部删除！');
+}</code></pre>
+            </div>
+        </div>
+
+        <div class="callout">
+            <strong>💡 工业界最佳实践原则</strong>
+            <p>1. 永不使用 <code>var</code>。</p>
+            <p>2. 把大部分变量声明为 <code>const</code>，确有需要修改再用 <code>let</code>，并将所有变量写在环境的<strong>顶部</strong>。</p>
+            <p>3. 养成先声明，后调用的顺序习惯。</p>
+        </div>
+
+
+        <h2 id="section-practice">📝 动手练习</h2>
+        
+        <p><strong>练习 1：箭头函数的提升测试</strong></p>
+        <p>下面的代码试图在函数表达式声明前进行调用，现在会造成 <code>ReferenceError</code> 或 <code>TypeError</code>。请将其修改为能使得 <code>add(2,3)</code> 正常运行的代码架构（使用标准的函数声明）。</p>
+        
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">exercise_hoist.js</span>
+                <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+            </div>
+            <div class="editor-container">
+                <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">
+console.log(add(2, 3)); 
+
+const add = (a, b) => a + b;
+                </textarea>
+            </div>
+            <div id="console2" class="console-output"></div>
+        </div>
+
+        <details>
+            <summary>💡 参考答案</summary>
+            <p>由于使用 <code>const</code> 接收了箭头函数，这个变量 <code>add</code> 现在处于暂时性死区 (TDZ) 之中。若要实现“在定义之前自由调用”，必须重构为完整的 <code>function</code> 函数声明。</p>
+<pre><code class="language-javascript">console.log(add(2, 3)); // 正常打印 5
+
+function add(a, b) {
+    return a + b;
+}</code></pre>
+        </details>
+
+
+        <h2 id="section-quiz">❓ 理解检测</h2>
+        
+        <div class="quiz-card" data-correct="B" data-content="解析：var 的提升只有变量声明被推到了顶端，而赋值（= 1）仍然留在了原位置。所以在顶部访问时，它的初始值是 undefined。">
+            <div class="quiz-question">1. 下拉代码片段执行后，控制台会输出什么？<br><code>console.log(myVar); var myVar = 1;</code></div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 1</div>
+                <div class="quiz-option" data-value="B">B) undefined</div>
+                <div class="quiz-option" data-value="C">C) ReferenceError: myVar is not defined</div>
+            </div>
+            <div class="quiz-explanation"></div>
+        </div>
+
+        <div class="quiz-card" data-correct="C" data-content="解析：虽然 var 声明的 sum 函数变量会被提升为 undefined，但当我们像执行函数一样加上括号 <code>sum()</code> 去调用 undefined 会抛出 TypeError: sum is not a function。">
+            <div class="quiz-question">2. 观察以下含有函数表达式的提升行为：<br><code>sum(2, 3); var sum = function(a, b) { return a + b };</code></div>
+            <div class="quiz-options">
+                <div class="quiz-option" data-value="A">A) 正常返回 5</div>
+                <div class="quiz-option" data-value="B">B) 报错 ReferenceError</div>
+                <div class="quiz-option" data-value="C">C) 报错 TypeError (sum is not a function)</div>
+            </div>
+            <div class="quiz-explanation"></div>
+        </div>
+
+
+        <h3>🔧 代码填空</h3>
+        <p>在 ES6 环境中，尝试访问身处在块级域 <code>TDZ</code> 阴影内的 <code>age</code>，会触发特定报错：</p>
+<pre><code class="language-javascript">
+const age = 30;
+{
+    // ________ 取出局部 age，这里发生了 TDZ 报错
+    console.log(age); 
+    const age = 99; // 上面这行想要读取由于此声明被提升（但停留在TDZ中）的age。
+}
+</code></pre>
+        <details><summary>💡 答案</summary>
+<pre><code class="language-javascript">ReferenceError 或者 Cannot access 'age' before initialization</code></pre>
+        </details>
+
+
+        <h2>📖 词汇速查表 (Cheat Sheet)</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>中文术语</th>
+                    <th>英文术语</th>
+                    <th>简明释义</th>
+                    <th>速查代码</th>
+                    <th>📚 官方文档溯源</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>提升</td>
+                    <td>Hoisting</td>
+                    <td>代码在执行前，JS 引擎自动将声明抽取放入内存前置的过程。</td>
+                    <td><code>console.log(x); var x;</code></td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Hoisting" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+                <tr>
+                    <td>暂时性死区</td>
+                    <td>Temporal Dead Zone (TDZ)</td>
+                    <td>在块作用域内，let / const 变量声明之前的一片死亡地带。</td>
+                    <td>-</td>
+                    <td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/let#%E6%9A%82%E6%97%B6%E6%80%A7%E6%AD%BB%E5%8C%BA" target="_blank" style="color:var(--info-color);">MDN Docs</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    function runCode(editorId, consoleId) {
+        const out = document.getElementById(consoleId);
+        const code = document.getElementById(editorId).value;
+        const oldLog = console.log;
+        let output = [];
+        console.log = function(...args) { output.push(args.map(x => typeof x === 'object' ? JSON.stringify(x) : x).join(' ')); };
+        try { 
+            eval(code); 
+            out.innerHTML = output.join('<br>') || '代码执行成功，无输出'; 
+        } catch(e) { 
+            out.innerHTML = `<span style="color: var(--danger-color)">${e.toString()}</span>`; 
+        }
+        console.log = oldLog;
+    }
+
+    document.querySelectorAll('.quiz-card').forEach(card => {
+        const correct = card.getAttribute('data-correct');
+        const options = card.querySelectorAll('.quiz-option');
+        const exp = card.querySelector('.quiz-explanation');
+        options.forEach(opt => {
+            opt.addEventListener('click', () => {
+                options.forEach(o => o.classList.remove('selected'));
+                opt.classList.add('selected');
+                exp.style.display = 'block';
+                if(opt.getAttribute('data-value') === correct) {
+                    exp.innerHTML = `<strong>✅ 回答正确！</strong><br>` + card.getAttribute('data-content');
+                    exp.style.color = "var(--success-color)";
+                } else {
+                    exp.innerHTML = `<strong>❌ 回答错误。</strong><br>` + card.getAttribute('data-content');
+                    exp.style.color = "var(--danger-color)";
+                }
+            });
+        });
+    });
+</script>
+</body>
+</html>

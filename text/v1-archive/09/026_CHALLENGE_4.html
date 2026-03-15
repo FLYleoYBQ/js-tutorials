@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHALLENGE #4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.6; }
+
+        /* Layout */
+        .app-container { display: flex; min-height: 100vh; }
+
+        /* Sidebar */
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100vh; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; }
+        
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255, 255, 255, 0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247, 223, 30, 0.1); }
+
+        /* Main Content */
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Editor */
+        .runnable-editor { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); margin: 24px 0; overflow: hidden; }
+        .editor-header { display: flex; justify-content: space-between; align-items: center; padding: 12px 20px; background: rgba(0, 0, 0, 0.2); border-bottom: 1px solid var(--surface-border); }
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+        .btn-run { background: transparent; color: var(--success-color); border: 1px solid var(--success-color); padding: 6px 14px; border-radius: 4px; cursor: pointer; font-family: var(--font-mono); font-size: 12px; transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+        .btn-run:hover { background: var(--success-color); color: var(--bg-color); }
+        .editor-container { position: relative; }
+        .editor-textarea { width: 100%; min-height: 150px; background: transparent; color: var(--text-primary); font-family: var(--font-mono); font-size: 14px; padding: 20px; border: none; resize: vertical; outline: none; line-height: 1.5; }
+        .console-output { background: #000; border-top: 1px solid var(--surface-border); padding: 16px 20px; font-family: var(--font-mono); font-size: 13px; color: var(--text-secondary); min-height: 60px; white-space: pre-wrap; display: none; }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        table { width: 100%; border-collapse: collapse; margin: 24px 0; background: var(--surface-color); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--surface-border); }
+        th, td { padding: 14px 20px; text-align: left; border-bottom: 1px solid var(--surface-border); }
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+        .mermaid { background: var(--surface-color); padding: 32px; border-radius: var(--radius-lg); border: 1px solid var(--surface-border); display: flex; justify-content: center; margin: 24px 0; }
+        
+        
+        
+    
+    
+/* 极简暗色主题 CSS */
+
+        /* 强制移动端适配 */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border, #333) !important; padding: 16px !important; z-index: 10 !important; overflow-x: hidden !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            table { display: block !important; overflow-x: auto !important; -webkit-overflow-scrolling: touch !important; white-space: nowrap !important; }
+            pre, code { white-space: pre-wrap !important; word-break: break-all !important; }
+            .editor-textarea { font-size: 13px !important; min-height: 120px !important; }
+            .runnable-editor { margin: 16px 0 !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+            img { max-width: 100% !important; height: auto !important; }
+            .code-comparison { flex-direction: column !important; }
+            .code-comparison > div { width: 100% !important; }
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-challenge" class="nav-item active">挑战内容</a>
+            <a href="#section-solution" class="nav-item">导师拆解思路</a>
+            <a href="#section-code" class="nav-item">最终通关代码</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>CHALLENGE #4 (蛇形地狱转驼峰神教挑战)</h1>
+        
+        <div class="meta-info">
+            <span>📺 来源：026 CHALLENGE #4.en.srt</span>
+            <span>📂 章节：第 09 章</span>
+        </div>
+
+        <h2 id="section-challenge">⚔️ 任务总览</h2>
+        <p>欢迎挑战本章节的最难字符串地狱拉锯战！<br>
+        很多老掉牙的旧型语言很喜欢使用 <code>some_variable_name</code> 这种下划线蛇形法（Underscore case/Snake case）来构建变量名。而在绝大多数极度现代化优雅的 JS 等系统中，一统江湖的都是首单词不写首字大写的骆驼神教 <strong><code>someVariableName</code></strong> (Camel case)。</p>
+
+        <div class="callout callout-important">
+            <strong>📋 你的核心特务行动：</strong>
+            <p>你收到了一批从数据库复制粘贴下来的大量带有空隙甚至肮脏杂文大写的变量行，<strong>一行一个</strong>。你的程序需要剥开杂乱空格，把蛇形转化为骆驼形，并在屏幕控制台上像楼梯层叠出带递增符号 <code>✅</code> 的最终成果。比如如下变废为宝过程：</p>
+            <pre><code>(脏数据输入源)
+underscore_case
+ first_name
+Some_Variable 
+  calculate_AGE
+delayed_departure
+
+(转换重构为金砖出库展示排位)
+underscoreCase      ✅
+firstName           ✅✅
+someVariable        ✅✅✅
+calculateAge        ✅✅✅✅
+delayedDeparture    ✅✅✅✅✅</code></pre>
+            <p><strong>注意：</strong>你不需要去考虑含有三个下划线拆合三个字的变量，只对标处理 <code>单词_单词</code> 型。</p>
+        </div>
+
+        <h2 id="section-solution">🧠 导师拆解拔桩阵思路</h2>
+        
+        <ul style="line-height: 1.8;">
+            <li><strong>第一锤（分解排位大阵）</strong>：把那漫天的一大团文本用回车回行控制符 <code>\n</code> 一刀猛劈 <code>.split('\n')</code> 成阵列！这下大块肉就被分解装进了一行行的数组盒长条里！</li>
+            <li><strong>第二锤（下放屠宰抽空刀）</strong>：开始让大阵列挂进 <code>for-of</code>，并且要附带能感知他目前走到了倒下数组里的第几个刻度的绝密游标机制！所以得挂 <code>.entries()</code>！</li>
+            <li><strong>第三锤（精细剔毒提纯并重构）</strong>：将拿到的某排数据洗干净（toLowerCase & trim 去除隐蔽空隙），接着照准 <code>_</code> 下划线为准绳再剁一刀！拆成左右双生子。给右侧的孩子首脑套上霸王化升级 <code>.toUpperCase()</code> 后贴回身上！</li>
+            <li><strong>第四锤（强制撑平列队大炮）</strong>：不管这名字长或短，咱们只要统一把它使用强硬加注撑补空格符法：<code>.padEnd(20)</code>，它们全部都会齐刷刷右侧死死撑对齐出一段巨硬的空气墙阵！接着直接贴上用阶梯楼层游标参数生成的 <code>✅.repeat(i + 1)</code>。大功告成！！</li>
+        </ul>
+
+        <h2 id="section-code">💻 最终通关执行</h2>
+        <p>我们将在这块区域直接用 JS 强行模拟创建 DOM 的形式插入一个 HTML 文本框以捕获实验文本。</p>
+
+        <div class="runnable-editor">
+            <div class="editor-header">
+                <span class="editor-title">challenge4.js</span>
+                <button class="btn-run" onclick="runCode()">▶ 发动格式化炼狱阵</button>
+            </div>
+            
+            <textarea id="myInputArea" class="editor-textarea" spellcheck="false" style="height: 140px; border-bottom: none; border-radius: 6px 6px 0 0;">underscore_case
+ first_name
+Some_Variable 
+  calculate_AGE
+delayed_departure</textarea>
+            
+            <div class="editor-container" style="border-top: 1px solid var(--border-color); border-radius: 0 0 6px 6px;">
+                <textarea id="codeEditor1" class="editor-textarea" spellcheck="false" style="height: auto;">// 假设上面紧贴着的那个编辑文字框里面已经写好了用户脏数据了
+
+const textRaw = document.getElementById('myInputArea').value;
+
+// 1. 把包含回车的整坨生殖繁乱字堆按回车符怒劈劈开 
+// 碎裂成有五个肉干阵列： ['underscore_case', ' first_name', ...]
+const rows = textRaw.split('\n');
+
+// 2. 携带游标刻度大巡游！因为我们在贴✅的时候要知道现在正杀在第几行。
+for (const [i, row] of rows.entries()) {
+
+  // a) 洗净两边灰尘并让它降权降维至纯净全小写。
+  // b) 根据中间下划线把尸体一折两断，并解构成 [首片, 后篇] 双向包裹接住！
+  const [first, second] = row.toLowerCase().trim().split('_');
+  
+  // c) 局部强化：把第二个单词首首脑抽出来大写重塑，再接拼合回原味剩余首尾块。
+  // 最终的重构成果 output
+  const output = `${first}${second.replace(
+    second[0],
+    second[0].toUpperCase()
+  )}`;
+
+  // 3. 空气墙大展军鼓！不管原本的 output 有多短或多长
+  // 强行向后面拍定狂生出空白块把墙面一直顶撞到整个宽度有 20 定死！然后缝合阶梯递增连号符
+  console.log(`${output.padEnd(20)}${'✅'.repeat(i + 1)}`);
+}
+</textarea>
+            </div>
+            <div id="console1" class="console-output"></div>
+        </div>
+
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+<script>
+    function runCode() {
+        const code = document.getElementById('codeEditor1').value;
+        const outputDiv = document.getElementById('console1');
+        outputDiv.innerHTML = '';
+        const originalLog = console.log;
+        let output = [];
+        console.log = function(...args) {
+            // 保留多个空格的输出并用pre包围，强制展现对齐艺术
+            output.push(args.map(a => typeof a === 'object' && !Array.isArray(a) ? JSON.stringify(a) : a).join(' ').replace(/ /g, '&nbsp;'));
+        };
+        try {
+            eval(code);
+            outputDiv.innerHTML = `<pre style="font-family: 'JetBrains Mono', monospace; margin: 0; padding: 0;">${output.join('<br>')}</pre>` || '代码执行成功，无输出。';
+        } catch (error) {
+            outputDiv.innerHTML = `<span style="color: #ff5555;">执行发生错误：${error.message}</span>`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+</script>
+</body>
+</html>
