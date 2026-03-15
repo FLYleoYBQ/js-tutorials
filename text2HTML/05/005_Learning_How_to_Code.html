@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>如何学习编程</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">如何学习编程</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">如何学习编程</h1>
+
+<div class="callout"><p>📺 来源：005 Learning How to Code.en.srt<br>📂 章节：第 05 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：JavaScript 基础语法已入门、对编程有初步了解</li>
+<li><strong>后续扩展</strong>：像开发者一样思考（问题解决框架）、实战项目历练、求职与面试准备</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节课是 Jonas 精心设计的<strong>学习方法论</strong>课程，通过虚构人物"John"的学习误区，总结了编程学习中常见的陷阱及应对策略。还展示了从初学者到求职就绪的<strong>完整学习旅程曲线</strong>，帮助学习者建立正确的心态预期。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 初学者常犯的学习错误</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：学编程就像学游泳——你不能只在泳池边看教练示范（看视频课程），你必须跳入水中亲自练习（写代码），即使一开始会呛水（遇到 Bug）。</p></div>
+
+<p>Jonas 通过 "John" 的故事，列举了初学者最常见的学习陷阱：</p>
+
+<div class="mermaid">
+flowchart TD
+    A["🚫 John 的错误"] --> B["❌ 只看不练<br/>被动学习"]
+    A --> C["❌ 复制粘贴<br/>不理解代码"]
+    A --> D["❌ 不做笔记<br/>不写注释"]
+    A --> E["❌ 不练习<br/>不做额外练习"]
+    A --> F["❌ 急于求成<br/>期望太高"]
+    A --> G["❌ 孤立学习<br/>不与他人交流"]
+    A --> H["❌ 课程即终点<br/>学完即认为够了"]
+    
+    B --> B1["✅ 修正：边看边码"]
+    C --> C1["✅ 修正：逐行理解"]
+    D --> D1["✅ 修正：添加代码注释"]
+    E --> E1["✅ 修正：每课后额外练习"]
+    F --> F1["✅ 修正：设定合理预期"]
+    G --> G1["✅ 修正：加入社区"]
+    H --> H1["✅ 修正：课程只是起点"]
+    
+    style A fill:#e74c3c,stroke:#c0392b,color:#fff,stroke-width:2px
+    style B1 fill:#27ae60,stroke:#1e8449,color:#fff
+    style C1 fill:#27ae60,stroke:#1e8449,color:#fff
+    style D1 fill:#27ae60,stroke:#1e8449,color:#fff
+    style E1 fill:#27ae60,stroke:#1e8449,color:#fff
+    style F1 fill:#27ae60,stroke:#1e8449,color:#fff
+    style G1 fill:#27ae60,stroke:#1e8449,color:#fff
+    style H1 fill:#27ae60,stroke:#1e8449,color:#fff
+</div>
+
+<p><strong>🔍 执行追踪：正确 vs 错误的学习对比</strong></p>
+
+<table>
+    <thead><tr><th>行为</th><th>❌ John 的做法</th><th>✅ 正确的方式</th><th>效果差异</th></tr></thead>
+    <tbody><tr><td>看视频课程</td><td>被动观看，觉得"都懂了"</td><td>暂停视频，先自己尝试</td><td>主动学习记忆留存率 ×5</td></tr>
+<tr><td>遇到代码示例</td><td>直接复制粘贴</td><td>逐行手打并理解</td><td>形成肌肉记忆</td></tr>
+<tr><td>遇到不懂的</td><td>跳过继续看下一课</td><td>做笔记、Google 研究</td><td>知识链条不断裂</td></tr>
+<tr><td>练习频率</td><td>只做课内练习</td><td>做额外的编程挑战</td><td>举一反三能力</td></tr>
+<tr><td>学完一门课</td><td>以为自己是开发者了</td><td>知道课程只是起点</td><td>心态更健康</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：「看了不练假把式，练了不思白用功」</p></div>
+
+<hr>
+
+<h3 id="section-5">2. 学习旅程曲线（The Learning Journey）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：学编程的信心变化就像坐过山车——刚开始兴奋上升（什么都新鲜有趣），然后急剧下降（现实打击），但只要坚持住，最终会重新攀升到更高的位置。</p></div>
+
+<p>Jonas 分享了一张经典的"信心 vs 能力"曲线图，标注了四个关键阶段：</p>
+
+<div class="mermaid">
+graph LR
+    subgraph 学习旅程["📈 编程学习旅程曲线"]
+        A["🎉 一切都很棒<br/>(Everything is Awesome)"] -->|"信心 ↗️"| B["😱 困惑悬崖<br/>(Cliff of Confusion)"]
+        B -->|"信心 ↘️↘️"| C["😢 绝望之谷<br/>(Pit of Despair)"]
+        C -->|"能力 ↗️"| D["🌅 曙光渐现<br/>(Upswing of Awesome)"]
+        D --> E["🏆 求职就绪<br/>(Job Ready)"]
+    end
+    
+    style A fill:#27ae60,stroke:#1e8449,color:#fff
+    style B fill:#f39c12,stroke:#e67e22,color:#fff
+    style C fill:#e74c3c,stroke:#c0392b,color:#fff
+    style D fill:#3498db,stroke:#2980b9,color:#fff
+    style E fill:#9b59b6,stroke:#8e44ad,color:#fff
+</div>
+
+<p><strong>四个阶段详解</strong>：</p>
+
+<table>
+    <thead><tr><th>阶段</th><th>名称</th><th>信心</th><th>能力</th><th>你在做什么</th><th>建议</th></tr></thead>
+    <tbody><tr><td>①</td><td>🎉 一切都很棒</td><td>📈 高</td><td>📉 低</td><td>看课程，做练习</td><td>享受这个阶段，但不要高估自己</td></tr>
+<tr><td>②</td><td>😱 困惑悬崖</td><td>📉 下降</td><td>📈 上升</td><td>尝试独立做项目</td><td>不要放弃！继续写代码</td></tr>
+<tr><td>③</td><td>😢 绝望之谷</td><td>📉 最低</td><td>📈 持续上升</td><td>自觉什么都不会</td><td>找学习伙伴或导师</td></tr>
+<tr><td>④</td><td>🌅 曙光渐现</td><td>📈 回升</td><td>📈 较高</td><td>开始构建真实项目</td><td>学习最佳实践、工具链</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：「初学觉得都简单，独立编码才知难；坚持过了低谷期，豁然开朗在眼前」</p></div>
+
+<hr>
+
+<h3 id="section-6">3. 高效学习的核心策略</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：学编程就像练乐器——读乐谱（学语法）很重要，但真正的进步来自反复练琴（写代码）。没有人通过只看别人弹钢琴就学会了钢琴。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    A["🧠 高效学习策略"] --> B["1️⃣ 边看边码<br/>暂停视频，先自己尝试"]
+    A --> C["2️⃣ 理解优先<br/>逐行理解，不复制粘贴"]
+    A --> D["3️⃣ 额外练习<br/>课后编写不同的变体"]
+    A --> E["4️⃣ 用教代学<br/>向别人解释你学到的"]
+    A --> F["5️⃣ 明确目标<br/>聚焦学习路径"]
+    A --> G["6️⃣ 社区参与<br/>#100DaysOfCode"]
+    
+    style A fill:#1a1a2e,stroke:#e94560,color:#fff,stroke-width:2px
+    style B fill:#3498db,stroke:#2980b9,color:#fff
+    style C fill:#3498db,stroke:#2980b9,color:#fff
+    style D fill:#3498db,stroke:#2980b9,color:#fff
+    style E fill:#27ae60,stroke:#1e8449,color:#fff
+    style F fill:#27ae60,stroke:#1e8449,color:#fff
+    style G fill:#27ae60,stroke:#1e8449,color:#fff
+</div>
+
+<p><strong>📊 学习策略效果对比：</strong></p>
+
+<table>
+    <thead><tr><th>策略</th><th>被动学习</th><th>主动学习（推荐）</th><th>效率提升</th></tr></thead>
+    <tbody><tr><td>看视频</td><td>直接看完</td><td>暂停 + 先自己试</td><td>×3</td></tr>
+<tr><td>写代码</td><td>复制粘贴</td><td>手打 + 理解每行</td><td>×5</td></tr>
+<tr><td>练习</td><td>只做课内</td><td>课后额外变体</td><td>×2</td></tr>
+<tr><td>遇到困难</td><td>跳过继续</td><td>研究搜索理解</td><td>×4</td></tr>
+<tr><td>学习方式</td><td>独自学习</td><td>教别人 + 社区互动</td><td>×3</td></tr></tbody>
+</table>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：Kyle Simpson（JavaScript 领域的传奇人物，著有《You Don't Know JS》系列）公开表示："在 20 多年后的今天，让代码工作然后第二天能看懂它，仍然是一件困难的事。" ——即便是顶级专家也在持续学习。</p></div>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：创建一个学习进度追踪器，帮助你可视化自己在学习旅程中的位置。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">learning_tracker.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 学习旅程追踪器
+const learningJourney = {
+  stages: [
+    { name: '🎉 一切都很棒', confidence: 80, competence: 10, activities: '看课程、做练习' },
+    { name: '😱 困惑悬崖', confidence: 50, competence: 30, activities: '尝试独立项目' },
+    { name: '😢 绝望之谷', confidence: 20, competence: 50, activities: '不断写代码、修 Bug' },
+    { name: '🌅 曙光渐现', confidence: 70, competence: 75, activities: '构建真实项目' },
+    { name: '🏆 求职就绪', confidence: 85, competence: 90, activities: '学习工具链、准备作品集' },
+  ],
+};
+
+// 你当前可能在哪个阶段？
+const currentStage = 0; // 修改这个数字 (0-4) 来定位你的位置
+
+console.log('📊 编程学习旅程追踪器\n');
+learningJourney.stages.forEach((stage, index) =&gt; {
+  const marker = index === currentStage ? ' 👈 你在这里!' : '';
+  const confidenceBar = '█'.repeat(Math.round(stage.confidence / 10));
+  const competenceBar = '█'.repeat(Math.round(stage.competence / 10));
+  
+  console.log(`${stage.name}${marker}`);
+  console.log(`  信心: ${confidenceBar} ${stage.confidence}%`);
+  console.log(`  能力: ${competenceBar} ${stage.competence}%`);
+  console.log(`  活动: ${stage.activities}\n`);
+});</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["📚 学习策略实战"] --> B["制定明确目标"]
+    B --> C["选择学习路径"]
+    C --> D["边看边码"]
+    D --> E["做额外练习"]
+    E --> F{"遇到困难？"}
+    F -->|"是"| G["搜索 + 研究"]
+    G --> D
+    F -->|"否"| H["向别人解释"]
+    H --> I["🎯 知识内化"]
+    
+    style A fill:#667eea,stroke:#764ba2,color:#fff
+    style I fill:#27ae60,stroke:#1e8449,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>当前阶段</th><th>信心指数</th><th>能力指数</th><th>建议行动</th></tr></thead>
+    <tbody><tr><td>一切都很棒</td><td>80%</td><td>10%</td><td>保持热情，但要动手练习</td></tr>
+<tr><td>困惑悬崖</td><td>50%</td><td>30%</td><td>不放弃，继续写代码</td></tr>
+<tr><td>绝望之谷</td><td>20%</td><td>50%</td><td>找学习伙伴，构建项目</td></tr>
+<tr><td>曙光渐现</td><td>70%</td><td>75%</td><td>学习最佳实践</td></tr>
+<tr><td>求职就绪</td><td>85%</td><td>90%</td><td>准备作品集和面试</td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ <strong>编程不能只看不练</strong>——主动编码的学习效果是被动观看的 5 倍以上</li>
+<li>✅ 学习旅程中<strong>信心下降是正常的</strong>——困惑悬崖和绝望之谷是每个人都会经历的</li>
+<li>✅ <strong>课程只是起点</strong>，不是终点——真正的成长来自独立做项目和解决真实问题</li>
+<li>✅ 向别人解释所学内容（<strong>以教代学</strong>）是最有效的巩固知识的方式</li>
+<li>✅ 设定明确的学习目标，避免"什么都学但什么都不精"</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1：编程很简单，两个月就能找到工作</strong>。真相是：成为就业水平的开发者通常需要 6-12 个月的持续学习和实践。不要被"速成"营销误导。</li>
+<li>⚠️ <strong>误区 2：遇到困难就是因为自己不适合编程</strong>。真相是：编程本身就是困难的事情，所有成功的开发者都经历过同样的挣扎。</li>
+<li>⚠️ <strong>误区 3：不跟别人比较就不知道自己水平</strong>。真相是：每个人的起点和节奏不同，与其和别人比，不如跟昨天的自己比。</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误做法：复制粘贴代码不理解就运行</strong></p>
+
+<pre><code class="language-javascript">// 从网上复制来的代码，不理解其含义
+const result = [1,2,3].reduce((acc, cur) =&gt; acc + cur, 0);
+console.log(result); // 6
+// 但你不知道 reduce 是什么、acc 和 cur 代表什么</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>// 当你尝试修改这段代码时：
+const result = [1,2,3].reduce((acc, cur) =&gt; acc * cur);
+// 你期望得到 0（因为&quot;初始值是0&quot;），但实际得到 6
+// TypeError in your understanding: 你不知道省略初始值时 acc = array[0]</code></pre>
+
+<p><strong>🔑 解读</strong>：复制粘贴的代码虽然能运行，但你不理解原理就无法修改和调试。正确做法是逐行拆解理解，如果不懂 <code>reduce</code>，先在 MDN 上学习，再自己手写实现一遍。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>相关概念</th><th>📚 参考资料</th></tr></thead>
+    <tbody><tr><td>困惑悬崖</td><td>Cliff of Confusion</td><td>从课程过渡到独立编程时的信心骤降期</td><td>学习曲线</td><td>—</td></tr>
+<tr><td>绝望之谷</td><td>Pit of Despair</td><td>意识到知识差距巨大时的低谷期</td><td>学习旅程</td><td>—</td></tr>
+<tr><td>以教代学</td><td>Teaching to Learn</td><td>通过教别人来加深自己的理解</td><td>费曼学习法</td><td>—</td></tr>
+<tr><td>主动学习</td><td>Active Learning</td><td>动手实践而非被动观看</td><td>学习策略</td><td>—</td></tr>
+<tr><td>分治策略</td><td>Divide and Conquer</td><td>将大问题拆解为小问题逐个解决</td><td>问题解决</td><td>—</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：创建学习日志</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">learning_diary.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 用代码记录你的学习日志
+const todayEntry = {
+  date: new Date().toLocaleDateString(),
+  chapter: '第05章',
+  lesson: '如何学习编程',
+  hoursStudied: 1.5,
+  keyTakeaways: [
+    '在这里写下你今天学到的第1个要点',
+    '在这里写下你今天学到的第2个要点',
+    '在这里写下你今天学到的第3个要点',
+  ],
+  practiceProjects: '在这里写下你今天练习了什么',
+  mood: '😊',  // 今天学习的心情
+};
+
+console.log(`📅 ${todayEntry.date} 学习日志`);
+console.log(`📖 ${todayEntry.chapter} - ${todayEntry.lesson}`);
+console.log(`⏱️ 学习时长: ${todayEntry.hoursStudied} 小时`);
+console.log(`\n💡 今日要点:`);
+todayEntry.keyTakeaways.forEach((point, i) =&gt; {
+  console.log(`  ${i + 1}. ${point}`);
+});
+console.log(`\n🛠️ 练习: ${todayEntry.practiceProjects}`);
+console.log(`\n😊 心情: ${todayEntry.mood}`);</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  date: new Date().toLocaleDateString(),
+  chapter: '第05章',
+  lesson: '如何学习编程',
+  hoursStudied: 1.5,
+  keyTakeaways: [
+    '编程学习要主动练习，不能只看不写',
+    '信心曲线是正常的，低谷期每个人都会经历',
+    '课程只是起点，要持续做项目和学习',
+  ],
+  practiceProjects: '完成了学习追踪器代码练习',
+  mood: '💪',
+};
+</code></pre>
+<strong>解题思路</strong>：学习日志的核心是记录"今天学到了什么"和"今天练习了什么"。坚持每天记录可以帮助你追踪进步。
+</details>
+
+<p><strong>练习 2：实现学习策略打分器</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">strategy_scorer.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 根据你的学习习惯给自己打分
+function scoreLearningHabits(habits) {
+  let score = 0;
+  const feedback = [];
+  
+  if (habits.codesAlongWithVideo) { score += 20; feedback.push('✅ 边看边码'); }
+  else feedback.push('❌ 需要开始边看边码');
+  
+  if (habits.doesExtraPractice) { score += 20; feedback.push('✅ 额外练习'); }
+  else feedback.push('❌ 需要做更多课外练习');
+  
+  if (habits.takesNotes) { score += 15; feedback.push('✅ 做笔记'); }
+  else feedback.push('❌ 建议开始记笔记');
+  
+  if (habits.teachesOthers) { score += 25; feedback.push('✅ 以教代学'); }
+  else feedback.push('❌ 试着向别人解释你学到的');
+  
+  if (habits.hasGoal) { score += 20; feedback.push('✅ 有明确目标'); }
+  else feedback.push('❌ 需要设定学习目标');
+  
+  return { score, feedback };
+}
+
+// 修改这些值来反映你的真实情况
+const myHabits = {
+  codesAlongWithVideo: true,
+  doesExtraPractice: false,
+  takesNotes: true,
+  teachesOthers: false,
+  hasGoal: true,
+};
+
+const result = scoreLearningHabits(myHabits);
+console.log(`📊 你的学习效率得分: ${result.score}/100`);
+result.feedback.forEach(f =&gt; console.log(`  ${f}`));</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const idealHabits = {
+  codesAlongWithVideo: true,
+  doesExtraPractice: true,
+  takesNotes: true,
+  teachesOthers: true,
+  hasGoal: true,
+};
+// 得分: 100/100
+</code></pre>
+<strong>解题思路</strong>：这不是一个有"正确答案"的练习——重点是诚实评估自己的学习习惯，找出可以改进的方面。
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">Jonas 认为学习编程的"最佳方法"是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 看完一门课程就够了</div>
+<div class="quiz-option" data-value="B">B) 边看课程边动手编码，并做大量额外练习</div>
+<div class="quiz-option" data-value="C">C) 只看书不看视频</div>
+    </div>
+    <div class="quiz-explanation">
+        Jonas 反复强调，<strong>主动编码</strong>（边看边码 + 额外练习）是学习编程最有效的方式。课程只提供基础，真正的成长来自实践。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">在学习旅程的"绝望之谷"阶段，最好的应对方法是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 放弃编程，选择其他职业</div>
+<div class="quiz-option" data-value="B">B) 回到第一门课程重新学习</div>
+<div class="quiz-option" data-value="C">C) 找学习伙伴或导师，继续构建项目</div>
+    </div>
+    <div class="quiz-explanation">
+        绝望之谷是<strong>正常</strong>的阶段。Jonas 建议找到学习伙伴或导师互相支持，同时继续构建越来越大的项目来锻炼技能。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">Kyle Simpson 的例子说明了什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 即使是 20 年经验的专家，编程仍然充满挑战——这是正常的</div>
+<div class="quiz-option" data-value="B">B) 只要学够 20 年就能掌握所有知识</div>
+<div class="quiz-option" data-value="C">C) 编程专家不需要继续学习</div>
+    </div>
+    <div class="quiz-explanation">
+        Kyle Simpson（《You Don't Know JS》作者）公开承认编程"仍然是一场挣扎"。Jonas 引用他来说明：<strong>不要因为觉得编程困难而气馁</strong>，因为所有人都面临同样的挑战。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 学习旅程的四个阶段<br>
+    const stages = [<br>
+      '<input type="text" class="blank-input" data-answer="一切都很棒" placeholder="1">',      // Everything is Awesome<br>
+      '<input type="text" class="blank-input" data-answer="困惑悬崖" placeholder="2">',        // Cliff of Confusion<br>
+      '<input type="text" class="blank-input" data-answer="绝望之谷" placeholder="3">',        // Pit of Despair<br>
+      '<input type="text" class="blank-input" data-answer="曙光渐现" placeholder="4">',        // Upswing of Awesome<br>
+    ];
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

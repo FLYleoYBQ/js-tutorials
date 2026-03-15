@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>使用 Console 和 Breakpoints 调试</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">使用 Console 和 Breakpoints 调试</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">使用 Console 和 Breakpoints 调试</h1>
+
+<div class="callout"><p>📺 来源：011 Debugging with the Console and Breakpoints.en.srt<br>📂 章节：第 05 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：调试四步流程（识别→定位→修复→预防）、函数、循环、<code>console.log()</code></li>
+<li><strong>后续扩展</strong>：Chrome DevTools 高级调试、Node.js 调试、自动化测试（Jest / Mocha）</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节课是<strong>调试实战课</strong>，通过两个真实案例演示如何使用 <strong><code>console.log()</code></strong> 进行快速调试，以及如何使用 <strong>Chrome DevTools 的 Breakpoints（断点）</strong> 进行逐行分析。还介绍了 JavaScript 的内置 <code>debugger</code> 语句。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. console.log() 调试法</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>console.log()</code> 调试法就像在迷宫的关键路口放路标——你在代码的关键位置打印变量值，帮助你追踪程序的执行路径和数据变化。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">console_debug.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 案例：温度单位转换函数
+// Bug: 转换结果不正确
+
+const measureKelvin = function () {
+  const measurement = {
+    type: 'temp',
+    unit: 'celsius',
+    value: 10,  // 实际项目中来自 prompt() 输入
+  };
+  
+  // 🔍 调试点 1: 检查输入值
+  console.log('调试 → measurement:', measurement);
+  console.log('调试 → value:', measurement.value);
+  console.log('调试 → typeof value:', typeof measurement.value);
+  
+  // Bug 场景: prompt() 返回的是字符串 &quot;10&quot; 而非数字 10
+  // 修复: 使用 Number() 转换
+  const kelvin = measurement.value + 273; // 如果 value 是 '10'，结果是 '10273'
+  
+  // 🔍 调试点 2: 检查计算结果
+  console.log('调试 → kelvin:', kelvin);
+  
+  return kelvin;
+};
+
+const result = measureKelvin();
+console.log(`转换结果: ${result}K`);</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<p><strong>🔍 执行追踪：通过 console.log 定位 Bug</strong></p>
+
+<table>
+    <thead><tr><th>调试点</th><th>打印内容</th><th>正常值</th><th>Bug 时的值</th><th>发现问题</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>measurement.value</code></td><td><code>10</code> (number)</td><td><code>&quot;10&quot;</code> (string)</td><td>类型错误！</td></tr>
+<tr><td>②</td><td><code>typeof value</code></td><td><code>&quot;number&quot;</code></td><td><code>&quot;string&quot;</code></td><td>确认是类型问题</td></tr>
+<tr><td>③</td><td><code>kelvin</code></td><td><code>283</code></td><td><code>&quot;10273&quot;</code></td><td>字符串拼接不是加法!</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：「log 一下值，log 一下类型，Bug 无处藏」</p></div>
+
+<hr>
+
+<h3 id="section-5">2. Chrome DevTools Breakpoints（断点调试）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：如果 <code>console.log</code> 是在迷宫的路口贴路标，那么 Breakpoints 就是在路口设一个"暂停按钮"——程序跑到这里会停下来，你可以四处看看当前的状态，然后决定是继续走还是一步步走。</p></div>
+
+<p><strong>使用断点调试的步骤</strong>：</p>
+
+<div class="mermaid">
+sequenceDiagram
+    participant D as 开发者
+    participant C as Chrome DevTools
+    participant E as JS 引擎
+    
+    D->>C: F12 打开 DevTools → Sources 面板
+    D->>C: 点击代码行号 → 设置断点 🔴
+    D->>C: 刷新页面或触发代码
+    E->>C: 执行到断点行 → 暂停
+    C->>D: 显示当前所有变量的值
+    D->>C: 点击 Step (F10) → 执行下一行
+    C->>D: 更新变量值显示
+    D->>D: 分析变量变化，定位 Bug
+    D->>C: 点击 Resume (F8) → 继续执行
+</div>
+
+<p><strong>断点调试面板的关键按钮</strong>：</p>
+
+<table>
+    <thead><tr><th>按钮</th><th>快捷键</th><th>功能</th><th>使用场景</th></tr></thead>
+    <tbody><tr><td>▶️ Resume</td><td>F8</td><td>继续执行到下一个断点</td><td>快速跳到下一个关注点</td></tr>
+<tr><td>⏭️ Step Over</td><td>F10</td><td>执行下一行（不进入函数）</td><td>逐行追踪</td></tr>
+<tr><td>⬇️ Step Into</td><td>F11</td><td>进入函数内部</td><td>需要深入调试函数</td></tr>
+<tr><td>⬆️ Step Out</td><td>Shift+F11</td><td>跳出当前函数</td><td>当前函数已调试完毕</td></tr></tbody>
+</table>
+
+<hr>
+
+<h3 id="section-6">3. 实战：用断点调试循环中的 Bug</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：在循环中使用断点就像在工厂流水线上按下"暂停"——你可以检查每一个流过的产品（每次迭代的变量值），发现哪一步出了问题。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">breakpoint_debug.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// Bug 案例：max/min 初始化为 0 导致 min 永远是 0
+
+const temperatures = [3, 5, 1, 9, 4];
+
+function calcTempAmplitudeBug(temps) {
+  let max = 0; // 🐛 Bug: 应该用 temps[0]
+  let min = 0; // 🐛 Bug: 应该用 temps[0]
+  
+  for (let i = 0; i &lt; temps.length; i++) {
+    const curTemp = temps[i];
+    
+    // debugger; // 取消注释可自动触发断点
+    
+    if (curTemp &gt; max) max = curTemp;
+    if (curTemp &lt; min) min = curTemp;
+    
+    // 模拟断点调试的输出
+    console.log(`迭代 ${i}: curTemp=${curTemp}, max=${max}, min=${min}`);
+  }
+  
+  console.log(`\n最终: max=${max}, min=${min}`);
+  return max - min;
+}
+
+console.log('❌ 有 Bug 的结果:');
+const buggyAmplitude = calcTempAmplitudeBug(temperatures);
+console.log(`振幅 = ${buggyAmplitude}\n`);
+
+// ✅ 修复版本
+function calcTempAmplitudeFixed(temps) {
+  let max = temps[0]; // ✅ 修复
+  let min = temps[0]; // ✅ 修复
+  
+  for (let i = 0; i &lt; temps.length; i++) {
+    if (temps[i] &gt; max) max = temps[i];
+    if (temps[i] &lt; min) min = temps[i];
+  }
+  return max - min;
+}
+
+console.log('✅ 修复后的结果:');
+const fixedAmplitude = calcTempAmplitudeFixed(temperatures);
+console.log(`振幅 = ${fixedAmplitude}`);</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<p><strong>断点调试过程可视化</strong>：</p>
+
+<div class="mermaid">
+flowchart TD
+    START["🔴 断点: for 循环第一行"] --> I0["i=0: curTemp=3<br/>max: 0→3, min: 0→0"]
+    I0 --> I1["i=1: curTemp=5<br/>max: 3→5, min: 0→⚠️0"]
+    I1 --> I2["i=2: curTemp=1<br/>max: 5→5, min: 0→⚠️0"]
+    I2 --> BUG["🐛 发现 Bug!<br/>min 应该是 1, 但始终是 0"]
+    BUG --> FIX["✅ 修复: min = temps[0]<br/>而不是 min = 0"]
+    
+    style START fill:#e74c3c,stroke:#c0392b,color:#fff
+    style BUG fill:#f39c12,stroke:#e67e22,color:#fff
+    style FIX fill:#27ae60,stroke:#1e8449,color:#fff
+</div>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：「循环里的 Bug 最刁钻，断点一设见真章」</p></div>
+
+<hr>
+
+<h3 id="section-7">4. <code>debugger</code> 语句</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>debugger</code> 语句就像在代码中埋了一个"地雷"——程序运行到这里时，会自动"引爆"Chrome 的调试面板，你不需要手动设置断点。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">debugger_statement.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// debugger 语句：在代码中直接设置断点
+function inspect(value) {
+  // 当浏览器遇到 debugger 时，自动打开调试面板
+  // debugger;  // 取消注释后，在浏览器中运行会自动暂停
+  
+  console.log('当前值:', value);
+  console.log('类型:', typeof value);
+  return value;
+}
+
+// 使用示例
+console.log('💡 debugger 关键字使用方法:');
+console.log('   1. 在代码中写 debugger;');
+console.log('   2. 浏览器运行到该行时自动暂停');
+console.log('   3. DevTools 自动打开 Sources 面板');
+console.log('   4. 你可以查看所有变量的当前值');
+console.log('   5. 调试完毕后删除 debugger 语句');
+
+inspect(42);</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<p><strong>📊 console.log vs Breakpoints vs debugger 对比：</strong></p>
+
+<table>
+    <thead><tr><th>特性</th><th><code>console.log()</code></th><th>Breakpoints (UI)</th><th><code>debugger</code> 语句</th></tr></thead>
+    <tbody><tr><td>设置位置</td><td>代码中</td><td>Chrome DevTools</td><td>代码中</td></tr>
+<tr><td>暂停执行</td><td>❌</td><td>✅</td><td>✅</td></tr>
+<tr><td>查看所有变量</td><td>❌ 只看打印的</td><td>✅</td><td>✅</td></tr>
+<tr><td>逐行执行</td><td>❌</td><td>✅</td><td>✅</td></tr>
+<tr><td>适合场景</td><td>简单 Bug</td><td>复杂循环/函数</td><td>需要精确定位</td></tr>
+<tr><td>使用后需清理</td><td>✅ 删除 log</td><td>❌ 自动清除</td><td>✅ 删除语句</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你在开发一个电商网站的购物车功能，发现总价计算不正确。使用调试技术定位问题。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">cart_debug.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 电商购物车 Bug 调试实战
+function calculateCart(items) {
+  let totalPrice = 0;
+  let totalItems = 0;
+  
+  for (let i = 0; i &lt; items.length; i++) {
+    const item = items[i];
+    const itemTotal = item.price * item.quantity;
+    
+    // 🔍 调试日志
+    console.log(`[${i}] ${item.name}: ¥${item.price} × ${item.quantity} = ¥${itemTotal}`);
+    
+    totalPrice += itemTotal;
+    totalItems += item.quantity;
+  }
+  
+  console.log(`\n📋 购物车汇总:`);
+  console.log(`  总商品数: ${totalItems}`);
+  console.log(`  总价: ¥${totalPrice}`);
+  
+  return { totalPrice, totalItems };
+}
+
+const cartItems = [
+  { name: 'JavaScript 教程', price: 99, quantity: 1 },
+  { name: '机械键盘', price: 299, quantity: 1 },
+  { name: 'USB 数据线', price: 15, quantity: 3 },
+];
+
+calculateCart(cartItems);</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>商品</th><th>单价</th><th>数量</th><th>小计</th></tr></thead>
+    <tbody><tr><td>JavaScript 教程</td><td>¥99</td><td>1</td><td>¥99</td></tr>
+<tr><td>机械键盘</td><td>¥299</td><td>1</td><td>¥299</td></tr>
+<tr><td>USB 数据线</td><td>¥15</td><td>3</td><td>¥45</td></tr>
+<tr><td><strong>合计</strong></td><td>—</td><td><strong>5</strong></td><td><strong>¥443</strong></td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart LR
+    A["📥 购物车数组"] --> B["for 循环遍历"]
+    B --> C["计算每项小计"]
+    C --> D["累加总价"]
+    D --> E["📤 返回汇总"]
+    
+    style A fill:#3498db,stroke:#2980b9,color:#fff
+    style E fill:#27ae60,stroke:#1e8449,color:#fff
+</div>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ <strong><code>console.log()</code></strong> 是最基本的调试工具——打印变量值和类型来追踪问题</li>
+<li>✅ <strong>Breakpoints</strong> 让你暂停执行、查看所有变量、逐行分析——适合复杂 Bug</li>
+<li>✅ <strong><code>debugger</code></strong> 语句可以直接在代码中触发断点——无需在 DevTools 中手动设置</li>
+<li>✅ <strong>循环中的 Bug</strong> 最适合用断点调试——你可以逐次迭代检查变量变化</li>
+<li>✅ 调试完成后，记得<strong>删除所有调试代码</strong>（console.log、debugger）</li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1：调试就是加 console.log</strong>。真相是：对于复杂问题（特别是循环和嵌套函数），Breakpoints 断点调试远比 console.log 高效。</li>
+<li>⚠️ <strong>误区 2：把 debugger 语句留在代码中提交</strong>。真相是：<code>debugger</code> 只用于开发时调试，提交代码前必须删除，否则用户的浏览器会暂停执行。</li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误做法：不检查 prompt() 返回值的类型</strong></p>
+
+<pre><code class="language-javascript">// prompt() 总是返回字符串！
+const value = prompt('请输入温度:'); // 用户输入 10
+console.log(typeof value); // &quot;string&quot; ← 不是 &quot;number&quot;!
+
+const kelvin = value + 273; // &quot;10&quot; + 273 = &quot;10273&quot; ❌
+console.log(kelvin); // &quot;10273&quot; 而非 283</code></pre>
+
+<p><strong>浏览器输出：</strong></p>
+
+<pre><code>string
+10273</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>prompt()</code> 函数<strong>总是返回字符串</strong>。即使用户输入数字 <code>10</code>，得到的也是字符串 <code>&quot;10&quot;</code>。使用 <code>+</code> 运算符时，JavaScript 会将数字 <code>273</code> 转为字符串进行拼接。修复：<code>const kelvin = Number(value) + 273;</code></p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>控制台日志</td><td>console.log()</td><td>在控制台打印调试信息</td><td><code>console.log(x)</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/API/console/log_static" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>断点</td><td>Breakpoint</td><td>暂停代码执行的标记点</td><td>Sources 面板点行号</td><td><a href="https://developer.chrome.com/docs/devtools/javascript/breakpoints/" target="_blank" style="color:var(--info-color);">Chrome DevTools</a></td></tr>
+<tr><td>调试器语句</td><td>debugger</td><td>在代码中触发断点的关键字</td><td><code>debugger;</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/debugger" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>单步执行</td><td>Step Over</td><td>执行下一行代码</td><td>F10</td><td><a href="https://developer.chrome.com/docs/devtools/javascript/reference/" target="_blank" style="color:var(--info-color);">Chrome DevTools</a></td></tr>
+<tr><td>用户输入</td><td>prompt()</td><td>弹出输入对话框</td><td><code>prompt('message')</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/prompt" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：用 console.log 调试</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">debug_exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 这个函数应该返回数组中大于 threshold 的元素个数
+// 但结果不对，用 console.log 找出 Bug
+
+function countAbove(arr, threshold) {
+  let count = 1; // 🐛 Bug 在这里！
+  for (let i = 0; i &lt; arr.length; i++) {
+    if (arr[i] &gt; threshold) {
+      count++;
+    }
+  }
+  return count;
+}
+
+// 添加 console.log 调试点来定位问题
+console.log(countAbove([1, 5, 8, 3, 10], 4)); // 期望 3 (5, 8, 10)</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">function countAbove(arr, threshold) {
+  let count = 0; // ✅ 修复: 1 改为 0
+  for (let i = 0; i &lt; arr.length; i++) {
+    if (arr[i] &gt; threshold) {
+      count++;
+    }
+  }
+  return count;
+}
+</code></pre>
+<strong>解题思路</strong>：通过在循环前后添加 <code>console.log('count:', count)</code> 可以发现 count 的初始值就已经是 1，导致最终结果多 1。
+</details>
+
+<p><strong>练习 2：模拟断点调试</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">debug_exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 手动模拟断点调试：在每次迭代中记录变量状态
+function findMax(arr) {
+  let max = arr[0];
+  const debugLog = [];
+  
+  for (let i = 1; i &lt; arr.length; i++) {
+    const before = max;
+    if (arr[i] &gt; max) max = arr[i];
+    
+    debugLog.push({
+      iteration: i,
+      current: arr[i],
+      maxBefore: before,
+      maxAfter: max,
+      changed: before !== max,
+    });
+  }
+  
+  // 打印&quot;断点调试日志&quot;
+  console.log('🔍 断点调试日志:');
+  debugLog.forEach(log =&gt; {
+    const icon = log.changed ? '🔄' : '➡️';
+    console.log(`  ${icon} i=${log.iteration}: arr[i]=${log.current}, max: ${log.maxBefore}→${log.maxAfter}`);
+  });
+  
+  return max;
+}
+
+findMax([3, 7, 2, 9, 1, 5]);</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">// 🔍 断点调试日志:
+//   🔄 i=1: arr[i]=7, max: 3→7
+//   ➡️ i=2: arr[i]=2, max: 7→7
+//   🔄 i=3: arr[i]=9, max: 7→9
+//   ➡️ i=4: arr[i]=1, max: 9→9
+//   ➡️ i=5: arr[i]=5, max: 9→9
+// 最终 max = 9
+</code></pre>
+<strong>解题思路</strong>：断点调试的精髓在于"暂停并观察"。这个练习通过代码模拟了断点调试的过程，让你看到每次迭代中 <code>max</code> 的变化。
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">在 Chrome DevTools 中设置断点的位置在哪个面板？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) Console 面板</div>
+<div class="quiz-option" data-value="B">B) Sources 面板</div>
+<div class="quiz-option" data-value="C">C) Network 面板</div>
+    </div>
+    <div class="quiz-explanation">
+        断点设置在 <strong>Sources（源代码）面板</strong>。在该面板中找到你的 JS 文件，点击行号即可设置/取消断点。Console 面板用于查看输出，Network 面板用于查看网络请求。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>debugger</code> 语句的作用是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 自动修复 Bug</div>
+<div class="quiz-option" data-value="B">B) 打印变量值到控制台</div>
+<div class="quiz-option" data-value="C">C) 在代码执行到该行时自动暂停，触发 DevTools 的调试面板</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>debugger</code> 相当于在代码中"硬编码"了一个断点。当浏览器执行到 <code>debugger;</code> 语句时，会<strong>自动暂停</strong>并打开 DevTools 的调试界面，让你检查变量状态。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question"><code>prompt()</code> 函数返回值的类型始终是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) String（字符串）</div>
+<div class="quiz-option" data-value="B">B) Number（数字，如果用户输入的是数字）</div>
+<div class="quiz-option" data-value="C">C) 取决于用户输入的内容</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>prompt()</code> <strong>总是返回字符串</strong>，不管用户输入什么。如果需要数字，必须手动用 <code>Number()</code> 或 <code>parseInt()</code> 转换。这是一个非常常见的 Bug 来源。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 在代码中直接触发断点<br>
+    <input type="text" class="blank-input" data-answer="debugger" placeholder="1">;<br>
+    <br>
+    // 打印变量值和类型用于调试<br>
+    console.<input type="text" class="blank-input" data-answer="log" placeholder="2">('value:', x, 'type:', <input type="text" class="blank-input" data-answer="typeof" placeholder="3"> x);<br>
+    <br>
+    // 在 Chrome DevTools 中逐行执行的快捷键<br>
+    // Step Over: <input type="text" class="blank-input" data-answer="F10" placeholder="4">
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

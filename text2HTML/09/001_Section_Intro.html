@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>章节介绍</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">章节介绍</a>
+            <a href="#section-1" class="nav-item">🎯 概述</a>
+            <a href="#section-2" class="nav-item">📌 本章学习路线</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">章节介绍</h1>
+
+<div class="callout"><p>📺 来源：001 Section Intro.en.srt<br>📂 章节：第 09 章 — 数据结构、现代运算符与字符串</p></div>
+
+<h2 id="section-1">🎯 概述</h2>
+
+<p>在完成了较长的理论章节之后，本章将继续学习 JavaScript 的核心特性和语法，但这次重点放在<strong>现代 JavaScript（Modern JavaScript）</strong> 上。</p>
+
+<h2 id="section-2">📌 本章学习路线</h2>
+
+<p>本章将深入探讨以下三大核心板块：</p>
+
+<div class="mermaid">
+mindmap
+  root((第 09 章))
+    📦 数据结构深潜
+      对象 Object
+      数组 Array
+      Map
+      Set
+    ⚡ ES6+ 现代运算符
+      解构赋值 Destructuring
+      展开运算符 Spread
+      可选链 Optional Chaining
+      空值合并 Nullish Coalescing
+    🔤 字符串操作
+      字符串方法
+      模板字面量
+      实战练习
+</div>
+
+<h3 id="section-3">🗺️ 章节知识要点</h3>
+
+<table>
+    <thead><tr><th>板块</th><th>核心内容</th><th>重要程度</th></tr></thead>
+    <tbody><tr><td>📦 内置数据结构</td><td>深入对象（Object）、映射（Map）和数组（Array）</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td>⚡ ES6+ 运算符</td><td>解构（Destructuring）、可选链（Optional Chaining）等</td><td>⭐⭐⭐⭐⭐</td></tr>
+<tr><td>🔤 字符串处理</td><td>字符串方法和实际应用</td><td>⭐⭐⭐⭐</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 这些知识将为后续章节和项目提供坚实而重要的基础。</p></div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

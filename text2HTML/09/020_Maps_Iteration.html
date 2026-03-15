@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map 迭代（Maps Iteration）</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">Map 迭代（Maps Iteration）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">Map 迭代（Maps Iteration）</h1>
+
+<div class="callout"><p>📺 来源：020 Maps Iteration.en.srt<br>📂 章节：第 09 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：Map 基础（<code>set()</code>/<code>get()</code>/<code>has()</code>）、<code>Object.entries()</code> 返回值结构、for-of 循环与解构赋值</li>
+<li><strong>后续扩展</strong>：数据结构选型总结（Object vs Map vs Array vs Set）、Map 在实际项目中的高级用法</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节介绍创建 Map 的另一种方式——<strong>直接传入二维数组</strong>，并深入讲解 Map 的迭代方法。由于 <code>Object.entries()</code> 返回的结构与 Map 构造器接受的结构完全一致，因此可以轻松将<strong>对象转换为 Map</strong>。最后通过一个小型 Quiz 应用展示 Map 的实际运用。</p>
+
+<hr>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 通过二维数组创建 Map</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：如果 <code>set()</code> 链式调用像"一个一个手动贴标签"，那么传入二维数组就像"一次性导入一份清单"——把所有标签-物品的对应关系批量录入系统。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">map_from_array.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 直接传入二维数组创建 Map
+const question = new Map([
+  ['question', 'What is the best programming language in the world?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct! 🎉'],
+  [false, 'Try again! ❌'],
+]);
+
+console.log(question);
+// Map(7) {'question' =&gt; '...', 1 =&gt; 'C', 2 =&gt; 'Java', ...}</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<p><strong>结构对比——二维数组 vs <code>Object.entries()</code> 返回值：</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">map_vs_entries.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// Object.entries() 返回的结构
+const openingHours = {
+  thu: { open: 12, close: 22 },
+  fri: { open: 11, close: 23 },
+  sat: { open: 0, close: 24 },
+};
+
+console.log(Object.entries(openingHours));
+// [['thu', {open:12,close:22}], ['fri', {...}], ['sat', {...}]]
+// ↑ 和 Map 构造器接受的格式完全一致！
+
+// ✅ 因此可以直接从对象转为 Map
+const hoursMap = new Map(Object.entries(openingHours));
+console.log(hoursMap);</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    A["📦 Object"] -->|"Object.entries()"| B["[['key1', val1],<br>['key2', val2], ...]"]
+    B -->|"new Map(...)"| C["🗺️ Map"]
+    style B fill:#FF9800,color:#fff
+    style C fill:#4CAF50,color:#fff
+</div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>操作</th><th>结果</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>Object.entries(openingHours)</code></td><td><code>[['thu', {...}], ['fri', {...}], ['sat', {...}]]</code></td></tr>
+<tr><td>2</td><td><code>new Map(...)</code> 接收二维数组</td><td><code>Map(3) {'thu' =&gt; {...}, 'fri' =&gt; {...}, 'sat' =&gt; {...}}</code></td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<code>Object.entries()</code> 的输出 = <code>new Map()</code> 的输入，天生一对！</p></div>
+
+<hr>
+
+<h3 id="section-5">2. 遍历 Map —— for-of 与解构</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：遍历 Map 就像翻阅一本有索引标签的文件夹——每次翻开一页，你同时看到<strong>标签（key）</strong>和<strong>内容（value）</strong>。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">map_iteration.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const question = new Map([
+  ['question', 'What is the best programming language?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct! 🎉'],
+  [false, 'Try again! ❌'],
+]);
+
+// 打印问题
+console.log(question.get('question'));
+
+// 只打印数字键对应的选项
+for (const [key, value] of question) {
+  if (typeof key === 'number') {
+    console.log(`Answer ${key}: ${value}`);
+  }
+}
+// Answer 1: C
+// Answer 2: Java
+// Answer 3: JavaScript</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<p><strong>📊 Map 遍历 vs Object 遍历对比：</strong></p>
+
+<table>
+    <thead><tr><th>特性</th><th>Map 遍历</th><th>Object 遍历</th></tr></thead>
+    <tbody><tr><td>语法</td><td><code>for (const [k, v] of map)</code></td><td><code>for (const [k, v] of Object.entries(obj))</code></td></tr>
+<tr><td>是否需要转换</td><td>❌ 直接遍历</td><td>✅ 需先调用 <code>Object.entries()</code></td></tr>
+<tr><td>原因</td><td>Map 本身就是可迭代对象</td><td>Object 不是可迭代对象</td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart TD
+    subgraph "🗺️ Map 遍历"
+        A1["for (const [k, v] of map)"] --> A2["直接遍历 ✅"]
+    end
+    subgraph "📦 Object 遍历"
+        B1["Object.entries(obj)"] --> B2["转为二维数组"]
+        B2 --> B3["for (const [k, v] of ...)"]
+    end
+</div>
+
+<hr>
+
+<h3 id="section-6">3. 实战：Quiz 应用</h3>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">quiz_app.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">const question = new Map([
+  ['question', 'What is the best programming language?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+  ['correct', 3],
+  [true, 'Correct! 🎉'],
+  [false, 'Try again! ❌'],
+]);
+
+// 1️⃣ 显示问题
+console.log(question.get('question'));
+
+// 2️⃣ 显示选项（只打印数字键）
+for (const [key, value] of question) {
+  if (typeof key === 'number') {
+    console.log(`  ${key}: ${value}`);
+  }
+}
+
+// 3️⃣ 获取用户答案（这里用硬编码模拟）
+const answer = 3; // 模拟用户输入
+// 实际中可用: const answer = Number(prompt('Your answer?'));
+
+// 4️⃣ 利用布尔键巧妙获取反馈信息
+const isCorrect = answer === question.get('correct'); // 3 === 3 → true
+console.log(question.get(isCorrect)); // question.get(true) → 'Correct! 🎉'</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>表达式</th><th>值</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>question.get('correct')</code></td><td><code>3</code></td></tr>
+<tr><td>2</td><td><code>answer === 3</code></td><td><code>true</code></td></tr>
+<tr><td>3</td><td><code>question.get(true)</code></td><td><code>'Correct! 🎉'</code></td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart TD
+    A["用户答案: 3"] --> B["question.get('correct') → 3"]
+    B --> C{"3 === 3 ?"}
+    C -->|"true"| D["question.get(true)"]
+    D --> E["'Correct! 🎉'"]
+    C -->|"false"| F["question.get(false)"]
+    F --> G["'Try again! ❌'"]
+    style E fill:#4CAF50,color:#fff
+    style G fill:#f44336,color:#fff
+</div>
+
+<hr>
+
+<h3 id="section-7">4. Map 转换为数组</h3>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">map_to_array.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">const question = new Map([
+  ['question', 'Best language?'],
+  [1, 'C'],
+  [2, 'Java'],
+  [3, 'JavaScript'],
+]);
+
+// Map → 二维数组
+console.log([...question]);
+// [['question', 'Best language?'], [1, 'C'], [2, 'Java'], [3, 'JavaScript']]
+
+// 获取所有键
+console.log([...question.keys()]);
+// ['question', 1, 2, 3]
+
+// 获取所有值
+console.log([...question.values()]);
+// ['Best language?', 'C', 'Java', 'JavaScript']</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<p><strong>📊 Map 解构方法对比：</strong></p>
+
+<table>
+    <thead><tr><th>方法</th><th>返回</th><th>示例输出</th></tr></thead>
+    <tbody><tr><td><code>[...map]</code></td><td>键值对二维数组</td><td><code>[['a', 1], ['b', 2]]</code></td></tr>
+<tr><td><code>[...map.keys()]</code></td><td>键数组</td><td><code>['a', 'b']</code></td></tr>
+<tr><td><code>[...map.values()]</code></td><td>值数组</td><td><code>[1, 2]</code></td></tr>
+<tr><td><code>[...map.entries()]</code></td><td>等同于 <code>[...map]</code></td><td><code>[['a', 1], ['b', 2]]</code></td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：Map 转数组用 <code>[...map]</code>，取键用 <code>.keys()</code>，取值用 <code>.values()</code>！</p></div>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：构建一个简易投票系统——使用 Map 统计候选项票数，并显示最终结果。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">voting_system.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 从配置数据创建 Map
+const pollConfig = new Map([
+  ['title', '你最喜欢哪种前端框架？'],
+  ['React', 0],
+  ['Vue', 0],
+  ['Angular', 0],
+  ['Svelte', 0],
+]);
+
+// 模拟投票
+const votes = ['React', 'Vue', 'React', 'Angular', 'Vue', 'React', 'Svelte', 'Vue', 'React'];
+
+for (const vote of votes) {
+  if (pollConfig.has(vote)) {
+    pollConfig.set(vote, pollConfig.get(vote) + 1);
+  }
+}
+
+// 输出投票结果
+console.log(`📊 ${pollConfig.get('title')}\n`);
+for (const [framework, count] of pollConfig) {
+  // 只显示有票数的选项（排除标题键）
+  if (typeof count === 'number') {
+    const bar = '█'.repeat(count);
+    console.log(`${framework.padEnd(10)} ${bar} (${count})`);
+  }
+}</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["📋 选票数组 votes"] --> B["🔄 for...of 遍历"]
+    B --> C{"pollConfig.has(vote)?"}
+    C -->|"✅"| D["票数 +1"]
+    C -->|"❌"| E["跳过无效票"]
+    D --> F["更新 Map"]
+    F --> G["📊 输出结果"]
+    style D fill:#4CAF50,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>操作</th><th>Map 状态变化</th></tr></thead>
+    <tbody><tr><td>初始</td><td><code>React: 0, Vue: 0, Angular: 0, Svelte: 0</code></td></tr>
+<tr><td>投票 <code>'React'</code></td><td><code>React: 1</code></td></tr>
+<tr><td>投票 <code>'Vue'</code></td><td><code>Vue: 1</code></td></tr>
+<tr><td>投票 <code>'React'</code></td><td><code>React: 2</code></td></tr>
+<tr><td>...</td><td>...</td></tr>
+<tr><td>最终</td><td><code>React: 4, Vue: 3, Angular: 1, Svelte: 1</code></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ 用二维数组 <code>new Map([['key', 'val'], ...])</code> 一次性初始化 Map</li>
+<li>✅ <code>Object.entries()</code> 的输出格式与 Map 构造器的输入格式<strong>完全一致</strong>，可直接转换</li>
+<li>✅ Map 是可迭代对象，<code>for-of</code> 直接遍历，无需额外转换</li>
+<li>✅ Map 转数组：<code>[...map]</code>（含键值对）、<code>[...map.keys()]</code>（仅键）、<code>[...map.values()]</code>（仅值）</li>
+<li>✅ 布尔值作为 Map 键可以实现优雅的条件映射（但注意可读性）</li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>混淆 Map 遍历和 Object 遍历</strong>：Map 直接 <code>for-of</code>；Object 必须先 <code>Object.entries()</code> 转换</li>
+<li>⚠️ <strong>忘记 <code>prompt()</code> 返回字符串</strong>：与数字键比较时需要 <code>Number()</code> 转换</li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<div class="callout"><p>主动展示错误写法及报错信息</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">const obj = { a: 1, b: 2 };
+// 试图直接 for-of 遍历对象
+for (const [k, v] of obj) {
+  console.log(k, v);
+}</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught TypeError: obj is not iterable</code></pre>
+
+<p><strong>🔑 解读</strong>：普通对象不是可迭代对象，不能直接用 <code>for-of</code>。必须先用 <code>Object.entries(obj)</code> 转换。而 Map 本身就是可迭代的，可以直接遍历。</p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>Map 构造器</td><td>Map constructor</td><td>通过二维数组创建 Map</td><td><code>new Map([['k','v']])</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map/Map" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>键迭代器</td><td>keys</td><td>返回所有键的迭代器</td><td><code>map.keys()</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map/keys" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>值迭代器</td><td>values</td><td>返回所有值的迭代器</td><td><code>map.values()</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map/values" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>条目迭代器</td><td>entries</td><td>返回所有键值对的迭代器</td><td><code>map.entries()</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map/entries" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>对象条目</td><td>Object.entries</td><td>将对象转为二维数组</td><td><code>Object.entries(obj)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/entries" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：对象转 Map 并遍历</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor7', 'console7')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor7" class="editor-textarea" spellcheck="false">// 将对象转为 Map，然后用 for-of 遍历输出 &quot;科目: 分数&quot; 的格式
+const scores = { math: 95, english: 88, science: 92 };
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console7" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const scoresMap = new Map(Object.entries(scores));
+
+for (const [subject, score] of scoresMap) {
+  console.log(<code>${subject}: ${score}</code>);
+}
+// math: 95
+// english: 88
+// science: 92
+</code></pre>
+<strong>解题思路</strong>：<code>Object.entries()</code> 返回的二维数组结构恰好与 <code>Map</code> 构造器匹配，因此可以一步转换。
+</details>
+
+<p><strong>练习 2：用 Map 构建计数器</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor8', 'console8')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor8" class="editor-textarea" spellcheck="false">// 用 Map 统计数组中每个元素出现的次数
+const fruits = ['apple', 'banana', 'apple', 'cherry', 'banana', 'apple'];
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console8" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const counter = new Map();
+
+for (const fruit of fruits) {
+  counter.set(fruit, (counter.get(fruit) || 0) + 1);
+}
+
+for (const [fruit, count] of counter) {
+  console.log(<code>${fruit}: ${count}</code>);
+}
+// apple: 3, banana: 2, cherry: 1
+</code></pre>
+<strong>解题思路</strong>：与之前用普通对象统计频次的模式类似，但这里用 Map 的 <code>get()</code>/<code>set()</code> 替代了对象的属性赋值。
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">以下哪种方式可以将对象转为 Map？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `new Map(obj)`</div>
+<div class="quiz-option" data-value="B">B) `new Map(Object.entries(obj))`</div>
+<div class="quiz-option" data-value="C">C) `Map.from(obj)`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>new Map()</code> 接受二维数组 <code>[[key, value], ...]</code>。<code>Object.entries()</code> 恰好返回这种格式，完美匹配。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">Map 和 Object 在遍历上的最大区别是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) Map 不支持 for-of 循环</div>
+<div class="quiz-option" data-value="B">B) Object 支持直接 for-of 遍历</div>
+<div class="quiz-option" data-value="C">C) Map 本身是可迭代对象，可直接 for-of；Object 需要先调用 Object.entries()</div>
+    </div>
+    <div class="quiz-explanation">
+        Map 是 iterable，可以直接 <code>for-of</code>；Object 不是 iterable，必须用 <code>Object.entries()</code> 等方法先转换。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question"><code>[...new Map([['a',1],['b',2]]).values()]</code> 的结果是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `[1, 2]`</div>
+<div class="quiz-option" data-value="B">B) `['a', 'b']`</div>
+<div class="quiz-option" data-value="C">C) `[['a',1], ['b',2]]`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>.values()</code> 返回所有值的迭代器，展开后得到 <code>[1, 2]</code>。<code>.keys()</code> 才会返回 <code>['a', 'b']</code>。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 从对象创建 Map<br>
+    const myMap = new Map(Object.<input type="text" class="blank-input" data-answer="entries" placeholder="1">(myObj));<br>
+    <br>
+    // 遍历 Map（解构键和值）<br>
+    for (const [<input type="text" class="blank-input" data-answer="key" placeholder="2">, value] of myMap) {<br>
+      console.log(key, value);<br>
+    }<br>
+    <br>
+    // Map 转为数组<br>
+    const arr = [<input type="text" class="blank-input" data-answer="..." placeholder="3">myMap];
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

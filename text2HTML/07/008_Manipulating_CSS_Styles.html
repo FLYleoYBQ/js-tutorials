@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>操纵 CSS 样式</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">操纵 CSS 样式</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-6" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-7" class="nav-item">💡 关键要点</a>
+            <a href="#section-8" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-9" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-10" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-11" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">操纵 CSS 样式</h1>
+
+<div class="callout"><p>📺 来源：008 Manipulating CSS Styles.en.srt<br>📂 章节：第 07 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：DOM 元素选择 (<code>document.querySelector</code>)、元素的文本内容操作 (<code>textContent</code>)</li>
+<li><strong>后续扩展</strong>：通过操作 CSS 类来切换复杂样式 (<code>classList.add / remove</code>)</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节课我们将学习如何使用 JavaScript 动态修改网页的 CSS 样式。我们将学到最重要的三个规则：使用 <code>.style</code> 属性、采用小驼峰命名法（Camel Case）表示 CSS 属性名，以及所有样式值必须作为字符串传递，并带上必要的单位。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 样式属性的三大核心规则</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：如果 CSS 是一份“装修规范白皮书”，JavaScript 就是那个现场拿着对讲机的“包工头”。包工头下达指令时有自己的沟通术语（小驼峰命名法），且必须把话说满（必须带上包含单位的字符串）。</p></div>
+
+<p>在 JavaScript 中修改样式与在 CSS 文件中编写规则有三点显著不同：</p>
+
+<ol>
+<li><strong>必须通过 <code>.style</code> 访问</strong>：不能直接修改属性，必须先进入到元素的 <code>style</code> 对象中。</li>
+<li><strong>小驼峰命名法（Camel Case）</strong>：在 CSS 中带有连字符（<code>-</code>）的属性（如 <code>background-color</code>），在 JS 中必须写成驼峰形式（<code>backgroundColor</code>）。</li>
+<li><strong>值必须是字符串</strong>：即使是一个数字宽度，也必须写成带单位的字符串，如 <code>'30rem'</code>，不能直接传 <code>30</code>。</li>
+</ol>
+
+<pre><code class="language-javascript">// 选择 body 元素，不需要带点号（点号是给 class 用的）
+document.querySelector('body').style.backgroundColor = '#60b347'; // 正确：驼峰写法 + 字符串包裹</code></pre>
+
+<p><strong>📊 CSS 到 JavaScript 属性映射表：</strong></p>
+
+<table>
+    <thead><tr><th>CSS 书写方式</th><th>JavaScript 书写方式</th><th>错误写法（会报错或无效）</th></tr></thead>
+    <tbody><tr><td><code>background-color: #60b347;</code></td><td><code>.style.backgroundColor = '#60b347'</code></td><td><code>.style.background-color</code></td></tr>
+<tr><td><code>font-size: 20px;</code></td><td><code>.style.fontSize = '20px'</code></td><td><code>.style.fontSize = 20</code></td></tr>
+<tr><td><code>margin-top: 5rem;</code></td><td><code>.style.marginTop = '5rem'</code></td><td><code>.style.marginTop = '5';</code></td></tr>
+<tr><td><code>width: 30rem;</code></td><td><code>.style.width = '30rem'</code></td><td><code>.style.width = 30</code></td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：点 style，去减号大写字母，值加引号带单位。</p></div>
+
+<hr>
+
+<h3 id="section-5">2. 内联样式的本质（Behind the Scenes）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：在 CSS 文件中写样式，就像在图纸上统一规划房间的颜色；而在 JS 中直接修改样式，就像在某个特定的墙面上直接贴上了一张“覆盖贴纸”。</p></div>
+
+<p>当我们在 JavaScript 中使用 <code>.style</code> 修改元素样式时，我们并非修改了实际的 CSS 文件。实际上，这是直接在 HTML 标签上注入了<strong>内联样式（Inline Styles）</strong>。</p>
+
+<div class="mermaid">
+flowchart TD
+    A["💻 运行 JavaScript 代码"] --> B["document.querySelector('body').style.backgroundColor = '#60b347'"]
+    B --> C["⚙️ DOM 引擎处理"]
+    C --> D["📄 更新 HTML DOM 结构"]
+    D --> E["<body style='background-color: rgb(96, 179, 71);'>...</body>"]
+    
+    style A fill:#3498db,stroke:#2980b9,color:#fff
+    style B fill:#f39c12,stroke:#e67e22,color:#fff
+    style E fill:#2ecc71,stroke:#27ae60,color:#fff
+</div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<ol>
+<li>开发者在 JS 中执行：<code>document.querySelector('.number').style.width = '30rem';</code></li>
+<li>浏览器找到 class 为 <code>number</code> 的元素。</li>
+<li>浏览器在该 HTML 元素上插入 <code>style</code> 属性。</li>
+<li>HTML 在开发者工具中变为 <code>&lt;div class=&quot;number&quot; style=&quot;width: 30rem;&quot;&gt;12&lt;/div&gt;</code>。</li>
+<li>因内联样式的优先级极高，这会直接覆盖 CSS 文件中原有的宽度设置。</li>
+</ol>
+
+<hr>
+
+<h2 id="section-6">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：我们需要在“猜数字”游戏中，当玩家猜中正确的秘密数字（获胜）时，将整个页面的背景修改为代表胜利的绿色，同时将猜中的神秘数字的显示框左右拉宽，以提供更强烈的视觉反馈。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">victory_style.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 假设这是游戏赢了的条件分支
+if (guess === secretNumber) {
+  // 1. 显示获胜文本
+  document.querySelector('.message').textContent = '🎉 猜选正确！';
+  
+  // 2. 将整个页面的背景色改为绿色（修改 body 元素）
+  document.querySelector('body').style.backgroundColor = '#60b347';
+  
+  // 3. 将居中的神秘数字框变宽（从 15rem 变为 30rem）
+  document.querySelector('.number').style.width = '30rem';
+}</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<h2 id="section-7">💡 关键要点</h2>
+
+<ul>
+<li>✅ 访问元素的 CSS 属性必须经过 <code>.style</code> 属性层级。</li>
+<li>✅ 任何包含连字符的 CSS 属性在 JavaScript 中必须转换为<strong>小驼峰命名法（Camel Case）</strong>。</li>
+<li>✅ 所有的样式值都<strong>必须作为字符串</strong>赋值，哪怕它只包含一个数字时也必须如此，并强制包含原始 CSS 单位（如 <code>px</code>, <code>rem</code>, <code>%</code> 等）。</li>
+<li>✅ JS 操作样式本质上是添加了最高优先级的<strong>内联样式</strong>，这并不会改变你的原版 <code>.css</code> 文件的内容。</li>
+</ul>
+
+<h2 id="section-8">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1：在属性名中直接写破折号</strong>。在 JS 中写 <code>element.style.background-color</code> 是语法错误，因为 <code>-</code> 会被解析成减法运算符。</li>
+<li>⚠️ <strong>误区 2：忘记给数值加单位字符串</strong>。写 <code>element.style.width = 30</code> 在绝大多数情况下都不起作用，浏览器不知道你指的是 30px、30rem 还是 30%。必须加上引号和单位 <code>'30rem'</code>。</li>
+</ul>
+
+<h2 id="section-9">🐛 报错实验室</h2>
+
+<div class="callout"><p>在学习阶段，忘记 CSS 属性在 JS 中的正确写法是导致样式无法渲染的最大原因。</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">document.querySelector('body').style.background-color = '#60b347';</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught ReferenceError: Invalid left-hand side in assignment</code></pre>
+
+<p><strong>🔑 解读</strong>：在 JavaScript 中，连字符 <code>-</code> 就是减法运算符。当你写 <code>style.background-color</code> 时，JS 引擎试图执行“<code>style.background</code> 减去 <code>color</code> 变量的值”，而算术运算结果不能作为等号左边被赋值，因此导致了无效左值赋值错误（Invalid left-hand side in assignment）。务必改为小驼峰命名法 <code>backgroundColor</code>。</p>
+
+<hr>
+
+<h2 id="section-10">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>样式对象</td><td>style</td><td>代表元素上的所有内联样式声明的对象</td><td><code>.style</code></td><td><a href="https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/style" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>小驼峰命名法</td><td>Camel Case</td><td>第一个单词首字母小写，后续单词首字母大写</td><td><code>backgroundColor</code></td><td>—</td></tr>
+<tr><td>内联样式</td><td>Inline Styles</td><td>直接写在 HTML 标签属性中的 CSS 样式</td><td><code>style=&quot;color: red;&quot;</code></td><td>—</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-11">🧪 学习验证</h2>
+
+<h3 id="section-12">📝 动手练习</h3>
+
+<p><strong>练习 1：利用 JS 修改一个元素的排版边界</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 假设你有一个 class 为 `box` 的元素。
+// 请编写代码，使用 JS 将它的上外边距（margin-top）修改为 5 倍的 rem 距离。
+
+// 在这里写你的代码</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript"></code></pre>
+<strong>解题思路</strong>：首先选中元素 <code>document.querySelector('.box')</code>，访问 <code>.style</code> 属性。需要修改上边距 <code>margin-top</code>，必须转化为小驼峰 <code>marginTop</code>。最后，确保赋值的内容是一个包含单位的字符串 <code>'5rem'</code>。
+</details>
+
+<p><strong>练习 2：动态修饰按钮</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 选取一个页面上名为 'button' 的 HTML 标签。
+// 请将这个按钮的背景色改成黑色（'#000'），字体大小改为 '24px'，以及字体颜色改成白色（'white'）。
+
+// 操作背景色
+// 操作字体颜色
+// 操作字体大小</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">btn.style.backgroundColor = '#000';
+btn.style.color = 'white';
+btn.style.fontSize = '24px';
+</code></pre>
+<strong>解题思路</strong>：如果有多个样式要改，最好先把元素存入一个变量 <code>btn</code>。然后分别针对 <code>backgroundColor</code>、<code>color</code>、<code>fontSize</code> 赋予包含相应单位的字符串值。
+</details>
+
+<h3 id="section-13">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">在 JavaScript 中修改 CSS 样式时产生的结果是如何体现在 DOM 里的？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 以内联样式（Inline Styles）的形式（`style=&quot;...&quot;`）直接加被选中的 HTML 标签上</div>
+<div class="quiz-option" data-value="B">B) JavaScript 引擎会去修改项目里的 `.css` 文件源代码</div>
+<div class="quiz-option" data-value="C">C) 它会生成一个新的 `&lt;style&gt;` 标签并插入到 HTML `&lt;head&gt;` 里面</div>
+    </div>
+    <div class="quiz-explanation">
+        通过 <code>.style</code> 操作会直接把 CSS 作为内联样式套在目标 HTML 元素标签上，并不会触碰你的外部样式表内容。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">若我们要用 JS 把某个元素的字体大小设置为 20 像素，正确的写法是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `document.querySelector('.text').style.font-size = '20px';`</div>
+<div class="quiz-option" data-value="B">B) `document.querySelector('.text').style.fontSize = 20;`</div>
+<div class="quiz-option" data-value="C">C) `document.querySelector('.text').style.fontSize = '20px';`</div>
+    </div>
+    <div class="quiz-explanation">
+        A 错误是因为带有连字符；B 错误是因为值必须是字符串，且不能缺失单位。C 的驼峰加上带有单位的字符串是完美的。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">当我们要选中整个网页的核心可见内容区（<code>body</code>）并改掉其背景时，我们应该传入 <code>querySelector</code> 哪个字符串选择器？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `'.body'`</div>
+<div class="quiz-option" data-value="B">B) `'body'`</div>
+<div class="quiz-option" data-value="C">C) `'#body'`</div>
+    </div>
+    <div class="quiz-explanation">
+        由于 <code>body</code> 属于原生的 HTML 元素标签名称（并不是 CSS 类或者 ID），因此在 CSS 选择器语法里直接传入元素名称字符串 <code>'body'</code> 即可，不需要任何点号或井号作为前缀。
+    </div>
+</div>
+
+<h3 id="section-14">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 玩家因为猜错过多输掉了游戏，你想让背景变成红色 ('red') 并调整大标题 ('h1') 的文字为粉红 ('pink')<br>
+    document.querySelector('body').<input type="text" class="blank-input" data-answer="style" placeholder="1">.backgroundColor = 'red';<br>
+    document.querySelector('h1').style.<input type="text" class="blank-input" data-answer="color" placeholder="2"> = 'pink';
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

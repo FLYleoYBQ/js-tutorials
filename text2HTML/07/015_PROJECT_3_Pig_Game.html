@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>项目 #3：猪猪骰子游戏 (PROJECT #3: Pig Game)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">项目 #3：猪猪骰子游戏 PROJECT #3: Pig Game</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">项目 #3：猪猪骰子游戏 (PROJECT #3: Pig Game)</h1>
+
+<div class="callout"><p>📺 来源：<code>015 PROJECT #3 Pig Game.en.srt</code><br>📂 章节：第 07 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：DOM 选择器（<code>querySelector</code>、<code>getElementById</code>）、<code>classList</code> 操作、<code>textContent</code> 属性设置、事件监听</li>
+<li><strong>后续扩展</strong>：骰子投掷逻辑、活跃玩家切换、保持分数功能、游戏重置机制、流程图驱动开发</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节课开启第三个 DOM 操作项目 —— <strong>Pig Game（猪猪骰子游戏）</strong>。这是一个双人回合制骰子游戏：玩家轮流掷骰子累积分数，掷到 1 则失去当前回合分数并换人。核心学习点包括：使用 <code>getElementById</code> 按 ID 选取元素、初始化游戏状态、使用<strong>流程图（Flowchart）</strong> 规划游戏逻辑。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 游戏规则与流程图</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：Pig Game 就像"贪心"考验——你可以一直掷骰子攒分（贪心），但随时可能掷到 1 而血本无归（代价）。你也可以选择"保住"当前分数（保守）。这模拟了现实中"风险与回报"的决策过程。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    A["🎮 游戏开始"] --> B["玩家 0 激活"]
+    B --> C["🎲 掷骰子"]
+    C --> D{"骰子 === 1?"}
+    D -->|是| E["❌ 当前回合分数清零"]
+    E --> F["🔄 切换到另一个玩家"]
+    F --> C
+    D -->|否| G["➕ 将点数加入当前回合分数"]
+    G --> H{"玩家选择"}
+    H -->|"🎲 继续掷"| C
+    H -->|"📥 保住分数"| I["将回合分数加入总分"]
+    I --> J{"总分 ≥ 100?"}
+    J -->|是| K["🏆 当前玩家获胜！"]
+    J -->|否| F
+    style K fill:#166534,stroke:#4ade80,color:#fff
+    style E fill:#991b1b,stroke:#f87171,color:#fff
+</div>
+
+<p><strong>游戏规则摘要：</strong></p>
+
+<table>
+    <thead><tr><th>操作</th><th>效果</th></tr></thead>
+    <tbody><tr><td>🎲 Roll Dice</td><td>掷骰子，2-6 加入当前回合分数；掷到 1 则回合分数清零并换人</td></tr>
+<tr><td>📥 Hold</td><td>将当前回合分数加入总分，然后换人</td></tr>
+<tr><td>🔄 New Game</td><td>重置所有分数和状态</td></tr>
+<tr><td>🏆 获胜条件</td><td>总分率先达到 100 分</td></tr></tbody>
+</table>
+
+<hr>
+
+<h3 id="section-5">2. getElementById vs querySelector</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>querySelector</code> 像搜索引擎——你输入任何关键词（CSS 选择器）都能找到结果。<code>getElementById</code> 像邮局查号台——你报出具体的"ID 编号"，它直接给你对应的信息，更快但功能更单一。</p></div>
+
+<p>本项目中玩家分数元素使用了 <strong>ID</strong> 而非 <strong>class</strong>，因为每个分数是唯一的：</p>
+
+<pre><code class="language-html">&lt;p class=&quot;score&quot; id=&quot;score--0&quot;&gt;43&lt;/p&gt;  &lt;!-- 玩家 0 的总分 --&gt;
+&lt;p class=&quot;score&quot; id=&quot;score--1&quot;&gt;24&lt;/p&gt;  &lt;!-- 玩家 1 的总分 --&gt;</code></pre>
+
+<p>两种选取方式对比：</p>
+
+<pre><code class="language-javascript">// 方式 1：querySelector（需要 # 前缀表示 ID）
+const score0El = document.querySelector('#score--0');
+
+// 方式 2：getElementById（直接传 ID 名称，不加 #）
+const score1El = document.getElementById('score--1');</code></pre>
+
+<p><strong>📊 两种方法对比：</strong></p>
+
+<table>
+    <thead><tr><th>维度</th><th><code>querySelector</code></th><th><code>getElementById</code></th></tr></thead>
+    <tbody><tr><td>参数格式</td><td>CSS 选择器（<code>'#score--0'</code>）</td><td>纯 ID 名（<code>'score--0'</code>）</td></tr>
+<tr><td>前缀要求</td><td>需要 <code>#</code></td><td>❌ 不需要</td></tr>
+<tr><td>选取范围</td><td>ID / class / 标签 / 组合选择器</td><td>仅 ID</td></tr>
+<tr><td>性能</td><td>稍慢</td><td>⚡ 稍快</td></tr>
+<tr><td>灵活性</td><td>✅ 更灵活</td><td>❌ 仅限 ID</td></tr>
+<tr><td>推荐场景</td><td>大多数场景</td><td>明确需要按 ID 选取时</td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart LR
+    A["选取元素"] --> B{"选取方式?"}
+    B -->|"按 ID"| C["getElementById('score--0')"]
+    B -->|"按 class"| D["querySelector('.score')"]
+    B -->|"按 ID (CSS选择器)"| E["querySelector('#score--0')"]
+    C --> F["✅ 直接返回元素"]
+    D --> F
+    E --> F
+    style C fill:#1e40af,stroke:#60a5fa,color:#fff
+</div>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"querySelector 万能钥匙加 #，getElementById 精准定位免 #"</strong> —— 前者用 CSS 语法所以需要 <code>#</code>；后者本身就知道在找 ID，所以不需要。</p></div>
+
+<hr>
+
+<h3 id="section-6">3. 初始化游戏状态（Starting Conditions）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：游戏初始化就像棋盘的开局摆放——每颗棋子必须在正确的位置，计分板归零，计时器清零。如果跳过这一步，游戏就会从混乱的状态开始。</p></div>
+
+<pre><code class="language-javascript">'use strict';
+
+// 选取元素
+const score0El = document.querySelector('#score--0');
+const score1El = document.getElementById('score--1');
+const diceEl = document.querySelector('.dice');
+
+// 初始条件
+score0El.textContent = 0;  // 玩家 0 分数归零
+score1El.textContent = 0;  // 玩家 1 分数归零
+diceEl.classList.add('hidden');  // 隐藏骰子图片</code></pre>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>代码</th><th>DOM 变化</th><th>页面效果</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>score0El.textContent = 0</code></td><td><code>&lt;p id=&quot;score--0&quot;&gt;0&lt;/p&gt;</code></td><td>左侧显示 0</td></tr>
+<tr><td>②</td><td><code>score1El.textContent = 0</code></td><td><code>&lt;p id=&quot;score--1&quot;&gt;0&lt;/p&gt;</code></td><td>右侧显示 0</td></tr>
+<tr><td>③</td><td><code>diceEl.classList.add('hidden')</code></td><td><code>&lt;img class=&quot;dice hidden&quot;&gt;</code></td><td>骰子消失</td></tr></tbody>
+</table>
+
+<p><strong>为什么赋值 <code>0</code>（数字）而不是 <code>'0'</code>（字符串）？</strong></p>
+
+<p><code>textContent</code> 接收字符串，但 JavaScript 会<strong>自动将数字转为字符串</strong>（隐式类型转换）。写 <code>0</code> 和 <code>'0'</code> 效果相同，但语义上分数是数字，所以用 <code>0</code> 更合理。</p>
+
+<hr>
+
+<h3 id="section-7">4. 为什么玩家编号是 0 和 1？</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：电脑是"从 0 开始计数"的世界——数组的第一个元素是 <code>[0]</code>，第二个是 <code>[1]</code>。所以两个玩家命名为 Player 0 和 Player 1，而非 Player 1 和 Player 2。这样可以直接将玩家编号作为数组索引使用。</p></div>
+
+<div class="mermaid">
+flowchart LR
+    A["activePlayer 变量"] --> B{"值?"}
+    B -->|0| C["玩家 0 激活"]
+    B -->|1| D["玩家 1 激活"]
+    C -->|"scores[0]"| E["访问玩家 0 的分数"]
+    D -->|"scores[1]"| F["访问玩家 1 的分数"]
+</div>
+
+<p>这样设计的好处在后续课程中会充分体现——可以用 <code>scores[activePlayer]</code> 直接访问当前玩家的分数，无需额外的条件判断。</p>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：在真实的多人游戏应用中（如在线棋牌室），使用流程图先规划游戏逻辑再编码是标准实践。流程图帮助团队对齐理解，也便于后续维护和扩展功能。</p></div>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你正在开发一个在线竞答游戏的前端，两队轮流答题，需要初始化双方的分数显示和游戏状态。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">game_init_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 模拟 Pig Game 初始化过程
+const gameState = {
+  scores: [0, 0],
+  currentScore: 0,
+  activePlayer: 0,
+  playing: true,
+};
+
+// 模拟 DOM 元素
+const elements = {
+  'score--0': { textContent: '43' },
+  'score--1': { textContent: '24' },
+  dice: { classes: new Set(['dice']) },
+};
+
+console.log('=== 初始化前 ===');
+console.log(`玩家 0 分数显示: ${elements['score--0'].textContent}`);
+console.log(`玩家 1 分数显示: ${elements['score--1'].textContent}`);
+console.log(`骰子 class: [${[...elements.dice.classes]}]`);
+
+// 初始化
+function init() {
+  gameState.scores = [0, 0];
+  gameState.currentScore = 0;
+  gameState.activePlayer = 0;
+  gameState.playing = true;
+
+  elements['score--0'].textContent = 0;
+  elements['score--1'].textContent = 0;
+  elements.dice.classes.add('hidden');
+
+  console.log('\n✅ 初始化完成！');
+}
+
+init();
+
+console.log('\n=== 初始化后 ===');
+console.log(`玩家 0 分数显示: ${elements['score--0'].textContent}`);
+console.log(`玩家 1 分数显示: ${elements['score--1'].textContent}`);
+console.log(`骰子 class: [${[...elements.dice.classes]}]`);
+console.log(`游戏状态:`, gameState);</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["📄 页面加载"] --> B["选取 DOM 元素"]
+    B --> C["score0El = querySelector('#score--0')"]
+    B --> D["score1El = getElementById('score--1')"]
+    B --> E["diceEl = querySelector('.dice')"]
+    C --> F["初始化分数: textContent = 0"]
+    D --> F
+    E --> G["隐藏骰子: classList.add('hidden')"]
+    F --> H["🎮 游戏就绪"]
+    G --> H
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>操作</th><th>初始化前</th><th>初始化后</th></tr></thead>
+    <tbody><tr><td>玩家 0 分数</td><td><code>43</code></td><td><code>0</code></td></tr>
+<tr><td>玩家 1 分数</td><td><code>24</code></td><td><code>0</code></td></tr>
+<tr><td>骰子可见性</td><td>可见</td><td>隐藏（含 <code>hidden</code> 类）</td></tr>
+<tr><td>当前回合分数</td><td>未定义</td><td><code>0</code></td></tr>
+<tr><td>激活玩家</td><td>未定义</td><td><code>0</code>（玩家 0）</td></tr></tbody>
+</table>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ 在编写复杂游戏逻辑前，先用<strong>流程图</strong>规划整体逻辑</li>
+<li>✅ <code>getElementById</code> 直接传 ID 名称（不加 <code>#</code>），比 <code>querySelector</code> 稍快</li>
+<li>✅ 玩家编号从 <code>0</code> 开始（不是 <code>1</code>），方便后续用作数组索引</li>
+<li>✅ 游戏初始化时需要同时重置<strong>数据状态</strong>和 <strong>DOM 显示</strong></li>
+<li>✅ 将元素选取放在文件顶部，存入变量，避免重复查询</li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：在 <code>getElementById</code> 中加了 <code>#</code> 前缀。<code>getElementById('#score--0')</code> 会查找 ID 为 <code>&quot;#score--0&quot;</code> 的元素（不存在），返回 <code>null</code>。正确写法是 <code>getElementById('score--0')</code>。</li>
+<li>⚠️ <strong>误区 2</strong>：忘记初始化游戏状态。页面刷新后 HTML 中的分数不是 0（如 <code>43</code> 和 <code>24</code>），如果不在 JS 中手动设为 <code>0</code>，游戏会从错误的分数开始。</li>
+<li>⚠️ <strong>误区 3</strong>：混淆玩家编号。后续代码中使用 <code>scores[activePlayer]</code> 来访问分数数组，如果玩家编号是 1 和 2 而数组索引是 0 和 1，就会产生偏移错误。</li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">// getElementById 加了 # 前缀
+const score0El = document.getElementById('#score--0');
+score0El.textContent = 0; // ⛔ score0El 是 null！</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught TypeError: Cannot set properties of null (setting 'textContent')</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>getElementById('#score--0')</code> 查找 ID 字面值为 <code>&quot;#score--0&quot;</code> 的元素（HTML 中不存在），返回 <code>null</code>。然后在 <code>null</code> 上访问 <code>.textContent</code> 就会报错。记住 <code>getElementById</code> 的参数是<strong>纯 ID 名</strong>，不需要 CSS 选择器语法。</p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>按 ID 获取</td><td>getElementById</td><td>通过 ID 选取唯一元素</td><td><code>document.getElementById('myId')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/getElementById" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>流程图</td><td>Flowchart</td><td>用图形表示程序逻辑流程</td><td>diagrams.net 在线绘制</td><td>—</td></tr>
+<tr><td>文本内容</td><td>textContent</td><td>设置/获取元素的文本</td><td><code>el.textContent = 0</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Node/textContent" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>严格模式</td><td>Strict Mode</td><td><code>'use strict'</code> 开启严格检查</td><td><code>'use strict';</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Strict_mode" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>CSS display</td><td>display: none</td><td>完全隐藏元素</td><td><code>.hidden { display: none }</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/display" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：使用两种方式选取同一元素并验证</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 模拟两种选取方式的结果
+// 你的任务：说明下面两种方式的区别
+
+// 方式 1
+// const el1 = document.querySelector('#score--0');
+
+// 方式 2
+// const el2 = document.getElementById('score--0');
+
+// 问题：el1 和 el2 选取的是同一个元素吗？
+// 两种方式的参数有什么不同？
+
+console.log('方式 1: querySelector(&quot;#score--0&quot;) → 需要 # 前缀');
+console.log('方式 2: getElementById(&quot;score--0&quot;) → 不需要 # 前缀');
+console.log('结果: 两者选取的是同一个元素 ✅');
+console.log('区别: querySelector 使用 CSS 选择器语法，getElementById 使用纯 ID 名');</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const el1 = document.querySelector('#score--0');  // CSS 选择器，需要 #
+const el2 = document.getElementById('score--0');  // 纯 ID 名，不加 #
+
+console.log(el1 === el2); // true — 完全是同一个元素
+
+// 性能差异：getElementById 稍快，因为浏览器内部
+// 有 ID → Element 的哈希映射表，可以 O(1) 查找
+// querySelector 需要解析 CSS 选择器后再查找
+</code></pre>
+
+<strong>解题思路</strong>：两种方式的唯一区别是语法格式。<code>querySelector</code> 采用 CSS 选择器语法（ID 用 <code>#</code>，class 用 <code>.</code>），<code>getElementById</code> 是专用 API，只接受纯 ID 名。
+
+</details>
+
+<p><strong>练习 2：封装一个 initGame 函数</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 创建一个 initGame 函数，设置所有初始值
+// 包括：两个玩家的分数、当前回合分数、骰子隐藏状态
+
+const game = {
+  scores: [43, 24],
+  currentScore: 15,
+  activePlayer: 1,
+  playing: false,
+};
+
+function initGame() {
+  // 你的代码：重置所有状态
+}
+
+console.log('重置前:', JSON.stringify(game));
+initGame();
+console.log('重置后:', JSON.stringify(game));</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  scores: [43, 24],
+  currentScore: 15,
+  activePlayer: 1,
+  playing: false,
+};
+
+function initGame() {
+  game.scores = [0, 0];
+  game.currentScore = 0;
+  game.activePlayer = 0;
+  game.playing = true;
+  console.log('✅ 游戏已重置');
+}
+
+console.log('重置前:', JSON.stringify(game));
+// { scores: [43, 24], currentScore: 15, activePlayer: 1, playing: false }
+
+initGame();
+// ✅ 游戏已重置
+
+console.log('重置后:', JSON.stringify(game));
+// { scores: [0, 0], currentScore: 0, activePlayer: 0, playing: true }
+</code></pre>
+
+<strong>解题思路</strong>：将所有状态重置逻辑封装进 <code>initGame</code>，后续游戏重置（点击 New Game 按钮）时只需调用此函数即可。
+
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question"><code>document.getElementById('score--0')</code> 和 <code>document.querySelector('#score--0')</code> 的区别？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 前者更灵活，可以选取 class 和 ID</div>
+<div class="quiz-option" data-value="B">B) 前者只能选 ID 且参数不加 #，后者更灵活但参数需要 CSS 选择器语法</div>
+<div class="quiz-option" data-value="C">C) 两者完全相同，没有任何区别</div>
+<div class="quiz-option" data-value="D">D) 后者性能更好</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>getElementById</code> 专用于 ID 选取，参数是纯 ID 名（不加 <code>#</code>），性能略优。<code>querySelector</code> 接受任意 CSS 选择器，更灵活但参数需遵循 CSS 语法（ID 加 <code>#</code>，class 加 <code>.</code>）。两者选取相同 ID 时返回同一个元素。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">为什么 Pig Game 的玩家编号是 0 和 1 而不是 1 和 2？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 因为 JavaScript 不支持数字 1 和 2</div>
+<div class="quiz-option" data-value="B">B) 因为 HTML 中的 ID 必须从 0 开始</div>
+<div class="quiz-option" data-value="C">C) 因为数组索引从 0 开始，这样玩家编号可以直接用作数组索引</div>
+<div class="quiz-option" data-value="D">D) 因为游戏规则要求从 0 开始</div>
+    </div>
+    <div class="quiz-explanation">
+        JavaScript 数组的索引从 0 开始。如果用 <code>scores = [0, 0]</code> 存储两个玩家的分数，<code>scores[0]</code> 是玩家 0 的分数，<code>scores[1]</code> 是玩家 1 的分数。如果编号从 1 开始，就需要 <code>scores[activePlayer - 1]</code>，多了一步减法，不直观。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">在编写复杂游戏逻辑前，应该首先做什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 用流程图规划游戏的逻辑流程</div>
+<div class="quiz-option" data-value="B">B) 直接开始编写代码，边写边改</div>
+<div class="quiz-option" data-value="C">C) 先完成所有 CSS 样式</div>
+<div class="quiz-option" data-value="D">D) 先编写测试用例</div>
+    </div>
+    <div class="quiz-explanation">
+        对于 Pig Game 这样有多条件分支的游戏，先绘制流程图可以厘清"掷骰子 → 判断点数 → 累加或切换 → 保存或继续"的完整逻辑。这比直接编码更高效，也减少了返工的风险。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 按 ID 选取元素（两种方式）<br>
+    const score0El = document.<input type="text" class="blank-input" data-answer="querySelector" placeholder="1">('#score--0');<br>
+    const score1El = document.<input type="text" class="blank-input" data-answer="getElementById" placeholder="2">('score--1');<br>
+    <br>
+    // 初始化分数<br>
+    score0El.<input type="text" class="blank-input" data-answer="textContent" placeholder="3"> = 0;<br>
+    score1El.textContent = <input type="text" class="blank-input" data-answer="0" placeholder="4">;<br>
+    <br>
+    // 隐藏骰子<br>
+    diceEl.classList.<input type="text" class="blank-input" data-answer="add" placeholder="5">('hidden');
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

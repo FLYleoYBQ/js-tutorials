@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>switch 语句（The switch Statement）</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 02 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">switch 语句（The switch Statement）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">switch 语句（The switch Statement）</h1>
+
+<div class="callout"><p>📺 来源：025 The switch Statement.en.srt<br>📂 章节：第 02 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：if/else 语句、严格相等 <code>===</code>、逻辑运算符</li>
+<li><strong>后续扩展</strong>：语句与表达式（Statements and Expressions）、三元运算符（Ternary Operator）</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p><code>switch</code> 语句是另一种条件判断结构，特别适合<strong>将一个变量与多个固定值逐一比较</strong>的场景。它使用<strong>严格相等 <code>===</code></strong> 进行比较，语法比长 <code>if/else if</code> 链更简洁。本节课讲解 <code>switch</code> 的语法、<code>break</code> 的必要性、<code>default</code> 分支，以及多个 <code>case</code> 共享代码的技巧。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. switch 基本语法</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>switch</code> 就像自动售货机的按键面板——你按下一个编号（比如 "Monday"），机器就精确匹配到对应的出口，吐出对应的商品。如果没有匹配的编号，就走 <code>default</code> 出口。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">switch_basic.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const day = &quot;wednesday&quot;;
+
+switch (day) {
+  case &quot;monday&quot;:
+    console.log(&quot;Plan course structure&quot;);
+    console.log(&quot;Go to coding meetup&quot;);
+    break;
+  case &quot;tuesday&quot;:
+    console.log(&quot;Prepare theory videos&quot;);
+    break;
+  case &quot;wednesday&quot;:
+  case &quot;thursday&quot;:
+    console.log(&quot;Write code examples&quot;); // 合并两个 case！
+    break;
+  case &quot;friday&quot;:
+    console.log(&quot;Record videos&quot;);
+    break;
+  case &quot;saturday&quot;:
+  case &quot;sunday&quot;:
+    console.log(&quot;Enjoy the weekend 😎&quot;);
+    break;
+  default:
+    console.log(&quot;Not a valid day!&quot;);
+}</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["switch(day)"] --> B{"day === 'monday'?"}
+    B -->|"❌"| C{"day === 'tuesday'?"}
+    C -->|"❌"| D{"day === 'wednesday'<br/>or 'thursday'?"}
+    D -->|"✅"| E["Write code examples"]
+    D -->|"❌"| F{"day === 'friday'?"}
+    F -->|"❌"| G{"day === 'saturday'<br/>or 'sunday'?"}
+    G -->|"❌"| H["default:<br/>Not a valid day!"]
+    
+    style E fill:#38a169,stroke:#c6f6d5,color:#c6f6d5
+</div>
+
+<hr>
+
+<h3 id="section-5">2. <code>break</code> 的作用 —— 防止"穿透"</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>break</code> 就像电梯的"到站停"——没有 <code>break</code>，代码会像不停站的电梯一样"穿透"到下面的所有楼层。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">no_break_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const day = &quot;monday&quot;;
+
+switch (day) {
+  case &quot;monday&quot;:
+    console.log(&quot;Plan course structure&quot;);
+    // ⚠️ 没有 break！代码会继续执行下面的 case
+  case &quot;tuesday&quot;:
+    console.log(&quot;Prepare theory videos&quot;);
+    break; // 到这里才停
+}
+// 输出两行！&quot;Plan course structure&quot; 和 &quot;Prepare theory videos&quot;</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<hr>
+
+<h3 id="section-6">3. switch vs if/else —— 等价对比</h3>
+
+<div class="code-comparison">
+    <div class="code-panel">
+        <div class="panel-header method2">✨ switch 写法（干净）</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">switch (day) {
+  case &quot;monday&quot;:
+    console.log(&quot;Plan&quot;);
+    break;
+  case &quot;tuesday&quot;:
+    console.log(&quot;Prepare&quot;);
+    break;
+  case &quot;wednesday&quot;:
+  case &quot;thursday&quot;:
+    console.log(&quot;Code&quot;);
+    break;
+  default:
+    console.log(&quot;Invalid&quot;);
+}</code></pre>
+    </div>
+    <div class="code-panel">
+        <div class="panel-header method1">🚨 if/else 写法（冗长）</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">if (day === &quot;monday&quot;) {
+  console.log(&quot;Plan&quot;);
+} else if (day === &quot;tuesday&quot;) {
+  console.log(&quot;Prepare&quot;);
+} else if (day === &quot;wednesday&quot;
+  || day === &quot;thursday&quot;) {
+  console.log(&quot;Code&quot;);
+} else {
+  console.log(&quot;Invalid&quot;);
+}</code></pre>
+    </div>
+</div>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：客服系统的工单分类——根据工单类型自动分配到对应部门。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">ticket_routing.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const ticketType = &quot;refund&quot;;
+
+switch (ticketType) {
+  case &quot;bug&quot;:
+  case &quot;crash&quot;:
+    console.log(&quot;🔧 转交技术部门&quot;);
+    break;
+  case &quot;refund&quot;:
+  case &quot;billing&quot;:
+    console.log(&quot;💰 转交财务部门&quot;);
+    break;
+  case &quot;feedback&quot;:
+    console.log(&quot;📝 转交产品部门&quot;);
+    break;
+  default:
+    console.log(&quot;📬 转交通用客服&quot;);
+}</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>工单类型</th><th>匹配 case</th><th>分配部门</th></tr></thead>
+    <tbody><tr><td><code>&quot;bug&quot;</code> / <code>&quot;crash&quot;</code></td><td>合并 case</td><td>🔧 技术部门</td></tr>
+<tr><td><code>&quot;refund&quot;</code> / <code>&quot;billing&quot;</code></td><td>合并 case</td><td>💰 财务部门</td></tr>
+<tr><td><code>&quot;other&quot;</code></td><td>default</td><td>📬 通用客服</td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ <code>switch</code> 使用<strong>严格相等 <code>===</code></strong> 比较值</li>
+<li>✅ 每个 <code>case</code> 后必须加 <code>break</code>，否则代码会"穿透"到下一个 case</li>
+<li>✅ 多个 <code>case</code> 可以<strong>共享</strong>同一段代码（连续写多个 <code>case:</code>）</li>
+<li>✅ <code>default</code> 是兜底分支，类似 if/else 中的 <code>else</code></li>
+<li>✅ <code>switch</code> 适合"一个值对多个选项"的场景，不适合范围比较</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：忘记写 <code>break</code>，导致代码穿透执行了多个 case 的内容。</li>
+<li>⚠️ <strong>误区 2</strong>：以为 <code>switch</code> 可以做范围比较（如 <code>case &gt; 18</code>）。<code>switch</code> 只做精确匹配。</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：忘记 break</strong></p>
+
+<pre><code class="language-javascript">const fruit = &quot;apple&quot;;
+switch (fruit) {
+  case &quot;apple&quot;:
+    console.log(&quot;🍎&quot;);
+  case &quot;banana&quot;:
+    console.log(&quot;🍌&quot;);
+    break;
+}</code></pre>
+
+<p><strong>浏览器输出：</strong></p>
+
+<pre><code>🍎
+🍌</code></pre>
+
+<p><strong>🔑 解读</strong>：匹配 <code>&quot;apple&quot;</code> 后没有 <code>break</code>，代码"穿透"到 <code>&quot;banana&quot;</code> 的代码也执行了。修复：在 <code>console.log(&quot;🍎&quot;)</code> 后加 <code>break;</code>。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>switch 语句</td><td>switch Statement</td><td>多值精确匹配分支</td><td><code>switch(x) { case: ... }</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/switch" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>穿透</td><td>Fall-through</td><td>没有 break 时代码继续执行</td><td>—</td><td>—</td></tr>
+<tr><td>默认分支</td><td>default</td><td>所有 case 都不匹配时执行</td><td><code>default: ...</code></td><td>—</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：成绩等级（用 switch）</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 将 if/else 版的成绩等级改写为 switch
+// A: 90-100, B: 80-89, C: 60-79, D: 0-59
+// 提示：用 Math.floor(score / 10) 转为整数再 switch
+
+const score = 85;
+// 在这里写你的代码</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const grade = Math.floor(score / 10);
+
+switch (grade) {
+  case 10:
+  case 9:
+    console.log(&quot;A（优秀）&quot;);
+    break;
+  case 8:
+    console.log(&quot;B（良好）&quot;);
+    break;
+  case 7:
+  case 6:
+    console.log(&quot;C（及格）&quot;);
+    break;
+  default:
+    console.log(&quot;D（不及格）&quot;);
+}
+</code></pre>
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">switch 使用哪种方式比较值？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 宽松相等 `==`</div>
+<div class="quiz-option" data-value="B">B) 严格相等 `===`</div>
+<div class="quiz-option" data-value="C">C) 引用相等</div>
+    </div>
+    <div class="quiz-explanation">
+        switch 内部使用 <code>===</code> 严格相等比较，不做类型转换。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">忘记写 break 会发生什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 代码会&quot;穿透&quot;继续执行下一个 case 的内容</div>
+<div class="quiz-option" data-value="B">B) 报错</div>
+<div class="quiz-option" data-value="C">C) 什么都不会发生</div>
+    </div>
+    <div class="quiz-explanation">
+        没有 <code>break</code>，switch 会继续执行后面所有 case 的代码，直到遇到 <code>break</code> 或 switch 结束。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">switch 中的 default 对应 if/else 中的什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `if`</div>
+<div class="quiz-option" data-value="B">B) `else if`</div>
+<div class="quiz-option" data-value="C">C) `else`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>default</code> 在所有 <code>case</code> 都不匹配时执行，等同于 if/else 链最后的 <code>else</code> 兜底块。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    switch (color) {<br>
+      <input type="text" class="blank-input" data-answer="case" placeholder="1"> "red":<br>
+        console.log(&quot;Stop!&quot;);<br>
+        <input type="text" class="blank-input" data-answer="break" placeholder="2">;<br>
+      case &quot;green&quot;:<br>
+        console.log(&quot;Go!&quot;);<br>
+        break;<br>
+      <input type="text" class="blank-input" data-answer="default" placeholder="3">:<br>
+        console.log(&quot;Unknown color&quot;);<br>
+    }
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

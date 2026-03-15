@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>章节介绍 — JavaScript 基础</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        :root {
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: var(--font-sans); background-color: var(--bg-color); color: var(--text-primary); line-height: 1.7; }
+        .app-container { display: flex; min-height: 100dvh; }
+        .sidebar { width: 280px; background-color: var(--surface-color); border-right: 1px solid var(--surface-border); padding: 24px; position: fixed; height: 100dvh; overflow-y: auto; }
+        .sidebar-header { margin-bottom: 32px; }
+        .sidebar-title { font-size: 14px; text-transform: uppercase; color: var(--text-secondary); font-weight: 700; letter-spacing: 0.5px; }
+        .nav-item { display: block; padding: 10px 12px; margin-bottom: 8px; border-radius: var(--radius-md); color: var(--text-secondary); text-decoration: none; font-size: 15px; transition: var(--transition); border-left: 2px solid transparent; }
+        .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text-primary); }
+        .nav-item.active { color: var(--accent-color); border-left-color: var(--accent-color); background: rgba(247,223,30,0.1); }
+        .main-content { flex: 1; margin-left: 280px; padding: 48px 64px; max-width: 900px; }
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        p, li { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+        .meta-info { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-md); padding: 16px 20px; margin-bottom: 32px; display: flex; gap: 24px; font-size: 14px; color: var(--text-secondary); }
+        .callout { background: var(--surface-color); border-left: 4px solid var(--info-color); padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: 24px 0; }
+        .chapter-roadmap { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; margin: 24px 0; }
+        .roadmap-card { background: var(--surface-color); border: 1px solid var(--surface-border); border-radius: var(--radius-lg); padding: 20px; transition: var(--transition); }
+        .roadmap-card:hover { border-color: var(--accent-color); transform: translateY(-2px); }
+        .roadmap-card .card-icon { font-size: 28px; margin-bottom: 8px; }
+        .roadmap-card .card-title { font-weight: 600; color: var(--text-primary); font-size: 15px; margin-bottom: 4px; }
+        .roadmap-card .card-desc { font-size: 13px; color: var(--text-secondary); }
+        .mermaid { background: var(--surface-color); border-radius: var(--radius-lg); padding: 24px; margin: 24px 0; }
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column !important; }
+            .sidebar { position: static !important; width: 100% !important; height: auto !important; border-right: none !important; border-bottom: 1px solid var(--surface-border) !important; padding: 16px !important; }
+            .main-content { margin-left: 0 !important; padding: 20px 16px !important; width: 100% !important; max-width: 100% !important; }
+            h1 { font-size: 24px !important; }
+            h2 { font-size: 20px !important; }
+            .meta-info { flex-direction: column !important; gap: 8px !important; }
+            .chapter-roadmap { grid-template-columns: 1fr !important; }
+            .mermaid { padding: 16px !important; overflow-x: auto !important; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 02 章 / 导航</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-overview" class="nav-item active">🎯 概述</a>
+            <a href="#section-roadmap" class="nav-item">🗺️ 本章路线图</a>
+            <a href="#section-goals" class="nav-item">🏆 学习目标</a>
+        </nav>
+    </aside>
+
+    <main class="main-content">
+        <h1>📚 第 02 章：JavaScript 基础</h1>
+
+        <div class="meta-info">
+            <span>📺 来源：001 Section Intro.en.srt</span>
+            <span>📂 章节：第 02 章</span>
+        </div>
+
+        <h2 id="section-overview">🎯 概述</h2>
+        <p>欢迎来到课程的第一个实质性章节！从这里开始，你将正式踏入 JavaScript 语言的核心世界。本章聚焦于<strong>语言基础（Language Fundamentals）</strong>——我们不会急于构建用户界面，而是先让你稳扎稳打地掌握 JavaScript 表达逻辑和处理数据的底层能力。</p>
+
+        <div class="callout">
+            <strong>💡 Jonas 寄语</strong>
+            <p style="margin-top: 8px;">这些课程的设计目标是：在深入 DOM 操作与页面交互之前，先为你搭建一座<strong>坚固的语言逻辑骨架</strong>。后续所有高级特性都是建立在这一层之上的。</p>
+        </div>
+
+        <h2 id="section-roadmap">🗺️ 本章路线图</h2>
+        <p>本章将覆盖以下核心知识模块：</p>
+
+        <div class="chapter-roadmap">
+            <div class="roadmap-card">
+                <div class="card-icon">📦</div>
+                <div class="card-title">变量 (Variables)</div>
+                <div class="card-desc">学习如何用 let、const、var 声明变量并存储数据</div>
+            </div>
+            <div class="roadmap-card">
+                <div class="card-icon">🏷️</div>
+                <div class="card-title">数据类型 (Data Types)</div>
+                <div class="card-desc">认识 Number、String、Boolean、Undefined、Null 等原始类型</div>
+            </div>
+            <div class="roadmap-card">
+                <div class="card-icon">⚙️</div>
+                <div class="card-title">运算符 (Operators)</div>
+                <div class="card-desc">算术、赋值、比较、逻辑运算符及优先级</div>
+            </div>
+            <div class="roadmap-card">
+                <div class="card-icon">🔀</div>
+                <div class="card-title">条件判断 (if/else)</div>
+                <div class="card-desc">掌握程序分支决策和控制流</div>
+            </div>
+            <div class="roadmap-card">
+                <div class="card-icon">📝</div>
+                <div class="card-title">模板字面量 (Template Literals)</div>
+                <div class="card-desc">现代化的字符串拼接方式</div>
+            </div>
+            <div class="roadmap-card">
+                <div class="card-icon">🔄</div>
+                <div class="card-title">类型转换与强制转换</div>
+                <div class="card-desc">理解 JavaScript 如何在类型之间自动/手动切换</div>
+            </div>
+            <div class="roadmap-card">
+                <div class="card-icon">⚖️</div>
+                <div class="card-title">相等性运算符 (== vs ===)</div>
+                <div class="card-desc">严格相等与宽松相等的本质区别</div>
+            </div>
+            <div class="roadmap-card">
+                <div class="card-icon">🎛️</div>
+                <div class="card-title">switch 与三元运算符</div>
+                <div class="card-desc">更多的条件控制流工具</div>
+            </div>
+        </div>
+
+        <div class="mermaid">
+graph LR
+    A["🚀 开始"] --> B["📦 变量与值"]
+    B --> C["🏷️ 数据类型"]
+    C --> D["⚙️ 运算符"]
+    D --> E["🔀 if/else"]
+    E --> F["📝 字符串与模板字面量"]
+    F --> G["🔄 类型转换"]
+    G --> H["⚖️ 相等性判断"]
+    H --> I["🧠 布尔逻辑"]
+    I --> J["🎛️ switch / 三元"]
+    J --> K["🏁 完成基础"]
+
+    style A fill:#1a1a2e,stroke:#f7df1e,color:#f7df1e
+    style K fill:#1a1a2e,stroke:#50fa7b,color:#50fa7b
+        </div>
+
+        <h2 id="section-goals">🏆 学习目标</h2>
+        <div class="callout" style="border-left-color: var(--accent-color);">
+            <p>完成本章后，你应该能够：</p>
+            <ul style="margin-top: 12px; margin-left: 20px;">
+                <li>✅ 使用 <strong>let</strong> 和 <strong>const</strong> 声明变量并理解它们的差异</li>
+                <li>✅ 识别并区分 JavaScript 的 <strong>7 种原始数据类型</strong></li>
+                <li>✅ 编写包含<strong>算术、比较和逻辑运算</strong>的表达式</li>
+                <li>✅ 用 <strong>if/else</strong>、<strong>switch</strong> 和<strong>三元运算符</strong>控制程序分支</li>
+                <li>✅ 理解<strong>类型转换（Type Conversion）</strong>与<strong>类型强制转换（Type Coercion）</strong>的机制</li>
+                <li>✅ 独立完成 <strong>4 道代码挑战（Coding Challenge）</strong></li>
+            </ul>
+        </div>
+
+        <p style="text-align: center; margin-top: 40px; font-size: 18px; color: var(--accent-color); font-weight: 600;">🚀 准备好了吗？让我们开启这段奇妙的旅程！</p>
+
+    </main>
+</div>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+</body>
+</html>

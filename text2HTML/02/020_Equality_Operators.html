@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>相等运算符：== vs ===（Equality Operators）</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 02 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">相等运算符：== vs ===（Equality Operators）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">相等运算符：== vs ===（Equality Operators）</h1>
+
+<div class="callout"><p>📺 来源：020 Equality Operators == vs. ===.en.srt<br>📂 章节：第 02 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：类型转换与类型强制（Type Conversion and Coercion）、真值与假值（Truthy / Falsy）、if/else 语句</li>
+<li><strong>后续扩展</strong>：布尔逻辑（Boolean Logic）、逻辑运算符、switch 语句</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>JavaScript 有两种相等比较方式：<strong>严格相等 <code>===</code></strong>（不做类型转换）和<strong>宽松相等 <code>==</code></strong>（会做类型强制）。本节课用清晰的对比讲解两者差异，并明确最佳实践——<strong>永远使用 <code>===</code></strong>。同时介绍 <code>else if</code> 链式条件、<code>prompt()</code> 函数获取用户输入，以及不等运算符 <code>!==</code> 和 <code>!=</code>。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 严格相等 <code>===</code> vs 宽松相等 <code>==</code></h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：严格相等 <code>===</code> 就像"实名制验票"——不仅要号码对，身份证类型也要对。宽松相等 <code>==</code> 像"只看票号"——号码对了就行，不管是纸质票还是电子票。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">equality_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 严格相等 === ：值 AND 类型都必须相同
+console.log(18 === 18);    // true  ✅ 值和类型都相同
+console.log(18 === &quot;18&quot;);  // false ❌ 类型不同（number vs string）
+
+// 宽松相等 == ：只比较值，会做类型强制
+console.log(18 == &quot;18&quot;);   // true  ⚠️ 字符串 &quot;18&quot; 被转为数字 18
+console.log(18 == 18);     // true</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["18 === '18' ?"] --> B{"类型相同？"}
+    B -->|"❌ number ≠ string"| C["false ❌<br/>立即返回"]
+    
+    D["18 == '18' ?"] --> E{"值相同？<br/>（自动转换类型）"}
+    E -->|"'18' → 18<br/>18 == 18"| F["true ⚠️"]
+    
+    style C fill:#e53e3e,stroke:#fed7d7,color:#fed7d7
+    style F fill:#d69e2e,stroke:#fefcbf,color:#1a202c
+</div>
+
+<p><strong>📊 对比表：</strong></p>
+
+<table>
+    <thead><tr><th>比较</th><th><code>===</code>（严格）</th><th><code>==</code>（宽松）</th></tr></thead>
+    <tbody><tr><td><code>18 === 18</code></td><td>✅ <code>true</code></td><td>✅ <code>true</code></td></tr>
+<tr><td><code>18 === &quot;18&quot;</code></td><td>❌ <code>false</code></td><td>⚠️ <code>true</code></td></tr>
+<tr><td><code>null === undefined</code></td><td>❌ <code>false</code></td><td>⚠️ <code>true</code></td></tr>
+<tr><td><code>0 === false</code></td><td>❌ <code>false</code></td><td>⚠️ <code>true</code></td></tr>
+<tr><td><code>&quot;&quot; === false</code></td><td>❌ <code>false</code></td><td>⚠️ <code>true</code></td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"三等严格不转型，两等宽松会变身"</strong> —— 永远用 <code>===</code>。</p></div>
+
+<hr>
+
+<h3 id="section-5">2. 最佳实践：永远用 <code>===</code></h3>
+
+<div class="mermaid">
+flowchart LR
+    A["💎 最佳实践"] --> B["永远使用 ==="]
+    B --> C["如果需要类型转换<br/>手动用 Number() 转"]
+    A --> D["❌ 避免使用 =="]
+    D --> E["== 的规则复杂<br/>容易引入隐蔽 Bug"]
+    
+    style B fill:#38a169,stroke:#c6f6d5,color:#c6f6d5
+    style D fill:#e53e3e,stroke:#fed7d7,color:#fed7d7
+</div>
+
+<hr>
+
+<h3 id="section-6">3. <code>prompt()</code> 获取用户输入 + 类型转换</h3>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">prompt_example.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// prompt() 返回的永远是字符串！
+// const favorite = prompt(&quot;What's your favorite number?&quot;);
+// console.log(typeof favorite); // &quot;string&quot;
+
+// 正确做法：手动转换后再用 === 比较
+const favorite = Number(&quot;23&quot;); // 模拟 prompt 输入
+if (favorite === 23) {
+  console.log(&quot;Cool! 23 is an amazing number! 🎉&quot;);
+} else if (favorite === 7) {
+  console.log(&quot;7 is also a cool number 🌟&quot;);
+} else if (favorite === 9) {
+  console.log(&quot;9 is also a cool number ✨&quot;);
+} else {
+  console.log(&quot;Number is not 23, 7, or 9 😢&quot;);
+}</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th>输入</th><th><code>Number()</code> 转换</th><th><code>=== 23</code></th><th><code>=== 7</code></th><th><code>=== 9</code></th><th>输出</th></tr></thead>
+    <tbody><tr><td><code>&quot;23&quot;</code></td><td><code>23</code></td><td>✅</td><td>—</td><td>—</td><td>"23 is amazing!"</td></tr>
+<tr><td><code>&quot;7&quot;</code></td><td><code>7</code></td><td>❌</td><td>✅</td><td>—</td><td>"7 is cool!"</td></tr>
+<tr><td><code>&quot;42&quot;</code></td><td><code>42</code></td><td>❌</td><td>❌</td><td>❌</td><td>"Not 23, 7, or 9"</td></tr></tbody>
+</table>
+
+<hr>
+
+<h3 id="section-7">4. 不等运算符 <code>!==</code> 和 <code>!=</code></h3>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">not_equal.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const favorite = 9;
+
+// 严格不等 !== ：推荐使用
+if (favorite !== 23) {
+  console.log(&quot;Why not 23? 🤔&quot;);
+}
+
+// 宽松不等 != ：避免使用（同理）
+// if (favorite != &quot;23&quot;) { ... }</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：权限验证系统——判断用户角色和权限等级。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    A["🔐 权限检查"] --> B{"role === 'admin' ?"}
+    B -->|"✅"| C["🔓 完全访问权限"]
+    B -->|"❌"| D{"level === 2 ?"}
+    D -->|"✅"| E["📝 编辑权限"]
+    D -->|"❌"| F["👁️ 只读权限"]
+    
+    style C fill:#38a169,stroke:#c6f6d5,color:#c6f6d5
+    style E fill:#d69e2e,stroke:#fefcbf,color:#1a202c
+    style F fill:#718096,stroke:#e2e8f0,color:#e2e8f0
+</div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">permission_check.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">const role = &quot;editor&quot;;
+const level = 2;
+
+// 使用严格相等进行权限判断
+if (role === &quot;admin&quot;) {
+  console.log(&quot;🔓 完全访问权限&quot;);
+} else if (role === &quot;editor&quot; &amp;&amp; level === 2) {
+  console.log(&quot;📝 编辑权限&quot;);
+} else {
+  console.log(&quot;👁️ 只读权限&quot;);
+}</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>role</th><th>level</th><th>权限</th></tr></thead>
+    <tbody><tr><td><code>&quot;admin&quot;</code></td><td>任意</td><td>🔓 完全访问</td></tr>
+<tr><td><code>&quot;editor&quot;</code></td><td><code>2</code></td><td>📝 编辑</td></tr>
+<tr><td><code>&quot;viewer&quot;</code></td><td><code>1</code></td><td>👁️ 只读</td></tr></tbody>
+</table>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ <code>===</code> 严格相等：<strong>不做</strong>类型转换，值和类型都必须相同</li>
+<li>✅ <code>==</code> 宽松相等：<strong>会做</strong>类型强制，容易产生意外行为</li>
+<li>✅ <strong>永远使用 <code>===</code> 和 <code>!==</code></strong>，假装 <code>==</code> 和 <code>!=</code> 不存在</li>
+<li>✅ <code>prompt()</code> 返回的永远是<strong>字符串</strong>，比较前需用 <code>Number()</code> 转换</li>
+<li>✅ <code>else if</code> 可以链接<strong>多个条件</strong>判断</li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：用 <code>==</code> 做比较然后困惑于 <code>&quot;0&quot; == false</code> 为 <code>true</code>。改用 <code>===</code> 就不会有这个问题。</li>
+<li>⚠️ <strong>误区 2</strong>：<code>prompt()</code> 输入 <code>23</code> 后直接用 <code>=== 23</code> 比较。<code>prompt</code> 返回字符串 <code>&quot;23&quot;</code>，和数字 <code>23</code> 严格不等。</li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<p><strong>❌ 易错场景：prompt 返回字符串导致 === 不匹配</strong></p>
+
+<pre><code class="language-javascript">const input = &quot;23&quot;;   // 模拟 prompt 返回值
+if (input === 23) {
+  console.log(&quot;Match!&quot;);
+}
+// 没有输出！因为 &quot;23&quot;（string）!== 23（number）</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>===</code> 不做类型转换，字符串 <code>&quot;23&quot;</code> 和数字 <code>23</code> 类型不同。修复：<code>Number(input) === 23</code>。</p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>严格相等</td><td>Strict Equality <code>===</code></td><td>值和类型都相同</td><td><code>18 === 18</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Strict_equality" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>宽松相等</td><td>Loose Equality <code>==</code></td><td>只比较值，自动类型转换</td><td><code>18 == &quot;18&quot;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Equality" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>严格不等</td><td>Strict Inequality <code>!==</code></td><td>值或类型不同</td><td><code>18 !== &quot;18&quot;</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Strict_inequality" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：判断相等结果</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 先猜结果，再运行验证
+console.log(0 === false);       // ?
+console.log(0 == false);        // ?
+console.log(&quot;&quot; === false);      // ?
+console.log(&quot;&quot; == false);       // ?
+console.log(null === undefined); // ?
+console.log(null == undefined);  // ?</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">console.log(0 == false);        // true  — 0 被转为 false
+console.log(&quot;&quot; === false);      // false — 类型不同
+console.log(&quot;&quot; == false);       // true  — &quot;&quot; 被转为 false
+console.log(null === undefined); // false — 不同类型
+console.log(null == undefined);  // true  — 宽松相等的特殊规则
+</code></pre>
+</details>
+
+<p><strong>练习 2：用 === 重写代码</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 以下代码使用了 ==（宽松相等），请改为 ===（严格相等）
+// 并确保功能不变（可能需要添加 Number() 转换）
+
+const userInput = &quot;100&quot;;
+if (userInput == 100) {
+  console.log(&quot;输入的是 100&quot;);
+}
+// 请重写上面的代码</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">if (Number(userInput) === 100) {
+  console.log(&quot;输入的是 100&quot;);
+}
+</code></pre>
+<strong>解题思路</strong>：把隐式转换变成显式转换——先 <code>Number()</code> 再 <code>===</code>。
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">为什么应该永远使用 <code>===</code> 而不是 <code>==</code>？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `===` 运行更快</div>
+<div class="quiz-option" data-value="B">B) `==` 会报错</div>
+<div class="quiz-option" data-value="C">C) `==` 的隐式类型转换规则复杂，容易引入难以发现的 Bug</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>==</code> 有很多反直觉的转换规则（如 <code>&quot;&quot; == false</code> 为 <code>true</code>），容易在代码中引入隐蔽 Bug。<code>===</code> 简单明了。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question"><code>&quot;18&quot; === 18</code> 的结果是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `true`</div>
+<div class="quiz-option" data-value="B">B) `false`</div>
+<div class="quiz-option" data-value="C">C) 报错</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>===</code> 不做类型转换，字符串 <code>&quot;18&quot;</code> 和数字 <code>18</code> 类型不同，结果为 <code>false</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question"><code>prompt()</code> 函数返回值的类型是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) String</div>
+<div class="quiz-option" data-value="B">B) Number</div>
+<div class="quiz-option" data-value="C">C) 取决于用户输入的内容</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>prompt()</code> 总是返回字符串，即使用户输入的是数字。需要手动用 <code>Number()</code> 转换。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 严格相等运算符<br>
+    if (age <input type="text" class="blank-input" data-answer="===" placeholder="1"> 18) { ... }<br>
+    <br>
+    // 严格不等运算符  <br>
+    if (name <input type="text" class="blank-input" data-answer="!==" placeholder="2"> "admin") { ... }<br>
+    <br>
+    // prompt 输入需要转换类型<br>
+    const input = <input type="text" class="blank-input" data-answer="Number" placeholder="3">(prompt("Enter age:"));
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

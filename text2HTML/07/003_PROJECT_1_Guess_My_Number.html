@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PROJECT #1：Guess My Number! 项目概览</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">PROJECT #1：Guess My Number! 项目概览</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">PROJECT #1：Guess My Number! 项目概览</h1>
+
+<div class="callout"><p>📺 来源：003 PROJECT #1 Guess My Number!.en.srt<br>📂 章节：第 7 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：HTML/CSS 基础结构、JavaScript 变量与函数、<code>console.log()</code> 使用</li>
+<li><strong>后续扩展</strong>：DOM 深度操作、事件监听器（addEventListener）、CSS 样式动态控制、游戏状态管理</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节课正式启动第一个 DOM 实战项目 —— <strong>Guess My Number!（猜数字游戏）</strong>。该游戏采用复古 80 年代风格设计，玩家需要在 1~20 之间猜测一个秘密数字，每次猜错分数递减，猜对则触发胜利效果。本节将展示项目的完整功能演示，并完成第一步：<strong>使用 <code>document.querySelector()</code> 选取 DOM 元素</strong>。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 项目功能解析</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：就像一台老式街机游戏 —— 投币（输入猜测）、看结果（太高/太低）、得分（越快越高分）、记录最高分。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    A["🎮 游戏开始<br/>Score = 20"] --> B["📝 玩家输入猜测"]
+    B --> C{"🤔 猜对了吗？"}
+    C -->|"太低 📉"| D["提示 'Too Low!'<br/>Score - 1"]
+    C -->|"太高 📈"| E["提示 'Too High!'<br/>Score - 1"]
+    C -->|"✅ 正确！"| F["🎉 背景变绿<br/>显示正确数字<br/>更新 Highscore"]
+    D --> B
+    E --> B
+    F --> G["🔄 点击 Again!<br/>重新开始"]
+    G --> A
+
+    style A fill:#fff9c4,stroke:#f57f17
+    style C fill:#e3f2fd,stroke:#1565c0
+    style F fill:#c8e6c9,stroke:#2e7d32
+    style D fill:#ffccbc,stroke:#bf360c
+    style E fill:#ffccbc,stroke:#bf360c
+</div>
+
+<p><strong>项目核心功能清单：</strong></p>
+
+<table>
+    <thead><tr><th>功能</th><th>描述</th><th>涉及的 DOM 操作</th></tr></thead>
+    <tbody><tr><td>猜测验证</td><td>比较用户输入与秘密数字</td><td>读取输入框的值</td></tr>
+<tr><td>消息反馈</td><td>显示"太高/太低/正确"</td><td>修改文本内容</td></tr>
+<tr><td>分数递减</td><td>每次猜错扣 1 分</td><td>修改文本内容</td></tr>
+<tr><td>胜利效果</td><td>背景变绿 + 显示数字</td><td>修改 CSS 样式</td></tr>
+<tr><td>最高分</td><td>记录历史最佳成绩</td><td>修改文本内容</td></tr>
+<tr><td>重新开始</td><td>重置游戏状态</td><td>批量修改 DOM</td></tr></tbody>
+</table>
+
+<h3 id="section-5">2. 使用 <code>document.querySelector()</code> 选取元素</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>querySelector</code> 就像一个"精确抓取器"—— 你告诉它你要找什么特征（类名/ID），它就从整个页面中精确抓取那个元素，就像在一堆积木中挑出特定颜色的那块。</p></div>
+
+<p>在 HTML 中，每个界面元素都有类名（class）或 ID 来标识它们。JavaScript 通过 <code>document.querySelector()</code> 方法，使用<strong>与 CSS 完全相同的选择器语法</strong>来定位这些元素。</p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">querySelector_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 选取 class 为 &quot;message&quot; 的元素（使用 . 前缀）
+const messageEl = document.querySelector('.message');
+console.log(messageEl); // &lt;p class=&quot;message&quot;&gt;Start guessing...&lt;/p&gt;
+
+// 读取元素的文本内容
+console.log(document.querySelector('.message').textContent);
+// 输出: &quot;Start guessing...&quot;</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    A["document.querySelector('.message')"] --> B["在 DOM 树中搜索"]
+    B --> C["找到 &lt;p class='message'&gt;"]
+    C --> D[".textContent"]
+    D --> E["'Start guessing...'"]
+
+    style A fill:#e3f2fd,stroke:#1565c0
+    style C fill:#c8e6c9,stroke:#2e7d32
+    style E fill:#fff9c4,stroke:#f57f17
+</div>
+
+<p><strong>🔍 执行追踪：选择器执行流程</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>代码</th><th>发生了什么</th><th>结果</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>document.querySelector('.message')</code></td><td>在文档中搜索 class="message" 的元素</td><td>返回 <code>&lt;p&gt;</code> 元素对象</td></tr>
+<tr><td>②</td><td><code>.textContent</code></td><td>从元素对象上读取文本内容属性</td><td>返回字符串 <code>&quot;Start guessing...&quot;</code></td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>选元素用 <code>querySelector</code></strong>，类名加 <code>.</code>，ID 加 <code>#</code>，语法跟 CSS 一模一样！</p></div>
+
+<h3 id="section-6">3. 点操作符的链式使用</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：连续使用 <code>.</code> 就像"开锁 → 开抽屉 → 取东西"的连贯动作 —— 先解锁大门（<code>document</code>），再打开特定的抽屉（<code>.querySelector()</code>），最后取出里面的东西（<code>.textContent</code>）。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">chaining_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 点操作符从左到右依次执行
+console.log(document.querySelector('.message').textContent);
+
+// 等价拆解：
+// 步骤 1: document.querySelector('.message') → 得到元素对象
+// 步骤 2: 元素对象.textContent → 得到文本字符串</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    A["document"] -->|".querySelector('.message')"| B["Element 对象<br/>&lt;p class='message'&gt;"]
+    B -->|".textContent"| C["'Start guessing...'<br/>（字符串）"]
+
+    style A fill:#e1bee7,stroke:#6a1b9a
+    style B fill:#bbdefb,stroke:#1565c0
+    style C fill:#c8e6c9,stroke:#2e7d32
+</div>
+
+<p><strong>📊 选择器类型对比：</strong></p>
+
+<table>
+    <thead><tr><th>选择器类型</th><th>语法</th><th>CSS 等价</th><th>示例</th></tr></thead>
+    <tbody><tr><td>类选择器</td><td><code>'.message'</code></td><td><code>.message { }</code></td><td><code>document.querySelector('.message')</code></td></tr>
+<tr><td>ID 选择器</td><td><code>'#score'</code></td><td><code>#score { }</code></td><td><code>document.querySelector('#score')</code></td></tr>
+<tr><td>元素选择器</td><td><code>'p'</code></td><td><code>p { }</code></td><td><code>document.querySelector('p')</code></td></tr></tbody>
+</table>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：在真实的电商网站中，购物车页面的商品数量、总价、折扣信息等，都是通过 <code>querySelector</code> 精确定位到对应的 DOM 元素后进行实时更新的。</p></div>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：假设你正在开发一个简易的"待办事项"应用，需要从页面上读取用户已输入的任务标题，并在控制台打印出来。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">real_world_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 场景：从页面读取信息并展示
+// 1. 选取标题元素
+const title = document.querySelector('.app-title');
+console.log('应用标题:', title.textContent);
+
+// 2. 选取输入框的值（注意：输入框用 .value 而非 .textContent）
+const input = document.querySelector('.guess');
+console.log('输入框的值:', input.value);
+
+// 3. 选取得分元素
+const score = document.querySelector('.score');
+console.log('当前得分:', score.textContent);</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["HTML 文档加载"] --> B["JavaScript 脚本执行"]
+    B --> C["querySelector 选取元素"]
+    C --> D["读取 .textContent<br/>或 .value"]
+    D --> E["控制台输出结果"]
+    E --> F["后续可用于逻辑判断"]
+
+    style B fill:#e3f2fd,stroke:#1565c0
+    style C fill:#bbdefb,stroke:#1565c0
+    style D fill:#c8e6c9,stroke:#2e7d32
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>HTML 元素</th><th>选择器</th><th>属性</th><th>输出值</th></tr></thead>
+    <tbody><tr><td><code>&lt;p class=&quot;message&quot;&gt;Start guessing...&lt;/p&gt;</code></td><td><code>.message</code></td><td><code>.textContent</code></td><td><code>&quot;Start guessing...&quot;</code></td></tr>
+<tr><td><code>&lt;span class=&quot;score&quot;&gt;20&lt;/span&gt;</code></td><td><code>.score</code></td><td><code>.textContent</code></td><td><code>&quot;20&quot;</code></td></tr>
+<tr><td><code>&lt;input type=&quot;number&quot; class=&quot;guess&quot;&gt;</code></td><td><code>.guess</code></td><td><code>.value</code></td><td><code>&quot;&quot;</code> (空)</td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ <code>document.querySelector()</code> 使用 CSS 选择器语法来选取 DOM 元素</li>
+<li>✅ 类选择器用 <code>.className</code>，ID 选择器用 <code>#idName</code></li>
+<li>✅ <code>.textContent</code> 属性用于读取或设置元素的文本内容</li>
+<li>✅ 点操作符 <code>.</code> 从左到右链式执行，每一步返回一个新的对象</li>
+<li>✅ 项目开发的第一步通常是：了解 HTML 结构 → 确定要操控的元素</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ 误区 1：忘记在类名前加 <code>.</code> —— <code>querySelector('message')</code> ≠ <code>querySelector('.message')</code>。不加点号会被当作标签选择器，匹配 <code>&lt;message&gt;</code> 标签（并不存在）</li>
+<li>⚠️ 误区 2：混淆 <code>.textContent</code> 和 <code>.value</code> —— 普通元素（如 <code>&lt;p&gt;</code>、<code>&lt;span&gt;</code>）用 <code>.textContent</code>，而输入框（<code>&lt;input&gt;</code>）用 <code>.value</code></li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<div class="callout"><p>主动展示错误写法及报错信息，教你看懂错误提示</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">// 忘记加 . 前缀 — 选择器无法匹配
+const el = document.querySelector('message');
+console.log(el.textContent);</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught TypeError: Cannot read properties of null (reading 'textContent')</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>querySelector('message')</code> 会去找 <code>&lt;message&gt;</code> 标签而不是 <code>class=&quot;message&quot;</code> 的元素。找不到时返回 <code>null</code>，对 <code>null</code> 读取属性就会报 <code>TypeError</code>。<strong>解决方法</strong>：确保类选择器以 <code>.</code> 开头 → <code>querySelector('.message')</code>。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>查询选择器</td><td>querySelector</td><td>使用 CSS 选择器语法选取首个匹配元素</td><td><code>document.querySelector('.class')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/querySelector" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>文本内容</td><td>textContent</td><td>获取或设置元素的纯文本内容</td><td><code>el.textContent</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Node/textContent" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>文档对象</td><td>document</td><td>代表整个 HTML 页面的入口对象</td><td><code>document</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>点操作符</td><td>Dot Notation</td><td>用于访问对象的属性或方法</td><td><code>obj.prop</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Property_accessors" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：选取并读取元素文本</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 假设 HTML 中有：&lt;h1 class=&quot;title&quot;&gt;JavaScript 猜数字游戏&lt;/h1&gt;
+// 请选取该元素并打印其文本内容
+// 在这里写你的代码</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">console.log(titleText); // &quot;JavaScript 猜数字游戏&quot;
+</code></pre>
+<strong>解题思路</strong>：使用 <code>.title</code> 类选择器定位 <code>&lt;h1&gt;</code> 元素，然后通过 <code>.textContent</code> 读取文本。
+</details>
+
+<p><strong>练习 2：区分 .textContent 和 .value</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 假设 HTML 中有：
+// &lt;span class=&quot;score&quot;&gt;20&lt;/span&gt;
+// &lt;input type=&quot;number&quot; class=&quot;guess&quot; value=&quot;15&quot;&gt;
+// 请分别获取 score 的文本和 guess 的值
+// 在这里写你的代码</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">console.log('分数:', scoreText); // &quot;20&quot;
+
+const guessValue = document.querySelector('.guess').value;
+console.log('猜测值:', guessValue); // &quot;15&quot;
+</code></pre>
+<strong>解题思路</strong>：<code>&lt;span&gt;</code> 等普通元素用 <code>.textContent</code>，<code>&lt;input&gt;</code> 输入框用 <code>.value</code>。这是一个关键的区别！
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question"><code>document.querySelector('.message')</code> 中的 <code>.</code> 前缀代表什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 它是一个方法调用的语法</div>
+<div class="quiz-option" data-value="B">B) 它表示按 CSS 类名（class）进行选择</div>
+<div class="quiz-option" data-value="C">C) 它表示按 ID 进行选择</div>
+<div class="quiz-option" data-value="D">D) 它是可选的装饰符号</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>.</code> 前缀表示类选择器（class selector），与 CSS 中的写法完全一致。<code>#</code> 前缀则表示 ID 选择器。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question"><code>querySelector</code> 找不到匹配元素时会返回什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `null`</div>
+<div class="quiz-option" data-value="B">B) `undefined`</div>
+<div class="quiz-option" data-value="C">C) 空字符串 `&quot;&quot;`</div>
+<div class="quiz-option" data-value="D">D) 抛出错误</div>
+    </div>
+    <div class="quiz-explanation">
+        当 <code>querySelector</code> 找不到任何匹配的元素时，它会返回 <code>null</code>，而不是报错。因此使用返回值前最好先检查是否为 <code>null</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">以下哪行代码能正确读取 <code>&lt;input class=&quot;guess&quot;&gt;</code> 中用户输入的值？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `document.querySelector('.guess').textContent`</div>
+<div class="quiz-option" data-value="B">B) `document.querySelector('.guess').innerHTML`</div>
+<div class="quiz-option" data-value="C">C) `document.querySelector('.guess').value`</div>
+<div class="quiz-option" data-value="D">D) `document.querySelector('.guess').text`</div>
+    </div>
+    <div class="quiz-explanation">
+        对于 <code>&lt;input&gt;</code> 元素，用户输入的值存储在 <code>.value</code> 属性中，而非 <code>.textContent</code>。<code>.textContent</code> 用于普通元素（如 <code>&lt;p&gt;</code>、<code>&lt;span&gt;</code>）。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 选取 class 为 &quot;score&quot; 的元素并读取其文本<br>
+    const score = document.<input type="text" class="blank-input" data-answer="querySelector" placeholder="1">('<input type="text" class="blank-input" data-answer=". score" placeholder="2">').<input type="text" class="blank-input" data-answer="textContent" placeholder="3">;<br>
+    console.log(score);
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

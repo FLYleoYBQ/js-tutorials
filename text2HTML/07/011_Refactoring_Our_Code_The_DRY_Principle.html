@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代码重构：DRY 原则 (Refactoring Our Code: The DRY Principle)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">代码重构：DRY 原则 Refactoring Our Code: The DRY Principle</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">代码重构：DRY 原则 (Refactoring Our Code: The DRY Principle)</h1>
+
+<div class="callout"><p>📺 来源：<code>011 Refactoring Our Code The DRY Principle.en.srt</code><br>📂 章节：第 07 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：<code>if/else</code> 条件判断、三元运算符（Ternary Operator）、DOM 操作（<code>querySelector</code>、<code>textContent</code>）、函数声明与调用</li>
+<li><strong>后续扩展</strong>：模块化开发、设计模式（DRY/KISS/SOLID）、高阶函数抽象、事件委托</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节课对 "Guess My Number!" 游戏代码进行<strong>重构（Refactoring）</strong>，重点演示 <strong>DRY 原则（Don't Repeat Yourself）</strong> 的两大实战手法：①<strong>合并相似的条件分支</strong>，②<strong>将重复代码提取为函数</strong>。重构不改变程序行为，只让代码更简洁、更易读、更易维护。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 合并重复的条件分支</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：你去银行办理业务，被叫到 3 号窗口。无论你是要存钱还是取钱，都要先进行身份验证 —— 这个"身份验证"步骤是共同的。如果银行为"存钱"和"取钱"各设一个独立的验证流程，就是冗余。合理的做法是先统一验证，再分流。</p></div>
+
+<p>在原始代码中，"猜测过高"和"猜测过低"两个分支的逻辑几乎完全相同，唯一的区别是显示的提示文字：</p>
+
+<div class="code-comparison">
+    <div class="code-panel">
+        <div class="panel-header method1">🚨 初版冗余写法 (The Naive Way)</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">// 分支1: 猜的太高
+if (guess &gt; secretNumber) {
+  if (score &gt; 1) {
+    document.querySelector('.message').textContent = '📈 Too high!';
+    score--;
+    document.querySelector('.score').textContent = score;
+  } else {
+    document.querySelector('.message').textContent = '💥 You lost the game!';
+    document.querySelector('.score').textContent = 0;
+  }
+}
+
+// 分支2: 猜的太低（几乎完全重复！）
+if (guess &lt; secretNumber) {
+  if (score &gt; 1) {
+    document.querySelector('.message').textContent = '📉 Too low!';
+    score--;
+    document.querySelector('.score').textContent = score;
+  } else {
+    document.querySelector('.message').textContent = '💥 You lost the game!';
+    document.querySelector('.score').textContent = 0;
+  }
+}</code></pre>
+    </div>
+    <div class="code-panel">
+        <div class="panel-header method2">✨ DRY 重构写法 (The Refactored Way)</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">// 合并为一个分支：猜错了（不等于正确答案）
+if (guess !== secretNumber) {
+  if (score &gt; 1) {
+    // 用三元运算符决定提示文字
+    document.querySelector('.message').textContent =
+      guess &gt; secretNumber ? '📈 Too high!' : '📉 Too low!';
+    score--;
+    document.querySelector('.score').textContent = score;
+  } else {
+    document.querySelector('.message').textContent =
+      '💥 You lost the game!';
+    document.querySelector('.score').textContent = 0;
+  }
+}</code></pre>
+    </div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["🎯 玩家点击 Check!"] --> B{"guess === secretNumber?"}
+    B -->|是| C["🎉 赢了！"]
+    B -->|否| D{"score > 1?"}
+    D -->|是| E{"guess > secretNumber?"}
+    E -->|是| F["📈 显示 Too high!"]
+    E -->|否| G["📉 显示 Too low!"]
+    F --> H["score-- 并更新 DOM"]
+    G --> H
+    D -->|否| I["💥 You lost the game!"]
+    style C fill:#166534,stroke:#4ade80,color:#fff
+    style I fill:#991b1b,stroke:#f87171,color:#fff
+</div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<p>假设 <code>secretNumber = 15</code>，玩家猜 <code>20</code>：</p>
+
+<table>
+    <thead><tr><th>步骤</th><th>表达式</th><th>值</th><th>说明</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>guess !== secretNumber</code></td><td><code>20 !== 15 → true</code></td><td>猜错了，进入分支</td></tr>
+<tr><td>②</td><td><code>score &gt; 1</code></td><td><code>true</code>（假设 score=18）</td><td>还有机会</td></tr>
+<tr><td>③</td><td><code>guess &gt; secretNumber</code></td><td><code>20 &gt; 15 → true</code></td><td>三元运算符求值</td></tr>
+<tr><td>④</td><td>显示 <code>'📈 Too high!'</code></td><td>—</td><td>条件为 true，取第一个值</td></tr>
+<tr><td>⑤</td><td><code>score--</code></td><td><code>score = 17</code></td><td>扣分</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"猜错是一家，高低三元分"</strong> —— <code>guess !== secretNumber</code> 统一处理猜错的情况，只用三元运算符分出具体的"高"还是"低"。</p></div>
+
+<hr>
+
+<h3 id="section-5">2. 将重复代码提取为函数</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：你家里有 5 个房间，每个房间都有独立的空调遥控器。与其每次走到每个房间去按遥控器，不如装一个智能家居中心 —— 你只需喊一声"设置温度 24 度"，中心就会帮你操控所有房间。把重复代码提取为函数就像建造这个"中心控制器"。</p></div>
+
+<p>代码中 <code>document.querySelector('.message').textContent = ...</code> 至少出现了 <strong>5 次</strong>。每次都写完整的 DOM 操作代码，冗长且不直观。解决方案是将其封装为一个函数：</p>
+
+<div class="code-comparison">
+    <div class="code-panel">
+        <div class="panel-header method2">🚨 重复代码散落各处</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">// 出现位置 1
+document.querySelector('.message').textContent =
+  'Start guessing...';
+// 出现位置 2
+document.querySelector('.message').textContent =
+  '⛔ No number!';
+// 出现位置 3
+document.querySelector('.message').textContent =
+  '🎉 Correct Number!';
+// 出现位置 4
+document.querySelector('.message').textContent =
+  guess &gt; secretNumber ? '📈 Too high!' : '📉 Too low!';
+// 出现位置 5
+document.querySelector('.message').textContent =
+  '💥 You lost the game!';</code></pre>
+    </div>
+    <div class="code-panel">
+        <div class="panel-header method1">✨ 提取为 displayMessage 函数</div>
+        <pre style="margin:0; border:none; border-radius:0;"><code class="language-javascript">// 定义函数（一次定义，多处调用）
+const displayMessage = function (message) {
+  document.querySelector('.message').textContent = message;
+};
+
+// 使用位置 1
+displayMessage('Start guessing...');
+// 使用位置 2
+displayMessage('⛔ No number!');
+// 使用位置 3
+displayMessage('🎉 Correct Number!');
+// 使用位置 4
+displayMessage(
+  guess &gt; secretNumber ? '📈 Too high!' : '📉 Too low!'
+);
+// 使用位置 5
+displayMessage('💥 You lost the game!');</code></pre>
+    </div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    subgraph 重构前
+        A1["位置1: document.querySelector..."] 
+        A2["位置2: document.querySelector..."]
+        A3["位置3: document.querySelector..."]
+        A4["位置4: document.querySelector..."]
+        A5["位置5: document.querySelector..."]
+    end
+    subgraph 重构后
+        B["displayMessage 函数"]
+        C1["displayMessage('...')"]
+        C2["displayMessage('...')"]
+        C3["displayMessage('...')"]
+        C4["displayMessage('...')"]
+        C5["displayMessage('...')"]
+        C1 --> B
+        C2 --> B
+        C3 --> B
+        C4 --> B
+        C5 --> B
+    end
+</div>
+
+<p><strong>函数封装的三大好处：</strong></p>
+
+<table>
+    <thead><tr><th>好处</th><th>说明</th><th>示例</th></tr></thead>
+    <tbody><tr><td>🔄 消除重复</td><td>相同的 DOM 操作只写一次</td><td>5 行 → 1 个函数 + 5 次调用</td></tr>
+<tr><td>📖 提升可读性</td><td>函数名即含义，一读就懂</td><td><code>displayMessage('...')</code> 比 <code>document.querySelector(...)</code> 直观</td></tr>
+<tr><td>🛠️ 集中维护</td><td>修改选择器只需改一处</td><td>假如类名从 <code>.message</code> 改为 <code>.msg</code>，只改函数内部</td></tr></tbody>
+</table>
+
+<p><strong>📊 概念对比：</strong></p>
+
+<table>
+    <thead><tr><th>维度</th><th>直接写 DOM 操作</th><th>提取为函数</th></tr></thead>
+    <tbody><tr><td>代码行数</td><td>5 × 整行 = 大量重复</td><td>1 个函数 + 5 次简短调用</td></tr>
+<tr><td>修改选择器</td><td>需改 5 处</td><td>只改 1 处（函数内部）</td></tr>
+<tr><td>阅读理解</td><td>需读完整行才知道在做什么</td><td>函数名直接告诉你</td></tr>
+<tr><td>出错风险</td><td>容易漏改某处</td><td>统一入口，不会遗漏</td></tr></tbody>
+</table>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：在真实项目中，<code>displayMessage</code> 可能还需要添加动画效果、错误日志或国际化翻译。如果代码散落在 5 个地方，每个地方都要改一遍；封装为函数后，只需在函数内部加一行即可全局生效。</p></div>
+
+<hr>
+
+<h3 id="section-6">3. DRY 原则的适用边界</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：厨房做菜，切葱和切蒜的动作很像，但你不会为此发明一个"万能切刀机"。过度抽象和不抽象一样有害。DRY 原则要求消除<strong>无意义的重复</strong>，而非消除一切相似性。</p></div>
+
+<div class="mermaid">
+flowchart LR
+    A["🔍 发现重复代码"] --> B{"重复次数 ≥ 3?"}
+    B -->|是| C["✅ 提取为函数"]
+    B -->|否| D{"逻辑完全相同?"}
+    D -->|是| E["🟡 考虑提取"]
+    D -->|否| F["❌ 保持现状"]
+    style C fill:#166534,stroke:#4ade80,color:#fff
+    style F fill:#991b1b,stroke:#f87171,color:#fff
+</div>
+
+<p><strong>适合提取为函数的场景：</strong></p>
+
+<ul>
+<li>相同的 DOM 操作出现 3 次以上</li>
+<li>相同的计算逻辑被多处使用（如生成随机数）</li>
+<li>未来可能需要统一修改的功能</li>
+</ul>
+
+<p><strong>不建议过度提取的场景：</strong></p>
+
+<ul>
+<li>仅出现 1-2 次的简单操作</li>
+<li>逻辑看似相似但含义不同的代码</li>
+<li>提取后反而降低可读性的情况</li>
+</ul>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你在维护一个电商后台订单管理系统，发现"更新订单状态"的 DOM 操作重复出现在多个事件处理器中。运用 DRY 原则进行重构。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">dry_refactoring_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// ========== 重构前：重复代码散落各处 ==========
+console.log('=== 重构前（模拟多处重复） ===');
+
+// 模拟 DOM 操作的函数（在真实环境中是 document.querySelector）
+const state = { status: '', count: 0, message: '' };
+
+// 处理&quot;已支付&quot;事件
+state.status = '已支付';
+state.count = state.count + 1;
+state.message = `订单状态更新为: ${state.status}`;
+console.log(state.message);
+
+// 处理&quot;已发货&quot;事件（几乎完全相同的代码！）
+state.status = '已发货';
+state.count = state.count + 1;
+state.message = `订单状态更新为: ${state.status}`;
+console.log(state.message);
+
+// 处理&quot;已完成&quot;事件（又是重复！）
+state.status = '已完成';
+state.count = state.count + 1;
+state.message = `订单状态更新为: ${state.status}`;
+console.log(state.message);
+
+// ========== 重构后：提取为函数 ==========
+console.log('\n=== 重构后（DRY 原则） ===');
+
+const state2 = { status: '', count: 0, message: '' };
+
+// 封装为函数
+function updateOrderStatus(newStatus) {
+  state2.status = newStatus;
+  state2.count = state2.count + 1;
+  state2.message = `订单状态更新为: ${state2.status}`;
+  console.log(state2.message);
+}
+
+// 简洁的调用
+updateOrderStatus('已支付');
+updateOrderStatus('已发货');
+updateOrderStatus('已完成');
+
+console.log(`\n📊 总共更新了 ${state2.count} 次`);</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["🛒 订单事件触发"] --> B["updateOrderStatus(newStatus)"]
+    B --> C["① 更新状态变量"]
+    C --> D["② 递增计数器"]
+    D --> E["③ 生成消息"]
+    E --> F["④ 输出到控制台/DOM"]
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>调用</th><th>参数</th><th>state.status</th><th>state.count</th><th>输出消息</th></tr></thead>
+    <tbody><tr><td><code>updateOrderStatus('已支付')</code></td><td><code>'已支付'</code></td><td><code>'已支付'</code></td><td><code>1</code></td><td><code>订单状态更新为: 已支付</code></td></tr>
+<tr><td><code>updateOrderStatus('已发货')</code></td><td><code>'已发货'</code></td><td><code>'已发货'</code></td><td><code>2</code></td><td><code>订单状态更新为: 已发货</code></td></tr>
+<tr><td><code>updateOrderStatus('已完成')</code></td><td><code>'已完成'</code></td><td><code>'已完成'</code></td><td><code>3</code></td><td><code>订单状态更新为: 已完成</code></td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ DRY 原则的核心：相同逻辑只写<strong>一次</strong>，通过函数调用复用</li>
+<li>✅ 合并相似条件分支时，用三元运算符处理<strong>唯一不同的部分</strong></li>
+<li>✅ 函数命名要<strong>自解释</strong>——<code>displayMessage</code> 比内联的 DOM 操作更清晰</li>
+<li>✅ 重构不改变程序行为，只改善代码结构</li>
+<li>✅ 重构后必须<strong>全面测试</strong>所有场景，确保功能不变</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：把所有看似相似的代码都强行合并。如果两段代码只是"长得像"但代表不同的业务含义，强行合并反而会降低代码的可维护性。DRY 消除的是<strong>同一业务逻辑的重复</strong>，而非一切视觉重复。</li>
+<li>⚠️ <strong>误区 2</strong>：重构时忘记删除旧代码。合并分支或提取函数后，如果保留了旧的重复代码（哪怕注释掉），会混淆后续开发者。确保重构完成后清理干净。</li>
+<li>⚠️ <strong>误区 3</strong>：提取函数时参数设计不当。比如 <code>displayMessage</code> 如果不接受参数而是直接在内部写死消息文本，就失去了复用价值。函数应该把<strong>变化的部分</strong>作为参数。</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">// 重构时遗漏了条件分支的闭合大括号
+if (guess !== secretNumber) {
+  if (score &gt; 1) {
+    displayMessage(guess &gt; secretNumber ? '📈 Too high!' : '📉 Too low!');
+    score--;
+    document.querySelector('.score').textContent = score;
+  } else {
+    displayMessage('💥 You lost the game!');
+    document.querySelector('.score').textContent = 0;
+  }
+// ⛔ 缺少了 if (guess !== secretNumber) 的闭合 }</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught SyntaxError: Unexpected end of input</code></pre>
+
+<p><strong>🔑 解读</strong>：重构时删除旧代码或合并分支，很容易不小心多删或少删一个 <code>}</code>。浏览器告诉你代码在"意料之外的地方结束了"，意味着某个代码块没有正确闭合。重构后一定要仔细检查大括号的配对。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>DRY 原则</td><td>Don't Repeat Yourself</td><td>避免重复代码的编程原则</td><td>提取函数 / 合并条件</td><td>—</td></tr>
+<tr><td>重构</td><td>Refactoring</td><td>不改变行为，改善代码结构</td><td>—</td><td>—</td></tr>
+<tr><td>三元运算符</td><td>Ternary Operator</td><td><code>条件 ? 值A : 值B</code> 简写条件</td><td><code>x &gt; 0 ? 'pos' : 'neg'</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Conditional_operator" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>严格不等于</td><td>Strict Inequality</td><td><code>!==</code> 检查值和类型是否不等</td><td><code>guess !== secretNumber</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Strict_inequality" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>函数声明</td><td>Function Declaration</td><td>定义可复用的代码块</td><td><code>function fn(param) { ... }</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/function" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>函数表达式</td><td>Function Expression</td><td>将函数赋值给变量</td><td><code>const fn = function() {};</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/function" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：提取 displayScore 和 displayNumber 函数</strong></p>
+
+<p>课程中只提取了 <code>displayMessage</code>。请你也将"更新分数"和"显示数字"的 DOM 操作封装为函数。</p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 在这里定义 displayScore 和 displayNumber 函数
+// 然后用它们替换直接的 DOM 操作
+
+// 你的代码：定义 displayScore 函数
+// 你的代码：定义 displayNumber 函数
+
+// 测试调用
+// displayScore(18);
+// displayNumber(7);</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  document.querySelector('.score').textContent = score;
+};
+
+const displayNumber = function (number) {
+  document.querySelector('.number').textContent = number;
+};
+
+// 使用示例
+displayScore(18);      // 替代 document.querySelector('.score').textContent = 18;
+displayNumber(7);      // 替代 document.querySelector('.number').textContent = 7;
+</code></pre>
+
+<strong>解题思路</strong>：与 <code>displayMessage</code> 完全相同的提取模式 —— 将 <code>document.querySelector('...')</code> 和 <code>.textContent = ...</code> 包进函数，把变化的值作为参数传入。
+
+</details>
+
+<p><strong>练习 2：用 DRY 原则重构温度转换器</strong></p>
+
+<p>以下代码有明显的重复，请重构它：</p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 重构前：三个几乎相同的函数
+function celsiusToFahrenheit(c) {
+  const result = c * 9 / 5 + 32;
+  console.log(`${c}°C = ${result}°F`);
+  return result;
+}
+
+function celsiusToKelvin(c) {
+  const result = c + 273.15;
+  console.log(`${c}°C = ${result}K`);
+  return result;
+}
+
+// 你的任务：创建一个统一的 convertTemp 函数
+// convertTemp(celsius, targetUnit)
+// targetUnit 可以是 'F' 或 'K'
+
+// 测试
+celsiusToFahrenheit(100); // 212°F
+celsiusToKelvin(0); // 273.15K</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  let result, unitSymbol;
+
+  if (targetUnit === 'F') {
+    result = celsius * 9 / 5 + 32;
+    unitSymbol = '°F';
+  } else if (targetUnit === 'K') {
+    result = celsius + 273.15;
+    unitSymbol = 'K';
+  } else {
+    console.log('⛔ 不支持的单位');
+    return;
+  }
+
+  console.log(<code>${celsius}°C = ${result}${unitSymbol}</code>);
+  return result;
+}
+
+convertTemp(100, 'F'); // 100°C = 212°F
+convertTemp(0, 'K');   // 0°C = 273.15K
+convertTemp(37, 'F');  // 37°C = 98.6°F
+</code></pre>
+
+<strong>解题思路</strong>：两个函数的结构完全相同（计算 + 输出 + 返回），唯一的区别是计算公式和单位符号。用第二个参数 <code>targetUnit</code> 区分，在函数内部用 <code>if/else</code> 选择公式。
+
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">以下哪种重构手法最适合处理"猜测过高"和"猜测过低"两个分支的重复代码？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 将两个分支的代码都提取为独立函数</div>
+<div class="quiz-option" data-value="B">B) 使用 switch 语句替代 if/else</div>
+<div class="quiz-option" data-value="C">C) 合并为一个 `guess !== secretNumber` 分支，用三元运算符区分不同部分</div>
+<div class="quiz-option" data-value="D">D) 使用数组存储所有可能的消息文本</div>
+    </div>
+    <div class="quiz-explanation">
+        两个分支的代码 95% 相同，唯一的区别是提示消息。最自然的重构是合并为一个"猜错了"的分支，然后用三元运算符 <code>guess &gt; secretNumber ? '📈 Too high!' : '📉 Too low!'</code> 来决定不同的提示文字。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">将 <code>document.querySelector('.message').textContent = msg</code> 提取为 <code>displayMessage(msg)</code> 函数的主要好处是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 提升代码运行性能</div>
+<div class="quiz-option" data-value="B">B) 消除重复代码，提高可读性和可维护性</div>
+<div class="quiz-option" data-value="C">C) 防止 XSS 攻击</div>
+<div class="quiz-option" data-value="D">D) 让 DOM 操作变得异步</div>
+    </div>
+    <div class="quiz-explanation">
+        提取函数不会影响性能，也与安全或异步无关。它的核心好处是<strong>消除重复</strong>——相同的 DOM 操作只在函数内写一次；<strong>提高可读性</strong>——<code>displayMessage('...')</code> 比完整的 <code>document.querySelector(...)</code> 链更容易理解；<strong>提高可维护性</strong>——如果需要修改选择器，只改一处。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">关于重构，以下哪个说法是正确的？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 重构只改变代码结构，不改变程序的外部行为</div>
+<div class="quiz-option" data-value="B">B) 重构的主要目的是让程序运行得更快</div>
+<div class="quiz-option" data-value="C">C) 重构必须在项目完成后才能进行</div>
+<div class="quiz-option" data-value="D">D) 所有重复的代码都必须被提取为函数</div>
+    </div>
+    <div class="quiz-explanation">
+        重构的定义就是"在不改变程序外部行为的前提下，调整代码的内部结构"。它的目的是提高可读性和可维护性，而非性能优化。重构应该随时进行（而非等到项目完成），且不是所有重复都需要提取——要根据重复次数和业务含义来判断。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 定义显示消息的函数<br>
+    const displayMessage = function (<input type="text" class="blank-input" data-answer="message" placeholder="1">) {<br>
+      document.querySelector('.message').<input type="text" class="blank-input" data-answer="textContent" placeholder="2"> = <input type="text" class="blank-input" data-answer="message" placeholder="3">;<br>
+    };<br>
+    <br>
+    // 合并条件分支<br>
+    if (guess <input type="text" class="blank-input" data-answer="!==" placeholder="4"> secretNumber) {<br>
+      displayMessage(<br>
+        guess &gt; secretNumber <input type="text" class="blank-input" data-answer="?" placeholder="5"> '📈 Too high!' <input type="text" class="blank-input" data-answer=":" placeholder="6"> '📉 Too low!'<br>
+      );<br>
+    }
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

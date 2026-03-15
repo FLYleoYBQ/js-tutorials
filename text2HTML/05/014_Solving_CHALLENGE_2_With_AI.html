@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>用 AI 解决编程挑战</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">用 AI 解决编程挑战</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">用 AI 解决编程挑战</h1>
+
+<div class="callout"><p>📺 来源：014 Solving CHALLENGE #2 With AI.en.srt<br>📂 章节：第 05 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：数组基础、函数编写、JavaScript 基本语法</li>
+<li><strong>后续扩展</strong>：在开发中结合 AI 提高效率、阅读并审查他人（或 AI）编写的代码、利用 AI 进行代码查点与测试覆盖</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节课演示了如何使用 AI（如 ChatGPT）来解决实际的编程挑战。Jonas 展示了如何通过提供清洗过的业务逻辑和测试数据，让 ChatGPT 生成 JavaScript 代码，包括核心实现逻辑、特定功能的增强（如将数字索引转换为了具体的星期名称）以及增加错误边界处理，同时也演示了如何利用 AI 解释未曾学过的 JavaScript 内置方法（如 <code>filter</code> 和 <code>reduce</code>）。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 将业务需求转化为 AI 提示（Prompt）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：给 AI 下达指令就像在餐厅向厨师点菜。如果你只说“给我做顿饭”，厨师可能不明白你的口味；如果你明确告诉他“我要一份西红柿炒鸡蛋，不要放葱，少盐少油，外加一碗白米饭”，厨师就能精准做出你想要的菜肴。</p></div>
+
+<p>当我们把编程问题交给 AI 时，提示（Prompt）越详细越好。最好包括：</p>
+
+<ul>
+<li><strong>函数签名（签名与要求）</strong>：函数名、参数类型、返回值类型。</li>
+<li><strong>业务逻辑（Business Logic）</strong>：需要计算什么？边界条件是什么？</li>
+<li><strong>测试数据（Test Data）</strong>：给 AI 提供真实的输入数据示例。</li>
+</ul>
+
+<p><strong>🔍 执行追踪：AI 提示编写工作流</strong></p>
+
+<div class="mermaid">
+flowchart TD
+    A[明确需求] --> B[清理冗余文本]
+    B --> C[提炼核心逻辑任务]
+    C --> D[附加测试数据]
+    D --> E[提交给 ChatGPT]
+    E --> F[审查生成的代码]
+    F --> G[本地测试运行]
+    
+    style A fill:#4dabf7,color:#fff
+    style B fill:#ffd43b,color:#212529
+    style E fill:#ffa8a8,color:#343a40
+    style G fill:#51cf66,color:#fff
+</div>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>「需求清，数据明，AI 代码才靠谱」</strong>——清理杂音、提供明确输入输出，AI 才能精准作答。</p></div>
+
+<hr>
+
+<h3 id="section-5">2. 迭代式优化 AI 代码（Iterative Refinement）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：让 AI 写代码就像请裁缝做衣服。第一版可能只是“合适”，你需要通过不断的“试穿”和“修改”（比如衣服稍微收腰、袖子稍微改短），最终才能达到完美的贴合度。</p></div>
+
+<p>在第一次让 AI 生成代码后，通常我们需要进行后续的迭代以满足确切的业务场景。</p>
+
+<p><strong>示例迭代过程：</strong></p>
+
+<ol>
+<li><strong>初版需求</strong>：计算总小时数、平均小时数、是否全职，以及工作最长的是第几天（返回索引）。</li>
+<li><strong>第一次迭代（增强可读性）</strong>：AI 返回的 <code>maxDay</code> 是一个数字索引（如 <code>4</code>），但在实际业务中，我们希望显示为具体的星期名称（如 <code>&quot;Friday&quot;</code>）。</li>
+<li><strong>第二次迭代（添加防御性编程）</strong>：分析函数需要正好接收 7 天的数据，如果输入少于 7 天或不是数组，应该报错。</li>
+</ol>
+
+<p>_（注：原字幕中演示了 AI 生成了包含 <code>reduce</code> 和 <code>filter</code> 方法的代码，讲师将这些原本尚未讲授的知识留作后续学习或者让 AI 直接解释）_</p>
+
+<hr>
+
+<h3 id="section-6">3. 使用 AI 作为学习助手 (Learning Assistant)</h3>
+
+<p>当 AI 生成了你尚未学过的代码（如高级数组方法 <code>filter</code> 或 <code>reduce</code>、或者是陌生的概念如“回调函数 callback”）时，不要盲目复制并跳过。</p>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你在看资深工程师的代码，发现了一个不认识的方法，你可以直接把方法名丢给 AI。</p></div>
+
+<p>你可以这样向 AI 提问：</p>
+
+<ul>
+<li><em>"What does the filter method do?"</em> (filter 方法是做什么的？)</li>
+<li><em>"Why is it useful? Give me a few examples."</em> (它为什么有用？给我几个例子。)</li>
+<li><em>"Explain the filter method in simple terms to a JavaScript beginner."</em> (用简单的语言向 JavaScript 初学者解释 filter 方法。)</li>
+</ul>
+
+<p>这正是 Jonas 所倡导的核心理念：<strong>不要用 AI 逃避学习，而是用 AI 加速学习</strong>。</p>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你需要编写一个分析自由职业者一周工作小时数的工具函数 <code>analyzeWorkWeek</code>。该函数需要接收一个包含 7 天工作小时数的数组，并计算出总小时数、是否全职（>= 35小时）、平均每天的小时数以及工作最长的是星期几。当提供的数组数据长度不是 7 时，需要抛出明确的错误。</p></div>
+
+<p>我们在课程中通过向 ChatGPT 提供提示，最终获得了如下（由 AI 生成并经过审查的）代码：</p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">analyzeWorkWeek.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 最终迭代后 AI 生成的代码
+
+function analyzeWorkWeek(dailyHours) {
+  // 1. 防御性编程：检查是否为数组且长度正好为 7
+  if (!Array.isArray(dailyHours) || dailyHours.length !== 7) {
+    throw new Error('Input must be an array of exactly 7 daily work hours.');
+  }
+
+  // 2. 将索引映射为实际的工作日名称
+  const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+  // 3. 计算总小时数 (使用 reduce，后续章节会深入讲解)
+  const totalHours = dailyHours.reduce((sum, hours) =&gt; sum + hours, 0);
+
+  // 4. 计算工作天数 (使用 filter 过滤掉工作时间为 0 的天数)
+  const daysWorked = dailyHours.filter(hours =&gt; hours &gt; 0).length;
+
+  // 5. 计算平均每天的工作时间 (如果有工作)
+  const averageHours = daysWorked &gt; 0 ? totalHours / daysWorked : 0;
+
+  // 6. 确定是否全职
+  const isFullTime = totalHours &gt;= 35;
+
+  // 7. 寻找工作时间最长的那一天，并获取对应的星期名称
+  const maxHours = Math.max(...dailyHours);
+  const maxDayIndex = dailyHours.indexOf(maxHours);
+  const maxDay = daysOfWeek[maxDayIndex];
+
+  // 8. 返回包含所有信息的对象
+  return {
+    totalHours,
+    averageHours,
+    daysWorked,
+    isFullTime,
+    maxDay
+  };
+}
+
+// ============== 测试数据 ==============
+const testData1 = [7.5, 8, 6.5, 0, 8.5, 4, 0]; 
+// 总计 34.5 (非全职), max: 第4号索引(8.5, 星期五)
+
+const testData2 = [7.5, 8, 6.5, 0, 9, 4, 0];
+// 作者将 8.5 改为 9 测试全职: 35 (全职)
+
+try {
+  console.log(&quot;=== 分析测试数据集 1 ===&quot;);
+  console.log(analyzeWorkWeek(testData1));
+  
+  console.log(&quot;\n=== 分析测试数据集 2 (全职测试) ===&quot;);
+  console.log(analyzeWorkWeek(testData2));
+
+  console.log(&quot;\n=== 分析测试数据集 3 (错误边界测试) ===&quot;);
+  const badData = [8, 8, 8, 8, 8]; // 只有 5 天
+  console.log(analyzeWorkWeek(badData)); // 这里会抛出错误
+} catch (error) {
+  console.error(&quot;❌ 发生错误:&quot;, error.message);
+}</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>输入 (dailyHours)</th><th>输出</th><th>说明</th></tr></thead>
+    <tbody><tr><td><code>[7.5, 8, 6.5, 0, 8.5, 4, 0]</code></td><td><code>{totalHours: 34.5, isFullTime: false, maxDay: 'Friday', ...}</code></td><td>总计未满 35 小时，返回 false，最长工作时间是星期五</td></tr>
+<tr><td><code>[7.5, 8, 6.5, 0, 9, 4, 0]</code></td><td><code>{totalHours: 35, isFullTime: true, maxDay: 'Friday', ...}</code></td><td>总计刚好 35 小时，返回 true</td></tr>
+<tr><td><code>[8, 8, 8, 8, 8]</code></td><td><code>Error: Input must be an array of exactly 7...</code></td><td>数据长度只有 5，未通过防御性校验</td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ <strong>提示的质量决定代码的质量</strong>：不要泛泛而谈，将具体的数据结构要求、核心算法逻辑和期待返回的数据形态详细告诉 AI。</li>
+<li>✅ <strong>迭代优化是常态</strong>：我们无需一次性想完美。先让 AI 提供一个基座代码，然后再对其进行修改，比如本例中增强 <code>maxDay</code> 的可读性以及添加输入验证。</li>
+<li>✅ <strong>防御性编程至关重要</strong>：我们添加了强制数组长度为 7 的校验逻辑，避免错误的数据污染业务结果，这对提升应用的强健性非常重要。</li>
+<li>✅ <strong>使用 AI 作为你的导师</strong>：如果你不理解 AI 给出的代码（如 <code>filter</code>, <code>reduce</code>, callback等），继续追问它，要求其用初学者能懂的话给出例子和解释。</li>
+<li>✅ <strong>警惕本能依赖</strong>：永远不要为了应付课程的练习挑战而要求 AI 直接给你答案。这违背了学习的初衷。在使用这类工具之前，你必须先自己吃透背后的开发思想。</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：<strong>直接将未经测试的 AI 代码合并进生产环境</strong>。如果不经过如本文一样的单元测试来比对不同数据集（尤其是错误数据集），隐形 Bug 会引起极其难以排查的问题。</li>
+<li>⚠️ <strong>误区 2</strong>：<strong>把课程训练挑战当成“工作外包”</strong>。有些学习者会让 AI 代写每一个课后练习。如果这么做，你失去了宝贵的逻辑推理训练时间，最终在面试或者白板手写时将会原形毕露。</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<div class="callout"><p>在上面，当我们传入长度不是 7 的数组时触发了我们手工设定的报错。下面这个报错展示的是如果你试图执行不存在的 AI 未经声明的方法时：</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">const data = [1, 2, 3];
+// 假设你让 AI 写了一个很潮的高级方法，结果你的运行环境不支持，或者你忘记引入相关的工具库或拼错了内置方法名。
+const total = data.reduc((sum, val) =&gt; sum + val, 0); </code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught TypeError: data.reduc is not a function</code></pre>
+
+<p><strong>🔑 解读</strong>：这通常说明你在对不存在的属性（或者原本不包含该方法的对象）发起呼叫。这里是因为将 <code>reduce</code> 错拼成了 <code>reduc</code>，你需要仔细地审查和重跑测试来排查这类的拼写或者环境类的问题。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>回调函数</td><td>Callback</td><td>被作为实参传入另一函数，并在该外部函数内被调用，用以完成某些任务的函数</td><td><code>array.filter(num =&gt; num &gt; 0)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Callback_function" target="_blank" style="color:var(--info-color);">MDN - Callback function</a></td></tr>
+<tr><td>过滤器</td><td><code>filter()</code></td><td>创建一个新数组, 其包含通过所提供函数实现的测试的所有元素。</td><td><code>arr.filter(el =&gt; el !== 0)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/filter" target="_blank" style="color:var(--info-color);">MDN - Array.prototype.filter()</a></td></tr>
+<tr><td>归约器 / 聚合</td><td><code>reduce()</code></td><td>对数组中的每个元素执行一个由您提供的 reducer 函数，将其结果汇总为单个返回值</td><td><code>arr.reduce((acc, cur) =&gt; acc + cur, 0)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/reduce" target="_blank" style="color:var(--info-color);">MDN - Array.prototype.reduce()</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：要求 AI （或自己）增加额外的输入校验逻辑</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 在原有逻辑上增加一项要求：
+// 除了要确保 dailyHours 长度为 7 以外，还需确保里面的每一个元素都必须是 大于等于 0 的数字，否则抛出错误。
+
+function analyzeWorkWeek(dailyHours) {
+  // --- 在此写入你的防御校验代码 ---
+  
+  
+  // --------------------------------
+  
+  return &quot;数据校验通过！&quot;;
+}
+
+try {
+  console.log(analyzeWorkWeek([8, 8, &quot;8&quot;, 8, 8, 8, 8])); // 应该报错，&quot;8&quot; 是字符串
+  console.log(analyzeWorkWeek([8, 8, -2, 8, 8, 8, 8]));  // 应该报错，-2 不是有效时间
+  console.log(analyzeWorkWeek([8, 8, 8, 8, 8, 0, 0]));   // 数据校验通过！
+} catch (error) {
+  console.error(error.message);
+}</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  if (!Array.isArray(dailyHours) || dailyHours.length !== 7) {
+    throw new Error('Input must be an array of exactly 7 daily work hours.');
+  }
+  
+  // 遍历每一天的数据，如果存在任意一个非数字，且该数字为小于0或者是 NaN 的情况则抛错
+  // 使用了 some 数组方法来检测是否存在违规数据
+  const hasInvalidData = dailyHours.some(
+     hours =&gt; typeof hours !== 'number' || isNaN(hours) || hours &lt; 0
+  );
+  
+  if (hasInvalidData) {
+      throw new Error('每项数据必须都是大于或等于 0 的数字！');
+  }
+  
+  return &quot;数据校验通过！&quot;;
+}
+</code></pre>
+<strong>解题思路</strong>：除了在提示词中交代边界条件并利用 AI 完成逻辑外，你自己审查时也可以利用 <code>typeof</code> 配合之前讲过的一些运算方法或高级数组方法（未来会深度探讨 <code>some</code> 方法）快速完成防御。
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">关于使用 AI 辅助编程，Jonas 的核心建议是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 我们应当无脑去复制粘贴 AI 为我们重构的所有代码，这样写代码最快。</div>
+<div class="quiz-option" data-value="B">B) 在自己学习任何语法前先让 AI 写出来再去理解是最好的捷径。</div>
+<div class="quiz-option" data-value="C">C) 用 AI 来加速一些基础性工作，同时在遇到未学过的内容时将 AI 当做导师向其提问来帮助自己学习。</div>
+<div class="quiz-option" data-value="D">D) 让教学和课程视频全部都变得不再重要。</div>
+    </div>
+    <div class="quiz-explanation">
+        视频的核心精神在于，AI 是你的效率工具也是你的私人助教，它并不能替你进行核心学习与内化，必须明确“先懂再用”的设计精神，而且碰到看不懂的高深语法时大胆发问，通过它去解析背后机制。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">为什么讲师要在二次迭代中向 ChatGPT 要求修改 <code>maxDay</code> 逻辑？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 因为原答案完全无法执行，是彻彻底底的语法错误。</div>
+<div class="quiz-option" data-value="B">B) 原来的代码返回了数字索引（如 4），讲师希望返回用户友好的实际文本（如 &quot;Friday&quot;）</div>
+<div class="quiz-option" data-value="C">C) 原来的方法执行效率低下，时间复杂度太高。</div>
+<div class="quiz-option" data-value="D">D) 需要让 `maxDay` 这个变量兼容所有类型的时区运算。</div>
+    </div>
+    <div class="quiz-explanation">
+        这就是常说的“对人友好（human-readable）”优化，让程序既要跑得通还要表现得符合使用常识。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">课程最后是如何处理函数传入长度不足 7 的参数的情况的？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 抛出异常：`Cannot read property of undefined` </div>
+<div class="quiz-option" data-value="B">B) 任其执行，最后可能出现 `true` 并打印结果。</div>
+<div class="quiz-option" data-value="C">C) 要求 AI 在函数顶端强制添加校验逻辑，如果长度非 7 返回自定义错误阻断运行。</div>
+<div class="quiz-option" data-value="D">D) 利用递归来填满 7 个位置的数据。</div>
+    </div>
+    <div class="quiz-explanation">
+        此过程展现了边界错误（Error Boundary）以及防御性编程（Defensive Programming）的最佳实践。程序不仅仅要处理“对的数据（Happy path）”，它有责任正确拒绝“不对的垃圾数据（Bad Data）”。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 我们想询问 AI 一个关于方法的概念。你可以这么写 prompt（提示词）：<br>
+    &quot;What <input type="text" class="blank-input" data-answer="does" placeholder="1"> the filter method <input type="text" class="blank-input" data-answer="do" placeholder="2">?<br>
+    Explain the filter method <input type="text" class="blank-input" data-answer="in" placeholder="3"> simple terms <input type="text" class="blank-input" data-answer="to" placeholder="4"> a JavaScript beginner."
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+
+<h3 id="section-16">🎯 章节挑战（仅章节最后一课生成）</h3>
+
+<div class="callout"><p>👏 恭喜你完成了第 05 章！</p></div>
+
+<p><strong>终极目标：构建你的工作流</strong><br>结合第 05 章（开发者思维）学习的技能，不要光写代码，而是模拟真正的工程师去应对新问题。</p>
+
+<ol>
+<li><strong>构思一个简单工具</strong>：比如“摄氏度与华氏度互转小工具与天气建议”。</li>
+<li><strong>拆解并搜索（Google/MDN）</strong>：去查明白数学公式和如何截取小数点后两位的方法。</li>
+<li><strong>解决 Bug（Debugging）</strong>：尝试在手写时故意让语法报错或使用断点查看值。</li>
+<li><strong>引入 AI 协助（AI Pair-programming）</strong>：尝试直接把该任务扔给 ChatGPT，观察其结果，要求 AI 给代码增加防御性检测并解释你看不懂的部分。</li>
+<li><strong>内化精髓</strong>：最后，关闭电脑上所有的参考页面，看看自己能否独立把逻辑顺畅地重写一遍！</li>
+</ol>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

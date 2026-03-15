@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>实现最高分功能 (Implementing Highscores)</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 07 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">实现最高分功能 Implementing Highscores</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">实现最高分功能 (Implementing Highscores)</h1>
+
+<div class="callout"><p>📺 来源：<code>010 Implementing Highscores.en.srt</code><br>📂 章节：第 07 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：DOM 操作基础（<code>querySelector</code>、<code>textContent</code>）、事件监听（<code>addEventListener</code>）、条件判断（<code>if/else</code>）、游戏逻辑实现（得分变量管理）</li>
+<li><strong>后续扩展</strong>：DRY 原则代码重构、本地存储（<code>localStorage</code>）持久化数据、状态管理模式</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节课为 "Guess My Number!" 游戏添加<strong>最高分（Highscore）功能</strong>。核心思路是：每次玩家赢得游戏时，将当前得分与历史最高分进行比较，如果超越，则更新最高分。这个功能让游戏有了"挑战自我"的重玩动力，同时也是一次经典的<strong>变量状态管理</strong>练习。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 最高分变量的初始化策略</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：最高分就像你跑步的个人最佳纪录（PB）。第一次跑完马拉松，无论花了多长时间，那都是你的 PB —— 因为之前没有记录可比较。所以把初始值设为 <code>0</code>，任何有效得分都会自动成为新纪录。</p></div>
+
+<p>为了追踪最高分，我们需要一个<strong>独立于单局游戏外</strong>的变量：</p>
+
+<pre><code class="language-javascript">let highscore = 0;</code></pre>
+
+<div class="mermaid">
+flowchart LR
+    A["🎮 游戏开始"] --> B["score = 20"]
+    B --> C{"玩家猜中?"}
+    C -->|是| D{"score > highscore?"}
+    D -->|是| E["🏆 highscore = score"]
+    D -->|否| F["❌ 保持原 highscore"]
+    C -->|否| G["score--"]
+    G --> C
+    E --> H["🔄 Again! 按钮重置"]
+    F --> H
+    H --> B
+</div>
+
+<p><strong>为什么初始值是 <code>0</code> 而不是 <code>null</code> 或 <code>-1</code>？</strong></p>
+
+<p>因为游戏的 <code>score</code> 始终为正整数（最低为 1 —— 一次就猜中的情况），所以任何有效得分都会大于 <code>0</code>，这保证了<strong>第一局游戏的得分一定会成为最高分</strong>。</p>
+
+<hr>
+
+<h3 id="section-5">2. 最高分更新逻辑的放置位置</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：颁奖典礼只在比赛结束时举行，而不是比赛进行中。同理，高分的检查和更新只应发生在<strong>玩家赢得游戏的那一刻</strong>。</p></div>
+
+<p>最高分检查必须放在<strong>玩家猜中正确数字</strong>的代码分支内：</p>
+
+<pre><code class="language-javascript">// ✅ 正确位置：在玩家猜对的 if 分支内
+if (guess === secretNumber) {
+  // 显示 &quot;Correct Number!&quot; 消息
+  document.querySelector('.message').textContent = '🎉 Correct Number!';
+
+  // 🏆 检查并更新最高分
+  if (score &gt; highscore) {
+    highscore = score;
+    document.querySelector('.highscore').textContent = highscore;
+  }
+}</code></pre>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<p>假设初始 <code>highscore = 0</code>，第一局 <code>score = 14</code>：</p>
+
+<table>
+    <thead><tr><th>步骤</th><th>表达式</th><th>值</th><th>说明</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>guess === secretNumber</code></td><td><code>true</code></td><td>玩家猜对了</td></tr>
+<tr><td>②</td><td><code>score &gt; highscore</code></td><td><code>14 &gt; 0 → true</code></td><td>当前得分高于历史最高</td></tr>
+<tr><td>③</td><td><code>highscore = score</code></td><td><code>highscore = 14</code></td><td>更新最高分变量</td></tr>
+<tr><td>④</td><td><code>.highscore.textContent = 14</code></td><td>DOM 更新</td><td>页面显示新最高分</td></tr></tbody>
+</table>
+
+<p>第二局 <code>score = 12</code>：</p>
+
+<table>
+    <thead><tr><th>步骤</th><th>表达式</th><th>值</th><th>说明</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>guess === secretNumber</code></td><td><code>true</code></td><td>玩家猜对了</td></tr>
+<tr><td>②</td><td><code>score &gt; highscore</code></td><td><code>12 &gt; 14 → false</code></td><td>❌ 未超越历史最高</td></tr>
+<tr><td>③</td><td>不执行更新</td><td><code>highscore</code> 保持 <code>14</code></td><td>最高分不变</td></tr></tbody>
+</table>
+
+<p>第三局 <code>score = 18</code>：</p>
+
+<table>
+    <thead><tr><th>步骤</th><th>表达式</th><th>值</th><th>说明</th></tr></thead>
+    <tbody><tr><td>①</td><td><code>guess === secretNumber</code></td><td><code>true</code></td><td>玩家猜对了</td></tr>
+<tr><td>②</td><td><code>score &gt; highscore</code></td><td><code>18 &gt; 14 → true</code></td><td>✅ 新纪录！</td></tr>
+<tr><td>③</td><td><code>highscore = score</code></td><td><code>highscore = 18</code></td><td>更新为 18</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>"赢了才比，大了才换"</strong> —— 先确认赢了游戏（<code>guess === secretNumber</code>），才进行比较；只有当前得分<strong>大于</strong>历史最高分，才执行替换。</p></div>
+
+<hr>
+
+<h3 id="section-6">3. "Again!" 按钮与最高分的生存关系</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：体育场的记分牌在每场比赛开始时会清零，但<strong>名人堂的纪录</strong>从不重置。<code>score</code> 是记分牌，<code>highscore</code> 是名人堂。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    subgraph 🔄 Again按钮重置
+        R1["score = 20 ✅ 重置"]
+        R2["secretNumber = 新随机数 ✅ 重置"]
+        R3["message = 'Start guessing...' ✅ 重置"]
+        R4["DOM 样式复原 ✅ 重置"]
+    end
+    subgraph 🏆 保留不动
+        K1["highscore ❌ 不重置"]
+        K2["页面上的 Highscore 显示 ❌ 不重置"]
+    end
+    style K1 fill:#2d5016,stroke:#4ade80,color:#fff
+    style K2 fill:#2d5016,stroke:#4ade80,color:#fff
+</div>
+
+<p>点击 "Again!" 按钮会重置 <code>score</code>、<code>secretNumber</code> 和 DOM 元素，但<strong>不会</strong>触碰 <code>highscore</code> 变量。这就是为什么高分可以跨多局保持——它在 "Again!" 的事件处理函数<strong>之外</strong>声明，且在重置逻辑中<strong>从未被赋新值</strong>。</p>
+
+<p><strong>⚠️ 但页面刷新会丢失所有数据</strong>，因为 <code>highscore</code> 存储在内存中（JavaScript 变量），不是持久化存储。要实现跨会话保存，需要使用 <code>localStorage</code>（后续章节会学到）。</p>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：你正在开发一个在线答题系统，用户每次答完一轮题目后获得分数。系统需要记录并显示用户的历史最高分，每次答题结束后自动比较更新。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">highscore_demo.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 模拟最高分功能
+let highscore = 0;
+
+function playRound() {
+  // 模拟一局游戏的得分（1-20之间随机）
+  const score = Math.trunc(Math.random() * 20) + 1;
+
+  console.log(`📊 本局得分: ${score}`);
+  console.log(`🏆 当前最高分: ${highscore}`);
+
+  // 核心逻辑：比较并更新最高分
+  if (score &gt; highscore) {
+    highscore = score;
+    console.log(`🎉 新纪录！最高分更新为: ${highscore}`);
+  } else {
+    console.log(`❌ 未打破纪录，最高分仍为: ${highscore}`);
+  }
+  console.log('---');
+}
+
+// 模拟玩 5 局
+for (let i = 1; i &lt;= 5; i++) {
+  console.log(`=== 第 ${i} 局 ===`);
+  playRound();
+}</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["🎯 开局: highscore = 0"] --> B["🎮 第1局: score = 14"]
+    B --> C{"14 > 0?"}
+    C -->|"✅ 是"| D["🏆 highscore = 14"]
+    D --> E["🎮 第2局: score = 8"]
+    E --> F{"8 > 14?"}
+    F -->|"❌ 否"| G["highscore 保持 14"]
+    G --> H["🎮 第3局: score = 19"]
+    H --> I{"19 > 14?"}
+    I -->|"✅ 是"| J["🏆 highscore = 19"]
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>局数</th><th>本局得分 (score)</th><th>当前最高分 (highscore)</th><th>是否更新？</th><th>更新后最高分</th></tr></thead>
+    <tbody><tr><td>第 1 局</td><td>14</td><td>0</td><td>✅ 是</td><td>14</td></tr>
+<tr><td>第 2 局</td><td>8</td><td>14</td><td>❌ 否</td><td>14</td></tr>
+<tr><td>第 3 局</td><td>19</td><td>14</td><td>✅ 是</td><td>19</td></tr>
+<tr><td>第 4 局</td><td>17</td><td>19</td><td>❌ 否</td><td>19</td></tr>
+<tr><td>第 5 局</td><td>20</td><td>19</td><td>✅ 是</td><td>20</td></tr></tbody>
+</table>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ 最高分变量（<code>highscore</code>）必须声明在<strong>游戏循环之外</strong>，使其跨局存活</li>
+<li>✅ 初始值设为 <code>0</code>，保证第一局得分必定成为新纪录</li>
+<li>✅ 比较逻辑只在<strong>玩家获胜</strong>时执行，而非每次猜测时</li>
+<li>✅ "Again!" 按钮重置游戏状态但<strong>保留</strong>最高分</li>
+<li>✅ 页面刷新会丢失最高分（内存变量的局限性）</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：在 "Again!" 按钮的事件处理中重置了 <code>highscore</code>。这会导致每次重开游戏时最高分清零，失去了高分功能的意义。<code>highscore</code> 应该在整个页面生命周期内只被<strong>更大的值</strong>覆盖。</li>
+<li>⚠️ <strong>误区 2</strong>：使用 <code>&gt;=</code> 而非 <code>&gt;</code> 来比较得分。如果用 <code>score &gt;= highscore</code>，即使打平也会"更新"最高分。虽然结果值相同，但从语义上说"打平"不应算作"打破纪录"，使用 <code>&gt;</code> 更精确。</li>
+<li>⚠️ <strong>误区 3</strong>：忘记同时更新 DOM 显示。更新了 <code>highscore</code> 变量但没有更新 <code>.highscore</code> 元素的 <code>textContent</code>，会导致页面上的最高分显示不变，用户看不到更新。</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">// 将 highscore 声明在事件处理函数内部
+document.querySelector('.check').addEventListener('click', function () {
+  let highscore = 0; // ⛔ 每次点击都重新声明！
+  if (score &gt; highscore) {
+    highscore = score; // 永远成立，因为 highscore 每次都从 0 开始
+  }
+});</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>（无报错，但逻辑错误）
+每次点击按钮, highscore 都被重置为 0
+导致任何得分都会成为&quot;最高分&quot;
+最高分功能完全失效</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>let highscore = 0</code> 放在事件处理函数内部，每次点击都会重新执行，<code>highscore</code> 永远从 <code>0</code> 开始。正确做法是将其声明在<strong>全局作用域</strong>或<strong>事件处理函数外部</strong>，使其跨多次点击保持状态。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>最高分</td><td>Highscore</td><td>多轮游戏中的历史最高得分</td><td><code>let highscore = 0;</code></td><td>—</td></tr>
+<tr><td>查询选择器</td><td>querySelector</td><td>通过 CSS 选择器获取 DOM 元素</td><td><code>document.querySelector('.highscore')</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Document/querySelector" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>文本内容</td><td>textContent</td><td>获取或设置元素的文本内容</td><td><code>el.textContent = highscore</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Node/textContent" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>变量作用域</td><td>Variable Scope</td><td>变量在程序中可被访问的范围</td><td><code>let x = 0;</code> (全局 vs 函数内)</td><td><a href="https://developer.mozilla.org/zh-CN/docs/Glossary/Scope" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>条件语句</td><td>if statement</td><td>根据条件执行不同代码分支</td><td><code>if (score &gt; highscore) { ... }</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/if...else" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：为猜数字游戏添加"最低猜测次数"追踪</strong></p>
+
+<p>实现一个 <code>bestAttempts</code> 变量，记录赢得游戏所用的<strong>最少猜测次数</strong>（<code>20 - score + 1</code> 即为猜测次数）。</p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 在这里实现&quot;最少猜测次数&quot;追踪
+let bestAttempts = Infinity; // 提示：用 Infinity 作为初始值
+
+function checkBestAttempts(score) {
+  const attempts = 20 - score + 1;
+  // 你的代码：比较并更新 bestAttempts
+  // 然后输出结果
+}
+
+// 测试
+checkBestAttempts(18); // 3 次猜中
+checkBestAttempts(15); // 6 次猜中
+checkBestAttempts(19); // 2 次猜中 → 应该更新！</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">
+function checkBestAttempts(score) {
+  const attempts = 20 - score + 1;
+  console.log(<code>🎯 本局猜测次数: ${attempts}</code>);
+
+  if (attempts &lt; bestAttempts) {
+    bestAttempts = attempts;
+    console.log(<code>🏆 新纪录！最少猜测次数更新为: ${bestAttempts}</code>);
+  } else {
+    console.log(<code>当前最少猜测次数仍为: ${bestAttempts}</code>);
+  }
+}
+
+checkBestAttempts(18); // 3 次 — 新纪录！
+checkBestAttempts(15); // 6 次 — 未打破
+checkBestAttempts(19); // 2 次 — 新纪录！
+</code></pre>
+
+<strong>解题思路</strong>：与最高分相反，这里追踪的是<strong>最小值</strong>，所以初始值用 <code>Infinity</code>（任何正整数都比 <code>Infinity</code> 小），比较用 <code>&lt;</code> 而非 <code>&gt;</code>。
+
+</details>
+
+<p><strong>练习 2：实现最高分的 localStorage 持久化</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 实现一个能跨页面刷新保留最高分的版本
+// 提示：使用 localStorage.setItem() 和 localStorage.getItem()
+
+// 初始化最高分（从 localStorage 读取，如果没有则为 0）
+let highscore = // 你的代码
+
+function updateHighscore(score) {
+  if (score &gt; highscore) {
+    highscore = score;
+    // 你的代码：同时保存到 localStorage
+    console.log(`🏆 最高分已保存: ${highscore}`);
+  }
+}
+
+// 测试
+updateHighscore(15);
+updateHighscore(12);
+updateHighscore(20);
+console.log(`最终最高分: ${highscore}`);</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">let highscore = Number(localStorage.getItem('highscore')) || 0;
+console.log(<code>📦 从 localStorage 恢复最高分: ${highscore}</code>);
+
+function updateHighscore(score) {
+  if (score &gt; highscore) {
+    highscore = score;
+    localStorage.setItem('highscore', highscore); // 持久化保存
+    console.log(<code>🏆 最高分已保存: ${highscore}</code>);
+  } else {
+    console.log(<code>未更新，当前最高分: ${highscore}</code>);
+  }
+}
+
+updateHighscore(15); // 🏆 15
+updateHighscore(12); // 未更新
+updateHighscore(20); // 🏆 20
+</code></pre>
+
+<strong>解题思路</strong>：<code>localStorage.getItem()</code> 返回字符串或 <code>null</code>，用 <code>Number()</code> 转换后 <code>|| 0</code> 处理首次访问的 <code>null</code> 情况。每次更新最高分时同步调用 <code>setItem()</code> 保存。
+
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">为什么 <code>highscore</code> 变量的初始值设为 <code>0</code>？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 因为 JavaScript 变量默认值是 0</div>
+<div class="quiz-option" data-value="B">B) 因为这样第一局的任何有效得分都会自动成为最高分</div>
+<div class="quiz-option" data-value="C">C) 因为 0 是唯一能用于比较的数字</div>
+<div class="quiz-option" data-value="D">D) 因为最高分不能是负数</div>
+    </div>
+    <div class="quiz-explanation">
+        游戏中 <code>score</code> 的最小有效值为 1（一次就猜中时得分为 20，逐次递减但至少为 1）。将 <code>highscore</code> 初始化为 <code>0</code>，保证 <code>score &gt; highscore</code> 在第一局必定为 <code>true</code>，从而第一局得分自动成为最高分。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">最高分检查逻辑应该放在代码的什么位置？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 每次用户点击 &quot;Check!&quot; 按钮时</div>
+<div class="quiz-option" data-value="B">B) 在 &quot;Again!&quot; 按钮的事件处理函数中</div>
+<div class="quiz-option" data-value="C">C) 在用户猜对数字的 if 分支内</div>
+<div class="quiz-option" data-value="D">D) 在页面加载完成时</div>
+    </div>
+    <div class="quiz-explanation">
+        只有当玩家猜对了（<code>guess === secretNumber</code>），当前这局游戏才算"结束"，此时的 <code>score</code> 才是最终得分，才有比较最高分的意义。在其他位置检查是不合逻辑的。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">点击 "Again!" 按钮后，以下哪个说法是正确的？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `score` 被重置为 20，但 `highscore` 保持不变</div>
+<div class="quiz-option" data-value="B">B) `score` 和 `highscore` 都被重置为初始值</div>
+<div class="quiz-option" data-value="C">C) `highscore` 被保存到 localStorage</div>
+<div class="quiz-option" data-value="D">D) 页面刷新后 `highscore` 仍然保留</div>
+    </div>
+    <div class="quiz-explanation">
+        "Again!" 按钮的事件处理函数会重置 <code>score</code>、<code>secretNumber</code>、DOM 元素等，但<strong>不会</strong>触碰 <code>highscore</code>。同时，当前课程中没有使用 <code>localStorage</code>，所以页面刷新后所有数据都会丢失。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 声明最高分变量<br>
+    let highscore = <input type="text" class="blank-input" data-answer="0" placeholder="1">;<br>
+    <br>
+    // 在玩家获胜时检查最高分<br>
+    if (guess === secretNumber) {<br>
+      if (<input type="text" class="blank-input" data-answer="score" placeholder="2"> &gt; <input type="text" class="blank-input" data-answer="highscore" placeholder="3">) {<br>
+        highscore = score;<br>
+        document.querySelector('.highscore').<input type="text" class="blank-input" data-answer="textContent" placeholder="4"> = highscore;<br>
+      }<br>
+    }
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

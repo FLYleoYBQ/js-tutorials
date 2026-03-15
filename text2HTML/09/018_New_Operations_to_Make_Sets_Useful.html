@@ -1,0 +1,1030 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>让 Set 更强大的新操作（New Operations to Make Sets Useful!）</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">让 Set 更强大的新操作（New Operations to Make Sets Useful!）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-8" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-9" class="nav-item">💡 关键要点</a>
+            <a href="#section-10" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-11" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-12" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-13" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">让 Set 更强大的新操作（New Operations to Make Sets Useful!）</h1>
+
+<div class="callout"><p>📺 来源：018 New Operations to Make Sets Useful!.en.srt<br>📂 章节：第 09 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：Set 基础（<code>new Set()</code>、<code>.add()</code>、<code>.has()</code>、<code>.delete()</code>、<code>.size</code>）、展开运算符（Spread Operator）、for-of 循环</li>
+<li><strong>后续扩展</strong>：Maps（映射）数据结构、数组高阶方法（<code>filter</code>、<code>map</code>）、数学集合论在算法中的应用</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>ES2025 为 Set 引入了一组<strong>数学集合操作方法</strong>——交集（intersection）、并集（union）、差集（difference）、对称差集（symmetricDifference）等。这些方法让 Set 从"只能去重"升级为真正强大的集合运算工具，能够优雅地处理两组数据之间的比较和合并。</p>
+
+<hr>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 交集（Intersection）—— 找出共同元素</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：交集就像两个朋友圈的"共同好友"——只有<strong>同时出现在两个集合中</strong>的元素才会被保留。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">intersection.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const italianFoods = new Set([
+  'pasta', 'gnocchi', 'tomatoes', 'olive oil', 'garlic', 'basil'
+]);
+const mexicanFoods = new Set([
+  'tortillas', 'beans', 'rice', 'cilantro', 'avocado', 'tomatoes', 'chili peppers', 'garlic'
+]);
+
+// 交集：同时出现在两个集合中的元素
+const commonFoods = italianFoods.intersection(mexicanFoods);
+console.log(commonFoods); // Set(2) {'tomatoes', 'garlic'}</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    subgraph "🇮🇹 Italian Foods"
+        A1["pasta"]
+        A2["gnocchi"]
+        A3["olive oil"]
+        A4["basil"]
+    end
+    subgraph "🤝 共同"
+        B1["🍅 tomatoes"]
+        B2["🧄 garlic"]
+    end
+    subgraph "🇲🇽 Mexican Foods"
+        C1["tortillas"]
+        C2["beans"]
+        C3["rice"]
+        C4["cilantro"]
+        C5["avocado"]
+        C6["chili peppers"]
+    end
+    style B1 fill:#FF9800,color:#fff
+    style B2 fill:#FF9800,color:#fff
+</div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th><code>italianFoods</code> 中的元素</th><th>是否在 <code>mexicanFoods</code> 中</th><th>结果</th></tr></thead>
+    <tbody><tr><td><code>'pasta'</code></td><td>❌</td><td>不包含</td></tr>
+<tr><td><code>'gnocchi'</code></td><td>❌</td><td>不包含</td></tr>
+<tr><td><code>'tomatoes'</code></td><td>✅</td><td>→ 加入交集</td></tr>
+<tr><td><code>'olive oil'</code></td><td>❌</td><td>不包含</td></tr>
+<tr><td><code>'garlic'</code></td><td>✅</td><td>→ 加入交集</td></tr>
+<tr><td><code>'basil'</code></td><td>❌</td><td>不包含</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：交集 = 两圆<strong>重叠</strong>的部分！</p></div>
+
+<hr>
+
+<h3 id="section-5">2. 并集（Union）—— 合并所有元素</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：并集就像超市把两家供应商的商品目录<strong>合并成一份</strong>——所有商品都列出，但不会重复列。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">union.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const italianFoods = new Set([
+  'pasta', 'gnocchi', 'tomatoes', 'olive oil', 'garlic', 'basil'
+]);
+const mexicanFoods = new Set([
+  'tortillas', 'beans', 'rice', 'cilantro', 'avocado', 'tomatoes', 'chili peppers', 'garlic'
+]);
+
+// 并集：两个集合的所有元素（自动去重）
+const fusion = italianFoods.union(mexicanFoods);
+console.log(fusion);
+// Set(12) {'pasta','gnocchi','tomatoes','olive oil','garlic','basil','tortillas','beans','rice','cilantro','avocado','chili peppers'}
+
+// ⚡ 替代方案：用展开运算符实现并集
+const fusionArray = [...new Set([...italianFoods, ...mexicanFoods])];
+console.log(fusionArray); // 同样的 12 个元素，但作为数组</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<p><strong>📊 两种实现方式对比：</strong></p>
+
+<table>
+    <thead><tr><th>方式</th><th>代码</th><th>返回类型</th><th>可读性</th></tr></thead>
+    <tbody><tr><td><code>.union()</code></td><td><code>setA.union(setB)</code></td><td>Set</td><td>⭐⭐⭐ 最清晰</td></tr>
+<tr><td>展开运算符</td><td><code>[...new Set([...a, ...b])]</code></td><td>Array</td><td>⭐⭐ 略冗长</td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart TD
+    A["🇮🇹 italianFoods<br>6 种食材"] --> C["🔗 union"]
+    B["🇲🇽 mexicanFoods<br>8 种食材"] --> C
+    C --> D["🍽️ fusion<br>12 种唯一食材"]
+    style C fill:#4CAF50,color:#fff
+    style D fill:#2196F3,color:#fff
+</div>
+
+<hr>
+
+<h3 id="section-6">3. 差集（Difference）—— 找出独有元素</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：差集就像比较两个人的歌单——"你有但我没有的歌"。<strong>顺序很重要</strong>：A 相对 B 的差集 ≠ B 相对 A 的差集。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">difference.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const italianFoods = new Set([
+  'pasta', 'gnocchi', 'tomatoes', 'olive oil', 'garlic', 'basil'
+]);
+const mexicanFoods = new Set([
+  'tortillas', 'beans', 'rice', 'cilantro', 'avocado', 'tomatoes', 'chili peppers', 'garlic'
+]);
+
+// 意大利独有（在 Italian 中但不在 Mexican 中）
+const uniqueItalian = italianFoods.difference(mexicanFoods);
+console.log('🇮🇹 独有：', uniqueItalian);
+// Set(4) {'pasta', 'gnocchi', 'olive oil', 'basil'}
+
+// 墨西哥独有（在 Mexican 中但不在 Italian 中）
+const uniqueMexican = mexicanFoods.difference(italianFoods);
+console.log('🇲🇽 独有：', uniqueMexican);
+// Set(6) {'tortillas', 'beans', 'rice', 'cilantro', 'avocado', 'chili peppers'}</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    subgraph "A.difference(B) = A 独有"
+        direction TB
+        D1["pasta ✅"]
+        D2["gnocchi ✅"]
+        D3["olive oil ✅"]
+        D4["basil ✅"]
+        D5["tomatoes ❌ → 在 B 中"]
+        D6["garlic ❌ → 在 B 中"]
+    end
+    style D1 fill:#4CAF50,color:#fff
+    style D2 fill:#4CAF50,color:#fff
+    style D3 fill:#4CAF50,color:#fff
+    style D4 fill:#4CAF50,color:#fff
+    style D5 fill:#f44336,color:#fff
+    style D6 fill:#f44336,color:#fff
+</div>
+
+<div class="callout warning"><p>⚠️ <strong>注意</strong>：差集操作中<strong>顺序很重要</strong>！<code>A.difference(B)</code> ≠ <code>B.difference(A)</code>。</p></div>
+
+<hr>
+
+<h3 id="section-7">4. 对称差集（Symmetric Difference）与不相交检测（isDisjointFrom）</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：对称差集就像两个人交换礼物清单后，<strong>只保留各自独有的礼物</strong>——共同的部分被去掉了。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">symmetric_disjoint.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">const italianFoods = new Set([
+  'pasta', 'gnocchi', 'tomatoes', 'olive oil', 'garlic', 'basil'
+]);
+const mexicanFoods = new Set([
+  'tortillas', 'beans', 'rice', 'cilantro', 'avocado', 'tomatoes', 'chili peppers', 'garlic'
+]);
+
+// 对称差集：各自独有的元素（交集的反面）
+const uniqueAll = italianFoods.symmetricDifference(mexicanFoods);
+console.log('对称差集：', uniqueAll);
+// = 意大利独有 + 墨西哥独有（不含 tomatoes 和 garlic）
+
+// 不相交检测：两个集合是否完全没有共同元素？
+console.log(italianFoods.isDisjointFrom(mexicanFoods)); // false（有共同元素）
+
+const fruits = new Set(['apple', 'banana']);
+console.log(fruits.isDisjointFrom(mexicanFoods)); // true（完全不相交）</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<p><strong>📊 Set 集合运算总结表：</strong></p>
+
+<table>
+    <thead><tr><th>方法</th><th>描述</th><th>顺序是否影响结果</th><th>返回类型</th></tr></thead>
+    <tbody><tr><td><code>.intersection(B)</code></td><td>A ∩ B —— 共同元素</td><td>❌ 无影响</td><td>Set</td></tr>
+<tr><td><code>.union(B)</code></td><td>A ∪ B —— 所有元素</td><td>❌ 无影响</td><td>Set</td></tr>
+<tr><td><code>.difference(B)</code></td><td>A − B —— A 独有</td><td>✅ 有影响</td><td>Set</td></tr>
+<tr><td><code>.symmetricDifference(B)</code></td><td>A △ B —— 各自独有</td><td>❌ 无影响</td><td>Set</td></tr>
+<tr><td><code>.isSubsetOf(B)</code></td><td>A ⊆ B？</td><td>✅ 有影响</td><td>Boolean</td></tr>
+<tr><td><code>.isSupersetOf(B)</code></td><td>A ⊇ B？</td><td>✅ 有影响</td><td>Boolean</td></tr>
+<tr><td><code>.isDisjointFrom(B)</code></td><td>A ∩ B = ∅？</td><td>❌ 无影响</td><td>Boolean</td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart TD
+    A["🎯 Set 集合操作"] --> B["📦 返回新 Set"]
+    A --> C["✅ 返回 Boolean"]
+    B --> D["intersection<br>交集"]
+    B --> E["union<br>并集"]
+    B --> F["difference<br>差集"]
+    B --> G["symmetricDifference<br>对称差集"]
+    C --> H["isSubsetOf<br>子集检测"]
+    C --> I["isSupersetOf<br>超集检测"]
+    C --> J["isDisjointFrom<br>不相交检测"]
+    style B fill:#2196F3,color:#fff
+    style C fill:#FF9800,color:#fff
+</div>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：交 = 重叠，并 = 全部，差 = 你有我没有，对称差 = 各自独有！</p></div>
+
+<hr>
+
+<h2 id="section-8">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：社交平台的"共同好友"和"推荐好友"功能——使用集合操作分析两个用户的好友关系。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">friend_analysis.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 两个用户的好友列表
+const aliceFriends = new Set(['Bob', 'Charlie', 'Diana', 'Eve', 'Frank']);
+const bobFriends = new Set(['Alice', 'Charlie', 'Eve', 'Grace', 'Henry']);
+
+// 1️⃣ 共同好友（交集）
+const mutualFriends = aliceFriends.intersection(bobFriends);
+console.log('🤝 共同好友：', mutualFriends);
+// Set(2) {'Charlie', 'Eve'}
+
+// 2️⃣ 所有人脉（并集）
+const allContacts = aliceFriends.union(bobFriends);
+console.log('📇 全部人脉：', allContacts);
+
+// 3️⃣ 推荐给 Alice 的新好友（Bob 有但 Alice 没有的）
+const recommendForAlice = bobFriends.difference(aliceFriends);
+console.log('💡 推荐给 Alice：', recommendForAlice);
+// Set(3) {'Alice', 'Grace', 'Henry'}
+
+// 4️⃣ 各自的独有好友（对称差集）
+const uniqueFriends = aliceFriends.symmetricDifference(bobFriends);
+console.log('🔀 各自独有：', uniqueFriends);</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["👤 Alice 的好友<br>Bob, Charlie, Diana, Eve, Frank"] --> E["🤝 intersection"]
+    B["👤 Bob 的好友<br>Alice, Charlie, Eve, Grace, Henry"] --> E
+    E --> F["共同好友: Charlie, Eve"]
+    A --> G["📇 union"]
+    B --> G
+    G --> H["全部人脉: 8 人"]
+    B --> I["💡 difference"]
+    A --> I
+    I --> J["推荐: Alice, Grace, Henry"]
+    style F fill:#4CAF50,color:#fff
+    style J fill:#FF9800,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>操作</th><th>方法</th><th>结果</th></tr></thead>
+    <tbody><tr><td>共同好友</td><td><code>alice.intersection(bob)</code></td><td><code>{'Charlie', 'Eve'}</code></td></tr>
+<tr><td>全部人脉</td><td><code>alice.union(bob)</code></td><td>8 人（去重后）</td></tr>
+<tr><td>推荐给 Alice</td><td><code>bob.difference(alice)</code></td><td><code>{'Alice', 'Grace', 'Henry'}</code></td></tr>
+<tr><td>是否完全没有交集</td><td><code>alice.isDisjointFrom(bob)</code></td><td><code>false</code></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-9">💡 关键要点</h2>
+
+<ul>
+<li>✅ <code>.intersection()</code> 返回两集合的<strong>共同元素</strong>（交集）</li>
+<li>✅ <code>.union()</code> 返回两集合的<strong>所有元素</strong>（并集，自动去重）</li>
+<li>✅ <code>.difference()</code> 返回"我有你没有"的<strong>差集</strong>，顺序影响结果</li>
+<li>✅ <code>.symmetricDifference()</code> 返回"各自独有"的<strong>对称差集</strong></li>
+<li>✅ 这些方法均为 ES2025 新增，需要较新的浏览器版本</li>
+</ul>
+
+<h2 id="section-10">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>忽略 <code>difference()</code> 的顺序性</strong>：<code>A.difference(B)</code> 和 <code>B.difference(A)</code> 结果不同！前者是"A 独有"，后者是"B 独有"</li>
+<li>⚠️ <strong>以为需要最新浏览器才能用所有 Set 方法</strong>：基础方法（<code>add</code>/<code>has</code>/<code>delete</code>）从 ES6 就支持，只有 <code>intersection</code>/<code>union</code> 等是 ES2025 新增</li>
+</ul>
+
+<h2 id="section-11">🐛 报错实验室</h2>
+
+<div class="callout"><p>主动展示错误写法及报错信息</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">const setA = new Set([1, 2, 3]);
+const arr = [3, 4, 5];
+// 直接传入数组而不是 Set
+const result = setA.intersection(arr);</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught TypeError: Set.prototype.intersection requires that 'this' and the argument both have [[SetData]]</code></pre>
+
+<p><strong>🔑 解读</strong>：<code>intersection()</code> 等集合操作方法的参数必须是一个<strong>类 Set 对象</strong>（实现了 <code>has</code> 方法和 <code>size</code> 属性的对象）。如果传入普通数组，需要先转为 Set：<code>setA.intersection(new Set(arr))</code>。</p>
+
+<hr>
+
+<h2 id="section-12">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>交集</td><td>intersection</td><td>两集合的共同元素</td><td><code>setA.intersection(setB)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/intersection" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>并集</td><td>union</td><td>两集合的所有元素</td><td><code>setA.union(setB)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/union" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>差集</td><td>difference</td><td>A 有但 B 没有的元素</td><td><code>setA.difference(setB)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/difference" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>对称差集</td><td>symmetric difference</td><td>各自独有的元素</td><td><code>setA.symmetricDifference(setB)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/symmetricDifference" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>子集</td><td>subset</td><td>A 是否包含于 B</td><td><code>setA.isSubsetOf(setB)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/isSubsetOf" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>超集</td><td>superset</td><td>A 是否包含 B</td><td><code>setA.isSupersetOf(setB)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/isSupersetOf" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>不相交</td><td>disjoint</td><td>两集合是否无交集</td><td><code>setA.isDisjointFrom(setB)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/isDisjointFrom" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-13">🧪 学习验证</h2>
+
+<h3 id="section-14">📝 动手练习</h3>
+
+<p><strong>练习 1：权限系统的集合操作</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 用户 A 拥有的权限
+const userPermissions = new Set(['read', 'write', 'comment', 'share']);
+// 管理员所需权限
+const adminPermissions = new Set(['read', 'write', 'delete', 'manage-users', 'comment']);
+
+// 1. 找出用户已拥有的管理员权限（交集）
+// 2. 找出用户还缺少的管理员权限（差集）
+// 3. 检查用户是否已是管理员的子集
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const adminPermissions = new Set(['read', 'write', 'delete', 'manage-users', 'comment']);
+
+// 1. 已拥有的管理员权限
+const overlap = userPermissions.intersection(adminPermissions);
+console.log('已有权限：', overlap); // {'read', 'write', 'comment'}
+
+// 2. 还缺少的管理员权限
+const missing = adminPermissions.difference(userPermissions);
+console.log('缺少权限：', missing); // {'delete', 'manage-users'}
+
+// 3. 检查是否为子集
+console.log('是否已是管理员？', userPermissions.isSubsetOf(adminPermissions)); // false
+</code></pre>
+<strong>解题思路</strong>：交集找已有的，差集找缺少的（注意顺序：admin - user = 用户缺少的），子集检查用户权限是否完全包含于管理员权限中。
+</details>
+
+<p><strong>练习 2：用展开运算符实现并集</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor7', 'console7')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor7" class="editor-textarea" spellcheck="false">// 不使用 .union()，用展开运算符实现两个数组的去重合并
+const frontend = ['React', 'Vue', 'Angular', 'Svelte'];
+const fullstack = ['React', 'Next.js', 'Nuxt', 'Angular', 'SvelteKit'];
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console7" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const fullstack = ['React', 'Next.js', 'Nuxt', 'Angular', 'SvelteKit'];
+
+const allFrameworks = [...new Set([...frontend, ...fullstack])];
+console.log(allFrameworks);
+// ['React', 'Vue', 'Angular', 'Svelte', 'Next.js', 'Nuxt', 'SvelteKit']
+</code></pre>
+<strong>解题思路</strong>：先用 <code>...</code> 展开两个数组合并为一个，再用 <code>new Set()</code> 去重，最后再 <code>[...]</code> 转回数组。
+</details>
+
+<h3 id="section-15">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question"><code>new Set([1,2,3]).difference(new Set([2,3,4]))</code> 的结果是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `Set(2) {2, 3}`</div>
+<div class="quiz-option" data-value="B">B) `Set(1) {1}`</div>
+<div class="quiz-option" data-value="C">C) `Set(1) {4}`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>difference</code> 返回"第一个集合有但第二个没有的元素"。<code>{1,2,3}</code> 中只有 <code>1</code> 不在 <code>{2,3,4}</code> 中。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">以下哪个操作的结果</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `difference`</div>
+<div class="quiz-option" data-value="B">B) `intersection`</div>
+<div class="quiz-option" data-value="C">C) `union`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>difference</code> 是"A 有 B 没有"，顺序不同结果不同。<code>intersection</code> 和 <code>union</code> 无论顺序如何结果相同。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>new Set([1,2]).isDisjointFrom(new Set([3,4]))</code> 返回什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `Set(0) {}`</div>
+<div class="quiz-option" data-value="B">B) `undefined`</div>
+<div class="quiz-option" data-value="C">C) `true`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>isDisjointFrom</code> 检查两集合是否完全没有共同元素。<code>{1,2}</code> 和 <code>{3,4}</code> 没有任何交集，返回 <code>true</code>。
+    </div>
+</div>
+
+<h3 id="section-16">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 找出两个集合的共同元素<br>
+    const common = setA.<input type="text" class="blank-input" data-answer="intersection" placeholder="1">(setB);<br>
+    <br>
+    // 检查集合 A 是否包含于集合 B<br>
+    const isSubset = setA.<input type="text" class="blank-input" data-answer="isSubsetOf" placeholder="2">(setB);<br>
+    <br>
+    // A 有但 B 没有的元素<br>
+    const onlyInA = setA.<input type="text" class="blank-input" data-answer="difference" placeholder="3">(setB);
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

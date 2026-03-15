@@ -1,0 +1,1117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编码挑战 #2（Coding Challenge #2）</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">编码挑战 #2（Coding Challenge #2）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">📋 挑战数据</a>
+            <a href="#section-4" class="nav-item">🏆 挑战任务 Tasks</a>
+            <a href="#section-9" class="nav-item">🧪 实战沙盒</a>
+            <a href="#section-10" class="nav-item">🧠 核心知识点回顾</a>
+            <a href="#section-14" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-15" class="nav-item">💡 关键要点</a>
+            <a href="#section-16" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-17" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-18" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-19" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">编码挑战 #2（Coding Challenge #2）</h1>
+
+<div class="callout"><p>📺 来源：016 CHALLENGE #2.en.srt<br>📂 章节：第 09 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：for-of 循环遍历数组、<code>Object.keys()</code>/<code>Object.values()</code>/<code>Object.entries()</code> 遍历对象、解构赋值（Destructuring）、增强对象字面量（Enhanced Object Literals）</li>
+<li><strong>后续扩展</strong>：Sets 和 Maps 数据结构、字符串操作方法（Working With Strings）、更复杂的数据结构嵌套与解构</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节是第 09 章的第二个编码挑战，综合运用 <strong>for-of 循环</strong>、<strong><code>Object.entries()</code></strong> 和 <strong>对象属性动态访问</strong> 等知识点，围绕一个足球比赛数据对象进行实战练习。挑战包含三道核心题目和一道高难度 Bonus 题。</p>
+
+<hr>
+
+<h2 id="section-3">📋 挑战数据</h2>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">challenge2_data.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer', 'Pavard', 'Martinez', 'Alaba', &quot;Davies&quot;,
+      'Kimmich', 'Goretzka', 'Coman', 'Muller', 'Gnarby', 'Lewandowski',
+    ],
+    [
+      'Burki', 'Schulz', 'Hummels', 'Akanji', 'Hakimi',
+      'Weigl', 'Witsel', 'Hazard', 'Brandt', 'Sancho', 'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<hr>
+
+<h2 id="section-4">🏆 挑战任务 (Tasks)</h2>
+
+<h3 id="section-5">任务 1</h3>
+
+<p>循环 <code>game.scored</code> 数组，将每个进球球员及其进球编号打印到控制台，格式如下：</p>
+
+<pre><code>&quot;Goal 1: Lewandowski&quot;
+&quot;Goal 2: Gnarby&quot;
+&quot;Goal 3: Lewandowski&quot;
+&quot;Goal 4: Hummels&quot;</code></pre>
+
+<h3 id="section-6">任务 2</h3>
+
+<p>使用循环计算 <code>game.odds</code> 对象中所有赔率（odds）的<strong>平均值</strong>。</p>
+
+<h3 id="section-7">任务 3</h3>
+
+<p>将赔率打印到控制台，格式如下：</p>
+
+<pre><code>&quot;Odd of victory Bayern Munich: 1.33&quot;
+&quot;Odd of draw: 3.25&quot;
+&quot;Odd of victory Borrussia Dortmund: 6.5&quot;</code></pre>
+
+<div class="callout warning"><p>💡 <strong>提示</strong>：注意 <code>odds</code> 对象和 <code>game</code> 对象拥有<strong>相同的属性名</strong>（<code>team1</code>、<code>team2</code>），利用这一点动态获取球队名。</p></div>
+
+<h3 id="section-8">BONUS（高难度）</h3>
+
+<p>创建一个名为 <code>scorers</code> 的对象，键为进球球员名字，值为该球员的进球数。例如：</p>
+
+<pre><code class="language-javascript">{ Gnarby: 1, Hummels: 1, Lewandowski: 2 }</code></pre>
+
+<hr>
+
+<h2 id="section-9">🧪 实战沙盒</h2>
+
+<div class="callout"><p>⚡ 先独立完成再查看答案！</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">challenge2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const game = {
+  team1: 'Bayern Munich',
+  team2: 'Borrussia Dortmund',
+  players: [
+    [
+      'Neuer', 'Pavard', 'Martinez', 'Alaba', &quot;Davies&quot;,
+      'Kimmich', 'Goretzka', 'Coman', 'Muller', 'Gnarby', 'Lewandowski',
+    ],
+    [
+      'Burki', 'Schulz', 'Hummels', 'Akanji', 'Hakimi',
+      'Weigl', 'Witsel', 'Hazard', 'Brandt', 'Sancho', 'Gotze',
+    ],
+  ],
+  score: '4:0',
+  scored: ['Lewandowski', 'Gnarby', 'Lewandowski', 'Hummels'],
+  date: 'Nov 9th, 2037',
+  odds: {
+    team1: 1.33,
+    x: 3.25,
+    team2: 6.5,
+  },
+};
+
+// =============================================
+// 任务 1: 打印每个进球球员及编号
+// 提示: 使用 game.scored.entries() 获取 [index, player]
+// =============================================
+
+
+// =============================================
+// 任务 2: 计算所有赔率的平均值
+// 提示: 使用 Object.values() 获取赔率数值数组
+// =============================================
+
+
+// =============================================
+// 任务 3: 打印赔率信息（含球队名 / draw）
+// 提示: 使用 Object.entries(game.odds) 和三元运算符
+//       利用 odds 和 game 的相同属性名动态获取队名
+// =============================================
+
+
+// =============================================
+// BONUS: 创建 scorers 对象 { 球员名: 进球数 }
+// 提示: 遍历 scored 数组，用短路 || 处理初始值
+// =============================================
+</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<hr>
+
+<details><summary>💡 Jonas 官方解法拆解</summary>
+
+<h3>任务 1 解法：打印进球球员</h3>
+
+<strong>核心思路</strong>：使用 <code>game.scored.entries()</code> 同时获取索引和球员名。
+
+<pre><code class="language-javascript">  console.log(<code>Goal ${i + 1}: ${player}</code>);
+}
+</code></pre>
+
+<strong>🔍 执行追踪：</strong>
+
+<table>
+    <thead><tr><th>迭代</th><th><code>i</code></th><th><code>player</code></th><th>输出</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>0</code></td><td><code>'Lewandowski'</code></td><td><code>&quot;Goal 1: Lewandowski&quot;</code></td></tr>
+<tr><td>2</td><td><code>1</code></td><td><code>'Gnarby'</code></td><td><code>&quot;Goal 2: Gnarby&quot;</code></td></tr>
+<tr><td>3</td><td><code>2</code></td><td><code>'Lewandowski'</code></td><td><code>&quot;Goal 3: Lewandowski&quot;</code></td></tr>
+<tr><td>4</td><td><code>3</code></td><td><code>'Hummels'</code></td><td><code>&quot;Goal 4: Hummels&quot;</code></td></tr></tbody>
+</table>
+> 📌 <code>entries()</code> 返回 <code>[index, element]</code> 对，索引从 0 开始，因此需要 <code>i + 1</code>。
+
+---
+
+<h3>任务 2 解法：计算赔率平均值</h3>
+
+<strong>核心思路</strong>：用 <code>Object.values()</code> 提取数值数组 → 累加 → 除以元素个数。
+
+<pre><code class="language-javascript">let average = 0;
+for (const odd of odds) {
+  average += odd;
+}
+average /= odds.length;
+console.log(average); // 3.6933333333333334
+</code></pre>
+
+<strong>🔍 执行追踪：</strong>
+
+<table>
+    <thead><tr><th>迭代</th><th><code>odd</code></th><th><code>average</code>（累加后）</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>1.33</code></td><td><code>1.33</code></td></tr>
+<tr><td>2</td><td><code>3.25</code></td><td><code>4.58</code></td></tr>
+<tr><td>3</td><td><code>6.5</code></td><td><code>11.08</code></td></tr>
+<tr><td>最终</td><td>—</td><td><code>11.08 / 3 = 3.6933...</code></td></tr></tbody>
+</table>
+> 📌 <code>/=</code> 是<strong>除法赋值运算符</strong>，等价于 <code>average = average / odds.length</code>。
+
+<div class="mermaid">
+    A["Object.values(game.odds)"] --> B["[1.33, 3.25, 6.5]"]
+    B --> C["🔄 for...of 累加"]
+    C --> D["sum = 11.08"]
+    D --> E["÷ 3"]
+    E --> F["📊 average = 3.693"]
+
+</div>
+
+---
+
+<h3>任务 3 解法：打印赔率信息</h3>
+
+<strong>核心思路</strong>：使用 <code>Object.entries()</code> 获取键值对 → 三元运算符判断是否为 draw → 动态访问 <code>game[team]</code> 获取队名。
+
+<pre><code class="language-javascript">  const teamStr = team === 'x' ? 'draw' : <code>victory ${game[team]}</code>;
+  console.log(<code>Odd of ${teamStr}: ${odd}</code>);
+}
+</code></pre>
+
+<strong>🔍 执行追踪：</strong>
+
+<table>
+    <thead><tr><th>迭代</th><th><code>team</code></th><th><code>odd</code></th><th><code>game[team]</code></th><th><code>teamStr</code></th><th>输出</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>'team1'</code></td><td><code>1.33</code></td><td><code>'Bayern Munich'</code></td><td><code>'victory Bayern Munich'</code></td><td><code>&quot;Odd of victory Bayern Munich: 1.33&quot;</code></td></tr>
+<tr><td>2</td><td><code>'x'</code></td><td><code>3.25</code></td><td>—</td><td><code>'draw'</code></td><td><code>&quot;Odd of draw: 3.25&quot;</code></td></tr>
+<tr><td>3</td><td><code>'team2'</code></td><td><code>6.5</code></td><td><code>'Borrussia Dortmund'</code></td><td><code>'victory Borrussia Dortmund'</code></td><td><code>&quot;Odd of victory Borrussia Dortmund: 6.5&quot;</code></td></tr></tbody>
+</table>
+<div class="mermaid">
+    A["Object.entries(game.odds)"] --> B["[['team1', 1.33], ['x', 3.25], ['team2', 6.5]]"]
+    B --> C{"team === 'x' ?"}
+    C -->|"✅ 是"| D["teamStr = 'draw'"]
+    C -->|"❌ 否"| E["teamStr = 'victory ' + game[team]"]
+    E --> F["game['team1'] → 'Bayern Munich'"]
+    E --> G["game['team2'] → 'Borrussia Dortmund'"]
+    D --> H["🖨️ console.log"]
+    F --> H
+    G --> H
+
+</div>
+
+> 🔑 <strong>关键洞察</strong>：<code>odds</code> 的属性名（<code>team1</code>、<code>team2</code>）恰好也是 <code>game</code> 对象的属性名。利用 <code>game[team]</code> 动态读取队名，这就是<strong>方括号属性访问</strong>的威力。
+
+---
+
+<h3>BONUS 解法：统计进球数</h3>
+
+<pre><code class="language-javascript">for (const player of game.scored) {
+  scorers[player] = (scorers[player] || 0) + 1;
+}
+console.log(scorers);
+// { Lewandowski: 2, Gnarby: 1, Hummels: 1 }
+</code></pre>
+
+<strong>🔍 执行追踪：</strong>
+
+<table>
+    <thead><tr><th>迭代</th><th><code>player</code></th><th><code>scorers[player]</code> 旧值</th><th>计算</th><th><code>scorers</code> 状态</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>'Lewandowski'</code></td><td><code>undefined</code></td><td><code>(undefined \&lt;/td&gt;&lt;td&gt;\&lt;/td&gt;&lt;td&gt;0) + 1 = 1</code></td><td><code>{ Lewandowski: 1 }</code></td></tr>
+<tr><td>2</td><td><code>'Gnarby'</code></td><td><code>undefined</code></td><td><code>(undefined \&lt;/td&gt;&lt;td&gt;\&lt;/td&gt;&lt;td&gt;0) + 1 = 1</code></td><td><code>{ Lewandowski: 1, Gnarby: 1 }</code></td></tr>
+<tr><td>3</td><td><code>'Lewandowski'</code></td><td><code>1</code></td><td><code>(1 \&lt;/td&gt;&lt;td&gt;\&lt;/td&gt;&lt;td&gt;0) + 1 = 2</code></td><td><code>{ Lewandowski: 2, Gnarby: 1 }</code></td></tr>
+<tr><td>4</td><td><code>'Hummels'</code></td><td><code>undefined</code></td><td><code>(undefined \&lt;/td&gt;&lt;td&gt;\&lt;/td&gt;&lt;td&gt;0) + 1 = 1</code></td><td><code>{ Lewandowski: 2, Gnarby: 1, Hummels: 1 }</code></td></tr></tbody>
+</table>
+> 📌 <code>||</code> 短路运算：当 <code>scorers[player]</code> 为 <code>undefined</code>（falsy）时，返回 <code>0</code>。
+
+</details>
+
+<hr>
+
+<h2 id="section-10">🧠 核心知识点回顾</h2>
+
+<h3 id="section-11">1. <code>Array.entries()</code> vs <code>Object.entries()</code></h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：数组的 <code>entries()</code> 就像电影院的座位号——<strong>内置在每张票上</strong>，你直接刷票就知道第几排第几座；对象的 <code>Object.entries()</code> 则像图书馆的索引卡——需要<strong>去前台查询</strong>（调用静态方法），才能拿到书名和位置的对应关系。</p></div>
+
+<div class="mermaid">
+flowchart LR
+    subgraph "📝 数组 Array"
+        A1["arr.entries()"] --> A2["实例方法"]
+        A2 --> A3["返回 [index, element]"]
+    end
+    subgraph "📦 对象 Object"
+        B1["Object.entries(obj)"] --> B2["静态方法"]
+        B2 --> B3["返回 [key, value]"]
+    end
+</div>
+
+<p><strong>📊 对比表格：</strong></p>
+
+<table>
+    <thead><tr><th>特性</th><th><code>array.entries()</code></th><th><code>Object.entries(obj)</code></th></tr></thead>
+    <tbody><tr><td>调用方式</td><td>实例方法</td><td>静态方法</td></tr>
+<tr><td>参数</td><td>无</td><td>目标对象</td></tr>
+<tr><td>返回值</td><td><code>[index, element]</code></td><td><code>[key, value]</code></td></tr>
+<tr><td>适用于</td><td>数组</td><td>普通对象</td></tr>
+<tr><td>📚 官方文档</td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/entries" target="_blank" style="color:var(--info-color);">MDN - Array.entries()</a></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/entries" target="_blank" style="color:var(--info-color);">MDN - Object.entries()</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h3 id="section-12">2. 动态属性访问 —— 方括号语法的威力</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：点语法（<code>.</code>）就像你叫一个人的固定名字——"张三"；方括号语法（<code>[]</code>）就像用变量名牌——你手上拿着什么名牌，就叫什么名字，灵活切换对象。</p></div>
+
+<pre><code class="language-javascript">// 点语法 → 固定属性名
+game.team1; // 'Bayern Munich'
+
+// 方括号语法 → 动态属性名
+const key = 'team1';
+game[key]; // 'Bayern Munich' ← 运行时计算</code></pre>
+
+<div class="mermaid">
+flowchart TD
+    A["game 对象"] --> B["team1: 'Bayern Munich'"]
+    A --> C["team2: 'Borrussia Dortmund'"]
+    A --> D["odds: { team1: 1.33, x: 3.25, team2: 6.5 }"]
+    D -->|"属性名 'team1'"| E["team = 'team1'"]
+    E -->|"game[team]"| B
+    style E fill:#f9f,stroke:#333,stroke-width:2px
+</div>
+
+<hr>
+
+<h3 id="section-13">3. 除法赋值运算符 <code>/=</code></h3>
+
+<pre><code class="language-javascript">let avg = 11.08;
+avg /= 3;        // 等价于 avg = avg / 3
+console.log(avg); // 3.6933333333333334</code></pre>
+
+<p><strong>📊 复合赋值运算符家族：</strong></p>
+
+<table>
+    <thead><tr><th>运算符</th><th>等价于</th><th>示例</th></tr></thead>
+    <tbody><tr><td><code>+=</code></td><td><code>a = a + b</code></td><td><code>avg += 3</code> → 加 3</td></tr>
+<tr><td><code>-=</code></td><td><code>a = a - b</code></td><td><code>avg -= 1</code> → 减 1</td></tr>
+<tr><td><code>*=</code></td><td><code>a = a * b</code></td><td><code>avg *= 2</code> → 乘 2</td></tr>
+<tr><td><code>/=</code></td><td><code>a = a / b</code></td><td><code>avg /= 3</code> → 除 3</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-14">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：电商平台需要统计用户评分数据——计算平均评分、按评分等级分类统计数量、打印分析报告。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">review_analysis.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const productReviews = {
+  productName: 'JavaScript 权威指南',
+  category: 'programming-books',
+  ratings: {
+    fiveStar: 4.9,
+    fourStar: 4.2,
+    threeStar: 3.5,
+  },
+  reviews: ['Alice', 'Bob', 'Alice', 'Charlie', 'Bob', 'Alice'],
+};
+
+// 1️⃣ 计算平均评分
+const ratingValues = Object.values(productReviews.ratings);
+let avgRating = 0;
+for (const rating of ratingValues) {
+  avgRating += rating;
+}
+avgRating /= ratingValues.length;
+console.log(`📊 平均评分：${avgRating.toFixed(2)}`);
+
+// 2️⃣ 打印各评分等级
+for (const [level, score] of Object.entries(productReviews.ratings)) {
+  const label = level.replace('Star', ' 星');
+  console.log(`⭐ ${label}：${score}`);
+}
+
+// 3️⃣ 统计每个用户的评论次数
+const reviewers = {};
+for (const name of productReviews.reviews) {
+  reviewers[name] = (reviewers[name] || 0) + 1;
+}
+console.log('👥 用户评论统计：', reviewers);</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>输入（数据）</th><th>输出</th><th>说明</th></tr></thead>
+    <tbody><tr><td><code>ratings: { fiveStar: 4.9, fourStar: 4.2, threeStar: 3.5 }</code></td><td><code>平均评分：4.20</code></td><td>三项求和再除以 3</td></tr>
+<tr><td><code>reviews: ['Alice', 'Bob', 'Alice', ...]</code></td><td><code>{ Alice: 3, Bob: 2, Charlie: 1 }</code></td><td>统计每人出现次数</td></tr></tbody>
+</table>
+
+<div class="mermaid">
+flowchart TD
+    A["📦 productReviews 对象"] --> B["Object.values(ratings)"]
+    A --> C["Object.entries(ratings)"]
+    A --> D["reviews 数组"]
+    B --> E["🔄 for...of 累加"]
+    E --> F["📊 avgRating = 4.20"]
+    C --> G["🔄 for...of 解构"]
+    G --> H["🖨️ 打印等级+评分"]
+    D --> I["🔄 for...of 计数"]
+    I --> J["👥 reviewers 对象"]
+</div>
+
+<hr>
+
+<h2 id="section-15">💡 关键要点</h2>
+
+<ul>
+<li>✅ 数组用 <code>arr.entries()</code> 实例方法获取 <code>[index, element]</code>，对象用 <code>Object.entries(obj)</code> 静态方法获取 <code>[key, value]</code></li>
+<li>✅ 方括号语法 <code>obj[variable]</code> 可以用<strong>变量值</strong>作为属性名动态访问属性</li>
+<li>✅ 计算平均值模式：先累加所有值，再除以元素个数（<code>/=</code> 运算符）</li>
+<li>✅ 统计频次技巧：<code>obj[key] = (obj[key] || 0) + 1</code>，利用 <code>||</code> 短路处理 <code>undefined</code></li>
+</ul>
+
+<h2 id="section-16">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>忘记 <code>i + 1</code></strong>：<code>entries()</code> 索引从 <code>0</code> 开始，显示给用户时通常需要 +1</li>
+<li>⚠️ <strong>混淆实例方法和静态方法</strong>：数组直接调用 <code>.entries()</code>，而对象必须 <code>Object.entries(obj)</code>，不能 <code>obj.entries()</code></li>
+<li>⚠️ <strong>除以数组而非数组长度</strong>：<code>average /= odds</code> 是错的，必须 <code>average /= odds.length</code></li>
+</ul>
+
+<h2 id="section-17">🐛 报错实验室</h2>
+
+<div class="callout"><p>主动展示错误写法及报错信息</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">const game = { odds: { team1: 1.33, x: 3.25, team2: 6.5 } };
+// 试图在对象上调用 .entries()
+for (const [k, v] of game.odds.entries()) {
+  console.log(k, v);
+}</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>Uncaught TypeError: game.odds.entries is not a function</code></pre>
+
+<p><strong>🔑 解读</strong>：普通对象没有 <code>.entries()</code> 实例方法。必须使用静态方法 <code>Object.entries(game.odds)</code>。数组有 <code>.entries()</code>，但对象没有——这是数组和对象在 API 设计上的根本差异。</p>
+
+<hr>
+
+<h2 id="section-18">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>数组条目</td><td>Array entries</td><td>返回包含索引和元素的迭代器</td><td><code>arr.entries()</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/entries" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>对象条目</td><td>Object entries</td><td>返回对象键值对数组</td><td><code>Object.entries(obj)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/entries" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>对象值</td><td>Object values</td><td>返回对象所有值的数组</td><td><code>Object.values(obj)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/values" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>除法赋值</td><td>Division assignment</td><td>将变量除以某值并赋回</td><td><code>a /= b</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Division_assignment" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>三元运算符</td><td>Ternary operator</td><td>简洁的条件表达式</td><td><code>x ? a : b</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Conditional_operator" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>方括号访问</td><td>Bracket notation</td><td>用变量动态访问属性</td><td><code>obj[key]</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Operators/Property_accessors" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-19">🧪 学习验证</h2>
+
+<h3 id="section-20">📝 动手练习</h3>
+
+<p><strong>练习 1：统计字符频率</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 统计字符串中每个字符出现的次数
+const str = 'javascript';
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const charCount = {};
+for (const char of str) {
+  charCount[char] = (charCount[char] || 0) + 1;
+}
+console.log(charCount);
+// { j: 1, a: 2, v: 1, s: 1, c: 1, r: 1, i: 1, p: 1, t: 1 }
+</code></pre>
+<strong>解题思路</strong>：与 BONUS 题的 <code>scorers</code> 统计逻辑完全一致——遍历可迭代对象，用 <code>||</code> 短路处理初始值，逐步累加。
+</details>
+
+<p><strong>练习 2：格式化对象输出</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 将下面的价格对象格式化输出为：
+// &quot;The price of apple is ¥5.50&quot;
+const prices = { apple: 5.5, banana: 3.2, cherry: 12.0 };
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">for (const [fruit, price] of Object.entries(prices)) {
+  console.log(<code>The price of ${fruit} is ¥${price.toFixed(2)}</code>);
+}
+</code></pre>
+<strong>解题思路</strong>：使用 <code>Object.entries()</code> 解构出键（水果名）和值（价格），配合模板字符串格式化输出。
+</details>
+
+<h3 id="section-21">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">如何获取对象 <code>{a: 1, b: 2}</code> 的所有键值对？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `{a: 1, b: 2}.entries()`</div>
+<div class="quiz-option" data-value="B">B) `Object.entries({a: 1, b: 2})`</div>
+<div class="quiz-option" data-value="C">C) `{a: 1, b: 2}.keys()`</div>
+    </div>
+    <div class="quiz-explanation">
+        对象没有 <code>.entries()</code> 实例方法，必须使用 <code>Object.entries()</code> 静态方法。A 和 C 都会抛出 TypeError。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>const arr = ['x', 'y', 'z']; for (const [i, v] of arr.entries()) {}</code> 中，第二次迭代时 <code>i</code> 和 <code>v</code> 分别是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `i = 2, v = 'y'`</div>
+<div class="quiz-option" data-value="B">B) `i = 1, v = 'z'`</div>
+<div class="quiz-option" data-value="C">C) `i = 1, v = 'y'`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>entries()</code> 返回从 0 开始的索引。第二次迭代取第二个元素，索引为 1，值为 <code>'y'</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">以下代码的输出是什么？<code>let x = 10; x /= 5; console.log(x);</code></div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `2`</div>
+<div class="quiz-option" data-value="B">B) `5`</div>
+<div class="quiz-option" data-value="C">C) `50`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>/=</code> 是除法赋值，等价于 <code>x = x / 5 = 10 / 5 = 2</code>。
+    </div>
+</div>
+
+<h3 id="section-22">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 使用 Object.entries 遍历对象<br>
+    for (const [key, value] of <input type="text" class="blank-input" data-answer="Object.entries" placeholder="1">(myObj)) {<br>
+      console.log(`${key}: ${value}`);<br>
+    }<br>
+    <br>
+    // 统计出现次数<br>
+    const count = {};<br>
+    for (const item of items) {<br>
+      count[item] = (count[item] <input type="text" class="blank-input" data-answer="||" placeholder="2"> 0) + 1;<br>
+    }
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

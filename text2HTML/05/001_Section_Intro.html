@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>章节导读：开发者技能与编辑器设置</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 05 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">章节导读：开发者技能与编辑器设置</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-6" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-7" class="nav-item">💡 关键要点</a>
+            <a href="#section-8" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-9" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-10" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-11" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">章节导读：开发者技能与编辑器设置</h1>
+
+<div class="callout"><p>📺 来源：001 Section Intro.en.srt<br>📂 章节：第 05 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：JavaScript 基础语法（变量、数据类型、运算符、控制流）</li>
+<li><strong>后续扩展</strong>：DOM 操作与事件处理、高级函数、异步 JavaScript、项目实战</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>在完成 JavaScript 基础语法学习后，本章将聚焦于开发者必备的<strong>软技能</strong>：如何高效学习编程、如何像开发者一样思考并解决问题、如何调试代码中的错误，以及如何搭建专业的开发环境。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 本章学习路线</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：学会了驾驶理论（基础语法）之后，还需要学习如何看地图导航（解决问题的能力）、如何处理汽车故障（调试技能），以及如何调整座椅后视镜（开发环境配置）——这些"元技能"决定了你能否真正上路。</p></div>
+
+<div class="mermaid">
+flowchart TD
+    A["🏗️ 第05章：开发者技能"] --> B["⚙️ 编辑器设置<br/>Prettier + VS Code"]
+    A --> C["🖥️ 开发环境<br/>Node.js + Live Server"]
+    A --> D["📚 学会编程<br/>学习方法论"]
+    A --> E["🧠 像开发者一样思考<br/>问题解决框架"]
+    A --> F["🔍 善用搜索<br/>Google / SO / MDN"]
+    A --> G["🐛 调试技能<br/>Console + Breakpoints"]
+    A --> H["🤖 AI 工具<br/>ChatGPT / Copilot"]
+    
+    style A fill:#1a1a2e,stroke:#e94560,color:#fff,stroke-width:2px
+    style B fill:#3498db,stroke:#2980b9,color:#fff
+    style C fill:#3498db,stroke:#2980b9,color:#fff
+    style D fill:#27ae60,stroke:#1e8449,color:#fff
+    style E fill:#27ae60,stroke:#1e8449,color:#fff
+    style F fill:#27ae60,stroke:#1e8449,color:#fff
+    style G fill:#e74c3c,stroke:#c0392b,color:#fff
+    style H fill:#9b59b6,stroke:#8e44ad,color:#fff
+</div>
+
+<p><strong>🔍 执行追踪：本章内容概览</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>课题</th><th>类型</th><th>核心收获</th></tr></thead>
+    <tbody><tr><td>①</td><td>Prettier + VS Code 设置</td><td>工具配置</td><td>代码格式化自动化</td></tr>
+<tr><td>②</td><td>Node.js 安装与开发环境</td><td>环境搭建</td><td>Live Server 实时预览</td></tr>
+<tr><td>③</td><td>如何学习编程</td><td>方法论</td><td>学习路径与心态管理</td></tr>
+<tr><td>④</td><td>像开发者一样思考</td><td>思维模式</td><td>四步问题解决框架</td></tr>
+<tr><td>⑤</td><td>使用搜索工具</td><td>实战技能</td><td>Google / Stack Overflow / MDN</td></tr>
+<tr><td>⑥</td><td>调试概论 + 实践</td><td>核心技能</td><td>Console + Breakpoints</td></tr>
+<tr><td>⑦</td><td>AI 工具的崛起</td><td>前沿视野</td><td>ChatGPT / Copilot 使用原则</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：「设环学思搜调AI」—— 设置环境、学习方法、思考框架、搜索技能、调试能力、AI 辅助，七大模块成就专业开发者。</p></div>
+
+<hr>
+
+<h3 id="section-5">2. 为什么需要"元技能"</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：一个厨师不仅需要掌握烹饪技巧（语法），还需要知道如何选购食材（搜索能力）、如何品尝调味（调试能力）、如何管理厨房工具（开发环境）。这些"元技能"是从新手到专业厨师的关键跨越。</p></div>
+
+<p>本章的内容不涉及新的 JavaScript 语法，但涵盖的技能<strong>对实际开发至关重要</strong>：</p>
+
+<div class="mermaid">
+graph LR
+    subgraph 硬技能["💻 硬技能 (Hard Skills)"]
+        S1["JavaScript 语法"]
+        S2["DOM 操作"]
+        S3["API 调用"]
+    end
+    
+    subgraph 软技能["🧠 软技能 (Soft Skills)"]
+        M1["问题分解能力"]
+        M2["调试能力"]
+        M3["搜索与自学能力"]
+        M4["工具使用效率"]
+    end
+    
+    软技能 -->|放大| 硬技能
+    
+    style 硬技能 fill:#f8f9fa,stroke:#dee2e6,color:#333
+    style 软技能 fill:#f8f9fa,stroke:#dee2e6,color:#333
+</div>
+
+<p><strong>📊 概念对比：</strong></p>
+
+<table>
+    <thead><tr><th>维度</th><th>只有硬技能</th><th>硬技能 + 软技能</th></tr></thead>
+    <tbody><tr><td>遇到 Bug</td><td>反复试错，靠运气</td><td>系统化调试，快速定位</td></tr>
+<tr><td>不会的功能</td><td>卡住不动</td><td>Google / MDN 查文档自学</td></tr>
+<tr><td>写代码速度</td><td>手动格式化，低效</td><td>Prettier 自动化，专注逻辑</td></tr>
+<tr><td>解决问题</td><td>一团乱麻</td><td>分治法逐个击破</td></tr></tbody>
+</table>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：在真实项目中，开发者花在"调试 + 搜索 + 思考"上的时间远超"写代码"的时间。掌握这些元技能是从"会写代码"到"能做项目"的关键飞跃。</p></div>
+
+<hr>
+
+<h2 id="section-6">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：模拟一个开发者的日常工作流——从设置环境到解决问题的完整循环。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">dev_workflow.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 模拟开发者的日常工作流
+const devWorkflow = {
+  setup: ['安装 VS Code', '配置 Prettier', '安装 Node.js', '启动 Live Server'],
+  coding: ['分析需求', '分解问题', '编写代码', '测试运行'],
+  debugging: ['发现 Bug', '定位原因', '修复代码', '验证修复'],
+  learning: ['阅读 MDN 文档', '搜索 Stack Overflow', '参考 AI 建议', '动手实践'],
+};
+
+// 统计每个阶段的步骤数
+for (const [phase, steps] of Object.entries(devWorkflow)) {
+  console.log(`📋 ${phase} 阶段: ${steps.length} 个步骤`);
+  steps.forEach((step, i) =&gt; console.log(`   ${i + 1}. ${step}`));
+}
+
+// 计算总步骤
+const totalSteps = Object.values(devWorkflow).flat().length;
+console.log(`\n🎯 开发者日常工作总共涉及 ${totalSteps} 个关键步骤`);</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    A["⚙️ 环境设置"] --> B["💻 编写代码"] --> C["🐛 调试修复"] --> D["📚 持续学习"]
+    D -->|"循环迭代"| B
+    
+    style A fill:#3498db,stroke:#2980b9,color:#fff
+    style B fill:#27ae60,stroke:#1e8449,color:#fff
+    style C fill:#e74c3c,stroke:#c0392b,color:#fff
+    style D fill:#9b59b6,stroke:#8e44ad,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>阶段</th><th>步骤数</th><th>占日常工作比例</th></tr></thead>
+    <tbody><tr><td>环境设置</td><td>4</td><td>10%（一次性）</td></tr>
+<tr><td>编写代码</td><td>4</td><td>30%</td></tr>
+<tr><td>调试修复</td><td>4</td><td>40%</td></tr>
+<tr><td>持续学习</td><td>4</td><td>20%</td></tr></tbody>
+</table>
+
+<h2 id="section-7">💡 关键要点</h2>
+
+<ul>
+<li>✅ JavaScript 基础语法只是起点，<strong>开发者技能</strong>（调试、搜索、问题解决）才是核心竞争力</li>
+<li>✅ 搭建专业开发环境（Prettier + Live Server）可以显著提升编码效率</li>
+<li>✅ 学会用 Google、Stack Overflow 和 MDN 自主解决问题，是开发者最重要的日常技能</li>
+<li>✅ 调试不是"猜测 + 重试"，而是有方法论的系统化流程</li>
+</ul>
+
+<h2 id="section-8">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1：学完语法就等于会编程</strong>。真相是：语法只是工具，解决问题的能力才是编程的本质。</li>
+<li>⚠️ <strong>误区 2：开发环境配置不重要</strong>。真相是：高效的工具链（格式化、热重载、调试器）能让你的工作效率翻倍。</li>
+</ul>
+
+<h2 id="section-9">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误做法：不配置开发环境直接硬编码</strong></p>
+
+<pre><code class="language-javascript">// 没有 Live Server，每次修改代码都要手动刷新浏览器
+// 没有 Prettier，代码格式混乱难以维护
+function calcAge(birthYear){return 2037-birthYear}
+console.log(calcAge(1991))</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>// 虽然不会报错，但可读性极差
+// 团队协作时会造成代码风格冲突</code></pre>
+
+<p><strong>🔑 解读</strong>：虽然这段代码技术上能运行，但缺少格式化和开发工具会严重影响<strong>开发效率</strong>和<strong>代码可维护性</strong>。Prettier 会自动将其格式化为清晰可读的代码。</p>
+
+<hr>
+
+<h2 id="section-10">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>相关工具</th><th>📚 参考资料</th></tr></thead>
+    <tbody><tr><td>代码格式化</td><td>Code Formatting</td><td>自动统一代码风格（缩进、引号等）</td><td>Prettier</td><td><a href="https://prettier.io/" target="_blank" style="color:var(--info-color);">Prettier 官网</a></td></tr>
+<tr><td>实时服务器</td><td>Live Server</td><td>文件保存后自动刷新浏览器</td><td>VS Code 插件 / npm</td><td><a href="https://www.npmjs.com/package/live-server" target="_blank" style="color:var(--info-color);">npm live-server</a></td></tr>
+<tr><td>调试</td><td>Debugging</td><td>发现、定位并修复代码错误</td><td>Chrome DevTools</td><td><a href="https://developer.mozilla.org/en-US/docs/Learn/Common_questions/Tools_and_setup/What_are_browser_developer_tools" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>断点</td><td>Breakpoint</td><td>暂停代码执行以检查变量状态</td><td>Chrome Sources</td><td><a href="https://developer.chrome.com/docs/devtools/" target="_blank" style="color:var(--info-color);">Chrome DevTools</a></td></tr>
+<tr><td>伪代码</td><td>Pseudo-code</td><td>用类人类语言描述算法逻辑</td><td>—</td><td>—</td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-11">🧪 学习验证</h2>
+
+<h3 id="section-12">📝 动手练习</h3>
+
+<p><strong>练习 1：列出你的开发工具清单</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">my_tools.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// 创建你的开发工具清单
+const myDevTools = {
+  editor: 'VS Code',
+  formatter: '在这里填写',      // 提示：代码格式化工具
+  browserTool: '在这里填写',    // 提示：浏览器调试工具
+  searchEngine: '在这里填写',   // 提示：搜索引擎
+  documentation: '在这里填写',  // 提示：官方文档网站
+};
+
+for (const [category, tool] of Object.entries(myDevTools)) {
+  console.log(`🔧 ${category}: ${tool}`);
+}</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  editor: 'VS Code',
+  formatter: 'Prettier',
+  browserTool: 'Chrome DevTools',
+  searchEngine: 'Google',
+  documentation: 'MDN Web Docs',
+};
+</code></pre>
+<strong>解题思路</strong>：作为 JavaScript 开发者，这五个工具是你的基本装备。随着学习深入，你还会添加更多工具（如 Git、npm、ESLint 等）。
+</details>
+
+<p><strong>练习 2：模拟问题解决流程</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">problem_solving.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 用 Jonas 的四步框架模拟问题解决
+function solveProblem(problem) {
+  const steps = [];
+  
+  // 第一步：理解问题
+  steps.push(`1️⃣ 理解问题: &quot;${problem}&quot;`);
+  
+  // 第二步：分解问题（在这里添加子问题）
+  steps.push('2️⃣ 分解为子问题: [在这里添加]');
+  
+  // 第三步：研究未知部分
+  steps.push('3️⃣ 搜索解决方案: Google / MDN');
+  
+  // 第四步：编写伪代码
+  steps.push('4️⃣ 编写伪代码后再写真正的代码');
+  
+  return steps;
+}
+
+const result = solveProblem('编写一个函数反转字符串');
+result.forEach(step =&gt; console.log(step));</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">  const steps = [];
+  steps.push(<code>1️⃣ 理解问题: &amp;quot;${problem}&amp;quot;</code>);
+  steps.push('2️⃣ 分解为子问题: [将字符串转为数组, 反转数组, 将数组转回字符串]');
+  steps.push('3️⃣ 搜索: &quot;JavaScript reverse string MDN&quot;');
+  steps.push('4️⃣ 伪代码: 输入字符串 → split → reverse → join → 返回');
+  return steps;
+}
+</code></pre>
+<strong>解题思路</strong>：Jonas 的四步框架是"理解 → 分解 → 研究 → 伪代码"。核心在于<strong>分解子问题</strong>——把大问题拆成可以独立解决的小块。
+</details>
+
+<h3 id="section-13">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">Jonas 认为开发者最重要的"元技能"是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 打字速度快</div>
+<div class="quiz-option" data-value="B">B) 背诵所有 JavaScript API</div>
+<div class="quiz-option" data-value="C">C) 解决问题的能力和自主学习能力</div>
+    </div>
+    <div class="quiz-explanation">
+        Jonas 反复强调，编程的本质不是语法记忆，而是<strong>解决问题的能力</strong>。配合 Google / MDN 等工具的自主学习能力，才是开发者的核心竞争力。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">本章涵盖的内容中，哪项不是技术技能而是方法论？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 配置 Prettier</div>
+<div class="quiz-option" data-value="B">B) 如何学习编程</div>
+<div class="quiz-option" data-value="C">C) 使用 Chrome 断点调试</div>
+    </div>
+    <div class="quiz-explanation">
+        「如何学习编程」是一种<strong>学习方法论</strong>而非具体技术。它教你如何规划学习路径、保持动力、避免常见陷阱。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">在调试过程中，第一步应该做什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 确认 Bug 的存在并理解其表现</div>
+<div class="quiz-option" data-value="B">B) 立即修改代码试试看</div>
+<div class="quiz-option" data-value="C">C) 删掉出错的函数重新写</div>
+    </div>
+    <div class="quiz-explanation">
+        调试的第一步是<strong>意识到 Bug 的存在</strong>并理解它的表现。盲目修改代码只会引入更多问题。
+    </div>
+</div>
+
+<h3 id="section-14">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // Jonas 的四步问题解决框架<br>
+    // 第一步：<input type="text" class="blank-input" data-answer="理解问题" placeholder="1"><br>
+    // 第二步：<input type="text" class="blank-input" data-answer="分解为子问题" placeholder="2"><br>
+    // 第三步：如果卡住了，<input type="text" class="blank-input" data-answer="研究搜索" placeholder="3"><br>
+    // 第四步：写<input type="text" class="blank-input" data-answer="伪代码" placeholder="4">后再编码
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

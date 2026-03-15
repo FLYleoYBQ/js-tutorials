@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>集合（Sets）</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">集合（Sets）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-7" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-8" class="nav-item">💡 关键要点</a>
+            <a href="#section-9" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-10" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-11" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-12" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">集合（Sets）</h1>
+
+<div class="callout"><p>📺 来源：017 Sets.en.srt<br>📂 章节：第 09 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：数组基本操作（Array）、for-of 循环、展开运算符（Spread Operator）、可迭代对象（Iterables）概念</li>
+<li><strong>后续扩展</strong>：Maps 数据结构、Set 的新操作方法（intersection / union 等）、WeakSet、数组去重的最佳实践</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>Set（集合）是 ES6 引入的全新数据结构，它的核心特征是<strong>所有元素必须唯一</strong>。与数组不同，Set 中没有索引，元素的顺序无关紧要。Set 最常用的场景就是<strong>去除数组中的重复值</strong>。</p>
+
+<hr>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. Set 的创建与基本特性</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：Set 就像一个门卫只允许持<strong>不同号码牌</strong>的人进入的 VIP 区域——如果你的号码牌已有人持有，即使你出示两次，门卫也只会放行一次。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">set_basics.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 从数组创建 Set —— 自动去除重复值
+const ordersSet = new Set([
+  'Pasta', 'Pizza', 'Pizza', 'Risotto', 'Pasta', 'Pizza'
+]);
+console.log(ordersSet); // Set(3) {'Pasta', 'Pizza', 'Risotto'}
+
+// 字符串也是可迭代对象，可以直接传入
+const charSet = new Set('Jonas');
+console.log(charSet); // Set(5) {'J', 'o', 'n', 'a', 's'}
+
+// 空 Set
+const emptySet = new Set();
+console.log(emptySet); // Set(0) {}</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    A["📥 输入数组"] --> B["['Pasta','Pizza','Pizza','Risotto','Pasta','Pizza']"]
+    B --> C["new Set(...)"]
+    C --> D["🎯 Set(3)"]
+    D --> E["'Pasta'"]
+    D --> F["'Pizza'"]
+    D --> G["'Risotto'"]
+    style D fill:#4CAF50,color:#fff
+</div>
+
+<p><strong>🔍 执行追踪：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>处理元素</th><th>Set 状态</th><th>操作</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>'Pasta'</code></td><td><code>{'Pasta'}</code></td><td>✅ 新增</td></tr>
+<tr><td>2</td><td><code>'Pizza'</code></td><td><code>{'Pasta', 'Pizza'}</code></td><td>✅ 新增</td></tr>
+<tr><td>3</td><td><code>'Pizza'</code></td><td><code>{'Pasta', 'Pizza'}</code></td><td>❌ 已存在，跳过</td></tr>
+<tr><td>4</td><td><code>'Risotto'</code></td><td><code>{'Pasta', 'Pizza', 'Risotto'}</code></td><td>✅ 新增</td></tr>
+<tr><td>5</td><td><code>'Pasta'</code></td><td><code>{'Pasta', 'Pizza', 'Risotto'}</code></td><td>❌ 已存在，跳过</td></tr>
+<tr><td>6</td><td><code>'Pizza'</code></td><td><code>{'Pasta', 'Pizza', 'Risotto'}</code></td><td>❌ 已存在，跳过</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：Set = <strong>独一无二</strong>的收藏柜，重复品一律拒收！</p></div>
+
+<hr>
+
+<h3 id="section-5">2. Set 的常用方法</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：Set 的方法就像一个俱乐部的管理操作——<code>.size</code> 查人数、<code>.has()</code> 核实会员资格、<code>.add()</code> 注册新会员、<code>.delete()</code> 注销会员、<code>.clear()</code> 全员清退。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">set_methods.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const ordersSet = new Set(['Pasta', 'Pizza', 'Risotto', 'Pasta', 'Pizza']);
+
+// 📏 获取 Set 大小（注意是 size 不是 length！）
+console.log(ordersSet.size); // 3
+
+// 🔍 检查元素是否存在（类似数组的 includes）
+console.log(ordersSet.has('Pizza'));  // true
+console.log(ordersSet.has('Bread')); // false
+
+// ➕ 添加元素
+ordersSet.add('Garlic Bread');
+ordersSet.add('Garlic Bread'); // 重复添加会被忽略
+console.log(ordersSet); // Set(4) {'Pasta', 'Pizza', 'Risotto', 'Garlic Bread'}
+
+// ➖ 删除元素
+ordersSet.delete('Risotto');
+console.log(ordersSet); // Set(3) {'Pasta', 'Pizza', 'Garlic Bread'}
+
+// 🗑️ 清空所有元素
+// ordersSet.clear();
+
+// ❌ 无法通过索引访问！
+console.log(ordersSet[0]); // undefined</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<p><strong>📊 Set vs 数组方法对比：</strong></p>
+
+<table>
+    <thead><tr><th>Set 方法</th><th>数组等价方法</th><th>功能</th></tr></thead>
+    <tbody><tr><td><code>.size</code></td><td><code>.length</code></td><td>获取元素个数</td></tr>
+<tr><td><code>.has(val)</code></td><td><code>.includes(val)</code></td><td>检查是否包含</td></tr>
+<tr><td><code>.add(val)</code></td><td><code>.push(val)</code></td><td>添加元素</td></tr>
+<tr><td><code>.delete(val)</code></td><td>_较复杂（splice/filter）_</td><td>删除特定元素</td></tr>
+<tr><td><code>.clear()</code></td><td><code>arr.length = 0</code></td><td>清空所有</td></tr>
+<tr><td>❌ 无索引</td><td><code>arr[i]</code></td><td>随机访问</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：Set 用 <strong>size</strong> 不用 length，用 <strong>has</strong> 不用 includes！</p></div>
+
+<hr>
+
+<h3 id="section-6">3. 遍历 Set 与实战：数组去重</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：数组去重就像一群人排队时，Set 充当"复核员"，把重复的人踢出队列，只留下<strong>每人一份</strong>。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">set_dedup.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// 🔄 Set 是可迭代对象，可以用 for-of 遍历
+const ordersSet = new Set(['Pasta', 'Pizza', 'Risotto']);
+for (const order of ordersSet) {
+  console.log(order);
+}
+
+// 🎯 核心应用：数组去重
+const staff = ['waiter', 'chef', 'waiter', 'manager', 'chef', 'waiter'];
+
+// Set + Spread 运算符 → 去重后的新数组
+const staffUnique = [...new Set(staff)];
+console.log(staffUnique); // ['waiter', 'chef', 'manager']
+
+// 只想知道有多少种不同职位？直接取 size
+console.log(new Set(staff).size); // 3
+
+// 字符串也适用：统计不同字母数
+console.log(new Set('Mississippi').size); // 4 (M, i, s, p)</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["📦 原始数组 staff"] --> B["['waiter','chef','waiter','manager','chef','waiter']"]
+    B --> C["new Set(staff)"]
+    C --> D["Set(3) {'waiter','chef','manager'}"]
+    D -->|"展开运算符 [...set]"| E["✅ ['waiter','chef','manager']"]
+    D -->|".size"| F["📊 3 种不同职位"]
+    style D fill:#2196F3,color:#fff
+    style E fill:#4CAF50,color:#fff
+</div>
+
+<p><strong>🔍 执行追踪（<code>[...new Set(staff)]</code>）：</strong></p>
+
+<table>
+    <thead><tr><th>步骤</th><th>操作</th><th>结果</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>new Set(staff)</code></td><td><code>Set(3) {'waiter', 'chef', 'manager'}</code></td></tr>
+<tr><td>2</td><td><code>...</code> 展开 Set</td><td><code>'waiter', 'chef', 'manager'</code></td></tr>
+<tr><td>3</td><td><code>[...]</code> 包裹为数组</td><td><code>['waiter', 'chef', 'manager']</code></td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：去重三连——<code>[...new Set(arr)]</code>！</p></div>
+
+<hr>
+
+<h2 id="section-7">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：电商平台需要统计用户浏览过的商品类别数量，并展示一个去重后的类别列表。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">ecommerce_categories.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 用户浏览历史（含大量重复类别）
+const browsingHistory = [
+  'electronics', 'clothing', 'electronics', 'books',
+  'clothing', 'electronics', 'sports', 'books',
+  'clothing', 'electronics', 'home', 'books'
+];
+
+// 去重获取唯一类别列表
+const uniqueCategories = [...new Set(browsingHistory)];
+console.log('📂 浏览过的类别：', uniqueCategories);
+// ['electronics', 'clothing', 'books', 'sports', 'home']
+
+// 统计浏览的不同类别数量
+const categoryCount = new Set(browsingHistory).size;
+console.log(`📊 共浏览了 ${categoryCount} 种不同类别`);
+
+// 检查用户是否浏览过某类别（用于推荐系统）
+const browsedSet = new Set(browsingHistory);
+console.log('是否看过电子产品？', browsedSet.has('electronics')); // true
+console.log('是否看过食品？', browsedSet.has('food'));             // false
+
+// 基于浏览数据生成推荐
+const allCategories = ['electronics', 'clothing', 'books', 'sports', 'home', 'food', 'toys'];
+const notBrowsed = allCategories.filter(cat =&gt; !browsedSet.has(cat));
+console.log('🎯 推荐探索：', notBrowsed); // ['food', 'toys']</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["📋 browsingHistory<br>12 条浏览记录"] --> B["new Set(...)"]
+    B --> C["Set(5) 唯一类别"]
+    C -->|"[...set]"| D["📂 5 种类别数组"]
+    C -->|".size"| E["📊 categoryCount = 5"]
+    C -->|".has('food')"| F["❌ false → 加入推荐"]
+    style C fill:#FF9800,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>输入</th><th>操作</th><th>输出</th></tr></thead>
+    <tbody><tr><td><code>['a','b','a','c','b']</code></td><td><code>[...new Set(arr)]</code></td><td><code>['a','b','c']</code></td></tr>
+<tr><td><code>['a','b','a','c','b']</code></td><td><code>new Set(arr).size</code></td><td><code>3</code></td></tr>
+<tr><td>Set: <code>{'a','b','c'}</code></td><td><code>.has('b')</code></td><td><code>true</code></td></tr>
+<tr><td>Set: <code>{'a','b','c'}</code></td><td><code>.has('d')</code></td><td><code>false</code></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-8">💡 关键要点</h2>
+
+<ul>
+<li>✅ Set 存储<strong>唯一值</strong>，自动去除所有重复</li>
+<li>✅ 用 <code>.size</code> 获取元素数量（不是 <code>.length</code>），用 <code>.has()</code> 检查成员</li>
+<li>✅ Set 是可迭代对象，支持 <code>for-of</code> 循环和展开运算符 <code>...</code></li>
+<li>✅ 数组去重一行搞定：<code>[...new Set(arr)]</code></li>
+<li>✅ Set 无法通过索引访问——如果需要按位置取值，请用数组</li>
+</ul>
+
+<h2 id="section-9">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>用 <code>.length</code> 代替 <code>.size</code></strong>：Set 没有 <code>.length</code> 属性，只有 <code>.size</code></li>
+<li>⚠️ <strong>试图通过索引访问元素</strong>：<code>mySet[0]</code> 永远返回 <code>undefined</code>，Set 没有索引概念</li>
+<li>⚠️ <strong>误以为 Set 可以替代数组</strong>：Set 适合去重和唯一性检查，但不支持排序、索引访问等操作——需要这些功能时请用数组</li>
+</ul>
+
+<h2 id="section-10">🐛 报错实验室</h2>
+
+<div class="callout"><p>主动展示错误写法及报错信息</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">const mySet = new Set([1, 2, 3]);
+console.log(mySet.length); // 想获取 Set 大小</code></pre>
+
+<p><strong>浏览器输出：</strong></p>
+
+<pre><code>undefined</code></pre>
+
+<p><strong>🔑 解读</strong>：Set 没有 <code>.length</code> 属性（那是数组的），应使用 <code>.size</code>：</p>
+
+<pre><code class="language-javascript">console.log(mySet.size); // 3 ✅</code></pre>
+
+<hr>
+
+<p><strong>❌ 错误写法 2：</strong></p>
+
+<pre><code class="language-javascript">const mySet = new Set([1, 2, 3]);
+console.log(mySet[0]); // 想通过索引获取第一个元素</code></pre>
+
+<p><strong>浏览器输出：</strong></p>
+
+<pre><code>undefined</code></pre>
+
+<p><strong>🔑 解读</strong>：Set 没有索引概念，不能像数组那样用 <code>[0]</code> 访问。如果确实需要取值，先转换为数组：<code>[...mySet][0]</code>。</p>
+
+<hr>
+
+<h2 id="section-11">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>集合</td><td>Set</td><td>存储唯一值的数据结构</td><td><code>new Set([1,2,3])</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>大小</td><td>size</td><td>获取 Set 中元素个数</td><td><code>set.size</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/size" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>包含检查</td><td>has</td><td>检查 Set 是否包含某值</td><td><code>set.has(val)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/has" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>添加</td><td>add</td><td>向 Set 中添加元素</td><td><code>set.add(val)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/add" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>删除</td><td>delete</td><td>从 Set 中删除指定元素</td><td><code>set.delete(val)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/delete" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>清空</td><td>clear</td><td>移除 Set 中所有元素</td><td><code>set.clear()</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Set/clear" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-12">🧪 学习验证</h2>
+
+<h3 id="section-13">📝 动手练习</h3>
+
+<p><strong>练习 1：统计不同单词数</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 统计句子中有多少个不同的单词（不区分大小写）
+const sentence = 'The the THE cat sat on the mat the cat';
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const words = sentence.toLowerCase().split(' ');
+const uniqueWords = new Set(words);
+console.log(<code>不同单词数：${uniqueWords.size}</code>); // 5
+console.log('唯一单词列表：', [...uniqueWords]); // ['the', 'cat', 'sat', 'on', 'mat']
+</code></pre>
+<strong>解题思路</strong>：先 <code>toLowerCase()</code> 统一大小写，再 <code>split(' ')</code> 拆成数组，最后用 Set 去重。
+</details>
+
+<p><strong>练习 2：找出两个数组的共同元素</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 找出 arr1 和 arr2 中共同存在的元素
+const arr1 = [1, 2, 3, 4, 5];
+const arr2 = [3, 4, 5, 6, 7];
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">const arr2 = [3, 4, 5, 6, 7];
+const set2 = new Set(arr2);
+const common = arr1.filter(item =&gt; set2.has(item));
+console.log(common); // [3, 4, 5]
+</code></pre>
+<strong>解题思路</strong>：将第二个数组转为 Set（<code>.has()</code> 查找效率 O(1)），然后用 <code>filter</code> 筛选第一个数组中存在于 Set 的元素。
+</details>
+
+<h3 id="section-14">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">以下代码的输出是什么？<code>console.log(new Set([1, 1, 2, 3, 3]).size);</code></div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `5`</div>
+<div class="quiz-option" data-value="B">B) `3`</div>
+<div class="quiz-option" data-value="C">C) `2`</div>
+    </div>
+    <div class="quiz-explanation">
+        Set 自动去重，<code>[1, 1, 2, 3, 3]</code> 去重后只剩 <code>{1, 2, 3}</code>，size 为 3。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question">如何将 Set 转换为数组？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `set.toArray()`</div>
+<div class="quiz-option" data-value="B">B) `Array(set)`</div>
+<div class="quiz-option" data-value="C">C) `[...set]`</div>
+    </div>
+    <div class="quiz-explanation">
+        Set 没有 <code>.toArray()</code> 方法。利用展开运算符 <code>[...set]</code> 可以将任何可迭代对象展开为数组。也可以用 <code>Array.from(set)</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">以下说法正确的是？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) Set 中的元素没有索引，不能用 `set[0]` 访问</div>
+<div class="quiz-option" data-value="B">B) Set 用 `.length` 获取元素个数</div>
+<div class="quiz-option" data-value="C">C) Set 可以存储重复值</div>
+    </div>
+    <div class="quiz-explanation">
+        Set 没有索引概念（A 正确），用 <code>.size</code> 而非 <code>.length</code>（B 错误），核心特性就是唯一性即不能存储重复值（C 错误）。
+    </div>
+</div>
+
+<h3 id="section-15">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 数组去重<br>
+    const unique = [...new <input type="text" class="blank-input" data-answer="Set" placeholder="1">(arr)];<br>
+    <br>
+    // 检查元素是否存在<br>
+    const exists = mySet.<input type="text" class="blank-input" data-answer="has" placeholder="2">('hello');<br>
+    <br>
+    // 获取 Set 大小<br>
+    const count = mySet.<input type="text" class="blank-input" data-answer="size" placeholder="3">;
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

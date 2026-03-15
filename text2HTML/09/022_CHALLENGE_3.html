@@ -1,0 +1,1027 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>编码挑战 #3（Coding Challenge #3）</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 09 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">编码挑战 #3（Coding Challenge #3）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">📋 挑战数据</a>
+            <a href="#section-4" class="nav-item">🏆 挑战任务 Tasks</a>
+            <a href="#section-9" class="nav-item">🧪 实战沙盒</a>
+            <a href="#section-10" class="nav-item">🧠 核心知识点回顾</a>
+            <a href="#section-13" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-14" class="nav-item">💡 关键要点</a>
+            <a href="#section-15" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-16" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-17" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-18" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">编码挑战 #3（Coding Challenge #3）</h1>
+
+<div class="callout"><p>📺 来源：022 CHALLENGE #3.en.srt<br>📂 章节：第 09 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：Map 数据结构（<code>set()</code>/<code>get()</code>/<code>delete()</code>/<code>size</code>/<code>.keys()</code>/<code>.values()</code>）、Set 去重、for-of 循环与解构、展开运算符</li>
+<li><strong>后续扩展</strong>：字符串操作方法（Working With Strings）、更复杂的 Map/Set 综合应用</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>本节是第 09 章的第三个编码挑战，围绕一个<strong>足球比赛事件日志 Map</strong> 进行实战练习。综合运用 Map 方法、Set 去重、数组操作和条件判断来分析比赛数据。</p>
+
+<hr>
+
+<h2 id="section-3">📋 挑战数据</h2>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">challenge3_data.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const gameEvents = new Map([
+  [17, '⚽ GOAL'],
+  [36, '🔁 Substitution'],
+  [47, '⚽ GOAL'],
+  [61, '🔁 Substitution'],
+  [64, '🟡 Yellow card'],
+  [69, '🔴 Red card'],
+  [70, '🔁 Substitution'],
+  [72, '🔁 Substitution'],
+  [76, '⚽ GOAL'],
+  [80, '⚽ GOAL'],
+  [92, '🟡 Yellow card'],
+]);
+
+console.log(gameEvents);</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<hr>
+
+<h2 id="section-4">🏆 挑战任务 (Tasks)</h2>
+
+<h3 id="section-5">任务 1</h3>
+
+<p>创建一个名为 <code>events</code> 的数组，包含比赛中发生的所有<strong>不同类型</strong>的事件（无重复）。</p>
+
+<h3 id="section-6">任务 2</h3>
+
+<p>比赛结束后，发现第 64 分钟的黄牌判罚不公正。请从事件日志中<strong>删除</strong>该事件。</p>
+
+<h3 id="section-7">任务 3</h3>
+
+<p>将以下字符串打印到控制台（需要<strong>计算</strong>平均间隔分钟数）：</p>
+
+<pre><code>&quot;An event happened, on average, every 9 minutes&quot;</code></pre>
+
+<div class="callout"><p>💡 提示：比赛时长为 90 分钟。</p></div>
+
+<h3 id="section-8">任务 4</h3>
+
+<p>遍历所有事件，按以下格式打印到控制台，并标注是<strong>上半场</strong>还是<strong>下半场</strong>（45 分钟为分界线）：</p>
+
+<pre><code>&quot;[FIRST HALF] 17: ⚽ GOAL&quot;
+&quot;[FIRST HALF] 36: 🔁 Substitution&quot;
+&quot;[SECOND HALF] 47: ⚽ GOAL&quot;
+...</code></pre>
+
+<hr>
+
+<h2 id="section-9">🧪 实战沙盒</h2>
+
+<div class="callout"><p>⚡ 先独立完成再查看答案！</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">challenge3.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const gameEvents = new Map([
+  [17, '⚽ GOAL'],
+  [36, '🔁 Substitution'],
+  [47, '⚽ GOAL'],
+  [61, '🔁 Substitution'],
+  [64, '🟡 Yellow card'],
+  [69, '🔴 Red card'],
+  [70, '🔁 Substitution'],
+  [72, '🔁 Substitution'],
+  [76, '⚽ GOAL'],
+  [80, '⚽ GOAL'],
+  [92, '🟡 Yellow card'],
+]);
+
+// =============================================
+// 任务 1: 创建包含所有不同事件类型的数组
+// 提示: Map.values() + Set + 展开运算符
+// =============================================
+
+
+// =============================================
+// 任务 2: 删除第 64 分钟的事件
+// 提示: Map.delete()
+// =============================================
+
+
+// =============================================
+// 任务 3: 计算并打印平均事件间隔
+// 提示: 90 / gameEvents.size
+// =============================================
+
+
+// =============================================
+// 任务 4: 按上/下半场格式打印所有事件
+// 提示: for-of 遍历 Map + 三元运算符判断 &lt;= 45
+// =============================================
+</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<hr>
+
+<details><summary>💡 Jonas 官方解法拆解</summary>
+
+<h3>任务 1 解法：获取唯一事件类型</h3>
+
+<strong>核心思路</strong>：<code>Map.values()</code> → <code>Set</code> 去重 → <code>[...spread]</code> 转数组。
+
+<pre><code class="language-javascript">console.log(events);
+// ['⚽ GOAL', '🔁 Substitution', '🟡 Yellow card', '🔴 Red card']
+</code></pre>
+
+<strong>🔍 执行追踪：</strong>
+
+<table>
+    <thead><tr><th>步骤</th><th>操作</th><th>结果</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>gameEvents.values()</code></td><td>11 个事件值的迭代器</td></tr>
+<tr><td>2</td><td><code>new Set(...)</code></td><td><code>Set(4) {'⚽ GOAL', '🔁 Substitution', '🟡 Yellow card', '🔴 Red card'}</code></td></tr>
+<tr><td>3</td><td><code>[...set]</code></td><td>4 个唯一事件的数组</td></tr></tbody>
+</table>
+<div class="mermaid">
+    A["gameEvents.values()"] --> B["11 个事件值"]
+    B --> C["new Set(...)"]
+    C --> D["4 种唯一事件"]
+    D -->|"[...set]"| E["✅ events 数组"]
+    style E fill:#4CAF50,color:#fff
+
+</div>
+
+---
+
+<h3>任务 2 解法：删除不公正判罚</h3>
+
+<pre><code class="language-javascript">console.log(gameEvents); // Map(10) — 第 64 分钟的事件已移除
+</code></pre>
+
+---
+
+<h3>任务 3 解法：计算平均事件间隔</h3>
+
+<pre><code class="language-javascript">  <code>An event happened, on average, every ${90 / gameEvents.size} minutes</code>
+);
+// &quot;An event happened, on average, every 9 minutes&quot;
+</code></pre>
+
+> 📌 删除 64 分钟事件后，<code>gameEvents.size</code> 为 10。<code>90 / 10 = 9</code>。
+
+<strong>进阶版：用实际比赛时长（92 分钟）计算</strong>
+
+<pre><code class="language-javascript">console.log(
+  <code>An event happened, on average, every ${time / gameEvents.size} minutes</code>
+);
+// &quot;An event happened, on average, every 9.2 minutes&quot;
+</code></pre>
+
+<strong>🔍 执行追踪（获取最后一分钟）：</strong>
+
+<table>
+    <thead><tr><th>步骤</th><th>操作</th><th>结果</th></tr></thead>
+    <tbody><tr><td>1</td><td><code>gameEvents.keys()</code></td><td>键的迭代器</td></tr>
+<tr><td>2</td><td><code>[...keys]</code></td><td><code>[17, 36, 47, 61, 69, 70, 72, 76, 80, 92]</code></td></tr>
+<tr><td>3</td><td><code>.pop()</code></td><td><code>92</code>（取出最后一个并返回）</td></tr></tbody>
+</table>
+---
+
+<h3>任务 4 解法：按半场打印事件</h3>
+
+<pre><code class="language-javascript">  const half = minute &lt;= 45 ? 'FIRST' : 'SECOND';
+  console.log(<code>[${half} HALF] ${minute}: ${event}</code>);
+}
+</code></pre>
+
+<strong>🔍 执行追踪（部分）：</strong>
+
+<table>
+    <thead><tr><th><code>minute</code></th><th><code>minute &lt;= 45</code></th><th><code>half</code></th><th>输出</th></tr></thead>
+    <tbody><tr><td><code>17</code></td><td>✅ true</td><td><code>'FIRST'</code></td><td><code>[FIRST HALF] 17: ⚽ GOAL</code></td></tr>
+<tr><td><code>36</code></td><td>✅ true</td><td><code>'FIRST'</code></td><td><code>[FIRST HALF] 36: 🔁 Substitution</code></td></tr>
+<tr><td><code>47</code></td><td>❌ false</td><td><code>'SECOND'</code></td><td><code>[SECOND HALF] 47: ⚽ GOAL</code></td></tr>
+<tr><td><code>69</code></td><td>❌ false</td><td><code>'SECOND'</code></td><td><code>[SECOND HALF] 69: 🔴 Red card</code></td></tr></tbody>
+</table>
+<div class="mermaid">
+    A["🔄 for...of gameEvents"] --> B["解构 [minute, event]"]
+    B --> C{"minute <= 45 ?"}
+    C -->|"✅"| D["half = 'FIRST'"]
+    C -->|"❌"| E["half = 'SECOND'"]
+    D --> F["🖨️ [FIRST HALF] minute: event"]
+    E --> G["🖨️ [SECOND HALF] minute: event"]
+
+</div>
+
+</details>
+
+<hr>
+
+<h2 id="section-10">🧠 核心知识点回顾</h2>
+
+<h3 id="section-11">1. Map.values() 与 Set 的组合</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：Map 的所有值就像一箱混合水果（有很多重复），<code>Set</code> 就是过滤器——只保留每种水果各一个样本。</p></div>
+
+<div class="mermaid">
+flowchart LR
+    A["Map.values()"] -->|"全部值（含重复）"| B["new Set(...)"]
+    B -->|"去重后"| C["[...set]"]
+    C -->|"转为数组"| D["✅ 唯一值数组"]
+</div>
+
+<p><strong>📊 Map 遍历方法总结：</strong></p>
+
+<table>
+    <thead><tr><th>方法</th><th>返回内容</th><th>示例</th></tr></thead>
+    <tbody><tr><td><code>map.keys()</code></td><td>所有键的迭代器</td><td>分钟数 <code>[17, 36, 47, ...]</code></td></tr>
+<tr><td><code>map.values()</code></td><td>所有值的迭代器</td><td>事件 <code>['GOAL', 'Substitution', ...]</code></td></tr>
+<tr><td><code>map.entries()</code></td><td>所有键值对的迭代器</td><td><code>[[17, 'GOAL'], ...]</code></td></tr>
+<tr><td>直接 <code>for-of</code></td><td>等同于 <code>.entries()</code></td><td><code>[minute, event]</code></td></tr></tbody>
+</table>
+
+<hr>
+
+<h3 id="section-12">2. Array.pop() 的双重用途</h3>
+
+<pre><code class="language-javascript">const arr = [17, 36, 47, 92];
+
+// 用途 1: 删除最后一个元素
+arr.pop(); // arr 变为 [17, 36, 47]
+
+// 用途 2: 获取最后一个元素的值
+const last = [17, 36, 47, 92].pop(); // last = 92</code></pre>
+
+<div class="callout"><p>💡 <code>pop()</code> 不仅会<strong>删除</strong>数组最后一个元素，还会<strong>返回</strong>被删除的元素。</p></div>
+
+<hr>
+
+<h2 id="section-13">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：服务器日志分析——用 Map 存储带时间戳的日志事件，进行统计和筛选。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">log_analysis.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const serverLogs = new Map([
+  [100, 'INFO: Server started'],
+  [250, 'INFO: User login'],
+  [400, 'WARN: High memory usage'],
+  [550, 'ERROR: Database timeout'],
+  [700, 'INFO: User login'],
+  [850, 'WARN: High memory usage'],
+  [1000, 'INFO: Server shutdown'],
+]);
+
+// 1️⃣ 获取所有不同类型的日志
+const logTypes = [...new Set(serverLogs.values())];
+console.log('📋 日志类型：', logTypes);
+
+// 2️⃣ 计算平均事件间隔
+const lastTime = [...serverLogs.keys()].pop();
+console.log(`⏱️ 平均每 ${lastTime / serverLogs.size} 毫秒发生一次事件`);
+
+// 3️⃣ 按日志级别分类
+for (const [time, log] of serverLogs) {
+  const level = log.startsWith('ERROR') ? '🔴' :
+                log.startsWith('WARN') ? '🟡' : '🟢';
+  console.log(`${level} [${time}ms] ${log}`);
+}</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>操作</th><th>输入</th><th>输出</th></tr></thead>
+    <tbody><tr><td>唯一日志类型</td><td>7 条日志</td><td>5 种不同类型</td></tr>
+<tr><td>平均间隔</td><td><code>1000 / 7</code></td><td><code>≈142.8ms</code></td></tr>
+<tr><td>级别标注</td><td><code>'ERROR: ...'</code></td><td><code>🔴 [550ms] ERROR: ...</code></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-14">💡 关键要点</h2>
+
+<ul>
+<li>✅ <code>[...new Set(map.values())]</code> 是获取 Map 中唯一值的经典模式</li>
+<li>✅ <code>map.delete(key)</code> 直接按键删除——比数组删除简单得多</li>
+<li>✅ <code>[...map.keys()].pop()</code> 可以获取 Map 中最后一个键</li>
+<li>✅ Map 可以直接用 <code>for-of</code> 遍历，每次解构得到 <code>[key, value]</code></li>
+</ul>
+
+<h2 id="section-15">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>忘记 <code>pop()</code> 会修改原数组</strong>：如果需要保留原数组，应先复制再 <code>pop()</code></li>
+<li>⚠️ <strong>混淆 <code>map.size</code> 和 <code>array.length</code></strong>：Map 用 <code>size</code>，Array 用 <code>length</code></li>
+</ul>
+
+<h2 id="section-16">🐛 报错实验室</h2>
+
+<div class="callout"><p>主动展示错误写法及报错信息</p></div>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">const gameEvents = new Map([[17, 'GOAL'], [36, 'Sub']]);
+// 试图用 length 获取 Map 大小
+console.log(gameEvents.length);</code></pre>
+
+<p><strong>浏览器输出：</strong></p>
+
+<pre><code>undefined</code></pre>
+
+<p><strong>🔑 解读</strong>：Map 没有 <code>.length</code> 属性（那是数组的）。应使用 <code>.size</code> 获取 Map 的键值对数量。</p>
+
+<hr>
+
+<h2 id="section-17">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>Map 删除</td><td>delete</td><td>按键移除键值对</td><td><code>map.delete(key)</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map/delete" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>Map 大小</td><td>size</td><td>键值对的数量</td><td><code>map.size</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map/size" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>Map 值</td><td>values</td><td>返回所有值的迭代器</td><td><code>map.values()</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map/values" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>Map 键</td><td>keys</td><td>返回所有键的迭代器</td><td><code>map.keys()</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Map/keys" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>弹出末尾</td><td>pop</td><td>移除并返回数组最后元素</td><td><code>arr.pop()</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/pop" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-18">🧪 学习验证</h2>
+
+<h3 id="section-19">📝 动手练习</h3>
+
+<p><strong>练习 1：统计 Map 中某值出现的次数</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">const gameEvents = new Map([
+  [17, 'GOAL'], [36, 'Substitution'], [47, 'GOAL'],
+  [61, 'Substitution'], [69, 'Red card'], [76, 'GOAL'], [80, 'GOAL'],
+]);
+// 统计 'GOAL' 出现了多少次
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">for (const [, event] of gameEvents) {
+  if (event === 'GOAL') goalCount++;
+}
+console.log(<code>进球数：${goalCount}</code>); // 4
+</code></pre>
+<strong>解题思路</strong>：遍历 Map 时只需要值，键可以用 <code>,</code> 跳过。也可以用 <code>[...gameEvents.values()].filter(e =&gt; e === 'GOAL').length</code>。
+</details>
+
+<p><strong>练习 2：找出事件间隔最长的两个相邻事件</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">const gameEvents = new Map([
+  [17, 'GOAL'], [36, 'Substitution'], [47, 'GOAL'],
+  [61, 'Substitution'], [76, 'GOAL'], [80, 'GOAL'], [92, 'Yellow card'],
+]);
+// 找出哪两个相邻事件之间的间隔最长
+// 在这里写你的代码
+</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">let maxGap = 0;
+let gapBetween = '';
+
+for (let i = 1; i &lt; times.length; i++) {
+  const gap = times[i] - times[i - 1];
+  if (gap &gt; maxGap) {
+    maxGap = gap;
+    gapBetween = <code>${times[i - 1]}' → ${times[i]}'</code>;
+  }
+}
+console.log(<code>最长间隔：${maxGap} 分钟（${gapBetween}）</code>);
+// 最长间隔：19 分钟（17' → 36'）
+</code></pre>
+<strong>解题思路</strong>：先将所有键转为数组，然后遍历比较相邻元素的差值。
+</details>
+
+<h3 id="section-20">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">如何获取 Map 中所有唯一值？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `map.uniqueValues()`</div>
+<div class="quiz-option" data-value="B">B) `[...new Set(map.values())]`</div>
+<div class="quiz-option" data-value="C">C) `map.values().unique()`</div>
+    </div>
+    <div class="quiz-explanation">
+        Map 没有 <code>uniqueValues()</code> 方法。正确做法是用 <code>map.values()</code> 获取迭代器，传入 <code>Set</code> 去重，再展开为数组。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>[1, 2, 3, 4].pop()</code> 的返回值是什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `[1, 2, 3]`</div>
+<div class="quiz-option" data-value="B">B) `undefined`</div>
+<div class="quiz-option" data-value="C">C) `4`</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>pop()</code> 删除并<strong>返回</strong>数组的最后一个元素，所以返回 <code>4</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question">Map 的 <code>delete()</code> 方法需要传入什么参数？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) 要删除的键（key）</div>
+<div class="quiz-option" data-value="B">B) 要删除的值（value）</div>
+<div class="quiz-option" data-value="C">C) 要删除的索引（index）</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>map.delete(key)</code> 根据键来删除对应的键值对。Map 没有索引的概念。
+    </div>
+</div>
+
+<h3 id="section-21">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    // 获取 Map 的唯一值数组<br>
+    const unique = [...new Set(map.<input type="text" class="blank-input" data-answer="values" placeholder="1">())];<br>
+    <br>
+    // 删除 Map 中的特定键<br>
+    map.<input type="text" class="blank-input" data-answer="delete" placeholder="2">(64);<br>
+    <br>
+    // 获取 Map 中键值对数量<br>
+    const count = map.<input type="text" class="blank-input" data-answer="size" placeholder="3">;
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>数组入门（Introduction to Arrays）</title>
+    <!-- Google Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Prism.js CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+
+        :root {
+            /* Anti-Corporate-AI Minimalist Dark Theme */
+            --bg-color: #0d0d0d;
+            --surface-color: #1a1a1a;
+            --surface-border: #333333;
+            --text-primary: #ededed;
+            --text-secondary: #a0a0a0;
+            --accent-color: #f7df1e; /* JS Yellow */
+            --accent-hover: #e0c810;
+            --error-color: #ff5555;
+            --success-color: #50fa7b;
+            --info-color: #8be9fd;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+        }
+
+        /* Layout */
+        .app-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar (Progress & Nav) */
+        .sidebar {
+            width: 280px;
+            background-color: var(--surface-color);
+            border-right: 1px solid var(--surface-border);
+            padding: 24px;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .sidebar-header {
+            margin-bottom: 32px;
+        }
+
+        .sidebar-title {
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            font-weight: 700;
+        }
+
+        .progress-container {
+            margin-top: 16px;
+            background: var(--surface-border);
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-color);
+            width: 0%;
+            transition: var(--transition);
+        }
+
+        .nav-item {
+            display: block;
+            padding: 10px 12px;
+            margin-bottom: 8px;
+            border-radius: var(--radius-md);
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 15px;
+            transition: var(--transition);
+            border-left: 2px solid transparent;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .nav-item.active {
+            color: var(--accent-color);
+            border-left-color: var(--accent-color);
+            background: rgba(247, 223, 30, 0.1);
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 48px 64px;
+            max-width: 900px;
+        }
+
+        /* Typography */
+        h1 { font-size: 36px; font-weight: 700; margin-bottom: 16px; letter-spacing: -0.5px; }
+        h2 { font-size: 24px; font-weight: 600; margin: 40px 0 20px; border-bottom: 1px solid var(--surface-border); padding-bottom: 10px; }
+        h3 { font-size: 20px; font-weight: 600; margin: 32px 0 16px; color: var(--accent-color); }
+        p { margin-bottom: 16px; font-size: 16px; color: var(--text-secondary); }
+        strong { color: var(--text-primary); }
+
+        /* Meta Info Block */
+        .meta-info {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-md);
+            padding: 16px 20px;
+            margin-bottom: 32px;
+            display: flex;
+            gap: 24px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+        .meta-info span { display: flex; align-items: center; gap: 8px; }
+
+        /* Alerts & Callouts */
+        .callout {
+            background: var(--surface-color);
+            border-left: 4px solid var(--info-color);
+            padding: 16px 20px;
+            border-radius: 0 var(--radius-md) var(--radius-md) 0;
+            margin: 24px 0;
+        }
+        .callout.analogy { border-color: var(--accent-color); background: rgba(247, 223, 30, 0.05); }
+        .callout.warning { border-color: var(--error-color); background: rgba(255, 85, 85, 0.05); }
+
+        /* Code Blocks */
+        pre[class*="language-"] {
+            border-radius: var(--radius-lg);
+            background: var(--surface-color) !important;
+            border: 1px solid var(--surface-border);
+            margin: 24px 0;
+            padding: 20px !important;
+            font-family: var(--font-mono) !important;
+            font-size: 14px;
+        }
+        code[class*="language-"], pre[class*="language-"] { text-shadow: none !important; }
+
+        /* Runnable Code Editor */
+        .runnable-editor {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            margin: 24px 0;
+            overflow: hidden;
+        }
+        
+        .editor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 20px;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        .editor-title { font-size: 13px; font-family: var(--font-mono); color: var(--text-secondary); }
+
+        .btn-run {
+            background: transparent;
+            color: var(--success-color);
+            border: 1px solid var(--success-color);
+            padding: 6px 14px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: var(--font-mono);
+            font-size: 12px;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .btn-run:hover {
+            background: var(--success-color);
+            color: var(--bg-color);
+        }
+
+        .editor-container { position: relative; }
+        .editor-textarea {
+            width: 100%;
+            min-height: 450px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            padding: 20px;
+            border: none;
+            resize: vertical;
+            outline: none;
+            line-height: 1.5;
+        }
+
+        .console-output {
+            background: #000;
+            border-top: 1px solid var(--surface-border);
+            padding: 16px 20px;
+            font-family: var(--font-mono);
+            font-size: 13px;
+            color: var(--text-secondary);
+            min-height: 60px;
+            white-space: pre-wrap;
+            display: none;
+        }
+        .console-output.visible { display: block; }
+        .console-output.error { color: var(--error-color); }
+
+        /* Mermaid Charts */
+        .mermaid {
+            background: var(--surface-color);
+            padding: 32px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            display: flex;
+            justify-content: center;
+            margin: 24px 0;
+        }
+
+        /* Quiz Component */
+        .quiz-card {
+            background: var(--surface-color);
+            border: 1px solid var(--surface-border);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .quiz-question { font-size: 16px; font-weight: 500; margin-bottom: 20px; color: var(--text-primary); }
+
+        .quiz-options { display: flex; flex-direction: column; gap: 12px; }
+
+        .quiz-option {
+            background: var(--bg-color);
+            border: 1px solid var(--surface-border);
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .quiz-option:hover { border-color: var(--text-secondary); }
+        .quiz-option.selected { border-color: var(--info-color); }
+        .quiz-option.correct { border-color: var(--success-color); background: rgba(80, 250, 123, 0.1); color: var(--success-color); }
+        .quiz-option.incorrect { border-color: var(--error-color); background: rgba(255, 85, 85, 0.1); color: var(--error-color); }
+
+        .quiz-explanation {
+            margin-top: 20px;
+            padding: 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            display: none;
+            border-left: 3px solid var(--info-color);
+        }
+
+        /* Fill in the blanks */
+        .fill-blank-container {
+            font-family: var(--font-mono);
+            background: var(--surface-color);
+            padding: 24px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--surface-border);
+            line-height: 2;
+            margin: 24px 0;
+            font-size: 14px;
+        }
+
+        .blank-input {
+            appearance: none;
+            background: transparent;
+            border: none;
+            border-bottom: 2px solid var(--text-secondary);
+            color: var(--accent-color);
+            font-family: var(--font-mono);
+            font-size: 14px;
+            text-align: center;
+            width: 80px;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .blank-input:focus { border-bottom-color: var(--accent-color); }
+        .blank-input.correct { border-bottom-color: var(--success-color); color: var(--success-color); }
+        .blank-input.incorrect { border-bottom-color: var(--error-color); color: var(--error-color); }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 24px 0;
+            background: var(--surface-color);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--surface-border);
+        }
+
+        th, td {
+            padding: 14px 20px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+
+        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-primary); }
+        tr:last-child td { border-bottom: none; }
+
+        /* Utility */
+        .hidden { display: none !important; }
+        .flex { display: flex; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .fade-in { animation: fadeIn 0.3s ease-in-out; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* -------------------------------------
+           Responsive Design & A11y 
+           ------------------------------------- */
+        @media (max-width: 768px) {
+            .app-container { flex-direction: column; }
+            .sidebar {
+                position: static;
+                width: 100%;
+                height: auto;
+                border-right: none;
+                border-bottom: 1px solid var(--surface-border);
+                padding: 20px;
+            }
+            .sidebar-header { margin-bottom: 16px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+            .progress-container { width: 100%; flex-basis: 100%; order: 3; margin-top: 10px; }
+            .main-content {
+                margin-left: 0;
+                padding: 24px 20px;
+            }
+            nav#toc { display: flex; flex-wrap: wrap; gap: 8px; }
+            .nav-item { margin-bottom: 0; border-left: none; border-bottom: 2px solid transparent; }
+            .nav-item.active { border-left-color: transparent; border-bottom-color: var(--accent-color); }
+        }
+
+        /* Focus rings for Accessibility */
+        .btn-run:focus-visible, .editor-textarea:focus-visible, .quiz-option:focus-visible {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
+        }
+
+    
+    </style>
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-title">第 03 章 / 进度</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar"></div>
+            </div>
+            <div style="margin-top: 8px; font-size: 12px; color: var(--text-secondary); text-align: right;" id="progressText">0%</div>
+        </div>
+        <nav id="toc">
+            <a href="#section-0" class="nav-item active">数组入门（Introduction to Arrays）</a>
+            <a href="#section-1" class="nav-item">📌 知识脉络</a>
+            <a href="#section-2" class="nav-item">🎯 概述</a>
+            <a href="#section-3" class="nav-item">核心知识点</a>
+            <a href="#section-9" class="nav-item">🛠️ 代码实战与真实场景</a>
+            <a href="#section-10" class="nav-item">💡 关键要点</a>
+            <a href="#section-11" class="nav-item">⚠️ 常见误区</a>
+            <a href="#section-12" class="nav-item">🐛 报错实验室</a>
+            <a href="#section-13" class="nav-item">📖 词汇速查表 Cheat Sheet</a>
+            <a href="#section-14" class="nav-item">🧪 学习验证</a>
+        </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+<h1 id="section-0">数组入门（Introduction to Arrays）</h1>
+
+<div class="callout"><p>📺 来源：010 Introduction to Arrays.en.srt<br>📂 章节：第 03 章</p></div>
+
+<h2 id="section-1">📌 知识脉络</h2>
+
+<ul>
+<li><strong>前置知识</strong>：变量声明（<code>let</code>、<code>const</code>）、函数、数据类型</li>
+<li><strong>后续扩展</strong>：数组方法（<code>push</code>、<code>pop</code>、<code>shift</code>、<code>unshift</code>）、循环遍历数组、数组解构（Destructuring）</li>
+</ul>
+
+<h2 id="section-2">🎯 概述</h2>
+
+<p>数组（Array）是 JavaScript 中最重要的<strong>数据结构</strong>之一。它是一个<strong>有序集合</strong>，可以在一个变量中存储多个值（甚至不同类型的值）。数组使用<strong>从 0 开始的索引</strong>访问元素，并通过 <code>.length</code> 属性获取元素数量。</p>
+
+<h2 id="section-3">核心知识点</h2>
+
+<h3 id="section-4">1. 创建数组的两种方式</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：数组就像一排<strong>储物柜</strong>🗄️——每个柜子有自己的编号（索引），从 0 号开始。你可以往任何一个柜子里放东西，也可以随时打开某个编号查看内容。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">create_array.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
+
+// 方式 1：字面量语法（最常用 ✅）
+const friends = ['Michael', 'Steven', 'Peter'];
+console.log(friends); // ['Michael', 'Steven', 'Peter']
+
+// 方式 2：new Array() 构造函数
+const years = new Array(1991, 1984, 2008, 2020);
+console.log(years); // [1991, 1984, 2008, 2020]</textarea>
+    </div>
+    <div id="console1" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    subgraph friends["📦 friends 数组"]
+        A["[0]<br/>Michael"] --- B["[1]<br/>Steven"] --- C["[2]<br/>Peter"]
+    end
+    
+    style A fill:#667eea,stroke:#333,color:#fff
+    style B fill:#764ba2,stroke:#333,color:#fff
+    style C fill:#f093fb,stroke:#333
+</div>
+
+<hr>
+
+<h3 id="section-5">2. 访问与修改数组元素</h3>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">access_array.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// 访问元素（索引从 0 开始）
+console.log(friends[0]); // Michael（第一个）
+console.log(friends[2]); // Peter（第三个）
+
+// 获取数组长度
+console.log(friends.length);     // 3
+// 获取最后一个元素
+console.log(friends[friends.length - 1]); // Peter
+
+// 修改元素
+friends[2] = 'Jay';
+console.log(friends); // ['Michael', 'Steven', 'Jay']</textarea>
+    </div>
+    <div id="console2" class="console-output"></div>
+</div>
+
+<p><strong>🔍 执行追踪</strong>：</p>
+
+<table>
+    <thead><tr><th>操作</th><th>索引</th><th><code>friends</code> 状态</th><th>说明</th></tr></thead>
+    <tbody><tr><td>初始</td><td>—</td><td><code>['Michael', 'Steven', 'Peter']</code></td><td>3 个元素</td></tr>
+<tr><td><code>friends[0]</code></td><td><code>0</code></td><td>—</td><td>返回 <code>'Michael'</code></td></tr>
+<tr><td><code>friends.length</code></td><td>—</td><td>—</td><td>返回 <code>3</code></td></tr>
+<tr><td><code>friends[friends.length - 1]</code></td><td><code>3-1=2</code></td><td>—</td><td>返回 <code>'Peter'</code>（最后一个）</td></tr>
+<tr><td><code>friends[2] = 'Jay'</code></td><td><code>2</code></td><td><code>['Michael', 'Steven', 'Jay']</code></td><td>Peter → Jay</td></tr></tbody>
+</table>
+
+<div class="callout"><p>💡 <strong>记忆口诀</strong>：<strong>最后一个元素 = <code>arr[arr.length - 1]</code></strong> —— 因为索引从 0 起步，最大索引永远比长度少 1。</p></div>
+
+<hr>
+
+<h3 id="section-6">3. <code>const</code> 数组可以修改元素！</h3>
+
+<div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>const</code> 就像你买的一间<strong>公寓</strong>🏠——你不能卖掉并换成另一间（不可重新赋值），但你完全可以重新装修里面的房间（可以修改数组元素）。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">const_array.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">'use strict';
+
+const friends = ['Michael', 'Steven', 'Peter'];
+
+// ✅ 可以修改元素
+friends[2] = 'Jay'; // 合法！
+
+// ❌ 不能替换整个数组
+// friends = ['Bob', 'Alice']; 
+// TypeError: Assignment to constant variable.</textarea>
+    </div>
+    <div id="console3" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["const friends = [...]"] --> B{"操作类型？"}
+    B -- "修改元素<br/>friends[0] = 'Jay'" --> C["✅ 合法<br/>数组内容是可变的"]
+    B -- "替换整个数组<br/>friends = [...]" --> D["❌ 报错<br/>const 不可重新赋值"]
+    
+    style C fill:#51cf66,stroke:#333,color:#fff
+    style D fill:#ff6b6b,stroke:#333,color:#fff
+</div>
+
+<hr>
+
+<h3 id="section-7">4. 数组可以存储不同类型的值</h3>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">mixed_array.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">'use strict';
+
+const firstName = 'Jonas';
+const jonas = [firstName, 'Schmedtmann', 2037 - 1991, 'teacher', friends];
+console.log(jonas);
+// ['Jonas', 'Schmedtmann', 46, 'teacher', Array(3)]
+console.log(jonas.length); // 5</textarea>
+    </div>
+    <div id="console4" class="console-output"></div>
+</div>
+
+<p>数组的<strong>每个位置只需要一个表达式</strong>——可以是字面量、变量、计算结果，甚至是函数调用或另一个数组。</p>
+
+<hr>
+
+<h3 id="section-8">5. 数组与函数结合使用</h3>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">array_with_function.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">'use strict';
+
+const calcAge = function (birthYear) {
+  return 2037 - birthYear;
+};
+
+const years = [1990, 1967, 2002, 2010, 2018];
+
+// ❌ 不能直接对数组做算术运算
+// console.log(calcAge(years)); // NaN
+
+// ✅ 对单个元素调用函数
+const age1 = calcAge(years[0]);                    // 1990 → 47
+const age2 = calcAge(years[1]);                    // 1967 → 70
+const age3 = calcAge(years[years.length - 1]);     // 2018 → 19
+
+console.log(age1, age2, age3); // 47 70 19
+
+// ✅ 直接在数组字面量中调用函数
+const ages = [
+  calcAge(years[0]),
+  calcAge(years[1]),
+  calcAge(years[years.length - 1])
+];
+console.log(ages); // [47, 70, 19]</textarea>
+    </div>
+    <div id="console5" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart LR
+    A["📦 years<br/>[1990, 1967, ..., 2018]"] --> B["years[0] = 1990"]
+    A --> C["years[1] = 1967"]
+    A --> D["years[4] = 2018"]
+    B --> E["calcAge(1990) → 47"]
+    C --> F["calcAge(1967) → 70"]
+    D --> G["calcAge(2018) → 19"]
+    E --> H["📦 ages = [47, 70, 19]"]
+    F --> H
+    G --> H
+    
+    style A fill:#667eea,stroke:#333,color:#fff
+    style H fill:#51cf66,stroke:#333,color:#fff
+</div>
+
+<hr>
+
+<h2 id="section-9">🛠️ 代码实战与真实场景</h2>
+
+<div class="callout"><p><strong>💼 业务场景</strong>：管理学生成绩——用数组存储一个班级的考试成绩，计算最高分和最低分。</p></div>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">student_scores.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">'use strict';
+
+const studentNames = ['小明', '小红', '小华', '小李', '小张'];
+const scores = [85, 92, 78, 95, 88];
+
+// 找出最高分和最低分的学生
+let maxIndex = 0;
+let minIndex = 0;
+
+for (let i = 1; i &lt; scores.length; i++) {
+  if (scores[i] &gt; scores[maxIndex]) maxIndex = i;
+  if (scores[i] &lt; scores[minIndex]) minIndex = i;
+}
+
+console.log(`🏆 最高分: ${studentNames[maxIndex]} — ${scores[maxIndex]}分`);
+console.log(`📉 最低分: ${studentNames[minIndex]} — ${scores[minIndex]}分`);</textarea>
+    </div>
+    <div id="console6" class="console-output"></div>
+</div>
+
+<div class="mermaid">
+flowchart TD
+    A["📊 scores = [85, 92, 78, 95, 88]"] --> B["遍历比较"]
+    B --> C["maxIndex = 3 (95分)"]
+    B --> D["minIndex = 2 (78分)"]
+    C --> E["🏆 小李 — 95分"]
+    D --> F["📉 小华 — 78分"]
+    
+    style E fill:#51cf66,stroke:#333,color:#fff
+    style F fill:#ff6b6b,stroke:#333,color:#fff
+</div>
+
+<p><strong>📊 输入输出示例：</strong></p>
+
+<table>
+    <thead><tr><th>索引</th><th>学生</th><th>分数</th><th>备注</th></tr></thead>
+    <tbody><tr><td><code>0</code></td><td>小明</td><td>85</td><td>—</td></tr>
+<tr><td><code>1</code></td><td>小红</td><td>92</td><td>—</td></tr>
+<tr><td><code>2</code></td><td>小华</td><td>78</td><td>📉 最低分</td></tr>
+<tr><td><code>3</code></td><td>小李</td><td>95</td><td>🏆 最高分</td></tr>
+<tr><td><code>4</code></td><td>小张</td><td>88</td><td>—</td></tr></tbody>
+</table>
+
+<h2 id="section-10">💡 关键要点</h2>
+
+<ul>
+<li>✅ 数组用 <code>[]</code> 创建，索引从 <strong>0</strong> 开始</li>
+<li>✅ 用 <code>arr.length</code> 获取数组长度，<code>arr[arr.length - 1]</code> 获取最后一个元素</li>
+<li>✅ <code>const</code> 数组<strong>可以修改元素</strong>，但<strong>不能替换整个数组</strong></li>
+<li>✅ 数组可以存储<strong>不同类型</strong>的值（数字、字符串、布尔值、甚至其他数组）</li>
+<li>✅ 数组的每个位置可以放任何<strong>表达式</strong>（包括函数调用的结果）</li>
+</ul>
+
+<h2 id="section-11">⚠️ 常见误区</h2>
+
+<ul>
+<li>⚠️ <strong>误区 1</strong>：以为数组索引从 1 开始——JavaScript 数组索引从 <strong>0</strong> 开始</li>
+<li>⚠️ <strong>误区 2</strong>：以为 <code>const</code> 声明的数组完全不可修改——只是不能<strong>重新赋值</strong>为另一个数组</li>
+<li>⚠️ <strong>误区 3</strong>：对整个数组执行算术运算——<code>calcAge(years)</code> 返回 <code>NaN</code>，必须对<strong>单个元素</strong>操作</li>
+</ul>
+
+<h2 id="section-12">🐛 报错实验室</h2>
+
+<p><strong>❌ 错误写法：</strong></p>
+
+<pre><code class="language-javascript">'use strict';
+
+const names = ['Alice', 'Bob', 'Charlie'];
+console.log(names[3]); // ⚠️ 越界访问</code></pre>
+
+<p><strong>浏览器报错：</strong></p>
+
+<pre><code>undefined</code></pre>
+
+<p><strong>🔑 解读</strong>：访问不存在的索引不会报错，但返回 <code>undefined</code>。数组长度为 3，有效索引为 0、1、2。访问 <code>names[3]</code> 超出范围，返回 <code>undefined</code>。</p>
+
+<hr>
+
+<h2 id="section-13">📖 词汇速查表 (Cheat Sheet)</h2>
+
+<table>
+    <thead><tr><th>中文术语</th><th>英文术语</th><th>简明释义</th><th>速查代码</th><th>📚 官方文档</th></tr></thead>
+    <tbody><tr><td>数组</td><td>Array</td><td>有序数据集合</td><td><code>const arr = [1,2,3];</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array" target="_blank" style="color:var(--info-color);">MDN</a></td></tr>
+<tr><td>索引</td><td>Index</td><td>元素在数组中的位置编号</td><td><code>arr[0]</code></td><td>—</td></tr>
+<tr><td>长度</td><td>Length</td><td>数组中元素的数量</td><td><code>arr.length</code></td><td><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array/length" target="_blank" style="color:var(--info-color);">MDN</a></td></tr></tbody>
+</table>
+
+<hr>
+
+<h2 id="section-14">🧪 学习验证</h2>
+
+<h3 id="section-15">📝 动手练习</h3>
+
+<p><strong>练习 1：家庭年龄计算器</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise1.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor7', 'console7')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor7" class="editor-textarea" spellcheck="false">'use strict';
+
+// 创建一个家庭成员出生年份数组 birthYears
+// 用函数 calcAge(birthYear) 计算每个人的年龄
+// 将结果存入新的 ages 数组
+// 假设当前年份为 2037
+
+
+// 测试
+console.log(ages); // 应输出每个人的年龄</textarea>
+    </div>
+    <div id="console7" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">
+const calcAge = birthYear =&gt; 2037 - birthYear;
+const birthYears = [1965, 1990, 2015, 2020];
+
+const ages = [
+  calcAge(birthYears[0]),
+  calcAge(birthYears[1]),
+  calcAge(birthYears[2]),
+  calcAge(birthYears[3])
+];
+
+console.log(ages); // [72, 47, 22, 17]
+</code></pre>
+<strong>解题思路</strong>：对数组每个元素调用 <code>calcAge</code> 函数，将返回值放在新数组中。
+</details>
+
+<p><strong>练习 2：混合类型数组</strong></p>
+
+<div class="runnable-editor">
+    <div class="editor-header">
+        <span class="editor-title">exercise2.js</span>
+        <button class="btn-run" onclick="runCode('codeEditor8', 'console8')">▶ 运行代码</button>
+    </div>
+    <div class="editor-container">
+        <textarea id="codeEditor8" class="editor-textarea" spellcheck="false">'use strict';
+
+// 创建一个数组 profile，包含以下信息：
+// 你的名字(string)、年龄(number)、是否为学生(boolean)、爱好数组
+// 然后打印出：&quot;我叫XX，今年XX岁，我的爱好有：XX, XX&quot;
+
+</textarea>
+    </div>
+    <div id="console8" class="console-output"></div>
+</div>
+
+<details><summary>💡 参考答案</summary>
+
+<pre><code class="language-javascript">
+const profile = ['小明', 20, true, ['编程', '游泳', '阅读']];
+
+console.log(<code>我叫${profile[0]}，今年${profile[1]}岁，我的爱好有：${profile[3].join(', ')}</code>);
+// 我叫小明，今年20岁，我的爱好有：编程, 游泳, 阅读
+</code></pre>
+<strong>解题思路</strong>：数组可以嵌套数组。用 <code>profile[3]</code> 访问爱好数组，<code>.join(', ')</code> 将数组转为逗号分隔的字符串。
+</details>
+
+<h3 id="section-16">❓ 理解检测</h3>
+
+<div class="quiz-card" data-correct="C">
+    <div class="quiz-question"><code>const arr = [10, 20, 30]; console.log(arr[3]);</code> 输出什么？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `30`</div>
+<div class="quiz-option" data-value="B">B) 报错</div>
+<div class="quiz-option" data-value="C">C) `undefined`</div>
+<div class="quiz-option" data-value="D">D) `null`</div>
+    </div>
+    <div class="quiz-explanation">
+        数组长度为 3，有效索引为 0、1、2。索引 3 超出范围，返回 <code>undefined</code>，不会报错。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="B">
+    <div class="quiz-question">如何获取数组 <code>arr</code> 的最后一个元素？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `arr[arr.length]`</div>
+<div class="quiz-option" data-value="B">B) `arr[arr.length - 1]`</div>
+<div class="quiz-option" data-value="C">C) `arr[-1]`</div>
+<div class="quiz-option" data-value="D">D) `arr.last()`</div>
+    </div>
+    <div class="quiz-explanation">
+        索引从 0 开始，最后一个元素的索引是 <code>length - 1</code>。<code>arr[arr.length]</code> 会越界返回 <code>undefined</code>，<code>arr[-1]</code> 在常规数组中也返回 <code>undefined</code>。
+    </div>
+</div>
+
+<div class="quiz-card" data-correct="A">
+    <div class="quiz-question"><code>const</code> 声明的数组，以下哪个操作是合法的？</div>
+    <div class="quiz-options">
+        <div class="quiz-option" data-value="A">A) `arr[0] = 'new value'`</div>
+<div class="quiz-option" data-value="B">B) `arr = [1, 2, 3]`</div>
+<div class="quiz-option" data-value="C">C) 以上都不合法</div>
+<div class="quiz-option" data-value="D">D) 以上都合法</div>
+    </div>
+    <div class="quiz-explanation">
+        <code>const</code> 只阻止变量被重新赋值，但数组内容是可变的。修改元素 <code>arr[0] = ...</code> 合法，替换整个数组 <code>arr = [...]</code> 不合法。
+    </div>
+</div>
+
+<h3 id="section-17">🔧 代码填空</h3>
+
+<div class="fill-blank-container" id="fillBlank1">
+    const fruits = ['🍎', '🍊', '🍇'];<br>
+    console.log(fruits[<input type="text" class="blank-input" data-answer="0" placeholder="1">]);           // 🍎<br>
+    console.log(fruits.<input type="text" class="blank-input" data-answer="length" placeholder="2">);       // 3<br>
+    console.log(fruits[fruits.length <input type="text" class="blank-input" data-answer="- 1" placeholder="3">]); // 🍇
+    <br><br>
+    <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
+        ✓ 检查答案
+    </button>
+</div>
+    </main>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+
+<script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+</script>
+
+<script>
+    // 1. Runnable Code Engine (Safe Evaluation)
+    function runCode(editorId, consoleId) {
+        const code = document.getElementById(editorId).value;
+        const outConsole = document.getElementById(consoleId);
+        outConsole.innerHTML = '';
+        outConsole.classList.add('visible');
+        outConsole.classList.remove('error');
+
+        // Mock console.log to trap output
+        let consoleOutput = [];
+        const originalLog = console.log;
+        console.log = function(...args) {
+            consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+
+        try {
+            // Evaluates code in local scope to prevent global leak
+            new Function(code)();
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        } catch (e) {
+            outConsole.classList.add('error');
+            outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
+        } finally {
+            console.log = originalLog;
+        }
+    }
+
+    // 2. Quiz Logic
+    document.querySelectorAll('.quiz-option').forEach(option => {
+        option.addEventListener('click', function() {
+            const card = this.closest('.quiz-card');
+            const correctAnswer = card.getAttribute('data-correct');
+            const explanation = card.querySelector('.quiz-explanation');
+            
+            // Reset others
+            card.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected', 'correct', 'incorrect');
+            });
+            
+            this.classList.add('selected');
+            
+            if (this.getAttribute('data-value') === correctAnswer) {
+                this.classList.add('correct');
+                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
+                explanation.style.borderColor = 'var(--success-color)';
+            } else {
+                this.classList.add('incorrect');
+                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
+                explanation.style.borderColor = 'var(--error-color)';
+            }
+            explanation.style.display = 'block';
+            explanation.classList.add('fade-in');
+        });
+    });
+
+    // 3. Fill in Blanks Logic
+    function checkFillBlanks(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        
+        inputs.forEach(input => {
+            const userAnswer = input.value.trim();
+            const correctAnswer = input.getAttribute('data-answer');
+            
+            input.classList.remove('correct', 'incorrect');
+            
+            if (userAnswer === correctAnswer) {
+                input.classList.add('correct');
+            } else {
+                input.classList.add('incorrect');
+            }
+        });
+    }
+
+    // 4. Scroll Spy & Progress Bar
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const id = entry.target.getAttribute('id');
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
+                    if(nav.getAttribute('href') === `#${id}`) {
+                        nav.classList.add('active');
+                    }
+                });
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0.1 });
+
+    document.querySelectorAll('h2[id]').forEach(h2 => observer.observe(h2));
+
+    window.addEventListener('scroll', () => {
+        const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+        const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        const scrolled = (winScroll / height) * 100;
+        document.getElementById('progressBar').style.width = scrolled + "%";
+        document.getElementById('progressText').innerText = Math.round(scrolled) + "%";
+    });
+
+    // 5. Editor UX Hotkeys (Tab to indent, Ctrl+Enter to run)
+    document.addEventListener('keydown', function(e) {
+        const activeEl = document.activeElement;
+        if (!activeEl || !activeEl.classList.contains('editor-textarea')) return;
+
+        // Ctrl/Cmd + Enter -> Execute Code
+        if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
+            e.preventDefault();
+            const runBtn = activeEl.closest('.runnable-editor').querySelector('.btn-run');
+            if (runBtn) runBtn.click();
+        }
+
+        // Tab -> Insert 2 spaces
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            const start = activeEl.selectionStart;
+            const end = activeEl.selectionEnd;
+            activeEl.value = activeEl.value.substring(0, start) + "  " + activeEl.value.substring(end);
+            activeEl.selectionStart = activeEl.selectionEnd = start + 2;
+        }
+    });
+
+</script>
+
+</body>
+</html>

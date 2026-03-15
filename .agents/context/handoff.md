@@ -4,59 +4,74 @@
 
 ## 🎯 当前终极目标 (Mission)
 
-用户正在学习 **Jonas Schmedtmann 的 The Complete JavaScript Course**（Udemy 课程，20 章）。项目的核心是一个 **字幕转教程的自动化工具链**（Skill: `subtitle-to-tutorial`），能将 `.srt` 英文字幕文件转换为高质量的中文教程。
+用户正在将 Jonas Schmedtmann 的 JavaScript 课程字幕（`.srt` 文件）批量转换为**中文 Markdown 教程**，存储在 `d:\JavaScript\text2\` 目录下，按章节（02~07 等）分文件夹组织。
 
-**当前正在进行的核心任务**：将教程输出格式从 **Markdown (.md)** 升级为 **交互式 HTML (.html)**，让学习体验更有趣、更沉浸。
+**两阶段工作流：**
+1. **阶段一（LLM 生成）**：SRT → Markdown（使用 `/convert` 工作流 + `subtitle-to-tutorial` 技能）
+2. **阶段二（脚本自动化）**：Markdown → HTML（使用 `/md2html` 工作流，尚未全面执行）
 
 ## ✅ 已完成节点 (Accomplished)
 
-1. **SKILL.md 文件夹自动创建功能已更新**
-   - 教程输出路径从 `text/` 平铺改为按章节自动创建子文件夹：`text/{章节号}/`
-   - 文件命名从 `{章节号}_{序号}_{课题名}.md` 改为 `text/{章节号}/{序号}_{课题名}.md`
-   - 索引链接、防覆盖机制、路径约定已同步更新
+### text2/ 目录下已完成的 Markdown 教程：
 
-2. **HTML 教程模板设计方案已获批准**
-   - 设计方案在 `implementation_plan.md`（位于 Antigravity brain 目录）
-   - 核心方案：**单文件 HTML**，内嵌所有 CSS + JS + 内容
-   - 外部依赖：Prism.js（代码高亮）、Mermaid.js（图表渲染）、Google Fonts（字体）通过 CDN 加载
-   - 功能模块：暗色主题、可运行代码、Quiz 即时反馈、代码填空检查、折叠展开动画、响应式布局、进度追踪
+| 章节 | 已完成文件数 | 状态 |
+|------|-------------|------|
+| 02 | 24 篇 | ✅ 全部完成 |
+| 03 | 20 篇 | ✅ 全部完成 |
+| 04 | 1 篇 (001) | 🚧 部分完成 |
+| 05 | 10 篇 | ✅ 全部完成 |
+| 06 | 3 篇 (001, 002, 003) | 🚧 部分完成 |
+| 07 | 5 篇 (001, 003, 004, 005, 006) | 🚧 部分完成 |
+
+### 工具链已建立：
+- `parse_srt.js`：字幕解析脚本，支持单文件和 `--batch` 模式
+- `md-to-html.js`：Markdown 转 HTML 脚本（新建未提交）
+- `prompt_template.md`：LLM 提示词模板（已修改未提交），含 13 项完整性强制清单
+- `/convert` 和 `/md2html` 工作流文件（新建未提交）
 
 ## 🚧 正在进行与中断点 (WIP & Interrupted At)
 
-**中断在：构建 HTML 模板 Demo 文件**
+### ❗ 中断于：06/004 Basic Styling with CSS 的 Markdown 教程生成
 
-具体来说，以下工作尚未开始：
+- **文件**：`d:\JavaScript\06\004 Basic Styling with CSS.en.srt`
+- **状态**：字幕已解析完毕（纯文本已获取），但 **Markdown 教程尚未生成和写入**
+- **输出目标**：`d:\JavaScript\text2\06\004_Basic_Styling_with_CSS.md`
+- **字幕内容摘要**：讲解 CSS 基础——内联样式 vs 外部样式表、选择器（元素、类、ID）、font-family/font-size 继承、border 简写属性、颜色（命名色/RGB/十六进制）
 
-1. **❌ 创建 HTML 模板文件**：`d:\JavaScript\.agents\skills\subtitle-to-tutorial\resources\html_template.html`
-   - 需要包含：暗色主题 CSS、Prism.js 代码高亮、Mermaid 图表渲染、可运行代码编辑器、Quiz 交互组件、代码填空验证、折叠/展开动画、响应式布局
-   - 建议用现有的 `02_015_Taking_Decisions_if_else_Statements.md` 的内容作为 demo 数据填充
+### 06 章节全部 SRT 文件清单（5 个）：
+1. ✅ `001 Section Intro.en.srt`
+2. ✅ `002 Basic HTML Structure and Elements.en.srt`
+3. ✅ `003 Attributes, Classes and IDs.en.srt`
+4. ❌ `004 Basic Styling with CSS.en.srt` ← **当前中断点**
+5. ❌ `005 Introduction to the CSS Box Model.en.srt`
 
-2. **❌ 更新 `prompt_template.md`**：将输出格式从 Markdown 改为 HTML
-   - 当前文件路径：`d:\JavaScript\.agents\skills\subtitle-to-tutorial\resources\prompt_template.md`
-   - 保留所有现有内容生成规则（知识脉络、执行追踪、Mermaid 图表等），只改输出格式部分
-
-3. **❌ 更新 `SKILL.md`**：工作流中文件扩展名从 `.md` 改为 `.html`
-   - 当前文件路径：`d:\JavaScript\.agents\skills\subtitle-to-tutorial\SKILL.md`
-   - 命名规范、文件路径约定都要同步改
+### 未提交的 Git 变更：
+- modified: `.agents/context/handoff.md`
+- modified: `.agents/skills/subtitle-to-tutorial/SKILL.md`
+- modified: `.agents/skills/subtitle-to-tutorial/resources/html_template.html`
+- modified: `.agents/skills/subtitle-to-tutorial/resources/prompt_template.md`
+- new: `.agents/skills/subtitle-to-tutorial/scripts/md-to-html.js`
+- new: `.agents/workflows/convert.md`
+- new: `.agents/workflows/md2html.md`
+- new: `text2/` 目录下所有教程文件
 
 ## ⚠️ 避坑指南与硬性规矩 (Quirks & Rules)
 
-1. **项目没有 Git 仓库**：`d:\JavaScript` 目录下没有 `.git`，不要尝试 git 命令。
-2. **字幕文件在 `d:\JavaScript\01` ~ `d:\JavaScript\20`**，教程输出在 `d:\JavaScript\text\`。
-3. **Skill 核心文件位置**：
-   - `d:\JavaScript\.agents\skills\subtitle-to-tutorial\SKILL.md`（工作流定义）
-   - `d:\JavaScript\.agents\skills\subtitle-to-tutorial\resources\prompt_template.md`（AI 提示词模板）
-   - `d:\JavaScript\.agents\skills\subtitle-to-tutorial\scripts\parse_srt.js`（SRT 解析脚本）
-4. **HTML 模板设计要点**：
-   - 必须是**单文件 HTML**，双击浏览器即开
-   - 暗色主题 + 高级排版（反"大厂 AI 味"审美）
-   - 动画不超过 200ms
-   - 外部依赖仅通过 CDN（Prism.js、Mermaid.js、Google Fonts）
-5. **现有 Markdown 教程内容对照**：`d:\JavaScript\text\02_015_Taking_Decisions_if_else_Statements.md` 是最好的参考内容，包含完整的知识点、Mermaid 图、执行追踪、Quiz、代码填空等所有板块。
+1. **输出路径是 `text2/` 而不是 `text/`**：用户已建立 `text2/` 作为新的 Markdown 教程输出目录（`text/` 是旧版 HTML 教程目录）。
+2. **严格遵循 `/convert` 工作流**：所有步骤标记为 `// turbo-all`，可自动执行。
+3. **必须遵循 prompt_template.md 的 13 项完整性清单**：每篇教程缺一不可。
+4. **不是最后一课不要生成章节挑战**：06/004 不是最后一课（005 才是）。
+5. **文件命名规范**：`{序号}_{课题名}.md`，空格替换为下划线，去掉 `.en.srt` 后缀。
+6. **06 章主题是 HTML & CSS 基础**（不是 JavaScript），教程内容应以 CSS 为主。
 
 ## ⏭️ 你的第一步任务 (Next Steps for YOU)
 
-1. 阅读本文档后，打开 `d:\JavaScript\text\02_015_Taking_Decisions_if_else_Statements.md` 了解现有教程内容结构
-2. **立即开始创建 HTML 模板**（`html_template.html`），用 if/else 教程内容作为 demo 数据
-3. 完成后在浏览器中打开验证效果
-4. 然后更新 `prompt_template.md` 和 `SKILL.md`
+1. **立即生成** `d:\JavaScript\text2\06\004_Basic_Styling_with_CSS.md` 教程：
+   - 运行 `node d:\JavaScript\.agents\skills\subtitle-to-tutorial\scripts\parse_srt.js "d:\JavaScript\06\004 Basic Styling with CSS.en.srt"` 获取字幕文本
+   - 读取 `d:\JavaScript\.agents\skills\subtitle-to-tutorial\resources\prompt_template.md` 模板
+   - 按模板生成中文 Markdown 教程并写入文件
+   - 占位符替换：`{{FILENAME}}` = `004 Basic Styling with CSS.en.srt`，`{{SECTION}}` = `06`，`{{IS_LAST_LESSON}}` = `否`
+
+2. **然后继续** 06/005（最后一课），完成第 06 章全部转换。
+
+3. 用户可能会继续要求转换其他章节，按同样流程处理即可。
