@@ -427,10 +427,10 @@
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>split()</code> 就像一把刀按指定"切割线"把一根长面包切成多段——你告诉它在哪里切（分隔符），它就把字符串切成多个小块，放进一个数组里。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">split.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 按空格拆分
@@ -460,10 +460,10 @@ flowchart LR
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>join()</code> 是 <code>split()</code> 的反操作——就像用胶水和指定"连接符"把碎片粘回一根完整的面包。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">join.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const [firstName, lastName] = 'Jonas Schmedtmann'.split(' ');
@@ -489,10 +489,10 @@ console.log(newName); // 'Mr. Jonas SCHMEDTMANN'</textarea>
 
 <h3 id="section-6">3. <code>split()</code> + <code>join()</code> 实战：首字母大写</h3>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">capitalize.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const capitalizeName = function (name) {
@@ -543,10 +543,10 @@ flowchart LR
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>padStart()</code> 就像在你的号码牌前面补零——把"7"变成"007"；<code>padEnd()</code> 则是在后面补字符，直到总长度达到指定值。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">padding.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">const message = 'Go to gate 23!';
@@ -595,10 +595,10 @@ flowchart TD
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>repeat()</code> 就像复印机——告诉它复印几份，它就给你几份一模一样的副本拼在一起。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">repeat.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 重复字符串
@@ -623,10 +623,10 @@ planesInLine(12); // There are 12 planes in line ✈️✈️✈️✈️✈️�
 
 <div class="callout"><p><strong>💼 业务场景</strong>：CSV 数据解析与格式化——将逗号分隔的数据转换为格式化的报表输出。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">csv_parser.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 模拟 CSV 行数据
@@ -732,10 +732,10 @@ console.log(str.padStart(3, '*'));</code></pre>
 
 <p><strong>练习 1：将连字符命名转为驼峰命名</strong></p>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">exercise1.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor7', 'console7')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor7', 'console7', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor7" class="editor-textarea" spellcheck="false">// 将 CSS 风格的连字符命名转为 JS 的驼峰命名
@@ -760,10 +760,10 @@ console.log(camel); // 'borderBottomWidth'
 
 <p><strong>练习 2：生成密码进度条</strong></p>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">exercise2.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor8', 'console8')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor8', 'console8', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor8" class="editor-textarea" spellcheck="false">// 根据密码强度（0-10）生成可视化进度条
@@ -783,7 +783,7 @@ passwordStrength(10);</textarea>
 
 <pre><code class="language-javascript">  const filled = '█'.repeat(score);
   const empty = '░'.repeat(10 - score);
-  console.log(<code>[${filled}${empty}] ${score}/10</code>);
+  console.log(`[${filled}${empty}] ${score}/10`);
 }
 
 passwordStrength(8);  // [████████░░] 8/10
@@ -846,6 +846,9 @@ passwordStrength(10); // [██████████] 10/10
     <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
         ✓ 检查答案
     </button>
+    <button class="btn-run" onclick="showAnswers('fillBlank1')" style="display:inline-flex;margin-top:10px;margin-left:8px;color:var(--info-color);border-color:var(--info-color);">
+        💡 显示答案
+    </button>
 </div>
     </main>
 </div>
@@ -854,36 +857,196 @@ passwordStrength(10); // [██████████] 10/10
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
 
-<script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<script>
     mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
 </script>
 
 <script>
-    // 1. Runnable Code Engine (Safe Evaluation)
-    function runCode(editorId, consoleId) {
+    function runCode(editorId, consoleId, lang) {
+        lang = lang || 'javascript';
         const code = document.getElementById(editorId).value;
         const outConsole = document.getElementById(consoleId);
         outConsole.innerHTML = '';
         outConsole.classList.add('visible');
         outConsole.classList.remove('error');
 
-        // Mock console.log to trap output
+        // HTML/CSS 可视化预览模式：用 iframe 渲染
+        if (lang === 'html' || lang === 'css') {
+            let htmlContent = '';
+            let cssContent = '';
+
+            if (lang === 'html') {
+                htmlContent = code;
+            } else {
+                // CSS 模式：向前查找最近的 HTML 编辑器内容
+                cssContent = code;
+                const thisEditor = document.getElementById(editorId).closest('.runnable-editor');
+                let prev = thisEditor.previousElementSibling;
+                while (prev) {
+                    if (prev.classList.contains('runnable-editor') && prev.getAttribute('data-lang') === 'html') {
+                        const ta = prev.querySelector('.editor-textarea');
+                        if (ta) htmlContent = ta.value;
+                        break;
+                    }
+                    prev = prev.previousElementSibling;
+                }
+                if (!htmlContent) {
+                    htmlContent = '<!DOCTYPE html><html><head></head><body><p>未找到配对的 HTML 编辑器</p></body></html>';
+                }
+            }
+
+            // 将 CSS 注入到 HTML 中
+            let finalHtml = htmlContent;
+            if (cssContent) {
+                if (finalHtml.includes('</head>')) {
+                    finalHtml = finalHtml.replace('</head>', `<style>${cssContent}</style></head>`);
+                } else if (finalHtml.includes('<body')) {
+                    finalHtml = finalHtml.replace('<body', `<style>${cssContent}</style><body`);
+                } else {
+                    finalHtml = `<style>${cssContent}</style>${finalHtml}`;
+                }
+            }
+
+            // 移除引用外部 CSS 的 link 标签（沙箱没有外部文件）
+            finalHtml = finalHtml.replace(/<link[^>]*rel=["']stylesheet["'][^>]*>/gi, '');
+
+            const iframe = document.createElement('iframe');
+            iframe.style.cssText = 'width:100%;min-height:300px;border:1px solid var(--surface-border);border-radius:8px;background:#fff;';
+            iframe.sandbox = 'allow-scripts';
+            outConsole.innerHTML = '';
+            outConsole.appendChild(iframe);
+            iframe.srcdoc = finalHtml;
+            return;
+        }
+
+        // 收集输出
         let consoleOutput = [];
         const originalLog = console.log;
+
+        function updateDisplay() {
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        }
+
         console.log = function(...args) {
             consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            updateDisplay();
         };
 
+        // 拦截 document.write
+        const originalWrite = document.write;
+        const originalWriteln = document.writeln;
+        document.write = function(...args) { consoleOutput.push(args.join('')); updateDisplay(); };
+        document.writeln = function(...args) { consoleOutput.push(args.join('') + '\n'); updateDisplay(); };
+
+        // 拦截 setInterval/setTimeout，收集 ID 以便 3 秒后统一清除
+        const trackedIntervals = [];
+        const trackedTimeouts = [];
+        const originalSetInterval = window.setInterval;
+        const originalClearInterval = window.clearInterval;
+        const originalSetTimeout = window.setTimeout;
+        const originalClearTimeout = window.clearTimeout;
+        window.setInterval = function(fn, ms, ...args) {
+            const id = originalSetInterval(fn, ms, ...args);
+            trackedIntervals.push(id);
+            return id;
+        };
+        window.setTimeout = function(fn, ms, ...args) {
+            const id = originalSetTimeout(fn, ms, ...args);
+            trackedTimeouts.push(id);
+            return id;
+        };
+        window.clearInterval = function(id) {
+            originalClearInterval(id);
+            const idx = trackedIntervals.indexOf(id);
+            if (idx !== -1) trackedIntervals.splice(idx, 1);
+        };
+        window.clearTimeout = function(id) {
+            originalClearTimeout(id);
+            const idx = trackedTimeouts.indexOf(id);
+            if (idx !== -1) trackedTimeouts.splice(idx, 1);
+        };
+
+        // Mock DOM
+        const originalQS = document.querySelector.bind(document);
+        const originalQSA = document.querySelectorAll.bind(document);
+        function createMockElement(selector) {
+            const store = { textContent: '', value: '', innerHTML: '', src: '' };
+            const styleProxy = new Proxy({}, {
+                get: (t, p) => t[p] || '',
+                set: (t, p, v) => { t[p] = v; return true; }
+            });
+            const classList = new Set();
+            return {
+                get textContent() { return store.textContent; },
+                set textContent(v) { store.textContent = v; consoleOutput.push(`[DOM] ${selector}.textContent = '${v}'`); updateDisplay(); },
+                get value() { return store.value; },
+                set value(v) { store.value = v; },
+                get innerHTML() { return store.innerHTML; },
+                set innerHTML(v) { store.innerHTML = v; },
+                get src() { return store.src; },
+                set src(v) { store.src = v; consoleOutput.push(`[DOM] ${selector}.src = '${v}'`); updateDisplay(); },
+                style: styleProxy,
+                classList: {
+                    add: (...c) => c.forEach(x => classList.add(x)),
+                    remove: (...c) => c.forEach(x => classList.delete(x)),
+                    toggle: (c) => classList.has(c) ? classList.delete(c) : classList.add(c),
+                    contains: (c) => classList.has(c),
+                },
+                addEventListener: () => {},
+                querySelector: (s) => createMockElement(selector + ' ' + s),
+                querySelectorAll: (s) => [],
+                closest: () => null,
+                children: [],
+                parentElement: null,
+                setAttribute: () => {},
+                getAttribute: () => null,
+                removeAttribute: () => {},
+            };
+        }
+        document.querySelector = function(sel) {
+            return originalQS(sel) || createMockElement(sel);
+        };
+        document.querySelectorAll = function(sel) {
+            const result = originalQSA(sel);
+            return result.length > 0 ? result : [];
+        };
+        const originalById = document.getElementById.bind(document);
+        document.getElementById = function(id) {
+            return originalById(id) || createMockElement('#' + id);
+        };
+
+        // 恢复所有 mock
+        function restoreAll() {
+            console.log = originalLog;
+            document.write = originalWrite;
+            document.writeln = originalWriteln;
+            document.querySelector = originalQS;
+            document.querySelectorAll = originalQSA;
+            document.getElementById = originalById;
+            window.setInterval = originalSetInterval;
+            window.setTimeout = originalSetTimeout;
+            window.clearInterval = originalClearInterval;
+            window.clearTimeout = originalClearTimeout;
+            // 清除沙箱代码创建的所有定时器
+            trackedIntervals.forEach(id => originalClearInterval(id));
+            trackedTimeouts.forEach(id => originalClearTimeout(id));
+            if (trackedIntervals.length > 0 || trackedTimeouts.length > 0) {
+                consoleOutput.push(`\n⏱️ 沙箱已自动清除 ${trackedIntervals.length} 个 setInterval 和 ${trackedTimeouts.length} 个 setTimeout`);
+            }
+            updateDisplay();
+        }
+
         try {
-            // Evaluates code in local scope to prevent global leak
             new Function(code)();
-            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+            updateDisplay();
+            // 延迟 3 秒恢复，让异步回调有机会执行
+            originalSetTimeout(restoreAll, 3000);
         } catch (e) {
             outConsole.classList.add('error');
             outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
-        } finally {
-            console.log = originalLog;
+            restoreAll();
         }
     }
 
@@ -903,11 +1066,9 @@ passwordStrength(10); // [██████████] 10/10
             
             if (this.getAttribute('data-value') === correctAnswer) {
                 this.classList.add('correct');
-                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
                 explanation.style.borderColor = 'var(--success-color)';
             } else {
                 this.classList.add('incorrect');
-                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
                 explanation.style.borderColor = 'var(--error-color)';
             }
             explanation.style.display = 'block';
@@ -931,6 +1092,16 @@ passwordStrength(10); // [██████████] 10/10
             } else {
                 input.classList.add('incorrect');
             }
+        });
+    }
+
+    function showAnswers(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        inputs.forEach(input => {
+            input.value = input.getAttribute('data-answer');
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
         });
     }
 

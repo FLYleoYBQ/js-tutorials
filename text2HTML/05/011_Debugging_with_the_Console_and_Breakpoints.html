@@ -425,10 +425,10 @@
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>console.log()</code> 调试法就像在迷宫的关键路口放路标——你在代码的关键位置打印变量值，帮助你追踪程序的执行路径和数据变化。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">console_debug.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// 案例：温度单位转换函数
@@ -514,10 +514,10 @@ sequenceDiagram
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：在循环中使用断点就像在工厂流水线上按下"暂停"——你可以检查每一个流过的产品（每次迭代的变量值），发现哪一步出了问题。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">breakpoint_debug.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">// Bug 案例：max/min 初始化为 0 导致 min 永远是 0
@@ -571,11 +571,11 @@ console.log(`振幅 = ${fixedAmplitude}`);</textarea>
 
 <div class="mermaid">
 flowchart TD
-    START["🔴 断点: for 循环第一行"] --> I0["i=0: curTemp=3<br/>max: 0→3, min: 0→0"]
-    I0 --> I1["i=1: curTemp=5<br/>max: 3→5, min: 0→⚠️0"]
-    I1 --> I2["i=2: curTemp=1<br/>max: 5→5, min: 0→⚠️0"]
-    I2 --> BUG["🐛 发现 Bug!<br/>min 应该是 1, 但始终是 0"]
-    BUG --> FIX["✅ 修复: min = temps[0]<br/>而不是 min = 0"]
+    START["🔴 断点: for 循环第一行"] --> I0["i=0: curTemp=3&lt;br/&gt;max: 0→3, min: 0→0"]
+    I0 --> I1["i=1: curTemp=5&lt;br/&gt;max: 3→5, min: 0→⚠️0"]
+    I1 --> I2["i=2: curTemp=1&lt;br/&gt;max: 5→5, min: 0→⚠️0"]
+    I2 --> BUG["🐛 发现 Bug!&lt;br/&gt;min 应该是 1, 但始终是 0"]
+    BUG --> FIX["✅ 修复: min = temps[0]&lt;br/&gt;而不是 min = 0"]
     
     style START fill:#e74c3c,stroke:#c0392b,color:#fff
     style BUG fill:#f39c12,stroke:#e67e22,color:#fff
@@ -590,10 +590,10 @@ flowchart TD
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：<code>debugger</code> 语句就像在代码中埋了一个"地雷"——程序运行到这里时，会自动"引爆"Chrome 的调试面板，你不需要手动设置断点。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">debugger_statement.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">// debugger 语句：在代码中直接设置断点
@@ -637,10 +637,10 @@ inspect(42);</textarea>
 
 <div class="callout"><p><strong>💼 业务场景</strong>：你在开发一个电商网站的购物车功能，发现总价计算不正确。使用调试技术定位问题。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">cart_debug.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">// 电商购物车 Bug 调试实战
@@ -754,10 +754,10 @@ console.log(kelvin); // &quot;10273&quot; 而非 283</code></pre>
 
 <p><strong>练习 1：用 console.log 调试</strong></p>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">debug_exercise1.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 这个函数应该返回数组中大于 threshold 的元素个数
@@ -796,10 +796,10 @@ console.log(countAbove([1, 5, 8, 3, 10], 4)); // 期望 3 (5, 8, 10)</textarea>
 
 <p><strong>练习 2：模拟断点调试</strong></p>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">debug_exercise2.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 手动模拟断点调试：在每次迭代中记录变量状态
@@ -901,6 +901,9 @@ findMax([3, 7, 2, 9, 1, 5]);</textarea>
     <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
         ✓ 检查答案
     </button>
+    <button class="btn-run" onclick="showAnswers('fillBlank1')" style="display:inline-flex;margin-top:10px;margin-left:8px;color:var(--info-color);border-color:var(--info-color);">
+        💡 显示答案
+    </button>
 </div>
     </main>
 </div>
@@ -909,36 +912,196 @@ findMax([3, 7, 2, 9, 1, 5]);</textarea>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
 
-<script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<script>
     mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
 </script>
 
 <script>
-    // 1. Runnable Code Engine (Safe Evaluation)
-    function runCode(editorId, consoleId) {
+    function runCode(editorId, consoleId, lang) {
+        lang = lang || 'javascript';
         const code = document.getElementById(editorId).value;
         const outConsole = document.getElementById(consoleId);
         outConsole.innerHTML = '';
         outConsole.classList.add('visible');
         outConsole.classList.remove('error');
 
-        // Mock console.log to trap output
+        // HTML/CSS 可视化预览模式：用 iframe 渲染
+        if (lang === 'html' || lang === 'css') {
+            let htmlContent = '';
+            let cssContent = '';
+
+            if (lang === 'html') {
+                htmlContent = code;
+            } else {
+                // CSS 模式：向前查找最近的 HTML 编辑器内容
+                cssContent = code;
+                const thisEditor = document.getElementById(editorId).closest('.runnable-editor');
+                let prev = thisEditor.previousElementSibling;
+                while (prev) {
+                    if (prev.classList.contains('runnable-editor') && prev.getAttribute('data-lang') === 'html') {
+                        const ta = prev.querySelector('.editor-textarea');
+                        if (ta) htmlContent = ta.value;
+                        break;
+                    }
+                    prev = prev.previousElementSibling;
+                }
+                if (!htmlContent) {
+                    htmlContent = '<!DOCTYPE html><html><head></head><body><p>未找到配对的 HTML 编辑器</p></body></html>';
+                }
+            }
+
+            // 将 CSS 注入到 HTML 中
+            let finalHtml = htmlContent;
+            if (cssContent) {
+                if (finalHtml.includes('</head>')) {
+                    finalHtml = finalHtml.replace('</head>', `<style>${cssContent}</style></head>`);
+                } else if (finalHtml.includes('<body')) {
+                    finalHtml = finalHtml.replace('<body', `<style>${cssContent}</style><body`);
+                } else {
+                    finalHtml = `<style>${cssContent}</style>${finalHtml}`;
+                }
+            }
+
+            // 移除引用外部 CSS 的 link 标签（沙箱没有外部文件）
+            finalHtml = finalHtml.replace(/<link[^>]*rel=["']stylesheet["'][^>]*>/gi, '');
+
+            const iframe = document.createElement('iframe');
+            iframe.style.cssText = 'width:100%;min-height:300px;border:1px solid var(--surface-border);border-radius:8px;background:#fff;';
+            iframe.sandbox = 'allow-scripts';
+            outConsole.innerHTML = '';
+            outConsole.appendChild(iframe);
+            iframe.srcdoc = finalHtml;
+            return;
+        }
+
+        // 收集输出
         let consoleOutput = [];
         const originalLog = console.log;
+
+        function updateDisplay() {
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        }
+
         console.log = function(...args) {
             consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            updateDisplay();
         };
 
+        // 拦截 document.write
+        const originalWrite = document.write;
+        const originalWriteln = document.writeln;
+        document.write = function(...args) { consoleOutput.push(args.join('')); updateDisplay(); };
+        document.writeln = function(...args) { consoleOutput.push(args.join('') + '\n'); updateDisplay(); };
+
+        // 拦截 setInterval/setTimeout，收集 ID 以便 3 秒后统一清除
+        const trackedIntervals = [];
+        const trackedTimeouts = [];
+        const originalSetInterval = window.setInterval;
+        const originalClearInterval = window.clearInterval;
+        const originalSetTimeout = window.setTimeout;
+        const originalClearTimeout = window.clearTimeout;
+        window.setInterval = function(fn, ms, ...args) {
+            const id = originalSetInterval(fn, ms, ...args);
+            trackedIntervals.push(id);
+            return id;
+        };
+        window.setTimeout = function(fn, ms, ...args) {
+            const id = originalSetTimeout(fn, ms, ...args);
+            trackedTimeouts.push(id);
+            return id;
+        };
+        window.clearInterval = function(id) {
+            originalClearInterval(id);
+            const idx = trackedIntervals.indexOf(id);
+            if (idx !== -1) trackedIntervals.splice(idx, 1);
+        };
+        window.clearTimeout = function(id) {
+            originalClearTimeout(id);
+            const idx = trackedTimeouts.indexOf(id);
+            if (idx !== -1) trackedTimeouts.splice(idx, 1);
+        };
+
+        // Mock DOM
+        const originalQS = document.querySelector.bind(document);
+        const originalQSA = document.querySelectorAll.bind(document);
+        function createMockElement(selector) {
+            const store = { textContent: '', value: '', innerHTML: '', src: '' };
+            const styleProxy = new Proxy({}, {
+                get: (t, p) => t[p] || '',
+                set: (t, p, v) => { t[p] = v; return true; }
+            });
+            const classList = new Set();
+            return {
+                get textContent() { return store.textContent; },
+                set textContent(v) { store.textContent = v; consoleOutput.push(`[DOM] ${selector}.textContent = '${v}'`); updateDisplay(); },
+                get value() { return store.value; },
+                set value(v) { store.value = v; },
+                get innerHTML() { return store.innerHTML; },
+                set innerHTML(v) { store.innerHTML = v; },
+                get src() { return store.src; },
+                set src(v) { store.src = v; consoleOutput.push(`[DOM] ${selector}.src = '${v}'`); updateDisplay(); },
+                style: styleProxy,
+                classList: {
+                    add: (...c) => c.forEach(x => classList.add(x)),
+                    remove: (...c) => c.forEach(x => classList.delete(x)),
+                    toggle: (c) => classList.has(c) ? classList.delete(c) : classList.add(c),
+                    contains: (c) => classList.has(c),
+                },
+                addEventListener: () => {},
+                querySelector: (s) => createMockElement(selector + ' ' + s),
+                querySelectorAll: (s) => [],
+                closest: () => null,
+                children: [],
+                parentElement: null,
+                setAttribute: () => {},
+                getAttribute: () => null,
+                removeAttribute: () => {},
+            };
+        }
+        document.querySelector = function(sel) {
+            return originalQS(sel) || createMockElement(sel);
+        };
+        document.querySelectorAll = function(sel) {
+            const result = originalQSA(sel);
+            return result.length > 0 ? result : [];
+        };
+        const originalById = document.getElementById.bind(document);
+        document.getElementById = function(id) {
+            return originalById(id) || createMockElement('#' + id);
+        };
+
+        // 恢复所有 mock
+        function restoreAll() {
+            console.log = originalLog;
+            document.write = originalWrite;
+            document.writeln = originalWriteln;
+            document.querySelector = originalQS;
+            document.querySelectorAll = originalQSA;
+            document.getElementById = originalById;
+            window.setInterval = originalSetInterval;
+            window.setTimeout = originalSetTimeout;
+            window.clearInterval = originalClearInterval;
+            window.clearTimeout = originalClearTimeout;
+            // 清除沙箱代码创建的所有定时器
+            trackedIntervals.forEach(id => originalClearInterval(id));
+            trackedTimeouts.forEach(id => originalClearTimeout(id));
+            if (trackedIntervals.length > 0 || trackedTimeouts.length > 0) {
+                consoleOutput.push(`\n⏱️ 沙箱已自动清除 ${trackedIntervals.length} 个 setInterval 和 ${trackedTimeouts.length} 个 setTimeout`);
+            }
+            updateDisplay();
+        }
+
         try {
-            // Evaluates code in local scope to prevent global leak
             new Function(code)();
-            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+            updateDisplay();
+            // 延迟 3 秒恢复，让异步回调有机会执行
+            originalSetTimeout(restoreAll, 3000);
         } catch (e) {
             outConsole.classList.add('error');
             outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
-        } finally {
-            console.log = originalLog;
+            restoreAll();
         }
     }
 
@@ -958,11 +1121,9 @@ findMax([3, 7, 2, 9, 1, 5]);</textarea>
             
             if (this.getAttribute('data-value') === correctAnswer) {
                 this.classList.add('correct');
-                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
                 explanation.style.borderColor = 'var(--success-color)';
             } else {
                 this.classList.add('incorrect');
-                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
                 explanation.style.borderColor = 'var(--error-color)';
             }
             explanation.style.display = 'block';
@@ -986,6 +1147,16 @@ findMax([3, 7, 2, 9, 1, 5]);</textarea>
             } else {
                 input.classList.add('incorrect');
             }
+        });
+    }
+
+    function showAnswers(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        inputs.forEach(input => {
+            input.value = input.getAttribute('data-answer');
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
         });
     }
 

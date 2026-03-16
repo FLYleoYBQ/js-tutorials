@@ -491,10 +491,10 @@ const newLocation = location;  // 🚨 惊天大雷！这里复制的才不是�
 
 <div class="callout"><p><strong>💼 业务场景</strong>：一家新搬迁的分公司准备设立一个配置库，图方便懒省事拷贝了一份全公司最绝密的主部高层配属档案地址，然后在底下瞎改瞎折腾，导致极其可怖的全公司职位被篡改灾难。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">memory_disaster.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">'use strict';
@@ -528,8 +528,8 @@ console.log(&quot;这名带着拷贝钥匙卧底家里的租客名叫:&quot;, cl
 <div class="mermaid">
 graph TD
     subgraph Call Stack 呼叫栈 (光拿钥匙的桌面)
-    A[originalHouseInfo<br>存有内址 : 0x000F]
-    B[clonedHouseTarget<br>赋值抄录的仍是这一串 : 0x000F]
+    A[originalHouseInfo&lt;br/&gt;存有内址 : 0x000F]
+    B[clonedHouseTarget&lt;br/&gt;赋值抄录的仍是这一串 : 0x000F]
     end
     
     subgraph Memory Heap 内存堆巨片 (本体)
@@ -604,10 +604,10 @@ jessicaTeam = { role: 'Nobody' };</code></pre>
 
 <p><strong>练习 1：追踪凶案凶手到底摸了哪扇门</strong><br>一个开发实习生弄出来了一件极其鬼使神差怪诞命案。不运行的情况去推理打印大结局是哪家的数据呈现？说明这把底层钥匙是怎么连的局。</p>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">exercise1.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const companyA = { funds: 1000 };
@@ -680,6 +680,9 @@ console.log(companyB.funds);</textarea>
     <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
         ✓ 检查答案
     </button>
+    <button class="btn-run" onclick="showAnswers('fillBlank1')" style="display:inline-flex;margin-top:10px;margin-left:8px;color:var(--info-color);border-color:var(--info-color);">
+        💡 显示答案
+    </button>
 </div>
     </main>
 </div>
@@ -688,36 +691,196 @@ console.log(companyB.funds);</textarea>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
 
-<script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<script>
     mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
 </script>
 
 <script>
-    // 1. Runnable Code Engine (Safe Evaluation)
-    function runCode(editorId, consoleId) {
+    function runCode(editorId, consoleId, lang) {
+        lang = lang || 'javascript';
         const code = document.getElementById(editorId).value;
         const outConsole = document.getElementById(consoleId);
         outConsole.innerHTML = '';
         outConsole.classList.add('visible');
         outConsole.classList.remove('error');
 
-        // Mock console.log to trap output
+        // HTML/CSS 可视化预览模式：用 iframe 渲染
+        if (lang === 'html' || lang === 'css') {
+            let htmlContent = '';
+            let cssContent = '';
+
+            if (lang === 'html') {
+                htmlContent = code;
+            } else {
+                // CSS 模式：向前查找最近的 HTML 编辑器内容
+                cssContent = code;
+                const thisEditor = document.getElementById(editorId).closest('.runnable-editor');
+                let prev = thisEditor.previousElementSibling;
+                while (prev) {
+                    if (prev.classList.contains('runnable-editor') && prev.getAttribute('data-lang') === 'html') {
+                        const ta = prev.querySelector('.editor-textarea');
+                        if (ta) htmlContent = ta.value;
+                        break;
+                    }
+                    prev = prev.previousElementSibling;
+                }
+                if (!htmlContent) {
+                    htmlContent = '<!DOCTYPE html><html><head></head><body><p>未找到配对的 HTML 编辑器</p></body></html>';
+                }
+            }
+
+            // 将 CSS 注入到 HTML 中
+            let finalHtml = htmlContent;
+            if (cssContent) {
+                if (finalHtml.includes('</head>')) {
+                    finalHtml = finalHtml.replace('</head>', `<style>${cssContent}</style></head>`);
+                } else if (finalHtml.includes('<body')) {
+                    finalHtml = finalHtml.replace('<body', `<style>${cssContent}</style><body`);
+                } else {
+                    finalHtml = `<style>${cssContent}</style>${finalHtml}`;
+                }
+            }
+
+            // 移除引用外部 CSS 的 link 标签（沙箱没有外部文件）
+            finalHtml = finalHtml.replace(/<link[^>]*rel=["']stylesheet["'][^>]*>/gi, '');
+
+            const iframe = document.createElement('iframe');
+            iframe.style.cssText = 'width:100%;min-height:300px;border:1px solid var(--surface-border);border-radius:8px;background:#fff;';
+            iframe.sandbox = 'allow-scripts';
+            outConsole.innerHTML = '';
+            outConsole.appendChild(iframe);
+            iframe.srcdoc = finalHtml;
+            return;
+        }
+
+        // 收集输出
         let consoleOutput = [];
         const originalLog = console.log;
+
+        function updateDisplay() {
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        }
+
         console.log = function(...args) {
             consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            updateDisplay();
         };
 
+        // 拦截 document.write
+        const originalWrite = document.write;
+        const originalWriteln = document.writeln;
+        document.write = function(...args) { consoleOutput.push(args.join('')); updateDisplay(); };
+        document.writeln = function(...args) { consoleOutput.push(args.join('') + '\n'); updateDisplay(); };
+
+        // 拦截 setInterval/setTimeout，收集 ID 以便 3 秒后统一清除
+        const trackedIntervals = [];
+        const trackedTimeouts = [];
+        const originalSetInterval = window.setInterval;
+        const originalClearInterval = window.clearInterval;
+        const originalSetTimeout = window.setTimeout;
+        const originalClearTimeout = window.clearTimeout;
+        window.setInterval = function(fn, ms, ...args) {
+            const id = originalSetInterval(fn, ms, ...args);
+            trackedIntervals.push(id);
+            return id;
+        };
+        window.setTimeout = function(fn, ms, ...args) {
+            const id = originalSetTimeout(fn, ms, ...args);
+            trackedTimeouts.push(id);
+            return id;
+        };
+        window.clearInterval = function(id) {
+            originalClearInterval(id);
+            const idx = trackedIntervals.indexOf(id);
+            if (idx !== -1) trackedIntervals.splice(idx, 1);
+        };
+        window.clearTimeout = function(id) {
+            originalClearTimeout(id);
+            const idx = trackedTimeouts.indexOf(id);
+            if (idx !== -1) trackedTimeouts.splice(idx, 1);
+        };
+
+        // Mock DOM
+        const originalQS = document.querySelector.bind(document);
+        const originalQSA = document.querySelectorAll.bind(document);
+        function createMockElement(selector) {
+            const store = { textContent: '', value: '', innerHTML: '', src: '' };
+            const styleProxy = new Proxy({}, {
+                get: (t, p) => t[p] || '',
+                set: (t, p, v) => { t[p] = v; return true; }
+            });
+            const classList = new Set();
+            return {
+                get textContent() { return store.textContent; },
+                set textContent(v) { store.textContent = v; consoleOutput.push(`[DOM] ${selector}.textContent = '${v}'`); updateDisplay(); },
+                get value() { return store.value; },
+                set value(v) { store.value = v; },
+                get innerHTML() { return store.innerHTML; },
+                set innerHTML(v) { store.innerHTML = v; },
+                get src() { return store.src; },
+                set src(v) { store.src = v; consoleOutput.push(`[DOM] ${selector}.src = '${v}'`); updateDisplay(); },
+                style: styleProxy,
+                classList: {
+                    add: (...c) => c.forEach(x => classList.add(x)),
+                    remove: (...c) => c.forEach(x => classList.delete(x)),
+                    toggle: (c) => classList.has(c) ? classList.delete(c) : classList.add(c),
+                    contains: (c) => classList.has(c),
+                },
+                addEventListener: () => {},
+                querySelector: (s) => createMockElement(selector + ' ' + s),
+                querySelectorAll: (s) => [],
+                closest: () => null,
+                children: [],
+                parentElement: null,
+                setAttribute: () => {},
+                getAttribute: () => null,
+                removeAttribute: () => {},
+            };
+        }
+        document.querySelector = function(sel) {
+            return originalQS(sel) || createMockElement(sel);
+        };
+        document.querySelectorAll = function(sel) {
+            const result = originalQSA(sel);
+            return result.length > 0 ? result : [];
+        };
+        const originalById = document.getElementById.bind(document);
+        document.getElementById = function(id) {
+            return originalById(id) || createMockElement('#' + id);
+        };
+
+        // 恢复所有 mock
+        function restoreAll() {
+            console.log = originalLog;
+            document.write = originalWrite;
+            document.writeln = originalWriteln;
+            document.querySelector = originalQS;
+            document.querySelectorAll = originalQSA;
+            document.getElementById = originalById;
+            window.setInterval = originalSetInterval;
+            window.setTimeout = originalSetTimeout;
+            window.clearInterval = originalClearInterval;
+            window.clearTimeout = originalClearTimeout;
+            // 清除沙箱代码创建的所有定时器
+            trackedIntervals.forEach(id => originalClearInterval(id));
+            trackedTimeouts.forEach(id => originalClearTimeout(id));
+            if (trackedIntervals.length > 0 || trackedTimeouts.length > 0) {
+                consoleOutput.push(`\n⏱️ 沙箱已自动清除 ${trackedIntervals.length} 个 setInterval 和 ${trackedTimeouts.length} 个 setTimeout`);
+            }
+            updateDisplay();
+        }
+
         try {
-            // Evaluates code in local scope to prevent global leak
             new Function(code)();
-            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+            updateDisplay();
+            // 延迟 3 秒恢复，让异步回调有机会执行
+            originalSetTimeout(restoreAll, 3000);
         } catch (e) {
             outConsole.classList.add('error');
             outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
-        } finally {
-            console.log = originalLog;
+            restoreAll();
         }
     }
 
@@ -737,11 +900,9 @@ console.log(companyB.funds);</textarea>
             
             if (this.getAttribute('data-value') === correctAnswer) {
                 this.classList.add('correct');
-                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
                 explanation.style.borderColor = 'var(--success-color)';
             } else {
                 this.classList.add('incorrect');
-                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
                 explanation.style.borderColor = 'var(--error-color)';
             }
             explanation.style.display = 'block';
@@ -765,6 +926,16 @@ console.log(companyB.funds);</textarea>
             } else {
                 input.classList.add('incorrect');
             }
+        });
+    }
+
+    function showAnswers(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        inputs.forEach(input => {
+            input.value = input.getAttribute('data-answer');
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
         });
     }
 

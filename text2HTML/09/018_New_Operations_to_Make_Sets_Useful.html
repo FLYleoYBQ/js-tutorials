@@ -427,10 +427,10 @@
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：交集就像两个朋友圈的"共同好友"——只有<strong>同时出现在两个集合中</strong>的元素才会被保留。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">intersection.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">const italianFoods = new Set([
@@ -491,10 +491,10 @@ flowchart LR
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：并集就像超市把两家供应商的商品目录<strong>合并成一份</strong>——所有商品都列出，但不会重复列。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">union.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">const italianFoods = new Set([
@@ -526,9 +526,9 @@ console.log(fusionArray); // 同样的 12 个元素，但作为数组</textarea>
 
 <div class="mermaid">
 flowchart TD
-    A["🇮🇹 italianFoods<br>6 种食材"] --> C["🔗 union"]
-    B["🇲🇽 mexicanFoods<br>8 种食材"] --> C
-    C --> D["🍽️ fusion<br>12 种唯一食材"]
+    A["🇮🇹 italianFoods&lt;br/&gt;6 种食材"] --> C["🔗 union"]
+    B["🇲🇽 mexicanFoods&lt;br/&gt;8 种食材"] --> C
+    C --> D["🍽️ fusion&lt;br/&gt;12 种唯一食材"]
     style C fill:#4CAF50,color:#fff
     style D fill:#2196F3,color:#fff
 </div>
@@ -539,10 +539,10 @@ flowchart TD
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：差集就像比较两个人的歌单——"你有但我没有的歌"。<strong>顺序很重要</strong>：A 相对 B 的差集 ≠ B 相对 A 的差集。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">difference.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">const italianFoods = new Set([
@@ -592,10 +592,10 @@ flowchart LR
 
 <div class="callout analogy"><p>🧩 <strong>生活类比</strong>：对称差集就像两个人交换礼物清单后，<strong>只保留各自独有的礼物</strong>——共同的部分被去掉了。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">symmetric_disjoint.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">const italianFoods = new Set([
@@ -636,13 +636,13 @@ console.log(fruits.isDisjointFrom(mexicanFoods)); // true（完全不相交）</
 flowchart TD
     A["🎯 Set 集合操作"] --> B["📦 返回新 Set"]
     A --> C["✅ 返回 Boolean"]
-    B --> D["intersection<br>交集"]
-    B --> E["union<br>并集"]
-    B --> F["difference<br>差集"]
-    B --> G["symmetricDifference<br>对称差集"]
-    C --> H["isSubsetOf<br>子集检测"]
-    C --> I["isSupersetOf<br>超集检测"]
-    C --> J["isDisjointFrom<br>不相交检测"]
+    B --> D["intersection&lt;br/&gt;交集"]
+    B --> E["union&lt;br/&gt;并集"]
+    B --> F["difference&lt;br/&gt;差集"]
+    B --> G["symmetricDifference&lt;br/&gt;对称差集"]
+    C --> H["isSubsetOf&lt;br/&gt;子集检测"]
+    C --> I["isSupersetOf&lt;br/&gt;超集检测"]
+    C --> J["isDisjointFrom&lt;br/&gt;不相交检测"]
     style B fill:#2196F3,color:#fff
     style C fill:#FF9800,color:#fff
 </div>
@@ -655,10 +655,10 @@ flowchart TD
 
 <div class="callout"><p><strong>💼 业务场景</strong>：社交平台的"共同好友"和"推荐好友"功能——使用集合操作分析两个用户的好友关系。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">friend_analysis.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor5', 'console5')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor5', 'console5', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor5" class="editor-textarea" spellcheck="false">// 两个用户的好友列表
@@ -688,8 +688,8 @@ console.log('🔀 各自独有：', uniqueFriends);</textarea>
 
 <div class="mermaid">
 flowchart TD
-    A["👤 Alice 的好友<br>Bob, Charlie, Diana, Eve, Frank"] --> E["🤝 intersection"]
-    B["👤 Bob 的好友<br>Alice, Charlie, Eve, Grace, Henry"] --> E
+    A["👤 Alice 的好友&lt;br/&gt;Bob, Charlie, Diana, Eve, Frank"] --> E["🤝 intersection"]
+    B["👤 Bob 的好友&lt;br/&gt;Alice, Charlie, Eve, Grace, Henry"] --> E
     E --> F["共同好友: Charlie, Eve"]
     A --> G["📇 union"]
     B --> G
@@ -770,10 +770,10 @@ const result = setA.intersection(arr);</code></pre>
 
 <p><strong>练习 1：权限系统的集合操作</strong></p>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">exercise1.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor6', 'console6')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor6', 'console6', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor6" class="editor-textarea" spellcheck="false">// 用户 A 拥有的权限
@@ -810,10 +810,10 @@ console.log('是否已是管理员？', userPermissions.isSubsetOf(adminPermissi
 
 <p><strong>练习 2：用展开运算符实现并集</strong></p>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">exercise2.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor7', 'console7')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor7', 'console7', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor7" class="editor-textarea" spellcheck="false">// 不使用 .union()，用展开运算符实现两个数组的去重合并
@@ -889,6 +889,9 @@ console.log(allFrameworks);
     <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
         ✓ 检查答案
     </button>
+    <button class="btn-run" onclick="showAnswers('fillBlank1')" style="display:inline-flex;margin-top:10px;margin-left:8px;color:var(--info-color);border-color:var(--info-color);">
+        💡 显示答案
+    </button>
 </div>
     </main>
 </div>
@@ -897,36 +900,196 @@ console.log(allFrameworks);
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
 
-<script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<script>
     mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
 </script>
 
 <script>
-    // 1. Runnable Code Engine (Safe Evaluation)
-    function runCode(editorId, consoleId) {
+    function runCode(editorId, consoleId, lang) {
+        lang = lang || 'javascript';
         const code = document.getElementById(editorId).value;
         const outConsole = document.getElementById(consoleId);
         outConsole.innerHTML = '';
         outConsole.classList.add('visible');
         outConsole.classList.remove('error');
 
-        // Mock console.log to trap output
+        // HTML/CSS 可视化预览模式：用 iframe 渲染
+        if (lang === 'html' || lang === 'css') {
+            let htmlContent = '';
+            let cssContent = '';
+
+            if (lang === 'html') {
+                htmlContent = code;
+            } else {
+                // CSS 模式：向前查找最近的 HTML 编辑器内容
+                cssContent = code;
+                const thisEditor = document.getElementById(editorId).closest('.runnable-editor');
+                let prev = thisEditor.previousElementSibling;
+                while (prev) {
+                    if (prev.classList.contains('runnable-editor') && prev.getAttribute('data-lang') === 'html') {
+                        const ta = prev.querySelector('.editor-textarea');
+                        if (ta) htmlContent = ta.value;
+                        break;
+                    }
+                    prev = prev.previousElementSibling;
+                }
+                if (!htmlContent) {
+                    htmlContent = '<!DOCTYPE html><html><head></head><body><p>未找到配对的 HTML 编辑器</p></body></html>';
+                }
+            }
+
+            // 将 CSS 注入到 HTML 中
+            let finalHtml = htmlContent;
+            if (cssContent) {
+                if (finalHtml.includes('</head>')) {
+                    finalHtml = finalHtml.replace('</head>', `<style>${cssContent}</style></head>`);
+                } else if (finalHtml.includes('<body')) {
+                    finalHtml = finalHtml.replace('<body', `<style>${cssContent}</style><body`);
+                } else {
+                    finalHtml = `<style>${cssContent}</style>${finalHtml}`;
+                }
+            }
+
+            // 移除引用外部 CSS 的 link 标签（沙箱没有外部文件）
+            finalHtml = finalHtml.replace(/<link[^>]*rel=["']stylesheet["'][^>]*>/gi, '');
+
+            const iframe = document.createElement('iframe');
+            iframe.style.cssText = 'width:100%;min-height:300px;border:1px solid var(--surface-border);border-radius:8px;background:#fff;';
+            iframe.sandbox = 'allow-scripts';
+            outConsole.innerHTML = '';
+            outConsole.appendChild(iframe);
+            iframe.srcdoc = finalHtml;
+            return;
+        }
+
+        // 收集输出
         let consoleOutput = [];
         const originalLog = console.log;
+
+        function updateDisplay() {
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        }
+
         console.log = function(...args) {
             consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            updateDisplay();
         };
 
+        // 拦截 document.write
+        const originalWrite = document.write;
+        const originalWriteln = document.writeln;
+        document.write = function(...args) { consoleOutput.push(args.join('')); updateDisplay(); };
+        document.writeln = function(...args) { consoleOutput.push(args.join('') + '\n'); updateDisplay(); };
+
+        // 拦截 setInterval/setTimeout，收集 ID 以便 3 秒后统一清除
+        const trackedIntervals = [];
+        const trackedTimeouts = [];
+        const originalSetInterval = window.setInterval;
+        const originalClearInterval = window.clearInterval;
+        const originalSetTimeout = window.setTimeout;
+        const originalClearTimeout = window.clearTimeout;
+        window.setInterval = function(fn, ms, ...args) {
+            const id = originalSetInterval(fn, ms, ...args);
+            trackedIntervals.push(id);
+            return id;
+        };
+        window.setTimeout = function(fn, ms, ...args) {
+            const id = originalSetTimeout(fn, ms, ...args);
+            trackedTimeouts.push(id);
+            return id;
+        };
+        window.clearInterval = function(id) {
+            originalClearInterval(id);
+            const idx = trackedIntervals.indexOf(id);
+            if (idx !== -1) trackedIntervals.splice(idx, 1);
+        };
+        window.clearTimeout = function(id) {
+            originalClearTimeout(id);
+            const idx = trackedTimeouts.indexOf(id);
+            if (idx !== -1) trackedTimeouts.splice(idx, 1);
+        };
+
+        // Mock DOM
+        const originalQS = document.querySelector.bind(document);
+        const originalQSA = document.querySelectorAll.bind(document);
+        function createMockElement(selector) {
+            const store = { textContent: '', value: '', innerHTML: '', src: '' };
+            const styleProxy = new Proxy({}, {
+                get: (t, p) => t[p] || '',
+                set: (t, p, v) => { t[p] = v; return true; }
+            });
+            const classList = new Set();
+            return {
+                get textContent() { return store.textContent; },
+                set textContent(v) { store.textContent = v; consoleOutput.push(`[DOM] ${selector}.textContent = '${v}'`); updateDisplay(); },
+                get value() { return store.value; },
+                set value(v) { store.value = v; },
+                get innerHTML() { return store.innerHTML; },
+                set innerHTML(v) { store.innerHTML = v; },
+                get src() { return store.src; },
+                set src(v) { store.src = v; consoleOutput.push(`[DOM] ${selector}.src = '${v}'`); updateDisplay(); },
+                style: styleProxy,
+                classList: {
+                    add: (...c) => c.forEach(x => classList.add(x)),
+                    remove: (...c) => c.forEach(x => classList.delete(x)),
+                    toggle: (c) => classList.has(c) ? classList.delete(c) : classList.add(c),
+                    contains: (c) => classList.has(c),
+                },
+                addEventListener: () => {},
+                querySelector: (s) => createMockElement(selector + ' ' + s),
+                querySelectorAll: (s) => [],
+                closest: () => null,
+                children: [],
+                parentElement: null,
+                setAttribute: () => {},
+                getAttribute: () => null,
+                removeAttribute: () => {},
+            };
+        }
+        document.querySelector = function(sel) {
+            return originalQS(sel) || createMockElement(sel);
+        };
+        document.querySelectorAll = function(sel) {
+            const result = originalQSA(sel);
+            return result.length > 0 ? result : [];
+        };
+        const originalById = document.getElementById.bind(document);
+        document.getElementById = function(id) {
+            return originalById(id) || createMockElement('#' + id);
+        };
+
+        // 恢复所有 mock
+        function restoreAll() {
+            console.log = originalLog;
+            document.write = originalWrite;
+            document.writeln = originalWriteln;
+            document.querySelector = originalQS;
+            document.querySelectorAll = originalQSA;
+            document.getElementById = originalById;
+            window.setInterval = originalSetInterval;
+            window.setTimeout = originalSetTimeout;
+            window.clearInterval = originalClearInterval;
+            window.clearTimeout = originalClearTimeout;
+            // 清除沙箱代码创建的所有定时器
+            trackedIntervals.forEach(id => originalClearInterval(id));
+            trackedTimeouts.forEach(id => originalClearTimeout(id));
+            if (trackedIntervals.length > 0 || trackedTimeouts.length > 0) {
+                consoleOutput.push(`\n⏱️ 沙箱已自动清除 ${trackedIntervals.length} 个 setInterval 和 ${trackedTimeouts.length} 个 setTimeout`);
+            }
+            updateDisplay();
+        }
+
         try {
-            // Evaluates code in local scope to prevent global leak
             new Function(code)();
-            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+            updateDisplay();
+            // 延迟 3 秒恢复，让异步回调有机会执行
+            originalSetTimeout(restoreAll, 3000);
         } catch (e) {
             outConsole.classList.add('error');
             outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
-        } finally {
-            console.log = originalLog;
+            restoreAll();
         }
     }
 
@@ -946,11 +1109,9 @@ console.log(allFrameworks);
             
             if (this.getAttribute('data-value') === correctAnswer) {
                 this.classList.add('correct');
-                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
                 explanation.style.borderColor = 'var(--success-color)';
             } else {
                 this.classList.add('incorrect');
-                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
                 explanation.style.borderColor = 'var(--error-color)';
             }
             explanation.style.display = 'block';
@@ -974,6 +1135,16 @@ console.log(allFrameworks);
             } else {
                 input.classList.add('incorrect');
             }
+        });
+    }
+
+    function showAnswers(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        inputs.forEach(input => {
+            input.value = input.getAttribute('data-answer');
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
         });
     }
 

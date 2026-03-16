@@ -430,17 +430,17 @@
 <div class="mermaid">
 graph TD
     A["🏷️ HTML 元素"]
-    A --> B["📎 通用属性<br/>所有元素都能用"]
-    A --> C["🔧 专属属性<br/>特定元素才有效"]
+    A --> B["📎 通用属性&lt;br/&gt;所有元素都能用"]
+    A --> C["🔧 专属属性&lt;br/&gt;特定元素才有效"]
     
     B --> D["class"]
     B --> E["id"]
     B --> F["style"]
     
-    C --> G["href<br/>仅 &lt;a&gt;"]
-    C --> H["src<br/>仅 &lt;img&gt; 等"]
-    C --> I["type<br/>仅 &lt;input&gt; 等"]
-    C --> J["placeholder<br/>仅 &lt;input&gt;"]
+    C --> G["href&lt;br/&gt;仅 &lt;a&gt;"]
+    C --> H["src&lt;br/&gt;仅 &lt;img&gt; 等"]
+    C --> I["type&lt;br/&gt;仅 &lt;input&gt; 等"]
+    C --> J["placeholder&lt;br/&gt;仅 &lt;input&gt;"]
     
     style A fill:#4A90D9,color:#fff
     style B fill:#2EBF71,color:#fff
@@ -528,10 +528,10 @@ graph LR
 
 <p><strong>CSS 命名约定</strong>：在 CSS 和 HTML 中使用<strong>短横线命名法（kebab-case）</strong>，而在 JavaScript 中使用<strong>驼峰命名法（camelCase）</strong>：</p>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="javascript">
     <div class="editor-header">
         <span class="editor-title">naming_conventions.js</span>
-        <button class="btn-run" onclick="runCode('codeEditor1', 'console1')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor1', 'console1', 'javascript')">▶ 运行代码</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor1" class="editor-textarea" spellcheck="false">// CSS / HTML 中的命名约定（短横线分隔）
@@ -559,7 +559,7 @@ console.log('JS 用驼峰式：courseImage');</textarea>
 <div class="mermaid">
 graph TD
     subgraph "❌ 非语义化"
-        DIV["&lt;div id='your-name'&gt;<br/>📦 通用容器"]
+        DIV["&lt;div id='your-name'&gt;&lt;br/&gt;📦 通用容器"]
         DIV --> H2A["&lt;h2&gt; Your Name &lt;/h2&gt;"]
         DIV --> PA["&lt;p&gt; 填写表单 &lt;/p&gt;"]
         DIV --> INPA["&lt;input type='text'&gt;"]
@@ -567,7 +567,7 @@ graph TD
     end
 
     subgraph "✅ 语义化"
-        FORM["&lt;form id='your-name'&gt;<br/>📋 表单容器"]
+        FORM["&lt;form id='your-name'&gt;&lt;br/&gt;📋 表单容器"]
         FORM --> H2B["&lt;h2&gt; Your Name &lt;/h2&gt;"]
         FORM --> PB["&lt;p&gt; 填写表单 &lt;/p&gt;"]
         FORM --> INPB["&lt;input type='text'&gt;"]
@@ -650,10 +650,10 @@ graph TB
 
 <div class="callout"><p><strong>💼 业务场景</strong>：为一个在线课程平台搭建课程介绍页面，包含课程图片、描述段落和用户注册表单。</p></div>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="html">
     <div class="editor-header">
         <span class="editor-title">course_page.html</span>
-        <button class="btn-run" onclick="runCode('codeEditor2', 'console2')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor2', 'console2', 'html')">👁 预览</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor2" class="editor-textarea" spellcheck="false">&lt;!DOCTYPE html&gt;
@@ -689,9 +689,9 @@ graph TB
 flowchart TD
     A["用户访问课程页面"] --> B["浏览器解析 HTML"]
     B --> C{"遇到元素类型？"}
-    C -->|"块级元素<br/>h1, p, form"| D["独占一行渲染"]
-    C -->|"行内元素<br/>a, img, input"| E["同行内流动渲染"]
-    C -->|"自闭合元素<br/>img, input"| F["无闭合标签，直接渲染"]
+    C -->|"块级元素&lt;br/&gt;h1, p, form"| D["独占一行渲染"]
+    C -->|"行内元素&lt;br/&gt;a, img, input"| E["同行内流动渲染"]
+    C -->|"自闭合元素&lt;br/&gt;img, input"| F["无闭合标签，直接渲染"]
     D --> G["页面完成布局"]
     E --> G
     F --> G
@@ -785,10 +785,10 @@ JavaScript 中 document.getElementById('intro') 只返回第一个匹配元素�
 
 <p>使用 <code>class</code> 和 <code>id</code> 创建一个包含头像、姓名和简介的个人卡片。</p>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="html">
     <div class="editor-header">
         <span class="editor-title">exercise1.html</span>
-        <button class="btn-run" onclick="runCode('codeEditor3', 'console3')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor3', 'console3', 'html')">👁 预览</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor3" class="editor-textarea" spellcheck="false">&lt;!-- 在这里写你的代码 --&gt;
@@ -816,10 +816,10 @@ JavaScript 中 document.getElementById('intro') 只返回第一个匹配元素�
 
 <p>创建一个包含姓名、邮箱和消息输入的联系表单。</p>
 
-<div class="runnable-editor">
+<div class="runnable-editor" data-lang="html">
     <div class="editor-header">
         <span class="editor-title">exercise2.html</span>
-        <button class="btn-run" onclick="runCode('codeEditor4', 'console4')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor4', 'console4', 'html')">👁 预览</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor4" class="editor-textarea" spellcheck="false">&lt;!-- 在这里写你的代码 --&gt;
@@ -899,6 +899,9 @@ JavaScript 中 document.getElementById('intro') 只返回第一个匹配元素�
     <button class="btn-run" onclick="checkFillBlanks('fillBlank1')" style="display:inline-flex;margin-top:10px;">
         ✓ 检查答案
     </button>
+    <button class="btn-run" onclick="showAnswers('fillBlank1')" style="display:inline-flex;margin-top:10px;margin-left:8px;color:var(--info-color);border-color:var(--info-color);">
+        💡 显示答案
+    </button>
 </div>
     </main>
 </div>
@@ -907,36 +910,196 @@ JavaScript 中 document.getElementById('intro') 只返回第一个匹配元素�
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
 
-<script type="module">
-    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+
+<script>
     mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
 </script>
 
 <script>
-    // 1. Runnable Code Engine (Safe Evaluation)
-    function runCode(editorId, consoleId) {
+    function runCode(editorId, consoleId, lang) {
+        lang = lang || 'javascript';
         const code = document.getElementById(editorId).value;
         const outConsole = document.getElementById(consoleId);
         outConsole.innerHTML = '';
         outConsole.classList.add('visible');
         outConsole.classList.remove('error');
 
-        // Mock console.log to trap output
+        // HTML/CSS 可视化预览模式：用 iframe 渲染
+        if (lang === 'html' || lang === 'css') {
+            let htmlContent = '';
+            let cssContent = '';
+
+            if (lang === 'html') {
+                htmlContent = code;
+            } else {
+                // CSS 模式：向前查找最近的 HTML 编辑器内容
+                cssContent = code;
+                const thisEditor = document.getElementById(editorId).closest('.runnable-editor');
+                let prev = thisEditor.previousElementSibling;
+                while (prev) {
+                    if (prev.classList.contains('runnable-editor') && prev.getAttribute('data-lang') === 'html') {
+                        const ta = prev.querySelector('.editor-textarea');
+                        if (ta) htmlContent = ta.value;
+                        break;
+                    }
+                    prev = prev.previousElementSibling;
+                }
+                if (!htmlContent) {
+                    htmlContent = '<!DOCTYPE html><html><head></head><body><p>未找到配对的 HTML 编辑器</p></body></html>';
+                }
+            }
+
+            // 将 CSS 注入到 HTML 中
+            let finalHtml = htmlContent;
+            if (cssContent) {
+                if (finalHtml.includes('</head>')) {
+                    finalHtml = finalHtml.replace('</head>', `<style>${cssContent}</style></head>`);
+                } else if (finalHtml.includes('<body')) {
+                    finalHtml = finalHtml.replace('<body', `<style>${cssContent}</style><body`);
+                } else {
+                    finalHtml = `<style>${cssContent}</style>${finalHtml}`;
+                }
+            }
+
+            // 移除引用外部 CSS 的 link 标签（沙箱没有外部文件）
+            finalHtml = finalHtml.replace(/<link[^>]*rel=["']stylesheet["'][^>]*>/gi, '');
+
+            const iframe = document.createElement('iframe');
+            iframe.style.cssText = 'width:100%;min-height:300px;border:1px solid var(--surface-border);border-radius:8px;background:#fff;';
+            iframe.sandbox = 'allow-scripts';
+            outConsole.innerHTML = '';
+            outConsole.appendChild(iframe);
+            iframe.srcdoc = finalHtml;
+            return;
+        }
+
+        // 收集输出
         let consoleOutput = [];
         const originalLog = console.log;
+
+        function updateDisplay() {
+            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+        }
+
         console.log = function(...args) {
             consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+            updateDisplay();
         };
 
+        // 拦截 document.write
+        const originalWrite = document.write;
+        const originalWriteln = document.writeln;
+        document.write = function(...args) { consoleOutput.push(args.join('')); updateDisplay(); };
+        document.writeln = function(...args) { consoleOutput.push(args.join('') + '\n'); updateDisplay(); };
+
+        // 拦截 setInterval/setTimeout，收集 ID 以便 3 秒后统一清除
+        const trackedIntervals = [];
+        const trackedTimeouts = [];
+        const originalSetInterval = window.setInterval;
+        const originalClearInterval = window.clearInterval;
+        const originalSetTimeout = window.setTimeout;
+        const originalClearTimeout = window.clearTimeout;
+        window.setInterval = function(fn, ms, ...args) {
+            const id = originalSetInterval(fn, ms, ...args);
+            trackedIntervals.push(id);
+            return id;
+        };
+        window.setTimeout = function(fn, ms, ...args) {
+            const id = originalSetTimeout(fn, ms, ...args);
+            trackedTimeouts.push(id);
+            return id;
+        };
+        window.clearInterval = function(id) {
+            originalClearInterval(id);
+            const idx = trackedIntervals.indexOf(id);
+            if (idx !== -1) trackedIntervals.splice(idx, 1);
+        };
+        window.clearTimeout = function(id) {
+            originalClearTimeout(id);
+            const idx = trackedTimeouts.indexOf(id);
+            if (idx !== -1) trackedTimeouts.splice(idx, 1);
+        };
+
+        // Mock DOM
+        const originalQS = document.querySelector.bind(document);
+        const originalQSA = document.querySelectorAll.bind(document);
+        function createMockElement(selector) {
+            const store = { textContent: '', value: '', innerHTML: '', src: '' };
+            const styleProxy = new Proxy({}, {
+                get: (t, p) => t[p] || '',
+                set: (t, p, v) => { t[p] = v; return true; }
+            });
+            const classList = new Set();
+            return {
+                get textContent() { return store.textContent; },
+                set textContent(v) { store.textContent = v; consoleOutput.push(`[DOM] ${selector}.textContent = '${v}'`); updateDisplay(); },
+                get value() { return store.value; },
+                set value(v) { store.value = v; },
+                get innerHTML() { return store.innerHTML; },
+                set innerHTML(v) { store.innerHTML = v; },
+                get src() { return store.src; },
+                set src(v) { store.src = v; consoleOutput.push(`[DOM] ${selector}.src = '${v}'`); updateDisplay(); },
+                style: styleProxy,
+                classList: {
+                    add: (...c) => c.forEach(x => classList.add(x)),
+                    remove: (...c) => c.forEach(x => classList.delete(x)),
+                    toggle: (c) => classList.has(c) ? classList.delete(c) : classList.add(c),
+                    contains: (c) => classList.has(c),
+                },
+                addEventListener: () => {},
+                querySelector: (s) => createMockElement(selector + ' ' + s),
+                querySelectorAll: (s) => [],
+                closest: () => null,
+                children: [],
+                parentElement: null,
+                setAttribute: () => {},
+                getAttribute: () => null,
+                removeAttribute: () => {},
+            };
+        }
+        document.querySelector = function(sel) {
+            return originalQS(sel) || createMockElement(sel);
+        };
+        document.querySelectorAll = function(sel) {
+            const result = originalQSA(sel);
+            return result.length > 0 ? result : [];
+        };
+        const originalById = document.getElementById.bind(document);
+        document.getElementById = function(id) {
+            return originalById(id) || createMockElement('#' + id);
+        };
+
+        // 恢复所有 mock
+        function restoreAll() {
+            console.log = originalLog;
+            document.write = originalWrite;
+            document.writeln = originalWriteln;
+            document.querySelector = originalQS;
+            document.querySelectorAll = originalQSA;
+            document.getElementById = originalById;
+            window.setInterval = originalSetInterval;
+            window.setTimeout = originalSetTimeout;
+            window.clearInterval = originalClearInterval;
+            window.clearTimeout = originalClearTimeout;
+            // 清除沙箱代码创建的所有定时器
+            trackedIntervals.forEach(id => originalClearInterval(id));
+            trackedTimeouts.forEach(id => originalClearTimeout(id));
+            if (trackedIntervals.length > 0 || trackedTimeouts.length > 0) {
+                consoleOutput.push(`\n⏱️ 沙箱已自动清除 ${trackedIntervals.length} 个 setInterval 和 ${trackedTimeouts.length} 个 setTimeout`);
+            }
+            updateDisplay();
+        }
+
         try {
-            // Evaluates code in local scope to prevent global leak
             new Function(code)();
-            outConsole.innerHTML = consoleOutput.join('\n') || '<i>(Code executed with no output)</i>';
+            updateDisplay();
+            // 延迟 3 秒恢复，让异步回调有机会执行
+            originalSetTimeout(restoreAll, 3000);
         } catch (e) {
             outConsole.classList.add('error');
             outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
-        } finally {
-            console.log = originalLog;
+            restoreAll();
         }
     }
 
@@ -956,11 +1119,9 @@ JavaScript 中 document.getElementById('intro') 只返回第一个匹配元素�
             
             if (this.getAttribute('data-value') === correctAnswer) {
                 this.classList.add('correct');
-                explanation.innerHTML = `<strong>👍 正确！</strong> 解析：<code>10 > 20</code> 为 <code>false</code>，因此走了 <code>else</code> 分支，输出 "B"。`;
                 explanation.style.borderColor = 'var(--success-color)';
             } else {
                 this.classList.add('incorrect');
-                explanation.innerHTML = `<strong>❌ 错误。</strong> 提示：再想一想条件 <code>10 > 20</code> 返回的是 true 还是 false？`;
                 explanation.style.borderColor = 'var(--error-color)';
             }
             explanation.style.display = 'block';
@@ -984,6 +1145,16 @@ JavaScript 中 document.getElementById('intro') 只返回第一个匹配元素�
             } else {
                 input.classList.add('incorrect');
             }
+        });
+    }
+
+    function showAnswers(containerId) {
+        const container = document.getElementById(containerId);
+        const inputs = container.querySelectorAll('.blank-input');
+        inputs.forEach(input => {
+            input.value = input.getAttribute('data-answer');
+            input.classList.remove('incorrect');
+            input.classList.add('correct');
         });
     }
 
