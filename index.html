@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript 完全教程 — 从零开始的系统学习路线</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0d0d0d;
+            --surface: #1a1a1a;
+            --border: #333;
+            --text: #ededed;
+            --text-2: #a0a0a0;
+            --accent: #f7df1e;
+            --accent-hover: #e0c810;
+            --radius: 12px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', system-ui, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 80px 24px 48px;
+            background: linear-gradient(180deg, rgba(247,223,30,0.06) 0%, transparent 100%);
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(247,223,30,0.15);
+            color: var(--accent);
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 16px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            letter-spacing: 0.5px;
+        }
+        .hero h1 {
+            font-size: clamp(32px, 5vw, 52px);
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+        .hero h1 span { color: var(--accent); }
+        .hero p {
+            font-size: 18px;
+            color: var(--text-2);
+            max-width: 600px;
+            margin: 0 auto 32px;
+        }
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .stat { text-align: center; }
+        .stat-num { font-size: 28px; font-weight: 700; color: var(--accent); }
+        .stat-label { font-size: 13px; color: var(--text-2); margin-top: 4px; }
+
+        /* Chapters */
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 48px 24px 80px;
+        }
+        .chapter {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            margin-bottom: 24px;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .chapter:hover { border-color: rgba(247,223,30,0.3); }
+        .chapter-header {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            user-select: none;
+        }
+        .chapter-header:hover { background: rgba(255,255,255,0.03); }
+        .chapter-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            font-size: 14px;
+            color: var(--bg);
+            background: var(--accent);
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .chapter-info { flex: 1; }
+        .chapter-title { font-size: 18px; font-weight: 600; }
+        .chapter-desc { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+        .chapter-count {
+            font-size: 12px;
+            color: var(--text-2);
+            background: rgba(255,255,255,0.06);
+            padding: 4px 10px;
+            border-radius: 12px;
+            flex-shrink: 0;
+        }
+        .chapter-arrow {
+            font-size: 18px;
+            color: var(--text-2);
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        .chapter.open .chapter-arrow { transform: rotate(90deg); }
+        .lesson-list {
+            display: none;
+            padding: 0 24px 20px;
+        }
+        .chapter.open .lesson-list { display: block; }
+        .lesson-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: var(--text-2);
+            font-size: 14px;
+            transition: var(--transition);
+        }
+        .lesson-link:hover {
+            background: rgba(247,223,30,0.08);
+            color: var(--text);
+        }
+        .lesson-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-2);
+            min-width: 28px;
+        }
+        .lesson-title { flex: 1; }
+        .lesson-tag {
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+        .tag-challenge { background: rgba(255,85,85,0.15); color: #ff5555; }
+        .tag-project { background: rgba(80,250,123,0.15); color: #50fa7b; }
+
+        footer {
+            text-align: center;
+            padding: 32px;
+            font-size: 13px;
+            color: var(--text-2);
+            border-top: 1px solid var(--border);
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        @media (max-width: 640px) {
+            .hero { padding: 48px 16px 32px; }
+            .stats { gap: 24px; }
+            .chapter-header { padding: 16px; gap: 12px; }
+            .chapter-title { font-size: 16px; }
+        }
+    </style>
+</head>
+<body>
+
+<section class="hero">
+    <div class="hero-badge">📚 开源免费教程</div>
+    <h1>The Complete <span>JavaScript</span> Course</h1>
+    <p>从零基础到高级特性，系统学习现代 JavaScript。每节课配备可运行代码编辑器、交互式测验和可视化图表。</p>
+    <div class="stats">
+        <div class="stat"><div class="stat-num">8</div><div class="stat-label">章节</div></div>
+        <div class="stat"><div class="stat-num">117</div><div class="stat-label">课时</div></div>
+        <div class="stat"><div class="stat-num">∞</div><div class="stat-label">可运行代码</div></div>
+    </div>
+</section>
+
+<div class="container" id="chapters"></div>
+
+<footer>
+    Based on <a href="https://www.udemy.com/course/the-complete-javascript-course/" target="_blank">Jonas Schmedtmann's Complete JavaScript Course</a>
+    &nbsp;·&nbsp;
+    <a href="https://github.com/FLYleoYBQ/js-tutorials" target="_blank">GitHub</a>
+</footer>
+
+<script>
+const chapters = [
+    {
+        num: '02', title: 'JavaScript 基础 Part 1',
+        desc: '值、变量、数据类型、运算符、条件分支',
+        lessons: [
+            { file: '001_Section_Intro', title: 'Section Intro' },
+            { file: '002_Hello_World', title: 'Hello World!' },
+            { file: '003_A_Brief_Introduction_to_JavaScript', title: 'A Brief Introduction to JavaScript' },
+            { file: '004_Linking_a_JavaScript_File', title: 'Linking a JavaScript File' },
+            { file: '005_Values_and_Variables', title: 'Values and Variables' },
+            { file: '007_Data_Types', title: 'Data Types' },
+            { file: '008_let_const_and_var', title: 'let, const and var' },
+            { file: '009_Basic_Operators', title: 'Basic Operators' },
+            { file: '010_Operator_Precedence', title: 'Operator Precedence' },
+            { file: '013_CHALLENGE_1_Video_Solution', title: 'CHALLENGE #1', tag: 'challenge' },
+            { file: '014_Strings_and_Template_Literals', title: 'Strings and Template Literals' },
+            { file: '015_Taking_Decisions_if_else_Statements', title: 'Taking Decisions: if/else Statements' },
+            { file: '017_CHALLENGE_2_Video_Solution', title: 'CHALLENGE #2', tag: 'challenge' },
+            { file: '018_Type_Conversion_and_Coercion', title: 'Type Conversion and Coercion' },
+            { file: '019_Truthy_and_Falsy_Values', title: 'Truthy and Falsy Values' },
+            { file: '020_Equality_Operators', title: 'Equality Operators' },
+            { file: '021_Boolean_Logic', title: 'Boolean Logic' },
+            { file: '022_Logical_Operators', title: 'Logical Operators' },
+            { file: '024_CHALLENGE_3_Video_Solution', title: 'CHALLENGE #3', tag: 'challenge' },
+            { file: '025_The_switch_Statement', title: 'The switch Statement' },
+            { file: '026_Statements_and_Expressions', title: 'Statements and Expressions' },
+            { file: '027_The_Conditional_Ternary_Operator', title: 'The Conditional (Ternary) Operator' },
+            { file: '029_CHALLENGE_4_Video_Solution', title: 'CHALLENGE #4', tag: 'challenge' },
+            { file: '030_JavaScript_Releases_ES5_ES6_and_ESNext', title: 'JavaScript Releases: ES5, ES6+ and ESNext' },
+        ]
+    },
+    {
+        num: '03', title: 'JavaScript 基础 Part 2',
+        desc: '函数、数组、对象、循环',
+        lessons: [
+            { file: '001_Section_Intro', title: 'Section Intro' },
+            { file: '002_Activating_Strict_Mode', title: 'Activating Strict Mode' },
+            { file: '003_Functions', title: 'Functions' },
+            { file: '004_Function_Declarations_vs_Expressions', title: 'Function Declarations vs. Expressions' },
+            { file: '005_Arrow_Functions', title: 'Arrow Functions' },
+            { file: '006_Functions_Calling_Other_Functions', title: 'Functions Calling Other Functions' },
+            { file: '007_Reviewing_Functions', title: 'Reviewing Functions' },
+            { file: '009_CHALLENGE_1_Video_Solution', title: 'CHALLENGE #1', tag: 'challenge' },
+            { file: '010_Introduction_to_Arrays', title: 'Introduction to Arrays' },
+            { file: '011_Basic_Array_Operations_Methods', title: 'Basic Array Operations (Methods)' },
+            { file: '013_CHALLENGE_2_Video_Solution', title: 'CHALLENGE #2', tag: 'challenge' },
+            { file: '014_Introduction_to_Objects', title: 'Introduction to Objects' },
+            { file: '015_Dot_vs_Bracket_Notation', title: 'Dot vs. Bracket Notation' },
+            { file: '016_Object_Methods', title: 'Object Methods' },
+            { file: '018_CHALLENGE_3_Video_Solution', title: 'CHALLENGE #3', tag: 'challenge' },
+            { file: '019_Iteration_The_for_Loop', title: 'Iteration: The for Loop' },
+            { file: '020_Looping_Arrays_Breaking_and_Continuing', title: 'Looping Arrays, Breaking and Continuing' },
+            { file: '021_Looping_Backwards_and_Loops_in_Loops', title: 'Looping Backwards and Loops in Loops' },
+            { file: '022_The_while_Loop', title: 'The while Loop' },
+            { file: '024_CHALLENGE_4_Video_Solution', title: 'CHALLENGE #4', tag: 'challenge' },
+        ]
+    },
+    {
+        num: '04', title: '学习路线导航',
+        desc: '课程路径与章节路线图',
+        lessons: [
+            { file: '001_Pathways_and_Section_Roadmaps', title: 'Pathways and Section Roadmaps' },
+        ]
+    },
+    {
+        num: '05', title: '开发者思维与工具',
+        desc: '调试技巧、问题解决、AI 工具',
+        lessons: [
+            { file: '001_Section_Intro', title: 'Section Intro' },
+            { file: '003_Setting_up_Prettier_and_VS_Code', title: 'Setting up Prettier and VS Code' },
+            { file: '004_Installing_Node.js_and_Setting_Up_a_Dev_Environment', title: 'Installing Node.js and Setting Up a Dev Environment' },
+            { file: '005_Learning_How_to_Code', title: 'Learning How to Code' },
+            { file: '007_How_to_Think_Like_a_Developer_Become_a_Problem_Solver', title: 'How to Think Like a Developer' },
+            { file: '009_Using_Google_StackOverflow_and_MDN', title: 'Using Google, StackOverflow and MDN' },
+            { file: '010_Debugging_Fixing_Errors', title: 'Debugging (Fixing Errors)' },
+            { file: '011_Debugging_with_the_Console_and_Breakpoints', title: 'Debugging with the Console and Breakpoints' },
+            { file: '012_CHALLENGE_1', title: 'CHALLENGE #1', tag: 'challenge' },
+            { file: '013_The_Rise_of_AI_Tools', title: 'The Rise of AI Tools' },
+            { file: '014_Solving_CHALLENGE_2_With_AI', title: 'Solving CHALLENGE #2 With AI', tag: 'challenge' },
+        ]
+    },
+    {
+        num: '06', title: 'HTML & CSS 速成',
+        desc: 'HTML 结构、属性、CSS 样式基础',
+        lessons: [
+            { file: '001_Section_Intro', title: 'Section Intro' },
+            { file: '002_Basic_HTML_Structure_and_Elements', title: 'Basic HTML Structure and Elements' },
+            { file: '003_Attributes_Classes_and_IDs', title: 'Attributes, Classes and IDs' },
+            { file: '004_Basic_Styling_with_CSS', title: 'Basic Styling with CSS' },
+        ]
+    },
+    {
+        num: '07', title: 'DOM 与事件基础',
+        desc: '三大项目：猜数字、Modal 弹窗、Pig 骰子游戏',
+        lessons: [
+            { file: '001_Section_Intro', title: 'Section Intro' },
+            { file: '003_PROJECT_1_Guess_My_Number', title: 'PROJECT #1: Guess My Number!', tag: 'project' },
+            { file: '004_Whats_the_DOM_and_DOM_Manipulation', title: "What's the DOM and DOM Manipulation" },
+            { file: '005_Selecting_and_Manipulating_Elements', title: 'Selecting and Manipulating Elements' },
+            { file: '006_Handling_Click_Events', title: 'Handling Click Events' },
+            { file: '007_Implementing_the_Game_Logic', title: 'Implementing the Game Logic' },
+            { file: '008_Manipulating_CSS_Styles', title: 'Manipulating CSS Styles' },
+            { file: '009_CHALLENGE_1', title: 'CHALLENGE #1', tag: 'challenge' },
+            { file: '010_Implementing_Highscores', title: 'Implementing Highscores' },
+            { file: '011_Refactoring_Our_Code_The_DRY_Principle', title: 'Refactoring Our Code: The DRY Principle' },
+            { file: '012_PROJECT_2_Modal_Window', title: 'PROJECT #2: Modal Window', tag: 'project' },
+            { file: '013_Working_With_Classes', title: 'Working With Classes' },
+            { file: '014_Handling_an_Esc_Keypress_Event', title: 'Handling an "Esc" Keypress Event' },
+            { file: '015_PROJECT_3_Pig_Game', title: 'PROJECT #3: Pig Game', tag: 'project' },
+            { file: '016_Rolling_the_Dice', title: 'Rolling the Dice' },
+            { file: '017_Switching_the_Active_Player', title: 'Switching the Active Player' },
+            { file: '018_Holding_Current_Score', title: 'Holding Current Score' },
+            { file: '019_Resetting_the_Game', title: 'Resetting the Game' },
+        ]
+    },
+    {
+        num: '08', title: 'JavaScript 幕后原理',
+        desc: '引擎运行时、作用域链、this 关键字、内存管理',
+        lessons: [
+            { file: '001_Section_Intro', title: 'Section Intro' },
+            { file: '003_An_High-Level_Overview_of_JavaScript', title: 'A High-Level Overview of JavaScript' },
+            { file: '004_The_JavaScript_Engine_and_Runtime', title: 'The JavaScript Engine and Runtime' },
+            { file: '005_Execution_Contexts_and_The_Call_Stack', title: 'Execution Contexts and The Call Stack' },
+            { file: '006_Scope_and_The_Scope_Chain', title: 'Scope and The Scope Chain' },
+            { file: '007_Scoping_in_Practice', title: 'Scoping in Practice' },
+            { file: '008_Variable_Environment_Hoisting_and_The_TDZ', title: 'Variable Environment: Hoisting and The TDZ' },
+            { file: '009_Hoisting_and_TDZ_in_Practice', title: 'Hoisting and TDZ in Practice' },
+            { file: '010_The_this_Keyword', title: 'The this Keyword' },
+            { file: '011_The_this_Keyword_in_Practice', title: 'The this Keyword in Practice' },
+            { file: '012_Regular_Functions_vs._Arrow_Functions', title: 'Regular Functions vs. Arrow Functions' },
+            { file: '013_Memory_Management_Primitives_vs._Objects', title: 'Memory Management: Primitives vs. Objects' },
+            { file: '014_Object_References_in_Practice_(Shallow_vs._Deep_Copies)', title: 'Object References in Practice' },
+            { file: '015_Memory_Management_Garbage_Collection', title: 'Memory Management: Garbage Collection' },
+        ]
+    },
+    {
+        num: '09', title: '现代 JavaScript 数据结构与操作符',
+        desc: '解构、展开、Map/Set、字符串方法',
+        lessons: [
+            { file: '001_Section_Intro', title: 'Section Intro' },
+            { file: '003_Destructuring_Arrays', title: 'Destructuring Arrays' },
+            { file: '005_Destructuring_Objects', title: 'Destructuring Objects' },
+            { file: '006_The_Spread_Operator', title: 'The Spread Operator (...)' },
+            { file: '007_Rest_Pattern_and_Parameters', title: 'Rest Pattern and Parameters' },
+            { file: '008_Short_Circuiting', title: 'Short Circuiting (&& and ||)' },
+            { file: '009_The_Nullish_Coalescing_Operator', title: 'The Nullish Coalescing Operator (??)' },
+            { file: '010_Logical_Assignment_Operators', title: 'Logical Assignment Operators' },
+            { file: '011_CHALLENGE_1', title: 'CHALLENGE #1', tag: 'challenge' },
+            { file: '012_Looping_Arrays_The_for-of_Loop', title: 'Looping Arrays: The for-of Loop' },
+            { file: '013_Enhanced_Object_Literals', title: 'Enhanced Object Literals' },
+            { file: '014_Optional_Chaining', title: 'Optional Chaining (?.)' },
+            { file: '015_Looping_Objects_Keys_Values_Entries', title: 'Looping Objects: Keys, Values, Entries' },
+            { file: '016_CHALLENGE_2', title: 'CHALLENGE #2', tag: 'challenge' },
+            { file: '017_Sets', title: 'Sets' },
+            { file: '018_New_Operations_to_Make_Sets_Useful', title: 'New Operations to Make Sets Useful' },
+            { file: '019_Maps_Fundamentals', title: 'Maps: Fundamentals' },
+            { file: '020_Maps_Iteration', title: 'Maps: Iteration' },
+            { file: '021_Summary_Which_Data_Structure_to_Use', title: 'Summary: Which Data Structure to Use?' },
+            { file: '022_CHALLENGE_3', title: 'CHALLENGE #3', tag: 'challenge' },
+            { file: '023_Working_With_Strings_Part_1', title: 'Working With Strings — Part 1' },
+            { file: '024_Working_With_Strings_Part_2', title: 'Working With Strings — Part 2' },
+            { file: '025_Working_With_Strings_Part_3', title: 'Working With Strings — Part 3' },
+            { file: '026_CHALLENGE_4', title: 'CHALLENGE #4', tag: 'challenge' },
+            { file: '027_String_Methods_Practice', title: 'String Methods Practice' },
+        ]
+    },
+];
+
+const container = document.getElementById('chapters');
+
+chapters.forEach((ch, idx) => {
+    const div = document.createElement('div');
+    div.className = 'chapter' + (idx === 0 ? ' open' : '');
+    const tagHtml = (tag) => {
+        if (!tag) return '';
+        const cls = tag === 'challenge' ? 'tag-challenge' : 'tag-project';
+        const label = tag === 'challenge' ? '🏆 挑战' : '🚀 项目';
+        return `<span class="lesson-tag ${cls}">${label}</span>`;
+    };
+    div.innerHTML = `
+        <div class="chapter-header" onclick="this.parentElement.classList.toggle('open')">
+            <div class="chapter-num">${ch.num}</div>
+            <div class="chapter-info">
+                <div class="chapter-title">${ch.title}</div>
+                <div class="chapter-desc">${ch.desc}</div>
+            </div>
+            <div class="chapter-count">${ch.lessons.length} 课</div>
+            <div class="chapter-arrow">›</div>
+        </div>
+        <div class="lesson-list">
+            ${ch.lessons.map((l, i) => `
+                <a href="text2HTML/${ch.num}/${l.file}.html" class="lesson-link">
+                    <span class="lesson-num">${String(i + 1).padStart(2, '0')}</span>
+                    <span class="lesson-title">${l.title}</span>
+                    ${tagHtml(l.tag)}
+                </a>
+            `).join('')}
+        </div>
+    `;
+    container.appendChild(div);
+});
+</script>
+
+</body>
+</html>
