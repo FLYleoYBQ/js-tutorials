@@ -73,12 +73,22 @@ function processMarkdownInHtmlBlock(block) {
   });
 
   // 2. 处理代码块（包括 mermaid）
+  const codeBlockMap = new Map();
+  let codeBlockIdx = 0;
   block = block.replace(/```(\w*)\s*(.*?)?\n([\s\S]*?)```/g, (_, lang, attrs, code) => {
+    let html;
     if (lang === 'mermaid') {
-      return `<div class="mermaid">\n${code}\n</div>`;
+      // 转义 <br/> 为 HTML 实体，防止浏览器解析后消失
+      const safeCode = code.replace(/<br\s*\/?>/gi, '&lt;br/&gt;');
+      html = `<div class="mermaid">\n${safeCode}\n</div>`;
+    } else {
+      const langClass = lang ? ` class="language-${lang === 'js' ? 'javascript' : lang}"` : '';
+      html = `<pre><code${langClass}>${escapeHtml(code)}</code></pre>`;
     }
-    const langClass = lang ? ` class="language-${lang === 'js' ? 'javascript' : lang}"` : '';
-    return `<pre><code${langClass}>${escapeHtml(code)}</code></pre>`;
+    // 将生成的 HTML 块加入保护，防止后续行内处理破坏
+    const key = `__CODE_BLOCK_${codeBlockIdx++}__`;
+    codeBlockMap.set(key, html);
+    return key;
   });
 
   // 3. 处理表格
@@ -118,6 +128,11 @@ function processMarkdownInHtmlBlock(block) {
 
   // 7. 还原 HTML 标签
   for (const [key, value] of htmlTagMap) {
+    block = block.replace(key, value);
+  }
+
+  // 8. 还原代码块
+  for (const [key, value] of codeBlockMap) {
     block = block.replace(key, value);
   }
 
@@ -204,12 +219,15 @@ function parseMarkdown(md) {
       const code = codeLines.join('\n');
 
       if (lang === 'mermaid') {
-        result.push(`<div class="mermaid">\n${code}\n</div>`);
+        // 转义 <br/> 为 HTML 实体，防止浏览器解析后消失
+        const safeCode = code.replace(/<br\s*\/?>/gi, '&lt;br/&gt;');
+        result.push(`<div class="mermaid">\n${safeCode}\n</div>`);
       } else if (attrs.includes('{runnable}')) {
         editorCount++;
         const titleMatch = attrs.match(/\{title="([^"]+)"\}/);
         const title = titleMatch ? titleMatch[1] : 'index.js';
-        result.push(renderRunnableEditor(code, editorCount, title));
+        const editorLang = lang === 'js' ? 'javascript' : (lang || 'javascript');
+        result.push(renderRunnableEditor(code, editorCount, title, editorLang));
       } else {
         const langClass = lang ? ` class="language-${lang === 'js' ? 'javascript' : lang}"` : '';
         result.push(`<pre><code${langClass}>${escapeHtml(code)}</code></pre>`);
@@ -403,13 +421,15 @@ function escapeHtml(str) {
  * @param {string} code - 代码内容
  * @param {number} index - 编辑器序号
  * @param {string} title - 编辑器标题
+ * @param {string} lang - 代码语言（javascript/html/css）
  * @returns {string} HTML 字符串
  */
-function renderRunnableEditor(code, index, title) {
-  return `<div class="runnable-editor">
+function renderRunnableEditor(code, index, title, lang = 'javascript') {
+  const btnLabel = (lang === 'html' || lang === 'css') ? '👁 预览' : '▶ 运行代码';
+  return `<div class="runnable-editor" data-lang="${lang}">
     <div class="editor-header">
         <span class="editor-title">${escapeHtml(title)}</span>
-        <button class="btn-run" onclick="runCode('codeEditor${index}', 'console${index}')">▶ 运行代码</button>
+        <button class="btn-run" onclick="runCode('codeEditor${index}', 'console${index}', '${lang}')">${btnLabel}</button>
     </div>
     <div class="editor-container">
         <textarea id="codeEditor${index}" class="editor-textarea" spellcheck="false">${escapeHtml(code)}</textarea>
@@ -488,6 +508,9 @@ function renderFillBlank(body, index) {
     <br><br>
     <button class="btn-run" onclick="checkFillBlanks('${containerId}')" style="display:inline-flex;margin-top:10px;">
         ✓ 检查答案
+    </button>
+    <button class="btn-run" onclick="showAnswers('${containerId}')" style="display:inline-flex;margin-top:10px;margin-left:8px;color:var(--info-color);border-color:var(--info-color);">
+        💡 显示答案
     </button>
 </div>`;
 }
