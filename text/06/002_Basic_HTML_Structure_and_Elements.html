@@ -830,7 +830,20 @@ console.log(fixedHTML);
 <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
     mermaid.initialize({ startOnLoad: false, theme: 'dark', fontFamily: 'Inter' });
-    await mermaid.run({ querySelector: '.mermaid' }).catch(console.error);
+    async function renderMermaid() {
+        try {
+            await mermaid.run({ querySelector: '.mermaid' });
+        } catch (e) {
+            console.error('Mermaid render error:', e);
+        }
+        // 如果首次未生成 SVG，延后重试
+        if (!document.querySelector('.mermaid svg')) {
+            setTimeout(async () => {
+                try { await mermaid.run({ querySelector: '.mermaid' }); } catch(e) { console.error(e); }
+            }, 800);
+        }
+    }
+    renderMermaid();
 </script>
 
 <script>
