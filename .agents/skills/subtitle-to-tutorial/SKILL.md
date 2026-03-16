@@ -152,15 +152,33 @@ node d:\JavaScript\.agents\skills\subtitle-to-tutorial\scripts\md-to-html.js "pa
 4. **📚 MDN 官方文档超链接靶向附魔**：
    - 词汇速查表最后一列强制新增「📚 官方文档溯源」MDN 链接。
 
+## 沙箱与可视化预览特性 (Sandbox & Visual Previews)
+
+本技能生成的 HTML 教程内置了强大的安全沙箱控制台，具备以下运行特性：
+1. **HTML/CSS 可视化合并预览**：当指定代码块语言为 `html` 或 `css` 时，运行按钮将变为「👁 预览」。CSS 代码执行时会自动查找上一相邻的 HTML 编辑器代码，并合并注入到 iframe 中呈现真实视觉效果。
+2. **异步执行捕获与防内存泄漏**：自动拦截 `setInterval` 和 `setTimeout` 输出并持续 3 秒，3 秒后自动安全清除所有残留定时器，无惧死循环演示。
+3. **安全拦截 `document.write`**：重写危险函数避免执行后清空整个教程页面。
+4. **虚拟 DOM Mock 引擎**：拦截 `document.querySelector` / `getElementById`，若找不到元素将返回虚拟 FakeElement 对象，支持 `.textContent`、`.style` 链式调用，确保纯代码实验不会抛出异常。
+
 ---
 
 ## 自定义 Markdown 组件语法参考
 
-### 可运行代码块
+### 可运行代码块 (JavaScript)
 ````markdown
 ```js {runnable} {title="index.js"}
 const x = 10;
 console.log(x);
+```
+````
+
+### 可视化预览代码块 (HTML + CSS 配对)
+````markdown
+```html {runnable} {title="index.html"}
+<h1 class="title">Hello</h1>
+```
+```css {runnable} {title="style.css"}
+.title { color: red; }
 ```
 ````
 
