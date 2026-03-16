@@ -829,7 +829,21 @@ console.log(fixedHTML);
 
 <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+    mermaid.initialize({ startOnLoad: false, theme: 'dark', fontFamily: 'Inter' });
+    async function renderMermaid() {
+        try {
+            await mermaid.run({ querySelector: '.mermaid' });
+        } catch (e) {
+            console.error('Mermaid render error:', e);
+        }
+        // 如果首次未生成 SVG，延后重试
+        if (!document.querySelector('.mermaid svg')) {
+            setTimeout(async () => {
+                try { await mermaid.run({ querySelector: '.mermaid' }); } catch(e) { console.error(e); }
+            }, 800);
+        }
+    }
+    renderMermaid();
 </script>
 
 <script>
@@ -841,11 +855,16 @@ console.log(fixedHTML);
         outConsole.classList.add('visible');
         outConsole.classList.remove('error');
 
-        // Mock console.log to trap output
+        // Mock console.log and document.write to trap output
         let consoleOutput = [];
         const originalLog = console.log;
+        const originalWrite = document.write;
+        
         console.log = function(...args) {
             consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        document.write = function(...args) {
+            consoleOutput.push(args.join(''));
         };
 
         try {
@@ -857,6 +876,7 @@ console.log(fixedHTML);
             outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
         } finally {
             console.log = originalLog;
+            document.write = originalWrite;
         }
     }
 
