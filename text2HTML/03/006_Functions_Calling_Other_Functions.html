@@ -836,7 +836,8 @@ console.log(reportCard(70, 65, 72));  // 平均分: 69.00, 等级: D
 
 <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+    mermaid.initialize({ startOnLoad: false, theme: 'dark', fontFamily: 'Inter' });
+    await mermaid.run({ querySelector: '.mermaid' }).catch(console.error);
 </script>
 
 <script>
@@ -848,11 +849,16 @@ console.log(reportCard(70, 65, 72));  // 平均分: 69.00, 等级: D
         outConsole.classList.add('visible');
         outConsole.classList.remove('error');
 
-        // Mock console.log to trap output
+        // Mock console.log and document.write to trap output
         let consoleOutput = [];
         const originalLog = console.log;
+        const originalWrite = document.write;
+        
         console.log = function(...args) {
             consoleOutput.push(args.map(a => typeof a === 'object' ? JSON.stringify(a) : a).join(' '));
+        };
+        document.write = function(...args) {
+            consoleOutput.push(args.join(''));
         };
 
         try {
@@ -864,6 +870,7 @@ console.log(reportCard(70, 65, 72));  // 平均分: 69.00, 等级: D
             outConsole.innerHTML = `⚠️ ${e.name} : ${e.message}`;
         } finally {
             console.log = originalLog;
+            document.write = originalWrite;
         }
     }
 

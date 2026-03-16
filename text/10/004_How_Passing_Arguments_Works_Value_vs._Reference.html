@@ -298,7 +298,8 @@ console.log("登机时查验的护照号变成了：", jonas.passport);
 <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
 <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
-    mermaid.initialize({ startOnLoad: true, theme: 'dark', fontFamily: 'Inter' });
+    mermaid.initialize({ startOnLoad: false, theme: 'dark', fontFamily: 'Inter' });
+    await mermaid.run({ querySelector: '.mermaid' }).catch(console.error);
 </script>
 
 <script>
