@@ -1197,8 +1197,10 @@
   <div class="page-layout">
     <div class="page-wrapper" id="content">
       <h1>08. 视觉冲击：用 JavaScript 操作 CSS 样式 (Manipulating CSS Styles)</h1>
-<blockquote class="">📺 **来源**：`008 Manipulating CSS Styles.en.txt`
-📂 **章节**：第 07 章 (DOM and Events Fundamentals)</blockquote><h2>📌 知识脉络</h2>
+<blockquote class="">
+<p>📺 <strong>来源</strong>：<code>008 Manipulating CSS Styles.en.txt</code>
+📂 <strong>章节</strong>：第 07 章 (DOM and Events Fundamentals)</p>
+</blockquote><h2>📌 知识脉络</h2>
 <ul>
 <li><strong>前置知识</strong>：通过 <code>document.querySelector</code> 选取元素，以及 <code>textContent</code> 的赋值。</li>
 <li><strong>后续扩展</strong>：通过 JS 动态添加与移除 CSS Class（将在后续 Modal Window 项目中讲解）。</li>
@@ -1274,14 +1276,16 @@ document.querySelector('.number').style.width = '30rem';</code></pre>
 
 <h3>4. 🔬 原理剖析：它改的到底是谁的样式？</h3>
 <p>在浏览器里按下 F12 (Inspect)，你会发现非常震惊的事实。</p>
-<blockquote class="">💡 **原理剖析**：我们写的 JS 代码，其实并没有去更改旁边那个 `style.css` 文件！
-当 JS 引擎执行完上述代码后，浏览器的 HTML 结构变成了这样：
-```html
-<body style="background-color: rgb(96, 179, 71);">
-  <!-- ...网页内容... -->
-</body>
-```
-**看懂了吗？** JS 是在使用最高优先级的**“内联样式 (Inline Styles)”**，直接霸道地塞进了 HTML 标签的肚子里。由于内联样式权重极高，它瞬间覆盖了 `style.css` 里的原始规则！</blockquote><h2>🏆 战利品与能力雷达</h2>
+<blockquote class="">
+<p>💡 <strong>原理剖析</strong>：我们写的 JS 代码，其实并没有去更改旁边那个 <code>style.css</code> 文件！
+当 JS 引擎执行完上述代码后，浏览器的 HTML 结构变成了这样：</p>
+<div class="code-wrapper">
+  <button class="copy-btn">复制</button>
+  <pre><code class="language-html">&lt;body style="background-color: rgb(96, 179, 71);"&gt;
+  &lt;!-- ...网页内容... --&gt;
+&lt;/body&gt;</code></pre>
+</div><p><strong>看懂了吗？</strong> JS 是在使用最高优先级的**“内联样式 (Inline Styles)”**，直接霸道地塞进了 HTML 标签的肚子里。由于内联样式权重极高，它瞬间覆盖了 <code>style.css</code> 里的原始规则！</p>
+</blockquote><h2>🏆 战利品与能力雷达</h2>
 <div class="elite-callout callout-loot">
 
 <p><strong>🛎️ 导师赠语</strong>：惊不惊喜？</p>

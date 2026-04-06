@@ -1197,8 +1197,10 @@
   <div class="page-layout">
     <div class="page-wrapper" id="content">
       <h1>基础 CSS 样式 (Basic Styling with CSS)</h1>
-<blockquote class="">📺 来源：004 Basic Styling with CSS.en.txt
-📂 章节：第 06 章</blockquote><h2>📌 知识脉络</h2>
+<blockquote class="">
+<p>📺 来源：004 Basic Styling with CSS.en.txt
+📂 章节：第 06 章</p>
+</blockquote><h2>📌 知识脉络</h2>
 <ul>
 <li><strong>前置知识</strong>：HTML 基础标签、Class 与 ID 属性。</li>
 <li><strong>后续扩展</strong>：CSS 盒模型 (Box Model)、Flexbox/Grid 布局。</li>
@@ -1309,12 +1311,15 @@ h1 {
   &lt;p&gt;我是段落我也红了！可是，为什么我们每个人并没有单独长出一个黑色瞎框？&lt;/p&gt;
 &lt;/body&gt;</code></pre>
 </div><p>:::</p>
-<blockquote class="">💡 **原理解析：为什么有些属性会传染？**
-为什么明明只给 `body` 设了红色，里面所有的字都不讲道理地变红了？而你明明设置了黑框 `border`，它却很克制地只画在最外层，没有让里面的标题和小段落全体带框？
-
-这就是 CSS 极其重要的底板机制：**继承 (Inheritance)**。
-- 🟢 **会继承的属性**：通常是与**排版文本字体**相关的属性（如 `font-family`, `color`）。父亲的基因会向深处传递，免得你每个标签都要手写一次字体设定。
-- 🔴 **不会继承的属性**：通常是与**物理盒子布局**相关的属性（如 `border`, `background-color`, `padding`）。试想如果边框也能继承，给你这整个网页加上边框后，里面的几百个标题和段落全带上黑框，那视觉立刻就爆炸了！</blockquote><h3>6. 💡 顶级开发者视角 (Pro Tips)</h3>
+<blockquote class="">
+<p>💡 <strong>原理解析：为什么有些属性会传染？</strong>
+为什么明明只给 <code>body</code> 设了红色，里面所有的字都不讲道理地变红了？而你明明设置了黑框 <code>border</code>，它却很克制地只画在最外层，没有让里面的标题和小段落全体带框？</p>
+<p>这就是 CSS 极其重要的底板机制：<strong>继承 (Inheritance)</strong>。</p>
+<ul>
+<li>🟢 <strong>会继承的属性</strong>：通常是与<strong>排版文本字体</strong>相关的属性（如 <code>font-family</code>, <code>color</code>）。父亲的基因会向深处传递，免得你每个标签都要手写一次字体设定。</li>
+<li>🔴 <strong>不会继承的属性</strong>：通常是与<strong>物理盒子布局</strong>相关的属性（如 <code>border</code>, <code>background-color</code>, <code>padding</code>）。试想如果边框也能继承，给你这整个网页加上边框后，里面的几百个标题和段落全带上黑框，那视觉立刻就爆炸了！</li>
+</ul>
+</blockquote><h3>6. 💡 顶级开发者视角 (Pro Tips)</h3>
 <div class="elite-callout callout-pro-tip">
 
 <p><strong>💡 工程准则：结构与表现的绝对物理隔离</strong>
@@ -1334,7 +1339,9 @@ h1 {
 </div>
 
 <hr>
-<blockquote class="tip-callout">💡 **记忆口诀**：选人看准点与井，花括号里写本领。字体颜色能遗传，边框尺寸各管各。</blockquote><hr>
+<blockquote class="tip-callout">
+<p>💡 <strong>记忆口诀</strong>：选人看准点与井，花括号里写本领。字体颜色能遗传，边框尺寸各管各。</p>
+</blockquote><hr>
 <h2>📚 词汇速查表 (Cheat Sheet)</h2>
 <table>
 <thead>

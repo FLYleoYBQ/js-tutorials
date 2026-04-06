@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>07. 构建核心：游戏逻辑的血肉 (Implementing the Game Logic)</title>
+  <title>08_007_战场沙盘：作用域与作用域链实战破案 (Scoping in Practice)</title>
 
   <!-- Google Fonts: Inter + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1196,131 +1196,240 @@
   <!-- 主内容与侧边栏布局 -->
   <div class="page-layout">
     <div class="page-wrapper" id="content">
-      <h1>07. 构建核心：游戏逻辑的血肉 (Implementing the Game Logic)</h1>
+      <h1>08_007_战场沙盘：作用域与作用域链实战破案 (Scoping in Practice)</h1>
 <blockquote class="">
-<p>📺 <strong>来源</strong>：<code>007 Implementing the Game Logic.en.txt</code>
-📂 <strong>章节</strong>：第 07 章 (DOM and Events Fundamentals)</p>
+<p>📺 来源：007 Scoping in Practice.en.txt
+📂 章节：第 08 章</p>
 </blockquote><h2>📌 知识脉络</h2>
 <ul>
-<li><strong>前置知识</strong>：生成随机数，通过 <code>addEventListener</code> 获取用户的输入。</li>
-<li><strong>后续扩展</strong>：处理重置游戏 (Again!).</li>
+<li><strong>前置知识</strong>：上一节讲解了作用域链作为“单向透视镜”的纯理论。</li>
+<li><strong>后续扩展</strong>：只要这些代码你不会做错，那么在这套“词法作用域系统”中，你将能精确预判每一个变量名的生死。</li>
 </ul>
 <h2>🎯 战前简报 (Mission Briefing)</h2>
 <div class="elite-callout callout-mission">
 
-<p><strong>💡 目标与动机</strong>：我们的应用现在已经懂得听从“Check”按钮的号令获取用户的字了。但光听是不够的！
-在本节课，我们将亲手为这款游戏注入灵魂：</p>
-<ol>
-<li>它需要能自己背地里想好一个“神秘数字”作为答案。</li>
-<li>它要有“血条（Score）”，能惩罚猜错的玩家，直到血条归零。</li>
-<li>它要聪慧无比，判断出用户的猜测是大还是小！
-准备体验在 JS 中手搓<strong>判定流</strong>的乐趣吧！</li>
-</ol>
+<p><strong>💡 目标与动机</strong>：
+上一节讲了太多的恐怖法则：什么单向玻璃、什么 var 的穿墙术。但是，脱离了代码的代码就是白板上的鬼画符。
+在本节这片实弹演习场，我们准备了一个结构错综复杂的嵌套函数塔。你需要跟着我们一起，在脑海里模拟 JS 引擎做 <strong>Variable Lookup (变量向上查找)</strong> 时翻天覆地的过程。让我们戴上战术目镜，准备揪出未定义的地雷！</p>
 </div>
 
-<h2>🧩 核心知识点</h2>
-<h3>1. 💥 灾难痛点体验：变量应该放在哪里？</h3>
-<div class="elite-callout callout-sandboxing">
-
-<p><strong>🧪 动手破坏它！致命一错</strong>
-假设我们要在代码中生成一个真正的 1~20 秘密数字作为本局游戏的考题。
-<strong>如果</strong>你把它作为 <code>let secretNumber = Math.random()...</code> 写在了监听器函数（锦囊）的<strong>里面</strong>，想想会发生什么灾难？
-当你每次点下“Check”按钮，监听器都会被触发，第一件事就是<strong>重新生成了一个新的神秘数字</strong>。你上一次猜了 <code>5</code>，提示太小，你满怀信心地猜了 <code>10</code>，结果发现数字已经被换成另外一个了！
-这是一个绝对不可能赢的噩梦。</p>
-</div>
-
-<h3>2. 🧠 解药：状态变量提取 (State Variable)</h3>
-<div class="elite-callout callout-mental">
-
-<p><strong>🧠 认知重塑</strong>：
-<strong>全局状态（State）</strong> 的概念来了！能够贯穿整场游戏的变量，必须被声明在每次点击时都会发生重置的<strong>作用域外部</strong>！
-我们不仅要将 <code>secretNumber</code> 提取出来，更重要的是：<strong>不要仅仅把数据存储在 DOM 树上，要在你的代码中维持一套状态引擎！</strong>
-例如你的生命值 <code>score</code>，与其每次去读网页上的数字、减一、再写回网页，不如在代码最顶端定义 <code>let score = 20;</code>，让这段代码成为唯一的“真相来源”，更新完变量后再同步回屏幕。这叫做<strong>数据驱动 UI</strong>。</p>
-</div>
-
-<h3>3. 💻 高保真演进实战 (High-Fidelity Evolution)</h3>
-<p>在外部作用域建立我们的全局变量，并拼装完整的 <code>if / else if</code> 流水线判断大阵：</p>
-<div class="code-comparison">
-
-<div class="runnable-sandbox">
+<hr>
+<h2>🧩 核心实战演习</h2>
+<p>在这个演习场，我们设定了这样一个层叠代码塔，包含了全局、外层函数、内部函数以及深层块级。我们一段段来！</p>
+<h3>🎯 破案卷宗 1：往上翻箱倒柜的“向外查找”</h3>
+<p>看一段十分极其简单的代码：</p>
+<div class="runnable-sandbox" data-lang="js">
   <div class="sandbox-header">
-    <span class="sandbox-title">Step 1: 建立全局状态引擎</span>
+    <span class="sandbox-title">寻亲档案1：父亲拿全局</span>
     <div class="sandbox-actions">
       <button class="sandbox-copy-btn">复制</button>
+      
+      <button class="run-btn">▶ 运行</button>
     </div>
   </div>
-  <pre><code class="language-javascript">// 在按钮监听器之外，仅在刷新页面时被执行一次
-// 随机出一个 1-20的整数作为神秘数字
-const secretNumber = Math.trunc(Math.random() * 20) + 1;
+  <div class="playground-layout">
+    <div class="editor-pane">
+      <textarea class="code-editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">const firstName = "Jonas";  // 顶层代码：全局孤傲的统治者
 
-// 初始化一条 20滴血的命 (必须用 let，因为血会掉)
-let score = 20; 
+function calcAge(birthYear) {
+    const age = 2037 - birthYear;
+    console.log(firstName);  // 引擎：卧槽！我屋子里没有 firstName，快！向父级要！
+    return age;
+}
 
-document.querySelector('.check').addEventListener('click', function () {
-  const guess = Number(document.querySelector('.guess').value);
+calcAge(1991); // 成功输出 "Jonas"</textarea>
+      <!-- 保留原来的 pre code 用于高亮底部垫片 -->
+      <pre class="code-display" aria-hidden="true"><code class="language-js">const firstName = "Jonas";  // 顶层代码：全局孤傲的统治者
 
-  // 代码接着往下走...
-});</code></pre>
-</div></div>
+function calcAge(birthYear) {
+    const age = 2037 - birthYear;
+    console.log(firstName);  // 引擎：卧槽！我屋子里没有 firstName，快！向父级要！
+    return age;
+}
 
-<p>此时，我们就着手在监听器内部构建四个维度的判定（无输入、猜中、太大、太小）：</p>
-<div class="runnable-sandbox">
+calcAge(1991); // 成功输出 "Jonas"</code></pre>
+    </div>
+    <div class="console-output"></div>
+    
+  </div>
+</div><p><strong>🔍 破案还原：</strong>
+当我们在 <code>calcAge()</code> 的房子里（作用域）高喊着“把 <code>firstName</code> 拿过来打印！”时，引擎在屋子里找了一圈：没有。
+<strong>它并没有慌（报错）。</strong> 它沿着<strong>作用域链</strong>那条单向透视镜走到了外边，在父级（也就是全局作用域）里一眼看见了 <code>Jonas</code>，当场成功！</p>
+<hr>
+<h3>🎯 破案卷宗 2：单向镜法则的致命铁壁</h3>
+<p>前面说得好听，能随便往外拿。那能不能<strong>往里抢</strong>？</p>
+<div class="runnable-sandbox" data-lang="js">
   <div class="sandbox-header">
-    <span class="sandbox-title">Step 2: 构建游戏主逻辑 (完整体)</span>
+    <span class="sandbox-title">🚨 寻亲档案2：父级强抢子级，当场暴毙</span>
     <div class="sandbox-actions">
       <button class="sandbox-copy-btn">复制</button>
+      
+      <button class="run-btn">▶ 运行</button>
     </div>
   </div>
-  <pre><code class="language-javascript">  // 【场景 1：如果老六玩家什么都没填】
-  if (!guess) {
-    document.querySelector('.message').textContent = '⛔️ No number!';
+  <div class="playground-layout">
+    <div class="editor-pane">
+      <textarea class="code-editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">function calcAge(birthYear) {
+    const age = 2037 - birthYear; // 秘密存放在子级保险箱
 
-  // 【场景 2：玩家猜中了神仙数字！】
-  } else if (guess === secretNumber) {
-    document.querySelector('.message').textContent = '🎉 Correct Number!';
-    // 我们可以作个弊，直接把之前留下的问号黑框变成密码数字
-    document.querySelector('.number').textContent = secretNumber;
-
-  // 【场景 3：猜得太大了】
-  } else if (guess &gt; secretNumber) {
-    // 只要我还有血（大于 1），就可以继续掉血
-    if (score &gt; 1) {
-      document.querySelector('.message').textContent = '📈 Too high!';
-      score--;  // 在自身基础上减去了 1
-      document.querySelector('.score').textContent = score; // 更新 UI
-    } else { // 血槽空了
-      document.querySelector('.message').textContent = '💥 You lost the game!';
-      document.querySelector('.score').textContent = 0;
+    function printAge() {
+        let output = `你是 ${age} 岁, 生于 ${birthYear}`; // 内部再嵌套极深的一层
+        console.log(output);
     }
+    
+    printAge();
+}
 
-  // 【场景 4：猜得太小了】
-  } else if (guess &lt; secretNumber) {
-    // 这里其实和场景 3 代码一模一样，我们目前先用体力劳动复制粘贴法
-    // 以后我们会教你用重构来消灭这些重复的毒瘤 (DRY 原则)
-    if (score &gt; 1) {
-      document.querySelector('.message').textContent = '📉 Too low!';
-      score--;
-      document.querySelector('.score').textContent = score;
-    } else {
-      document.querySelector('.message').textContent = '💥 You lost the game!';
-      document.querySelector('.score').textContent = 0;
+calcAge(1991);
+// ⚠️ 全局这个土匪企图抢夺里面人的机密：
+// ❌ console.log(age);             // 💥 铁壁报错：age is not defined!
+// ❌ console.log(output);          // 💥 铁壁报错：output is not defined!
+// ❌ printAge();                   // 💥 连里面的内部函数，外部都无权调用！</textarea>
+      <!-- 保留原来的 pre code 用于高亮底部垫片 -->
+      <pre class="code-display" aria-hidden="true"><code class="language-js">function calcAge(birthYear) {
+    const age = 2037 - birthYear; // 秘密存放在子级保险箱
+
+    function printAge() {
+        let output = `你是 ${age} 岁, 生于 ${birthYear}`; // 内部再嵌套极深的一层
+        console.log(output);
     }
-  }</code></pre>
-</div><div class="elite-callout callout-pro-tip">
+    
+    printAge();
+}
 
-<p><strong>💡 工程准则：DRY (Don&#39;t Repeat Yourself)</strong>
-仔细看看场景 3 和场景 4 的代码块，你会觉得“眼睛累”。它们除了提示文案不一样，掉血逻辑简直是像双胞胎一样被复印出来的。
-高级开发者对“大量复制粘贴的代码”深恶痛绝。这是坏味道（Code Smell）。这节课我们是为了能够直白地让你看懂四大场景，先让游戏能玩。以后重构代码时，这是第一波要被重构（Refactoring）砍掉的冗余代码！</p>
-</div>
+calcAge(1991);
+// ⚠️ 全局这个土匪企图抢夺里面人的机密：
+// ❌ console.log(age);             // 💥 铁壁报错：age is not defined!
+// ❌ console.log(output);          // 💥 铁壁报错：output is not defined!
+// ❌ printAge();                   // 💥 连里面的内部函数，外部都无权调用！</code></pre>
+    </div>
+    <div class="console-output"></div>
+    
+  </div>
+</div><p><strong>🔍 破案还原：</strong>
+这印证了上一节的<strong>铁律</strong>：作用域链是严格的<strong>单向攀爬的梯子</strong>。外层无论多么威严跋扈（全局空间），它想要窥探底下防空洞那些 <code>age</code> 或 <code>output</code> 甚至里面的子函数？
+对不起，<strong>绝缘、封闭、铁壁，直接送你一句 <code>ReferenceError: xxx is not defined</code>。绝无例外！</strong></p>
+<hr>
+<h3>🎯 破案卷宗 3：<code>let/const</code> 撞上 <code>var</code> 的块级深渊</h3>
+<p>现在，我们在刚刚的 <code>printAge</code> 内部再搭建一个极端的防空洞：块级作用域（<code>if</code> 代码块）。</p>
+<div class="runnable-sandbox" data-lang="js">
+  <div class="sandbox-header">
+    <span class="sandbox-title">寻亲档案3：老流氓 var 的隐身穿墙术</span>
+    <div class="sandbox-actions">
+      <button class="sandbox-copy-btn">复制</button>
+      
+      <button class="run-btn">▶ 运行</button>
+    </div>
+  </div>
+  <div class="playground-layout">
+    <div class="editor-pane">
+      <textarea class="code-editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">function printAge() {
+    // 假设这层是 function 级别的安全防空洞
+    
+    if (true) {
+        // [现代武器]
+        const str = "我是一只现代的小乌龟，我很乖不越狱。";
+        // [上古流氓]
+        var millennial = true;
+    }
+    
+    // 企图在 if 防空洞的外部去劫狱：
+    // console.log(str); // 💥 ReferenceError! str 是 const 声明的，被 if 死死困在了里面！出不来！
+    
+    console.log(millennial); // ✅ 发生什么事了？竟然越狱成功，在 if 外面拿到了 true！
+}
 
-<h2>🏆 战利品与能力雷达</h2>
+printAge();</textarea>
+      <!-- 保留原来的 pre code 用于高亮底部垫片 -->
+      <pre class="code-display" aria-hidden="true"><code class="language-js">function printAge() {
+    // 假设这层是 function 级别的安全防空洞
+    
+    if (true) {
+        // [现代武器]
+        const str = "我是一只现代的小乌龟，我很乖不越狱。";
+        // [上古流氓]
+        var millennial = true;
+    }
+    
+    // 企图在 if 防空洞的外部去劫狱：
+    // console.log(str); // 💥 ReferenceError! str 是 const 声明的，被 if 死死困在了里面！出不来！
+    
+    console.log(millennial); // ✅ 发生什么事了？竟然越狱成功，在 if 外面拿到了 true！
+}
+
+printAge();</code></pre>
+    </div>
+    <div class="console-output"></div>
+    
+  </div>
+</div><p><strong>🔍 破案还原：</strong>
+这生动地诠释了为何当今企业级开发全都不准用 <code>var</code> 的原因了！
+由于 ES5 时代的遗留病，<code>var</code> <strong>它天生是个文盲机制，根本不认识大括号</strong>。只有 <code>function</code> 大括号那层壁垒能把它包住。而在上面的 <code>if{}</code> 大括号里，它就像隐形刺客一样在神不知鬼不觉之间<strong>穿透越狱</strong>了！</p>
+<hr>
+<h3>🎯 破案卷宗 4：终极幻象——被“影子替身”蒙蔽的双眼</h3>
+<p>这是这节课最硬核、能让 90% 面试者死得不明不白的一道变种题。如果我故意拿一个“同名的变量”去套娃，会发生什么？</p>
+<div class="runnable-sandbox" data-lang="js">
+  <div class="sandbox-header">
+    <span class="sandbox-title">寻亲档案4：同名替身的降维打击</span>
+    <div class="sandbox-actions">
+      <button class="sandbox-copy-btn">复制</button>
+      
+      <button class="run-btn">▶ 运行</button>
+    </div>
+  </div>
+  <div class="playground-layout">
+    <div class="editor-pane">
+      <textarea class="code-editor" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off">const firstName = "Jonas";   // 真正的老祖宗
+
+function myApp() {
+    // 在这个里层屋子里，我们故意制造了一个影子同名替身！
+    const firstName = "Steven";  
+    
+    if (true) {
+        // 在最深层的地下室打印。
+        // 它会往上大喊要找 `firstName`！
+        console.log("最终拿到的是谁：", firstName);
+    }
+}
+
+myApp(); 
+// 输出结果到底是 "Jonas" 还是 "Steven"？</textarea>
+      <!-- 保留原来的 pre code 用于高亮底部垫片 -->
+      <pre class="code-display" aria-hidden="true"><code class="language-js">const firstName = "Jonas";   // 真正的老祖宗
+
+function myApp() {
+    // 在这个里层屋子里，我们故意制造了一个影子同名替身！
+    const firstName = "Steven";  
+    
+    if (true) {
+        // 在最深层的地下室打印。
+        // 它会往上大喊要找 `firstName`！
+        console.log("最终拿到的是谁：", firstName);
+    }
+}
+
+myApp(); 
+// 输出结果到底是 "Jonas" 还是 "Steven"？</code></pre>
+    </div>
+    <div class="console-output"></div>
+    
+  </div>
+</div><p><strong>🔍 破案还原：输出 &quot;Steven&quot;！</strong></p>
+<p>为什么不是最老的祖宗 Jonas？</p>
+<p>因为引擎的“向外索求规则”是<strong>极其短视和贪婪的偷懒怪</strong>。
+它从地下室（<code>if</code>）探出头往上一层找，哎呀，在 <code>myApp</code> 这个屋子里正好被它撞到了一个叫 <code>firstName</code> 的人（虽然是替身&quot;Steven&quot;），引擎大喜：“这就是我苦苦寻觅的大哥！”。一旦撞见，引擎就<strong>立即当场关闭查找雷达</strong>，直接下命令抓走。它压根不管再往上一层是不是还有一个真的远古祖先大佬（&quot;Jonas&quot;）。</p>
+<p>并且，这里的这个 &quot;Steven&quot; 不是把上面的 &quot;Jonas&quot; 给顶替修改了。它们是两个<strong>平行时空</strong>里毫不干涉的两支火星，互不侵犯。</p>
+<blockquote class="">
+<p>⚠️ 这个“就近短路法则”，也被称为 <strong>变量遮蔽 (Variable Shadowing)</strong>，在实战里因为套娃变量名产生的血案，大多源于此。</p>
+</blockquote><hr>
+<h2>🏆 战利品与能力雷达 (Loot &amp; Capability Radar)</h2>
 <div class="elite-callout callout-loot">
 
 <p><strong>🛎️ 导师赠语</strong>：</p>
 <ul>
-<li><strong>🗡️ 获得能力</strong>：现在游戏终于能够跑出一个闭环体验了。你用精妙的 <code>if else if</code> 和作用域外的<strong>状态变量 (<code>score</code>)</strong> 做到了复杂的生命扣减。</li>
-<li><strong>🛡️ 免疫错误</strong>：你成功避开了“每次一点按钮都被迫换一个秘号数字”的新手坑，彻底领悟了“初始化”和“被回调”代码在时空上的截然不同。</li>
-<li><strong>🔋 精神充能</strong>：“现在逻辑运转如飞，但猜中的一刻画面怎么那么素面朝天？网页不能只是变个字就完事了，下一节我们要操纵它的颜色和排版特效。Let&#39;s color it up!”</li>
+<li><strong>🗡️ 获得能力</strong>：只要是你在屏幕上看得到那些嵌套的一层层大括号，你就获得了“X光眼”，能准确看透到底是哪一行报错被封锁，又或者哪一行的同名变量蒙蔽了双眼。</li>
+<li><strong>🛡️ 免疫错误</strong>：再也不会犯愚蠢的“越级访问私生活（尝试向下调取函数里的私有属性）”，也对 <code>var</code> 这种危险流氓彻底失去了好感。</li>
+<li><strong>🔋 精神充能</strong>：至此，执行上下文这本卷宗已经被我们重重合上。恭喜你！引擎基础的三座大山“上下文、调用栈、作用域”已经被你全部掀翻！接下来请收拾好心情准备前往另一个恐怖地带重灾区：“可怕的 <code>Hoisting (变量提升)</code>”。</li>
 </ul>
 </div>
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>07. 构建核心：游戏逻辑的血肉 (Implementing the Game Logic)</title>
+  <title>08_005_核心工厂：执行上下文与调用栈 (Execution Contexts and The Call Stack)</title>
 
   <!-- Google Fonts: Inter + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1196,131 +1196,122 @@
   <!-- 主内容与侧边栏布局 -->
   <div class="page-layout">
     <div class="page-wrapper" id="content">
-      <h1>07. 构建核心：游戏逻辑的血肉 (Implementing the Game Logic)</h1>
+      <h1>08_005_核心工厂：执行上下文与调用栈 (Execution Contexts and The Call Stack)</h1>
 <blockquote class="">
-<p>📺 <strong>来源</strong>：<code>007 Implementing the Game Logic.en.txt</code>
-📂 <strong>章节</strong>：第 07 章 (DOM and Events Fundamentals)</p>
+<p>📺 来源：005 Execution Contexts and The Call Stack.en.txt
+📂 章节：第 08 章</p>
 </blockquote><h2>📌 知识脉络</h2>
 <ul>
-<li><strong>前置知识</strong>：生成随机数，通过 <code>addEventListener</code> 获取用户的输入。</li>
-<li><strong>后续扩展</strong>：处理重置游戏 (Again!).</li>
+<li><strong>前置知识</strong>：知道 JS 引擎如何经过解析、编译生成了机器码。</li>
+<li><strong>后续扩展</strong>：本节的“变量环境”、“作用域链”名词会在下两节被彻底剖析。</li>
 </ul>
 <h2>🎯 战前简报 (Mission Briefing)</h2>
 <div class="elite-callout callout-mission">
 
-<p><strong>💡 目标与动机</strong>：我们的应用现在已经懂得听从“Check”按钮的号令获取用户的字了。但光听是不够的！
-在本节课，我们将亲手为这款游戏注入灵魂：</p>
+<p><strong>💡 目标与动机</strong>：
+经过上一节的洗礼，我们知道引擎编译完代码后，马上就要把它扔进 <strong>调用栈 (Call Stack)</strong> 里去跑了。
+但请注意，光秃秃的几行代码是没法直接运行的，它需要一个极度精密且包含“作案工具”的环境包裹着它才能上刑场。这个精密的环境包裹，就是<strong>执行上下文 (Execution Context)</strong>。搞懂它里面装了什么，以及它是怎么在调用栈里进进出出的，你就能徒手在大脑里人肉 Debug 复杂的嵌套逻辑了。</p>
+</div>
+
+<hr>
+<h2>🧩 核心知识点</h2>
+<h3>1. 🍕 什么叫“执行上下文 (Execution Context)”？</h3>
+<p>由于 <strong>Execution Context（执行上下文）</strong> 这个词实在太抽象，我们先建立生活直觉。</p>
+<div class="elite-callout callout-mental">
+
+<p><strong>🧠 认知重塑：点外卖的披萨盒</strong>
+假设你要吃“披萨”。但这块披萨（代表你要执行的代码）是不能光秃秃、直接放在你的马路牙子上吃的，对吧？
+外面送来披萨时，一定会带一个<strong>披萨纸盒</strong>。而且这个盒子里不仅有披萨，还会有为了吃披萨必需的<strong>刀叉、餐巾纸、甚至结账的小票</strong>。</p>
+<ul>
+<li><strong>披萨</strong> ＝ 你写的正在被执行的一块 JS 代码。</li>
+<li><strong>刀叉/纸巾/小票</strong> ＝ 你代码跑起来必需的工具（如局部变量、传给函数的参数等）。</li>
+<li><strong>这个装着上述所有东西的盒子，就叫：执行上下文！</strong> 它是执行一段代码所需环境的全部总和。</li>
+</ul>
+</div>
+
+<p><strong>记住铁律</strong>：一段 JS 代码永远、永远不可能脱离纸盒独立存在。只要有代码在跑，它就一定会待在属于它的执行上下文里！</p>
+<hr>
+<h3>2. 🌍 顶层代码的 VIP 专属包间：全局执行上下文</h3>
+<p>当 JS 文件刚刚加载完毕，引擎准备开跑时，哪些代码最先跑？
+答案是：<strong>顶层代码 (Top-level code)</strong>。即<strong>不在任何大括号或函数内部</strong>、直接暴露在文件最外层的代码。</p>
+<p>此时，引擎会默默创建一个默认的 <strong>全局执行上下文 (Global Execution Context)</strong>。不管你的项目有几十万行代码，这个全局上下文<strong>永远只有一个</strong>，它是整个程序的基石房。所有不在函数里的最外层变量，都会暂存进这个全局纸盒里。</p>
+<blockquote class="">
+<p><strong>思考</strong>：那函数里的代码什么时候跑呢？
+<strong>铁律</strong>：函数里的代码，“只要没被显式呼叫/调用 (called)”，就永远像死鱼一样躺在那里不跑，当然也就暂时不会拥有自己的新纸盒！</p>
+</blockquote><hr>
+<h3>3. 📦 一个“执行纸盒”的内部硬核解剖图</h3>
+<p>当一个执行上下文被创建时，里面究竟被赛进去了哪些神仙道具？</p>
+<pre class="mermaid">flowchart TD
+    subgraph Execution Context (执行上下文的纸盒)
+    direction TB
+        
+        subgraph 第一部分: 变量环境 (Variable Environment)
+            A["📦 所有的变量声明 (let, const, var)"]
+            B["📦 声明的内部函数"]
+            C["📦 arguments 对象 (该函数接收的所有参数)"]
+        end
+        
+        subgraph 第二部分: 寻亲地图 (Scope Chain)
+            D["🗺️ 作用域链: 记录如何去外部寻找那些不在自己纸盒里的变量"]
+        end
+        
+        subgraph 第三部分: 指南针 (The 'this' Keyword)
+            E["🧭 绑定特定的 this 指向"]
+        end
+        
+    end
+    
+    style A fill:#e1f5fe,stroke:#0288d1
+    style B fill:#e1f5fe,stroke:#0288d1
+    style C fill:#fff3e0,stroke:#f57c00
+    style D fill:#f9fbe7,stroke:#afb42b
+    style E fill:#fce4ec,stroke:#c2185b</pre><blockquote class="">
+<p>⚠️ <strong>致命暴击：箭头函数的断背山大坑</strong>
+面试必考：如果是<strong>箭头函数 (Arrow Functions)</strong> 产生的执行上下文，<strong>它的纸盒里天生就会被没收掉 <code>arguments 对象</code> 和 <code>this 关键字</code>！</strong> 它不得不跑出自己的纸盒，去向最近的传统父级函去“借用”它们。</p>
+</blockquote><hr>
+<h3>4. 📚 进击的调用栈 (The Call Stack)</h3>
+<p>刚刚说了，我们最初有 1 个全局纸盒。如果在此期间，我呼叫（调用）了 100 次不同的函数，那么引擎就会当场生成 100 个新的纸盒！那么多纸盒，引擎怎么不发疯呢？怎么知道目前该优先处理吃哪一盒披萨？</p>
+<p>这就轮到大心脏 <strong>调用栈 (The Call Stack)</strong> 出马了。</p>
+<div class="elite-callout callout-mental">
+
+<p><strong>🧠 认知重塑：堆叠的硬纸板箱</strong>
+想象有三个一起点披萨的朋友：你、小明、小张。
+送外卖的来了：</p>
 <ol>
-<li>它需要能自己背地里想好一个“神秘数字”作为答案。</li>
-<li>它要有“血条（Score）”，能惩罚猜错的玩家，直到血条归零。</li>
-<li>它要聪慧无比，判断出用户的猜测是大还是小！
-准备体验在 JS 中手搓<strong>判定流</strong>的乐趣吧！</li>
+<li>最先送来一个“全局大披萨”，放在桌子上。（全局上下文压栈）</li>
+<li>里面运行到一半，你呼叫了“小明函数”，小明的披萨盒就<strong>叠在全局纸盒的正上方</strong>。此时你的视线只能看到最顶部的小明披萨。引擎停止运行全局代码，全速消灭小明的代码。</li>
+<li>小明披萨吃一半，他又要了“小张函数”。小张披萨盒叠在最上方！目前小张处于激活状态。</li>
+<li>小张披萨吃完了！<strong>将小张的盒子扔掉 (Popped off)</strong>，露出小明。继续吃完小明，扔掉小明。最后回到全局纸盒。
+这就是 JS 引擎绝对不会迷路的唯一坐标导航仪！</li>
 </ol>
 </div>
 
-<h2>🧩 核心知识点</h2>
-<h3>1. 💥 灾难痛点体验：变量应该放在哪里？</h3>
-<div class="elite-callout callout-sandboxing">
-
-<p><strong>🧪 动手破坏它！致命一错</strong>
-假设我们要在代码中生成一个真正的 1~20 秘密数字作为本局游戏的考题。
-<strong>如果</strong>你把它作为 <code>let secretNumber = Math.random()...</code> 写在了监听器函数（锦囊）的<strong>里面</strong>，想想会发生什么灾难？
-当你每次点下“Check”按钮，监听器都会被触发，第一件事就是<strong>重新生成了一个新的神秘数字</strong>。你上一次猜了 <code>5</code>，提示太小，你满怀信心地猜了 <code>10</code>，结果发现数字已经被换成另外一个了！
-这是一个绝对不可能赢的噩梦。</p>
-</div>
-
-<h3>2. 🧠 解药：状态变量提取 (State Variable)</h3>
-<div class="elite-callout callout-mental">
-
-<p><strong>🧠 认知重塑</strong>：
-<strong>全局状态（State）</strong> 的概念来了！能够贯穿整场游戏的变量，必须被声明在每次点击时都会发生重置的<strong>作用域外部</strong>！
-我们不仅要将 <code>secretNumber</code> 提取出来，更重要的是：<strong>不要仅仅把数据存储在 DOM 树上，要在你的代码中维持一套状态引擎！</strong>
-例如你的生命值 <code>score</code>，与其每次去读网页上的数字、减一、再写回网页，不如在代码最顶端定义 <code>let score = 20;</code>，让这段代码成为唯一的“真相来源”，更新完变量后再同步回屏幕。这叫做<strong>数据驱动 UI</strong>。</p>
-</div>
-
-<h3>3. 💻 高保真演进实战 (High-Fidelity Evolution)</h3>
-<p>在外部作用域建立我们的全局变量，并拼装完整的 <code>if / else if</code> 流水线判断大阵：</p>
-<div class="code-comparison">
-
-<div class="runnable-sandbox">
-  <div class="sandbox-header">
-    <span class="sandbox-title">Step 1: 建立全局状态引擎</span>
-    <div class="sandbox-actions">
-      <button class="sandbox-copy-btn">复制</button>
-    </div>
-  </div>
-  <pre><code class="language-javascript">// 在按钮监听器之外，仅在刷新页面时被执行一次
-// 随机出一个 1-20的整数作为神秘数字
-const secretNumber = Math.trunc(Math.random() * 20) + 1;
-
-// 初始化一条 20滴血的命 (必须用 let，因为血会掉)
-let score = 20; 
-
-document.querySelector('.check').addEventListener('click', function () {
-  const guess = Number(document.querySelector('.guess').value);
-
-  // 代码接着往下走...
-});</code></pre>
-</div></div>
-
-<p>此时，我们就着手在监听器内部构建四个维度的判定（无输入、猜中、太大、太小）：</p>
-<div class="runnable-sandbox">
-  <div class="sandbox-header">
-    <span class="sandbox-title">Step 2: 构建游戏主逻辑 (完整体)</span>
-    <div class="sandbox-actions">
-      <button class="sandbox-copy-btn">复制</button>
-    </div>
-  </div>
-  <pre><code class="language-javascript">  // 【场景 1：如果老六玩家什么都没填】
-  if (!guess) {
-    document.querySelector('.message').textContent = '⛔️ No number!';
-
-  // 【场景 2：玩家猜中了神仙数字！】
-  } else if (guess === secretNumber) {
-    document.querySelector('.message').textContent = '🎉 Correct Number!';
-    // 我们可以作个弊，直接把之前留下的问号黑框变成密码数字
-    document.querySelector('.number').textContent = secretNumber;
-
-  // 【场景 3：猜得太大了】
-  } else if (guess &gt; secretNumber) {
-    // 只要我还有血（大于 1），就可以继续掉血
-    if (score &gt; 1) {
-      document.querySelector('.message').textContent = '📈 Too high!';
-      score--;  // 在自身基础上减去了 1
-      document.querySelector('.score').textContent = score; // 更新 UI
-    } else { // 血槽空了
-      document.querySelector('.message').textContent = '💥 You lost the game!';
-      document.querySelector('.score').textContent = 0;
-    }
-
-  // 【场景 4：猜得太小了】
-  } else if (guess &lt; secretNumber) {
-    // 这里其实和场景 3 代码一模一样，我们目前先用体力劳动复制粘贴法
-    // 以后我们会教你用重构来消灭这些重复的毒瘤 (DRY 原则)
-    if (score &gt; 1) {
-      document.querySelector('.message').textContent = '📉 Too low!';
-      score--;
-      document.querySelector('.score').textContent = score;
-    } else {
-      document.querySelector('.message').textContent = '💥 You lost the game!';
-      document.querySelector('.score').textContent = 0;
-    }
-  }</code></pre>
-</div><div class="elite-callout callout-pro-tip">
-
-<p><strong>💡 工程准则：DRY (Don&#39;t Repeat Yourself)</strong>
-仔细看看场景 3 和场景 4 的代码块，你会觉得“眼睛累”。它们除了提示文案不一样，掉血逻辑简直是像双胞胎一样被复印出来的。
-高级开发者对“大量复制粘贴的代码”深恶痛绝。这是坏味道（Code Smell）。这节课我们是为了能够直白地让你看懂四大场景，先让游戏能玩。以后重构代码时，这是第一波要被重构（Refactoring）砍掉的冗余代码！</p>
-</div>
-
-<h2>🏆 战利品与能力雷达</h2>
+<p>来看看我们在实际代码下，调用栈的疯狂演出：</p>
+<pre class="mermaid">journey
+    title AI 视角：引擎压栈与弹栈全生命周期追踪
+    section 初始化
+      1. 生成全局上下文 (Global EC): 5: 压入谷底
+      2. 引擎执行全局变量: 5: 占用栈顶
+    section 大戏开幕
+      3. 呼叫 first() 函数: 4: 生成 first() 的纸盒
+      4. first() 压入栈顶: 5: 暂停全局执行
+      5. first() 内部呼叫 second(): 4: 生成 second() 纸盒
+      6. second() 压入栈顶: 5: first() 失去视线焦点并暂停
+    section 销毁与回退 (Pop off)
+      7. second() 遇到 return: 3: 纸盒被瞬间弹飞(彻底销毁)
+      8. 视力重回 first(): 4: 恢复执行 first() 剩余代码
+      9. first() 遇到 return: 3: 纸盒被弹飞销毁
+      10. 宇宙重归平静: 5: 全局上下文重新夺回执行权</pre><p><strong>🔑 本质心法</strong>：
+调用栈的<strong>执行顺序，是由代码中函数被调用的先后顺序（Call Order）决定的</strong>。谁在栈的<strong>最高点</strong>，谁就是唯一的王，其他下方的代码必须闭气装死一直等。</p>
+<hr>
+<h2>🏆 战利品与能力雷达 (Loot &amp; Capability Radar)</h2>
 <div class="elite-callout callout-loot">
 
 <p><strong>🛎️ 导师赠语</strong>：</p>
 <ul>
-<li><strong>🗡️ 获得能力</strong>：现在游戏终于能够跑出一个闭环体验了。你用精妙的 <code>if else if</code> 和作用域外的<strong>状态变量 (<code>score</code>)</strong> 做到了复杂的生命扣减。</li>
-<li><strong>🛡️ 免疫错误</strong>：你成功避开了“每次一点按钮都被迫换一个秘号数字”的新手坑，彻底领悟了“初始化”和“被回调”代码在时空上的截然不同。</li>
-<li><strong>🔋 精神充能</strong>：“现在逻辑运转如飞，但猜中的一刻画面怎么那么素面朝天？网页不能只是变个字就完事了，下一节我们要操纵它的颜色和排版特效。Let&#39;s color it up!”</li>
+<li><strong>🗡️ 获得能力</strong>：你不仅知道了 V8 有调用栈，而且现在你能在脑子里画出里面纸盒（执行上下文）堆叠、销毁的血肉过程了。</li>
+<li><strong>🛡️ 免疫错误</strong>：再也不会犯“为什么不运行函数代码”的低级错误——因为只有<strong>显式呼叫</strong>，才能为其颁发进入栈顶的 VIP 入场券纸盒。</li>
+<li><strong>🔋 精神充能</strong>：刚刚那解剖图里，我们说了纸盒包含“变量环境”和用作寻亲指南针的“作用域链”。纸盒长成什么样你记住了，下面我们就把手伸进纸盒内部，搞懂什么是 <strong>Scope 作用域</strong>！</li>
 </ul>
 </div>
 

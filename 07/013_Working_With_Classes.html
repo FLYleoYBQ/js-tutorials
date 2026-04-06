@@ -1197,8 +1197,10 @@
   <div class="page-layout">
     <div class="page-wrapper" id="content">
       <h1>13. 重塑 DOM 之刃：与 CSS Class 共舞 (Working With Classes)</h1>
-<blockquote class="">📺 **来源**：`013 Working With Classes.en.txt`
-📂 **章节**：第 07 章 (DOM and Events Fundamentals)</blockquote><h2>📌 知识脉络</h2>
+<blockquote class="">
+<p>📺 <strong>来源</strong>：<code>013 Working With Classes.en.txt</code>
+📂 <strong>章节</strong>：第 07 章 (DOM and Events Fundamentals)</p>
+</blockquote><h2>📌 知识脉络</h2>
 <ul>
 <li><strong>前置知识</strong>：通过 <code>querySelectorAll</code> 获取元素列表并绑定遍历点击事件。</li>
 <li><strong>后续扩展</strong>：如何在整个文档级别监听键盘输入 (Keypress Events)。</li>
@@ -1286,8 +1288,10 @@ overlay.addEventListener('click', function () {
 <h3>4. 🎨 又臭又长与函数复用的黄金法则 (The DRY Principle... Again!)</h3>
 <p>刚才你在控制弹窗关闭时，整整复制黏贴了两遍完全一模一样的匿名函数块（一个绑定在 <code>btnCloseModal</code> 上，一个绑定在 <code>overlay</code> 上）。
 <strong>你是不是忘了 DRY 法则？！</strong></p>
-<blockquote class="">💡 **在事件监听器中传递函数的精髓**：
-不要把匿名函数像面条一样复制粘贴。将它具名化，抽出来当一个真正的值传递！</blockquote><div class="code-wrapper">
+<blockquote class="">
+<p>💡 <strong>在事件监听器中传递函数的精髓</strong>：
+不要把匿名函数像面条一样复制粘贴。将它具名化，抽出来当一个真正的值传递！</p>
+</blockquote><div class="code-wrapper">
   <button class="copy-btn">复制</button>
   <pre><code class="language-javascript">// 重构：定义一个专门管“贴面具、拉黑布”的独立函数
 const closeModal = function () {
